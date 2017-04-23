@@ -30,14 +30,10 @@ vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, ...) {
             class = c("vfold_cv", "rset"))
 }
 
-# Get the indicies of the analysis set from the assessment set
+# Get the indices of the analysis set from the assessment set
 vfold_complement <- function(ind, n) {
   list(analysis = setdiff(1:n, ind),
        assessment = ind)
-}
-
-make_splits <- function(ind, data) {
-  rsplit(data, ind$analysis,  ind$assessment)
 }
 
 vfold_splits <- function(data, v = 10) {
