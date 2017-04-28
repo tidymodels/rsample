@@ -38,7 +38,7 @@ boot_splits <- function(data, times = 25, apparent = FALSE, oob = TRUE) {
   
   split_objs <- purrr::map(indices, make_splits, data = data)
   out <- tibble::tibble(splits = split_objs, 
-                        id = paste0("Bootstrap", seq_along(split_objs)))
+                        id = names0(length(split_objs), "Bootstrap"))
   if(apparent) {
     app <- tibble::tibble(splits = list(rsplit(data, 1:n, 1:n)), 
                           id = "Apparent")

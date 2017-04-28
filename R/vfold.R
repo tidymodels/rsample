@@ -20,7 +20,7 @@ vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, ...) {
     for(i in 1:repeats) {
       tmp <- vfold_splits(data = data, v = v)
       tmp$id2 <- tmp$id
-      tmp$id <- paste0("Repeat", i)
+      tmp$id <- names0(repeats, "Repeat")[i]
       split_objs <- if(i == 1) tmp else rbind(split_objs, tmp)
     }
   }
@@ -49,7 +49,7 @@ vfold_splits <- function(data, v = 10) {
   
   split_objs <- purrr::map(indices, make_splits, data = data)
   tibble::tibble(splits = split_objs, 
-                 id = paste0("Fold", seq_along(split_objs)))
+                 id = names0(length(split_objs), "Fold"))
 }
 
 #' @export

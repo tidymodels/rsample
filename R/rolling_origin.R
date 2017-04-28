@@ -31,7 +31,7 @@ rolling_origin <- function(data, initial = 5, assess = 1, cumulative = TRUE, ski
   indices <- mapply(merge_lists, in_ind, out_ind, SIMPLIFY = FALSE)
   split_objs <- purrr::map(indices, make_splits, data = data)
   split_objs <- tibble::tibble(splits = split_objs, 
-                               id = paste0("Slice", seq_along(split_objs)))
+                               id = names0(length(split_objs), "Slice"))
   structure(list(splits = split_objs, 
                  initial = initial, assess = assess, 
                  cumulative = cumulative,

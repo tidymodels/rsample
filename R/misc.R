@@ -20,6 +20,26 @@ dim.rset <- function(x, ...) {
   # dims <- dplyr::bind_rows(dims) # seg faults
   dims <- do.call("rbind", dims)
   dims <- tibble::as_tibble(dims)
-  dims$id <- x$splits$id
+  dims <- cbind(dims, x$splits[, grepl("^id", colnames(x$splits))])
   dims
 } 
+
+#' @export
+splits <- function(x, .elem = "splits") {
+  if(!.elem %in% names(x$splits))
+    stop("`", .elem, "` is not in the `splits` tibble", call. = FALSE)
+  x$splits[[.elem]]
+}
+
+names0 <- function (num, prefix = "x") {
+  if (num < 1) 
+    stop("`num` should be > 0", call. = FALSE)
+  ind <- format(1:num)
+  ind <- gsub(" ", "0", ind)
+  paste0(prefix, ind)
+}
+
+
+
+## add an assignment operator like `rownames(x)<- ...`  that can be multivariate and add new objects via cbind'ing
+## make a class? 

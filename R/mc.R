@@ -35,7 +35,7 @@ mc_splits <- function(data, prop = 3/4, times = 25) {
   
   split_objs <- purrr::map(indices, make_splits, data = data)
   tibble::tibble(splits = split_objs, 
-                 id = paste0("Resample", seq_along(split_objs)))
+                 id = names0(length(split_objs), "Resample"))
 }
 
 #' @export
