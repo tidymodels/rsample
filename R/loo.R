@@ -3,7 +3,6 @@
 #'
 #'
 #' @inheritParams vfold_cv
-#' @export
 #' @return  An object with classes \code{"loo_cv"} and \code{"rset"}. The elements of the object include a tibble called \code{splits} that contains a column for the data split objects and one column called \code{id} that has a character string with the resample identifier.
 #' @examples
 #' loo_cv(mtcars)
