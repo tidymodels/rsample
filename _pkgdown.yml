@@ -1,0 +1,22 @@
+template:
+  params:
+    bootswatch: readable
+
+reference:
+  - title: Resampling Methods
+    contents:
+      - boot
+      - vfold_cv
+      - loo_cv
+      - mc_cv
+      - rolling_origin
+
+navbar:
+  left:
+  - text: Basic Usage 
+    href: articles/Basics.html   
+  - text: Working with Resample Sets
+    href: articles/Working_with_rsets.html     
+  - text: Reference
+    href: reference/index.html
+
