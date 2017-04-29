@@ -25,10 +25,13 @@ dim.rset <- function(x, ...) {
 } 
 
 #' @export
-splits <- function(x, .elem = "splits") {
-  if(!.elem %in% names(x$splits))
-    stop("`", .elem, "` is not in the `splits` tibble", call. = FALSE)
-  x$splits[[.elem]]
+splits <- function(x, .elem = NULL) {
+  if(!is.null(.elem)) {
+    if(!.elem %in% names(x$splits))
+      stop("`", .elem, "` is not in the `splits` tibble", call. = FALSE)
+    res <- x$splits[[.elem]]
+  } else res <- x$splits
+  res
 }
 
 names0 <- function (num, prefix = "x") {
