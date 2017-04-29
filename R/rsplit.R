@@ -39,7 +39,7 @@ as.data.frame.rsplit <- function(x, data = "analysis", ...) {
 #' @export
 dim.rsplit <- function(x, ...) {
   c(analysis = length(x$in_id), 
-    assesment = length(x$out_id), 
+    assessment = length(x$out_id), 
     n = nrow(x$data), 
     p = ncol(x$data))
 }
