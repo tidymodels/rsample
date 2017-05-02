@@ -2,7 +2,6 @@ make_splits <- function(ind, data) {
   rsplit(data, ind$analysis,  ind$assessment)
 }
 
-#' @export
 get_rsplit <- function(object, id = object$splits$id[1]) {
   if(length(id) > 1 || !is.character(id))
     stop("`id` should be a single character value.")
@@ -24,6 +23,19 @@ dim.rset <- function(x, ...) {
   dims
 } 
 
+
+#' Extract the resampling information
+#' 
+#' The convenience function can be used to extract the data structure that contains the resampling splits or a specific element of that structure. 
+#' @param x An `rset` object
+#' @param  .elem A character value or \code{NULL}. If \code{NULL}, then the entire tibble is returned. Values of the argument can be any column in the tibble.  
+#' @return A tibble, vector, or list depending on the value of \code{.elem}. 
+#' @examples  
+#' set.seed(36522)
+#' bt <- bootstraps(mtcars, times = 3)
+#' splits(bt)
+#' splits(bt, "id")
+#' splits(bt, "splits")
 #' @export
 splits <- function(x, .elem = NULL) {
   if(!is.null(.elem)) {

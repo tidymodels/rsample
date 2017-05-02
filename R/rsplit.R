@@ -31,9 +31,22 @@ as.integer.rsplit <- function(x, data = "analysis", ...) {
   if(data == "analysis") x$in_id else x$out_id
 }
 
+
+#' Convert an \code{rsplit} object to a data frame
+#' 
+#' The analysis or assessment code can be returned as a data frame (as dictated by the \code{data} argument). 
+#' @param x An \code{rsplit} object.
+#' @param row.names \code{NULL} or a character vector giving the row names for the data frame. Missing values are not allowed.
+#' @param optional A logical: should the column names of the data be checked for legality?
+#' @param data Either "analysis" or "assessment" to specify which data are returned. 
+#' @param ...	Additional arguments to be passed to or from methods. Not currently used. 
 #' @export
-as.data.frame.rsplit <- function(x, data = "analysis", ...) {
-  x$data[as.integer(x, data = data), , drop = FALSE]
+as.data.frame.rsplit <- function(x, row.names = NULL, optional = FALSE, data = "analysis", ...) {
+  out <- x$data[as.integer(x, data = data), , drop = FALSE]
+  if (!is.null(row.names) && length(row.names) == nrow(out)) 
+    rownames(out) <- row.names
+  out <- data.frame(out, check.names = !optional)
+  out
 }
 
 #' @export

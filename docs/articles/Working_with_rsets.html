@@ -84,9 +84,8 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(<span class="kw">log</span>(price) <span class="op">~</span><span class="st"> </span>beds <span class="op">+</span><span class="st"> </span>baths <span class="op">+</span><span class="st"> </span>sqft <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Sacramento)</code></pre></div>
 <p>To evaluate this model, we will use 10 repeats of 10-fold cross-validation and use the 100 holdout samples to evaluate the root mean squared error (in log dollar units).</p>
 <p>First, let’s make the splits of the data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)</code></pre></div>
-<pre><code>## Loading required package: broom</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">4622</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)
+<span class="kw">set.seed</span>(<span class="dv">4622</span>)
 rs_obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vfold_cv.html">vfold_cv</a></span>(Sacramento, <span class="dt">V =</span> <span class="dv">10</span>, <span class="dt">repeats =</span> <span class="dv">10</span>)
 <span class="kw">head</span>(<span class="kw">dim</span>(rs_obj))</code></pre></div>
 <pre><code>##   analysis assessment   n p       id    id2
@@ -160,7 +159,7 @@ rs_obj<span class="op">$</span>splits</code></pre></div>
 <p>Now we can compute the RMSE values for all of the assessment data sets:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmse &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sqrt</span>(<span class="kw">mean</span>(x<span class="op">$</span>.resid<span class="op">^</span><span class="dv">2</span>))
 rs_obj<span class="op">$</span>splits<span class="op">$</span>rmse &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(rs_obj, rmse, <span class="dt">.elem =</span> <span class="st">"results"</span>, <span class="dt">.unlist =</span> <span class="ot">TRUE</span>)
-<span class="kw">summary</span>(<span class="kw">splits</span>(rs_obj, <span class="dt">.elem =</span> <span class="st">"rmse"</span>))</code></pre></div>
+<span class="kw">summary</span>(<span class="kw"><a href="../reference/splits.html">splits</a></span>(rs_obj, <span class="dt">.elem =</span> <span class="st">"rmse"</span>))</code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##  0.2842  0.3311  0.3471  0.3544  0.3800  0.4312</code></pre>
 </div>
@@ -192,7 +191,7 @@ bt_resamples &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Mean(Residential) - Mean(Multi_Family)"</span>)</code></pre></div>
 <p><img src="Working_with_rsets_files/figure-html/stats_plot-1.png" width="672"></p>
 <p>The variation is considerable in this statistic. One method of computing a confidence interval is to take the percentiles of the bootstrap distribution. A 95% confidence interval for the difference in the means would be:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(<span class="kw">splits</span>(bt_resamples, <span class="dt">.elem =</span> <span class="st">"statistic"</span>), 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(<span class="kw"><a href="../reference/splits.html">splits</a></span>(bt_resamples, <span class="dt">.elem =</span> <span class="st">"statistic"</span>), 
          <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.500</span>, <span class="fl">0.975</span>))</code></pre></div>
 <pre><code>##      2.5%       50%     97.5% 
 ## -21344.50  29368.18  75871.81</code></pre>
@@ -272,7 +271,7 @@ bt_resamples<span class="op">$</span>splits</code></pre></div>
 <h2 class="hasAnchor">
 <a href="#keeping-tidy" class="anchor"></a>Keeping Tidy</h2>
 <p>The <a href="https://cran.r-project.org/package=broom"><code>broom</code> package</a> contains a class called <code>tidy</code> that created representations of objects that can be easily used for analysis, plotting, etc. <code>rsample</code> contains <code>tidy</code> methods for <code>rset</code> and <code>rsplit</code> objects. For example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">first_resample &lt;-<span class="st"> </span><span class="kw">splits</span>(bt_resamples, <span class="dt">.elem =</span> <span class="st">"splits"</span>)[[<span class="dv">1</span>]]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">first_resample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splits.html">splits</a></span>(bt_resamples, <span class="dt">.elem =</span> <span class="st">"splits"</span>)[[<span class="dv">1</span>]]
 <span class="kw">class</span>(first_resample)</code></pre></div>
 <pre><code>## [1] "rsplit"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(first_resample)</code></pre></div>

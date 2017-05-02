@@ -67,14 +67,13 @@
 <a href="#rset-objects-contain-many-resamples" class="anchor"></a><code>rset</code> Objects Contain Many Resamples</h2>
 <p>The main class in the package (<code>rset</code>) is for a <em>set</em> or <em>collection</em> of resamples. In 10-fold cross-validation, the set would consist of the 10 different resamples of the original data.</p>
 <p>Like <code>modelr</code>, the resamples are stored in data-frame-like <code>tibble</code> object. As a simple example, here is a small set of bootstraps of the <code>mtcars</code> data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)</code></pre></div>
-<pre><code>## Loading required package: broom</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">8584</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)
+<span class="kw">set.seed</span>(<span class="dv">8584</span>)
 bt_resamples &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bootstraps.html">bootstraps</a></span>(mtcars, <span class="dt">times =</span> <span class="dv">3</span>)
 bt_resamples</code></pre></div>
 <pre><code>## Bootstrap sampling with 3 resamples</code></pre>
 <p>We can see the way that the object stores the resamples using <code>splits</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">splits</span>(bt_resamples)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/splits.html">splits</a></span>(bt_resamples)</code></pre></div>
 <pre><code>## # A tibble: 3 × 2
 ##         splits         id
 ##         &lt;list&gt;      &lt;chr&gt;
@@ -93,7 +92,7 @@ bt_resamples</code></pre></div>
 </ul>
 <p>(Aside: While some might use the term “training” and “testing” for these data sets, we avoid them since those labels often conflict with the data that result from an initial partition of the data that is typically done before resampling.)</p>
 <p>Let’s look at one of the <code>rsplit</code> objects</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">first_resample &lt;-<span class="st"> </span><span class="kw">splits</span>(bt_resamples, <span class="dt">.elem =</span> <span class="st">"splits"</span>)[[<span class="dv">1</span>]]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">first_resample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splits.html">splits</a></span>(bt_resamples, <span class="dt">.elem =</span> <span class="st">"splits"</span>)[[<span class="dv">1</span>]]
 first_resample</code></pre></div>
 <pre><code>## &lt;32/12/32&gt;</code></pre>
 <p>This indicates that there were 32 data points in the analysis set, 12 instances were in the assessment set, and that the original data contained 32 data points. The can also be determined using the <code>dim</code> function on an <code>rsplit</code> object.</p>

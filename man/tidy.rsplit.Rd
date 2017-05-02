@@ -20,7 +20,7 @@
 \item{...}{Not currently used.}
 }
 \value{
-A tibble with columns `Row` and `Data`. The latter has possible values "Analysis" or "Assessment". Identification columns are also returned but their names and values depend on the type of resampling. `vfold_cv` contains a column "Fold" and, if repeats are used, another called "Repeats". `bootstraps` and `mc_cv` use the column "Resample".
+A tibble with columns `Row` and `Data`. The latter has possible values "Analysis" or "Assessment". For `rset` inputs, identification columns are also returned but their names and values depend on the type of resampling. `vfold_cv` contains a column "Fold" and, if repeats are used, another called "Repeats". `bootstraps` and `mc_cv` use the column "Resample".
 }
 \description{
 The `tidy` function from the `broom` package can be used on `rset` and `rsplit` objects to generate tibbles with which rows are in the analysis and assessment sets.
@@ -29,17 +29,18 @@ The `tidy` function from the `broom` package can be used on `rset` and `rsplit` 
 set.seed(4121)
 cv <-   tidy(vfold_cv(mtcars, v = 5))
 rcv <-  tidy(vfold_cv(mtcars, v = 5, repeats = 2))
-mccv <- tidy(mc_cv(mtcars, times = 10))
+mccv <- tidy(mc_cv(mtcars, times = 5))
 bt <-   tidy(bootstraps(mtcars, time = 5))
 
 library(ggplot2)
+theme_set(theme_bw())
 
 ggplot(cv, aes(x = Fold, y = Row, fill = Data)) + 
-  geom_tile() 
+  geom_tile() + scale_fill_brewer("Paired")
 ggplot(rcv, aes(x = Fold, y = Row, fill = Data)) + 
-  geom_tile() + facet_wrap(~Repeat)   
+  geom_tile() + facet_wrap(~Repeat) + scale_fill_brewer("Paired")
 ggplot(mccv, aes(x = Resample, y = Row, fill = Data)) + 
-  geom_tile()       
+  geom_tile() + scale_fill_brewer("Paired")       
 ggplot(bt, aes(x = Resample, y = Row, fill = Data)) + 
-  geom_tile()
+  geom_tile() + scale_fill_brewer("Paired")
 }

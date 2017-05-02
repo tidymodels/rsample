@@ -9,20 +9,20 @@
 #' set.seed(4121)
 #' cv <-   tidy(vfold_cv(mtcars, v = 5))
 #' rcv <-  tidy(vfold_cv(mtcars, v = 5, repeats = 2))
-#' mccv <- tidy(mc_cv(mtcars, times = 10))
+#' mccv <- tidy(mc_cv(mtcars, times = 5))
 #' bt <-   tidy(bootstraps(mtcars, time = 5))
 #' 
 #' library(ggplot2)
 #' theme_set(theme_bw())
 #' 
 #' ggplot(cv, aes(x = Fold, y = Row, fill = Data)) + 
-#'   geom_tile() 
+#'   geom_tile() + scale_fill_brewer("Paired")
 #' ggplot(rcv, aes(x = Fold, y = Row, fill = Data)) + 
-#'   geom_tile() + facet_wrap(~Repeat)   
+#'   geom_tile() + facet_wrap(~Repeat) + scale_fill_brewer("Paired")
 #' ggplot(mccv, aes(x = Resample, y = Row, fill = Data)) + 
-#'   geom_tile()       
+#'   geom_tile() + scale_fill_brewer("Paired")       
 #' ggplot(bt, aes(x = Resample, y = Row, fill = Data)) + 
-#'   geom_tile()
+#'   geom_tile() + scale_fill_brewer("Paired")
 #' @importFrom broom tidy
 #' @importFrom dplyr bind_rows
 #' @importFrom tibble tibble
