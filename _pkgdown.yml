@@ -5,11 +5,16 @@ template:
 reference:
   - title: Resampling Methods
     contents:
-      - boot
+      - bootstraps
       - vfold_cv
       - loo_cv
       - mc_cv
       - rolling_origin
+  - title: Utilities
+    contents:
+      - tidy.rset
+      - tidy.rsplit
+      - tidy.vfold_cv  
 
 navbar:
   left:

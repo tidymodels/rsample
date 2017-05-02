@@ -26,7 +26,7 @@ lm(log(price) ~ beds + baths + sqft + type, data = Sacramento)
 To evaluate this model, we will use 10 repeats of 10-fold cross-validation and use the 100 holdout samples to evaluate the root mean squared error (in log dollar units). 
 
 First, let's make the splits of the data:
-```{r model_vfold}
+```{r model_vfold, message=FALSE}
 library(rsample)
 set.seed(4622)
 rs_obj <- vfold_cv(Sacramento, V = 10, repeats = 10)
@@ -111,21 +111,21 @@ Now we can create a large number of bootstrap samples. We won't need the assessm
 
 ```{r boot_mean_diff}
 set.seed(353)
-bootstraps <- boot(Sacramento, times = 2000, oob = FALSE)
+bt_resamples <- bootstraps(Sacramento, times = 2000, oob = FALSE)
 ```
 
 This function is then computed across each resample:
 
 ```{r stats}
-bootstraps$splits$statistic <- along(bootstraps, 
-                                     mean_diff, 
-                                     .unlist = TRUE)
+bt_resamples$splits$statistic <- along(bt_resamples, 
+                                       mean_diff, 
+                                       .unlist = TRUE)
 ```
 
 The bootstrap distribution of this statistic looks fairly well-behaved: 
 
 ```{r stats_plot}
-ggplot(bootstraps$splits, aes(x = statistic)) + 
+ggplot(bt_resamples$splits, aes(x = statistic)) + 
   geom_line(stat = "density", adjust = 1.25) + 
   xlab("Mean(Residential) - Mean(Multi_Family)")
 ```
@@ -133,7 +133,7 @@ ggplot(bootstraps$splits, aes(x = statistic)) +
 The variation is considerable in this statistic. One method of computing a confidence interval is to take the percentiles of the bootstrap distribution. A 95% confidence interval for the difference in the means would be:
 
 ```{r ci}
-quantile(splits(bootstraps, .elem = "statistic"), 
+quantile(splits(bt_resamples, .elem = "statistic"), 
          probs = c(0.025, 0.500, 0.975))
 ```
 _On average_, there is no evidence for a difference in the sale prices in these types of homes. 
@@ -145,7 +145,7 @@ lm_coefs <- function(splits, ...) {
   mod <- lm(..., data = as.data.frame(splits))
   as.data.frame(t(coef(mod)))
 }
-coef_values <- along(bootstraps, lm_coefs, log(price) ~ beds + baths + sqft + type)
+coef_values <- along(bt_resamples, lm_coefs, log(price) ~ beds + baths + sqft + type)
 coef_values <- do.call("rbind", coef_values)
 ```
 
@@ -182,9 +182,26 @@ lm_coefs_rec <- function(splits, rec, ...) {
   lm.fit(x = design_matrix, y = y, ...)
 }
 
-bootstraps$splits$fits <- along(bootstraps, lm_coefs_rec, rec = rec)
-bootstraps$splits
+bt_resamples$splits$fits <- along(bt_resamples, lm_coefs_rec, rec = rec)
+bt_resamples$splits
 ```
 From these objects, we can extract the coefficients, fit statistics, and other values.
+
+## Keeping Tidy
+
+The [`broom` package](https://cran.r-project.org/package=broom) contains a class called `tidy` that created representations of objects that can be easily used for analysis, plotting, etc. `rsample` contains `tidy` methods for `rset` and `rsplit` objects. For example: 
+
+```{r tidy_rsplit}
+first_resample <- splits(bt_resamples, .elem = "splits")[[1]]
+class(first_resample)
+tidy(first_resample)
+```
+
+and
+
+```{r tidy_rset}
+class(bt_resamples)
+tidy(bt_resamples)
+```
 
 

@@ -8,17 +8,17 @@ The main class in the package (`rset`) is for a _set_ or _collection_ of resampl
 
 Like `modelr`, the resamples are stored in data-frame-like `tibble` object. As a simple example, here is a small set of bootstraps of the `mtcars` data:
 
-```{r mtcars_bt}
+```{r mtcars_bt, message=FALSE}
 library(rsample)
 set.seed(8584)
-bootstraps <- boot(mtcars, times = 3)
-bootstraps
+bt_resamples <- bootstraps(mtcars, times = 3)
+bt_resamples
 ```
 
 We can see the way that the object stores the resamples using `splits`:
 
 ```{r mtcars_splits}
-splits(bootstraps)
+splits(bt_resamples)
 ```
 
 ## Individual Resamples are `rsplit` Objects
@@ -34,10 +34,10 @@ In this package we use the following terminology for the two partitions that com
 
 Let's look at one of the `rsplit` objects
 ```{r rsplit}
-first_resample <- splits(bootstraps, .elem = "splits")[[1]]
+first_resample <- splits(bt_resamples, .elem = "splits")[[1]]
 first_resample
 ```
-This indicates that there were `r dim(splits(bootstraps, .elem = "splits")[[1]])["analysis"]` data points in the analysis set, `r dim(splits(bootstraps, .elem = "splits")[[1]])["assessment"]` instances were in the assessment set, and that the original data contained `r dim(splits(bootstraps, .elem = "splits")[[1]])["n"]` data points. The can also be determined using the `dim` function on an `rsplit` object. 
+This indicates that there were `r dim(splits(bt_resamples, .elem = "splits")[[1]])["analysis"]` data points in the analysis set, `r dim(splits(bt_resamples, .elem = "splits")[[1]])["assessment"]` instances were in the assessment set, and that the original data contained `r dim(splits(bt_resamples, .elem = "splits")[[1]])["n"]` data points. The can also be determined using the `dim` function on an `rsplit` object. 
 
 To obtain either of these data sets from an `rsplit`, the `as.data.frame` function can be used. By default, the analysis set is returned but the `data` option can be used to return the assessment data: 
 ```{r rsplit_df}

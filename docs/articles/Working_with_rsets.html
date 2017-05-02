@@ -84,8 +84,9 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(<span class="kw">log</span>(price) <span class="op">~</span><span class="st"> </span>beds <span class="op">+</span><span class="st"> </span>baths <span class="op">+</span><span class="st"> </span>sqft <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Sacramento)</code></pre></div>
 <p>To evaluate this model, we will use 10 repeats of 10-fold cross-validation and use the 100 holdout samples to evaluate the root mean squared error (in log dollar units).</p>
 <p>First, let’s make the splits of the data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)
-<span class="kw">set.seed</span>(<span class="dv">4622</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)</code></pre></div>
+<pre><code>## Loading required package: broom</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">4622</span>)
 rs_obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vfold_cv.html">vfold_cv</a></span>(Sacramento, <span class="dt">V =</span> <span class="dv">10</span>, <span class="dt">repeats =</span> <span class="dv">10</span>)
 <span class="kw">head</span>(<span class="kw">dim</span>(rs_obj))</code></pre></div>
 <pre><code>##   analysis assessment   n p       id    id2
@@ -180,18 +181,18 @@ rs_obj<span class="op">$</span>splits<span class="op">$</span>rmse &lt;-<span cl
 }</code></pre></div>
 <p>Now we can create a large number of bootstrap samples. We won’t need the assessment set, so the option <code>oob = FALSE</code> is used to skip computing and storing these data sets.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">353</span>)
-bootstraps &lt;-<span class="st"> </span><span class="kw"><a href="../reference/boot.html">boot</a></span>(Sacramento, <span class="dt">times =</span> <span class="dv">2000</span>, <span class="dt">oob =</span> <span class="ot">FALSE</span>)</code></pre></div>
+bt_resamples &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bootstraps.html">bootstraps</a></span>(Sacramento, <span class="dt">times =</span> <span class="dv">2000</span>, <span class="dt">oob =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p>This function is then computed across each resample:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bootstraps<span class="op">$</span>splits<span class="op">$</span>statistic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(bootstraps, 
-                                     mean_diff, 
-                                     <span class="dt">.unlist =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bt_resamples<span class="op">$</span>splits<span class="op">$</span>statistic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(bt_resamples, 
+                                       mean_diff, 
+                                       <span class="dt">.unlist =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>The bootstrap distribution of this statistic looks fairly well-behaved:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(bootstraps<span class="op">$</span>splits, <span class="kw">aes</span>(<span class="dt">x =</span> statistic)) <span class="op">+</span><span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(bt_resamples<span class="op">$</span>splits, <span class="kw">aes</span>(<span class="dt">x =</span> statistic)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">stat =</span> <span class="st">"density"</span>, <span class="dt">adjust =</span> <span class="fl">1.25</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Mean(Residential) - Mean(Multi_Family)"</span>)</code></pre></div>
 <p><img src="Working_with_rsets_files/figure-html/stats_plot-1.png" width="672"></p>
 <p>The variation is considerable in this statistic. One method of computing a confidence interval is to take the percentiles of the bootstrap distribution. A 95% confidence interval for the difference in the means would be:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(<span class="kw">splits</span>(bootstraps, <span class="dt">.elem =</span> <span class="st">"statistic"</span>), 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(<span class="kw">splits</span>(bt_resamples, <span class="dt">.elem =</span> <span class="st">"statistic"</span>), 
          <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.500</span>, <span class="fl">0.975</span>))</code></pre></div>
 <pre><code>##      2.5%       50%     97.5% 
 ## -21344.50  29368.18  75871.81</code></pre>
@@ -204,7 +205,7 @@ bootstraps &lt;-<span class="st"> </span><span class="kw"><a href="../reference/
   mod &lt;-<span class="st"> </span><span class="kw">lm</span>(..., <span class="dt">data =</span> <span class="kw">as.data.frame</span>(splits))
   <span class="kw">as.data.frame</span>(<span class="kw">t</span>(<span class="kw">coef</span>(mod)))
 }
-coef_values &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(bootstraps, lm_coefs, <span class="kw">log</span>(price) <span class="op">~</span><span class="st"> </span>beds <span class="op">+</span><span class="st"> </span>baths <span class="op">+</span><span class="st"> </span>sqft <span class="op">+</span><span class="st"> </span>type)
+coef_values &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(bt_resamples, lm_coefs, <span class="kw">log</span>(price) <span class="op">~</span><span class="st"> </span>beds <span class="op">+</span><span class="st"> </span>baths <span class="op">+</span><span class="st"> </span>sqft <span class="op">+</span><span class="st"> </span>type)
 coef_values &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">"rbind"</span>, coef_values)</code></pre></div>
 </div>
 <div id="using-recipes" class="section level2">
@@ -249,8 +250,8 @@ rec</code></pre></div>
   <span class="kw">lm.fit</span>(<span class="dt">x =</span> design_matrix, <span class="dt">y =</span> y, ...)
 }
 
-bootstraps<span class="op">$</span>splits<span class="op">$</span>fits &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(bootstraps, lm_coefs_rec, <span class="dt">rec =</span> rec)
-bootstraps<span class="op">$</span>splits</code></pre></div>
+bt_resamples<span class="op">$</span>splits<span class="op">$</span>fits &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(bt_resamples, lm_coefs_rec, <span class="dt">rec =</span> rec)
+bt_resamples<span class="op">$</span>splits</code></pre></div>
 <pre><code>## # A tibble: 2,000 × 4
 ##          splits            id statistic       fits
 ##          &lt;list&gt;         &lt;chr&gt;     &lt;dbl&gt;     &lt;list&gt;
@@ -267,6 +268,47 @@ bootstraps<span class="op">$</span>splits</code></pre></div>
 ## # ... with 1,990 more rows</code></pre>
 <p>From these objects, we can extract the coefficients, fit statistics, and other values.</p>
 </div>
+<div id="keeping-tidy" class="section level2">
+<h2 class="hasAnchor">
+<a href="#keeping-tidy" class="anchor"></a>Keeping Tidy</h2>
+<p>The <a href="https://cran.r-project.org/package=broom"><code>broom</code> package</a> contains a class called <code>tidy</code> that created representations of objects that can be easily used for analysis, plotting, etc. <code>rsample</code> contains <code>tidy</code> methods for <code>rset</code> and <code>rsplit</code> objects. For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">first_resample &lt;-<span class="st"> </span><span class="kw">splits</span>(bt_resamples, <span class="dt">.elem =</span> <span class="st">"splits"</span>)[[<span class="dv">1</span>]]
+<span class="kw">class</span>(first_resample)</code></pre></div>
+<pre><code>## [1] "rsplit"</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(first_resample)</code></pre></div>
+<pre><code>## # A tibble: 572 × 2
+##      Row     Data
+##    &lt;int&gt;    &lt;chr&gt;
+## 1    333 Analysis
+## 2    136 Analysis
+## 3    871 Analysis
+## 4    367 Analysis
+## 5    275 Analysis
+## 6    804 Analysis
+## 7     10 Analysis
+## 8    181 Analysis
+## 9    657 Analysis
+## 10   672 Analysis
+## # ... with 562 more rows</code></pre>
+<p>and</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(bt_resamples)</code></pre></div>
+<pre><code>## [1] "bootstraps" "rset"</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(bt_resamples)</code></pre></div>
+<pre><code>## # A tibble: 1,177,948 × 3
+##      Row     Data      Resample
+##    &lt;int&gt;    &lt;chr&gt;         &lt;chr&gt;
+## 1    333 Analysis Bootstrap0001
+## 2    136 Analysis Bootstrap0001
+## 3    871 Analysis Bootstrap0001
+## 4    367 Analysis Bootstrap0001
+## 5    275 Analysis Bootstrap0001
+## 6    804 Analysis Bootstrap0001
+## 7     10 Analysis Bootstrap0001
+## 8    181 Analysis Bootstrap0001
+## 9    657 Analysis Bootstrap0001
+## 10   672 Analysis Bootstrap0001
+## # ... with 1,177,938 more rows</code></pre>
+</div>
 </div>
   </div>
 
@@ -278,6 +320,7 @@ bootstraps<span class="op">$</span>splits</code></pre></div>
       <li><a href="#using-the-bootstrap-to-make-comparisons">Using the Bootstrap to Make Comparisons</a></li>
       <li><a href="#bootstrap-estimates-of-model-coefficients">Bootstrap Estimates of Model Coefficients</a></li>
       <li><a href="#using-recipes">Using recipes</a></li>
+      <li><a href="#keeping-tidy">Keeping Tidy</a></li>
       </ul>
 </div>
       </div>
