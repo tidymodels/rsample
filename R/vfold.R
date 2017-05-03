@@ -52,7 +52,7 @@ vfold_splits <- function(data, v = 10) {
   indices <- split(idx, folds)
   indices <- lapply(indices, vfold_complement, n = n)
   
-  split_objs <- purrr::map(indices, make_splits, data = data)
+  split_objs <- purrr::map(indices, make_splits, data = data, class = "vfold_split")
   tibble::tibble(splits = split_objs, 
                  id = names0(length(split_objs), "Fold"))
 }

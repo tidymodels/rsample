@@ -43,7 +43,7 @@ boot_splits <- function(data, times = 25, apparent = FALSE, oob = TRUE) {
   indices <- purrr::map(rep(n, times), sample, replace = TRUE)
   indices <- lapply(indices, boot_complement, n = n, assess = oob)
   
-  split_objs <- purrr::map(indices, make_splits, data = data)
+  split_objs <- purrr::map(indices, make_splits, data = data, class = "boot_split")
   out <- tibble::tibble(splits = split_objs, 
                         id = names0(length(split_objs), "Bootstrap"))
   if(apparent) {

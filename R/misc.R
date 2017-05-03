@@ -1,5 +1,8 @@
-make_splits <- function(ind, data) {
-  rsplit(data, ind$analysis,  ind$assessment)
+make_splits <- function(ind, data, class = NULL) {
+  res <- rsplit(data, ind$analysis,  ind$assessment)
+  if(!is.null(class))
+    res <- add_class(res, class)
+  res
 }
 
 get_rsplit <- function(object, id = object$splits$id[1]) {
@@ -54,6 +57,11 @@ names0 <- function (num, prefix = "x") {
   paste0(prefix, ind)
 }
 
+
+add_class <- function(x, cls) {
+  class(x) <- c(class(x), cls)
+  x
+}
 
 
 ## add an assignment operator like `rownames(x)<- ...`  that can be multivariate and add new objects via cbind'ing

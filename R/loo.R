@@ -9,6 +9,7 @@
 #' @export
 loo_cv <- function(data, ...) {
   split_objs <- vfold_splits(data = data, v = nrow(data))
+  split_objs$splits <- map(split_objs$splits, change_class)
   split_objs$id <- paste0("Resample", seq_along(split_objs$id))
   structure(list(splits = split_objs), 
             class = c("loo_cv", "rset"))
@@ -18,3 +19,9 @@ loo_cv <- function(data, ...) {
 print.loo_cv <- function(x, ...) {
   cat("Leave-one-out cross-validation\n")
 }
+
+change_class <- function(x) {
+  class(x) <- c("rsplit", "loo_split")
+  x
+}
+

@@ -38,7 +38,7 @@ mc_splits <- function(data, prop = 3/4, times = 25) {
   indices <- purrr::map(rep(n, times), sample, size = floor(n*prop))
   indices <- lapply(indices, mc_complement, n = n)
   
-  split_objs <- purrr::map(indices, make_splits, data = data)
+  split_objs <- purrr::map(indices, make_splits, data = data, class = "mc_split")
   tibble::tibble(splits = split_objs, 
                  id = names0(length(split_objs), "Resample"))
 }
