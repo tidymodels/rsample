@@ -8,7 +8,7 @@
 #' @inheritParams vfold_cv
 #' @param prop The proportion of data to be retained for modeling/analysis. 
 #' @param times The number of times to repeat the sampling.. 
-#' @param strata A variable that is used to conduct stratified sampling to create the resamples.  
+#' @param strata A variable that is used to conduct stratified sampling to create the resamples.  (not working yet)
 #' @export
 #' @return  An object with classes \code{"mc_cv"} and \code{"rset"}. The elements of the object include a tibble called \code{splits} that contains a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
 #' @examples

@@ -13,7 +13,7 @@ vfold_cv(data, v = 10, repeats = 1, strata = NULL, ...)
 
 \item{repeats}{The number of times to repeat the V-fold partitioning.}
 
-\item{strata}{A variable that is used to conduct stratified sampling to create the folds.}
+\item{strata}{A variable that is used to conduct stratified sampling to create the folds. (not working yet)}
 
 \item{...}{Not currently used.}
 }
