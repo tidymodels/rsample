@@ -78,7 +78,7 @@
     </div>
 
     
-    <p>V-Fold Cross-Validation</p>
+    <p>V-fold cross-validation randomly splits the data into V groups of roughly equal size (called "folds"). A resample of the analysis data consisted of V-1 of the folds while the assessment set contains the final fold. In basic V-fold cross-validation (i.e. no repeats), the number of resamples is equal to V.</p>
     
 
     <pre class="usage"><span class='fu'>vfold_cv</span>(<span class='no'>data</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
@@ -112,6 +112,11 @@
 
     <p>An object with classes <code>"vfold_cv"</code> and <code>"rset"</code>. The elements of the object include a tibble called <code>splits</code> that contains a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called <code>id</code> that has a character string with the fold identifier. For repeats, <code>id</code> is the repeat number and an additional column called <code>id2</code> that contains the fold information (within repeat).</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The <code>strata</code> argument causes the random sampling to be conducted <em>within the stratification variable</em>. The can help ensure that the number of data points in the analysis data is equivalent to the proportions in the original data set.</p>
+<p>When more than one repeat is requested, the basic V-fold cross-validation is conducted each time. For example, if three repeats are used with <code>v = 3</code>, there are a total of 30 splits which as three groups of 10 that are generated separately.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>vfold_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt;   10-fold cross-validation </div><div class='input'><span class='fu'>vfold_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;   10-fold cross-validation repeated 2 times </div></pre>
@@ -122,6 +127,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

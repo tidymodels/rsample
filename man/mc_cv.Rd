@@ -21,7 +21,10 @@ mc_cv(data, prop = 3/4, times = 25, strata = NULL, ...)
 An object with classes \code{"mc_cv"} and \code{"rset"}. The elements of the object include a tibble called \code{splits} that contains a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
 }
 \description{
-Monte Carlo Cross-Validation
+One resample of Monte Carlo cross-validation takes a random sample (without replacement) of the original data set to be used for analysis. All other data points are added to the assessment set.
+}
+\details{
+The \code{strata} argument causes the random sampling to be conducted \emph{within the stratification variable}. The can help ensure that the number of data points in the analysis data is equivalent to the proportions in the original data set.
 }
 \examples{
 mc_cv(mtcars, times = 2)
