@@ -4,7 +4,7 @@
 #' @param initial The number of samples used for analysis/modeling in the initial resample. 
 #' @param assess The number of samples used for each assessment resample.
 #' @param cumulative A logical. Should the analysis resample grow beyond the size specified by \code{initial} at each resample?.
-#' @param skip A integer indicating how many (if any) resamples to skip to thin the total amount of data points int eh analysis resample. 
+#' @param skip A integer indicating how many (if any) resamples to skip to thin the total amount of data points in the analysis resample. 
 #' @export
 #' @return  An object with classes \code{"rolling_origin"} and \code{"rset"}. The elements of the object include a tibble called \code{splits} that contains a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
 #' @examples

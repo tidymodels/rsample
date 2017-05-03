@@ -16,7 +16,7 @@ rolling_origin(data, initial = 5, assess = 1, cumulative = TRUE,
 
 \item{cumulative}{A logical. Should the analysis resample grow beyond the size specified by \code{initial} at each resample?.}
 
-\item{skip}{A integer indicating how many (if any) resamples to skip to thin the total amount of data points int eh analysis resample.}
+\item{skip}{A integer indicating how many (if any) resamples to skip to thin the total amount of data points in the analysis resample.}
 
 \item{...}{Not currently used.}
 }
