@@ -16,8 +16,6 @@ dim_rset <- function(x, ...) {
     dims[id_cols[i]] <- getElement(x, id_cols[i])
   dims
 } 
-## Note, column subsetting doesn't work with expanded classes
-
 
 names0 <- function (num, prefix = "x") {
   if (num < 1) 
@@ -27,12 +25,8 @@ names0 <- function (num, prefix = "x") {
   paste0(prefix, ind)
 }
 
-
 add_class <- function(x, cls) {
   class(x) <- c(class(x), cls)
   x
 }
 
-
-## add an assignment operator like `rownames(x)<- ...`  that can be multivariate and add new objects via cbind'ing
-## make a class? 
