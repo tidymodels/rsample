@@ -50,7 +50,7 @@ tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
 #' @export
 #' @inheritParams tidy.rsplit
 tidy.rset <- function(x, ...)  {
-  stacked <- along(x, tidy, ...)
+  stacked <- purrr::map(x$splits, tidy)
   for(i in seq(along = stacked))
     stacked[[i]]$Resample <- splits(x, "id")[i]
   stacked <- dplyr::bind_rows(stacked)
@@ -60,12 +60,12 @@ tidy.rset <- function(x, ...)  {
 #' @export
 #' @inheritParams tidy.rsplit
 tidy.vfold_cv <- function(x, ...)  {
-  stacked <- along(x, tidy, ...)
+  stacked <- purrr::map(x$splits, tidy)
   for(i in seq(along = stacked)) {
-    if(x$repeats > 1) {
-      stacked[[i]]$Repeat <- splits(x, "id")[i]
-      stacked[[i]]$Fold <- splits(x, "id2")[i]
-    } else stacked[[i]]$Fold <- splits(x, "id")[i]
+    if(attr(x, "repeats") > 1) {
+      stacked[[i]]$Repeat <- x$id[i]
+      stacked[[i]]$Fold <- x$id2[i]
+    } else stacked[[i]]$Fold <- x$id[i]
   }
   stacked <- dplyr::bind_rows(stacked)
   stacked
