@@ -10,7 +10,7 @@
 #' @param times The number of times to repeat the sampling.. 
 #' @param strata A variable that is used to conduct stratified sampling to create the resamples.  (not working yet)
 #' @export
-#' @return  An object with classes \code{"mc_cv"} and \code{"rset"}. The elements of the object include a tibble called \code{splits} that contains a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
+#' @return  An tibble with classes \class{mc_cv}, \class{rset}, \class{tbl_df}, \class{tbl}, and \class{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
 #' @examples
 #' mc_cv(mtcars, times = 2)
 #' mc_cv(mtcars, prop = .5, times = 2)
@@ -18,10 +18,11 @@
 mc_cv <- function(data, prop = 3/4, times = 25, strata = NULL, ...) {
   split_objs <- mc_splits(data = data, prop = 1 - prop, times = times)
   
-  structure(list(splits = split_objs, 
-                 prop = prop, strata = strata, 
-                 times = times), 
-            class = c("mc_cv", "rset"))
+  attr(split_objs, "prop") <- prop
+  attr(split_objs, "times") <- times
+  attr(split_objs, "strata") <- !is.null(strata)
+  class(split_objs) <- c("mc_cv", "rset", class(split_objs))
+  split_objs
 }
 
 # Get the indices of the analysis set from the assessment set
@@ -45,11 +46,20 @@ mc_splits <- function(data, prop = 3/4, times = 25) {
 
 #' @export
 print.mc_cv <- function(x, ...) {
+  details <- attributes(x)
   cat(
-    "Monte Carlo cross-validation (",
-    signif(x$prop, 2), "/", 
-    signif(1-x$prop, 2), 
-    ") with ", x$times, " resamples ", sep = "")
-  if(!is.null(x$strata)) cat("using stratification")
+    "# Monte Carlo cross-validation (",
+    signif(details$prop, 2),
+    "/",
+    signif(1 - details$prop, 2),
+    ") with ",
+    details$times,
+    " resamples ",
+    sep = ""
+  )
+  if (details$strata) 
+    cat("using stratification")
   cat("\n")
+  class(x) <- class(x)[!(class(x) %in% c("mc_cv", "rset"))]
+  print(x)
 }

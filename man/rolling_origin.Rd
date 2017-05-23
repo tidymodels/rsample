@@ -21,7 +21,7 @@ rolling_origin(data, initial = 5, assess = 1, cumulative = TRUE,
 \item{...}{Not currently used.}
 }
 \value{
-An object with classes \code{"rolling_origin"} and \code{"rset"}. The elements of the object include a tibble called \code{splits} that contains a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
+An tibble with classes \class{rolling_origin}, \class{rset}, \class{tbl_df}, \class{tbl}, and \class{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
 }
 \description{
 This resampling method is useful when the data set has a strong time component. The resamples are not random and contain data points that are consecutive values. The function assumes that the original data set are sorted in time order.

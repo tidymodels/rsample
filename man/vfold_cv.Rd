@@ -18,7 +18,7 @@ vfold_cv(data, v = 10, repeats = 1, strata = NULL, ...)
 \item{...}{Not currently used.}
 }
 \value{
-An object with classes \code{"vfold_cv"} and \code{"rset"}. The elements of the object include a tibble called \code{splits} that contains a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called \code{id} that has a character string with the fold identifier. For repeats, \code{id} is the repeat number and an additional column called \code{id2} that contains the fold information (within repeat).
+An tibble with classes \class{vfold_cv}, \class{rset}, \class{tbl_df}, \class{tbl}, and \class{data.frame}. The results include a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called \code{id} that has a character string with the fold identifier. For repeats, \code{id} is the repeat number and an additional column called \code{id2} that contains the fold information (within repeat).
 }
 \description{
 V-fold cross-validation randomly splits the data into V groups of roughly equal size (called "folds"). A resample of the analysis data consisted of V-1 of the folds while the assessment set contains the final fold. In basic V-fold cross-validation (i.e. no repeats), the number of resamples is equal to V.
