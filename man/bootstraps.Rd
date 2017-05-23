@@ -21,7 +21,7 @@ bootstraps(data, times = 25, strata = NULL, apparent = FALSE,
 \item{...}{Not currently used.}
 }
 \value{
-An tibble with classes \class{bootstraps}, \class{rset}, \class{tbl_df}, \class{tbl}, and \class{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
+An tibble with classes \code{bootstraps}, \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
 }
 \description{
 A bootstrap sample is a sample that is the same size as the original data set that is made using replacement.  This results in analysis samples that have multiple replicates of some of the original rows of the data. The assessment set is defined as the rows of the original data that were not included in the bootstrap sample. This is often referred to as the "out-of-bag" (OOB) sample.

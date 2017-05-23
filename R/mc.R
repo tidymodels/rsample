@@ -10,7 +10,7 @@
 #' @param times The number of times to repeat the sampling.. 
 #' @param strata A variable that is used to conduct stratified sampling to create the resamples.  (not working yet)
 #' @export
-#' @return  An tibble with classes \class{mc_cv}, \class{rset}, \class{tbl_df}, \class{tbl}, and \class{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
+#' @return  An tibble with classes \code{mc_cv}, \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
 #' @examples
 #' mc_cv(mtcars, times = 2)
 #' mc_cv(mtcars, prop = .5, times = 2)

@@ -13,7 +13,7 @@
 #' @param apparent A logical. Should an extra resample be added where the analysis and holdout subset are the entire data set. This is required for some estimators used by the \code{summary} function that require the apparent error rate.   
 #' @param oob A logical. Should the out-of-bootstrap samples (aka "out-of-bag" aka "OOB") be retained? For traditional bootstrapping, these samples are not generally used.  
 #' @export
-#' @return  An tibble with classes \class{bootstraps}, \class{rset}, \class{tbl_df}, \class{tbl}, and \class{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
+#' @return  An tibble with classes \code{bootstraps}, \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
 #' @examples
 #' bootstraps(mtcars, times = 2)
 #' bootstraps(mtcars, times = 2, apparent = TRUE)

@@ -13,7 +13,7 @@
 #' @param strata A variable that is used to conduct stratified sampling to create the folds. (not working yet)
 #' @param ... Not currently used. 
 #' @export
-#' @return  An tibble with classes \class{vfold_cv}, \class{rset}, \class{tbl_df}, \class{tbl}, and \class{data.frame}. The results include a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called \code{id} that has a character string with the fold identifier. For repeats, \code{id} is the repeat number and an additional column called \code{id2} that contains the fold information (within repeat). 
+#' @return  An tibble with classes \code{vfold_cv}, \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}. The results include a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called \code{id} that has a character string with the fold identifier. For repeats, \code{id} is the repeat number and an additional column called \code{id2} that contains the fold information (within repeat). 
 #' @examples
 #' vfold_cv(mtcars, V = 10)
 #' vfold_cv(mtcars, V = 10, repeats = 2)

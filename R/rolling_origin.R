@@ -11,7 +11,7 @@
 #' @param cumulative A logical. Should the analysis resample grow beyond the size specified by \code{initial} at each resample?.
 #' @param skip A integer indicating how many (if any) resamples to skip to thin the total amount of data points in the analysis resample. 
 #' @export
-#' @return  An tibble with classes \class{rolling_origin}, \class{rset}, \class{tbl_df}, \class{tbl}, and \class{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
+#' @return  An tibble with classes \code{rolling_origin}, \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
 #' @examples
 #' set.seed(1131)
 #' ex_data <- data.frame(row = 1:20, some_var = rnorm(20))
