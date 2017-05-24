@@ -87,14 +87,22 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)
 <span class="kw">set.seed</span>(<span class="dv">4622</span>)
 rs_obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vfold_cv.html">vfold_cv</a></span>(Sacramento, <span class="dt">V =</span> <span class="dv">10</span>, <span class="dt">repeats =</span> <span class="dv">10</span>)
-<span class="kw">head</span>(<span class="kw">dim</span>(rs_obj))</code></pre></div>
-<pre><code>##   analysis assessment   n p       id    id2
-## 1      838         94 932 9 Repeat01 Fold01
-## 2      838         94 932 9 Repeat01 Fold02
-## 3      839         93 932 9 Repeat01 Fold03
-## 4      839         93 932 9 Repeat01 Fold04
-## 5      839         93 932 9 Repeat01 Fold05
-## 6      839         93 932 9 Repeat01 Fold06</code></pre>
+rs_obj</code></pre></div>
+<pre><code>## # 10-fold cross-validation repeated 10 times 
+## # A tibble: 100 x 3
+##          splits       id    id2
+##  *       &lt;list&gt;    &lt;chr&gt;  &lt;chr&gt;
+##  1 &lt;S3: rsplit&gt; Repeat01 Fold01
+##  2 &lt;S3: rsplit&gt; Repeat01 Fold02
+##  3 &lt;S3: rsplit&gt; Repeat01 Fold03
+##  4 &lt;S3: rsplit&gt; Repeat01 Fold04
+##  5 &lt;S3: rsplit&gt; Repeat01 Fold05
+##  6 &lt;S3: rsplit&gt; Repeat01 Fold06
+##  7 &lt;S3: rsplit&gt; Repeat01 Fold07
+##  8 &lt;S3: rsplit&gt; Repeat01 Fold08
+##  9 &lt;S3: rsplit&gt; Repeat01 Fold09
+## 10 &lt;S3: rsplit&gt; Repeat01 Fold10
+## # ... with 90 more rows</code></pre>
 <p>Now let’s write a function that will, for each resample:</p>
 <ol style="list-style-type: decimal">
 <li>obtain the analysis data set (i.e. the 90% used for modeling)</li>
@@ -107,7 +115,7 @@ rs_obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vfol
 ## splits will be the `rsplit` object with the 90/10 partition
 holdout_resids &lt;-<span class="st"> </span><span class="cf">function</span>(splits, ...) {
   <span class="co"># Fit the model to the 90%</span>
-  mod &lt;-<span class="st"> </span><span class="kw">lm</span>(..., <span class="dt">data =</span> <span class="kw">as.data.frame</span>(splits, <span class="st">"analysis"</span>))
+  mod &lt;-<span class="st"> </span><span class="kw">lm</span>(..., <span class="dt">data =</span> <span class="kw">as.data.frame</span>(splits))
   <span class="co"># Save the 10%</span>
   holdout &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(splits, <span class="st">"assessment"</span>)
   <span class="co"># `augment` will save the predictions with the holdout data set</span>
@@ -119,7 +127,7 @@ holdout_resids &lt;-<span class="st"> </span><span class="cf">function</span>(sp
 }</code></pre></div>
 <p>For example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(
-  <span class="kw">holdout_resids</span>(rs_obj<span class="op">$</span>splits<span class="op">$</span>splits[[<span class="dv">1</span>]], 
+  <span class="kw">holdout_resids</span>(rs_obj<span class="op">$</span>splits[[<span class="dv">1</span>]], 
                  <span class="kw">log</span>(price) <span class="op">~</span><span class="st"> </span>beds <span class="op">+</span><span class="st"> </span>baths <span class="op">+</span><span class="st"> </span>sqft <span class="op">+</span><span class="st"> </span>type
   )
 )</code></pre></div>
@@ -137,31 +145,30 @@ holdout_resids &lt;-<span class="st"> </span><span class="cf">function</span>(sp
 ##  $ .fitted  : num  11.9 12 11.9 11.8 11.8 ...
 ##  $ .se.fit  : num  0.0252 0.0245 0.0253 0.0251 0.0606 ...
 ##  $ .resid   : num  -0.868 -0.835 -0.72 -0.524 -0.347 ...</code></pre>
-<p>To compute this data set for each of the 100 resamples:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rs_obj<span class="op">$</span>splits<span class="op">$</span>results &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(rs_obj, 
-                               holdout_resids, 
-                               <span class="kw">log</span>(price) <span class="op">~</span><span class="st"> </span>beds <span class="op">+</span><span class="st"> </span>baths <span class="op">+</span><span class="st"> </span>sqft <span class="op">+</span><span class="st"> </span>type)
-rs_obj<span class="op">$</span>splits</code></pre></div>
-<pre><code>## # A tibble: 100 × 4
+<p>To compute this data set for each of the 100 resamples, we’ll use the <code>map</code> function from the <code>purrr</code> package:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(purrr)
+rs_obj<span class="op">$</span>results &lt;-<span class="st"> </span><span class="kw">map</span>(rs_obj<span class="op">$</span>splits,
+                      holdout_resids,
+                      <span class="kw">log</span>(price) <span class="op">~</span><span class="st"> </span>beds <span class="op">+</span><span class="st"> </span>baths <span class="op">+</span><span class="st"> </span>sqft <span class="op">+</span><span class="st"> </span>type)
+rs_obj</code></pre></div>
+<pre><code>## # 10-fold cross-validation repeated 10 times 
+## # A tibble: 100 x 4
 ##          splits       id    id2                 results
-## *        &lt;list&gt;    &lt;chr&gt;  &lt;chr&gt;                  &lt;list&gt;
-## 1  &lt;S3: rsplit&gt; Repeat01 Fold01 &lt;data.frame [838 × 13]&gt;
-## 2  &lt;S3: rsplit&gt; Repeat01 Fold02 &lt;data.frame [838 × 13]&gt;
-## 3  &lt;S3: rsplit&gt; Repeat01 Fold03 &lt;data.frame [839 × 13]&gt;
-## 4  &lt;S3: rsplit&gt; Repeat01 Fold04 &lt;data.frame [839 × 13]&gt;
-## 5  &lt;S3: rsplit&gt; Repeat01 Fold05 &lt;data.frame [839 × 13]&gt;
-## 6  &lt;S3: rsplit&gt; Repeat01 Fold06 &lt;data.frame [839 × 13]&gt;
-## 7  &lt;S3: rsplit&gt; Repeat01 Fold07 &lt;data.frame [839 × 13]&gt;
-## 8  &lt;S3: rsplit&gt; Repeat01 Fold08 &lt;data.frame [839 × 13]&gt;
-## 9  &lt;S3: rsplit&gt; Repeat01 Fold09 &lt;data.frame [839 × 13]&gt;
-## 10 &lt;S3: rsplit&gt; Repeat01 Fold10 &lt;data.frame [839 × 13]&gt;
+##  *       &lt;list&gt;    &lt;chr&gt;  &lt;chr&gt;                  &lt;list&gt;
+##  1 &lt;S3: rsplit&gt; Repeat01 Fold01 &lt;data.frame [838 x 13]&gt;
+##  2 &lt;S3: rsplit&gt; Repeat01 Fold02 &lt;data.frame [838 x 13]&gt;
+##  3 &lt;S3: rsplit&gt; Repeat01 Fold03 &lt;data.frame [839 x 13]&gt;
+##  4 &lt;S3: rsplit&gt; Repeat01 Fold04 &lt;data.frame [839 x 13]&gt;
+##  5 &lt;S3: rsplit&gt; Repeat01 Fold05 &lt;data.frame [839 x 13]&gt;
+##  6 &lt;S3: rsplit&gt; Repeat01 Fold06 &lt;data.frame [839 x 13]&gt;
+##  7 &lt;S3: rsplit&gt; Repeat01 Fold07 &lt;data.frame [839 x 13]&gt;
+##  8 &lt;S3: rsplit&gt; Repeat01 Fold08 &lt;data.frame [839 x 13]&gt;
+##  9 &lt;S3: rsplit&gt; Repeat01 Fold09 &lt;data.frame [839 x 13]&gt;
+## 10 &lt;S3: rsplit&gt; Repeat01 Fold10 &lt;data.frame [839 x 13]&gt;
 ## # ... with 90 more rows</code></pre>
 <p>Now we can compute the RMSE values for all of the assessment data sets:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmse &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sqrt</span>(<span class="kw">mean</span>(x<span class="op">$</span>.resid<span class="op">^</span><span class="dv">2</span>))
-rs_obj<span class="op">$</span>splits<span class="op">$</span>rmse &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(rs_obj, rmse, <span class="dt">.elem =</span> <span class="st">"results"</span>, <span class="dt">.unlist =</span> <span class="ot">TRUE</span>)
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/splits.html">splits</a></span>(rs_obj, <span class="dt">.elem =</span> <span class="st">"rmse"</span>))</code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##  0.3434  0.3503  0.3538  0.3528  0.3555  0.3599</code></pre>
+rs_obj<span class="op">$</span>rmse &lt;-<span class="st"> </span><span class="kw">map_dbl</span>(rs_obj<span class="op">$</span>results, rmse)</code></pre></div>
 </div>
 <div id="using-the-bootstrap-to-make-comparisons" class="section level2">
 <h2 class="hasAnchor">
@@ -182,16 +189,14 @@ rs_obj<span class="op">$</span>splits<span class="op">$</span>rmse &lt;-<span cl
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">353</span>)
 bt_resamples &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bootstraps.html">bootstraps</a></span>(Sacramento, <span class="dt">times =</span> <span class="dv">2000</span>, <span class="dt">oob =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p>This function is then computed across each resample:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bt_resamples<span class="op">$</span>splits<span class="op">$</span>statistic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(bt_resamples, 
-                                       mean_diff, 
-                                       <span class="dt">.unlist =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bt_resamples<span class="op">$</span>statistic &lt;-<span class="st"> </span><span class="kw">map_dbl</span>(bt_resamples<span class="op">$</span>splits, mean_diff)</code></pre></div>
 <p>The bootstrap distribution of this statistic looks fairly well-behaved:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(bt_resamples<span class="op">$</span>splits, <span class="kw">aes</span>(<span class="dt">x =</span> statistic)) <span class="op">+</span><span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(bt_resamples, <span class="kw">aes</span>(<span class="dt">x =</span> statistic)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">stat =</span> <span class="st">"density"</span>, <span class="dt">adjust =</span> <span class="fl">1.25</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Mean(Residential) - Mean(Multi_Family)"</span>)</code></pre></div>
 <p><img src="Working_with_rsets_files/figure-html/stats_plot-1.png" width="672"></p>
 <p>The variation is considerable in this statistic. One method of computing a confidence interval is to take the percentiles of the bootstrap distribution. A 95% confidence interval for the difference in the means would be:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(<span class="kw"><a href="../reference/splits.html">splits</a></span>(bt_resamples, <span class="dt">.elem =</span> <span class="st">"statistic"</span>), 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(bt_resamples<span class="op">$</span>statistic, 
          <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.500</span>, <span class="fl">0.975</span>))</code></pre></div>
 <pre><code>##      2.5%       50%     97.5% 
 ## -21344.50  29368.18  75871.81</code></pre>
@@ -204,21 +209,21 @@ bt_resamples &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
   mod &lt;-<span class="st"> </span><span class="kw">lm</span>(..., <span class="dt">data =</span> <span class="kw">as.data.frame</span>(splits))
   <span class="kw">as.data.frame</span>(<span class="kw">t</span>(<span class="kw">coef</span>(mod)))
 }
-coef_values &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(bt_resamples, lm_coefs, <span class="kw">log</span>(price) <span class="op">~</span><span class="st"> </span>beds <span class="op">+</span><span class="st"> </span>baths <span class="op">+</span><span class="st"> </span>sqft <span class="op">+</span><span class="st"> </span>type)
-coef_values &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">"rbind"</span>, coef_values)</code></pre></div>
+bt_resamples<span class="op">$</span>betas &lt;-<span class="st"> </span><span class="kw">map</span>(bt_resamples<span class="op">$</span>splits, lm_coefs, <span class="kw">log</span>(price) <span class="op">~</span><span class="st"> </span>beds <span class="op">+</span><span class="st"> </span>baths <span class="op">+</span><span class="st"> </span>sqft <span class="op">+</span><span class="st"> </span>type)</code></pre></div>
 </div>
 <div id="using-recipes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-recipes" class="anchor"></a>Using recipes</h2>
 <p>The <a href="https://topepo.github.io/recipes/"><code>recipes</code></a> package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide.</p>
-<p>To use a recipe to define the resampled design matrix, an initial recipe is created:</p>
+<p>To define the design matrix, an initial recipe is created:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(recipes)
 
-rec &lt;-<span class="st"> </span><span class="kw">recipe</span>(price <span class="op">~</span><span class="st"> </span>beds <span class="op">+</span><span class="st"> </span>baths <span class="op">+</span><span class="st"> </span>sqft <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Sacramento) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">step_dummy</span>(type) <span class="op">%&gt;%</span>
+rec &lt;-<span class="st"> </span><span class="kw">recipe</span>(price <span class="op">~</span><span class="st"> </span>beds <span class="op">+</span><span class="st"> </span>baths <span class="op">+</span><span class="st"> </span>sqft <span class="op">+</span><span class="st"> </span>type <span class="op">+</span><span class="st"> </span>city, <span class="dt">data =</span> Sacramento) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">step_other</span>(city, <span class="dt">threshold =</span> <span class="fl">0.1</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">step_dummy</span>(type, city) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">step_log</span>(price) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">step_center</span>(<span class="kw">all_predictors</span>()) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">step_scale</span>(<span class="kw">all_predictors</span>())
+<span class="st">  </span><span class="kw">step_scale</span>(<span class="kw">all_predictors</span>()) 
 rec</code></pre></div>
 <pre><code>## Data Recipe
 ## 
@@ -226,44 +231,52 @@ rec</code></pre></div>
 ## 
 ##       role #variables
 ##    outcome          1
-##  predictor          4
+##  predictor          5
 ## 
 ## Steps:
 ## 
-## Dummy variables from type
+## Collapsing factor levels for city
+## Dummy variables from type, city
 ## Log transformation on price
 ## Centering for all_predictors()
 ## Scaling for all_predictors()</code></pre>
-<p>This recreates the work that the formula method uses with the additional steps that center and scale the predictors. While the original data object <code>Sacramento</code> is used in the call, it is only used to define the variables and their characteristics. The recipe can be estimated on the analysis component of the resample.</p>
+<p>This recreates the work that the formula method traditionally uses with the additional steps that center and scale the predictors. <code>step_other</code> finds infrequently occurring cites and collapses them into a factor level called “other” to avoid columns that have all zeros for their dummy variables.</p>
+<p>While the original data object <code>Sacramento</code> is used in the call, it is only used to define the variables and their characteristics so a single recipe is valid across all resampled verisons of the data. The recipe can be estimated on the analysis component of the resample.</p>
 <p>A function to fit the linear models using a recipe would then be:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_coefs_rec &lt;-<span class="st"> </span><span class="cf">function</span>(splits, rec, ...) {
+  
   <span class="co"># Get the analysis data set from the resample</span>
   training_data &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(splits)
   <span class="co"># Estimate the parameters using these data</span>
+  
   trained_rec &lt;-<span class="st"> </span><span class="kw">learn</span>(rec, <span class="dt">training =</span> training_data, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
+  
   <span class="co"># Apply the transformations to the data set and convert to a matrix</span>
   design_matrix &lt;-<span class="st"> </span><span class="kw">process</span>(trained_rec, <span class="dt">newdata =</span> training_data, <span class="kw">all_predictors</span>())
   design_matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(design_matrix)
+  
   <span class="co"># Get the logged price values and fit the model using `lm.fit`</span>
   y &lt;-<span class="st"> </span><span class="kw">process</span>(trained_rec, <span class="dt">newdata =</span> training_data, <span class="kw">all_outcomes</span>())<span class="op">$</span>price
+  
   <span class="kw">lm.fit</span>(<span class="dt">x =</span> design_matrix, <span class="dt">y =</span> y, ...)
 }
 
-bt_resamples<span class="op">$</span>splits<span class="op">$</span>fits &lt;-<span class="st"> </span><span class="kw"><a href="../reference/along.html">along</a></span>(bt_resamples, lm_coefs_rec, <span class="dt">rec =</span> rec)
-bt_resamples<span class="op">$</span>splits</code></pre></div>
-<pre><code>## # A tibble: 2,000 × 4
-##          splits            id statistic       fits
-##          &lt;list&gt;         &lt;chr&gt;     &lt;dbl&gt;     &lt;list&gt;
-## 1  &lt;S3: rsplit&gt; Bootstrap0001   5661.38 &lt;list [8]&gt;
-## 2  &lt;S3: rsplit&gt; Bootstrap0002  47457.54 &lt;list [8]&gt;
-## 3  &lt;S3: rsplit&gt; Bootstrap0003  47854.27 &lt;list [8]&gt;
-## 4  &lt;S3: rsplit&gt; Bootstrap0004  63601.78 &lt;list [8]&gt;
-## 5  &lt;S3: rsplit&gt; Bootstrap0005  48579.37 &lt;list [8]&gt;
-## 6  &lt;S3: rsplit&gt; Bootstrap0006  40595.56 &lt;list [8]&gt;
-## 7  &lt;S3: rsplit&gt; Bootstrap0007  25050.45 &lt;list [8]&gt;
-## 8  &lt;S3: rsplit&gt; Bootstrap0008  17001.60 &lt;list [8]&gt;
-## 9  &lt;S3: rsplit&gt; Bootstrap0009  22238.31 &lt;list [8]&gt;
-## 10 &lt;S3: rsplit&gt; Bootstrap0010  45782.46 &lt;list [8]&gt;
+bt_resamples<span class="op">$</span>fits &lt;-<span class="st"> </span><span class="kw">map</span>(bt_resamples<span class="op">$</span>splits, lm_coefs_rec, <span class="dt">rec =</span> rec)
+bt_resamples</code></pre></div>
+<pre><code>## # Bootstrap sampling with 2000 resamples 
+## # A tibble: 2,000 x 5
+##          splits            id statistic                betas       fits
+##          &lt;list&gt;         &lt;chr&gt;     &lt;dbl&gt;               &lt;list&gt;     &lt;list&gt;
+##  1 &lt;S3: rsplit&gt; Bootstrap0001   5661.38 &lt;data.frame [1 x 6]&gt; &lt;list [8]&gt;
+##  2 &lt;S3: rsplit&gt; Bootstrap0002  47457.54 &lt;data.frame [1 x 6]&gt; &lt;list [8]&gt;
+##  3 &lt;S3: rsplit&gt; Bootstrap0003  47854.27 &lt;data.frame [1 x 6]&gt; &lt;list [8]&gt;
+##  4 &lt;S3: rsplit&gt; Bootstrap0004  63601.78 &lt;data.frame [1 x 6]&gt; &lt;list [8]&gt;
+##  5 &lt;S3: rsplit&gt; Bootstrap0005  48579.37 &lt;data.frame [1 x 6]&gt; &lt;list [8]&gt;
+##  6 &lt;S3: rsplit&gt; Bootstrap0006  40595.56 &lt;data.frame [1 x 6]&gt; &lt;list [8]&gt;
+##  7 &lt;S3: rsplit&gt; Bootstrap0007  25050.45 &lt;data.frame [1 x 6]&gt; &lt;list [8]&gt;
+##  8 &lt;S3: rsplit&gt; Bootstrap0008  17001.60 &lt;data.frame [1 x 6]&gt; &lt;list [8]&gt;
+##  9 &lt;S3: rsplit&gt; Bootstrap0009  22238.31 &lt;data.frame [1 x 6]&gt; &lt;list [8]&gt;
+## 10 &lt;S3: rsplit&gt; Bootstrap0010  45782.46 &lt;data.frame [1 x 6]&gt; &lt;list [8]&gt;
 ## # ... with 1,990 more rows</code></pre>
 <p>From these objects, we can extract the coefficients, fit statistics, and other values.</p>
 </div>
@@ -271,40 +284,40 @@ bt_resamples<span class="op">$</span>splits</code></pre></div>
 <h2 class="hasAnchor">
 <a href="#keeping-tidy" class="anchor"></a>Keeping Tidy</h2>
 <p>The <a href="https://cran.r-project.org/package=broom"><code>broom</code> package</a> contains a class called <code>tidy</code> that created representations of objects that can be easily used for analysis, plotting, etc. <code>rsample</code> contains <code>tidy</code> methods for <code>rset</code> and <code>rsplit</code> objects. For example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">first_resample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splits.html">splits</a></span>(bt_resamples, <span class="dt">.elem =</span> <span class="st">"splits"</span>)[[<span class="dv">1</span>]]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">first_resample &lt;-<span class="st"> </span>bt_resamples<span class="op">$</span>splits[[<span class="dv">1</span>]]
 <span class="kw">class</span>(first_resample)</code></pre></div>
 <pre><code>## [1] "rsplit"     "boot_split"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(first_resample)</code></pre></div>
-<pre><code>## # A tibble: 572 × 2
+<pre><code>## # A tibble: 572 x 2
 ##      Row     Data
 ##    &lt;int&gt;    &lt;chr&gt;
-## 1    333 Analysis
-## 2    136 Analysis
-## 3    871 Analysis
-## 4    367 Analysis
-## 5    275 Analysis
-## 6    804 Analysis
-## 7     10 Analysis
-## 8    181 Analysis
-## 9    657 Analysis
+##  1   333 Analysis
+##  2   136 Analysis
+##  3   871 Analysis
+##  4   367 Analysis
+##  5   275 Analysis
+##  6   804 Analysis
+##  7    10 Analysis
+##  8   181 Analysis
+##  9   657 Analysis
 ## 10   672 Analysis
 ## # ... with 562 more rows</code></pre>
 <p>and</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(bt_resamples)</code></pre></div>
-<pre><code>## [1] "bootstraps" "rset"</code></pre>
+<pre><code>## [1] "bootstraps" "rset"       "tbl_df"     "tbl"        "data.frame"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(bt_resamples)</code></pre></div>
-<pre><code>## # A tibble: 1,177,948 × 3
+<pre><code>## # A tibble: 1,177,948 x 3
 ##      Row     Data      Resample
 ##    &lt;int&gt;    &lt;chr&gt;         &lt;chr&gt;
-## 1    333 Analysis Bootstrap0001
-## 2    136 Analysis Bootstrap0001
-## 3    871 Analysis Bootstrap0001
-## 4    367 Analysis Bootstrap0001
-## 5    275 Analysis Bootstrap0001
-## 6    804 Analysis Bootstrap0001
-## 7     10 Analysis Bootstrap0001
-## 8    181 Analysis Bootstrap0001
-## 9    657 Analysis Bootstrap0001
+##  1   333 Analysis Bootstrap0001
+##  2   136 Analysis Bootstrap0001
+##  3   871 Analysis Bootstrap0001
+##  4   367 Analysis Bootstrap0001
+##  5   275 Analysis Bootstrap0001
+##  6   804 Analysis Bootstrap0001
+##  7    10 Analysis Bootstrap0001
+##  8   181 Analysis Bootstrap0001
+##  9   657 Analysis Bootstrap0001
 ## 10   672 Analysis Bootstrap0001
 ## # ... with 1,177,938 more rows</code></pre>
 </div>

@@ -52,7 +52,7 @@ tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
 tidy.rset <- function(x, ...)  {
   stacked <- purrr::map(x$splits, tidy)
   for(i in seq(along = stacked))
-    stacked[[i]]$Resample <- splits(x, "id")[i]
+    stacked[[i]]$Resample <- x$id[i]
   stacked <- dplyr::bind_rows(stacked)
   stacked
 }  
