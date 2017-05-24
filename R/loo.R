@@ -6,6 +6,7 @@
 #' @return  An tibble with classes \code{loo_cv}, \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}. The results include a column for the data split objects and one column called \code{id} that has a character string with the resample identifier.
 #' @examples
 #' loo_cv(mtcars)
+#' @importFrom purrr map
 #' @export
 loo_cv <- function(data, ...) {
   split_objs <- vfold_splits(data = data, v = nrow(data))
