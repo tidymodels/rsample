@@ -16,7 +16,10 @@
 #' mc_cv(mtcars, prop = .5, times = 2)
 #' @export
 mc_cv <- function(data, prop = 3/4, times = 25, strata = NULL, ...) {
-  split_objs <- mc_splits(data = data, prop = 1 - prop, times = times)
+  split_objs <-
+    mc_splits(data = data,
+              prop = 1 - prop,
+              times = times)
   
   attr(split_objs, "prop") <- prop
   attr(split_objs, "times") <- times

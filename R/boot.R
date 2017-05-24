@@ -41,9 +41,10 @@ bootstraps <-
 
 # Get the indices of the analysis set from the analysis set (= bootstrap sample)
 boot_complement <- function(ind, n, assess) {
-  if(assess)
-    list(analysis = ind, assessment = (1:n)[-unique(ind)]) else
-      list(analysis = ind, assessment = integer())
+  if (assess)
+    list(analysis = ind, assessment = (1:n)[-unique(ind)])
+  else
+    list(analysis = ind, assessment = integer())
 }
 
 boot_splits <- function(data, times = 25, apparent = FALSE, oob = TRUE) {
@@ -51,11 +52,12 @@ boot_splits <- function(data, times = 25, apparent = FALSE, oob = TRUE) {
   indices <- purrr::map(rep(n, times), sample, replace = TRUE)
   indices <- lapply(indices, boot_complement, n = n, assess = oob)
   
-  split_objs <- purrr::map(indices, make_splits, data = data, class = "boot_split")
-  out <- tibble::tibble(splits = split_objs, 
+  split_objs <-
+    purrr::map(indices, make_splits, data = data, class = "boot_split")
+  out <- tibble::tibble(splits = split_objs,
                         id = names0(length(split_objs), "Bootstrap"))
-  if(apparent) {
-    app <- tibble::tibble(splits = list(rsplit(data, 1:n, 1:n)), 
+  if (apparent) {
+    app <- tibble::tibble(splits = list(rsplit(data, 1:n, 1:n)),
                           id = "Apparent")
     out <- rbind(out, app)
   }
@@ -66,11 +68,11 @@ boot_splits <- function(data, times = 25, apparent = FALSE, oob = TRUE) {
 #' @export
 print.bootstraps<- function(x, ...) {
   details <- attributes(x)
-  cat("# Bootstrap sampling with ", details$times, " resamples ", 
+  cat("# Bootstrap sampling with ", details$times, " resamples ",
       sep = "")
-  if (details$strata) 
+  if (details$strata)
     cat("+ strata")
-  if (any(details$splits$id == "Apparent")) 
+  if (any(details$splits$id == "Apparent"))
     cat(" (includes apparent error rate sample)")
   cat("\n")
   class(x) <- class(x)[!(class(x) %in% c("bootstraps", "rset"))]

@@ -22,11 +22,14 @@ vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, ...) {
   if(repeats == 1) {
     split_objs <- vfold_splits(data = data, v = v)
   } else {
-    for(i in 1:repeats) {
+    for (i in 1:repeats) {
       tmp <- vfold_splits(data = data, v = v)
       tmp$id2 <- tmp$id
       tmp$id <- names0(repeats, "Repeat")[i]
-      split_objs <- if(i == 1) tmp else rbind(split_objs, tmp)
+      split_objs <- if (i == 1)
+        tmp
+      else
+        rbind(split_objs, tmp)
     }
   }
   attr(split_objs, "v") <- v

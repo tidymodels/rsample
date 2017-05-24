@@ -51,10 +51,12 @@ as.data.frame.rsplit <- function(x, row.names = NULL, optional = FALSE, data = "
 
 #' @export
 dim.rsplit <- function(x, ...) {
-  c(analysis = length(x$in_id), 
-    assessment = length(x$out_id), 
-    n = nrow(x$data), 
-    p = ncol(x$data))
+  c(
+    analysis = length(x$in_id),
+    assessment = length(x$out_id),
+    n = nrow(x$data),
+    p = ncol(x$data)
+  )
 }
 
 ## Where is this used?

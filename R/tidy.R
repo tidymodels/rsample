@@ -61,11 +61,12 @@ tidy.rset <- function(x, ...)  {
 #' @inheritParams tidy.rsplit
 tidy.vfold_cv <- function(x, ...)  {
   stacked <- purrr::map(x$splits, tidy)
-  for(i in seq(along = stacked)) {
-    if(attr(x, "repeats") > 1) {
+  for (i in seq(along = stacked)) {
+    if (attr(x, "repeats") > 1) {
       stacked[[i]]$Repeat <- x$id[i]
       stacked[[i]]$Fold <- x$id2[i]
-    } else stacked[[i]]$Fold <- x$id[i]
+    } else
+      stacked[[i]]$Fold <- x$id[i]
   }
   stacked <- dplyr::bind_rows(stacked)
   stacked
