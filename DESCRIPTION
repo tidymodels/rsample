@@ -8,7 +8,7 @@ Authors@R: c(
 Description: Classes and functions to create and summarize different types of resampling objects (e.g. bootstrap, cross-validation). 
 Imports: dplyr, purrr, tibble
 Depends: R (>= 3.3.3), broom
-Suggests: ggplot2
+Suggests: ggplot2, testthat
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
