@@ -5,7 +5,7 @@
 #' @details 
 #' The \code{strata} argument causes the random sampling to be conducted \emph{within the stratification variable}. The can help ensure that the number of data points in the analysis data is equivalent to the proportions in the original data set.  
 #'
-#' When more than one repeat is requested, the basic V-fold cross-validation is conducted each time. For example, if three repeats are used with \code{v = 3}, there are a total of 30 splits which as three groups of 10 that are generated separately. 
+#' When more than one repeat is requested, the basic V-fold cross-validation is conducted each time. For example, if three repeats are used with \code{v = 10}, there are a total of 30 splits which as three groups of 10 that are generated separately. 
 #'
 #' @param data A data frame.
 #' @param v The number of partitions of the data set. 
@@ -36,7 +36,11 @@ vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, ...) {
   attr(split_objs, "repeats") <- repeats
   attr(split_objs, "strata") <- !is.null(strata)
   
-  class(split_objs) <- c("vfold_cv", "rset", class(split_objs))
+  split_objs <-
+    add_class(split_objs,
+              cls = c("vfold_cv", "rset"),
+              at_end = FALSE)
+
   split_objs
 }
 

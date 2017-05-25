@@ -24,7 +24,12 @@ mc_cv <- function(data, prop = 3/4, times = 25, strata = NULL, ...) {
   attr(split_objs, "prop") <- prop
   attr(split_objs, "times") <- times
   attr(split_objs, "strata") <- !is.null(strata)
-  class(split_objs) <- c("mc_cv", "rset", class(split_objs))
+  
+  split_objs <-
+    add_class(split_objs,
+              cls = c("mc_cv", "rset"),
+              at_end = FALSE)
+  
   split_objs
 }
 

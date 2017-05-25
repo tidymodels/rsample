@@ -35,7 +35,12 @@ bootstraps <-
   attr(split_objs, "strata") <- !is.null(strata)
   attr(split_objs, "apparent") <- apparent
   attr(split_objs, "oob") <- oob
-  class(split_objs) <- c("bootstraps", "rset", class(split_objs))
+  
+  split_objs <-
+    add_class(split_objs,
+              cls = c("bootstraps", "rset"),
+              at_end = FALSE)
+  
   split_objs
 }
 

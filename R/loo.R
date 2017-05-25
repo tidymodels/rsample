@@ -12,7 +12,12 @@ loo_cv <- function(data, ...) {
   split_objs <- vfold_splits(data = data, v = nrow(data))
   split_objs$splits <- map(split_objs$splits, change_class)
   split_objs$id <- paste0("Resample", seq_along(split_objs$id))
-  class(split_objs) <- c("loo_cv", "rset", class(split_objs))
+  
+  split_objs <-
+    add_class(split_objs,
+              cls = c("loo_cv", "rset"),
+              at_end = FALSE)
+  
   split_objs
 }
 

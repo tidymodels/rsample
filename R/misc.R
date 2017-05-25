@@ -25,8 +25,11 @@ names0 <- function (num, prefix = "x") {
   paste0(prefix, ind)
 }
 
-add_class <- function(x, cls) {
-  class(x) <- c(class(x), cls)
+add_class <- function(x, cls, at_end = TRUE) {
+  class(x) <- if (at_end)
+    c(class(x), cls)
+  else
+    c(cls, class(x))
   x
 }
 

@@ -48,7 +48,11 @@ rolling_origin <- function(data, initial = 5, assess = 1, cumulative = TRUE, ski
   attr(split_objs, "cumulative") <- cumulative
   attr(split_objs, "skip") <- skip
   
-  class(split_objs) <- c("rolling_origin", "rset", class(split_objs))
+  split_objs <-
+    add_class(split_objs,
+              cls = c("rolling_origin", "rset"),
+              at_end = FALSE)
+
   split_objs
 }
 
