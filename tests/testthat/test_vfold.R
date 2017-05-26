@@ -41,3 +41,36 @@ test_that('repeated', {
                           })
   expect_true(all(good_holdout))
 })
+
+test_that('strata', {
+  iris2 <- iris[1:130, ]
+  set.seed(11)
+  rs3 <- vfold_cv(iris2, repeats = 2, strata = "Species")
+  sizes2 <- rsample:::dim_rset(rs3)
+  
+  expect_true(all(sizes2$analysis == 117))
+  expect_true(all(sizes2$assessment == 13))  
+
+  rate <- map_dbl(rs3$splits,
+                  function(x) {
+                    dat <- as.data.frame(x)$Species
+                    mean(dat == "virginica")
+                  })
+  expect_true(length(unique(rate)) == 1)
+  
+  good_holdout <- map_lgl(rs3$splits,
+                          function(x) {
+                            length(intersect(x$in_ind, x$out_id)) == 0
+                          })
+  expect_true(all(good_holdout))
+})
+
+
+test_that('bad args', {
+  expect_error(vfold(iris, strata = iris$Species))
+  expect_error(vfold(iris, strata = 2))  
+  expect_error(vfold(iris, strata = c("Species", "Species")))  
+})
+
+
+

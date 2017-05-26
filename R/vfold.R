@@ -10,20 +10,47 @@
 #' @param data A data frame.
 #' @param v The number of partitions of the data set. 
 #' @param repeats The number of times to repeat the V-fold partitioning. 
-#' @param strata A variable that is used to conduct stratified sampling to create the folds. (not working yet)
+#' @param strata A variable that is used to conduct stratified sampling to create the folds. This should be a single character value. 
 #' @param ... Not currently used. 
 #' @export
 #' @return  An tibble with classes \code{vfold_cv}, \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}. The results include a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called \code{id} that has a character string with the fold identifier. For repeats, \code{id} is the repeat number and an additional column called \code{id2} that contains the fold information (within repeat). 
 #' @examples
-#' vfold_cv(mtcars, V = 10)
-#' vfold_cv(mtcars, V = 10, repeats = 2)
+#' vfold_cv(mtcars, v = 10)
+#' vfold_cv(mtcars, v = 10, repeats = 2)
+#' 
+#' library(purrr)
+#' iris2 <- iris[1:130, ]
+#' 
+#' set.seed(13)
+#' folds1 <- vfold_cv(iris2, v = 5)
+#' map_dbl(folds1$splits,
+#'         function(x) {
+#'           dat <- as.data.frame(x)$Species
+#'           mean(dat == "virginica")
+#'         })
+#' 
+#' set.seed(13)
+#' folds2 <- vfold_cv(iris2, strata = "Species", v = 5)
+#' map_dbl(folds2$splits,
+#'         function(x) {
+#'           dat <- as.data.frame(x)$Species
+#'           mean(dat == "virginica")
+#'         })
 #' @export
 vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, ...) {
-  if(repeats == 1) {
-    split_objs <- vfold_splits(data = data, v = v)
+  
+  if (!is.null(strata)) {
+    if(!is.character(strata) | length(strata) != 1)
+      stop("`strata` should be a single character value", call. = FALSE)
+    if(!(strata %in% names(data)))
+      stop(strata, " is not in `data`")
+  }
+  
+  if (repeats == 1) {
+    split_objs <- vfold_splits(data = data, v = v, strata = strata)
   } else {
     for (i in 1:repeats) {
-      tmp <- vfold_splits(data = data, v = v)
+      tmp <- vfold_splits(data = data, v = v, strata = strata)
       tmp$id2 <- tmp$id
       tmp$id <- names0(repeats, "Repeat")[i]
       split_objs <- if (i == 1)
@@ -50,20 +77,37 @@ vfold_complement <- function(ind, n) {
        assessment = ind)
 }
 
-vfold_splits <- function(data, v = 10) {
+#' @importFrom tibble tibble
+#' @importFrom purrr map
+#' @importFrom dplyr bind_rows
+vfold_splits <- function(data, v = 10, strata = NULL) {
   if (!is.numeric(v) || length(v) != 1) 
     stop("`v` must be a single integer.", call. = FALSE)
   
   n <- nrow(data)
-  folds <- sample(rep(1:v, length.out = n))
+  if (is.null(strata)) {
+    folds <- sample(rep(1:v, length.out = n))
+    idx <- seq_len(n)
+    indices <- split(idx, folds)
+  } else {
+    stratas <- tibble::tibble(idx = 1:n,
+                              strata = getElement(data, strata))
+    stratas <- split(stratas, stratas$strata)
+    stratas <- purrr::map(stratas, add_vfolds, v = v)
+    stratas <- dplyr::bind_rows(stratas)
+    indices <- split(stratas$idx, stratas$folds)
+  }
   
-  idx <- seq_len(n)
-  indices <- split(idx, folds)
   indices <- lapply(indices, vfold_complement, n = n)
   
   split_objs <- purrr::map(indices, make_splits, data = data, class = "vfold_split")
   tibble::tibble(splits = split_objs, 
                  id = names0(length(split_objs), "Fold"))
+}
+
+add_vfolds <- function(x, v) {
+  x$folds <- sample(rep(1:v, length.out = nrow(x)))
+  x
 }
 
 #' @export

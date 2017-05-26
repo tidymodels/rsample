@@ -13,7 +13,7 @@ vfold_cv(data, v = 10, repeats = 1, strata = NULL, ...)
 
 \item{repeats}{The number of times to repeat the V-fold partitioning.}
 
-\item{strata}{A variable that is used to conduct stratified sampling to create the folds. (not working yet)}
+\item{strata}{A variable that is used to conduct stratified sampling to create the folds. This should be a single character value.}
 
 \item{...}{Not currently used.}
 }
@@ -29,6 +29,25 @@ The \code{strata} argument causes the random sampling to be conducted \emph{with
 When more than one repeat is requested, the basic V-fold cross-validation is conducted each time. For example, if three repeats are used with \code{v = 10}, there are a total of 30 splits which as three groups of 10 that are generated separately.
 }
 \examples{
-vfold_cv(mtcars, V = 10)
-vfold_cv(mtcars, V = 10, repeats = 2)
+vfold_cv(mtcars, v = 10)
+vfold_cv(mtcars, v = 10, repeats = 2)
+
+library(purrr)
+iris2 <- iris[1:130, ]
+
+set.seed(13)
+folds1 <- vfold_cv(iris2, v = 5)
+map_dbl(folds1$splits,
+        function(x) {
+          dat <- as.data.frame(x)$Species
+          mean(dat == "virginica")
+        })
+
+set.seed(13)
+folds2 <- vfold_cv(iris2, strata = "Species", v = 5)
+map_dbl(folds2$splits,
+        function(x) {
+          dat <- as.data.frame(x)$Species
+          mean(dat == "virginica")
+        })
 }

@@ -35,7 +35,7 @@ It is a bad idea to use bootstrapping as the outer resampling procedure (see
 }
 \examples{
 ## Using expressions for the resampling procedures:
-nested_cv(mtcars, outside = vfold_cv(V = 3), inside = bootstraps(times = 5))
+nested_cv(mtcars, outside = vfold_cv(v = 3), inside = bootstraps(times = 5))
 
 ## Using an existing object:
 folds <- vfold_cv(mtcars)
@@ -45,7 +45,7 @@ nested_cv(mtcars, folds, inside = bootstraps(times = 5))
 set.seed(2222)
 bad_idea <- nested_cv(mtcars,
                       outside = bootstraps(times = 5),
-                      inside = vfold_cv(V = 3))
+                      inside = vfold_cv(v = 3))
 
 first_outer_split <- bad_idea$splits[[1]]
 outer_analysis <- as.data.frame(first_outer_split)
