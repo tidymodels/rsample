@@ -101,7 +101,7 @@ boot_splits <-
     indices <- purrr::map(rep(n, times), sample, replace = TRUE)
   } else {
     stratas <- tibble::tibble(idx = 1:n,
-                              strata = getElement(data, strata))
+                              strata = make_strata(getElement(data, strata)))
     stratas <- split(stratas, stratas$strata)
     stratas <-
       purrr::map_df(

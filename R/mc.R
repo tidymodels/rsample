@@ -78,7 +78,7 @@ mc_splits <- function(data, prop = 3/4, times = 25, strata = NULL) {
     indices <- purrr::map(rep(n, times), sample, size = floor(n * prop))
   } else {
     stratas <- tibble::tibble(idx = 1:n,
-                              strata = getElement(data, strata))
+                              strata = make_strata(getElement(data, strata)))
     stratas <- split(stratas, stratas$strata)
     stratas <-
       purrr::map_df(stratas, strat_sample, prop = prop, times = times)

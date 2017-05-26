@@ -91,7 +91,7 @@ vfold_splits <- function(data, v = 10, strata = NULL) {
     indices <- split(idx, folds)
   } else {
     stratas <- tibble::tibble(idx = 1:n,
-                              strata = getElement(data, strata))
+                              strata = make_strata(getElement(data, strata)))
     stratas <- split(stratas, stratas$strata)
     stratas <- purrr::map(stratas, add_vfolds, v = v)
     stratas <- dplyr::bind_rows(stratas)
