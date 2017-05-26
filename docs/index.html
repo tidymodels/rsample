@@ -65,6 +65,24 @@
   <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
 }
 devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"topepo/rsample"</span>)</code></pre></div>
+<p>Note that resampled data sets created by <code>rsample</code> do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
+<p>For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(rsample)
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(mlbench)
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(pryr)
+<span class="op">&gt;</span><span class="st"> </span>
+<span class="er">&gt;</span><span class="st"> </span><span class="kw">data</span>(LetterRecognition)
+<span class="op">&gt;</span><span class="st"> </span>
+<span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(LetterRecognition)
+<span class="fl">2.64</span> MB
+<span class="op">&gt;</span><span class="st"> </span>
+<span class="er">&gt;</span><span class="st"> </span>boots &lt;-<span class="st"> </span><span class="kw"><a href="reference/bootstraps.html">bootstraps</a></span>(LetterRecognition, <span class="dt">times =</span> <span class="dv">50</span>)
+<span class="op">&gt;</span><span class="st"> </span>
+<span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)
+<span class="fl">8.14</span> MB
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)<span class="op">/</span><span class="kw">object_size</span>(object_size)
+<span class="fl">6.92</span> kB</code></pre></div>
+<p>The memory usage for 50 boostrap samples is roughly 7-fold more than the original data set.</p>
 </div>
   </div>
 
