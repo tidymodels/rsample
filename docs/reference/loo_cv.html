@@ -98,11 +98,25 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object with classes <code>"loo_cv"</code> and <code>"rset"</code>. The elements of the object include a tibble called <code>splits</code> that contains a column for the data split objects and one column called <code>id</code> that has a character string with the resample identifier.</p>
+    <p>An tibble with classes <code>loo_cv</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and <code>data.frame</code>. The results include a column for the data split objects and one column called <code>id</code> that has a character string with the resample identifier.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>loo_cv</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; Leave-one-out cross-validation</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>loo_cv</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; # Leave-one-out cross-validation
+#&gt; # A tibble: 32 x 2
+#&gt;          splits         id
+#&gt;          &lt;list&gt;      &lt;chr&gt;
+#&gt;  1 &lt;S3: rsplit&gt;  Resample1
+#&gt;  2 &lt;S3: rsplit&gt;  Resample2
+#&gt;  3 &lt;S3: rsplit&gt;  Resample3
+#&gt;  4 &lt;S3: rsplit&gt;  Resample4
+#&gt;  5 &lt;S3: rsplit&gt;  Resample5
+#&gt;  6 &lt;S3: rsplit&gt;  Resample6
+#&gt;  7 &lt;S3: rsplit&gt;  Resample7
+#&gt;  8 &lt;S3: rsplit&gt;  Resample8
+#&gt;  9 &lt;S3: rsplit&gt;  Resample9
+#&gt; 10 &lt;S3: rsplit&gt; Resample10
+#&gt; # ... with 22 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

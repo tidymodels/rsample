@@ -4,13 +4,16 @@
 \alias{tidy.rsplit}
 \alias{tidy.rset}
 \alias{tidy.vfold_cv}
-\title{Tidy resampling object}
+\alias{tidy.nested_cv}
+\title{Tidy Resampling Object}
 \usage{
 \method{tidy}{rsplit}(x, unique_ind = TRUE, ...)
 
 \method{tidy}{rset}(x, ...)
 
 \method{tidy}{vfold_cv}(x, ...)
+
+\method{tidy}{nested_cv}(x, ...)
 }
 \arguments{
 \item{x}{A  \code{rset} or  \code{rsplit} object}
@@ -24,6 +27,11 @@ A tibble with columns  \code{Row} and  \code{Data}. The latter has possible valu
 }
 \description{
 The \code{tidy} function from the  \pkg{broom} package can be used on  \code{rset} and  \code{rsplit} objects to generate tibbles with which rows are in the analysis and assessment sets.
+}
+\details{
+Note that for nested resampling, the rows of the inner resample, 
+  named \code{inner_Row}, are \emph{relative} row indices and do not
+  correspond to the rows in the original data set.
 }
 \examples{
 library(ggplot2)

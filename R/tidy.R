@@ -1,10 +1,13 @@
-#' Tidy resampling object
+#' Tidy Resampling Object
 #'
 #' The \code{tidy} function from the  \pkg{broom} package can be used on  \code{rset} and  \code{rsplit} objects to generate tibbles with which rows are in the analysis and assessment sets. 
 #' @param x A  \code{rset} or  \code{rsplit} object
 #' @param unique_ind Should unique row identifiers be returned? For example, if  \code{FALSE} then bootstrapping results will include multiple rows in the sample for the same row in the original data. 
 #' @param ... Not currently used. 
 #' @return A tibble with columns  \code{Row} and  \code{Data}. The latter has possible values "Analysis" or "Assessment". For  \code{rset} inputs, identification columns are also returned but their names and values depend on the type of resampling.  \code{vfold_cv} contains a column "Fold" and, if repeats are used, another called "Repeats".  \code{bootstraps} and  \code{mc_cv} use the column "Resample". 
+#' @details Note that for nested resampling, the rows of the inner resample, 
+#'   named \code{inner_Row}, are \emph{relative} row indices and do not
+#'   correspond to the rows in the original data set.  
 #' @examples 
 #' library(ggplot2)
 #' theme_set(theme_bw())
@@ -36,37 +39,72 @@
 #' ggplot(ts_cv, aes(x = Resample, y = factor(Row), fill = Data)) +
 #'   geom_tile() + scale_fill_brewer("Paired")
 #' @importFrom broom tidy
-#' @importFrom dplyr bind_rows
+#' @importFrom dplyr bind_rows arrange_
 #' @importFrom tibble tibble
 #' @export
 tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
   if(unique_ind) x$in_id <- unique(x$in_id)
-  tibble(Row = c(x$in_id, x$out_id),
-         Data = rep(c("Analysis", "Assessment"),
-                    c(length(x$in_id), length(x$out_id))))
+  out <- tibble(Row = c(x$in_id, x$out_id),
+                Data = rep(c("Analysis", "Assessment"),
+                           c(length(x$in_id), length(x$out_id))))
+  out <- dplyr::arrange_(.data = out, .dots=c("Data","Row"))
+  out
 }
 
 #' @rdname tidy.rsplit
 #' @export
 #' @inheritParams tidy.rsplit
+#' @importFrom dplyr arrange
 tidy.rset <- function(x, ...)  {
-  stacked <- along(x, tidy, ...)
+  stacked <- purrr::map(x$splits, tidy)
   for(i in seq(along = stacked))
-    stacked[[i]]$Resample <- splits(x, "id")[i]
+    stacked[[i]]$Resample <- x$id[i]
   stacked <- dplyr::bind_rows(stacked)
+  stacked <- dplyr::arrange_(.data = stacked, .dots=c("Data","Row"))
   stacked
 }  
 #' @rdname tidy.rsplit
 #' @export
 #' @inheritParams tidy.rsplit
+#' @importFrom dplyr arrange
 tidy.vfold_cv <- function(x, ...)  {
-  stacked <- along(x, tidy, ...)
-  for(i in seq(along = stacked)) {
-    if(x$repeats > 1) {
-      stacked[[i]]$Repeat <- splits(x, "id")[i]
-      stacked[[i]]$Fold <- splits(x, "id2")[i]
-    } else stacked[[i]]$Fold <- splits(x, "id")[i]
+  stacked <- purrr::map(x$splits, tidy)
+  for (i in seq(along = stacked)) {
+    if (attr(x, "repeats") > 1) {
+      stacked[[i]]$Repeat <- x$id[i]
+      stacked[[i]]$Fold <- x$id2[i]
+    } else
+      stacked[[i]]$Fold <- x$id[i]
   }
   stacked <- dplyr::bind_rows(stacked)
+  stacked <- dplyr::arrange_(.data = stacked, .dots=c("Data","Row"))
   stacked
 }  
+
+#' @rdname tidy.rsplit
+#' @export
+#' @inheritParams tidy.rsplit
+#' @importFrom dplyr arrange full_join
+#' @importFrom tidyr unnest
+#' @importFrom purrr map
+tidy.nested_cv <- function(x, ...)  {
+
+  x$inner_tidy <- purrr::map(x$inner_resamples, tidy_wrap)
+  inner_tidy <- tidyr::unnest(x, inner_tidy)
+  class(x) <- class(x)[class(x) != "nested_cv"]
+  outer_tidy <- tidy(x)
+  id_cols <- names(outer_tidy)
+  id_cols <- id_cols[!(id_cols %in% c("Row", "Data"))]
+  
+  inner_id <- grep("^id", names(inner_tidy))
+  if(length(inner_id) != length(id_cols))
+    stop("Cannot merge tidt data sets", call. = FALSE)
+  names(inner_tidy)[inner_id] <- id_cols
+  full_join(outer_tidy, inner_tidy, by = id_cols)
+}  
+
+tidy_wrap <- function(x) {
+  x <- tidy(x)
+  names(x) <- paste0("inner_", names(x))
+  x
+}

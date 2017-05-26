@@ -10,11 +10,10 @@ reference:
       - loo_cv
       - mc_cv
       - rolling_origin
+      - nested_cv
   - title: Utilities
     contents:
-      - tidy.rset
-      - tidy.rsplit
-      - tidy.vfold_cv  
+      - starts_with("tidy")
 
 navbar:
   left:

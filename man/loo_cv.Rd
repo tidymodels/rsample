@@ -12,7 +12,7 @@ loo_cv(data, ...)
 \item{...}{Not currently used.}
 }
 \value{
-An object with classes \code{"loo_cv"} and \code{"rset"}. The elements of the object include a tibble called \code{splits} that contains a column for the data split objects and one column called \code{id} that has a character string with the resample identifier.
+An tibble with classes \code{loo_cv}, \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}. The results include a column for the data split objects and one column called \code{id} that has a character string with the resample identifier.
 }
 \description{
 Leave-one-out (LOO) cross-validation uses one data point in the original set as the assessment data and all other data points as the analysis set. A LOO resampling set has ass many resamples as rows in the original data set.

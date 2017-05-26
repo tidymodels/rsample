@@ -30,7 +30,7 @@ First, let's make the splits of the data:
 library(rsample)
 set.seed(4622)
 rs_obj <- vfold_cv(Sacramento, V = 10, repeats = 10)
-head(dim(rs_obj))
+rs_obj
 ```
 Now let's write a function that will, for each resample:
 
@@ -46,7 +46,7 @@ library(broom)
 ## splits will be the `rsplit` object with the 90/10 partition
 holdout_resids <- function(splits, ...) {
   # Fit the model to the 90%
-  mod <- lm(..., data = as.data.frame(splits, "analysis"))
+  mod <- lm(..., data = as.data.frame(splits))
   # Save the 10%
   holdout <- as.data.frame(splits, "assessment")
   # `augment` will save the predictions with the holdout data set
@@ -62,27 +62,27 @@ For example:
 
 ```{r onefold}
 str(
-  holdout_resids(rs_obj$splits$splits[[1]], 
+  holdout_resids(rs_obj$splits[[1]], 
                  log(price) ~ beds + baths + sqft + type
   )
 )
 ```
 
-To compute this data set for each of the 100 resamples: 
+To compute this data set for each of the 100 resamples, we'll use the `map` function from the `purrr` package:
 
 ```{r model_along, message=FALSE}
-rs_obj$splits$results <- along(rs_obj, 
-                               holdout_resids, 
-                               log(price) ~ beds + baths + sqft + type)
-rs_obj$splits
+library(purrr)
+rs_obj$results <- map(rs_obj$splits,
+                      holdout_resids,
+                      log(price) ~ beds + baths + sqft + type)
+rs_obj
 ```
 
 Now we can compute the RMSE values for all of the assessment data sets: 
 
 ```{r model_rmse}
 rmse <- function(x) sqrt(mean(x$.resid^2))
-rs_obj$splits$rmse <- along(rs_obj, rmse, .elem = "results", .unlist = TRUE)
-summary(splits(rs_obj, .elem = "rmse"))
+rs_obj$rmse <- map_dbl(rs_obj$results, rmse)
 ```
 
 ## Using the Bootstrap to Make Comparisons
@@ -117,15 +117,13 @@ bt_resamples <- bootstraps(Sacramento, times = 2000, oob = FALSE)
 This function is then computed across each resample:
 
 ```{r stats}
-bt_resamples$splits$statistic <- along(bt_resamples, 
-                                       mean_diff, 
-                                       .unlist = TRUE)
+bt_resamples$statistic <- map_dbl(bt_resamples$splits, mean_diff)
 ```
 
 The bootstrap distribution of this statistic looks fairly well-behaved: 
 
 ```{r stats_plot}
-ggplot(bt_resamples$splits, aes(x = statistic)) + 
+ggplot(bt_resamples, aes(x = statistic)) + 
   geom_line(stat = "density", adjust = 1.25) + 
   xlab("Mean(Residential) - Mean(Multi_Family)")
 ```
@@ -133,7 +131,7 @@ ggplot(bt_resamples$splits, aes(x = statistic)) +
 The variation is considerable in this statistic. One method of computing a confidence interval is to take the percentiles of the bootstrap distribution. A 95% confidence interval for the difference in the means would be:
 
 ```{r ci}
-quantile(splits(bt_resamples, .elem = "statistic"), 
+quantile(bt_resamples$statistic, 
          probs = c(0.025, 0.500, 0.975))
 ```
 _On average_, there is no evidence for a difference in the sale prices in these types of homes. 
@@ -145,45 +143,52 @@ lm_coefs <- function(splits, ...) {
   mod <- lm(..., data = as.data.frame(splits))
   as.data.frame(t(coef(mod)))
 }
-coef_values <- along(bt_resamples, lm_coefs, log(price) ~ beds + baths + sqft + type)
-coef_values <- do.call("rbind", coef_values)
+bt_resamples$betas <- map(bt_resamples$splits, lm_coefs, log(price) ~ beds + baths + sqft + type)
 ```
 
 ## Using recipes
 
 The [`recipes`](https://topepo.github.io/recipes/) package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide. 
 
-To use a recipe to define the resampled design matrix, an initial recipe is created: 
+To define the design matrix, an initial recipe is created: 
 ```{r initial_rec, message=FALSE}
 library(recipes)
 
-rec <- recipe(price ~ beds + baths + sqft + type, data = Sacramento) %>%
-  step_dummy(type) %>%
+rec <- recipe(price ~ beds + baths + sqft + type + city, data = Sacramento) %>%
+  step_other(city, threshold = 0.1) %>%
+  step_dummy(type, city) %>%
   step_log(price) %>%
   step_center(all_predictors()) %>%
-  step_scale(all_predictors())
+  step_scale(all_predictors()) 
 rec
 ```
-This recreates the work that the formula method uses with the additional steps that center and scale the predictors. While the original data object `Sacramento` is used in the call, it is only used to define the variables and their characteristics. The recipe can be estimated on the analysis component of the resample. 
+This recreates the work that the formula method traditionally uses with the additional steps that center and scale the predictors. `step_other` finds infrequently occurring cites and collapses them into a factor level called "other" to avoid columns that have all zeros for their dummy variables.
+
+While the original data object `Sacramento` is used in the call, it is only used to define the variables and their characteristics so a single recipe is valid across all resampled verisons of the data. The recipe can be estimated on the analysis component of the resample. 
 
 A function to fit the linear models using a recipe would then be:
 
 ```{r recipe_fit}
 lm_coefs_rec <- function(splits, rec, ...) {
+  
   # Get the analysis data set from the resample
   training_data <- as.data.frame(splits)
+  
   # Estimate the parameters using these data
   trained_rec <- learn(rec, training = training_data, verbose = FALSE)
+  
   # Apply the transformations to the data set and convert to a matrix
   design_matrix <- process(trained_rec, newdata = training_data, all_predictors())
   design_matrix <- as.matrix(design_matrix)
+  
   # Get the logged price values and fit the model using `lm.fit`
   y <- process(trained_rec, newdata = training_data, all_outcomes())$price
+  
   lm.fit(x = design_matrix, y = y, ...)
 }
 
-bt_resamples$splits$fits <- along(bt_resamples, lm_coefs_rec, rec = rec)
-bt_resamples$splits
+bt_resamples$fits <- map(bt_resamples$splits, lm_coefs_rec, rec = rec)
+bt_resamples
 ```
 From these objects, we can extract the coefficients, fit statistics, and other values.
 
@@ -192,7 +197,7 @@ From these objects, we can extract the coefficients, fit statistics, and other v
 The [`broom` package](https://cran.r-project.org/package=broom) contains a class called `tidy` that created representations of objects that can be easily used for analysis, plotting, etc. `rsample` contains `tidy` methods for `rset` and `rsplit` objects. For example: 
 
 ```{r tidy_rsplit}
-first_resample <- splits(bt_resamples, .elem = "splits")[[1]]
+first_resample <- bt_resamples$splits[[1]]
 class(first_resample)
 tidy(first_resample)
 ```

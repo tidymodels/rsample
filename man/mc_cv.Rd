@@ -18,7 +18,7 @@ mc_cv(data, prop = 3/4, times = 25, strata = NULL, ...)
 \item{...}{Not currently used.}
 }
 \value{
-An object with classes \code{"mc_cv"} and \code{"rset"}. The elements of the object include a tibble called \code{splits} that contains a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
+An tibble with classes \code{mc_cv}, \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
 }
 \description{
 One resample of Monte Carlo cross-validation takes a random sample (without replacement) of the original data set to be used for analysis. All other data points are added to the assessment set.

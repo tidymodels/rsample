@@ -1,12 +1,17 @@
-## Add "analysis" and "assessment" classes that are shortcuts for `as.data.frame` method
+## Add "analysis" and "assessment" classes that are shortcuts for 
+## `as.data.frame` method
 
 rsplit <- function(data, in_id, out_id) {
-  if (!is.data.frame(data) & !is.matrix(data)) {
+  if (!is.data.frame(data) & !is.matrix(data))
     stop("`data` must be a data frame.", call. = FALSE)
-  }
-  if (!is.integer(in_id) | !is.integer(out_id)) {
-    stop("`in_id and out_id` must be integer vectors.", call. = FALSE)
-  }
+  
+  if (!is.integer(in_id) | !is.integer(out_id) |
+      any(in_id < 1) | any(out_id < 1))
+    stop("`in_id and out_id` must be positive integer vectors.", call. = FALSE)
+  
+  if (length(in_id) == 0)
+    stop("At least one row should be selected for the analysis set.", 
+         call. = FALSE)
   
   structure(
     list(
@@ -28,7 +33,10 @@ print.rsplit <- function(x, ...) {
 
 #' @export
 as.integer.rsplit <- function(x, data = "analysis", ...) {
-  if(data == "analysis") x$in_id else x$out_id
+  if (data == "analysis")
+    x$in_id
+  else
+    x$out_id
 }
 
 
@@ -41,7 +49,16 @@ as.integer.rsplit <- function(x, data = "analysis", ...) {
 #' @param data Either "analysis" or "assessment" to specify which data are returned. 
 #' @param ...	Additional arguments to be passed to or from methods. Not currently used. 
 #' @export
-as.data.frame.rsplit <- function(x, row.names = NULL, optional = FALSE, data = "analysis", ...) {
+as.data.frame.rsplit <-
+  function(x,
+           row.names = NULL,
+           optional = FALSE,
+           data = "analysis",
+           ...) {
+    
+  if (!(data %in% c("analysis", "assessment")))
+    stop("`data` should be either 'analysis' or 'assessment'.", 
+         call. = FALSE)
   out <- x$data[as.integer(x, data = data), , drop = FALSE]
   if (!is.null(row.names) && length(row.names) == nrow(out)) 
     rownames(out) <- row.names
@@ -51,10 +68,12 @@ as.data.frame.rsplit <- function(x, row.names = NULL, optional = FALSE, data = "
 
 #' @export
 dim.rsplit <- function(x, ...) {
-  c(analysis = length(x$in_id), 
-    assessment = length(x$out_id), 
-    n = nrow(x$data), 
-    p = ncol(x$data))
+  c(
+    analysis = length(x$in_id),
+    assessment = length(x$out_id),
+    n = nrow(x$data),
+    p = ncol(x$data)
+  )
 }
 
 ## Where is this used?
