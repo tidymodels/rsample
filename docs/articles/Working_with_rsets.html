@@ -247,8 +247,8 @@ rec</code></pre></div>
   
   <span class="co"># Get the analysis data set from the resample</span>
   training_data &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(splits)
-  <span class="co"># Estimate the parameters using these data</span>
   
+  <span class="co"># Estimate the parameters using these data</span>
   trained_rec &lt;-<span class="st"> </span><span class="kw">learn</span>(rec, <span class="dt">training =</span> training_data, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
   
   <span class="co"># Apply the transformations to the data set and convert to a matrix</span>
@@ -291,16 +291,16 @@ bt_resamples</code></pre></div>
 <pre><code>## # A tibble: 572 x 2
 ##      Row     Data
 ##    &lt;int&gt;    &lt;chr&gt;
-##  1   333 Analysis
-##  2   136 Analysis
-##  3   871 Analysis
-##  4   367 Analysis
-##  5   275 Analysis
-##  6   804 Analysis
-##  7    10 Analysis
-##  8   181 Analysis
-##  9   657 Analysis
-## 10   672 Analysis
+##  1     1 Analysis
+##  2     3 Analysis
+##  3     6 Analysis
+##  4     9 Analysis
+##  5    10 Analysis
+##  6    14 Analysis
+##  7    15 Analysis
+##  8    19 Analysis
+##  9    20 Analysis
+## 10    22 Analysis
 ## # ... with 562 more rows</code></pre>
 <p>and</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(bt_resamples)</code></pre></div>
@@ -309,16 +309,16 @@ bt_resamples</code></pre></div>
 <pre><code>## # A tibble: 1,177,948 x 3
 ##      Row     Data      Resample
 ##    &lt;int&gt;    &lt;chr&gt;         &lt;chr&gt;
-##  1   333 Analysis Bootstrap0001
-##  2   136 Analysis Bootstrap0001
-##  3   871 Analysis Bootstrap0001
-##  4   367 Analysis Bootstrap0001
-##  5   275 Analysis Bootstrap0001
-##  6   804 Analysis Bootstrap0001
-##  7    10 Analysis Bootstrap0001
-##  8   181 Analysis Bootstrap0001
-##  9   657 Analysis Bootstrap0001
-## 10   672 Analysis Bootstrap0001
+##  1     1 Analysis Bootstrap0001
+##  2     1 Analysis Bootstrap0004
+##  3     1 Analysis Bootstrap0007
+##  4     1 Analysis Bootstrap0009
+##  5     1 Analysis Bootstrap0011
+##  6     1 Analysis Bootstrap0012
+##  7     1 Analysis Bootstrap0014
+##  8     1 Analysis Bootstrap0015
+##  9     1 Analysis Bootstrap0017
+## 10     1 Analysis Bootstrap0018
 ## # ... with 1,177,938 more rows</code></pre>
 </div>
 </div>
