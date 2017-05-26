@@ -29,10 +29,29 @@ A bootstrap sample is a sample that is the same size as the original data set th
 \details{
 The argument \code{apparent} enables the option of an additional "resample" where the analysis and assessment data sets are the same as the original data set. This can be required for some types of analysis of the bootstrap results. 
 
-The \code{strata} argument is based on a similar argument in the random forest package were the bootstrap samples are conducted \emph{within the stratification variable}. The can help ensure that the number of data points in the bootstrap sample is equivalent to the proportions in the original data set. (not working yet)
+The \code{strata} argument is based on a similar argument in the random forest package were the bootstrap samples are conducted \emph{within the stratification variable}. The can help ensure that the number of data points in the bootstrap sample is equivalent to the proportions in the original data set.
 }
 \examples{
 bootstraps(mtcars, times = 2)
 bootstraps(mtcars, times = 2, apparent = TRUE)
 bootstraps(mtcars, times = 2, oob = FALSE)
+
+library(purrr)
+iris2 <- iris[1:130, ]
+
+set.seed(13)
+resample1 <- bootstraps(iris2, times = 3)
+map_dbl(resample1$splits,
+        function(x) {
+          dat <- as.data.frame(x)$Species
+          mean(dat == "virginica")
+        })
+
+set.seed(13)
+resample2 <- bootstraps(iris2, strata = "Species", times = 3)
+map_dbl(resample2$splits,
+        function(x) {
+          dat <- as.data.frame(x)$Species
+          mean(dat == "virginica")
+        })
 }

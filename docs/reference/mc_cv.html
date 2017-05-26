@@ -100,7 +100,7 @@
     </tr>
     <tr>
       <th>strata</th>
-      <td><p>A variable that is used to conduct stratified sampling to create the resamples.  (not working yet)</p></td>
+      <td><p>A variable that is used to conduct stratified sampling to create the resamples.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -128,7 +128,25 @@
 #&gt;         splits        id
 #&gt;         &lt;list&gt;     &lt;chr&gt;
 #&gt; 1 &lt;S3: rsplit&gt; Resample1
-#&gt; 2 &lt;S3: rsplit&gt; Resample2</div></pre>
+#&gt; 2 &lt;S3: rsplit&gt; Resample2</div><div class='input'>
+<span class='fu'>library</span>(<span class='no'>purrr</span>)
+<span class='no'>iris2</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>130</span>, ]
+
+<span class='fu'>set.seed</span>(<span class='fl'>13</span>)
+<span class='no'>resample1</span> <span class='kw'>&lt;-</span> <span class='fu'>mc_cv</span>(<span class='no'>iris2</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>.5</span>)
+<span class='fu'>map_dbl</span>(<span class='no'>resample1</span>$<span class='no'>splits</span>,
+        <span class='kw'>function</span>(<span class='no'>x</span>) {
+          <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>as.data.frame</span>(<span class='no'>x</span>)$<span class='no'>Species</span>
+          <span class='fu'>mean</span>(<span class='no'>dat</span> <span class='kw'>==</span> <span class='st'>"virginica"</span>)
+        })</div><div class='output co'>#&gt; [1] 0.2769231 0.2615385 0.2461538</div><div class='input'>
+<span class='fu'>set.seed</span>(<span class='fl'>13</span>)
+<span class='no'>resample2</span> <span class='kw'>&lt;-</span> <span class='fu'>mc_cv</span>(<span class='no'>iris2</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='st'>"Species"</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>.5</span>)
+<span class='fu'>map_dbl</span>(<span class='no'>resample2</span>$<span class='no'>splits</span>,
+        <span class='kw'>function</span>(<span class='no'>x</span>) {
+          <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>as.data.frame</span>(<span class='no'>x</span>)$<span class='no'>Species</span>
+          <span class='fu'>mean</span>(<span class='no'>dat</span> <span class='kw'>==</span> <span class='st'>"virginica"</span>)
+        })</div><div class='output co'>#&gt;         1         2         3 
+#&gt; 0.2307692 0.2307692 0.2307692 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

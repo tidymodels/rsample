@@ -41,3 +41,33 @@ test_that('different percent', {
                           })
   expect_true(all(good_holdout))
 })
+
+test_that('strata', {
+  iris2 <- iris[1:130, ]
+  set.seed(11)
+  rs3 <- mc_cv(iris2, strata = "Species")
+  sizes3 <- rsample:::dim_rset(rs3)
+  
+  expect_true(all(sizes3$analysis == 99))
+  expect_true(all(sizes3$assessment == 31))  
+  
+  rate <- map_dbl(rs3$splits,
+                  function(x) {
+                    dat <- as.data.frame(x)$Species
+                    mean(dat == "virginica")
+                  })
+  expect_true(length(unique(rate)) == 1)
+  
+  good_holdout <- map_lgl(rs3$splits,
+                          function(x) {
+                            length(intersect(x$in_ind, x$out_id)) == 0
+                          })
+  expect_true(all(good_holdout))
+})
+
+
+test_that('bad args', {
+  expect_error(mc_cv(iris, strata = iris$Species))
+  expect_error(mc_cv(iris, strata = 2))  
+  expect_error(mc_cv(iris, strata = c("Species", "Species")))  
+})

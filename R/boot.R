@@ -5,7 +5,7 @@
 #' @details
 #' The argument \code{apparent} enables the option of an additional "resample" where the analysis and assessment data sets are the same as the original data set. This can be required for some types of analysis of the bootstrap results. 
 #' 
-#' The \code{strata} argument is based on a similar argument in the random forest package were the bootstrap samples are conducted \emph{within the stratification variable}. The can help ensure that the number of data points in the bootstrap sample is equivalent to the proportions in the original data set. (not working yet)
+#' The \code{strata} argument is based on a similar argument in the random forest package were the bootstrap samples are conducted \emph{within the stratification variable}. The can help ensure that the number of data points in the bootstrap sample is equivalent to the proportions in the original data set.
 #'
 #' @inheritParams vfold_cv
 #' @param times The number of bootstrap samples. 
@@ -18,18 +18,52 @@
 #' bootstraps(mtcars, times = 2)
 #' bootstraps(mtcars, times = 2, apparent = TRUE)
 #' bootstraps(mtcars, times = 2, oob = FALSE)
+#' 
+#' library(purrr)
+#' iris2 <- iris[1:130, ]
+#' 
+#' set.seed(13)
+#' resample1 <- bootstraps(iris2, times = 3)
+#' map_dbl(resample1$splits,
+#'         function(x) {
+#'           dat <- as.data.frame(x)$Species
+#'           mean(dat == "virginica")
+#'         })
+#' 
+#' set.seed(13)
+#' resample2 <- bootstraps(iris2, strata = "Species", times = 3)
+#' map_dbl(resample2$splits,
+#'         function(x) {
+#'           dat <- as.data.frame(x)$Species
+#'           mean(dat == "virginica")
+#'         })
 #' @export
-bootstraps <- 
-  function(data, times = 25, strata = NULL, apparent = FALSE, oob = TRUE, ...) {
+bootstraps <-
+  function(data,
+           times = 25,
+           strata = NULL,
+           apparent = FALSE,
+           oob = TRUE,
+           ...) {
+    
   if (apparent & !oob)
     stop("The apparent error rate calculation requires the out-of-bag sample",
          call. = FALSE)
+    
+  if (!is.null(strata)) {
+    if (!is.character(strata) | length(strata) != 1)
+      stop("`strata` should be a single character value", call. = FALSE)
+    if (!(strata %in% names(data)))
+      stop(strata, " is not in `data`")
+  }    
+
   split_objs <-
     boot_splits(
       data = data,
       times = times,
       apparent = apparent,
-      oob = oob
+      oob = oob,
+      strata = strata
     )
   attr(split_objs, "times") <- times
   attr(split_objs, "strata") <- !is.null(strata)
@@ -52,9 +86,34 @@ boot_complement <- function(ind, n, assess) {
     list(analysis = ind, assessment = integer())
 }
 
-boot_splits <- function(data, times = 25, apparent = FALSE, oob = TRUE) {
+#' @importFrom purrr map map_df
+#' @importFrom tibble tibble
+boot_splits <-
+  function(data,
+           times = 25,
+           apparent = FALSE,
+           oob = TRUE,
+           strata = NULL) {
+    
   n <- nrow(data)
-  indices <- purrr::map(rep(n, times), sample, replace = TRUE)
+
+  if (is.null(strata)) {
+    indices <- purrr::map(rep(n, times), sample, replace = TRUE)
+  } else {
+    stratas <- tibble::tibble(idx = 1:n,
+                              strata = getElement(data, strata))
+    stratas <- split(stratas, stratas$strata)
+    stratas <-
+      purrr::map_df(
+        stratas,
+        strat_sample,
+        prop = 1,
+        times = times,
+        replace = TRUE
+      )
+    indices <- split(stratas$idx, stratas$rs_id)
+  }  
+
   indices <- lapply(indices, boot_complement, n = n, assess = oob)
   
   split_objs <-

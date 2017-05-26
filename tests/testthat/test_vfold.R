@@ -46,10 +46,10 @@ test_that('strata', {
   iris2 <- iris[1:130, ]
   set.seed(11)
   rs3 <- vfold_cv(iris2, repeats = 2, strata = "Species")
-  sizes2 <- rsample:::dim_rset(rs3)
+  sizes3 <- rsample:::dim_rset(rs3)
   
-  expect_true(all(sizes2$analysis == 117))
-  expect_true(all(sizes2$assessment == 13))  
+  expect_true(all(sizes3$analysis == 117))
+  expect_true(all(sizes3$assessment == 13))  
 
   rate <- map_dbl(rs3$splits,
                   function(x) {
