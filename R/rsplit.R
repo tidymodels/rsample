@@ -25,10 +25,18 @@ rsplit <- function(data, in_id, out_id) {
 
 #' @export
 print.rsplit <- function(x, ...) {
-  cat("<", length(x$in_id), "/", length(x$out_id), 
-      "/", nrow(x$data), ">\n",
-      sep = ""
-  )
+
+  out_char <-
+    if (all(is.na(x$out_id)))
+      paste(length(complement(x)))
+  else
+    paste(length(x$out_id))
+  
+  cat("<",
+      length(x$in_id), "/",
+      out_char, "/",
+      nrow(x$data), ">\n",
+      sep = "")
 }
 
 #' @export
@@ -70,7 +78,7 @@ as.data.frame.rsplit <-
 dim.rsplit <- function(x, ...) {
   c(
     analysis = length(x$in_id),
-    assessment = length(x$out_id),
+    assessment = length(complement(x)),
     n = nrow(x$data),
     p = ncol(x$data)
   )
@@ -88,3 +96,6 @@ dim.rsplit <- function(x, ...) {
 #'     " x ", 
 #'     big_mark(dims["p"]), "]")
 #' }
+
+
+
