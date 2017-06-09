@@ -122,10 +122,29 @@ within the initial procedure.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Using expressions for the resampling procedures:</span>
-<span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>outside</span> <span class='kw'>=</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>3</span>), <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; # Nested : vfold_cv(v = 3) / bootstraps(times = 5) </div><div class='output co'>#&gt; <span class='error'>Error: `.x` is not a vector (NULL)</span></div><div class='input'>
+<span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>outside</span> <span class='kw'>=</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>3</span>), <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; # Nested : vfold_cv(v = 3) / bootstraps(times = 5) 
+#&gt; # A tibble: 3 x 3
+#&gt;         splits    id  inner_resamples
+#&gt;         &lt;list&gt; &lt;chr&gt;           &lt;list&gt;
+#&gt; 1 &lt;S3: rsplit&gt; Fold1 &lt;tibble [5 x 2]&gt;
+#&gt; 2 &lt;S3: rsplit&gt; Fold2 &lt;tibble [5 x 2]&gt;
+#&gt; 3 &lt;S3: rsplit&gt; Fold3 &lt;tibble [5 x 2]&gt;</div><div class='input'>
 <span class='co'>## Using an existing object:</span>
 <span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>)
-<span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>, <span class='no'>folds</span>, <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; # Nested : `folds` / bootstraps(times = 5) </div><div class='output co'>#&gt; <span class='error'>Error: `.x` is not a vector (NULL)</span></div><div class='input'>
+<span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>, <span class='no'>folds</span>, <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; # Nested : `folds` / bootstraps(times = 5) 
+#&gt; # A tibble: 10 x 3
+#&gt;          splits     id  inner_resamples
+#&gt;          &lt;list&gt;  &lt;chr&gt;           &lt;list&gt;
+#&gt;  1 &lt;S3: rsplit&gt; Fold01 &lt;tibble [5 x 2]&gt;
+#&gt;  2 &lt;S3: rsplit&gt; Fold02 &lt;tibble [5 x 2]&gt;
+#&gt;  3 &lt;S3: rsplit&gt; Fold03 &lt;tibble [5 x 2]&gt;
+#&gt;  4 &lt;S3: rsplit&gt; Fold04 &lt;tibble [5 x 2]&gt;
+#&gt;  5 &lt;S3: rsplit&gt; Fold05 &lt;tibble [5 x 2]&gt;
+#&gt;  6 &lt;S3: rsplit&gt; Fold06 &lt;tibble [5 x 2]&gt;
+#&gt;  7 &lt;S3: rsplit&gt; Fold07 &lt;tibble [5 x 2]&gt;
+#&gt;  8 &lt;S3: rsplit&gt; Fold08 &lt;tibble [5 x 2]&gt;
+#&gt;  9 &lt;S3: rsplit&gt; Fold09 &lt;tibble [5 x 2]&gt;
+#&gt; 10 &lt;S3: rsplit&gt; Fold10 &lt;tibble [5 x 2]&gt;</div><div class='input'>
 <span class='co'>## The dangers of outer bootstraps:</span>
 <span class='fu'>set.seed</span>(<span class='fl'>2222</span>)
 <span class='no'>bad_idea</span> <span class='kw'>&lt;-</span> <span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>,
