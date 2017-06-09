@@ -1,5 +1,8 @@
 
 
+[![Travis-CI Build Status](https://travis-ci.org/topepo/rsample.svg?branch=master)](https://travis-ci.org/topepo/rsample)
+[![Coverage Status](https://img.shields.io/codecov/c/github/topepo/rsample/master.svg)](https://codecov.io/github/topepo/rsample?branch=master)
+
 `rsample` contains a set of functions that can create different types of resamples and corresponding classes for their analysis. 
 The goal is to have a modular set of methods that can be used across different R packages for:
  
@@ -16,3 +19,31 @@ if (packageVersion("devtools") < 1.6) {
 }
 devtools::install_github("topepo/rsample")
 ```
+
+Note that resampled data sets created by `rsample` do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy. 
+
+For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:
+
+```r
+> library(rsample)
+> library(mlbench)
+> library(pryr)
+> 
+> data(LetterRecognition)
+> 
+> object_size(LetterRecognition)
+2.64 MB
+> 
+> set.seed(35222)
+> boots <- bootstraps(LetterRecognition, times = 50)
+> 
+> object_size(boots)
+6.67 MB
+> 
+> # Fold increase is <<< 50
+> object_size(boots)/object_size(object_size)
+5.67 kB
+```
+
+The memory usage for 50 boostrap samples is less than 6-fold more than the original data set. 
+
