@@ -5,9 +5,13 @@ rsplit <- function(data, in_id, out_id) {
   if (!is.data.frame(data) & !is.matrix(data))
     stop("`data` must be a data frame.", call. = FALSE)
   
-  if (!is.integer(in_id) | !is.integer(out_id) |
-      any(in_id < 1) | any(out_id < 1))
-    stop("`in_id and out_id` must be positive integer vectors.", call. = FALSE)
+  if (!is.integer(in_id) | any(in_id < 1))
+    stop("`in_id` must be a positive integer vector.", call. = FALSE)
+  
+  if(!all(is.na(out_id))) {
+    if (!is.integer(out_id) | any(out_id < 1))
+      stop("`out_id` must be a positive integer vector.", call. = FALSE)
+  }
   
   if (length(in_id) == 0)
     stop("At least one row should be selected for the analysis set.", 
@@ -25,7 +29,6 @@ rsplit <- function(data, in_id, out_id) {
 
 #' @export
 print.rsplit <- function(x, ...) {
-
   out_char <-
     if (all(is.na(x$out_id)))
       paste(length(complement(x)))
@@ -42,9 +45,14 @@ print.rsplit <- function(x, ...) {
 #' @export
 as.integer.rsplit <- function(x, data = "analysis", ...) {
   if (data == "analysis")
-    x$in_id
-  else
-    x$out_id
+    out <- x$in_id
+  else {
+    out <- if (all(is.na(x$out_id)))
+      complement(x$out_id)
+    else
+      x$out_id
+  }
+  out
 }
 
 
@@ -67,8 +75,9 @@ as.data.frame.rsplit <-
   if (!(data %in% c("analysis", "assessment")))
     stop("`data` should be either 'analysis' or 'assessment'.", 
          call. = FALSE)
+    
   out <- x$data[as.integer(x, data = data), , drop = FALSE]
-  if (!is.null(row.names) && length(row.names) == nrow(out)) 
+  if (!is.null(row.names) && length(row.names) == nrow(out))
     rownames(out) <- row.names
   out <- data.frame(out, check.names = !optional)
   out
