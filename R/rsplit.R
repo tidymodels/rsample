@@ -48,7 +48,7 @@ as.integer.rsplit <- function(x, data = "analysis", ...) {
     out <- x$in_id
   else {
     out <- if (all(is.na(x$out_id)))
-      complement(x$out_id)
+      complement(x)
     else
       x$out_id
   }
