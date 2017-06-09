@@ -49,6 +49,11 @@ mc_cv <- function(data, prop = 3/4, times = 25, strata = NULL, ...) {
               times = times, 
               strata = strata)
   
+  ## We remove the holdout indicies since it will save space and we can 
+  ## derive them later when they are needed. 
+  
+  split_objs$splits <- map(split_objs$splits, rm_out)
+  
   attr(split_objs, "prop") <- prop
   attr(split_objs, "times") <- times
   attr(split_objs, "strata") <- !is.null(strata)
