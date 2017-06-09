@@ -32,14 +32,8 @@ test_that('apparent', {
   res2 <-
     as.data.frame(rs2$splits[[nrow(sizes2)]], data = "assessment")
   expect_equal(res2, dat1)
-  expect_error(bootstraps(dat1, apparent = TRUE, oob = FALSE))
 })
 
-test_that('No OOB', {
-  rs3 <- bootstraps(dat1, oob = FALSE)
-  sizes3 <- rsample:::dim_rset(rs3)
-  expect_true(all(sizes3$assessment == 0))
-})
 
 test_that('strata', {
   iris2 <- iris[1:130, ]

@@ -4,8 +4,7 @@
 \alias{bootstraps}
 \title{Bootstrap Sampling}
 \usage{
-bootstraps(data, times = 25, strata = NULL, apparent = FALSE,
-  oob = TRUE, ...)
+bootstraps(data, times = 25, strata = NULL, apparent = FALSE, ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -15,8 +14,6 @@ bootstraps(data, times = 25, strata = NULL, apparent = FALSE,
 \item{strata}{A variable that is used to conduct stratified sampling. When not \code{NULL}, each bootstrap sample is created within the stratification variable.}
 
 \item{apparent}{A logical. Should an extra resample be added where the analysis and holdout subset are the entire data set. This is required for some estimators used by the \code{summary} function that require the apparent error rate.}
-
-\item{oob}{A logical. Should the out-of-bootstrap samples (aka "out-of-bag" aka "OOB") be retained? For traditional bootstrapping, these samples are not generally used.}
 
 \item{...}{Not currently used.}
 }
@@ -34,7 +31,6 @@ The \code{strata} argument is based on a similar argument in the random forest p
 \examples{
 bootstraps(mtcars, times = 2)
 bootstraps(mtcars, times = 2, apparent = TRUE)
-bootstraps(mtcars, times = 2, oob = FALSE)
 
 library(purrr)
 iris2 <- iris[1:130, ]

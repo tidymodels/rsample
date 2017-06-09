@@ -49,6 +49,16 @@ complement.rof_split <- function(x, ...) {
   }
 }
 
+#' @export
+complement.apparent_split <- function(x, ...) {
+  if (!all(is.na(x$out_id))) {
+    return(x$out_id)
+  } else {
+    1:nrow(x$data)
+  }
+}
+
+
 #' Add Assessment Indicies
 #' 
 #' Many \code{rsplit} and \code{rset} objects do not contain indicators for
