@@ -2,6 +2,9 @@
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+[![Travis-CI Build Status](https://travis-ci.org/topepo/rsample.svg?branch=master)](https://travis-ci.org/topepo/rsample)
+[![Coverage Status](https://img.shields.io/codecov/c/github/topepo/rsample/master.svg)](https://codecov.io/github/topepo/rsample?branch=master)
+
 `rsample` contains a set of functions that can create different types of resamples and corresponding classes for their analysis. 
 The goal is to have a modular set of methods that can be used across different R packages for:
  
