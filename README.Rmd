@@ -32,13 +32,16 @@ For example, creating 50 bootstraps of a data set does not create an object that
 > object_size(LetterRecognition)
 2.64 MB
 > 
+> set.seed(35222)
 > boots <- bootstraps(LetterRecognition, times = 50)
 > 
 > object_size(boots)
-8.14 MB
+6.67 MB
+> 
+> # Fold increase is <<< 50
 > object_size(boots)/object_size(object_size)
-6.92 kB
+5.67 kB
 ```
 
-The memory usage for 50 boostrap samples is roughly 7-fold more than the original data set. 
+The memory usage for 50 boostrap samples is less than 6-fold more than the original data set. 
 

@@ -141,12 +141,15 @@ devtools::install_github(&quot;topepo/rsample&quot;)</code></pre>
 &gt; object_size(LetterRecognition)
 2.64 MB
 &gt; 
+&gt; set.seed(35222)
 &gt; boots &lt;- bootstraps(LetterRecognition, times = 50)
 &gt; 
 &gt; object_size(boots)
-8.14 MB
+6.67 MB
+&gt; 
+&gt; # Fold increase is &lt;&lt;&lt; 50
 &gt; object_size(boots)/object_size(object_size)
-6.92 kB</code></pre>
+5.67 kB</code></pre>
 <p>The memory usage for 50 boostrap samples is roughly 7-fold more than the original data set.</p>
 
 
