@@ -175,14 +175,14 @@ lm_coefs_rec <- function(splits, rec, ...) {
   training_data <- as.data.frame(splits)
   
   # Estimate the parameters using these data
-  trained_rec <- learn(rec, training = training_data, verbose = FALSE)
+  trained_rec <- prepare(rec, training = training_data, verbose = FALSE)
   
   # Apply the transformations to the data set and convert to a matrix
-  design_matrix <- process(trained_rec, newdata = training_data, all_predictors())
+  design_matrix <- bake(trained_rec, newdata = training_data, all_predictors())
   design_matrix <- as.matrix(design_matrix)
   
   # Get the logged price values and fit the model using `lm.fit`
-  y <- process(trained_rec, newdata = training_data, all_outcomes())$price
+  y <- bake(trained_rec, newdata = training_data, all_outcomes())$price
   
   lm.fit(x = design_matrix, y = y, ...)
 }

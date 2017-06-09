@@ -249,14 +249,14 @@ rec</code></pre></div>
   training_data &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(splits)
   
   <span class="co"># Estimate the parameters using these data</span>
-  trained_rec &lt;-<span class="st"> </span><span class="kw">learn</span>(rec, <span class="dt">training =</span> training_data, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
+  trained_rec &lt;-<span class="st"> </span><span class="kw">prepare</span>(rec, <span class="dt">training =</span> training_data, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
   
   <span class="co"># Apply the transformations to the data set and convert to a matrix</span>
-  design_matrix &lt;-<span class="st"> </span><span class="kw">process</span>(trained_rec, <span class="dt">newdata =</span> training_data, <span class="kw">all_predictors</span>())
+  design_matrix &lt;-<span class="st"> </span><span class="kw">bake</span>(trained_rec, <span class="dt">newdata =</span> training_data, <span class="kw">all_predictors</span>())
   design_matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(design_matrix)
   
   <span class="co"># Get the logged price values and fit the model using `lm.fit`</span>
-  y &lt;-<span class="st"> </span><span class="kw">process</span>(trained_rec, <span class="dt">newdata =</span> training_data, <span class="kw">all_outcomes</span>())<span class="op">$</span>price
+  y &lt;-<span class="st"> </span><span class="kw">bake</span>(trained_rec, <span class="dt">newdata =</span> training_data, <span class="kw">all_outcomes</span>())<span class="op">$</span>price
   
   <span class="kw">lm.fit</span>(<span class="dt">x =</span> design_matrix, <span class="dt">y =</span> y, ...)
 }
@@ -288,7 +288,7 @@ bt_resamples</code></pre></div>
 <span class="kw">class</span>(first_resample)</code></pre></div>
 <pre><code>## [1] "rsplit"     "boot_split"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(first_resample)</code></pre></div>
-<pre><code>## # A tibble: 572 x 2
+<pre><code>## # A tibble: 573 x 2
 ##      Row     Data
 ##    &lt;int&gt;    &lt;chr&gt;
 ##  1     1 Analysis
@@ -301,12 +301,12 @@ bt_resamples</code></pre></div>
 ##  8    19 Analysis
 ##  9    20 Analysis
 ## 10    22 Analysis
-## # ... with 562 more rows</code></pre>
+## # ... with 563 more rows</code></pre>
 <p>and</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(bt_resamples)</code></pre></div>
 <pre><code>## [1] "bootstraps" "rset"       "tbl_df"     "tbl"        "data.frame"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(bt_resamples)</code></pre></div>
-<pre><code>## # A tibble: 1,177,948 x 3
+<pre><code>## # A tibble: 1,179,948 x 3
 ##      Row     Data      Resample
 ##    &lt;int&gt;    &lt;chr&gt;         &lt;chr&gt;
 ##  1     1 Analysis Bootstrap0001
@@ -319,7 +319,7 @@ bt_resamples</code></pre></div>
 ##  8     1 Analysis Bootstrap0015
 ##  9     1 Analysis Bootstrap0017
 ## 10     1 Analysis Bootstrap0018
-## # ... with 1,177,938 more rows</code></pre>
+## # ... with 1,179,938 more rows</code></pre>
 </div>
 </div>
   </div>
