@@ -66,7 +66,7 @@
   <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
 }
 devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"topepo/rsample"</span>)</code></pre></div>
-<p>Note that resampled data sets created by <code>rsample</code> do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
+<p>Note that resampled data sets created by <code>rsample</code> are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
 <p>For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(rsample)
 <span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(mlbench)
@@ -83,10 +83,14 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)
 <span class="fl">6.67</span> MB
 <span class="op">&gt;</span><span class="st"> </span>
+<span class="er">&gt;</span><span class="st"> </span><span class="co"># Object size per copy</span>
+<span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)<span class="op">/</span><span class="kw">nrow</span>(boots)
+<span class="dv">133</span> kB
+<span class="op">&gt;</span><span class="st"> </span>
 <span class="er">&gt;</span><span class="st"> </span><span class="co"># Fold increase is &lt;&lt;&lt; 50</span>
-<span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)<span class="op">/</span><span class="kw">object_size</span>(object_size)
-<span class="fl">5.67</span> kB</code></pre></div>
-<p>The memory usage for 50 boostrap samples is less than 6-fold more than the original data set.</p>
+<span class="er">&gt;</span><span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">object_size</span>(boots)<span class="op">/</span><span class="kw">object_size</span>(LetterRecognition))
+[<span class="dv">1</span>] <span class="fl">2.521415</span></code></pre></div>
+<p>The memory usage for 50 boostrap samples is less than 3-fold more than the original data set.</p>
 </div>
   </div>
 
