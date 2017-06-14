@@ -131,7 +131,7 @@ $(document).ready(function () {
   install.packages(&quot;devtools&quot;)
 }
 devtools::install_github(&quot;topepo/rsample&quot;)</code></pre>
-<p>Note that resampled data sets created by <code>rsample</code> do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
+<p>Note that resampled data sets created by <code>rsample</code> are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
 <p>For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:</p>
 <pre class="r"><code>&gt; library(rsample)
 &gt; library(mlbench)
@@ -148,10 +148,14 @@ devtools::install_github(&quot;topepo/rsample&quot;)</code></pre>
 &gt; object_size(boots)
 6.67 MB
 &gt; 
+&gt; # Object size per copy
+&gt; object_size(boots)/nrow(boots)
+133 kB
+&gt; 
 &gt; # Fold increase is &lt;&lt;&lt; 50
-&gt; object_size(boots)/object_size(object_size)
-5.67 kB</code></pre>
-<p>The memory usage for 50 boostrap samples is less than 6-fold more than the original data set.</p>
+&gt; as.numeric(object_size(boots)/object_size(LetterRecognition))
+[1] 2.521415</code></pre>
+<p>The memory usage for 50 boostrap samples is less than 3-fold more than the original data set.</p>
 
 
 
