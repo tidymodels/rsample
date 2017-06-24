@@ -2,10 +2,16 @@
 % Please edit documentation in R/rsplit.R
 \name{as.data.frame.rsplit}
 \alias{as.data.frame.rsplit}
+\alias{analysis}
+\alias{assessment}
 \title{Convert an \code{rsplit} object to a data frame}
 \usage{
 \method{as.data.frame}{rsplit}(x, row.names = NULL, optional = FALSE,
   data = "analysis", ...)
+
+analysis(x, ...)
+
+assessment(x, ...)
 }
 \arguments{
 \item{x}{An \code{rsplit} object.}
@@ -19,5 +25,8 @@
 \item{...}{Additional arguments to be passed to or from methods. Not currently used.}
 }
 \description{
-The analysis or assessment code can be returned as a data frame (as dictated by the \code{data} argument).
+The analysis or assessment code can be returned as a data
+  frame (as dictated by the \code{data} argument) using
+  \code{as.data.frame.rsplit}. \code{analysis} and 
+  \code{assessment} are shortcuts.
 }

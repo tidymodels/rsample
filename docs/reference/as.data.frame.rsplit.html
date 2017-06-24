@@ -78,12 +78,19 @@
     </div>
 
     
-    <p>The analysis or assessment code can be returned as a data frame (as dictated by the <code>data</code> argument).</p>
+    <p>The analysis or assessment code can be returned as a data
+  frame (as dictated by the <code>data</code> argument) using
+  <code>as.data.frame.rsplit</code>. <code>analysis</code> and 
+  <code>assessment</code> are shortcuts.</p>
     
 
     <pre class="usage"><span class='co'># S3 method for rsplit</span>
 <span class='fu'>as.data.frame</span>(<span class='no'>x</span>, <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>optional</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"analysis"</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"analysis"</span>, <span class='no'>...</span>)
+
+<span class='fu'>analysis</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='fu'>assessment</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
