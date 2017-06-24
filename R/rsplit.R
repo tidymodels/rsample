@@ -1,6 +1,3 @@
-## Add "analysis" and "assessment" classes that are shortcuts for 
-## `as.data.frame` method
-
 rsplit <- function(data, in_id, out_id) {
   if (!is.data.frame(data) & !is.matrix(data))
     stop("`data` must be a data frame.", call. = FALSE)
@@ -43,22 +40,27 @@ print.rsplit <- function(x, ...) {
 }
 
 #' @export
-as.integer.rsplit <- function(x, data = "analysis", ...) {
-  if (data == "analysis")
-    out <- x$in_id
-  else {
-    out <- if (all(is.na(x$out_id)))
-      complement(x)
-    else
-      x$out_id
+as.integer.rsplit <- 
+  function(x, data = c("analysis", "assessment"), ...) {
+    data <- match.arg(data)
+    if (data == "analysis")
+      out <- x$in_id
+    else {
+      out <- if (all(is.na(x$out_id)))
+        complement(x)
+      else
+        x$out_id
+    }
+    out
   }
-  out
-}
 
 
 #' Convert an \code{rsplit} object to a data frame
 #' 
-#' The analysis or assessment code can be returned as a data frame (as dictated by the \code{data} argument). 
+#' The analysis or assessment code can be returned as a data
+#'   frame (as dictated by the \code{data} argument) using
+#'   \code{as.data.frame.rsplit}. \code{analysis} and 
+#'   \code{assessment} are shortcuts. 
 #' @param x An \code{rsplit} object.
 #' @param row.names \code{NULL} or a character vector giving the row names for the data frame. Missing values are not allowed.
 #' @param optional A logical: should the column names of the data be checked for legality?
@@ -71,17 +73,21 @@ as.data.frame.rsplit <-
            optional = FALSE,
            data = "analysis",
            ...) {
-    
-  if (!(data %in% c("analysis", "assessment")))
-    stop("`data` should be either 'analysis' or 'assessment'.", 
-         call. = FALSE)
-    
-  out <- x$data[as.integer(x, data = data), , drop = FALSE]
+  out <- x$data[as.integer(x, data = data, ...), , drop = FALSE]
   if (!is.null(row.names) && length(row.names) == nrow(out))
     rownames(out) <- row.names
   out <- data.frame(out, check.names = !optional)
   out
 }
+
+#' @rdname as.data.frame.rsplit  
+#' @export
+analysis <- function(x, ...)
+  as.data.frame(x, data = "analysis", ...)
+#' @rdname as.data.frame.rsplit  
+#' @export
+assessment <- function(x, ...)
+  as.data.frame(x, data = "assessment", ...)
 
 #' @export
 dim.rsplit <- function(x, ...) {
