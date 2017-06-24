@@ -11,7 +11,7 @@ The goal is to have a modular set of methods that can be used across different R
  * traditional resampling techniques for estimating the sampling distribution of a statistic and
  * estimating model performance using a holdout set
  
-The scope of `rsample` is to provide the basic building blocks for creating and analyzing resamples of a data set but does not include code for modeling or calculating statistics. The "Examples" vignette gives demonstrations of how `rsample` tools can be used.  
+The scope of `rsample` is to provide the basic building blocks for creating and analyzing resamples of a data set but does not include code for modeling or calculating statistics. The "Working with Resample Sets" vignette gives demonstrations of how `rsample` tools can be used.  
 
 The package is still in development and is not yet on CRAN. To install it, use:
 ```{r install, eval = FALSE}
@@ -41,7 +41,7 @@ For example, creating 50 bootstraps of a data set does not create an object that
 > object_size(boots)
 6.67 MB
 > 
-> # Object size per copy
+> # Object size per resample
 > object_size(boots)/nrow(boots)
 133 kB
 > 

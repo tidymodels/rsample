@@ -60,7 +60,7 @@
 <li>traditional resampling techniques for estimating the sampling distribution of a statistic and</li>
 <li>estimating model performance using a holdout set</li>
 </ul>
-<p>The scope of <code>rsample</code> is to provide the basic building blocks for creating and analyzing resamples of a data set but does not include code for modeling or calculating statistics. The “Examples” vignette gives demonstrations of how <code>rsample</code> tools can be used.</p>
+<p>The scope of <code>rsample</code> is to provide the basic building blocks for creating and analyzing resamples of a data set but does not include code for modeling or calculating statistics. The “Working with Resample Sets” vignette gives demonstrations of how <code>rsample</code> tools can be used.</p>
 <p>The package is still in development and is not yet on CRAN. To install it, use:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="kw">packageVersion</span>(<span class="st">"devtools"</span>) <span class="op">&lt;</span><span class="st"> </span><span class="fl">1.6</span>) {
   <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
@@ -83,7 +83,7 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)
 <span class="fl">6.67</span> MB
 <span class="op">&gt;</span><span class="st"> </span>
-<span class="er">&gt;</span><span class="st"> </span><span class="co"># Object size per copy</span>
+<span class="er">&gt;</span><span class="st"> </span><span class="co"># Object size per resample</span>
 <span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)<span class="op">/</span><span class="kw">nrow</span>(boots)
 <span class="dv">133</span> kB
 <span class="op">&gt;</span><span class="st"> </span>
@@ -95,7 +95,14 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>License</h2>
+    <h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://topepo.github.io/rsample">https://​topepo.github.io/​rsample</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/topepo/rsample/issues">https://​github.com/​topepo/​rsample/​issues</a>
+</li>
+</ul>
+<h2>License</h2>
 <p><a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a></p>
 <h2>Developers</h2>
 <ul class="list-unstyled">

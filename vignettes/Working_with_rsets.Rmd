@@ -1,7 +1,17 @@
 
+```{r setup, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", 
+                      warning = FALSE, message = FALSE)
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+## Introduction  
+
 `rsample` can be used to create objects containing resamples of the original data. This page contains examples of how those objects can be used for data analysis. 
 
-For illustration, the `Sacramento` housing data is used to demonstrate. From the `caret` package:
+For illustration, the `Sacramento` housing data is used. From the `caret` package:
 
 > This data frame contains house and sale price data for 932 homes in Sacramento CA. The original data were obtained from the website for the SpatialKey software. From their website: "The Sacramento real estate transactions file is a list of 985 real estate transactions in the Sacramento area reported over a five-day period, as reported by the Sacramento Bee." Google was used to fill in missing/incorrect data.
 
@@ -12,9 +22,7 @@ library(caret)
 data(Sacramento)
 str(Sacramento)
 ```
-```{r setup, include=FALSE}
-theme_set(theme_bw())
-```
+
 ## Model Assessment
 
 Let's fit a linear regression model to the data with model terms for the number of bedrooms, the number of bathrooms, the square footage, and the type of house ('Condo', 'Multi_Family', or 'Residential'). 
@@ -46,9 +54,9 @@ library(broom)
 ## splits will be the `rsplit` object with the 90/10 partition
 holdout_resids <- function(splits, ...) {
   # Fit the model to the 90%
-  mod <- lm(..., data = as.data.frame(splits))
+  mod <- lm(..., data = analysis(splits))
   # Save the 10%
-  holdout <- as.data.frame(splits, "assessment")
+  holdout <- assessment(splits)
   # `augment` will save the predictions with the holdout data set
   res <- broom::augment(mod, newdata = holdout)
   # Calculate the residuals
@@ -97,21 +105,21 @@ ggplot(Sacramento, aes(x = type, y = price)) +
   scale_y_log10()
 ```
 
-If we wanted to compare the residential and multi-family properties, we could conduct a _t_-test on the logarithm of the sale prices. Instead, let's use the bootstrap to see if there is a difference in the average sale prices for the two groups in the regular dollar units. We need a simple function to compute this statistic on the resample:
+If we wanted to compare the residential and multi-family properties, we could conduct a _t_-test on the logarithm of the sale prices. Instead, let's use the bootstrap to see if there is a difference in the median sale prices for the two groups in the regular dollar units. We need a simple function to compute this statistic on the resample:
 
 ```{r mean_diff}
 mean_diff <- function(splits) {
-  x <- as.data.frame(splits)
-  mean(x$price[x$type == "Residential"]) - 
-      mean(x$price[x$type == "Multi_Family"])     
+  x <- analysis(splits)
+  median(x$price[x$type == "Residential"]) - 
+      median(x$price[x$type == "Multi_Family"])     
 }
 ```
 
-Now we can create a large number of bootstrap samples. We won't need the assessment set, so the option `oob = FALSE` is used to skip computing and storing these data sets. 
+Now we would create a large number of bootstrap samples (say 2000+). For illustration, we'll only do 200 in this document. 
 
 ```{r boot_mean_diff}
 set.seed(353)
-bt_resamples <- bootstraps(Sacramento, times = 2000, oob = FALSE)
+bt_resamples <- bootstraps(Sacramento, times = 200)
 ```
 
 This function is then computed across each resample:
@@ -125,7 +133,7 @@ The bootstrap distribution of this statistic looks fairly well-behaved:
 ```{r stats_plot}
 ggplot(bt_resamples, aes(x = statistic)) + 
   geom_line(stat = "density", adjust = 1.25) + 
-  xlab("Mean(Residential) - Mean(Multi_Family)")
+  xlab("median(Residential) - median(Multi_Family)")
 ```
 
 The variation is considerable in this statistic. One method of computing a confidence interval is to take the percentiles of the bootstrap distribution. A 95% confidence interval for the difference in the means would be:
@@ -138,13 +146,21 @@ _On average_, there is no evidence for a difference in the sale prices in these 
 
 ## Bootstrap Estimates of Model Coefficients
 
+Unless there is already a column in the resample object that contains the fitted model, a function can be used to fit the model and save all of the model coefficients. As before, `purrr::map` can be used to estimate and save these values for each split. 
+
 ```{r coefs}
 lm_coefs <- function(splits, ...) {
-  mod <- lm(..., data = as.data.frame(splits))
+  ## use `analysis` or `as.data.frame` to get the analysis data
+  mod <- lm(..., data = analysis(splits))
   as.data.frame(t(coef(mod)))
 }
-bt_resamples$betas <- map(bt_resamples$splits, lm_coefs, log(price) ~ beds + baths + sqft + type)
+bt_resamples$betas <- map(.x = bt_resamples$splits, 
+                          .f = lm_coefs, 
+                          log(price) ~ beds + baths + sqft + type)
+bt_resamples
+bt_resamples$betas[[1]]
 ```
+Note the sign of the coefficient for the number of bedroom is negative. This is not an error. 
 
 ## Using recipes
 
@@ -154,8 +170,11 @@ To define the design matrix, an initial recipe is created:
 ```{r initial_rec, message=FALSE}
 library(recipes)
 
-rec <- recipe(price ~ beds + baths + sqft + type + city, data = Sacramento) %>%
+rec <- recipe(price ~ beds + baths + sqft + type + city, 
+              data = Sacramento) %>%
+  ## Collapse rarely occurring cities into "other"
   step_other(city, threshold = 0.1) %>%
+  ## Dummy variables on the qualitative predictors 
   step_dummy(type, city) %>%
   step_log(price) %>%
   step_center(all_predictors()) %>%
@@ -164,25 +183,25 @@ rec
 ```
 This recreates the work that the formula method traditionally uses with the additional steps that center and scale the predictors. `step_other` finds infrequently occurring cites and collapses them into a factor level called "other" to avoid columns that have all zeros for their dummy variables.
 
-While the original data object `Sacramento` is used in the call, it is only used to define the variables and their characteristics so a single recipe is valid across all resampled verisons of the data. The recipe can be estimated on the analysis component of the resample. 
+While the original data object `Sacramento` is used in the call, it is only used to define the variables and their characteristics so a single recipe is valid across all resampled versions of the data. The recipe can be estimated on the analysis component of the resample. 
 
 A function to fit the linear models using a recipe would then be:
 
 ```{r recipe_fit}
 lm_coefs_rec <- function(splits, rec, ...) {
+
+  # Estimate the parameters using the analysis data
+  trained_rec <- prepare(rec, training = analysis(splits), 
+                         retain = TRUE,
+                         verbose = FALSE)
   
-  # Get the analysis data set from the resample
-  training_data <- as.data.frame(splits)
-  
-  # Estimate the parameters using these data
-  trained_rec <- prepare(rec, training = training_data, verbose = FALSE)
-  
-  # Apply the transformations to the data set and convert to a matrix
-  design_matrix <- bake(trained_rec, newdata = training_data, all_predictors())
+  # Apply the transformations to the data set, save the 
+  # predictor values, and convert to a matrix
+  design_matrix <- extract(trained_rec, all_predictors())
   design_matrix <- as.matrix(design_matrix)
   
   # Get the logged price values and fit the model using `lm.fit`
-  y <- bake(trained_rec, newdata = training_data, all_outcomes())$price
+  y <- extract(trained_rec, all_outcomes())$price
   
   lm.fit(x = design_matrix, y = y, ...)
 }
@@ -208,5 +227,3 @@ and
 class(bt_resamples)
 tidy(bt_resamples)
 ```
-
-

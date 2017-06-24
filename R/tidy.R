@@ -34,7 +34,8 @@
 #'   
 #' dat <- data.frame(day = 1:30)
 #' # Resample by week instead of day
-#' ts_cv <- rolling_origin(dat, initial = 7, assess = 7, skip = 6, cumulative = FALSE)
+#' ts_cv <- rolling_origin(dat, initial = 7, assess = 7, 
+#'                         skip = 6, cumulative = FALSE)
 #' ts_cv <- tidy(ts_cv)
 #' ggplot(ts_cv, aes(x = Resample, y = factor(Row), fill = Data)) +
 #'   geom_tile() + scale_fill_brewer()

@@ -13,10 +13,14 @@ reference:
       - nested_cv
   - title: Utilities
     contents:
+      - as.data.frame.rsplit
       - starts_with("tidy")
       - make_strata
       - complement
       - fill
+  - title: Data
+    contents:
+      - attrition    
 
 navbar:
   left:
