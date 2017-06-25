@@ -1,6 +1,6 @@
 template:
   params:
-    bootswatch: readable
+    bootswatch: united
 
 reference:
   - title: Resampling Methods
