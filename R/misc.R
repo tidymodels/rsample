@@ -33,3 +33,12 @@ add_class <- function(x, cls, at_end = TRUE) {
   x
 }
 
+strata_check <- function(strata, vars) {
+  if (!is.null(strata)) {
+    if (!is.character(strata) | length(strata) != 1)
+      stop("`strata` should be a single character value", call. = FALSE)
+    if (!(strata %in% vars))
+      stop(strata, " is not in `data`")
+  }  
+  invisible(NULL)
+}

@@ -43,12 +43,7 @@ bootstraps <-
            apparent = FALSE,
            ...) {
     
-  if (!is.null(strata)) {
-    if (!is.character(strata) | length(strata) != 1)
-      stop("`strata` should be a single character value", call. = FALSE)
-    if (!(strata %in% names(data)))
-      stop(strata, " is not in `data`")
-  }    
+  strata_check(strata, names(data))  
 
   split_objs <-
     boot_splits(

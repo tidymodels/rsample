@@ -36,12 +36,7 @@
 #' @export
 mc_cv <- function(data, prop = 3/4, times = 25, strata = NULL, ...) {
   
-  if (!is.null(strata)) {
-    if(!is.character(strata) | length(strata) != 1)
-      stop("`strata` should be a single character value", call. = FALSE)
-    if(!(strata %in% names(data)))
-      stop(strata, " is not in `data`")
-  }
+  strata_check(strata, names(data))
   
   split_objs <-
     mc_splits(data = data,

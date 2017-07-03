@@ -39,12 +39,7 @@
 #' @export
 vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, ...) {
   
-  if (!is.null(strata)) {
-    if(!is.character(strata) | length(strata) != 1)
-      stop("`strata` should be a single character value", call. = FALSE)
-    if(!(strata %in% names(data)))
-      stop(strata, " is not in `data`")
-  }
+  strata_check(strata, names(data))
   
   if (repeats == 1) {
     split_objs <- vfold_splits(data = data, v = v, strata = strata)
