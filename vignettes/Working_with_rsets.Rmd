@@ -196,7 +196,8 @@ bt_resamples$betas[[1]]
 The [`recipes`](https://topepo.github.io/recipes/) package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide. 
 
 To define the design matrix, an initial recipe is created: 
-```{r initial_rec, message=FALSE}
+
+```r
 library(recipes)
 
 rec <- recipe(Attrition ~ Age + Gender + JobRole + JobSatisfaction + MonthlyIncome, 
@@ -209,14 +210,30 @@ rec <- recipe(Attrition ~ Age + Gender + JobRole + JobSatisfaction + MonthlyInco
   step_center(all_predictors()) %>%
   step_scale(all_predictors()) 
 rec
+#> Data Recipe
+#> 
+#> Inputs:
+#> 
+#>       role #variables
+#>    outcome          1
+#>  predictor          5
+#> 
+#> Steps:
+#> 
+#> Collapsing factor levels for JobRole
+#> Dummy variables from JobRole, Gender
+#> Log transformation on MonthlyIncome
+#> Centering for all_predictors()
+#> Scaling for all_predictors()
 ```
 This recreates the work that the formula method traditionally uses with the additional steps that center and scale the predictors. `step_other` finds infrequently occurring job roles and collapses them into a factor level called "other" to avoid columns that have all zeros for their dummy variables.
 
-While the original data object `attrition ` is used in the call, it is only used to define the variables and their characteristics so a single recipe is valid across all resampled versions of the data. The recipe can be estimated on the analysis component of the resample. 
+While the original data object `attrition` is used in the call, it is only used to define the variables and their characteristics so a single recipe is valid across all resampled versions of the data. The recipe can be estimated on the analysis component of the resample. 
 
 A function to fit the logistic regression models using a recipe would then be:
 
-```{r recipe_fit}
+
+```r
 glm_coefs_rec <- function(splits, rec, ...) {
 
   # Estimate the parameters using the analysis data
@@ -237,6 +254,21 @@ glm_coefs_rec <- function(splits, rec, ...) {
 
 bt_resamples$fits <- map(bt_resamples$splits, glm_coefs_rec, rec = rec)
 bt_resamples
+#> # Bootstrap sampling with 500 resamples 
+#> # A tibble: 500 x 5
+#>          splits           id statistic                betas        fits
+#>          <list>        <chr>     <dbl>               <list>      <list>
+#>  1 <S3: rsplit> Bootstrap001      80.0 <data.frame [1 x 4]> <list [20]>
+#>  2 <S3: rsplit> Bootstrap002      68.5 <data.frame [1 x 4]> <list [20]>
+#>  3 <S3: rsplit> Bootstrap003      20.0 <data.frame [1 x 4]> <list [20]>
+#>  4 <S3: rsplit> Bootstrap004     177.0 <data.frame [1 x 4]> <list [20]>
+#>  5 <S3: rsplit> Bootstrap005      18.0 <data.frame [1 x 4]> <list [20]>
+#>  6 <S3: rsplit> Bootstrap006     594.5 <data.frame [1 x 4]> <list [20]>
+#>  7 <S3: rsplit> Bootstrap007     137.0 <data.frame [1 x 4]> <list [20]>
+#>  8 <S3: rsplit> Bootstrap008      55.0 <data.frame [1 x 4]> <list [20]>
+#>  9 <S3: rsplit> Bootstrap009      32.5 <data.frame [1 x 4]> <list [20]>
+#> 10 <S3: rsplit> Bootstrap010     451.0 <data.frame [1 x 4]> <list [20]>
+#> # ... with 490 more rows
 ```
 From these objects, we can extract the coefficients, fit statistics, and other values.
 
