@@ -1,7 +1,21 @@
+---
+title: "Basics"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Basics}
+output:
+  knitr:::html_vignette:
+    toc: yes
+---
 
-```{r setup, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", warning = FALSE)
-options(tibble.print_min = 4L, tibble.print_max = 4L)
+```{r ex_setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  digits = 3,
+  collapse = TRUE,
+  comment = "#>"
+  )
+options(digits = 3)
 ```
 
 ## Terminology
