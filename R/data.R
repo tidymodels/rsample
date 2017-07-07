@@ -9,15 +9,6 @@
 #'  fictional data set created by IBM data scientists.}. There
 #'  are 1470 rows.
 #'
-#'  Several of the variables (\code{Education},
-#'  \code{EnvironmentSatisfaction}, \code{JobInvolvement},
-#'  \code{JobSatisfaction}, \code{PerformanceRating},
-#'  \code{RelationshipSatisfaction}, and \code{WorkLifeBalance})
-#'  are integer scores for ordinal values. These data have been
-#'  kept in the original format. Consult the website listed
-#'  below to obtain the translation between the integers and
-#'  the values that they represent (e.g. low, medium, high, etc.).
-#'
 #' @name attrition
 #' @aliases attrition
 #' @docType data
