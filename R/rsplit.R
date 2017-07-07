@@ -73,11 +73,16 @@ as.data.frame.rsplit <-
            optional = FALSE,
            data = "analysis",
            ...) {
-  out <- x$data[as.integer(x, data = data, ...), , drop = FALSE]
-  if (!is.null(row.names) && length(row.names) == nrow(out))
-    rownames(out) <- row.names
-  out <- data.frame(out, check.names = !optional)
-  out
+    
+  if (!is.null(row.names))
+    warning( "`row.names` is kept for consistency with the ",
+             "underlying class but non-NULL values will be ", 
+             "ignored.", call. = FALSE)
+  if (optional)
+    warning( "`optional` is kept for consistency with the ",
+             "underlying class but TRUE values will be ", 
+             "ignored.", call. = FALSE)
+  x$data[as.integer(x, data = data, ...), , drop = FALSE]
 }
 
 #' @rdname as.data.frame.rsplit  
@@ -99,7 +104,7 @@ dim.rsplit <- function(x, ...) {
   )
 }
 
-## Where is this used?
+
 #' #' @importFrom tibble obj_sum
 #' #' @method obj_sum rsplit
 #' #' @export
