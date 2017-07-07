@@ -105,17 +105,21 @@ dim.rsplit <- function(x, ...) {
 }
 
 
-#' #' @importFrom tibble obj_sum
-#' #' @method obj_sum rsplit
-#' #' @export
-#' obj_sum.rsplit <- function(x, ...) {
-#'   dims <- dim(x)
-#'   paste0(
-#'     "rsplit [", 
-#'     paste0(big_mark(dim(tt)[-4]), collapse="/"), 
-#'     " x ", 
-#'     big_mark(dims["p"]), "]")
-#' }
+#' @importFrom tibble obj_sum
+#' @method obj_sum rsplit
+#' @export
+obj_sum.rsplit <- function(x, ...) {
+  out_char <-
+    if (all(is.na(x$out_id)))
+      paste(length(complement(x)))
+  else
+    paste(length(x$out_id))
+  
+  paste0("rsplit [",
+         length(x$in_id), "/",
+         out_char, "/",
+         nrow(x$data), "]")
+}
 
 
 

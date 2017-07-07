@@ -65,7 +65,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="kw">packageVersion</span>(<span class="st">"devtools"</span>) <span class="op">&lt;</span><span class="st"> </span><span class="fl">1.6</span>) {
   <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
 }
-devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"topepo/rsample"</span>)</code></pre></div>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"topepo/rsample"</span>)</code></pre></div>
 <p>Note that resampled data sets created by <code>rsample</code> are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
 <p>For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(rsample)
@@ -95,7 +95,8 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Links</h2>
+    <h2 class="hasAnchor">
+<a href="#sidebar" class="anchor"></a>Links</h2>
 <ul class="list-unstyled">
 <li>Browse source code at <br><a href="https://topepo.github.io/rsample">https://​topepo.github.io/​rsample</a>
 </li>

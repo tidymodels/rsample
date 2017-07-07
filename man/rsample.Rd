@@ -13,7 +13,7 @@
 \section{Terminology}{
 
 \itemize{
- \item A \bold{resample} is a result of a two-way split of a
+ \item A \bold{resample} is the result of a two-way split of a
  data set. For example, when bootstrapping, one part of the
  resample is a sample with replacement of the original data.
  The other part of the split contains the instances that were
