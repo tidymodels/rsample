@@ -62,16 +62,12 @@ vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, ...) {
   
   ## Save some overall information
   
-  attr(split_objs, "v") <- v
-  attr(split_objs, "repeats") <- repeats
-  attr(split_objs, "strata") <- !is.null(strata)
-  
-  split_objs <-
-    add_class(split_objs,
-              cls = c("vfold_cv", "rset"),
-              at_end = FALSE)
+  cv_att <- list(v = v, repeats = repeats, strata = !is.null(strata))
 
-  split_objs
+  new_rset(splits = split_objs$splits, 
+           ids = split_objs[, grepl("^id", names(split_objs))],
+           attrib = cv_att, 
+           subclass = c("vfold_cv", "rset")) 
 }
 
 # Get the indices of the analysis set from the assessment set

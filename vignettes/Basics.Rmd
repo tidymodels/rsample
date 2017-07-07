@@ -20,7 +20,7 @@ options(digits = 3)
 
 ## Terminology
 
-We define a _resample_ as a result of a two-way split of a data set. For example, when bootstrapping, one part of the resample is a sample with replacement of the original data. The other part of the split contains the instances that were not contained in the bootstrap sample. Cross-validation is another type of resampling. 
+We define a _resample_ is a result of a two-way split of a data set. For example, when bootstrapping, one part of the resample is a sample with replacement of the original data. The other part of the split contains the instances that were not contained in the bootstrap sample. Cross-validation is another type of resampling. 
 
 ## `rset` Objects Contain Many Resamples
 

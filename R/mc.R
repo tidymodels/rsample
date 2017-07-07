@@ -49,16 +49,14 @@ mc_cv <- function(data, prop = 3/4, times = 25, strata = NULL, ...) {
   
   split_objs$splits <- map(split_objs$splits, rm_out)
   
-  attr(split_objs, "prop") <- prop
-  attr(split_objs, "times") <- times
-  attr(split_objs, "strata") <- !is.null(strata)
+  mc_att <- list(prop = prop, 
+                 times = times, 
+                 strata = !is.null(strata))
   
-  split_objs <-
-    add_class(split_objs,
-              cls = c("mc_cv", "rset"),
-              at_end = FALSE)
-  
-  split_objs
+  new_rset(splits = split_objs$splits, 
+           ids = split_objs$id, 
+           attrib = mc_att, 
+           subclass = c("mc_cv", "rset")) 
 }
 
 # Get the indices of the analysis set from the assessment set
@@ -87,8 +85,8 @@ mc_splits <- function(data, prop = 3/4, times = 25, strata = NULL) {
   indices <- lapply(indices, mc_complement, n = n)
   split_objs <-
     purrr::map(indices, make_splits, data = data, class = "mc_split")
-  tibble::tibble(splits = split_objs,
-                 id = names0(length(split_objs), "Resample"))
+  list(splits = split_objs,
+       id = names0(length(split_objs), "Resample"))
 }
 
 #' @importFrom purrr map map_df

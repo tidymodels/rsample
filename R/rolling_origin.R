@@ -19,7 +19,8 @@
 #' dim(rolling_origin(ex_data, skip = 2))
 #' dim(rolling_origin(ex_data, skip = 2, cumulative = FALSE))
 #' @export
-rolling_origin <- function(data, initial = 5, assess = 1, cumulative = TRUE, skip = 0, ...) {
+rolling_origin <- function(data, initial = 5, assess = 1, 
+                           cumulative = TRUE, skip = 0, ...) {
   n <- nrow(data)
   
   if (n <= initial + assess)
@@ -40,20 +41,18 @@ rolling_origin <- function(data, initial = 5, assess = 1, cumulative = TRUE, ski
   indices <- mapply(merge_lists, in_ind, out_ind, SIMPLIFY = FALSE)
   split_objs <-
     purrr::map(indices, make_splits, data = data, class = "rof_split")
-  split_objs <- tibble::tibble(splits = split_objs,
-                               id = names0(length(split_objs), "Slice"))
-  
-  attr(split_objs, "initial") <- initial
-  attr(split_objs, "assess") <- assess
-  attr(split_objs, "cumulative") <- cumulative
-  attr(split_objs, "skip") <- skip
-  
-  split_objs <-
-    add_class(split_objs,
-              cls = c("rolling_origin", "rset"),
-              at_end = FALSE)
+  split_objs <- list(splits = split_objs,
+                     id = names0(length(split_objs), "Slice"))
 
-  split_objs
+  roll_att <- list(initial = initial, 
+                   assess = assess, 
+                   cumulative = cumulative,
+                   skip = skip)
+  
+  new_rset(splits = split_objs$splits, 
+           ids = split_objs$id, 
+           attrib = roll_att, 
+           subclass = c("rolling_origin", "rset"))
 }
 
 #' @export

@@ -42,3 +42,53 @@ strata_check <- function(strata, vars) {
   }  
   invisible(NULL)
 }
+
+#' @importFrom tibble is_tibble as_tibble tibble
+#' @importFrom dplyr bind_cols
+# `splits`` should be either a list or a tibble with a single column
+#  called "splits"
+# `ids`` should be either a character vector or a tibble with 
+#  one or more columns that begin with "id" 
+new_rset <-  function(splits, ids, attrib = NULL, 
+                      subclass = character()) {
+  stopifnot(is.list(splits))
+  if (!is_tibble(ids)) {
+    ids <- tibble(id = ids)
+  } else {
+    if (!all(grepl("^id", names(ids))))
+      stop("The `ids` tibble column names should start with 'id'",
+           call. = FALSE)
+  }
+  either_type <- function(x)
+    is.character(x) | is.factor(x)
+  ch_check <- vapply(ids, either_type, c(logical = TRUE))
+  if(!all(ch_check))
+    stop("All ID columns should be character or factor ",
+         "vectors.", call. = FALSE)
+  
+  if (!is_tibble(splits)) {
+    splits <- tibble(splits = splits)
+  } else {
+    if(ncol(splits) > 1 | names(splits)[1] != "splits")
+      stop("The `splits` tibble should have a single column ", 
+           "named `splits`.", call. = FALSE)
+  }
+
+  if (nrow(ids) != nrow(splits))
+    stop("Split and ID vectors have different lengths.",
+         call. = FALSE)  
+  res <- bind_cols(splits, ids)
+  
+  if (!is.null(attrib)) {
+    if (any(names(attrib) == ""))
+      stop("`attrib` should be a fully named list.",
+           call. = FALSE)
+    for (i in names(attrib))
+      attr(res, i) <- attrib[[i]]
+  }
+  
+  if (length(subclass) > 0)
+    res <- add_class(res, cls = subclass, at_end = FALSE)
+  
+  res
+}

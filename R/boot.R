@@ -53,17 +53,16 @@ bootstraps <-
     )
   if(apparent)
     split_objs <- bind_rows(split_objs, apparent(data))
+
+  boot_att <- list(times = times, 
+                   apparent = apparent, 
+                   strata = !is.null(strata))
   
-  attr(split_objs, "times") <- times
-  attr(split_objs, "strata") <- !is.null(strata)
-  attr(split_objs, "apparent") <- apparent
-  
-  split_objs <-
-    add_class(split_objs,
-              cls = c("bootstraps", "rset"),
-              at_end = FALSE)
-  
-  split_objs
+  new_rset(splits = split_objs$splits, 
+           ids = split_objs$id,
+           attrib = boot_att, 
+           subclass = c("bootstraps", "rset")) 
+
 }
 
 # Get the indices of the analysis set from the analysis set (= bootstrap sample)
@@ -101,10 +100,8 @@ boot_splits <-
   
   split_objs <-
     purrr::map(indices, make_splits, data = data, class = "boot_split")
-  out <- tibble::tibble(splits = split_objs,
-                        id = names0(length(split_objs), "Bootstrap"))
-  out
-  
+  list(splits = split_objs,
+       id = names0(length(split_objs), "Bootstrap"))
 }
 
 #' @export
