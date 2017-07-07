@@ -37,16 +37,6 @@ test_that('as.data.frame', {
   rs4 <- rsample:::rsplit(dat1, rep(1:2, each = 3), rep(4:5, c(2, 1)))
   expect_equal(as.data.frame(rs4), dat1[c(1, 1, 1, 2, 2, 2),])
   expect_equal(as.data.frame(rs4, data = "assessment"), dat1[c(4, 4, 5),])  
-  
-  rs5 <- rsample:::rsplit(dat2, 1:2, 4:5)
-  expect_equal(as.data.frame(rs5), dat1[1:2,])
-  exp_rs5 <- dat1[4:5,]
-  rownames(exp_rs5) <- 1:2
-  expect_equal(as.data.frame(rs5, data = "assessment"), exp_rs5)  
-  res5 <- as.data.frame(rs5, data = "assessment", 
-                        row.names = paste(1:2))
-  rownames(exp_rs5) <- paste(1:2)
-  expect_equal(res5, exp_rs5)  
 })
 
 
