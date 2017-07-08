@@ -1,4 +1,4 @@
-# `rsample` 0.0.0.9000
+# `rsample` 0.0.1
 
-Initial public version on [github](https://github.com/topepo/rsample/).
+Initial public version on CRAN
 

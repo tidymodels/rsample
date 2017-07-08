@@ -4,6 +4,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 [![Travis-CI Build Status](https://travis-ci.org/topepo/rsample.svg?branch=master)](https://travis-ci.org/topepo/rsample)
 [![Coverage Status](https://img.shields.io/codecov/c/github/topepo/rsample/master.svg)](https://codecov.io/github/topepo/rsample?branch=master)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsample)](http://cran.r-project.org/web/packages/rsample)
+[![Downloads](http://cranlogs.r-pkg.org/badges/rsample)](http://cran.rstudio.com/package=rsample)
 
 `rsample` contains a set of functions that can create different types of resamples and corresponding classes for their analysis. 
 The goal is to have a modular set of methods that can be used across different R packages for:
@@ -13,8 +15,11 @@ The goal is to have a modular set of methods that can be used across different R
  
 The scope of `rsample` is to provide the basic building blocks for creating and analyzing resamples of a data set but does not include code for modeling or calculating statistics. The "Working with Resample Sets" vignette gives demonstrations of how `rsample` tools can be used.  
 
-The package is still in development and is not yet on CRAN. To install it, use:
+To install it, use:
 ```{r install, eval = FALSE}
+install.packages("rsample")
+
+## For the devel version:
 if (packageVersion("devtools") < 1.6) {
   install.packages("devtools")
 }
