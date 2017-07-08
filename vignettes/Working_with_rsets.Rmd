@@ -202,11 +202,12 @@ library(recipes)
 
 rec <- recipe(Attrition ~ Age + Gender + JobRole + JobSatisfaction + MonthlyIncome, 
               data = attrition) %>%
-  ## Collapse rarely occurring cities into "other"
+  ## Collapse rarely occurring jobs into "other"
   step_other(JobRole, threshold = 0.1) %>%
   ## Dummy variables on the qualitative predictors 
   step_dummy(JobRole, Gender) %>%
-  step_log(MonthlyIncome) %>%
+  ## Unskew a predictor
+  step_BoxCox(MonthlyIncome) %>%
   step_center(all_predictors()) %>%
   step_scale(all_predictors()) 
 rec
@@ -222,7 +223,7 @@ rec
 #> 
 #> Collapsing factor levels for JobRole
 #> Dummy variables from JobRole, Gender
-#> Log transformation on MonthlyIncome
+#> Box-Cox transformation on MonthlyIncome
 #> Centering for all_predictors()
 #> Scaling for all_predictors()
 ```

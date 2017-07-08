@@ -23,8 +23,7 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -137,14 +136,14 @@
 
 <span class='fu'>set.seed</span>(<span class='fl'>13</span>)
 <span class='no'>resample1</span> <span class='kw'>&lt;-</span> <span class='fu'>bootstraps</span>(<span class='no'>iris2</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='fu'><a href='http://www.rdocumentation.org/packages/purrr/topics/map'>map_dbl</a></span>(<span class='no'>resample1</span>$<span class='no'>splits</span>,
+<span class='fu'>map_dbl</span>(<span class='no'>resample1</span>$<span class='no'>splits</span>,
         <span class='kw'>function</span>(<span class='no'>x</span>) {
           <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>as.data.frame</span>(<span class='no'>x</span>)$<span class='no'>Species</span>
           <span class='fu'>mean</span>(<span class='no'>dat</span> <span class='kw'>==</span> <span class='st'>"virginica"</span>)
         })</div><div class='output co'>#&gt; [1] 0.2000000 0.2461538 0.2230769</div><div class='input'>
 <span class='fu'>set.seed</span>(<span class='fl'>13</span>)
 <span class='no'>resample2</span> <span class='kw'>&lt;-</span> <span class='fu'>bootstraps</span>(<span class='no'>iris2</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='st'>"Species"</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='fu'><a href='http://www.rdocumentation.org/packages/purrr/topics/map'>map_dbl</a></span>(<span class='no'>resample2</span>$<span class='no'>splits</span>,
+<span class='fu'>map_dbl</span>(<span class='no'>resample2</span>$<span class='no'>splits</span>,
         <span class='kw'>function</span>(<span class='no'>x</span>) {
           <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'>as.data.frame</span>(<span class='no'>x</span>)$<span class='no'>Species</span>
           <span class='fu'>mean</span>(<span class='no'>dat</span> <span class='kw'>==</span> <span class='st'>"virginica"</span>)
