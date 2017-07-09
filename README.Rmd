@@ -20,10 +20,8 @@ To install it, use:
 install.packages("rsample")
 
 ## For the devel version:
-if (packageVersion("devtools") < 1.6) {
-  install.packages("devtools")
-}
-devtools::install_github("topepo/rsample")
+require(devtools)
+install_github("topepo/rsample")
 ```
 
 Note that resampled data sets created by `rsample` are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy. 

@@ -78,13 +78,13 @@
 <span class="co">#&gt; [13] "JobLevel"                 "JobRole"                 </span>
 <span class="co">#&gt; [15] "JobSatisfaction"          "MaritalStatus"           </span>
 <span class="co">#&gt; [17] "MonthlyIncome"            "MonthlyRate"             </span>
-<span class="co">#&gt; [19] "NumCompaniesWorked"       "Over18"                  </span>
-<span class="co">#&gt; [21] "OverTime"                 "PercentSalaryHike"       </span>
-<span class="co">#&gt; [23] "PerformanceRating"        "RelationshipSatisfaction"</span>
-<span class="co">#&gt; [25] "StockOptionLevel"         "TotalWorkingYears"       </span>
-<span class="co">#&gt; [27] "TrainingTimesLastYear"    "WorkLifeBalance"         </span>
-<span class="co">#&gt; [29] "YearsAtCompany"           "YearsInCurrentRole"      </span>
-<span class="co">#&gt; [31] "YearsSinceLastPromotion"  "YearsWithCurrManager"</span>
+<span class="co">#&gt; [19] "NumCompaniesWorked"       "OverTime"                </span>
+<span class="co">#&gt; [21] "PercentSalaryHike"        "PerformanceRating"       </span>
+<span class="co">#&gt; [23] "RelationshipSatisfaction" "StockOptionLevel"        </span>
+<span class="co">#&gt; [25] "TotalWorkingYears"        "TrainingTimesLastYear"   </span>
+<span class="co">#&gt; [27] "WorkLifeBalance"          "YearsAtCompany"          </span>
+<span class="co">#&gt; [29] "YearsInCurrentRole"       "YearsSinceLastPromotion" </span>
+<span class="co">#&gt; [31] "YearsWithCurrManager"</span>
 <span class="kw">table</span>(attrition<span class="op">$</span>Attrition)
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   No  Yes </span>
@@ -148,22 +148,22 @@ holdout_results &lt;-<span class="st"> </span><span class="cf">function</span>(s
 <p>For example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">example &lt;-<span class="st"> </span><span class="kw">holdout_results</span>(rs_obj<span class="op">$</span>splits[[<span class="dv">1</span>]],  mod_form)
 <span class="kw">dim</span>(example)
-<span class="co">#&gt; [1] 147  36</span>
+<span class="co">#&gt; [1] 147  35</span>
 <span class="kw">dim</span>(<span class="kw"><a href="../reference/as.data.frame.rsplit.html">assessment</a></span>(rs_obj<span class="op">$</span>splits[[<span class="dv">1</span>]]))
-<span class="co">#&gt; [1] 147  32</span>
+<span class="co">#&gt; [1] 147  31</span>
 ## newly added columns:
 example[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="kw">setdiff</span>(<span class="kw">names</span>(example), <span class="kw">names</span>(attrition))]
 <span class="co">#&gt;    .rownames .fitted .se.fit correct</span>
-<span class="co">#&gt; 1          7  -1.204   0.110    TRUE</span>
-<span class="co">#&gt; 2         14  -1.077   0.119    TRUE</span>
-<span class="co">#&gt; 3         32  -3.419   0.338    TRUE</span>
-<span class="co">#&gt; 4         54  -0.906   0.172    TRUE</span>
-<span class="co">#&gt; 5         72  -1.841   0.163    TRUE</span>
-<span class="co">#&gt; 6         74  -1.647   0.171    TRUE</span>
-<span class="co">#&gt; 7         76  -1.977   0.140    TRUE</span>
-<span class="co">#&gt; 8        138  -1.682   0.128    TRUE</span>
-<span class="co">#&gt; 9        142  -1.719   0.103   FALSE</span>
-<span class="co">#&gt; 10       147  -1.759   0.105   FALSE</span></code></pre></div>
+<span class="co">#&gt; 1          7  -1.282   0.182    TRUE</span>
+<span class="co">#&gt; 2         14  -1.156   0.187    TRUE</span>
+<span class="co">#&gt; 3         32  -3.247   0.353    TRUE</span>
+<span class="co">#&gt; 4         54  -0.934   0.193    TRUE</span>
+<span class="co">#&gt; 5         72  -1.970   0.193    TRUE</span>
+<span class="co">#&gt; 6         74  -1.672   0.188    TRUE</span>
+<span class="co">#&gt; 7         76  -2.103   0.171    TRUE</span>
+<span class="co">#&gt; 8        138  -1.510   0.165    TRUE</span>
+<span class="co">#&gt; 9        142  -1.543   0.149   FALSE</span>
+<span class="co">#&gt; 10       147  -1.583   0.150   FALSE</span></code></pre></div>
 <p>For this model, the <code>.fitted</code> value is the linear predictor in log-odds units.</p>
 <p>To compute this data set for each of the 100 resamples, we’ll use the <code>map</code> function from the <code>purrr</code> package:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(purrr)
@@ -175,16 +175,16 @@ rs_obj
 <span class="co">#&gt; # A tibble: 100 x 4</span>
 <span class="co">#&gt;          splits       id    id2                 results</span>
 <span class="co">#&gt;          &lt;list&gt;    &lt;chr&gt;  &lt;chr&gt;                  &lt;list&gt;</span>
-<span class="co">#&gt;  1 &lt;S3: rsplit&gt; Repeat01 Fold01 &lt;data.frame [147 x 36]&gt;</span>
-<span class="co">#&gt;  2 &lt;S3: rsplit&gt; Repeat01 Fold02 &lt;data.frame [147 x 36]&gt;</span>
-<span class="co">#&gt;  3 &lt;S3: rsplit&gt; Repeat01 Fold03 &lt;data.frame [147 x 36]&gt;</span>
-<span class="co">#&gt;  4 &lt;S3: rsplit&gt; Repeat01 Fold04 &lt;data.frame [147 x 36]&gt;</span>
-<span class="co">#&gt;  5 &lt;S3: rsplit&gt; Repeat01 Fold05 &lt;data.frame [147 x 36]&gt;</span>
-<span class="co">#&gt;  6 &lt;S3: rsplit&gt; Repeat01 Fold06 &lt;data.frame [147 x 36]&gt;</span>
-<span class="co">#&gt;  7 &lt;S3: rsplit&gt; Repeat01 Fold07 &lt;data.frame [147 x 36]&gt;</span>
-<span class="co">#&gt;  8 &lt;S3: rsplit&gt; Repeat01 Fold08 &lt;data.frame [147 x 36]&gt;</span>
-<span class="co">#&gt;  9 &lt;S3: rsplit&gt; Repeat01 Fold09 &lt;data.frame [147 x 36]&gt;</span>
-<span class="co">#&gt; 10 &lt;S3: rsplit&gt; Repeat01 Fold10 &lt;data.frame [147 x 36]&gt;</span>
+<span class="co">#&gt;  1 &lt;S3: rsplit&gt; Repeat01 Fold01 &lt;data.frame [147 x 35]&gt;</span>
+<span class="co">#&gt;  2 &lt;S3: rsplit&gt; Repeat01 Fold02 &lt;data.frame [147 x 35]&gt;</span>
+<span class="co">#&gt;  3 &lt;S3: rsplit&gt; Repeat01 Fold03 &lt;data.frame [147 x 35]&gt;</span>
+<span class="co">#&gt;  4 &lt;S3: rsplit&gt; Repeat01 Fold04 &lt;data.frame [147 x 35]&gt;</span>
+<span class="co">#&gt;  5 &lt;S3: rsplit&gt; Repeat01 Fold05 &lt;data.frame [147 x 35]&gt;</span>
+<span class="co">#&gt;  6 &lt;S3: rsplit&gt; Repeat01 Fold06 &lt;data.frame [147 x 35]&gt;</span>
+<span class="co">#&gt;  7 &lt;S3: rsplit&gt; Repeat01 Fold07 &lt;data.frame [147 x 35]&gt;</span>
+<span class="co">#&gt;  8 &lt;S3: rsplit&gt; Repeat01 Fold08 &lt;data.frame [147 x 35]&gt;</span>
+<span class="co">#&gt;  9 &lt;S3: rsplit&gt; Repeat01 Fold09 &lt;data.frame [147 x 35]&gt;</span>
+<span class="co">#&gt; 10 &lt;S3: rsplit&gt; Repeat01 Fold10 &lt;data.frame [147 x 35]&gt;</span>
 <span class="co">#&gt; # ... with 90 more rows</span></code></pre></div>
 <p>Now we can compute the accuracy values for all of the assessment data sets:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rs_obj<span class="op">$</span>accuracy &lt;-<span class="st"> </span><span class="kw">map_dbl</span>(rs_obj<span class="op">$</span>results, <span class="cf">function</span>(x) <span class="kw">mean</span>(x<span class="op">$</span>correct))
@@ -242,20 +242,22 @@ bt_resamples
 <span class="co">#&gt; # A tibble: 500 x 4</span>
 <span class="co">#&gt;          splits           id statistic                betas</span>
 <span class="co">#&gt;          &lt;list&gt;        &lt;chr&gt;     &lt;dbl&gt;               &lt;list&gt;</span>
-<span class="co">#&gt;  1 &lt;S3: rsplit&gt; Bootstrap001      80.0 &lt;data.frame [1 x 4]&gt;</span>
-<span class="co">#&gt;  2 &lt;S3: rsplit&gt; Bootstrap002      68.5 &lt;data.frame [1 x 4]&gt;</span>
-<span class="co">#&gt;  3 &lt;S3: rsplit&gt; Bootstrap003      20.0 &lt;data.frame [1 x 4]&gt;</span>
-<span class="co">#&gt;  4 &lt;S3: rsplit&gt; Bootstrap004     177.0 &lt;data.frame [1 x 4]&gt;</span>
-<span class="co">#&gt;  5 &lt;S3: rsplit&gt; Bootstrap005      18.0 &lt;data.frame [1 x 4]&gt;</span>
-<span class="co">#&gt;  6 &lt;S3: rsplit&gt; Bootstrap006     594.5 &lt;data.frame [1 x 4]&gt;</span>
-<span class="co">#&gt;  7 &lt;S3: rsplit&gt; Bootstrap007     137.0 &lt;data.frame [1 x 4]&gt;</span>
-<span class="co">#&gt;  8 &lt;S3: rsplit&gt; Bootstrap008      55.0 &lt;data.frame [1 x 4]&gt;</span>
-<span class="co">#&gt;  9 &lt;S3: rsplit&gt; Bootstrap009      32.5 &lt;data.frame [1 x 4]&gt;</span>
-<span class="co">#&gt; 10 &lt;S3: rsplit&gt; Bootstrap010     451.0 &lt;data.frame [1 x 4]&gt;</span>
+<span class="co">#&gt;  1 &lt;S3: rsplit&gt; Bootstrap001      80.0 &lt;data.frame [1 x 6]&gt;</span>
+<span class="co">#&gt;  2 &lt;S3: rsplit&gt; Bootstrap002      68.5 &lt;data.frame [1 x 6]&gt;</span>
+<span class="co">#&gt;  3 &lt;S3: rsplit&gt; Bootstrap003      20.0 &lt;data.frame [1 x 6]&gt;</span>
+<span class="co">#&gt;  4 &lt;S3: rsplit&gt; Bootstrap004     177.0 &lt;data.frame [1 x 6]&gt;</span>
+<span class="co">#&gt;  5 &lt;S3: rsplit&gt; Bootstrap005      18.0 &lt;data.frame [1 x 6]&gt;</span>
+<span class="co">#&gt;  6 &lt;S3: rsplit&gt; Bootstrap006     594.5 &lt;data.frame [1 x 6]&gt;</span>
+<span class="co">#&gt;  7 &lt;S3: rsplit&gt; Bootstrap007     137.0 &lt;data.frame [1 x 6]&gt;</span>
+<span class="co">#&gt;  8 &lt;S3: rsplit&gt; Bootstrap008      55.0 &lt;data.frame [1 x 6]&gt;</span>
+<span class="co">#&gt;  9 &lt;S3: rsplit&gt; Bootstrap009      32.5 &lt;data.frame [1 x 6]&gt;</span>
+<span class="co">#&gt; 10 &lt;S3: rsplit&gt; Bootstrap010     451.0 &lt;data.frame [1 x 6]&gt;</span>
 <span class="co">#&gt; # ... with 490 more rows</span>
 bt_resamples<span class="op">$</span>betas[[<span class="dv">1</span>]]
-<span class="co">#&gt;   (Intercept) JobSatisfaction GenderMale MonthlyIncome</span>
-<span class="co">#&gt; 1      -0.474          -0.136      0.193     -0.000136</span></code></pre></div>
+<span class="co">#&gt;   (Intercept) JobSatisfaction.L JobSatisfaction.Q JobSatisfaction.C</span>
+<span class="co">#&gt; 1      -0.828            -0.297            0.0979            -0.259</span>
+<span class="co">#&gt;   GenderMale MonthlyIncome</span>
+<span class="co">#&gt; 1      0.175     -0.000135</span></code></pre></div>
 </div>
 <div id="using-recipes" class="section level2">
 <h2 class="hasAnchor">

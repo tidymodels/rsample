@@ -65,10 +65,8 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"rsample"</span>)
 
 ## For the devel version:
-<span class="cf">if</span> (<span class="kw">packageVersion</span>(<span class="st">"devtools"</span>) <span class="op">&lt;</span><span class="st"> </span><span class="fl">1.6</span>) {
-  <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
-}
-devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"topepo/rsample"</span>)</code></pre></div>
+<span class="kw">require</span>(devtools)
+<span class="kw">install_github</span>(<span class="st">"topepo/rsample"</span>)</code></pre></div>
 <p>Note that resampled data sets created by <code>rsample</code> are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
 <p>For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(rsample)
