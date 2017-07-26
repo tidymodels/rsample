@@ -238,9 +238,9 @@ A function to fit the logistic regression models using a recipe would then be:
 glm_coefs_rec <- function(splits, rec, ...) {
 
   # Estimate the parameters using the analysis data
-  trained_rec <- prepare(rec, training = analysis(splits), 
-                         retain = TRUE,
-                         verbose = FALSE)
+  trained_rec <- prep(rec, training = analysis(splits), 
+                      retain = TRUE,
+                      verbose = FALSE)
   
   # Apply the transformations to the data set, save the 
   # predictor values, and convert to a matrix
