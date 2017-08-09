@@ -5,6 +5,7 @@ template:
 reference:
   - title: Resampling Methods
     contents:
+      - initial_split
       - bootstraps
       - vfold_cv
       - loo_cv
