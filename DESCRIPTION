@@ -9,7 +9,7 @@ Maintainer: Max Kuhn <max@rstudio.com>
 Description: Classes and functions to create and summarize different types of resampling objects (e.g. bootstrap, cross-validation). 
 Imports: dplyr, purrr, tibble, rlang, tidyr, methods
 Depends: R (>= 3.3.3), broom
-Suggests: ggplot2, testthat, rmarkdown, knitr
+Suggests: ggplot2, testthat, rmarkdown, knitr, recipes
 URL: https://topepo.github.io/rsample
 BugReports: https://github.com/topepo/rsample/issues
 License: GPL-2
