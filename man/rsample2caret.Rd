@@ -10,7 +10,7 @@ rsample2caret(object, data = c("analysis", "assessment"))
 caret2rsample(ctrl, data = NULL)
 }
 \arguments{
-\item{object}{An \code{\link{rset}} object. Currently,
+\item{object}{An \code{rset} object. Currently,
 \code{nested_cv} is not supported.}
 
 \item{data}{The data that was originally used to produce the
@@ -25,7 +25,7 @@ integers. One method of getting this is to extract the
 \code{rsample2caret} returns a list that mimics the
  \code{index} and \code{indexOut} elements of a
  \code{trainControl} object. \code{caret2rsample} returns an
- \code{\link{rset}} object of the appropriate class.
+ \code{rset} object of the appropriate class.
 }
 \description{
 These functions can convert resampling objects between

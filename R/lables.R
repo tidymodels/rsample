@@ -1,22 +1,23 @@
 #' Find Labels from rset Object
 #'
 #' Produce a vector of resampling labels (e.g. "Fold1") from
-#'  an \code{\link{rset}} object. Currently, \code{nested_cv}
+#'  an \code{rset} object. Currently, \code{nested_cv}
 #'  is not supported.
-#'  
-#' @param object An \code{\link{rset}} object
+#'
+#' @param object An \code{rset} object
 #' @param make_factor A logical for whether the results should be
-#'  character or a factor. 
-#' @return A single character or factor vector. 
+#'  character or a factor.
+#' @param ... Not currently used.
+#' @return A single character or factor vector.
 #' @export
-#' @examples 
+#' @examples
 #' labels(vfold_cv(mtcars))
 labels.rset <- function(object, make_factor = FALSE, ...) {
   if(inherits(object, "nested_cv"))
-    stop("`labels` not implemented for nested resampling", 
+    stop("`labels` not implemented for nested resampling",
          call. = FALSE)
   if (make_factor)
-    as.factor(out) else
+    as.factor(object$id) else
       as.character(object$id)
 }
 
@@ -24,7 +25,7 @@ labels.rset <- function(object, make_factor = FALSE, ...) {
 #' @export
 labels.vfold_cv <- function(object, make_factor = FALSE, ...) {
   if(inherits(object, "nested_cv"))
-    stop("`labels` not implemented for nested resampling", 
+    stop("`labels` not implemented for nested resampling",
          call. = FALSE)
   is_repeated <- attr(object, "repeats") > 1
   if (is_repeated) {

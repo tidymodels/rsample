@@ -1,14 +1,14 @@
 #' Convert Resampling Objects to Other Formats
-#' 
+#'
 #' These functions can convert resampling objects between
 #'  \pkg{rsample} and \pkg{caret}.
-#' 
-#' @param object An \code{\link{rset}} object. Currently,
+#'
+#' @param object An \code{rset} object. Currently,
 #'  \code{nested_cv} is not supported.
 #' @return \code{rsample2caret} returns a list that mimics the
 #'  \code{index} and \code{indexOut} elements of a
 #'  \code{trainControl} object. \code{caret2rsample} returns an
-#'  \code{\link{rset}} object of the appropriate class.
+#'  \code{rset} object of the appropriate class.
 #' @export
 #' @importFrom purrr map
 rsample2caret <- function(object, data = c("analysis", "assessment")) {
@@ -18,7 +18,7 @@ rsample2caret <- function(object, data = c("analysis", "assessment")) {
   in_ind <- purrr::map(object$splits, as.integer, data = "analysis")
   names(in_ind) <- labels(object)
   out_ind <- purrr::map(object$splits, as.integer, data = "assessment")
-  names(out_ind) <- names(in_ind) 
+  names(out_ind) <- names(in_ind)
   list(index = in_ind, indexOut = out_ind)
 }
 
@@ -31,7 +31,7 @@ rsample2caret <- function(object, data = c("analysis", "assessment")) {
 #'  \code{ctrl} object.
 #' @importFrom purrr map map2
 #' @importFrom tibble tibble
-#' @importFrom dplyr bind_cols 
+#' @importFrom dplyr bind_cols
 #' @export
 caret2rsample <- function(ctrl, data = NULL) {
   if (is.null(data))
@@ -44,7 +44,7 @@ caret2rsample <- function(ctrl, data = NULL) {
     stop("`ctrl$index` should be populated with integers", call. = FALSE)
   if (is.null(ctrl$indexOut))
     stop("`ctrl$indexOut` should be populated with integers", call. = FALSE)
-  
+
   indices <- purrr::map2(ctrl$index, ctrl$indexOut, extract_int)
   id_data <- names(indices)
   indices <- unname(indices)
@@ -65,16 +65,16 @@ caret2rsample <- function(ctrl, data = NULL) {
   }
   out <- dplyr::bind_cols(indices, id_data)
   attrib <- map_attr(ctrl)
-  for (i in names(attrib)) 
+  for (i in names(attrib))
     attr(out, i) <- attrib[[i]]
   out <- add_rset_class(out, map_rset_method(ctrl$method))
   out
 }
 
-extract_int <- function(x, y) 
+extract_int <- function(x, y)
   list(in_id = x, out_id = y)
 
-add_data <- function(x, y) 
+add_data <- function(x, y)
   c(list(data = y), x)
 
 add_rsplit_class <- function(x, cl) {
@@ -127,7 +127,7 @@ map_rset_method <- function(method) {
 map_attr <- function(object) {
   if (grepl("cv$", object$method)) {
     out <- list(v = object$number,
-                repeats = ifelse(!is.na(object$repeats), 
+                repeats = ifelse(!is.na(object$repeats),
                              object$repeats, 1),
                 strata = TRUE)
   } else if (grepl("boot", object$method)) {

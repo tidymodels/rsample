@@ -10,17 +10,19 @@
 \method{labels}{vfold_cv}(object, make_factor = FALSE, ...)
 }
 \arguments{
-\item{object}{An \code{\link{rset}} object}
+\item{object}{An \code{rset} object}
 
 \item{make_factor}{A logical for whether the results should be
 character or a factor.}
+
+\item{...}{Not currently used.}
 }
 \value{
 A single character or factor vector.
 }
 \description{
 Produce a vector of resampling labels (e.g. "Fold1") from
- an \code{\link{rset}} object. Currently, \code{nested_cv}
+ an \code{rset} object. Currently, \code{nested_cv}
  is not supported.
 }
 \examples{
