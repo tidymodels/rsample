@@ -2,7 +2,8 @@
 #'
 #' \code{all.vars} returns all variables used in a formula. This
 #'  function only returns the variables explicitly used on the
-#'  right-hand side (i.e., it will not resolve dots).
+#'  right-hand side (i.e., it will not resolve dots unless the
+#'  object is terms with a data set specified).
 #' @param object A model formula or \code{\link[stats]{terms}}
 #'  object.
 #' @param ... Arguments to pass to \code{\link{all.vars}}
