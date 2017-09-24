@@ -1,5 +1,8 @@
 
 
+
+<img src="rsample_hex_thumb.png" title="hex sticker thumb" alt="rsample" style="display: block; margin: auto;" />
+
 [![Travis-CI Build Status](https://travis-ci.org/topepo/rsample.svg?branch=master)](https://travis-ci.org/topepo/rsample)
 [![Coverage Status](https://img.shields.io/codecov/c/github/topepo/rsample/master.svg)](https://codecov.io/github/topepo/rsample?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsample)](http://cran.r-project.org/web/packages/rsample)
