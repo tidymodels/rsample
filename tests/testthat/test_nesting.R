@@ -52,3 +52,12 @@ test_that('bad args', {
               inside = folds)
   )  
 })
+
+
+
+test_that('printing', {
+  rs1 <- nested_cv(mtcars[1:30,],
+                   outside = vfold_cv(v = 10),
+                   inside = vfold_cv(v = 3))
+  expect_output(print(rs1))
+})

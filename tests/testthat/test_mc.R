@@ -71,3 +71,8 @@ test_that('bad args', {
   expect_error(mc_cv(iris, strata = 2))  
   expect_error(mc_cv(iris, strata = c("Species", "Species")))  
 })
+
+
+test_that('printing', {
+  expect_output(print(mc_cv(iris)))
+})

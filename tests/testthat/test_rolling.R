@@ -75,3 +75,6 @@ test_that('skipping', {
   
 })
 
+test_that('printing', {
+  expect_output(print(rolling_origin(dat1)))
+})

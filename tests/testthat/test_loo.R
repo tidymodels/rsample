@@ -24,3 +24,7 @@ test_that('Loooooo', {
       length(x$in_id) == (nrow(dat1) - 1))  
   expect_true(all(retained))  
 })
+
+test_that('printing', {
+  expect_output(print(loo_cv(dat1)))
+})

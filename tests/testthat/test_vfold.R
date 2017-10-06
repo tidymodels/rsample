@@ -72,5 +72,7 @@ test_that('bad args', {
   expect_error(vfold_cv(iris, strata = c("Species", "Species")))  
 })
 
-
+test_that('printing', {
+  expect_output(print(vfold_cv(mtcars)))
+})
 

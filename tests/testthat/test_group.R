@@ -85,55 +85,8 @@ test_that('tibble input', {
 })
 
 
-
-test_that('repeated', {
-  set.seed(11)
-  rs2 <- group_vfold_cv(dat1, repeats = 4)
-  sizes2 <- rsample:::dim_rset(rs2)
-  
-  expect_true(all(sizes2$analysis == 18))
-  expect_true(all(sizes2$assessment == 2))  
-  same_data <-
-    map_lgl(rs2$splits, function(x)
-      all.equal(x$data, dat1))
-  expect_true(all(same_data))
-  
-  good_holdout <- map_lgl(rs2$splits,
-                          function(x) {
-                            length(intersect(x$in_ind, x$out_id)) == 0
-                          })
-  expect_true(all(good_holdout))
+test_that('printing', {
+  expect_output(print(group_vfold_cv(iris, "Species")))
 })
-
-test_that('strata', {
-  iris2 <- iris[1:130, ]
-  set.seed(11)
-  rs3 <- group_vfold_cv(iris2, repeats = 2, strata = "Species")
-  sizes3 <- rsample:::dim_rset(rs3)
-  
-  expect_true(all(sizes3$analysis == 117))
-  expect_true(all(sizes3$assessment == 13))  
-
-  rate <- map_dbl(rs3$splits,
-                  function(x) {
-                    dat <- as.data.frame(x)$Species
-                    mean(dat == "virginica")
-                  })
-  expect_true(length(unique(rate)) == 1)
-  
-  good_holdout <- map_lgl(rs3$splits,
-                          function(x) {
-                            length(intersect(x$in_ind, x$out_id)) == 0
-                          })
-  expect_true(all(good_holdout))
-})
-
-
-test_that('bad args', {
-  expect_error(vfold(iris, strata = iris$Species))
-  expect_error(vfold(iris, strata = 2))  
-  expect_error(vfold(iris, strata = c("Species", "Species")))  
-})
-
 
 

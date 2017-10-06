@@ -76,4 +76,7 @@ test_that('bad args', {
 })
 
 
+test_that('printing', {
+  expect_output(print(bootstraps(iris)))
+})
 
