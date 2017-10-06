@@ -18,7 +18,8 @@ A character vector of names
 \description{
 \code{all.vars} returns all variables used in a formula. This
  function only returns the variables explicitly used on the
- right-hand side (i.e., it will not resolve dots).
+ right-hand side (i.e., it will not resolve dots unless the
+ object is terms with a data set specified).
 }
 \examples{
 form_pred(y ~ x + z)
