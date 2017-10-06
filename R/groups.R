@@ -67,7 +67,7 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
 
 #' @importFrom dplyr %>%
 group_vfold_splits <- function(data, group, v = NULL) {
-  uni_groups <- unique(data[, group])
+  uni_groups <- unique(getElement(data, group))
   max_v <- length(uni_groups)
   
   if (is.null(v)) {
@@ -76,7 +76,7 @@ group_vfold_splits <- function(data, group, v = NULL) {
     if (v > max_v)
       stop("`v` should be less than ", max_v, call. = FALSE)
   }
-  data_ind <- data.frame(..index = 1:nrow(data), ..group = data[, group])
+  data_ind <- data.frame(..index = 1:nrow(data), ..group = getElement(data, group))
   keys <- data.frame(..group = uni_groups)
   
   n <- nrow(keys)
