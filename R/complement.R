@@ -32,6 +32,8 @@ complement.mc_split  <- complement.vfold_split
 #' @export
 complement.loo_split <- complement.vfold_split
 #' @export
+complement.group_vfold_split <- complement.vfold_split
+#' @export
 complement.boot_split <- function(x, ...) {
   if (!all(is.na(x$out_id))) {
     return(x$out_id)

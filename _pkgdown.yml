@@ -10,6 +10,7 @@ reference:
       - vfold_cv
       - loo_cv
       - mc_cv
+      - group_vfold_cv
       - rolling_origin
       - nested_cv
       - apparent
