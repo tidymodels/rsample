@@ -67,9 +67,9 @@ test_that('strata', {
 
 
 test_that('bad args', {
-  expect_error(vfold(iris, strata = iris$Species))
-  expect_error(vfold(iris, strata = 2))  
-  expect_error(vfold(iris, strata = c("Species", "Species")))  
+  expect_error(vfold_cv(iris, strata = iris$Species))
+  expect_error(vfold_cv(iris, strata = 2))  
+  expect_error(vfold_cv(iris, strata = c("Species", "Species")))  
 })
 
 
