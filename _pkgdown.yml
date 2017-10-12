@@ -22,6 +22,7 @@ reference:
       - complement
       - fill
       - form_pred
+      - prepper
   - title: Data
     contents:
       - attrition    
@@ -32,6 +33,8 @@ navbar:
     href: articles/Basics.html   
   - text: Working with Resample Sets
     href: articles/Working_with_rsets.html     
+  - text: Recipes and rsample
+    href: articles/Recipes_and_rsample.html       
   - text: Reference
     href: reference/index.html
 

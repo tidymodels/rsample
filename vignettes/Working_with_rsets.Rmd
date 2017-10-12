@@ -191,61 +191,6 @@ bt_resamples
 bt_resamples$betas[[1]]
 ```
 
-## Using recipes
-
-The [`recipes`](https://topepo.github.io/recipes/) package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide. 
-
-To define the design matrix, an initial recipe is created: 
-
-```{r rec_setup}
-library(recipes)
-
-rec <- recipe(Attrition ~ Age + Gender + JobRole + JobSatisfaction + MonthlyIncome, 
-              data = attrition) %>%
-  ## Collapse rarely occurring jobs into "other"
-  step_other(JobRole, threshold = 0.1) %>%
-  ## Dummy variables on the qualitative _predictors_ 
-  step_dummy(all_nominal(), -all_outcomes()) %>%
-  ## Unskew a predictor
-  step_BoxCox(MonthlyIncome) %>%
-  ## Normalize
-  step_center(all_predictors()) %>%
-  step_scale(all_predictors()) 
-rec
-```
-This recreates the work that the formula method traditionally uses with the additional steps that center and scale the predictors. `step_other` finds infrequently occurring job roles and collapses them into a factor level called "other" to avoid columns that have all zeros for their dummy variables.
-
-While the original data object `attrition` is used in the call, it is only used to define the variables and their characteristics so a single recipe is valid across all resampled versions of the data. The recipe can be estimated on the analysis component of the resample. 
-
-A function to fit the logistic regression models using a recipe would then be:
-
-```{r rec_fit}
-glm_coefs_rec <- function(splits, rec, ...) {
-
-  # Estimate the parameters using the analysis data
-  trained_rec <- prep(rec, training = analysis(splits), 
-                      retain = TRUE,
-                      verbose = FALSE)
-  
-  # Apply the transformations to the data set, save the 
-  # predictor values, and convert to a matrix
-  design_matrix <- juice(trained_rec, all_predictors())
-  design_matrix <- as.matrix(design_matrix)
-  
-  # Get the outcome values and fit the model using `lm.fit`
-  y <- juice(trained_rec, Attrition)
-  # Convert a one column tible to a vector
-  y <- getElement(y, "Attrition")
-  
-  mod <- glm.fit(x = design_matrix, y = y, family = binomial(), ...)
-  as.data.frame(t(mod$coefficients))
-}
-
-bt_resamples$rec_betas <- map(bt_resamples$splits, glm_coefs_rec, rec = rec)
-bt_resamples
-```
-Note that the size of the coefficients differs from resample-to-resample. This is due to `step_other` collapsing the factor levels. There is some variation in the data from resampling so different models have different number of job roles that are specifically modeled.  
-
 ## Keeping Tidy
 
 As previously mentioned, the [`broom` package](https://cran.r-project.org/package=broom) contains a class called `tidy` that created representations of objects that can be easily used for analysis, plotting, etc. `rsample` contains `tidy` methods for `rset` and `rsplit` objects. For example: 
