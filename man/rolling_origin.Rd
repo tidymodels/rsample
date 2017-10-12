@@ -27,7 +27,7 @@ An tibble with classes \code{rolling_origin}, \code{rset}, \code{tbl_df}, \code{
 This resampling method is useful when the data set has a strong time component. The resamples are not random and contain data points that are consecutive values. The function assumes that the original data set are sorted in time order.
 }
 \details{
-The main options, \code{initial} and \code{assess}, control the number of data points from the original data that are in the analysis and assessment set, respectively. When \code{cumulative = TRUE}, the analysis set will grow as resampling continues while the assessment set size will always remain static. 
+The main options, \code{initial} and \code{assess}, control the number of data points from the original data that are in the analysis and assessment set, respectively. When \code{cumulative = TRUE}, the analysis set will grow as resampling continues while the assessment set size will always remain static.
 \code{skip} enables the function to not use every data point in the resamples. When \code{skip = 0}, the resampling data sets will increment by one position. Suppose that the rows of a data set are consecutive days. Using \code{skip = 6} will make the analysis data set operate on \emph{weeks} instead of days. The assessment set size is not affected by this option.
 }
 \examples{

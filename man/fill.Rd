@@ -16,8 +16,8 @@ An object of the same time with the integer indicies.
 }
 \description{
 Many \code{rsplit} and \code{rset} objects do not contain indicators for
-  the assessment samples. \code{fill} can be used to populate the slot
-  for the appropriate indices.
+the assessment samples. \code{fill} can be used to populate the slot
+for the appropriate indices.
 }
 \examples{
 set.seed(28432)

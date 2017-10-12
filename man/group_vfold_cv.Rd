@@ -20,17 +20,17 @@ in the group.}
 }
 \value{
 An tibble with classes \code{group_vfold_cv},
- \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}.
- The results include a column for the data split objects and an
- identification variable.
+\code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}.
+The results include a column for the data split objects and an
+identification variable.
 }
 \description{
 Group V-fold cross-validation creates splits of the data based
- on some grouping variable (which may have more than a single row
- associated with it). The function can create as many splits as
- there are unique values of the grouping variable or it can
- create a smaller set of splits where more than one value is left
- out at a time.
+on some grouping variable (which may have more than a single row
+associated with it). The function can create as many splits as
+there are unique values of the grouping variable or it can
+create a smaller set of splits where more than one value is left
+out at a time.
 }
 \examples{
 set.seed(3527)

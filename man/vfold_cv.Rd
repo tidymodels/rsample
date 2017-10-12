@@ -24,7 +24,7 @@ An tibble with classes \code{vfold_cv}, \code{rset}, \code{tbl_df}, \code{tbl}, 
 V-fold cross-validation randomly splits the data into V groups of roughly equal size (called "folds"). A resample of the analysis data consisted of V-1 of the folds while the assessment set contains the final fold. In basic V-fold cross-validation (i.e. no repeats), the number of resamples is equal to V.
 }
 \details{
-The \code{strata} argument causes the random sampling to be conducted \emph{within the stratification variable}. The can help ensure that the number of data points in the analysis data is equivalent to the proportions in the original data set.  
+The \code{strata} argument causes the random sampling to be conducted \emph{within the stratification variable}. The can help ensure that the number of data points in the analysis data is equivalent to the proportions in the original data set.
 
 When more than one repeat is requested, the basic V-fold cross-validation is conducted each time. For example, if three repeats are used with \code{v = 10}, there are a total of 30 splits which as three groups of 10 that are generated separately.
 }

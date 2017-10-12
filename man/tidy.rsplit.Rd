@@ -29,9 +29,9 @@ A tibble with columns  \code{Row} and  \code{Data}. The latter has possible valu
 The \code{tidy} function from the  \pkg{broom} package can be used on  \code{rset} and  \code{rsplit} objects to generate tibbles with which rows are in the analysis and assessment sets.
 }
 \details{
-Note that for nested resampling, the rows of the inner resample, 
-  named \code{inner_Row}, are \emph{relative} row indices and do not
-  correspond to the rows in the original data set.
+Note that for nested resampling, the rows of the inner resample,
+named \code{inner_Row}, are \emph{relative} row indices and do not
+correspond to the rows in the original data set.
 }
 \examples{
 library(ggplot2)

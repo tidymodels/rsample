@@ -3,12 +3,12 @@
 #' These functions can convert resampling objects between
 #'  \pkg{rsample} and \pkg{caret}.
 #'
-#' @param object An \code{rset} object. Currently,
-#'  \code{nested_cv} is not supported.
-#' @return \code{rsample2caret} returns a list that mimics the
-#'  \code{index} and \code{indexOut} elements of a
-#'  \code{trainControl} object. \code{caret2rsample} returns an
-#'  \code{rset} object of the appropriate class.
+#' @param object An `rset` object. Currently,
+#'  `nested_cv` is not supported.
+#' @return `rsample2caret` returns a list that mimics the
+#'  `index` and `indexOut` elements of a
+#'  `trainControl` object. `caret2rsample` returns an
+#'  `rset` object of the appropriate class.
 #' @export
 #' @importFrom purrr map
 rsample2caret <- function(object, data = c("analysis", "assessment")) {
@@ -23,12 +23,12 @@ rsample2caret <- function(object, data = c("analysis", "assessment")) {
 }
 
 #' @rdname rsample2caret
-#' @param ctrl An object produced by \code{trainControl} that has
-#'  had the \code{index} and \code{indexOut} elements populated by
+#' @param ctrl An object produced by `trainControl` that has
+#'  had the `index` and `indexOut` elements populated by
 #'  integers. One method of getting this is to extract the
-#'  \code{control} objects from an object produced by \code{train}.
+#'  `control` objects from an object produced by `train`.
 #' @param data The data that was originally used to produce the
-#'  \code{ctrl} object.
+#'  `ctrl` object.
 #' @importFrom purrr map map2
 #' @importFrom tibble tibble
 #' @importFrom dplyr bind_cols

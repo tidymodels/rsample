@@ -9,16 +9,16 @@ make_strata(x, nunique = 5, pool = 0.15, depth = 20)
 \arguments{
 \item{x}{An input vector.}
 
-\item{nunique}{An integer for the number of unique value threshold in the 
+\item{nunique}{An integer for the number of unique value threshold in the
 algorithm.}
 
 \item{pool}{A proportion of data used to determine if a particular group is
 too small and should be pooled into another group.}
 
-\item{depth}{An integer that is used to determine the best number of 
-percentiles that should be used. The number of bins are based on 
-\code{min(5, floor(n / depth))} where \code{n = length(x)}. 
-If \code{x} is numeric, there must be at least 40 rows in the data set 
+\item{depth}{An integer that is used to determine the best number of
+percentiles that should be used. The number of bins are based on
+\code{min(5, floor(n / depth))} where \code{n = length(x)}.
+If \code{x} is numeric, there must be at least 40 rows in the data set
 (when \code{depth = 20}) to conduct stratified sampling.}
 }
 \value{
@@ -26,23 +26,23 @@ A factor vector.
 }
 \description{
 For stratified resampling, this function can create strata from numeric data
-  and also make non-numeric data more conducive to be used for 
-  stratification.
+and also make non-numeric data more conducive to be used for
+stratification.
 }
 \details{
-For numeric data, if the number of unique levels is less than 
-\code{nunique}, the data are treated as categorical data. 
+For numeric data, if the number of unique levels is less than
+\code{nunique}, the data are treated as categorical data.
 
 For categorical inputs, the function will find levels of \code{x} than
-  occur in the data with percentage less than \code{pool}. The values from
-  these groups will be randomly assigned to the remaining strata (as will
-  data points that have missing values in \code{x}). 
-  
+occur in the data with percentage less than \code{pool}. The values from
+these groups will be randomly assigned to the remaining strata (as will
+data points that have missing values in \code{x}).
+
 For numeric data with more unique values than \code{nunique}, the data
-  will be converted to being categorical based on percentiles of the data. 
-  The percentile groups will have no more than 20 percent of the data in 
-  each group. Again, missing values in \code{x} are randomly assigned
-  to groups.
+will be converted to being categorical based on percentiles of the data.
+The percentile groups will have no more than 20 percent of the data in
+each group. Again, missing values in \code{x} are randomly assigned
+to groups.
 }
 \examples{
 set.seed(61)

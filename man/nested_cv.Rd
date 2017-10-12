@@ -19,19 +19,19 @@ within the initial procedure.}
 }
 \value{
 An tibble with classe \code{nested_cv} and any other classes that
-  outer resampling process normally contains. The results include a
- column for the outer data split objects, one or more \code{id} columns,
- and a column of nested tibbles called \code{inner_resamples} with the
- additional resamples.
+outer resampling process normally contains. The results include a
+column for the outer data split objects, one or more \code{id} columns,
+and a column of nested tibbles called \code{inner_resamples} with the
+additional resamples.
 }
 \description{
 \code{nested_cv} can be used to take the results of one resampling procedure
-  and conduct further resamples within each split. Any type of resampling
-  used in \code{rsample} can be used.
+and conduct further resamples within each split. Any type of resampling
+used in \code{rsample} can be used.
 }
 \details{
 It is a bad idea to use bootstrapping as the outer resampling procedure (see
-  the example below)
+the example below)
 }
 \examples{
 ## Using expressions for the resampling procedures:

@@ -23,11 +23,11 @@ integers. One method of getting this is to extract the
 }
 \value{
 \code{rsample2caret} returns a list that mimics the
- \code{index} and \code{indexOut} elements of a
- \code{trainControl} object. \code{caret2rsample} returns an
- \code{rset} object of the appropriate class.
+\code{index} and \code{indexOut} elements of a
+\code{trainControl} object. \code{caret2rsample} returns an
+\code{rset} object of the appropriate class.
 }
 \description{
 These functions can convert resampling objects between
- \pkg{rsample} and \pkg{caret}.
+\pkg{rsample} and \pkg{caret}.
 }

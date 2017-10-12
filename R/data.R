@@ -14,7 +14,7 @@
 #' @docType data
 #' @return \item{attrition}{a data frame}
 #'
-#' @source The IBM Watson Analytics Lab website \url{https://www.ibm.com/communities/analytics/watson-analytics-blog/hr-employee-attrition/}
+#' @source The IBM Watson Analytics Lab website https://www.ibm.com/communities/analytics/watson-analytics-blog/hr-employee-attrition/
 #'
 #'
 #' @keywords datasets

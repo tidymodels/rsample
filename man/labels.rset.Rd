@@ -22,8 +22,8 @@ A single character or factor vector.
 }
 \description{
 Produce a vector of resampling labels (e.g. "Fold1") from
- an \code{rset} object. Currently, \code{nested_cv}
- is not supported.
+an \code{rset} object. Currently, \code{nested_cv}
+is not supported.
 }
 \examples{
 labels(vfold_cv(mtcars))

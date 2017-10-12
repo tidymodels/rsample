@@ -11,12 +11,12 @@
 #' @param group A signle character value for the column of the
 #'  data that will be used to create the splits. 
 #' @param v The number of partitions of the data set. If let
-#'  \code{NULL}, \code{v} will be set to the number of unique values
+#'  `NULL`, `v` will be set to the number of unique values
 #'  in the group.
 #' @param ... Not currently used. 
 #' @export
-#' @return An tibble with classes \code{group_vfold_cv},
-#'  \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}.
+#' @return An tibble with classes `group_vfold_cv`,
+#'  `rset`, `tbl_df`, `tbl`, and `data.frame`.
 #'  The results include a column for the data split objects and an
 #'  identification variable.
 #' @examples

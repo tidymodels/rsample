@@ -1,14 +1,14 @@
 #' Determine the Assessment Samples
 #' 
-#' Given an \code{rsplit} object, \code{complement} will determine which 
+#' Given an `rsplit` object, `complement` will determine which 
 #'   of the data rows are contained in the assessment set. To save space, 
-#'   many of the \code{rset} objects will not contain indicies for the 
+#'   many of the `rset` objects will not contain indicies for the 
 #'   assessment split. 
 #'   
-#' @param x An \code{rsplit} object
+#' @param x An `rsplit` object
 #' @param ... Not currently used
 #' @return A integer vector. 
-#' @seealso \code{\link{fill}}
+#' @seealso [fill()]
 #' @examples 
 #' set.seed(28432)
 #' fold_rs <- vfold_cv(mtcars)
@@ -63,10 +63,10 @@ complement.apparent_split <- function(x, ...) {
 
 #' Add Assessment Indicies
 #' 
-#' Many \code{rsplit} and \code{rset} objects do not contain indicators for
-#'   the assessment samples. \code{fill} can be used to populate the slot
+#' Many `rsplit` and `rset` objects do not contain indicators for
+#'   the assessment samples. `fill` can be used to populate the slot
 #'   for the appropriate indices. 
-#' @param x A \code{rsplit} and \code{rset} object.
+#' @param x A `rsplit` and `rset` object.
 #' @param ... Not currently used
 #' @return An object of the same time with the integer indicies. 
 #' @examples 

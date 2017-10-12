@@ -11,17 +11,17 @@ prepper(split_obj, recipe, ...)
 
 \item{recipe}{An untrained \code{recipe} object.}
 
-\item{...}{Arguments to pass to \code{\link[recipes]{prep}}
+\item{...}{Arguments to pass to \code{\link[recipes:prep]{recipes::prep()}}
 such as \code{verbose} or \code{retain}.}
 }
 \description{
 When working with the \pkg{recipes} package, a simple recipe
- must be \emph{prepared} using the \code{\link[recipes]{prep}}
- function first. When using recipies with \pkg{rsample} it
- is helpful to have a function that can prepare a recipe
- across a series of \code{split} objects that are produced
- in this package. \code{prepper} is a wrapper function
- around \code{\link[recipes]{prep}} that can be used to do
- this. See the vignette on "Recipes and rsample" for an
- example.
+must be \emph{prepared} using the \code{\link[recipes:prep]{recipes::prep()}}
+function first. When using recipies with \pkg{rsample} it
+is helpful to have a function that can prepare a recipe
+across a series of \code{split} objects that are produced
+in this package. \code{prepper} is a wrapper function
+around \code{\link[recipes:prep]{recipes::prep()}} that can be used to do
+this. See the vignette on "Recipes and rsample" for an
+example.
 }

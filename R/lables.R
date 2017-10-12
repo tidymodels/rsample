@@ -1,10 +1,10 @@
 #' Find Labels from rset Object
 #'
 #' Produce a vector of resampling labels (e.g. "Fold1") from
-#'  an \code{rset} object. Currently, \code{nested_cv}
+#'  an `rset` object. Currently, `nested_cv`
 #'  is not supported.
 #'
-#' @param object An \code{rset} object
+#' @param object An `rset` object
 #' @param make_factor A logical for whether the results should be
 #'  character or a factor.
 #' @param ... Not currently used.

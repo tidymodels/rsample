@@ -9,10 +9,10 @@
 #'   avoided like ol sushi. 
 #'
 #' @inheritParams vfold_cv
-#' @return  An tibble with a single row and classes \code{apparent}, 
-#'   \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}. The 
+#' @return  An tibble with a single row and classes `apparent`, 
+#'   `rset`, `tbl_df`, `tbl`, and `data.frame`. The 
 #'   results include a column for the data split objects and one column 
-#'   called \code{id} that has a character string with the resample identifier.
+#'   called `id` that has a character string with the resample identifier.
 #' @examples
 #' apparent(mtcars)
 #' @importFrom purrr map

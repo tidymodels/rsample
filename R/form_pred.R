@@ -1,12 +1,12 @@
 #' Extract Predictor Names from Formula or Terms
 #'
-#' \code{all.vars} returns all variables used in a formula. This
+#' `all.vars` returns all variables used in a formula. This
 #'  function only returns the variables explicitly used on the
 #'  right-hand side (i.e., it will not resolve dots unless the
 #'  object is terms with a data set specified).
-#' @param object A model formula or \code{\link[stats]{terms}}
+#' @param object A model formula or [stats::terms()]
 #'  object.
-#' @param ... Arguments to pass to \code{\link{all.vars}}
+#' @param ... Arguments to pass to [all.vars()]
 #' @return A character vector of names
 #' @export
 #' @examples
