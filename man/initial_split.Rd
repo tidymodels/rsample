@@ -21,18 +21,18 @@ testing(x)
 
 \item{...}{Not currently used.}
 
-\item{x}{An \code{rsplit} object produced by \code{initial_split}}
+\item{x}{An `rsplit` object produced by `initial_split`}
 }
 \value{
-An \code{rset} object that can be used with the \code{training} and \code{testing} functions to extract the data in each split.
+An `rset` object that can be used with the `training` and `testing` functions to extract the data in each split.
 }
 \description{
-\code{initial_split} creates a single binary split of the data
-into a training set and testing set. \code{training} and
-\code{testing} are used to extract the resulting data.
+`initial_split` creates a single binary split of the data 
+ into a training set and testing set. `training` and
+ `testing` are used to extract the resulting data.
 }
 \details{
-The \code{strata} argument causes the random sampling to be conducted \emph{within the stratification variable}. The can help ensure that the number of data points in the training data is equivalent to the proportions in the original data set.
+The `strata` argument causes the random sampling to be conducted *within the stratification variable*. The can help ensure that the number of data points in the training data is equivalent to the proportions in the original data set.
 }
 \examples{
 set.seed(1353)
