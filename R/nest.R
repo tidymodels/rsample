@@ -100,19 +100,10 @@ inside_resample <- function(src, cl) {
 
 #' @importFrom tibble tibble
 #' @importFrom rlang is_lang
+#' @export
 print.nested_cv <- function(x, ...) {
-  details <- attributes(x)
-  
-  outer_label <- if (is_lang(details$outside))
-    deparse(details$outside)
-  else
-    paste0("`", deparse(details$outside), "`")
-  
-  cat("# Nested :",
-      outer_label,
-      "/",
-      deparse(details$inside),
-      "\n")
-  class(x) <- class(tibble(a = 1))
+  char_x <- paste("#", pretty(x))
+  cat(char_x, sep = "\n")
+  class(x) <- class(tibble())
   print(x)
 }

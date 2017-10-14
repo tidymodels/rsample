@@ -100,20 +100,7 @@ strat_sample <- function(x, prop, times, ...) {
 
 #' @export
 print.mc_cv <- function(x, ...) {
-  details <- attributes(x)
-  cat(
-    "# Monte Carlo cross-validation (",
-    signif(details$prop, 2),
-    "/",
-    signif(1 - details$prop, 2),
-    ") with ",
-    details$times,
-    " resamples ",
-    sep = ""
-  )
-  if (details$strata) 
-    cat("using stratification")
-  cat("\n")
+  cat("#", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("mc_cv", "rset"))]
   print(x)
 }

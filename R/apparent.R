@@ -33,13 +33,9 @@ apparent <- function(data, ...) {
 
 #' @export
 print.apparent <- function(x, ...) {
-  cat("# Apparent Sampling\n")
+  cat("#", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("apparent", "rset"))]
   print(x)
 }
 
-change_class <- function(x) {
-  class(x) <- c("rsplit", "apparent_split")
-  x
-}
 

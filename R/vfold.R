@@ -111,13 +111,7 @@ add_vfolds <- function(x, v) {
 
 #' @export
 print.vfold_cv <- function(x, ...) {
-  details <- attributes(x)
-  cat("# ", details$v, "-fold cross-validation ", sep = "")
-  if (details$repeats > 1)
-    cat("repeated", details$repeats, "times ")
-  if (details$strata)
-    cat("using stratification")
-  cat("\n")
+  cat("# ", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("vfold_cv", "rset"))]
   print(x)
 }

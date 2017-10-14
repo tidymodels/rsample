@@ -26,7 +26,7 @@ loo_cv <- function(data, ...) {
 
 #' @export
 print.loo_cv <- function(x, ...) {
-  cat("# Leave-one-out cross-validation\n")
+  cat("#", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("loo_cv", "rset"))]
   print(x)
 }

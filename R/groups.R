@@ -99,9 +99,7 @@ group_vfold_splits <- function(data, group, v = NULL) {
 
 #' @export
 print.group_vfold_cv <- function(x, ...) {
-  details <- attributes(x)
-  cat("# Group ", details$v, "-fold cross-validation ", sep = "")
-  cat("\n")
+  cat("#", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("group_vfold_cv", "rset"))]
   print(x)
 }

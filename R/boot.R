@@ -105,15 +105,8 @@ boot_splits <-
 }
 
 #' @export
-print.bootstraps<- function(x, ...) {
-  details <- attributes(x)
-  cat("# Bootstrap sampling with ", details$times, " resamples ",
-      sep = "")
-  if (details$strata)
-    cat("+ strata")
-  if (any(details$splits$id == "Apparent"))
-    cat(" (includes apparent error rate sample)")
-  cat("\n")
+print.bootstraps <- function(x, ...) {
+  cat("#", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("bootstraps", "rset"))]
   print(x)
 }

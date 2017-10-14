@@ -57,8 +57,7 @@ rolling_origin <- function(data, initial = 5, assess = 1,
 
 #' @export
 print.rolling_origin <- function(x, ...) {
-  details <- attributes(x)
-  cat("# Rolling origin forecast resampling\n")
+  cat("#", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("rolling_origin", "rset"))]
   print(x)
 }
