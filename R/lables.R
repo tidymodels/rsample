@@ -51,7 +51,10 @@ labels.vfold_cv <- function(object, make_factor = FALSE, ...) {
 #' @param x An `rset` object
 #' @param ... Not currently used.
 #' @return A character vector.
+#' @exportMethod pretty.vfold_cv
+#' @export pretty.vfold_cv
 #' @export
+#' @method pretty vfold_cv
 #' @keywords internal
 pretty.vfold_cv <- function(x, ...) {
   details <- attributes(x)
@@ -63,22 +66,34 @@ pretty.vfold_cv <- function(x, ...) {
   res
 }
 
+#' @exportMethod pretty.loo_cv
+#' @export pretty.loo_cv
 #' @export
+#' @method pretty loo_cv
 #' @rdname pretty.vfold_cv
 pretty.loo_cv <- function(x, ...)
   "Leave-one-out cross-validation"
 
+#' @exportMethod pretty.apparent
+#' @export pretty.apparent
 #' @export
+#' @method pretty apparent
 #' @rdname pretty.vfold_cv
 pretty.apparent <- function(x, ...)
   "Apparent sampling"
 
+#' @exportMethod pretty.rolling_origin
+#' @export pretty.rolling_origin
 #' @export
+#' @method pretty rolling_origin
 #' @rdname pretty.vfold_cv
 pretty.rolling_origin <- function(x, ...)
   "Rolling origin forecast resampling"
 
+#' @exportMethod pretty.mc_cv
+#' @export pretty.mc_cv
 #' @export
+#' @method pretty mc_cv
 #' @rdname pretty.vfold_cv
 pretty.mc_cv <- function(x, ...) {
   details <- attributes(x)
@@ -96,24 +111,27 @@ pretty.mc_cv <- function(x, ...) {
   res
 }
 
+#' @exportMethod pretty.nested_cv
+#' @export pretty.nested_cv
 #' @export
+#' @method pretty nested_cv
 #' @rdname pretty.vfold_cv
 pretty.nested_cv <- function(x, ...) {
   print(class(x))
   details <- attributes(x)
-  
+
   if (is_lang(details$outside)) {
     class(x) <- class(x)[!(class(x) == "nested_cv")]
     outer_label <- pretty(x)
   } else {
     outer_label <- paste0("`", deparse(details$outside), "`")
   }
-  
+
   inner_label <- if (is_lang(details$inside))
     pretty(x$inner_resamples[[1]])
   else
     paste0("`", deparse(details$inside), "`")
-  
+
   res <- c("Nested resampling:",
            paste(" outer:", outer_label),
            paste(" inner:", inner_label))
@@ -121,7 +139,10 @@ pretty.nested_cv <- function(x, ...) {
 }
 
 
+#' @exportMethod pretty.bootstraps
+#' @export pretty.bootstraps
 #' @export
+#' @method pretty bootstraps
 #' @rdname pretty.vfold_cv
 pretty.bootstraps <- function(x, ...) {
   details <- attributes(x)
@@ -134,7 +155,10 @@ pretty.bootstraps <- function(x, ...) {
 }
 
 
+#' @exportMethod pretty.group_vfold_cv
+#' @export pretty.group_vfold_cv
 #' @export
+#' @method pretty group_vfold_cv
 #' @rdname pretty.vfold_cv
 pretty.group_vfold_cv  <- function(x, ...) {
   details <- attributes(x)
