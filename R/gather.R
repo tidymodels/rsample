@@ -28,8 +28,10 @@
 #' cv_obj$lm_rmse <- rnorm(10, mean = 2)
 #' cv_obj$nnet_rmse <- rnorm(10, mean = 1)
 #' gather(cv_obj)
+#' @exportMethod gather.rset
+#' @export gather.rset
 #' @export
-#' @method  gather rset
+#' @method gather rset
 #' @importFrom tidyr gather
 #' @importFrom dplyr select %>%
 #' @importFrom rlang !!
