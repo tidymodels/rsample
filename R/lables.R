@@ -62,7 +62,7 @@ pretty.vfold_cv <- function(x, ...) {
   if (details$repeats > 1)
     res <- paste(res, "repeated", details$repeats, "times")
   if (details$strata)
-    res <- paste(res, cat("using stratification"))
+    res <- paste(res, "using stratification")
   res
 }
 
@@ -107,7 +107,7 @@ pretty.mc_cv <- function(x, ...) {
     " resamples "
   )
   if (details$strata)
-    res <- paste(res, cat("using stratification"))
+    res <- paste(res, "using stratification")
   res
 }
 
