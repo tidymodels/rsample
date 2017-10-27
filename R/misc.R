@@ -77,6 +77,14 @@ new_rset <-  function(splits, ids, attrib = NULL,
   if (nrow(ids) != nrow(splits))
     stop("Split and ID vectors have different lengths.",
          call. = FALSE)  
+  
+  # Create another element to the splits that is a tibble containing
+  # an identifer for each id column so that, in isolation, the resample
+  # id can be known just based on the `rsplit` object. This can then be
+  # accessed using the `labels` methof for `rsplits`
+  
+  splits$splits <- map2(splits$splits, split(ids, 1:nrow(ids)), add_id)
+  
   res <- bind_cols(splits, ids)
   
   if (!is.null(attrib)) {
@@ -91,4 +99,10 @@ new_rset <-  function(splits, ids, attrib = NULL,
     res <- add_class(res, cls = subclass, at_end = FALSE)
   
   res
+}
+
+
+add_id <- function(split, id) {
+  split$id <- id
+  split
 }

@@ -53,11 +53,18 @@ test_that('bad args', {
   )  
 })
 
-
-
 test_that('printing', {
   rs1 <- nested_cv(mtcars[1:30,],
                    outside = vfold_cv(v = 10),
                    inside = vfold_cv(v = 3))
   expect_output(print(rs1))
+})
+
+test_that('rsplit labels', {
+  rs <- nested_cv(mtcars[1:30,],
+                  outside = vfold_cv(v = 10),
+                  inside = vfold_cv(v = 3))
+  all_labs <- map_df(rs$splits, labels)
+  original_id <- rs[, grepl("^id", names(rs))]
+  expect_equal(all_labs, original_id)
 })

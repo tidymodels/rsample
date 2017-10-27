@@ -6,6 +6,7 @@
 * A function called `form_pred` can be used to determine the original names of the predictors in a formula or `terms` object. 
 * A vignette and a function (`prepper`) were included to facilitate using the `recipes` with `rsample`.
 * A `gather` method was added for `rset` objects.
+* A `labels` method was added for `rsplit` objects. This can help identify which resample is being used even when the whole `rset` object is not available. 
 
 # `rsample` 0.0.1
 

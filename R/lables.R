@@ -38,6 +38,25 @@ labels.vfold_cv <- function(object, make_factor = FALSE, ...) {
   out
 }
 
+#' Find Labels from rsplit Object
+#'
+#' Produce a tibble of identification variables so that single 
+#'  splits can be linked to a particular resample. 
+#'
+#' @param object An `rsplit` object
+#' @param ... Not currently used.
+#' @return A tibble.
+#' @export
+#' @examples
+#' cv_splits <- vfold_cv(mtcars)
+#' labels(cv_splits$splits[[1]])
+labels.rsplit <- function(object, ...) {
+  out <- if ("id" %in% names(object))
+    object$id
+  else
+    tibble()
+  out
+}
 
 ## The `pretty` methods below are good for when you need to
 ## textually describe the resampling procedure. Note that they

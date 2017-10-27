@@ -28,3 +28,10 @@ test_that('Loooooo', {
 test_that('printing', {
   expect_output(print(loo_cv(dat1)))
 })
+
+test_that('rsplit labels', {
+  rs <- loo_cv(mtcars)
+  all_labs <- map_df(rs$splits, labels)
+  original_id <- rs[, grepl("^id", names(rs))]
+  expect_equal(all_labs, original_id)
+})

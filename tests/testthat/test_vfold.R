@@ -76,3 +76,16 @@ test_that('printing', {
   expect_output(print(vfold_cv(mtcars)))
 })
 
+
+test_that('rsplit labels', {
+  rs <- vfold_cv(mtcars)
+  all_labs <- map_df(rs$splits, labels)
+  original_id <- rs[, grepl("^id", names(rs))]
+  expect_equal(all_labs, original_id)
+  
+  rs2 <- vfold_cv(mtcars, repeats = 4)
+  all_labs2 <- map_df(rs2$splits, labels)
+  original_id2 <- rs2[, grepl("^id", names(rs2))]
+  expect_equal(all_labs2, original_id2)
+})
+

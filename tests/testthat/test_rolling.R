@@ -78,3 +78,10 @@ test_that('skipping', {
 test_that('printing', {
   expect_output(print(rolling_origin(dat1)))
 })
+
+test_that('rsplit labels', {
+  rs <- rolling_origin(dat1)
+  all_labs <- map_df(rs$splits, labels)
+  original_id <- rs[, grepl("^id", names(rs))]
+  expect_equal(all_labs, original_id)
+})
