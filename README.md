@@ -5,8 +5,8 @@
 
 [![Travis-CI Build Status](https://travis-ci.org/topepo/rsample.svg?branch=master)](https://travis-ci.org/topepo/rsample)
 [![Coverage Status](https://img.shields.io/codecov/c/github/topepo/rsample/master.svg)](https://codecov.io/github/topepo/rsample?branch=master)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsample)](http://cran.r-project.org/web/packages/rsample)
-[![Downloads](http://cranlogs.r-pkg.org/badges/rsample)](http://cran.rstudio.com/package=rsample)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsample)](https://cran.r-project.org/web/packages/rsample)
+[![Downloads](http://cranlogs.r-pkg.org/badges/rsample)](https://cran.r-project.org/web/packages/rsample)
 
 `rsample` contains a set of functions that can create different types of resamples and corresponding classes for their analysis. 
 The goal is to have a modular set of methods that can be used across different R packages for:
@@ -44,15 +44,15 @@ For example, creating 50 bootstraps of a data set does not create an object that
 > boots <- bootstraps(LetterRecognition, times = 50)
 > 
 > object_size(boots)
-6.67 MB
+6.69 MB
 > 
 > # Object size per resample
 > object_size(boots)/nrow(boots)
-133 kB
+134 kB
 > 
 > # Fold increase is <<< 50
 > as.numeric(object_size(boots)/object_size(LetterRecognition))
-[1] 2.521415
+[1] 2.528695
 ```
 
 The memory usage for 50 boostrap samples is less than 3-fold more than the original data set. 
