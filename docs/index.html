@@ -35,6 +35,9 @@
   <a href="articles/Working_with_rsets.html">Working with Resample Sets</a>
 </li>
 <li>
+  <a href="articles/Recipes_and_rsample.html">Recipes and rsample</a>
+</li>
+<li>
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
@@ -54,7 +57,8 @@
     
     
 <div class="contents">
-
+<p><img src="rsample_hex_thumb.png" title="hex sticker thumb" alt="rsample" style="display: block; margin: auto;"></p>
+<p><a href="https://travis-ci.org/topepo/rsample"><img src="https://travis-ci.org/topepo/rsample.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/topepo/rsample?branch=master"><img src="https://img.shields.io/codecov/c/github/topepo/rsample/master.svg" alt="Coverage Status"></a> <a href="https://cran.r-project.org/package=rsample"><img src="http://www.r-pkg.org/badges/version/rsample" alt="CRAN_Status_Badge"></a> <a href="https://cran.r-project.org/package=rsample"><img src="http://cranlogs.r-pkg.org/badges/rsample" alt="Downloads"></a> <img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></p>
 <p><code>rsample</code> contains a set of functions that can create different types of resamples and corresponding classes for their analysis. The goal is to have a modular set of methods that can be used across different R packages for:</p>
 <ul>
 <li>traditional resampling techniques for estimating the sampling distribution of a statistic and</li>
@@ -82,15 +86,15 @@
 <span class="op">&gt;</span><span class="st"> </span>boots &lt;-<span class="st"> </span><span class="kw"><a href="reference/bootstraps.html">bootstraps</a></span>(LetterRecognition, <span class="dt">times =</span> <span class="dv">50</span>)
 <span class="op">&gt;</span><span class="st"> </span>
 <span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)
-<span class="fl">6.67</span> MB
+<span class="fl">6.69</span> MB
 <span class="op">&gt;</span><span class="st"> </span>
 <span class="er">&gt;</span><span class="st"> </span><span class="co"># Object size per resample</span>
 <span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)<span class="op">/</span><span class="kw">nrow</span>(boots)
-<span class="dv">133</span> kB
+<span class="dv">134</span> kB
 <span class="op">&gt;</span><span class="st"> </span>
 <span class="er">&gt;</span><span class="st"> </span><span class="co"># Fold increase is &lt;&lt;&lt; 50</span>
 <span class="er">&gt;</span><span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">object_size</span>(boots)<span class="op">/</span><span class="kw">object_size</span>(LetterRecognition))
-[<span class="dv">1</span>] <span class="fl">2.521415</span></code></pre></div>
+[<span class="dv">1</span>] <span class="fl">2.528695</span></code></pre></div>
 <p>The memory usage for 50 boostrap samples is less than 3-fold more than the original data set.</p>
 </div>
   </div>
@@ -98,6 +102,8 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cran.r-project.org/package=rsample">https://​cran.r-project.org/​package=rsample</a>
+</li>
 <li>Browse source code at <br><a href="https://topepo.github.io/rsample">https://​topepo.github.io/​rsample</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/topepo/rsample/issues">https://​github.com/​topepo/​rsample/​issues</a>
@@ -111,13 +117,6 @@
 <li>
 <a href="http://hadley.nz">Hadley Wickham</a> <br><small class="roles"> Author </small> </li>
 <li><a href="authors.html">All authors...</a></li>
-</ul>
-<h2>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://travis-ci.org/topepo/rsample"><img src="https://travis-ci.org/topepo/rsample.svg?branch=master" alt="Travis-CI Build Status"></a></li>
-<li><a href="https://codecov.io/github/topepo/rsample?branch=master"><img src="https://img.shields.io/codecov/c/github/topepo/rsample/master.svg" alt="Coverage Status"></a></li>
-<li><a href="http://cran.r-project.org/web/packages/rsample"><img src="http://www.r-pkg.org/badges/version/rsample" alt="CRAN_Status_Badge"></a></li>
-<li><a href="http://cran.rstudio.com/package=rsample"><img src="http://cranlogs.r-pkg.org/badges/rsample" alt="Downloads"></a></li>
 </ul>
 </div>
 

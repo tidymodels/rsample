@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add Assessment Indicies — fill • rsample</title>
+<title>Extract Predictor Names from Formula or Terms — form_pred • rsample</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,43 +77,45 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add Assessment Indicies</h1>
+    <h1>Extract Predictor Names from Formula or Terms</h1>
     </div>
 
     
-    <p>Many `rsplit` and `rset` objects do not contain indicators for
-  the assessment samples. `fill` can be used to populate the slot
-  for the appropriate indices.</p>
+    <p>`all.vars` returns all variables used in a formula. This
+ function only returns the variables explicitly used on the
+ right-hand side (i.e., it will not resolve dots unless the
+ object is terms with a data set specified).</p>
     
 
-    <pre class="usage"><span class='fu'>fill</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>form_pred</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A `rsplit` and `rset` object.</p></td>
+      <th>object</th>
+      <td><p>A model formula or [stats::terms()]
+object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Not currently used</p></td>
+      <td><p>Arguments to pass to [all.vars()]</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same time with the integer indicies.</p>
+    <p>A character vector of names</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>set.seed</span>(<span class='fl'>28432</span>)
-<span class='no'>fold_rs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>)
+    <pre class="examples"><div class='input'><span class='fu'>form_pred</span>(<span class='no'>y</span> ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'>terms</span>(<span class='no'>y</span> ~ <span class='no'>x</span> + <span class='no'>z</span>))</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'>
+<span class='fu'>form_pred</span>(<span class='no'>y</span> ~ <span class='no'>x</span> + <span class='fu'>log</span>(<span class='no'>z</span>))</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'>log</span>(<span class='no'>y</span>) ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'>
+<span class='fu'>form_pred</span>(<span class='no'>y1</span> + <span class='no'>y2</span> ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'>log</span>(<span class='no'>y1</span>) + <span class='no'>y2</span> ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'>
+<span class='co'># will fail:</span>
+<span class='co'># form_pred(y ~ .)</span>
 
-<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1] NA</div><div class='input'><span class='fu'><a href='complement.html'>complement</a></span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; [1]  2  8 25 29</div><div class='input'>
-<span class='fu'>fill</span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  2  8 25 29</div><div class='input'>
-<span class='no'>fold_rs_all</span> <span class='kw'>&lt;-</span> <span class='fu'>fill</span>(<span class='no'>fold_rs</span>)
-<span class='no'>fold_rs_all</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  2  8 25 29</div></pre>
+<span class='fu'>form_pred</span>(<span class='fu'>terms</span>(<span class='no'>Species</span> ~ (<span class='no'>.</span>)^<span class='fl'>2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>))</div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" </div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'>terms</span>( ~ (<span class='no'>.</span>)^<span class='fl'>2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>))</div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

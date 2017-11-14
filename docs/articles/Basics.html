@@ -35,6 +35,9 @@
   <a href="../articles/Working_with_rsets.html">Working with Resample Sets</a>
 </li>
 <li>
+  <a href="../articles/Recipes_and_rsample.html">Recipes and rsample</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -71,7 +74,7 @@
 <span class="kw">set.seed</span>(<span class="dv">8584</span>)
 bt_resamples &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bootstraps.html">bootstraps</a></span>(mtcars, <span class="dt">times =</span> <span class="dv">3</span>)
 bt_resamples
-<span class="co">#&gt; # Bootstrap sampling with 3 resamples </span>
+<span class="co">#&gt; # Bootstrap sampling </span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;         splits         id</span>
 <span class="co">#&gt;         &lt;list&gt;      &lt;chr&gt;</span>
@@ -88,7 +91,7 @@ bt_resamples
 <li>The <em>analysis</em> data are those that we selected in the resample. For a bootstrap, this is the sample with replacement. For 10-fold cross-validation, this is the 90% of the data. These data are often used to fit a model or calculate a statistic in traditional bootstrapping.</li>
 <li>The <em>assessment</em> data are usually the section of the original data not covered by the analysis set. Again, in 10-fold CV, this is the 10% held out. These data are often used to evaluate the performance of a model that was fit to the analysis data.</li>
 </ul>
-<p>(Aside: While some might use the term “training” and “testing” for these data sets, we avoid them since those labels often conflict with the data that result from an initial partition of the data that is typically done <em>before</em> resampling.)</p>
+<p>(Aside: While some might use the term “training” and “testing” for these data sets, we avoid them since those labels often conflict with the data that result from an initial partition of the data that is typically done <em>before</em> resampling. The training/test split can be conducted using the <code>initial_split</code> function in this package.)</p>
 <p>Let’s look at one of the <code>rsplit</code> objects</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">first_resample &lt;-<span class="st"> </span>bt_resamples<span class="op">$</span>splits[[<span class="dv">1</span>]]
 first_resample

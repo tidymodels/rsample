@@ -57,6 +57,9 @@
   <a href="../articles/Working_with_rsets.html">Working with Resample Sets</a>
 </li>
 <li>
+  <a href="../articles/Recipes_and_rsample.html">Recipes and rsample</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -98,11 +101,11 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An tibble with classes <code>loo_cv</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and <code>data.frame</code>. The results include a column for the data split objects and one column called <code>id</code> that has a character string with the resample identifier.</p>
+    <p>An tibble with classes `loo_cv`, `rset`, `tbl_df`, `tbl`, and `data.frame`. The results include a column for the data split objects and one column called `id` that has a character string with the resample identifier.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>loo_cv</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; # Leave-one-out cross-validation
+    <pre class="examples"><div class='input'><span class='fu'>loo_cv</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; # Leave-one-out cross-validation 
 #&gt; # A tibble: 32 x 2
 #&gt;          splits         id
 #&gt;          &lt;list&gt;      &lt;chr&gt;

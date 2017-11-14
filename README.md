@@ -5,8 +5,9 @@
 
 [![Travis-CI Build Status](https://travis-ci.org/topepo/rsample.svg?branch=master)](https://travis-ci.org/topepo/rsample)
 [![Coverage Status](https://img.shields.io/codecov/c/github/topepo/rsample/master.svg)](https://codecov.io/github/topepo/rsample?branch=master)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsample)](https://cran.r-project.org/web/packages/rsample)
-[![Downloads](http://cranlogs.r-pkg.org/badges/rsample)](https://cran.r-project.org/web/packages/rsample)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsample)](https://cran.r-project.org/package=rsample)
+[![Downloads](http://cranlogs.r-pkg.org/badges/rsample)](https://cran.r-project.org/package=rsample)
+![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
 `rsample` contains a set of functions that can create different types of resamples and corresponding classes for their analysis. 
 The goal is to have a modular set of methods that can be used across different R packages for:

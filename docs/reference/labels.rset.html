@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>All news • rsample</title>
+<title>Find Labels from rset Object — labels.rset • rsample</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,7 +36,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -75,47 +75,61 @@
       </header>
 
       <div class="row">
-
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Change log <small>All releases</small></h1>
+    <h1>Find Labels from rset Object</h1>
     </div>
 
-    <div class="contents">
-    <div id="rsample-0-0-2" class="section level1">
-<h1 class="hasAnchor">
-<a href="#rsample-0-0-2" class="anchor"></a><code>rsample</code> 0.0.2</h1>
-<ul>
-<li>
-<code>initial_split</code>, <code>training</code>, and <code>testing</code> were added to do training/testing splits prior to resampling.</li>
-<li>Another resampling method, <code>group_vfold_cv</code>, was added.</li>
-<li>
-<code>caret2rsample</code> and <code>rsample2caret</code> can convert <code>rset</code> objects to those used by <code>caret::trainControl</code> and vice-versa.</li>
-<li>A function called <code>form_pred</code> can be used to determine the original names of the predictors in a formula or <code>terms</code> object.</li>
-<li>A vignette and a function (<code>prepper</code>) were included to facilitate using the <code>recipes</code> with <code>rsample</code>.</li>
-<li>A <code>gather</code> method was added for <code>rset</code> objects.</li>
-<li>A <code>labels</code> method was added for <code>rsplit</code> objects. This can help identify which resample is being used even when the whole <code>rset</code> object is not available.</li>
-<li>A variety of <code>dplyr</code> methods were added (e.g. <code>filter</code>, <code>mutate</code>, etc) that work without dropping classes or attributes of the <code>rsample</code> objects.</li>
-</ul>
-</div>
-    <div id="rsample-0-0-1-2017-07-08" class="section level1">
-<h1 class="hasAnchor">
-<a href="#rsample-0-0-1-2017-07-08" class="anchor"></a><code>rsample</code> 0.0.1 (2017-07-08)</h1>
-<p>Initial public version on CRAN</p>
-</div>
-    </div>
+    
+    <p>Produce a vector of resampling labels (e.g. "Fold1") from
+ an `rset` object. Currently, `nested_cv`
+ is not supported.</p>
+    
+
+    <pre class="usage"><span class='co'># S3 method for rset</span>
+<span class='fu'>labels</span>(<span class='no'>object</span>, <span class='kw'>make_factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for vfold_cv</span>
+<span class='fu'>labels</span>(<span class='no'>object</span>, <span class='kw'>make_factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>An `rset` object</p></td>
+    </tr>
+    <tr>
+      <th>make_factor</th>
+      <td><p>A logical for whether the results should be
+character or a factor.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Not currently used.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A single character or factor vector.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>labels</span>(<span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>))</div><div class='output co'>#&gt;  [1] "Fold01" "Fold02" "Fold03" "Fold04" "Fold05" "Fold06" "Fold07" "Fold08"
+#&gt;  [9] "Fold09" "Fold10"</div></pre>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#rsample-0-0-2">0.0.2</a></li>
-        <li><a href="#rsample-0-0-1-2017-07-08">0.0.1</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
+  </div>
 </div>
 
       <footer>

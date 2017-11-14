@@ -35,6 +35,9 @@
   <a href="../articles/Working_with_rsets.html">Working with Resample Sets</a>
 </li>
 <li>
+  <a href="../articles/Recipes_and_rsample.html">Recipes and rsample</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -69,21 +72,16 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)
 <span class="kw">data</span>(<span class="st">"attrition"</span>)
 <span class="kw">names</span>(attrition)
-<span class="co">#&gt;  [1] "Age"                      "Attrition"               </span>
-<span class="co">#&gt;  [3] "BusinessTravel"           "DailyRate"               </span>
-<span class="co">#&gt;  [5] "Department"               "DistanceFromHome"        </span>
-<span class="co">#&gt;  [7] "Education"                "EducationField"          </span>
-<span class="co">#&gt;  [9] "EnvironmentSatisfaction"  "Gender"                  </span>
-<span class="co">#&gt; [11] "HourlyRate"               "JobInvolvement"          </span>
-<span class="co">#&gt; [13] "JobLevel"                 "JobRole"                 </span>
-<span class="co">#&gt; [15] "JobSatisfaction"          "MaritalStatus"           </span>
-<span class="co">#&gt; [17] "MonthlyIncome"            "MonthlyRate"             </span>
-<span class="co">#&gt; [19] "NumCompaniesWorked"       "OverTime"                </span>
-<span class="co">#&gt; [21] "PercentSalaryHike"        "PerformanceRating"       </span>
-<span class="co">#&gt; [23] "RelationshipSatisfaction" "StockOptionLevel"        </span>
-<span class="co">#&gt; [25] "TotalWorkingYears"        "TrainingTimesLastYear"   </span>
-<span class="co">#&gt; [27] "WorkLifeBalance"          "YearsAtCompany"          </span>
-<span class="co">#&gt; [29] "YearsInCurrentRole"       "YearsSinceLastPromotion" </span>
+<span class="co">#&gt;  [1] "Age"                      "Attrition"                "BusinessTravel"          </span>
+<span class="co">#&gt;  [4] "DailyRate"                "Department"               "DistanceFromHome"        </span>
+<span class="co">#&gt;  [7] "Education"                "EducationField"           "EnvironmentSatisfaction" </span>
+<span class="co">#&gt; [10] "Gender"                   "HourlyRate"               "JobInvolvement"          </span>
+<span class="co">#&gt; [13] "JobLevel"                 "JobRole"                  "JobSatisfaction"         </span>
+<span class="co">#&gt; [16] "MaritalStatus"            "MonthlyIncome"            "MonthlyRate"             </span>
+<span class="co">#&gt; [19] "NumCompaniesWorked"       "OverTime"                 "PercentSalaryHike"       </span>
+<span class="co">#&gt; [22] "PerformanceRating"        "RelationshipSatisfaction" "StockOptionLevel"        </span>
+<span class="co">#&gt; [25] "TotalWorkingYears"        "TrainingTimesLastYear"    "WorkLifeBalance"         </span>
+<span class="co">#&gt; [28] "YearsAtCompany"           "YearsInCurrentRole"       "YearsSinceLastPromotion" </span>
 <span class="co">#&gt; [31] "YearsWithCurrManager"</span>
 <span class="kw">table</span>(attrition<span class="op">$</span>Attrition)
 <span class="co">#&gt; </span>
@@ -104,7 +102,7 @@
 <span class="kw">set.seed</span>(<span class="dv">4622</span>)
 rs_obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vfold_cv.html">vfold_cv</a></span>(attrition, <span class="dt">V =</span> <span class="dv">10</span>, <span class="dt">repeats =</span> <span class="dv">10</span>)
 rs_obj
-<span class="co">#&gt; # 10-fold cross-validation repeated 10 times </span>
+<span class="co">#&gt; #  10-fold cross-validation repeated 10 times </span>
 <span class="co">#&gt; # A tibble: 100 x 3</span>
 <span class="co">#&gt;          splits       id    id2</span>
 <span class="co">#&gt;          &lt;list&gt;    &lt;chr&gt;  &lt;chr&gt;</span>
@@ -171,7 +169,7 @@ rs_obj<span class="op">$</span>results &lt;-<span class="st"> </span><span class
                       holdout_results,
                       mod_form)
 rs_obj
-<span class="co">#&gt; # 10-fold cross-validation repeated 10 times </span>
+<span class="co">#&gt; #  10-fold cross-validation repeated 10 times </span>
 <span class="co">#&gt; # A tibble: 100 x 4</span>
 <span class="co">#&gt;          splits       id    id2                 results</span>
 <span class="co">#&gt;          &lt;list&gt;    &lt;chr&gt;  &lt;chr&gt;                  &lt;list&gt;</span>
@@ -212,14 +210,14 @@ rs_obj
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">353</span>)
 bt_resamples &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bootstraps.html">bootstraps</a></span>(attrition, <span class="dt">times =</span> <span class="dv">500</span>)</code></pre></div>
 <p>This function is then computed across each resample:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bt_resamples<span class="op">$</span>statistic &lt;-<span class="st"> </span><span class="kw">map_dbl</span>(bt_resamples<span class="op">$</span>splits, median_diff)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bt_resamples<span class="op">$</span>wage_diff &lt;-<span class="st"> </span><span class="kw">map_dbl</span>(bt_resamples<span class="op">$</span>splits, median_diff)</code></pre></div>
 <p>The bootstrap distribution of this statistic has a slightly bimodal and skewed distribution:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(bt_resamples, <span class="kw">aes</span>(<span class="dt">x =</span> statistic)) <span class="op">+</span><span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(bt_resamples, <span class="kw">aes</span>(<span class="dt">x =</span> wage_diff)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">stat =</span> <span class="st">"density"</span>, <span class="dt">adjust =</span> <span class="fl">1.25</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Difference in Median Monthly Income (Female - Male)"</span>)</code></pre></div>
 <p><img src="Working_with_rsets_files/figure-html/stats_plot-1.png" width="672"></p>
 <p>The variation is considerable in this statistic. One method of computing a confidence interval is to take the percentiles of the bootstrap distribution. A 95% confidence interval for the difference in the means would be:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(bt_resamples<span class="op">$</span>statistic, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(bt_resamples<span class="op">$</span>wage_diff, 
          <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.500</span>, <span class="fl">0.975</span>))
 <span class="co">#&gt;  2.5%   50% 97.5% </span>
 <span class="co">#&gt;  -207   190   618</span></code></pre></div>
@@ -238,9 +236,9 @@ bt_resamples<span class="op">$</span>betas &lt;-<span class="st"> </span><span c
                           <span class="dt">.f =</span> glm_coefs, 
                           mod_form)
 bt_resamples
-<span class="co">#&gt; # Bootstrap sampling with 500 resamples </span>
+<span class="co">#&gt; # Bootstrap sampling </span>
 <span class="co">#&gt; # A tibble: 500 x 4</span>
-<span class="co">#&gt;          splits           id statistic                betas</span>
+<span class="co">#&gt;          splits           id wage_diff                betas</span>
 <span class="co">#&gt;          &lt;list&gt;        &lt;chr&gt;     &lt;dbl&gt;               &lt;list&gt;</span>
 <span class="co">#&gt;  1 &lt;S3: rsplit&gt; Bootstrap001      80.0 &lt;data.frame [1 x 6]&gt;</span>
 <span class="co">#&gt;  2 &lt;S3: rsplit&gt; Bootstrap002      68.5 &lt;data.frame [1 x 6]&gt;</span>
@@ -254,83 +252,10 @@ bt_resamples
 <span class="co">#&gt; 10 &lt;S3: rsplit&gt; Bootstrap010     451.0 &lt;data.frame [1 x 6]&gt;</span>
 <span class="co">#&gt; # ... with 490 more rows</span>
 bt_resamples<span class="op">$</span>betas[[<span class="dv">1</span>]]
-<span class="co">#&gt;   (Intercept) JobSatisfaction.L JobSatisfaction.Q JobSatisfaction.C</span>
-<span class="co">#&gt; 1      -0.828            -0.297            0.0979            -0.259</span>
-<span class="co">#&gt;   GenderMale MonthlyIncome</span>
-<span class="co">#&gt; 1      0.175     -0.000135</span></code></pre></div>
-</div>
-<div id="using-recipes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#using-recipes" class="anchor"></a>Using recipes</h2>
-<p>The <a href="https://topepo.github.io/recipes/"><code>recipes</code></a> package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide.</p>
-<p>To define the design matrix, an initial recipe is created:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(recipes)
-
-rec &lt;-<span class="st"> </span><span class="kw">recipe</span>(Attrition <span class="op">~</span><span class="st"> </span>Age <span class="op">+</span><span class="st"> </span>Gender <span class="op">+</span><span class="st"> </span>JobRole <span class="op">+</span><span class="st"> </span>JobSatisfaction <span class="op">+</span><span class="st"> </span>MonthlyIncome, 
-              <span class="dt">data =</span> attrition) <span class="op">%&gt;%</span>
-<span class="st">  </span>## Collapse rarely occurring jobs into "other"
-<span class="st">  </span><span class="kw">step_other</span>(JobRole, <span class="dt">threshold =</span> <span class="fl">0.1</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span>## Dummy variables on the qualitative predictors 
-<span class="st">  </span><span class="kw">step_dummy</span>(JobRole, Gender) <span class="op">%&gt;%</span>
-<span class="st">  </span>## Unskew a predictor
-<span class="st">  </span><span class="kw">step_BoxCox</span>(MonthlyIncome) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">step_center</span>(<span class="kw">all_predictors</span>()) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">step_scale</span>(<span class="kw">all_predictors</span>()) 
-rec
-<span class="co">#&gt; Data Recipe</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Inputs:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;       role #variables</span>
-<span class="co">#&gt;    outcome          1</span>
-<span class="co">#&gt;  predictor          5</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Steps:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Collapsing factor levels for JobRole</span>
-<span class="co">#&gt; Dummy variables from JobRole, Gender</span>
-<span class="co">#&gt; Box-Cox transformation on MonthlyIncome</span>
-<span class="co">#&gt; Centering for all_predictors()</span>
-<span class="co">#&gt; Scaling for all_predictors()</span></code></pre></div>
-<p>This recreates the work that the formula method traditionally uses with the additional steps that center and scale the predictors. <code>step_other</code> finds infrequently occurring job roles and collapses them into a factor level called “other” to avoid columns that have all zeros for their dummy variables.</p>
-<p>While the original data object <code>attrition</code> is used in the call, it is only used to define the variables and their characteristics so a single recipe is valid across all resampled versions of the data. The recipe can be estimated on the analysis component of the resample.</p>
-<p>A function to fit the logistic regression models using a recipe would then be:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm_coefs_rec &lt;-<span class="st"> </span><span class="cf">function</span>(splits, rec, ...) {
-
-  <span class="co"># Estimate the parameters using the analysis data</span>
-  trained_rec &lt;-<span class="st"> </span><span class="kw">prepare</span>(rec, <span class="dt">training =</span> <span class="kw"><a href="../reference/as.data.frame.rsplit.html">analysis</a></span>(splits), 
-                         <span class="dt">retain =</span> <span class="ot">TRUE</span>,
-                         <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
-  
-  <span class="co"># Apply the transformations to the data set, save the </span>
-  <span class="co"># predictor values, and convert to a matrix</span>
-  design_matrix &lt;-<span class="st"> </span><span class="kw">juice</span>(trained_rec, <span class="kw">all_predictors</span>())
-  design_matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(design_matrix)
-  
-  <span class="co"># Get the outcome values and fit the model using `lm.fit`</span>
-  y &lt;-<span class="st"> </span><span class="kw">juice</span>(trained_rec, <span class="kw">all_outcomes</span>())<span class="op">$</span>Attrition
-  
-  <span class="kw">glm.fit</span>(<span class="dt">x =</span> design_matrix, <span class="dt">y =</span> y, <span class="dt">family =</span> <span class="kw">binomial</span>(), ...)
-}
-
-bt_resamples<span class="op">$</span>fits &lt;-<span class="st"> </span><span class="kw">map</span>(bt_resamples<span class="op">$</span>splits, glm_coefs_rec, <span class="dt">rec =</span> rec)
-bt_resamples
-<span class="co">#&gt; # Bootstrap sampling with 500 resamples </span>
-<span class="co">#&gt; # A tibble: 500 x 5</span>
-<span class="co">#&gt;          splits           id statistic                betas        fits</span>
-<span class="co">#&gt;          &lt;list&gt;        &lt;chr&gt;     &lt;dbl&gt;               &lt;list&gt;      &lt;list&gt;</span>
-<span class="co">#&gt;  1 &lt;S3: rsplit&gt; Bootstrap001      80.0 &lt;data.frame [1 x 4]&gt; &lt;list [20]&gt;</span>
-<span class="co">#&gt;  2 &lt;S3: rsplit&gt; Bootstrap002      68.5 &lt;data.frame [1 x 4]&gt; &lt;list [20]&gt;</span>
-<span class="co">#&gt;  3 &lt;S3: rsplit&gt; Bootstrap003      20.0 &lt;data.frame [1 x 4]&gt; &lt;list [20]&gt;</span>
-<span class="co">#&gt;  4 &lt;S3: rsplit&gt; Bootstrap004     177.0 &lt;data.frame [1 x 4]&gt; &lt;list [20]&gt;</span>
-<span class="co">#&gt;  5 &lt;S3: rsplit&gt; Bootstrap005      18.0 &lt;data.frame [1 x 4]&gt; &lt;list [20]&gt;</span>
-<span class="co">#&gt;  6 &lt;S3: rsplit&gt; Bootstrap006     594.5 &lt;data.frame [1 x 4]&gt; &lt;list [20]&gt;</span>
-<span class="co">#&gt;  7 &lt;S3: rsplit&gt; Bootstrap007     137.0 &lt;data.frame [1 x 4]&gt; &lt;list [20]&gt;</span>
-<span class="co">#&gt;  8 &lt;S3: rsplit&gt; Bootstrap008      55.0 &lt;data.frame [1 x 4]&gt; &lt;list [20]&gt;</span>
-<span class="co">#&gt;  9 &lt;S3: rsplit&gt; Bootstrap009      32.5 &lt;data.frame [1 x 4]&gt; &lt;list [20]&gt;</span>
-<span class="co">#&gt; 10 &lt;S3: rsplit&gt; Bootstrap010     451.0 &lt;data.frame [1 x 4]&gt; &lt;list [20]&gt;</span>
-<span class="co">#&gt; # ... with 490 more rows</span></code></pre></div>
-<p>From these objects, we can extract the coefficients, fit statistics, and other values.</p>
+<span class="co">#&gt;   (Intercept) JobSatisfaction.L JobSatisfaction.Q JobSatisfaction.C GenderMale</span>
+<span class="co">#&gt; 1      -0.828            -0.297            0.0979            -0.259      0.175</span>
+<span class="co">#&gt;   MonthlyIncome</span>
+<span class="co">#&gt; 1     -0.000135</span></code></pre></div>
 </div>
 <div id="keeping-tidy" class="section level2">
 <h2 class="hasAnchor">
@@ -384,7 +309,6 @@ bt_resamples
       <li><a href="#model-assessment">Model Assessment</a></li>
       <li><a href="#using-the-bootstrap-to-make-comparisons">Using the Bootstrap to Make Comparisons</a></li>
       <li><a href="#bootstrap-estimates-of-model-coefficients">Bootstrap Estimates of Model Coefficients</a></li>
-      <li><a href="#using-recipes">Using recipes</a></li>
       <li><a href="#keeping-tidy">Keeping Tidy</a></li>
       </ul>
 </div>

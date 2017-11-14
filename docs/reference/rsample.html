@@ -57,6 +57,9 @@
   <a href="../articles/Working_with_rsets.html">Working with Resample Sets</a>
 </li>
 <li>
+  <a href="../articles/Recipes_and_rsample.html">Recipes and rsample</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -88,31 +91,31 @@
 
     
     <ul>
-<li><p>A <b>resample</b> is the result of a two-way split of a
+<li><p>A **resample** is the result of a two-way split of a
  data set. For example, when bootstrapping, one part of the
  resample is a sample with replacement of the original data.
  The other part of the split contains the instances that were
  not contained in the bootstrap sample. The data structure
- <code>rsplit</code> is used to store a single resample.</p></li>
+ `rsplit` is used to store a single resample.</p></li>
 <li><p>When the data are split in two, the portion that are
  used to estimate the model or calculate the statistic is
- called the <b>analysis</b> set here. In machine learning this
+ called the **analysis** set here. In machine learning this
  is sometimes called the "training set" but this would be
  poorly named since it might conflict with any initial split
  of the original data.</p></li>
 <li><p>Conversely, the other data in the split are called the
-    <b>assessment</b> data. In bootstrapping, these data are
+    **assessment** data. In bootstrapping, these data are
     often called the "out-of-bag" samples.</p></li>
 <li><p>A collection of resamples is contained in an 
- <code>rset</code> object.</p></li>
+ `rset` object.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="basic-functions"><a class="anchor" href="#basic-functions"></a>Basic Functions</h2>
 
     
-    <p>The main resampling functions are: <code><a href='vfold_cv.html'>vfold_cv</a></code>, 
-  <code><a href='bootstraps.html'>bootstraps</a></code>, <code><a href='mc_cv.html'>mc_cv</a></code>, 
-  <code><a href='rolling_origin.html'>rolling_origin</a></code>, and <code><a href='nested_cv.html'>nested_cv</a></code>.</p>
+    <p>The main resampling functions are: [vfold_cv()], 
+  [bootstraps()], [mc_cv()], 
+  [rolling_origin()], and [nested_cv()].</p>
     
 
   </div>

@@ -10,6 +10,9 @@ output:
 
 ```{r setup, include = FALSE}
 options(digits = 3)
+library(rsample)
+library(recipes)
+library(purrr)
 ```
 
 The [`recipes`](https://topepo.github.io/recipes/) package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide. This document uses version `r packageDescription("recipes")$Version` of `recipes`. 
@@ -106,7 +109,7 @@ Also, `retain` keeps the processed version of the data set so that we don't have
 juice(rec_training_set) %>% head
 ```
 
-The next section will explore recipes using bootstrap resampling is used for modeling:
+The next section will explore recipes and bootstrap resampling for modeling:
 
 ```{r boot}
 library(rsample)

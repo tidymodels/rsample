@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add Assessment Indicies — fill • rsample</title>
+<title>Gather an `rset` Object — gather.rset • rsample</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,43 +77,86 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add Assessment Indicies</h1>
+    <h1>Gather an `rset` Object</h1>
     </div>
 
     
-    <p>Many `rsplit` and `rset` objects do not contain indicators for
-  the assessment samples. `fill` can be used to populate the slot
-  for the appropriate indices.</p>
+    <p>This method uses `gather` on an `rset` object to stack all of
+ the non-ID or split columns in the data and is useful for
+ stacking model evaluation statistics. The resulting data frame
+ has a column based on the column names of `data` and another for
+ the values.</p>
     
 
-    <pre class="usage"><span class='fu'>fill</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for rset</span>
+<span class='fu'>gather</span>(<span class='no'>data</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>convert</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>factor_key</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A `rsplit` and `rset` object.</p></td>
+      <th>data</th>
+      <td><p>An `rset` object.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Not currently used</p></td>
+      <th>key, value, ...</th>
+      <td><p>Not specified in this method and will be
+ignored. Note that this means that selectors are ignored if
+they are passed to the function.</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>If `TRUE`, will remove rows from output where the
+value column in `NA`.</p></td>
+    </tr>
+    <tr>
+      <th>convert</th>
+      <td><p>If `TRUE` will automatically run
+`type.convert()` on the key column. This is useful if the column
+names are actually numeric, integer, or logical.</p></td>
+    </tr>
+    <tr>
+      <th>factor_key</th>
+      <td><p>If FALSE, the default, the key values will be
+stored as a character vector. If `TRUE`, will be stored as a
+factor, which preserves the original ordering of the columns.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same time with the integer indicies.</p>
+    <p>A data frame with the ID columns, a column called
+ `model` (with the previous column names), and a column called
+ `statistic` (with the values).</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>set.seed</span>(<span class='fl'>28432</span>)
-<span class='no'>fold_rs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>)
-
-<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1] NA</div><div class='input'><span class='fu'><a href='complement.html'>complement</a></span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; [1]  2  8 25 29</div><div class='input'>
-<span class='fu'>fill</span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  2  8 25 29</div><div class='input'>
-<span class='no'>fold_rs_all</span> <span class='kw'>&lt;-</span> <span class='fu'>fill</span>(<span class='no'>fold_rs</span>)
-<span class='no'>fold_rs_all</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  2  8 25 29</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>rsample</span>)
+<span class='no'>cv_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+<span class='no'>cv_obj</span>$<span class='no'>lm_rmse</span> <span class='kw'>&lt;-</span> <span class='fu'>rnorm</span>(<span class='fl'>10</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='no'>cv_obj</span>$<span class='no'>nnet_rmse</span> <span class='kw'>&lt;-</span> <span class='fu'>rnorm</span>(<span class='fl'>10</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='fu'>gather</span>(<span class='no'>cv_obj</span>)</div><div class='output co'>#&gt;        id     model   statistic
+#&gt; 1  Fold01   lm_rmse  3.01374433
+#&gt; 2  Fold02   lm_rmse  1.79623542
+#&gt; 3  Fold03   lm_rmse  3.14856675
+#&gt; 4  Fold04   lm_rmse  3.34679349
+#&gt; 5  Fold05   lm_rmse  2.72970634
+#&gt; 6  Fold06   lm_rmse  2.20950131
+#&gt; 7  Fold07   lm_rmse  3.12815485
+#&gt; 8  Fold08   lm_rmse  1.66607666
+#&gt; 9  Fold09   lm_rmse  1.51367095
+#&gt; 10 Fold10   lm_rmse  2.78138724
+#&gt; 11 Fold01 nnet_rmse  1.12502893
+#&gt; 12 Fold02 nnet_rmse -0.04019181
+#&gt; 13 Fold03 nnet_rmse  0.83509883
+#&gt; 14 Fold04 nnet_rmse  1.82513817
+#&gt; 15 Fold05 nnet_rmse  2.84551869
+#&gt; 16 Fold06 nnet_rmse  1.61097953
+#&gt; 17 Fold07 nnet_rmse  3.46298079
+#&gt; 18 Fold08 nnet_rmse  1.44740391
+#&gt; 19 Fold09 nnet_rmse  1.60834335
+#&gt; 20 Fold10 nnet_rmse  1.47751459</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add Assessment Indicies — fill • rsample</title>
+<title>Simple Training/Test Set Splitting — initial_split • rsample</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,43 +77,60 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add Assessment Indicies</h1>
+    <h1>Simple Training/Test Set Splitting</h1>
     </div>
 
     
-    <p>Many `rsplit` and `rset` objects do not contain indicators for
-  the assessment samples. `fill` can be used to populate the slot
-  for the appropriate indices.</p>
+    <p>`initial_split` creates a single binary split of the data 
+ into a training set and testing set. `training` and
+ `testing` are used to extract the resulting data.</p>
     
 
-    <pre class="usage"><span class='fu'>fill</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>initial_split</span>(<span class='no'>data</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>3</span>/<span class='fl'>4</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+
+<span class='fu'>training</span>(<span class='no'>x</span>)
+
+<span class='fu'>testing</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A `rsplit` and `rset` object.</p></td>
+      <th>data</th>
+      <td><p>A data frame.</p></td>
+    </tr>
+    <tr>
+      <th>prop</th>
+      <td><p>The proportion of data to be retained for modeling/analysis.</p></td>
+    </tr>
+    <tr>
+      <th>strata</th>
+      <td><p>A variable that is used to conduct stratified sampling to create the resamples.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Not currently used</p></td>
+      <td><p>Not currently used.</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>An `rsplit` object produced by `initial_split`</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same time with the integer indicies.</p>
+    <p>An `rset` object that can be used with the `training` and `testing` functions to extract the data in each split.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The `strata` argument causes the random sampling to be conducted *within the stratification variable*. The can help ensure that the number of data points in the training data is equivalent to the proportions in the original data set.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>set.seed</span>(<span class='fl'>28432</span>)
-<span class='no'>fold_rs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>)
-
-<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1] NA</div><div class='input'><span class='fu'><a href='complement.html'>complement</a></span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; [1]  2  8 25 29</div><div class='input'>
-<span class='fu'>fill</span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  2  8 25 29</div><div class='input'>
-<span class='no'>fold_rs_all</span> <span class='kw'>&lt;-</span> <span class='fu'>fill</span>(<span class='no'>fold_rs</span>)
-<span class='no'>fold_rs_all</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  2  8 25 29</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>set.seed</span>(<span class='fl'>1353</span>)
+<span class='no'>car_split</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mc_cv.html'>mc_cv</a></span>(<span class='no'>mtcars</span>)
+<span class='no'>train_data</span> <span class='kw'>&lt;-</span> <span class='fu'>training</span>(<span class='no'>car_split</span>)
+<span class='no'>test_data</span> <span class='kw'>&lt;-</span> <span class='fu'>testing</span>(<span class='no'>car_split</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -121,6 +138,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
