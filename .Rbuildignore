@@ -8,3 +8,4 @@ README.html
 ^_pkgdown\.yml$
 vignettes/.build.timestamp
 rsample_hex_thumb.png
+^pkgdown$
