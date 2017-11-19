@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  <link href="../extra.css" rel="stylesheet">
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -90,7 +91,7 @@
 <code>initial_split</code>, <code>training</code>, and <code>testing</code> were added to do training/testing splits prior to resampling.</li>
 <li>Another resampling method, <code>group_vfold_cv</code>, was added.</li>
 <li>
-<code>caret2rsample</code> and <code>rsample2caret</code> can convert <code>rset</code> objects to those used by <code>caret::trainControl</code> and vice-versa.</li>
+<code>caret2rsample</code> and <code>rsample2caret</code> can convert <code>rset</code> objects to those used by <code><a href="http://www.rdocumentation.org/packages/caret/topics/trainControl">caret::trainControl</a></code> and vice-versa.</li>
 <li>A function called <code>form_pred</code> can be used to determine the original names of the predictors in a formula or <code>terms</code> object.</li>
 <li>A vignette and a function (<code>prepper</code>) were included to facilitate using the <code>recipes</code> with <code>rsample</code>.</li>
 <li>A <code>gather</code> method was added for <code>rset</code> objects.</li>

@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  <link href="../extra.css" rel="stylesheet">
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -135,16 +136,16 @@ in the group.</p></td>
   <span class='fu'>unique</span>(<span class='fu'><a href='as.data.frame.rsplit.html'>assessment</a></span>(<span class='no'>x</span>)$<span class='no'>id</span>)
 
 <span class='fu'>library</span>(<span class='no'>purrr</span>)
-<span class='fu'>table</span>(<span class='fu'>map_int</span>(<span class='no'>split_by_id</span>$<span class='no'>splits</span>, <span class='no'>get_id_left_out</span>))</div><div class='output co'>#&gt; 
+<span class='fu'>table</span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/purrr/topics/map'>map_int</a></span>(<span class='no'>split_by_id</span>$<span class='no'>splits</span>, <span class='no'>get_id_left_out</span>))</div><div class='output co'>#&gt; 
 #&gt;  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 
 #&gt;  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 </div><div class='input'>
 <span class='fu'>set.seed</span>(<span class='fl'>5144</span>)
 <span class='no'>split_by_some_id</span> <span class='kw'>&lt;-</span> <span class='fu'>group_vfold_cv</span>(<span class='no'>test_data</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"id"</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>7</span>)
-<span class='no'>held_out</span> <span class='kw'>&lt;-</span> <span class='fu'>map</span>(<span class='no'>split_by_some_id</span>$<span class='no'>splits</span>, <span class='no'>get_id_left_out</span>)
+<span class='no'>held_out</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/purrr/topics/map'>map</a></span>(<span class='no'>split_by_some_id</span>$<span class='no'>splits</span>, <span class='no'>get_id_left_out</span>)
 <span class='fu'>table</span>(<span class='fu'>unlist</span>(<span class='no'>held_out</span>))</div><div class='output co'>#&gt; 
 #&gt;  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 
 #&gt;  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 </div><div class='input'><span class='co'># number held out per resample:</span>
-<span class='fu'>map_int</span>(<span class='no'>held_out</span>, <span class='no'>length</span>)</div><div class='output co'>#&gt; 1 2 3 4 5 6 7 
+<span class='fu'><a href='http://www.rdocumentation.org/packages/purrr/topics/map'>map_int</a></span>(<span class='no'>held_out</span>, <span class='no'>length</span>)</div><div class='output co'>#&gt; 1 2 3 4 5 6 7 
 #&gt; 3 3 3 3 3 3 2 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
