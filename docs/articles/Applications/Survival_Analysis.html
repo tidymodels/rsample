@@ -51,6 +51,9 @@
     <li>
       <a href="../../articles/Applications/Survival_Analysis.html">Survival Analysis</a>
     </li>
+    <li>
+      <a href="../../articles/Applications/Nested_Resampling.html">Tuning Models using Nested Resampling</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -174,8 +177,8 @@ concord_est &lt;-<span class="st"> </span><span class="kw"><a href="http://www.r
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 0.000147 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 1.47 seconds.
+## Gradient evaluation took 0.000704 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 7.04 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -192,15 +195,15 @@ concord_est &lt;-<span class="st"> </span><span class="kw"><a href="http://www.r
 ## Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Iteration: 5000 / 5000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 7.04322 seconds (Warm-up)
-##                2.3107 seconds (Sampling)
-##                9.35392 seconds (Total)
+##  Elapsed Time: 6.84215 seconds (Warm-up)
+##                2.30693 seconds (Sampling)
+##                9.14908 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 5.5e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.55 seconds.
+## Gradient evaluation took 6e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.6 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -217,15 +220,15 @@ concord_est &lt;-<span class="st"> </span><span class="kw"><a href="http://www.r
 ## Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Iteration: 5000 / 5000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 7.35204 seconds (Warm-up)
-##                1.94876 seconds (Sampling)
-##                9.3008 seconds (Total)
+##  Elapsed Time: 7.27863 seconds (Warm-up)
+##                1.93605 seconds (Sampling)
+##                9.21468 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 5.4e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.54 seconds.
+## Gradient evaluation took 7.6e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.76 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -242,15 +245,15 @@ concord_est &lt;-<span class="st"> </span><span class="kw"><a href="http://www.r
 ## Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Iteration: 5000 / 5000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 7.19557 seconds (Warm-up)
-##                1.72075 seconds (Sampling)
-##                8.91632 seconds (Total)
+##  Elapsed Time: 7.08101 seconds (Warm-up)
+##                1.73834 seconds (Sampling)
+##                8.81935 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 7e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.7 seconds.
+## Gradient evaluation took 6.9e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.69 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -267,9 +270,9 @@ concord_est &lt;-<span class="st"> </span><span class="kw"><a href="http://www.r
 ## Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Iteration: 5000 / 5000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 7.54846 seconds (Warm-up)
-##                3.12304 seconds (Sampling)
-##                10.6715 seconds (Total)</code></pre>
+##  Elapsed Time: 7.47169 seconds (Warm-up)
+##                3.09066 seconds (Sampling)
+##                10.5624 seconds (Total)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">concord_est<span class="op">$</span>stan</code></pre></div>
 <pre><code>## stan_glmer
 ##  family:       gaussian [identity]

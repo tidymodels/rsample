@@ -40,7 +40,9 @@ navbar:
     - text: Time Series Analysis
       href: articles/Applications/Time_Series.html   
     - text: Survival Analysis
-      href: articles/Applications/Survival_Analysis.html                 
+      href: articles/Applications/Survival_Analysis.html   
+    - text: Tuning Models using Nested Resampling
+      href: articles/Applications/Nested_Resampling.html                      
   - text: Reference
     href: reference/index.html
 
