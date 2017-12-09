@@ -1,0 +1,156 @@
+---
+title: "Time Series Analysis Example"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Time Series Analysis Example}
+output:
+  knitr:::html_vignette:
+    toc: yes
+---
+
+```{r setup, include = FALSE}
+options(digits = 3)
+library(readr)
+library(timetk)
+library(forecast)
+library(rsample)
+library(purrr)
+library(tidyr)
+library(sweep)
+library(dplyr)
+library(ggplot2)
+```
+
+"[Demo Week: Tidy Forecasting with `sweep`](http://www.business-science.io/code-tools/2017/10/25/demo_week_sweep.html)" is an excellent article that uses tidy methods with time series. This article uses their analysis with `rsample` to get performance estimates for future observations using [rolling forecast origin resampling](https://robjhyndman.com/hyndsight/crossvalidation/). 
+
+The data are sales of alcoholic beverages and can be found at [the Federal Reserve Back of St. Louis website](https://fred.stlouisfed.org/graph/fredgraph.png?g=guYe). From this page, download the `csv` file. `readr` is used to bring in the data:
+
+```{r read-data}
+col_spec <- cols(
+  DATE = col_date(format = ""),
+  S4248SM144NCEN = col_double()
+)
+
+library(readr)
+drinks <- read_csv("S4248SM144NCEN.csv", col_types = col_spec) 
+str(drinks, give.att = FALSE)
+```
+
+Each row is a month of sales (in millions of US dollars). 
+
+Suppose that predictions for one year ahead were needed and the model should use the most recent data from the last 20 years. To setup this resampling scheme:
+
+```{r rof}
+library(rsample)
+roll_rs <- rolling_origin(
+  drinks, 
+  initial = 12 * 20, 
+  assess = 12,
+  cumulative = FALSE
+  )
+nrow(roll_rs)
+roll_rs
+```
+
+Each `split` element contains the information about that resample:
+
+```{r split}
+roll_rs$splits[[1]]
+```
+
+For plotting, let's index each split by the first day of the assessment set:
+
+```{r labels}
+get_date <- function(x) 
+  min(assessment(x)$DATE)
+
+start_date <- map(roll_rs$splits, get_date)
+roll_rs$start_date <- do.call("c", start_date)
+head(roll_rs$start_date)
+```
+
+This resampling scheme has `r nrow(roll_rs)` splits of the data so that there will be `r nrow(roll_rs)` ARIMA models that are fit. To create the models, the `auto.arima` function from the `forecast` package is used. The functions `analysis` and `assessment` return the data frame, so another step converts the data in to a `ts` object called `mod_dat` using a function in the `timetk` package.
+
+```{r model-fun}
+library(forecast)
+library(timetk)
+
+fit_model <- function(x, ...) {
+  mod_dat <- tk_ts(analysis(x), start = 1992, freq = 12)
+  auto.arima(mod_dat)
+}
+```
+
+Each model is saved in a new column:
+
+```{r model-fit, warning = FALSE, message = FALSE}
+library(purrr)
+
+roll_rs$arima <- map(roll_rs$splits, fit_model)
+
+# For example:
+
+roll_rs$arima[[1]]
+```
+
+(There are some warnings produced by these first regarding extra columns in the data that can be ignored)
+
+Using the model fits, performance will be measured in two ways:
+
+ * _interpolation_ error will measure how well the model fits to the data that were used to create the model. This is most likely optimistic since no holdout method is used. 
+ * _extrapolation_ or _forecast_ error evaluates the efficacy of the model on the data from the following year (that were not used in the model fit).
+ 
+In each case, the mean absolute percent error (MAPE) is the statistic used to characterize the model fits. The interpolation error can be computed from the `Arima` object. to make things easy, the `sweep` package's `sw_glance` function is used:
+
+```{r interp}
+library(sweep)
+
+roll_rs$interpolation <- map_dbl(
+  roll_rs$arima,
+  function(x) 
+    sw_glance(x)[["MAPE"]]
+  )
+summary(roll_rs$interpolation)
+```
+
+For the extrapolation error, the model and split objects are required. Using these:
+
+```{r extrap}
+library(dplyr)
+
+get_extrap <- function(split, mod) {
+  n <- nrow(assessment(split))
+  # Get assessment data
+  pred_dat <- assessment(split) %>%
+    mutate(
+      pred = as.vector(forecast(mod, h = n)$mean),
+      pct_error = ( S4248SM144NCEN - pred ) / S4248SM144NCEN * 100
+    )
+  mean(abs(pred_dat$pct_error))
+}
+
+roll_rs$extrapolation <- 
+  map2_dbl(roll_rs$splits, roll_rs$arima, get_extrap)
+
+summary(roll_rs$extrapolation)
+```
+
+What do these error estimates look like over time?
+
+```{r plot}
+library(ggplot2)
+library(tidyr)
+
+roll_rs %>%
+  select(interpolation, extrapolation, start_date) %>%
+  as.data.frame %>%
+  gather(error, MAPE, -start_date) %>%
+  ggplot(aes(x = start_date, y = MAPE, col = error)) + 
+  geom_point() + 
+  geom_line() + 
+  theme_bw() + 
+  theme(legend.position = "top")
+```
+
+It is likely that the interpolation error is an underestimate to some degree. 
+

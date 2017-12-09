@@ -9,3 +9,4 @@ README.html
 vignettes/.build.timestamp
 rsample_hex_thumb.png
 ^pkgdown$
+.github

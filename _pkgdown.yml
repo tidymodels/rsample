@@ -32,9 +32,15 @@ navbar:
   - text: Basic Usage 
     href: articles/Basics.html   
   - text: Working with Resample Sets
-    href: articles/Working_with_rsets.html     
-  - text: Recipes and rsample
-    href: articles/Recipes_and_rsample.html       
+    href: articles/Working_with_rsets.html  
+  - text: Application Examples   
+    menu:   
+    - text: Recipes and rsample
+      href: articles/Applications/Recipes_and_rsample.html       
+    - text: Time Series Analysis
+      href: articles/Applications/Time_Series.html   
+    - text: Survival Analysis
+      href: articles/Applications/Survival_Analysis.html                 
   - text: Reference
     href: reference/index.html
 
