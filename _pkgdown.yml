@@ -43,6 +43,8 @@ navbar:
       href: articles/Applications/Survival_Analysis.html   
     - text: Tuning Models using Nested Resampling
       href: articles/Applications/Nested_Resampling.html                      
+    - text: Grid Search Tuning of Keras Models
+      href: articles/Applications/Keras.html  
   - text: Reference
     href: reference/index.html
 
