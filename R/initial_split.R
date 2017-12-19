@@ -14,7 +14,7 @@
 #' @return  An `rset` object that can be used with the `training` and `testing` functions to extract the data in each split. 
 #' @examples
 #' set.seed(1353)
-#' car_split <- mc_cv(mtcars)
+#' car_split <- initial_split(mtcars)
 #' train_data <- training(car_split)
 #' test_data <- testing(car_split) 
 #' @export

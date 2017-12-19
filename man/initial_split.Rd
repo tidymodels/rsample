@@ -36,7 +36,7 @@ The `strata` argument causes the random sampling to be conducted *within the str
 }
 \examples{
 set.seed(1353)
-car_split <- mc_cv(mtcars)
+car_split <- initial_split(mtcars)
 train_data <- training(car_split)
 test_data <- testing(car_split) 
 }
