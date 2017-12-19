@@ -167,7 +167,7 @@ mlp_rmse &lt;-<span class="st"> </span><span class="cf">function</span>(epoch, s
   <span class="dt">batch_size =</span> <span class="dv">128</span>, 
   <span class="dt">verbose =</span> <span class="dv">0</span>
 )</code></pre></div>
-<pre><code>## [1] 0.4420653</code></pre>
+<pre><code>## [1] 0.321477</code></pre>
 <p>This works for a single resample and a single epoch setting. To tune over epochs, another function uses <code>map</code> to work over the tuning parameter for a specific resample. This is more advantageous than fixing the tuning parameter and then iterating over the data. If there was a complex feature engineering process being used, it only needs to be called once if functions are configured so that the <em>inner</em> loop is over the tuning parameters.</p>
 <p>The result value is a tibble with the tuning parameter values, the performance estimates, and an indicator for the fold.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">across_grid &lt;-<span class="st"> </span><span class="cf">function</span>(split, ...) {
@@ -196,12 +196,12 @@ mlp_rmse &lt;-<span class="st"> </span><span class="cf">function</span>(epoch, s
   )</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(tune_results)</code></pre></div>
 <pre><code>##   epoch      rmse     id
-## 1    50 0.7654377 Fold01
-## 2   100 0.3741241 Fold01
-## 3   150 0.3820697 Fold01
-## 4   200 0.2719558 Fold01
-## 5   250 0.2158916 Fold01
-## 6   300 0.1676901 Fold01</code></pre>
+## 1    50 0.5871970 Fold01
+## 2   100 0.3351279 Fold01
+## 3   150 0.2692531 Fold01
+## 4   200 0.2093771 Fold01
+## 5   250 0.1925796 Fold01
+## 6   300 0.1683193 Fold01</code></pre>
 <p>The mean RMSE per epoch is computed and plotted along with the individual curves for each resample.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mean_values &lt;-<span class="st"> </span>tune_results <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(epoch) <span class="op">%&gt;%</span>
@@ -210,18 +210,18 @@ mean_values</code></pre></div>
 <pre><code>## # A tibble: 12 x 2
 ##    epoch      rmse
 ##    &lt;dbl&gt;     &lt;dbl&gt;
-##  1    50 0.7582884
-##  2   100 0.4011383
-##  3   150 0.3118799
-##  4   200 0.2477312
-##  5   250 0.2056774
-##  6   300 0.1680085
-##  7   350 0.1501554
-##  8   400 0.1454276
-##  9   450 0.1451050
-## 10   500 0.1450753
-## 11   550 0.1452310
-## 12   600 0.1446001</code></pre>
+##  1    50 0.9048910
+##  2   100 0.4208690
+##  3   150 0.2969051
+##  4   200 0.2313009
+##  5   250 0.2022007
+##  6   300 0.1684118
+##  7   350 0.1505222
+##  8   400 0.1459717
+##  9   450 0.1452483
+## 10   500 0.1448865
+## 11   550 0.1451376
+## 12   600 0.1448295</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
 
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(mean_values, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> epoch, <span class="dt">y =</span> rmse)) <span class="op">+</span><span class="st"> </span>

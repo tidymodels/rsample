@@ -135,12 +135,20 @@ roll_rs<span class="op">$</span>start_date &lt;-<span class="st"> </span><span c
 <pre><code>## [1] "2012-01-01" "2012-02-01" "2012-03-01" "2012-04-01" "2012-05-01"
 ## [6] "2012-06-01"</code></pre>
 <p>This resampling scheme has 58 splits of the data so that there will be 58 ARIMA models that are fit. To create the models, the <code>auto.arima</code> function from the <code>forecast</code> package is used. The functions <code>analysis</code> and <code>assessment</code> return the data frame, so another step converts the data in to a <code>ts</code> object called <code>mod_dat</code> using a function in the <code>timetk</code> package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(forecast)
-<span class="kw">library</span>(timetk)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(forecast)  <span class="co"># for `auto.arima`</span>
+<span class="kw">library</span>(timetk)    <span class="co"># for `tk_ts`</span>
+<span class="kw">library</span>(zoo)       <span class="co"># for `as.yearmon`</span>
 
 fit_model &lt;-<span class="st"> </span><span class="cf">function</span>(x, ...) {
-  mod_dat &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/timetk/topics/tk_ts">tk_ts</a></span>(<span class="kw"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(x), <span class="dt">start =</span> <span class="dv">1992</span>, <span class="dt">freq =</span> <span class="dv">12</span>)
-  <span class="kw"><a href="http://www.rdocumentation.org/packages/forecast/topics/auto.arima">auto.arima</a></span>(mod_dat)
+  <span class="co"># suggested by Matt Dancho:</span>
+  x <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>() <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="co"># Since the first day changes over resamples, adjust it</span>
+<span class="st">    </span><span class="co"># based on the first date value in the data frame </span>
+<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/timetk/topics/tk_ts">tk_ts</a></span>(<span class="dt">start =</span> .<span class="op">$</span>DATE[[<span class="dv">1</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/zoo/topics/yearmon">as.yearmon</a></span>(), 
+          <span class="dt">freq =</span> <span class="dv">12</span>, 
+          <span class="dt">silent =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/forecast/topics/auto.arima">auto.arima</a></span>(...)
 }</code></pre></div>
 <p>Each model is saved in a new column:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(purrr)
@@ -150,7 +158,7 @@ roll_rs<span class="op">$</span>arima &lt;-<span class="st"> </span><span class=
 <span class="co"># For example:</span>
 
 roll_rs<span class="op">$</span>arima[[<span class="dv">1</span>]]</code></pre></div>
-<pre><code>## Series: mod_dat 
+<pre><code>## Series: . 
 ## ARIMA(2,1,2)(2,1,1)[12] 
 ## 
 ## Coefficients:

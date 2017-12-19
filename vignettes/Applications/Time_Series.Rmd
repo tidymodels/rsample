@@ -19,6 +19,7 @@ library(tidyr)
 library(sweep)
 library(dplyr)
 library(ggplot2)
+library(zoo)
 ```
 
 "[Demo Week: Tidy Forecasting with `sweep`](http://www.business-science.io/code-tools/2017/10/25/demo_week_sweep.html)" is an excellent article that uses tidy methods with time series. This article uses their analysis with `rsample` to get performance estimates for future observations using [rolling forecast origin resampling](https://robjhyndman.com/hyndsight/crossvalidation/). 
@@ -72,12 +73,20 @@ head(roll_rs$start_date)
 This resampling scheme has `r nrow(roll_rs)` splits of the data so that there will be `r nrow(roll_rs)` ARIMA models that are fit. To create the models, the `auto.arima` function from the `forecast` package is used. The functions `analysis` and `assessment` return the data frame, so another step converts the data in to a `ts` object called `mod_dat` using a function in the `timetk` package.
 
 ```{r model-fun}
-library(forecast)
-library(timetk)
+library(forecast)  # for `auto.arima`
+library(timetk)    # for `tk_ts`
+library(zoo)       # for `as.yearmon`
 
 fit_model <- function(x, ...) {
-  mod_dat <- tk_ts(analysis(x), start = 1992, freq = 12)
-  auto.arima(mod_dat)
+  # suggested by Matt Dancho:
+  x %>%
+    analysis() %>%
+    # Since the first day changes over resamples, adjust it
+    # based on the first date value in the data frame 
+    tk_ts(start = .$DATE[[1]] %>% as.yearmon(), 
+          freq = 12, 
+          silent = TRUE) %>%
+    auto.arima(...)
 }
 ```
 

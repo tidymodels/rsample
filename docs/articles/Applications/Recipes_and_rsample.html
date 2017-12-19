@@ -163,7 +163,7 @@ rec</code></pre></div>
 ##    outcome          1
 ##  predictor          4
 ## 
-## Steps:
+## Operations:
 ## 
 ## Log transformation on Sale_Price
 ## Collapsing factor levels for Neighborhood, House_Style
@@ -175,12 +175,12 @@ rec</code></pre></div>
 <p>While the original data object <code>ames</code> is used in the call, it is only used to define the variables and their characteristics so a single recipe is valid across all resampled versions of the data. The recipe can be estimated on the analysis component of the resample.</p>
 <p>If we execute the recipe on the entire data set:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rec_training_set &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/recipes/topics/prep">prep</a></span>(rec, <span class="dt">training =</span> ames, <span class="dt">retain =</span> <span class="ot">TRUE</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## step 1 log training 
-## step 2 other training 
-## step 3 dummy training 
-## step 4 BoxCox training 
-## step 5 center training 
-## step 6 scale training</code></pre>
+<pre><code>## oper 1 step log [training] 
+## oper 2 step other [training] 
+## oper 3 step dummy [training] 
+## oper 4 step BoxCox [training] 
+## oper 5 step center [training] 
+## oper 6 step scale [training]</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rec_training_set</code></pre></div>
 <pre><code>## Data Recipe
 ## 
@@ -192,7 +192,7 @@ rec</code></pre></div>
 ## 
 ## Training data contained 2911 data points and no missing data.
 ## 
-## Steps:
+## Operations:
 ## 
 ## Log transformation on Sale_Price [trained]
 ## Collapsing factor levels for Neighborhood, House_Style [trained]
@@ -294,7 +294,7 @@ bt_samples</code></pre></div>
 ## 
 ## Training data contained 2911 data points and no missing data.
 ## 
-## Steps:
+## Operations:
 ## 
 ## Log transformation on Sale_Price [trained]
 ## Collapsing factor levels for Neighborhood, House_Style [trained]
