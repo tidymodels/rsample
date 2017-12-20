@@ -39,7 +39,7 @@ ames <- make_ames()
 names(ames)
 ```
 
-Suppose that we will again fit a simple regression regression model with the formula:
+Suppose that we will again fit a simple regression model with the formula:
 
 ```{r form, eval = FALSE}
 log10(Sale_Price) ~ Neighborhood + House_Style + Year_Sold + Lot_Area
