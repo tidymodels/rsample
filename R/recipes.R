@@ -1,5 +1,5 @@
 #' Wrapper Function for Preparing Recipes
-#' 
+#'
 #' When working with the \pkg{recipes} package, a simple recipe
 #'  must be *prepared* using the [recipes::prep()]
 #'  function first. When using recipies with \pkg{rsample} it
@@ -16,6 +16,6 @@
 #' @export
 #' @importFrom recipes prep
 prepper <- function(split_obj, recipe, ...) {
-  prep(recipe, training = analysis(split_obj, recipe = FALSE), ...)
+  prep(recipe, training = analysis(split_obj), ...)
 }
 # alternate names: chef? dr_prepper?
