@@ -27,6 +27,14 @@ assessment(x, ...)
 \description{
 The analysis or assessment code can be returned as a data
   frame (as dictated by the `data` argument) using
-  `as.data.frame.rsplit`. `analysis` and 
+  `as.data.frame.rsplit`. `analysis` and
   `assessment` are shortcuts.
+}
+\examples{
+library(dplyr)
+set.seed(104)
+folds <- vfold_cv(mtcars)
+
+model_data_1 <- folds$splits[[1]] \%>\% analysis()
+holdout_data_1 <- folds$splits[[1]] \%>\% assessment()
 }
