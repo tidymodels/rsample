@@ -1,3 +1,8 @@
+# `rsample` 0.0.2.9000
+
+* Changed the R version requirement to be R >= 3.1 instead of 3.3.3. 
+
+
 # `rsample` 0.0.2
 
 * `initial_split`, `training`, and `testing` were added to do training/testing splits prior to resampling. 
