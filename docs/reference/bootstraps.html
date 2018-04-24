@@ -18,13 +18,24 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
   <link href="../extra.css" rel="stylesheet">
   
+<meta property="og:title" content="Bootstrap Sampling — bootstraps" />
+
+<meta property="og:description" content="A bootstrap sample is a sample that is the same size as the original data set that is made using replacement.  This results in analysis samples that have multiple replicates of some of the original rows of the data. The assessment set is defined as the rows of the original data that were not included in the bootstrap sample. This is often referred to as the "out-of-bag" (OOB) sample." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +58,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">rsample</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">rsample</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.2</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -89,6 +104,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -96,19 +112,23 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Bootstrap Sampling</h1>
+    
+    <div class="hidden name"><code>bootstraps.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>A bootstrap sample is a sample that is the same size as the original data set that is made using replacement.  This results in analysis samples that have multiple replicates of some of the original rows of the data. The assessment set is defined as the rows of the original data that were not included in the bootstrap sample. This is often referred to as the "out-of-bag" (OOB) sample.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>bootstraps</span>(<span class='no'>data</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>apparent</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -146,18 +166,20 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>bootstraps</span>(<span class='no'>mtcars</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; # Bootstrap sampling 
 #&gt; # A tibble: 2 x 2
-#&gt;         splits         id
-#&gt;         &lt;list&gt;      &lt;chr&gt;
+#&gt;   splits       id        
+#&gt;   &lt;list&gt;       &lt;chr&gt;     
 #&gt; 1 &lt;S3: rsplit&gt; Bootstrap1
 #&gt; 2 &lt;S3: rsplit&gt; Bootstrap2</div><div class='input'><span class='fu'>bootstraps</span>(<span class='no'>mtcars</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>apparent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # Bootstrap sampling with apparent sample 
 #&gt; # A tibble: 3 x 2
-#&gt;         splits         id
-#&gt;         &lt;list&gt;      &lt;chr&gt;
+#&gt;   splits       id        
+#&gt;   &lt;list&gt;       &lt;chr&gt;     
 #&gt; 1 &lt;S3: rsplit&gt; Bootstrap1
 #&gt; 2 &lt;S3: rsplit&gt; Bootstrap2
-#&gt; 3 &lt;S3: rsplit&gt;   Apparent</div><div class='input'>
-<span class='fu'>library</span>(<span class='no'>purrr</span>)
-<span class='no'>iris2</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>130</span>, ]
+#&gt; 3 &lt;S3: rsplit&gt; Apparent  </div><div class='input'>
+<span class='fu'>library</span>(<span class='no'>purrr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘purrr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    is_null</span></div><div class='input'><span class='no'>iris2</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>130</span>, ]
 
 <span class='fu'>set.seed</span>(<span class='fl'>13</span>)
 <span class='no'>resample1</span> <span class='kw'>&lt;-</span> <span class='fu'>bootstraps</span>(<span class='no'>iris2</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>3</span>)
@@ -196,11 +218,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

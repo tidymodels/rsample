@@ -18,13 +18,26 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
   <link href="../extra.css" rel="stylesheet">
   
+<meta property="og:title" content="Nested or Double Resampling — nested_cv" />
+
+<meta property="og:description" content="`nested_cv` can be used to take the results of one resampling procedure
+  and conduct further resamples within each split. Any type of resampling
+  used in `rsample` can be used." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +60,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">rsample</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">rsample</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.2</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -89,6 +106,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -96,21 +114,25 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Nested or Double Resampling</h1>
+    
+    <div class="hidden name"><code>nested_cv.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>`nested_cv` can be used to take the results of one resampling procedure
   and conduct further resamples within each split. Any type of resampling
   used in `rsample` can be used.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>nested_cv</span>(<span class='no'>data</span>, <span class='no'>outside</span>, <span class='no'>inside</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -153,11 +175,11 @@ within the initial procedure.</p></td>
 #&gt; #  outer: 3-fold cross-validation
 #&gt; #  inner: Bootstrap sampling
 #&gt; # A tibble: 3 x 3
-#&gt;         splits    id  inner_resamples
-#&gt;         &lt;list&gt; &lt;chr&gt;           &lt;list&gt;
-#&gt; 1 &lt;S3: rsplit&gt; Fold1 &lt;tibble [5 x 2]&gt;
-#&gt; 2 &lt;S3: rsplit&gt; Fold2 &lt;tibble [5 x 2]&gt;
-#&gt; 3 &lt;S3: rsplit&gt; Fold3 &lt;tibble [5 x 2]&gt;</div><div class='input'>
+#&gt;   splits       id    inner_resamples 
+#&gt;   &lt;list&gt;       &lt;chr&gt; &lt;list&gt;          
+#&gt; 1 &lt;S3: rsplit&gt; Fold1 &lt;tibble [5 × 2]&gt;
+#&gt; 2 &lt;S3: rsplit&gt; Fold2 &lt;tibble [5 × 2]&gt;
+#&gt; 3 &lt;S3: rsplit&gt; Fold3 &lt;tibble [5 × 2]&gt;</div><div class='input'>
 <span class='co'>## Using an existing object:</span>
 <span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>)
 <span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>, <span class='no'>folds</span>, <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; [1] "nested_cv"  "vfold_cv"   "rset"       "tbl_df"     "tbl"       
@@ -166,18 +188,18 @@ within the initial procedure.</p></td>
 #&gt; #  outer: `folds`
 #&gt; #  inner: Bootstrap sampling
 #&gt; # A tibble: 10 x 3
-#&gt;          splits     id  inner_resamples
-#&gt;          &lt;list&gt;  &lt;chr&gt;           &lt;list&gt;
-#&gt;  1 &lt;S3: rsplit&gt; Fold01 &lt;tibble [5 x 2]&gt;
-#&gt;  2 &lt;S3: rsplit&gt; Fold02 &lt;tibble [5 x 2]&gt;
-#&gt;  3 &lt;S3: rsplit&gt; Fold03 &lt;tibble [5 x 2]&gt;
-#&gt;  4 &lt;S3: rsplit&gt; Fold04 &lt;tibble [5 x 2]&gt;
-#&gt;  5 &lt;S3: rsplit&gt; Fold05 &lt;tibble [5 x 2]&gt;
-#&gt;  6 &lt;S3: rsplit&gt; Fold06 &lt;tibble [5 x 2]&gt;
-#&gt;  7 &lt;S3: rsplit&gt; Fold07 &lt;tibble [5 x 2]&gt;
-#&gt;  8 &lt;S3: rsplit&gt; Fold08 &lt;tibble [5 x 2]&gt;
-#&gt;  9 &lt;S3: rsplit&gt; Fold09 &lt;tibble [5 x 2]&gt;
-#&gt; 10 &lt;S3: rsplit&gt; Fold10 &lt;tibble [5 x 2]&gt;</div><div class='input'>
+#&gt;    splits       id     inner_resamples 
+#&gt;    &lt;list&gt;       &lt;chr&gt;  &lt;list&gt;          
+#&gt;  1 &lt;S3: rsplit&gt; Fold01 &lt;tibble [5 × 2]&gt;
+#&gt;  2 &lt;S3: rsplit&gt; Fold02 &lt;tibble [5 × 2]&gt;
+#&gt;  3 &lt;S3: rsplit&gt; Fold03 &lt;tibble [5 × 2]&gt;
+#&gt;  4 &lt;S3: rsplit&gt; Fold04 &lt;tibble [5 × 2]&gt;
+#&gt;  5 &lt;S3: rsplit&gt; Fold05 &lt;tibble [5 × 2]&gt;
+#&gt;  6 &lt;S3: rsplit&gt; Fold06 &lt;tibble [5 × 2]&gt;
+#&gt;  7 &lt;S3: rsplit&gt; Fold07 &lt;tibble [5 × 2]&gt;
+#&gt;  8 &lt;S3: rsplit&gt; Fold08 &lt;tibble [5 × 2]&gt;
+#&gt;  9 &lt;S3: rsplit&gt; Fold09 &lt;tibble [5 × 2]&gt;
+#&gt; 10 &lt;S3: rsplit&gt; Fold10 &lt;tibble [5 × 2]&gt;</div><div class='input'>
 <span class='co'>## The dangers of outer bootstraps:</span>
 <span class='fu'>set.seed</span>(<span class='fl'>2222</span>)
 <span class='no'>bad_idea</span> <span class='kw'>&lt;-</span> <span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>,
@@ -215,11 +237,14 @@ within the initial procedure.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

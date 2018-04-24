@@ -18,13 +18,24 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
   <link href="../extra.css" rel="stylesheet">
   
+<meta property="og:title" content="Leave-One-Out Cross-Validation — loo_cv" />
+
+<meta property="og:description" content="Leave-one-out (LOO) cross-validation uses one data point in the original set as the assessment data and all other data points as the analysis set. A LOO resampling set has ass many resamples as rows in the original data set." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +58,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">rsample</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">rsample</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.2</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -89,6 +104,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -96,19 +112,23 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Leave-One-Out Cross-Validation</h1>
+    
+    <div class="hidden name"><code>loo_cv.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Leave-one-out (LOO) cross-validation uses one data point in the original set as the assessment data and all other data points as the analysis set. A LOO resampling set has ass many resamples as rows in the original data set.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>loo_cv</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -129,17 +149,17 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>loo_cv</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; # Leave-one-out cross-validation 
 #&gt; # A tibble: 32 x 2
-#&gt;          splits         id
-#&gt;          &lt;list&gt;      &lt;chr&gt;
-#&gt;  1 &lt;S3: rsplit&gt;  Resample1
-#&gt;  2 &lt;S3: rsplit&gt;  Resample2
-#&gt;  3 &lt;S3: rsplit&gt;  Resample3
-#&gt;  4 &lt;S3: rsplit&gt;  Resample4
-#&gt;  5 &lt;S3: rsplit&gt;  Resample5
-#&gt;  6 &lt;S3: rsplit&gt;  Resample6
-#&gt;  7 &lt;S3: rsplit&gt;  Resample7
-#&gt;  8 &lt;S3: rsplit&gt;  Resample8
-#&gt;  9 &lt;S3: rsplit&gt;  Resample9
+#&gt;    splits       id        
+#&gt;    &lt;list&gt;       &lt;chr&gt;     
+#&gt;  1 &lt;S3: rsplit&gt; Resample1 
+#&gt;  2 &lt;S3: rsplit&gt; Resample2 
+#&gt;  3 &lt;S3: rsplit&gt; Resample3 
+#&gt;  4 &lt;S3: rsplit&gt; Resample4 
+#&gt;  5 &lt;S3: rsplit&gt; Resample5 
+#&gt;  6 &lt;S3: rsplit&gt; Resample6 
+#&gt;  7 &lt;S3: rsplit&gt; Resample7 
+#&gt;  8 &lt;S3: rsplit&gt; Resample8 
+#&gt;  9 &lt;S3: rsplit&gt; Resample9 
 #&gt; 10 &lt;S3: rsplit&gt; Resample10
 #&gt; # ... with 22 more rows</div></pre>
   </div>
@@ -162,11 +182,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
