@@ -24,7 +24,7 @@ library(zoo)
 
 "[Demo Week: Tidy Forecasting with `sweep`](http://www.business-science.io/code-tools/2017/10/25/demo_week_sweep.html)" is an excellent article that uses tidy methods with time series. This article uses their analysis with `rsample` to get performance estimates for future observations using [rolling forecast origin resampling](https://robjhyndman.com/hyndsight/crossvalidation/). 
 
-The data are sales of alcoholic beverages and can be found at [the Federal Reserve Back of St. Louis website](https://fred.stlouisfed.org/graph/fredgraph.png?g=guYe). From this page, download the `csv` file. `readr` is used to bring in the data:
+The data are sales of alcoholic beverages and can be found at [the Federal Reserve Bank of St. Louis website](https://fred.stlouisfed.org/graph/fredgraph.png?g=guYe). From this page, download the `csv` file. `readr` is used to bring in the data:
 
 ```{r read-data}
 col_spec <- cols(
