@@ -10,8 +10,8 @@ Description: Classes and functions to create and summarize different types of re
 Imports: dplyr, purrr, tibble, rlang, methods, recipes
 Depends:  R (>= 3.1), broom, tidyr
 Suggests: ggplot2, testthat, rmarkdown, knitr, AmesHousing
-URL: https://topepo.github.io/rsample
-BugReports: https://github.com/topepo/rsample/issues
+URL: https://tidymodels.github.io/rsample
+BugReports: https://github.com/tidymodels/rsample/issues
 License: GPL-2
 Encoding: UTF-8
 VignetteBuilder: knitr

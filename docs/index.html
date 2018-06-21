@@ -86,7 +86,7 @@
     
     
 <p><img src="rsample_hex_thumb.png" title="hex sticker thumb" alt="rsample" style="display: block; margin: auto;"></p>
-<p><a href="https://travis-ci.org/topepo/rsample"><img src="https://travis-ci.org/topepo/rsample.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/topepo/rsample?branch=master"><img src="https://img.shields.io/codecov/c/github/topepo/rsample/master.svg" alt="Coverage Status"></a> <a href="https://cran.r-project.org/package=rsample"><img src="http://www.r-pkg.org/badges/version/rsample" alt="CRAN_Status_Badge"></a> <a href="https://cran.r-project.org/package=rsample"><img src="http://cranlogs.r-pkg.org/badges/rsample" alt="Downloads"></a> <img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></p>
+<p><a href="https://travis-ci.org/topepo/rsample"><img src="https://travis-ci.org/topepo/rsample.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://codecov.io/github/tidymodels/rsample?branch=master"><img src="https://img.shields.io/codecov/c/github/tidymodels/rsample/master.svg" alt="Coverage Status"></a> <a href="https://cran.r-project.org/package=rsample"><img src="http://www.r-pkg.org/badges/version/rsample" alt="CRAN_Status_Badge"></a> <a href="https://cran.r-project.org/package=rsample"><img src="http://cranlogs.r-pkg.org/badges/rsample" alt="Downloads"></a> <img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></p>
 <p><code>rsample</code> contains a set of functions that can create different types of resamples and corresponding classes for their analysis. The goal is to have a modular set of methods that can be used across different R packages for:</p>
 <ul>
 <li>traditional resampling techniques for estimating the sampling distribution of a statistic and</li>
@@ -98,7 +98,7 @@
 <a class="sourceLine" id="cb1-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">## For the devel version:</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">require</span>(devtools)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"topepo/rsample"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"tidymodels/rsample"</span>)</a></code></pre></div>
 <p>Note that resampled data sets created by <code>rsample</code> are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
 <p>For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(rsample)</a>
@@ -132,7 +132,7 @@
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=rsample">https://​cloud.r-project.org/​package=rsample</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/topepo/rsample/issues">https://​github.com/​topepo/​rsample/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/tidymodels/rsample/issues">https://​github.com/​tidymodels/​rsample/​issues</a>
 </li>
 </ul>
 </div>
