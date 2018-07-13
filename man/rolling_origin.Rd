@@ -27,7 +27,7 @@ An tibble with classes `rolling_origin`, `rset`, `tbl_df`, `tbl`, and `data.fram
 This resampling method is useful when the data set has a strong time component. The resamples are not random and contain data points that are consecutive values. The function assumes that the original data set are sorted in time order.
 }
 \details{
-The main options, `initial` and `assess`, control the number of data points from the original data that are in the analysis and assessment set, respectively. When `cumulative = TRUE`, the analysis set will grow as resampling continues while the assessment set size will always remain static. 
+The main options, `initial` and `assess`, control the number of data points from the original data that are in the analysis and assessment set, respectively. When `cumulative = TRUE`, the analysis set will grow as resampling continues while the assessment set size will always remain static.
 `skip` enables the function to not use every data point in the resamples. When `skip = 0`, the resampling data sets will increment by one position. Suppose that the rows of a data set are consecutive days. Using `skip = 6` will make the analysis data set operate on *weeks* instead of days. The assessment set size is not affected by this option.
 }
 \examples{
@@ -36,4 +36,20 @@ ex_data <- data.frame(row = 1:20, some_var = rnorm(20))
 dim(rolling_origin(ex_data))
 dim(rolling_origin(ex_data, skip = 2))
 dim(rolling_origin(ex_data, skip = 2, cumulative = FALSE))
+
+# You can also roll over calendar periods by first nesting by that period,
+# which is especially useful for irregular series where a fixed window
+# is not useful. This example slides over 5 years at a time.
+library(dplyr)
+data(drinks)
+
+drinks_annual <- drinks \%>\%
+  mutate(year = as.POSIXlt(date)$year + 1900) \%>\%
+  nest(-year)
+
+multi_year_roll <- rolling_origin(drinks_annual, cumulative = FALSE)
+
+analysis(multi_year_roll$splits[[1]])
+assessment(multi_year_roll$splits[[1]])
+
 }
