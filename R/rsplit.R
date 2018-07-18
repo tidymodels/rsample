@@ -94,12 +94,18 @@ as.data.frame.rsplit <-
 
 #' @rdname as.data.frame.rsplit
 #' @export
-analysis <- function(x, ...)
+analysis <- function(x, ...) {
+  if (!inherits(x, "rsplit"))
+    stop("`x` should be an `rsplit` object", call. = FALSE)
   as.data.frame(x, data = "analysis", ...)
+}
 #' @rdname as.data.frame.rsplit
 #' @export
-assessment <- function(x, ...)
+assessment <- function(x, ...){
+  if (!inherits(x, "rsplit"))
+    stop("`x` should be an `rsplit` object", call. = FALSE)
   as.data.frame(x, data = "assessment", ...)
+}
 
 #' @export
 dim.rsplit <- function(x, ...) {
