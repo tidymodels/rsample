@@ -58,7 +58,7 @@ First, let's make the splits of the data:
 ```{r model_vfold, message=FALSE}
 library(rsample)
 set.seed(4622)
-rs_obj <- vfold_cv(attrition, V = 10, repeats = 10)
+rs_obj <- vfold_cv(attrition, v = 10, repeats = 10)
 rs_obj
 ```
 Now let's write a function that will, for each resample:
