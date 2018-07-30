@@ -24,16 +24,10 @@ library(zoo)
 
 "[Demo Week: Tidy Forecasting with `sweep`](http://www.business-science.io/code-tools/2017/10/25/demo_week_sweep.html)" is an excellent article that uses tidy methods with time series. This article uses their analysis with `rsample` to get performance estimates for future observations using [rolling forecast origin resampling](https://robjhyndman.com/hyndsight/crossvalidation/). 
 
-The data are sales of alcoholic beverages and can be found at [the Federal Reserve Bank of St. Louis website](https://fred.stlouisfed.org/graph/fredgraph.png?g=guYe). From this page, download the `csv` file. `readr` is used to bring in the data:
+The data are sales of alcoholic beverages originally from [the Federal Reserve Back of St. Louis website](https://fred.stlouisfed.org/series/S4248SM144NCEN).
 
 ```{r read-data}
-col_spec <- cols(
-  DATE = col_date(format = ""),
-  S4248SM144NCEN = col_double()
-)
-
-library(readr)
-drinks <- read_csv("S4248SM144NCEN.csv", col_types = col_spec) 
+data("drinks")
 str(drinks, give.att = FALSE)
 ```
 
@@ -162,4 +156,38 @@ roll_rs %>%
 ```
 
 It is likely that the interpolation error is an underestimate to some degree. 
+
+It is also worth noting that `rolling_origin()` can be used over calendar periods, rather than just over a fixed window size. This is especially useful for irregular series where a fixed window size might not make sense because of missing data points, or because of calendar features like different months having a different number of days.
+
+The example below demonstrates this idea by splitting `drinks` into a nested set
+of 26 years, and rolling over years rather than months. Note that the end result
+accomplishes a different task than the original example, in this case, each slice
+moves forward an entire year, rather than just one month.
+
+```{r rof}
+library(rsample)
+
+# The idea is to nest by the period to roll over,
+# which in this case is the year.
+roll_rs_annual <- drinks %>%
+  mutate(year = as.POSIXlt(date)$year + 1900) %>%
+  nest(-year) %>%
+  rolling_origin(
+    initial = 20, 
+    assess = 1, 
+    cumulative = FALSE
+  )
+
+analysis(roll_rs_annual$splits[[1]])
+```
+
+The workflow to access these calendar slices is to use `bind_rows()` to join
+each analysis set together.
+
+```{r}
+mutate(
+  roll_rs_annual,
+  extracted_slice = map(splits, ~ bind_rows(analysis(.x)$data))
+)
+```
 
