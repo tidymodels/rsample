@@ -13,7 +13,7 @@
 #' @param strata A variable that is used to conduct stratified sampling to create the folds. This should be a single character value. 
 #' @param ... Not currently used. 
 #' @export
-#' @return  An tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and `data.frame`. The results include a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called `id` that has a character string with the fold identifier. For repeats, `id` is the repeat number and an additional column called `id2` that contains the fold information (within repeat). 
+#' @return  A tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and `data.frame`. The results include a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called `id` that has a character string with the fold identifier. For repeats, `id` is the repeat number and an additional column called `id2` that contains the fold information (within repeat). 
 #' @examples
 #' vfold_cv(mtcars, v = 10)
 #' vfold_cv(mtcars, v = 10, repeats = 2)
