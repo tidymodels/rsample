@@ -1,0 +1,3 @@
+# CODEOWNERS for rsample
+# https://www.tidyverse.org/development/understudies
+.github/CODEOWNERS @topepo @fbchow
