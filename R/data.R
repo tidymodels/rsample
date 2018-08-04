@@ -24,7 +24,7 @@
 NULL
 
 
-#' Sample Two Class Data
+#' Two Class Data
 #'
 #' @details There are artifical data with two predictors (`A` and `B`) and
 #'  a factor outcome variable (`Class`).

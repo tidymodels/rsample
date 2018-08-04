@@ -3,12 +3,12 @@
 \docType{data}
 \name{two_class_dat}
 \alias{two_class_dat}
-\title{Sample Two Class Data}
+\title{Two Class Data}
 \value{
 \item{two_class_dat}{a data frame}
 }
 \description{
-Sample Two Class Data
+Two Class Data
 }
 \details{
 There are artifical data with two predictors (`A` and `B`) and
