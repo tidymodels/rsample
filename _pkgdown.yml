@@ -28,6 +28,8 @@ reference:
   - title: Data
     contents:
       - attrition    
+      - drinks
+      - two_class_dat
 
 navbar:
   left:
