@@ -95,152 +95,152 @@
     
 <p>Here we demonstrate a simple grid search to optimize a tuning parameter of a <a href="https://keras.rstudio.com/index.html"><code>keras</code></a> neural network.</p>
 <p>The Ames housing data is used to demonstrate. There are a number of predictors for these data but, for simplicity, we’ll see how far we can get by just using the geocodes for the properties as predictors of price. The outcome will be modeled on the log10 scale.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(AmesHousing)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">ames &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/AmesHousing/topics/make_ames">make_ames</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(Sale_Price, Longitude, Latitude)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(AmesHousing)
+<span class="kw">library</span>(dplyr)
+ames &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/AmesHousing/topics/make_ames">make_ames</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(Sale_Price, Longitude, Latitude)</code></pre></div>
 <p>To be consistent with other analyses of these data, a training/test split is made. However, this article focuses on the training set.</p>
 <p>Normally, feature preprocessing should be estimated within the resampling process to get generalizable estimates of performance. Here, the two predictors are simply centered and scaled beforehand to avoid complexity in this analysis. However, this is generally a bad idea and the article on <a href="https://topepo.github.io/rsample/articles/Applications/Recipes_and_rsample.html"><code>recipes</code></a> describes a proper methodology for preprocessing the data.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(rsample)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">4595</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">data_split &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/initial_split.html">initial_split</a></span>(ames, <span class="dt">strata =</span> <span class="st">"Sale_Price"</span>)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">ames_train &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/initial_split.html">training</a></span>(data_split) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">Sale_Price =</span> <span class="kw">log10</span>(Sale_Price),</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">         <span class="dt">Longitude  =</span> <span class="kw">scale</span>(Longitude, <span class="dt">center =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">         <span class="dt">Latitude   =</span> <span class="kw">scale</span>(Latitude, <span class="dt">center =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)
+<span class="kw">set.seed</span>(<span class="dv">4595</span>)
+data_split &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/initial_split.html">initial_split</a></span>(ames, <span class="dt">strata =</span> <span class="st">"Sale_Price"</span>)
+
+ames_train &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/initial_split.html">training</a></span>(data_split) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">Sale_Price =</span> <span class="kw">log10</span>(Sale_Price),
+         <span class="dt">Longitude  =</span> <span class="kw">scale</span>(Longitude, <span class="dt">center =</span> <span class="ot">TRUE</span>),
+         <span class="dt">Latitude   =</span> <span class="kw">scale</span>(Latitude, <span class="dt">center =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <p>The resample the model, simple 10-fold cross-validation is done such that the splits use the outcome as a stratification variable. On average, there should be 219 properties in the assessment set and this should be enough to obtain good estimates of the model RMSE.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">2453</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">cv_splits &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vfold_cv.html">vfold_cv</a></span>(ames_train, <span class="dt">v =</span> <span class="dv">10</span>, <span class="dt">strata =</span> <span class="st">"Sale_Price"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2453</span>)
+cv_splits &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vfold_cv.html">vfold_cv</a></span>(ames_train, <span class="dt">v =</span> <span class="dv">10</span>, <span class="dt">strata =</span> <span class="st">"Sale_Price"</span>)</code></pre></div>
 <p>A single layer feed-forward neural network with 10 hidden units will be used to model these data. There are a great many tuning parameters for these models including those for structural aspects (e.g. number of hidden units, activation type, number of layers), the optimization (momentum, dropout rate, etc.), and so on. For simplicity, this article will only optimize the number of training epochs (i.e. iterations); basically this is testing for early stopping.</p>
 <p>A function is needed to compute the model on the analysis set, predict the assessment set, and compute the holdout root mean squared error (in log10 units). The function below constructs the model sequentially and takes the number of epochs as a parameter. The argument <code>split</code> will be used to pass a single element of <code>cv_splits$splits</code>. This object will contain the two splits of the data for a single resample. The ellipses (<code>...</code>) will be used to pass arbitrary arguments to <code><a href="http://www.rdocumentation.org/packages/keras/topics/fit">keras::fit</a></code>.</p>
 <p>In this function, the seed is set. A few of the model components, such as <code>initializer_glorot_uniform</code> and <code>layer_dropout</code>, use random numbers and their specific seeds are set from the session’s seed. This helps with reproducibility.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">library</span>(keras)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">library</span>(yardstick)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">library</span>(purrr)</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">mlp_rmse &lt;-<span class="st"> </span><span class="cf">function</span>(epoch, split, ...) {</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="co"># Set the seed to get reproducible starting values and dropouts</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="kw">set.seed</span>(<span class="dv">4109</span>)</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">  </a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">  <span class="co"># Clearing the session after the computations have finished</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10">  <span class="co"># clears memory used by the last trial in preparation for </span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">  <span class="co"># the next iteration. </span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12">  <span class="kw">on.exit</span>(keras<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/backend">backend</a></span>()<span class="op">$</span><span class="kw">clear_session</span>())</a>
-<a class="sourceLine" id="cb4-13" data-line-number="13">  </a>
-<a class="sourceLine" id="cb4-14" data-line-number="14">  <span class="co"># Define a single layer MLP with dropout and ReLUs</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15">  model &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/keras_model_sequential">keras_model_sequential</a></span>()</a>
-<a class="sourceLine" id="cb4-16" data-line-number="16">  model <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/layer_dense">layer_dense</a></span>(</a>
-<a class="sourceLine" id="cb4-18" data-line-number="18">      <span class="dt">units =</span> <span class="dv">10</span>, </a>
-<a class="sourceLine" id="cb4-19" data-line-number="19">      <span class="dt">activation =</span> <span class="st">'relu'</span>, </a>
-<a class="sourceLine" id="cb4-20" data-line-number="20">      <span class="dt">input_shape =</span> <span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb4-21" data-line-number="21">      <span class="dt">kernel_initializer =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/initializer_glorot_uniform">initializer_glorot_uniform</a></span>()</a>
-<a class="sourceLine" id="cb4-22" data-line-number="22">    ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/layer_dropout">layer_dropout</a></span>(<span class="dt">rate =</span> <span class="fl">0.4</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/layer_dense">layer_dense</a></span>(<span class="dt">units =</span> <span class="dv">1</span>, <span class="dt">activation =</span> <span class="st">"linear"</span>)</a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"></a>
-<a class="sourceLine" id="cb4-26" data-line-number="26">  model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/compile">compile</a></span>(</a>
-<a class="sourceLine" id="cb4-27" data-line-number="27">    <span class="dt">loss =</span> <span class="st">'mean_squared_error'</span>,</a>
-<a class="sourceLine" id="cb4-28" data-line-number="28">    <span class="dt">optimizer =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/optimizer_rmsprop">optimizer_rmsprop</a></span>(),</a>
-<a class="sourceLine" id="cb4-29" data-line-number="29">    <span class="dt">metrics =</span> <span class="st">'mean_squared_error'</span></a>
-<a class="sourceLine" id="cb4-30" data-line-number="30">  )</a>
-<a class="sourceLine" id="cb4-31" data-line-number="31">  </a>
-<a class="sourceLine" id="cb4-32" data-line-number="32">  <span class="co"># The data used for modeling (aka the "analysis" set)</span></a>
-<a class="sourceLine" id="cb4-33" data-line-number="33">  geocode &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(split) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>Sale_Price) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="st">    </span><span class="kw">as.matrix</span>()</a>
-<a class="sourceLine" id="cb4-36" data-line-number="36">  </a>
-<a class="sourceLine" id="cb4-37" data-line-number="37">  model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/fit">fit</a></span>(</a>
-<a class="sourceLine" id="cb4-38" data-line-number="38">    <span class="dt">x =</span> geocode, </a>
-<a class="sourceLine" id="cb4-39" data-line-number="39">    <span class="dt">y =</span> <span class="kw"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(split)[[<span class="st">"Sale_Price"</span>]], </a>
-<a class="sourceLine" id="cb4-40" data-line-number="40">    <span class="dt">epochs =</span> epoch,</a>
-<a class="sourceLine" id="cb4-41" data-line-number="41">    ...</a>
-<a class="sourceLine" id="cb4-42" data-line-number="42">    )</a>
-<a class="sourceLine" id="cb4-43" data-line-number="43">  </a>
-<a class="sourceLine" id="cb4-44" data-line-number="44">  <span class="co"># Now obtain the holdout set for prediction</span></a>
-<a class="sourceLine" id="cb4-45" data-line-number="45">  holdout &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span>(split)</a>
-<a class="sourceLine" id="cb4-46" data-line-number="46">  pred_geocode &lt;-<span class="st"> </span>holdout <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-47" data-line-number="47"><span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>Sale_Price) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-48" data-line-number="48"><span class="st">    </span><span class="kw">as.matrix</span>()</a>
-<a class="sourceLine" id="cb4-49" data-line-number="49">  </a>
-<a class="sourceLine" id="cb4-50" data-line-number="50">  holdout<span class="op">$</span>predicted &lt;-<span class="st"> </span><span class="kw">predict</span>(model, pred_geocode)[,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb4-51" data-line-number="51"></a>
-<a class="sourceLine" id="cb4-52" data-line-number="52">  <span class="kw"><a href="http://www.rdocumentation.org/packages/yardstick/topics/rmse">rmse</a></span>(holdout, <span class="dt">truth =</span> Sale_Price, <span class="dt">estimate =</span> predicted)</a>
-<a class="sourceLine" id="cb4-53" data-line-number="53">}</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(keras)
+<span class="kw">library</span>(yardstick)
+<span class="kw">library</span>(purrr)
+
+mlp_rmse &lt;-<span class="st"> </span><span class="cf">function</span>(epoch, split, ...) {
+  <span class="co"># Set the seed to get reproducible starting values and dropouts</span>
+  <span class="kw">set.seed</span>(<span class="dv">4109</span>)
+  
+  <span class="co"># Clearing the session after the computations have finished</span>
+  <span class="co"># clears memory used by the last trial in preparation for </span>
+  <span class="co"># the next iteration. </span>
+  <span class="kw">on.exit</span>(keras<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/backend">backend</a></span>()<span class="op">$</span><span class="kw">clear_session</span>())
+  
+  <span class="co"># Define a single layer MLP with dropout and ReLUs</span>
+  model &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/keras_model_sequential">keras_model_sequential</a></span>()
+  model <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/layer_dense">layer_dense</a></span>(
+      <span class="dt">units =</span> <span class="dv">10</span>, 
+      <span class="dt">activation =</span> <span class="st">'relu'</span>, 
+      <span class="dt">input_shape =</span> <span class="dv">2</span>,
+      <span class="dt">kernel_initializer =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/initializer_glorot_uniform">initializer_glorot_uniform</a></span>()
+    ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/layer_dropout">layer_dropout</a></span>(<span class="dt">rate =</span> <span class="fl">0.4</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/layer_dense">layer_dense</a></span>(<span class="dt">units =</span> <span class="dv">1</span>, <span class="dt">activation =</span> <span class="st">"linear"</span>)
+
+  model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/compile">compile</a></span>(
+    <span class="dt">loss =</span> <span class="st">'mean_squared_error'</span>,
+    <span class="dt">optimizer =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/optimizer_rmsprop">optimizer_rmsprop</a></span>(),
+    <span class="dt">metrics =</span> <span class="st">'mean_squared_error'</span>
+  )
+  
+  <span class="co"># The data used for modeling (aka the "analysis" set)</span>
+  geocode &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(split) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>Sale_Price) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">as.matrix</span>()
+  
+  model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/keras/topics/fit">fit</a></span>(
+    <span class="dt">x =</span> geocode, 
+    <span class="dt">y =</span> <span class="kw"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(split)[[<span class="st">"Sale_Price"</span>]], 
+    <span class="dt">epochs =</span> epoch,
+    ...
+    )
+  
+  <span class="co"># Now obtain the holdout set for prediction</span>
+  holdout &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span>(split)
+  pred_geocode &lt;-<span class="st"> </span>holdout <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>Sale_Price) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">as.matrix</span>()
+  
+  holdout<span class="op">$</span>predicted &lt;-<span class="st"> </span><span class="kw">predict</span>(model, pred_geocode)[,<span class="dv">1</span>]
+
+  <span class="kw"><a href="http://www.rdocumentation.org/packages/yardstick/topics/rmse">rmse</a></span>(holdout, <span class="dt">truth =</span> Sale_Price, <span class="dt">estimate =</span> predicted)
+}</code></pre></div>
 <p>Let’s execute the function on the first fold of the data using a batch size of 128 and disable the print/plotting of the optimization:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">cv_splits<span class="op">$</span>splits[[<span class="dv">1</span>]]</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cv_splits<span class="op">$</span>splits[[<span class="dv">1</span>]]</code></pre></div>
 <pre><code>## &lt;1977/222/2199&gt;</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">mlp_rmse</span>(</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="dt">epoch =</span> <span class="dv">100</span>,</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">  cv_splits<span class="op">$</span>splits[[<span class="dv">1</span>]],</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">  <span class="co"># now options to keras::fit</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">  <span class="dt">batch_size =</span> <span class="dv">128</span>, </a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="dt">verbose =</span> <span class="dv">0</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7">)</a></code></pre></div>
-<pre><code>## [1] 0.3288179</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mlp_rmse</span>(
+  <span class="dt">epoch =</span> <span class="dv">100</span>,
+  cv_splits<span class="op">$</span>splits[[<span class="dv">1</span>]],
+  <span class="co"># now options to keras::fit</span>
+  <span class="dt">batch_size =</span> <span class="dv">128</span>, 
+  <span class="dt">verbose =</span> <span class="dv">0</span>
+)</code></pre></div>
+<pre><code>## [1] 0.3833977</code></pre>
 <p>This works for a single resample and a single epoch setting. To tune over epochs, another function uses <code>map</code> to work over the tuning parameter for a specific resample. This is more advantageous than fixing the tuning parameter and then iterating over the data. If there was a complex feature engineering process being used, it only needs to be called once if functions are configured so that the <em>inner</em> loop is over the tuning parameters.</p>
 <p>The result value is a tibble with the tuning parameter values, the performance estimates, and an indicator for the fold.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">across_grid &lt;-<span class="st"> </span><span class="cf">function</span>(split, ...) {</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">  <span class="co"># Create grid</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">  epoch_values &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/reexports.html">tibble</a></span>(<span class="dt">epoch =</span> <span class="kw">seq</span>(<span class="dv">50</span>, <span class="dv">600</span>, <span class="dt">by =</span> <span class="dv">50</span>)) </a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">  <span class="co"># Execute grid for this resample</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">  epoch_values<span class="op">$</span>rmse &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map_dbl</a></span>(</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7">    epoch_values<span class="op">$</span>epoch, </a>
-<a class="sourceLine" id="cb9-8" data-line-number="8">    mlp_rmse,</a>
-<a class="sourceLine" id="cb9-9" data-line-number="9">    <span class="dt">split =</span> split, </a>
-<a class="sourceLine" id="cb9-10" data-line-number="10">    <span class="co"># extra options for `fit`</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11">    ...</a>
-<a class="sourceLine" id="cb9-12" data-line-number="12">  )</a>
-<a class="sourceLine" id="cb9-13" data-line-number="13">  <span class="co"># Now attach the resample indicators using `labels`</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14">  <span class="kw">cbind</span>(epoch_values, <span class="kw">labels</span>(split))</a>
-<a class="sourceLine" id="cb9-15" data-line-number="15">}</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">across_grid &lt;-<span class="st"> </span><span class="cf">function</span>(split, ...) {
+  <span class="co"># Create grid</span>
+  epoch_values &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/reexports.html">tibble</a></span>(<span class="dt">epoch =</span> <span class="kw">seq</span>(<span class="dv">50</span>, <span class="dv">600</span>, <span class="dt">by =</span> <span class="dv">50</span>)) 
+
+  <span class="co"># Execute grid for this resample</span>
+  epoch_values<span class="op">$</span>rmse &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map_dbl</a></span>(
+    epoch_values<span class="op">$</span>epoch, 
+    mlp_rmse,
+    <span class="dt">split =</span> split, 
+    <span class="co"># extra options for `fit`</span>
+    ...
+  )
+  <span class="co"># Now attach the resample indicators using `labels`</span>
+  <span class="kw">cbind</span>(epoch_values, <span class="kw">labels</span>(split))
+}</code></pre></div>
 <p>Note that the grid could easily have a been multidimensional so that many parameters could be optimized using a regular grid or via <a href="http://www.jmlr.org/papers/v13/bergstra12a.html">random search</a>. If that were the case, the candidate tuning parameter values could be in rows and the parameters in columns and <code>mlp_rmse</code> would then map the columns in the tibble to their respective arguments.</p>
 <p><code>map_df</code> is used to operate over the folds. This will row-bind the resulting data frames together so that a single data set is assembled with the individual resampling results.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">tune_results &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map_df</a></span>(</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">    cv_splits<span class="op">$</span>splits,</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">    across_grid,</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="dt">batch_size =</span> <span class="dv">128</span>, </a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">    <span class="dt">verbose =</span> <span class="dv">0</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">  )</a></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">head</span>(tune_results)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tune_results &lt;-<span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map_df</a></span>(
+    cv_splits<span class="op">$</span>splits,
+    across_grid,
+    <span class="dt">batch_size =</span> <span class="dv">128</span>, 
+    <span class="dt">verbose =</span> <span class="dv">0</span>
+  )</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(tune_results)</code></pre></div>
 <pre><code>##   epoch      rmse     id
-## 1    50 0.9920724 Fold01
-## 2   100 0.3407134 Fold01
-## 3   150 0.2692017 Fold01
-## 4   200 0.2304247 Fold01
-## 5   250 0.2248424 Fold01
-## 6   300 0.1585619 Fold01</code></pre>
+## 1    50 1.0162453 Fold01
+## 2   100 0.4813133 Fold01
+## 3   150 0.3178306 Fold01
+## 4   200 0.2436706 Fold01
+## 5   250 0.1784372 Fold01
+## 6   300 0.1689424 Fold01</code></pre>
 <p>The mean RMSE per epoch is computed and plotted along with the individual curves for each resample.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">mean_values &lt;-<span class="st"> </span>tune_results <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(epoch) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">rmse =</span> <span class="kw">mean</span>(rmse))</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">mean_values</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mean_values &lt;-<span class="st"> </span>tune_results <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(epoch) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">rmse =</span> <span class="kw">mean</span>(rmse))
+mean_values</code></pre></div>
 <pre><code>## # A tibble: 12 x 2
 ##    epoch  rmse
 ##    &lt;dbl&gt; &lt;dbl&gt;
-##  1    50 0.928
-##  2   100 0.407
-##  3   150 0.290
-##  4   200 0.247
-##  5   250 0.207
-##  6   300 0.170
+##  1    50 0.925
+##  2   100 0.437
+##  3   150 0.291
+##  4   200 0.261
+##  5   250 0.203
+##  6   300 0.173
 ##  7   350 0.153
 ##  8   400 0.149
 ##  9   450 0.149
 ## 10   500 0.149
 ## 11   550 0.148
-## 12   600 0.148</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(mean_values, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> epoch, <span class="dt">y =</span> rmse)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>(<span class="dt">data =</span> tune_results, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">group =</span> id), <span class="dt">alpha =</span> <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_y_continuous</a></span>(<span class="dt">trans =</span> <span class="st">"log2"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_bw</a></span>()</a></code></pre></div>
+## 12   600 0.149</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+
+<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(mean_values, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> epoch, <span class="dt">y =</span> rmse)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>(<span class="dt">data =</span> tune_results, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">group =</span> id), <span class="dt">alpha =</span> <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_y_continuous</a></span>(<span class="dt">trans =</span> <span class="st">"log2"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_bw</a></span>()</code></pre></div>
 <p><img src="Keras_files/figure-html/resample-means-1.png" width="700"></p>
 <p>For this analysis, there doesn’t seem to be any overfitting issues with a large number of iterations (since the RMSE does not increase).</p>
 <p><code>caret</code> includes some <a href="https://topepo.github.io/caret/train-models-by-tag.html#Neural_Network">pre-defined <code>keras</code> models</a> for single layer networks that can be used to optimize the model across a number of parameters.</p>
