@@ -2,6 +2,9 @@ template:
   params:
     bootswatch: united
 
+development:
+  mode: auto
+
 reference:
   - title: Resampling Methods
     contents:
@@ -22,7 +25,6 @@ reference:
       - complement
       - fill
       - form_pred
-      - prepper
   - title: Data
     contents:
       - attrition    

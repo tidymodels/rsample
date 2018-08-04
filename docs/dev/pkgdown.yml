@@ -1,0 +1,12 @@
+pandoc: 2.0.5
+pkgdown: 1.1.0.9000
+pkgdown_sha: ~
+articles:
+  Keras: Applications/Keras.html
+  Nested_Resampling: Applications/Nested_Resampling.html
+  Recipes_and_rsample: Applications/Recipes_and_rsample.html
+  Survival_Analysis: Applications/Survival_Analysis.html
+  Time_Series: Applications/Time_Series.html
+  Basics: Basics.html
+  Working_with_rsets: Working_with_rsets.html
+

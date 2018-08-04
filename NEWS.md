@@ -1,6 +1,7 @@
 # `rsample` 0.0.2.9000
 
 * Changed the R version requirement to be R >= 3.1 instead of 3.3.3. 
+* The `recipes`-related `prepper` function was [moved to the `recipes` package](https://github.com/tidymodels/rsample/issues/48). This makes the `rsample` install footprint much smaller. 
 
 
 # `rsample` 0.0.2
