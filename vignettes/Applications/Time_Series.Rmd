@@ -10,7 +10,6 @@ output:
 
 ```{r setup, include = FALSE}
 options(digits = 3)
-library(readr)
 library(timetk)
 library(forecast)
 library(rsample)
@@ -27,6 +26,7 @@ library(zoo)
 The data are sales of alcoholic beverages originally from [the Federal Reserve Back of St. Louis website](https://fred.stlouisfed.org/series/S4248SM144NCEN).
 
 ```{r read-data}
+library(tidymodels)
 data("drinks")
 str(drinks, give.att = FALSE)
 ```
@@ -36,7 +36,6 @@ Each row is a month of sales (in millions of US dollars).
 Suppose that predictions for one year ahead were needed and the model should use the most recent data from the last 20 years. To setup this resampling scheme:
 
 ```{r rof}
-library(rsample)
 roll_rs <- rolling_origin(
   drinks, 
   initial = 12 * 20, 
@@ -57,7 +56,7 @@ For plotting, let's index each split by the first day of the assessment set:
 
 ```{r labels}
 get_date <- function(x) 
-  min(assessment(x)$DATE)
+  min(assessment(x)$date)
 
 start_date <- map(roll_rs$splits, get_date)
 roll_rs$start_date <- do.call("c", start_date)
@@ -77,7 +76,7 @@ fit_model <- function(x, ...) {
     analysis() %>%
     # Since the first day changes over resamples, adjust it
     # based on the first date value in the data frame 
-    tk_ts(start = .$DATE[[1]] %>% as.yearmon(), 
+    tk_ts(start = .$date[[1]] %>% as.yearmon(), 
           freq = 12, 
           silent = TRUE) %>%
     auto.arima(...)
@@ -87,12 +86,9 @@ fit_model <- function(x, ...) {
 Each model is saved in a new column:
 
 ```{r model-fit, warning = FALSE, message = FALSE}
-library(purrr)
-
 roll_rs$arima <- map(roll_rs$splits, fit_model)
 
 # For example:
-
 roll_rs$arima[[1]]
 ```
 
@@ -119,8 +115,6 @@ summary(roll_rs$interpolation)
 For the extrapolation error, the model and split objects are required. Using these:
 
 ```{r extrap}
-library(dplyr)
-
 get_extrap <- function(split, mod) {
   n <- nrow(assessment(split))
   # Get assessment data
@@ -141,9 +135,6 @@ summary(roll_rs$extrapolation)
 What do these error estimates look like over time?
 
 ```{r plot}
-library(ggplot2)
-library(tidyr)
-
 roll_rs %>%
   select(interpolation, extrapolation, start_date) %>%
   as.data.frame %>%
@@ -164,9 +155,7 @@ of 26 years, and rolling over years rather than months. Note that the end result
 accomplishes a different task than the original example, in this case, each slice
 moves forward an entire year, rather than just one month.
 
-```{r rof}
-library(rsample)
-
+```{r rof-annual}
 # The idea is to nest by the period to roll over,
 # which in this case is the year.
 roll_rs_annual <- drinks %>%
