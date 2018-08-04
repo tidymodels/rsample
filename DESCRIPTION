@@ -9,7 +9,7 @@ Maintainer: Max Kuhn <max@rstudio.com>
 Description: Classes and functions to create and summarize different types of resampling objects (e.g. bootstrap, cross-validation). 
 Imports: dplyr, purrr, tibble, rlang, methods
 Depends:  R (>= 3.1), broom, tidyr
-Suggests: ggplot2, testthat, rmarkdown, knitr, AmesHousing
+Suggests: ggplot2, testthat, rmarkdown, knitr, AmesHousing, recipes (>= 0.1.3.9000)
 URL: https://tidymodels.github.io/rsample
 BugReports: https://github.com/tidymodels/rsample/issues
 License: GPL-2
@@ -17,3 +17,5 @@ Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 6.0.1
+Remotes:
+    tidymodels/recipes
