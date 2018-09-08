@@ -39,7 +39,7 @@ rolling_origin <- function(data, initial = 5, assess = 1,
                            cumulative = TRUE, skip = 0, ...) {
   n <- nrow(data)
 
-  if (n <= initial + assess)
+  if (n < initial + assess)
     stop("There should be at least ",
          initial + assess,
          " nrows in `data`",
