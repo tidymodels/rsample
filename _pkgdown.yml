@@ -23,32 +23,32 @@ reference:
       - starts_with("tidy")
       - make_strata
       - complement
-      - fill
+      - populate
       - form_pred
   - title: Data
     contents:
-      - attrition    
+      - attrition
       - drinks
       - two_class_dat
 
 navbar:
   left:
-  - text: Basic Usage 
-    href: articles/Basics.html   
+  - text: Basic Usage
+    href: articles/Basics.html
   - text: Working with Resample Sets
-    href: articles/Working_with_rsets.html  
-  - text: Application Examples   
-    menu:   
+    href: articles/Working_with_rsets.html
+  - text: Application Examples
+    menu:
     - text: Recipes and rsample
-      href: articles/Applications/Recipes_and_rsample.html       
+      href: articles/Applications/Recipes_and_rsample.html
     - text: Time Series Analysis
-      href: articles/Applications/Time_Series.html   
+      href: articles/Applications/Time_Series.html
     - text: Survival Analysis
-      href: articles/Applications/Survival_Analysis.html   
+      href: articles/Applications/Survival_Analysis.html
     - text: Tuning Models using Nested Resampling
-      href: articles/Applications/Nested_Resampling.html                      
+      href: articles/Applications/Nested_Resampling.html
     - text: Grid Search Tuning of Keras Models
-      href: articles/Applications/Keras.html  
+      href: articles/Applications/Keras.html
   - text: Reference
     href: reference/index.html
 
