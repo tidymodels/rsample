@@ -1,3 +1,5 @@
+context("Conversions for caret")
+
 library(testthat)
 library(rsample)
 
@@ -6,7 +8,7 @@ library(rsample)
 
 dat <- data.frame(y = 1:15, x = 15:1)
 
-lgo1 <- 
+lgo1 <-
   structure(
     list(
       method = "LGOCV",
@@ -58,7 +60,7 @@ cv_1 <- structure(
   .Names = c("method", "index", "indexOut", "number", "repeats")
 )
 
-cv_2 <- 
+cv_2 <-
   structure(
   list(
     method = "repeatedcv",
@@ -99,7 +101,7 @@ cv_2 <-
 cv_3 <- cv_2
 cv_3$method <- "adaptive_cv"
 
-bt_1 <- 
+bt_1 <-
   structure(
     list(
       method = "boot",
@@ -134,7 +136,7 @@ bt_4$method <- "boot_all"
 bt_5 <- bt_1
 bt_5$method <- "adaptive_boot"
 
-loo_1 <- 
+loo_1 <-
   structure(
     list(
       method = "LOOCV",
@@ -184,7 +186,7 @@ loo_1 <-
     .Names = c("method", "index", "indexOut")
   )
 
-rof_1 <- 
+rof_1 <-
   structure(
     list(
       method = "timeSlice",
@@ -237,74 +239,74 @@ check_indices <- function(newer, orig) {
 test_that('basic v-fold', {
   vfold_obj_1 <- caret2rsample(cv_1, data = dat)
   check_indices(vfold_obj_1, cv_1)
-  for (i in seq_along(vfold_obj_1$splits)) 
-    expect_equal(vfold_obj_1$id[[i]], names(cv_1$index)[i]) 
+  for (i in seq_along(vfold_obj_1$splits))
+    expect_equal(vfold_obj_1$id[[i]], names(cv_1$index)[i])
 })
 
 test_that('repeated v-fold', {
   vfold_obj_2 <- caret2rsample(cv_2, data = dat)
   check_indices(vfold_obj_2, cv_2)
-  for (i in seq_along(vfold_obj_2$splits)) 
-    expect_equal(paste(vfold_obj_2$id2[[i]], vfold_obj_2$id[[i]], 
+  for (i in seq_along(vfold_obj_2$splits))
+    expect_equal(paste(vfold_obj_2$id2[[i]], vfold_obj_2$id[[i]],
                        sep = "."),
-                 names(cv_2$index)[i]) 
-  
+                 names(cv_2$index)[i])
+
 })
 
 test_that('basic boot', {
   bt_obj_1 <- caret2rsample(bt_1, data = dat)
   check_indices(bt_obj_1, bt_1)
-  for (i in seq_along(bt_obj_1$splits)) 
-    expect_equal(bt_obj_1$id[[i]], names(bt_1$index)[i]) 
+  for (i in seq_along(bt_obj_1$splits))
+    expect_equal(bt_obj_1$id[[i]], names(bt_1$index)[i])
 })
 
 test_that('boot 632', {
   bt_obj_2 <- caret2rsample(bt_2, data = dat)
   check_indices(bt_obj_2, bt_2)
-  for (i in seq_along(bt_obj_2$splits)) 
-    expect_equal(bt_obj_2$id[[i]], names(bt_2$index)[i]) 
+  for (i in seq_along(bt_obj_2$splits))
+    expect_equal(bt_obj_2$id[[i]], names(bt_2$index)[i])
 })
 
 test_that('boot optim', {
   bt_obj_3 <- caret2rsample(bt_3, data = dat)
   check_indices(bt_obj_3, bt_3)
-  for (i in seq_along(bt_obj_3$splits)) 
-    expect_equal(bt_obj_3$id[[i]], names(bt_3$index)[i]) 
+  for (i in seq_along(bt_obj_3$splits))
+    expect_equal(bt_obj_3$id[[i]], names(bt_3$index)[i])
 })
 
 test_that('boot all', {
   bt_obj_4 <- caret2rsample(bt_4, data = dat)
   check_indices(bt_obj_4, bt_4)
-  for (i in seq_along(bt_obj_4$splits)) 
-    expect_equal(bt_obj_4$id[[i]], names(bt_4$index)[i]) 
+  for (i in seq_along(bt_obj_4$splits))
+    expect_equal(bt_obj_4$id[[i]], names(bt_4$index)[i])
 })
 
 test_that('adaptive boot', {
   bt_obj_5 <- caret2rsample(bt_5, data = dat)
   check_indices(bt_obj_5, bt_5)
-  for (i in seq_along(bt_obj_5$splits)) 
-    expect_equal(bt_obj_5$id[[i]], names(bt_5$index)[i]) 
+  for (i in seq_along(bt_obj_5$splits))
+    expect_equal(bt_obj_5$id[[i]], names(bt_5$index)[i])
 })
 
 
 test_that('loo', {
   loo_obj <- caret2rsample(loo_1, data = dat)
   check_indices(loo_obj, loo_1)
-  for (i in seq_along(loo_obj$splits)) 
-    expect_equal(loo_obj$id[[i]], names(loo_1$index)[i]) 
+  for (i in seq_along(loo_obj$splits))
+    expect_equal(loo_obj$id[[i]], names(loo_1$index)[i])
 })
 
 test_that('mcv', {
   mcv_obj <- caret2rsample(lgo1, data = dat)
   check_indices(mcv_obj, lgo1)
-  for (i in seq_along(mcv_obj$splits)) 
-    expect_equal(mcv_obj$id[[i]], names(lgo1$index)[i]) 
+  for (i in seq_along(mcv_obj$splits))
+    expect_equal(mcv_obj$id[[i]], names(lgo1$index)[i])
 })
 
 test_that('rolling origin', {
   rof_obj <- caret2rsample(rof_1, data = dat)
   check_indices(rof_obj, rof_1)
-  for (i in seq_along(rof_obj$splits)) 
-    expect_equal(rof_obj$id[[i]], names(rof_1$index)[i]) 
+  for (i in seq_along(rof_obj$splits))
+    expect_equal(rof_obj$id[[i]], names(rof_1$index)[i])
 })
 

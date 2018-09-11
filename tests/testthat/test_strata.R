@@ -1,3 +1,5 @@
+context("Strata constructor")
+
 library(testthat)
 library(rsample)
 library(purrr)
@@ -8,10 +10,10 @@ test_that('simple numerics', {
   str1a <- make_strata(x1)
   tab1a <- table(str1a)
   expect_equal(as.vector(tab1a), rep(200, 5))
-  
+
   str1b <- make_strata(x1, depth = 500)
   tab1b <- table(str1b)
-  expect_equal(as.vector(tab1b), rep(500, 2))  
+  expect_equal(as.vector(tab1b), rep(500, 2))
 })
 
 test_that('simple character', {

@@ -1,3 +1,5 @@
+context("Initial splitting")
+
 library(testthat)
 library(rsample)
 library(purrr)
