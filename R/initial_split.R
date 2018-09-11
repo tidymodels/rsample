@@ -1,7 +1,7 @@
 #' Simple Training/Test Set Splitting
 #'
 #' `initial_split` creates a single binary split of the data into a training set
-#' and testing set. `initial_split` does the same, but takes the _first_ `prop`
+#' and testing set. `initial_time_split` does the same, but takes the _first_ `prop`
 #' samples for training, instead of a a random selection. `training` and
 #' `testing` are used to extract the resulting data.
 #'
@@ -34,6 +34,12 @@ initial_split <- function(data, prop = 3/4, strata = NULL, ...) {
 
 #' @rdname initial_split
 #' @export
+#' @examples
+#' drinks_split <- initial_time_split(drinks)
+#' train_data <- training(drinks_split)
+#' test_data <- testing(car_split)
+#' c(max(train_data$date), min(test_data$date))  # no overlap
+#'
 initial_time_split <- function(data, prop = 3/4, ...) {
 
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
