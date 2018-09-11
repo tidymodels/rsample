@@ -7,7 +7,7 @@
 complement(x, ...)
 }
 \arguments{
-\item{x}{An `rsplit` object}
+\item{x}{An \code{rsplit} object}
 
 \item{...}{Not currently used}
 }
@@ -15,10 +15,10 @@ complement(x, ...)
 A integer vector.
 }
 \description{
-Given an `rsplit` object, `complement` will determine which
-  of the data rows are contained in the assessment set. To save space,
-  many of the `rset` objects will not contain indicies for the
-  assessment split.
+Given an \code{rsplit} object, \code{complement} will determine which
+of the data rows are contained in the assessment set. To save space,
+many of the \code{rset} objects will not contain indicies for the
+assessment split.
 }
 \examples{
 set.seed(28432)
@@ -28,5 +28,5 @@ fold_rs$splits[[1]]$out_id
 complement(fold_rs$splits[[1]])
 }
 \seealso{
-[populate()]
+\code{\link[=populate]{populate()}}
 }

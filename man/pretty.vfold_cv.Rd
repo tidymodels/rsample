@@ -28,7 +28,7 @@
 \method{pretty}{group_vfold_cv}(x, ...)
 }
 \arguments{
-\item{x}{An `rset` object}
+\item{x}{An \code{rset} object}
 
 \item{...}{Not currently used.}
 }
