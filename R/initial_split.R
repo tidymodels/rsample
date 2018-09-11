@@ -18,6 +18,11 @@
 #' car_split <- initial_split(mtcars)
 #' train_data <- training(car_split)
 #' test_data <- testing(car_split)
+#'
+#' drinks_split <- initial_time_split(drinks)
+#' train_data <- training(drinks_split)
+#' test_data <- testing(car_split)
+#' c(max(train_data$date), min(test_data$date))  # no overlap
 #' @export
 #'
 initial_split <- function(data, prop = 3/4, strata = NULL, ...) {
@@ -34,12 +39,6 @@ initial_split <- function(data, prop = 3/4, strata = NULL, ...) {
 
 #' @rdname initial_split
 #' @export
-#' @examples
-#' drinks_split <- initial_time_split(drinks)
-#' train_data <- training(drinks_split)
-#' test_data <- testing(car_split)
-#' c(max(train_data$date), min(test_data$date))  # no overlap
-#'
 initial_time_split <- function(data, prop = 3/4, ...) {
 
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
