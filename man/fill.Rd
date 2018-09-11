@@ -7,11 +7,11 @@
 fill(x, ...)
 }
 \arguments{
-\item{x}{A `rsplit` and `rset` object.}
+\item{x}{A \code{rsplit} and \code{rset} object.}
 
 \item{...}{Not currently used}
 }
 \description{
-`fill()` has been deprecated and will be removed in version `0.0.4`.
-Please use [populate()] instead.
+\code{fill()} has been deprecated and will be removed in version \code{0.0.4}.
+Please use \code{\link[=populate]{populate()}} instead.
 }

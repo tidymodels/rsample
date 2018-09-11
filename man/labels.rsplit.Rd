@@ -7,7 +7,7 @@
 \method{labels}{rsplit}(object, ...)
 }
 \arguments{
-\item{object}{An `rsplit` object}
+\item{object}{An \code{rsplit} object}
 
 \item{...}{Not currently used.}
 }
@@ -15,8 +15,8 @@
 A tibble.
 }
 \description{
-Produce a tibble of identification variables so that single 
- splits can be linked to a particular resample.
+Produce a tibble of identification variables so that single
+splits can be linked to a particular resample.
 }
 \examples{
 cv_splits <- vfold_cv(mtcars)

@@ -7,19 +7,19 @@
 form_pred(object, ...)
 }
 \arguments{
-\item{object}{A model formula or [stats::terms()]
+\item{object}{A model formula or \code{\link[stats:terms]{stats::terms()}}
 object.}
 
-\item{...}{Arguments to pass to [all.vars()]}
+\item{...}{Arguments to pass to \code{\link[=all.vars]{all.vars()}}}
 }
 \value{
 A character vector of names
 }
 \description{
-`all.vars` returns all variables used in a formula. This
- function only returns the variables explicitly used on the
- right-hand side (i.e., it will not resolve dots unless the
- object is terms with a data set specified).
+\code{all.vars} returns all variables used in a formula. This
+function only returns the variables explicitly used on the
+right-hand side (i.e., it will not resolve dots unless the
+object is terms with a data set specified).
 }
 \examples{
 form_pred(y ~ x + z)

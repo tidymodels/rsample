@@ -2,40 +2,40 @@
 % Please edit documentation in R/gather.R
 \name{gather.rset}
 \alias{gather.rset}
-\title{Gather an `rset` Object}
+\title{Gather an \code{rset} Object}
 \usage{
-\method{gather}{rset}(data, key = NULL, value = NULL, ..., na.rm = TRUE,
-  convert = FALSE, factor_key = TRUE)
+\method{gather}{rset}(data, key = NULL, value = NULL, ...,
+  na.rm = TRUE, convert = FALSE, factor_key = TRUE)
 }
 \arguments{
-\item{data}{An `rset` object.}
+\item{data}{An \code{rset} object.}
 
 \item{key, value, ...}{Not specified in this method and will be
 ignored. Note that this means that selectors are ignored if
 they are passed to the function.}
 
-\item{na.rm}{If `TRUE`, will remove rows from output where the
-value column in `NA`.}
+\item{na.rm}{If \code{TRUE}, will remove rows from output where the
+value column in \code{NA}.}
 
-\item{convert}{If `TRUE` will automatically run
-`type.convert()` on the key column. This is useful if the column
+\item{convert}{If \code{TRUE} will automatically run
+\code{type.convert()} on the key column. This is useful if the column
 names are actually numeric, integer, or logical.}
 
 \item{factor_key}{If FALSE, the default, the key values will be
-stored as a character vector. If `TRUE`, will be stored as a
+stored as a character vector. If \code{TRUE}, will be stored as a
 factor, which preserves the original ordering of the columns.}
 }
 \value{
 A data frame with the ID columns, a column called
- `model` (with the previous column names), and a column called
- `statistic` (with the values).
+\code{model} (with the previous column names), and a column called
+\code{statistic} (with the values).
 }
 \description{
-This method uses `gather` on an `rset` object to stack all of
- the non-ID or split columns in the data and is useful for
- stacking model evaluation statistics. The resulting data frame
- has a column based on the column names of `data` and another for
- the values.
+This method uses \code{gather} on an \code{rset} object to stack all of
+the non-ID or split columns in the data and is useful for
+stacking model evaluation statistics. The resulting data frame
+has a column based on the column names of \code{data} and another for
+the values.
 }
 \examples{
 library(rsample)

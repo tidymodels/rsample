@@ -4,7 +4,7 @@
 \alias{as.data.frame.rsplit}
 \alias{analysis}
 \alias{assessment}
-\title{Convert an `rsplit` object to a data frame}
+\title{Convert an \code{rsplit} object to a data frame}
 \usage{
 \method{as.data.frame}{rsplit}(x, row.names = NULL, optional = FALSE,
   data = "analysis", ...)
@@ -14,9 +14,9 @@ analysis(x, ...)
 assessment(x, ...)
 }
 \arguments{
-\item{x}{An `rsplit` object.}
+\item{x}{An \code{rsplit} object.}
 
-\item{row.names}{`NULL` or a character vector giving the row names for the data frame. Missing values are not allowed.}
+\item{row.names}{\code{NULL} or a character vector giving the row names for the data frame. Missing values are not allowed.}
 
 \item{optional}{A logical: should the column names of the data be checked for legality?}
 
@@ -26,9 +26,9 @@ assessment(x, ...)
 }
 \description{
 The analysis or assessment code can be returned as a data
-  frame (as dictated by the `data` argument) using
-  `as.data.frame.rsplit`. `analysis` and
-  `assessment` are shortcuts.
+frame (as dictated by the \code{data} argument) using
+\code{as.data.frame.rsplit}. \code{analysis} and
+\code{assessment} are shortcuts.
 }
 \examples{
 library(dplyr)
