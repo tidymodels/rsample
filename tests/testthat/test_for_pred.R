@@ -1,3 +1,5 @@
+context("Predictor extraction")
+
 library(testthat)
 
 test_that('no dots', {

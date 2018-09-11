@@ -1,3 +1,5 @@
+context("Tidy methods")
+
 library(testthat)
 library(rsample)
 library(purrr)
@@ -16,7 +18,7 @@ test_that('simple boot', {
   set.seed(11)
   rs1 <- bootstraps(dat1)
   td1 <- tidy(rs1, unique_ind = FALSE)
-  
+
   name_vals <- rsample:::names0(nrow(rs1), "Bootstrap")
   for(i in 1:nrow(rs1)) {
     expect_true(
@@ -32,7 +34,7 @@ test_that('vfold', {
   set.seed(11)
   rs2 <- vfold_cv(dat1)
   td2 <- tidy(rs2, unique_ind = FALSE)
-  
+
   for(i in 1:nrow(rs2)) {
     expect_true(
       check_ind(rs2$splits[[i]],

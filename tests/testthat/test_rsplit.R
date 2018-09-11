@@ -1,3 +1,5 @@
+context("Rsplit constructor")
+
 library(testthat)
 library(rsample)
 
@@ -32,11 +34,11 @@ test_that('bad inputs', {
 test_that('as.data.frame', {
   rs3 <- rsample:::rsplit(dat1, 1:2, 4:5)
   expect_equal(as.data.frame(rs3), dat1[1:2,])
-  expect_equal(as.data.frame(rs3, data = "assessment"), dat1[4:5,])  
-  
+  expect_equal(as.data.frame(rs3, data = "assessment"), dat1[4:5,])
+
   rs4 <- rsample:::rsplit(dat1, rep(1:2, each = 3), rep(4:5, c(2, 1)))
   expect_equal(as.data.frame(rs4), dat1[c(1, 1, 1, 2, 2, 2),])
-  expect_equal(as.data.frame(rs4, data = "assessment"), dat1[c(4, 4, 5),])  
+  expect_equal(as.data.frame(rs4, data = "assessment"), dat1[c(4, 4, 5),])
 })
 
 
