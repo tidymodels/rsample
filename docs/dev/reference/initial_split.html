@@ -103,13 +103,16 @@
 
     <div class="ref-description">
     
-    <p>`initial_split` creates a single binary split of the data 
- into a training set and testing set. `training` and
- `testing` are used to extract the resulting data.</p>
+    <p>`initial_split` creates a single binary split of the data into a training set
+and testing set. `initial_time_split` does the same, but takes the _first_ `prop`
+samples for training, instead of a a random selection. `training` and
+`testing` are used to extract the resulting data.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>initial_split</span>(<span class='no'>data</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>3</span>/<span class='fl'>4</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+
+<span class='fu'>initial_time_split</span>(<span class='no'>data</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>3</span>/<span class='fl'>4</span>, <span class='no'>...</span>)
 
 <span class='fu'>training</span>(<span class='no'>x</span>)
 
@@ -153,7 +156,12 @@
     <pre class="examples"><div class='input'><span class='fu'>set.seed</span>(<span class='fl'>1353</span>)
 <span class='no'>car_split</span> <span class='kw'>&lt;-</span> <span class='fu'>initial_split</span>(<span class='no'>mtcars</span>)
 <span class='no'>train_data</span> <span class='kw'>&lt;-</span> <span class='fu'>training</span>(<span class='no'>car_split</span>)
-<span class='no'>test_data</span> <span class='kw'>&lt;-</span> <span class='fu'>testing</span>(<span class='no'>car_split</span>)</div></pre>
+<span class='no'>test_data</span> <span class='kw'>&lt;-</span> <span class='fu'>testing</span>(<span class='no'>car_split</span>)
+
+<span class='no'>drinks_split</span> <span class='kw'>&lt;-</span> <span class='fu'>initial_time_split</span>(<span class='no'>drinks</span>)
+<span class='no'>train_data</span> <span class='kw'>&lt;-</span> <span class='fu'>training</span>(<span class='no'>drinks_split</span>)
+<span class='no'>test_data</span> <span class='kw'>&lt;-</span> <span class='fu'>testing</span>(<span class='no'>car_split</span>)
+<span class='fu'>c</span>(<span class='fu'>max</span>(<span class='no'>train_data</span>$<span class='no'>date</span>), <span class='fu'>min</span>(<span class='no'>test_data</span>$<span class='no'>date</span>))  <span class='co'># no overlap</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; [1] "2011-03-01" NA          </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
