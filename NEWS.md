@@ -1,5 +1,6 @@
 # `rsample` 0.0.2.9000
 
+* `fill()` has been renamed `populate()` to avoid a conflict with `tidyr::fill()`.
 * Changed the R version requirement to be R >= 3.1 instead of 3.3.3. 
 * The `recipes`-related `prepper` function was [moved to the `recipes` package](https://github.com/tidymodels/rsample/issues/48). This makes the `rsample` install footprint much smaller.
 * Added function `initial_time_split` for ordered initial sampling appropriate for time series data.

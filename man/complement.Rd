@@ -15,9 +15,9 @@ complement(x, ...)
 A integer vector.
 }
 \description{
-Given an `rsplit` object, `complement` will determine which 
-  of the data rows are contained in the assessment set. To save space, 
-  many of the `rset` objects will not contain indicies for the 
+Given an `rsplit` object, `complement` will determine which
+  of the data rows are contained in the assessment set. To save space,
+  many of the `rset` objects will not contain indicies for the
   assessment split.
 }
 \examples{
@@ -28,5 +28,5 @@ fold_rs$splits[[1]]$out_id
 complement(fold_rs$splits[[1]])
 }
 \seealso{
-[fill()]
+[populate()]
 }

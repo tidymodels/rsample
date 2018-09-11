@@ -1,15 +1,15 @@
 #' Determine the Assessment Samples
-#' 
-#' Given an `rsplit` object, `complement` will determine which 
-#'   of the data rows are contained in the assessment set. To save space, 
-#'   many of the `rset` objects will not contain indicies for the 
-#'   assessment split. 
-#'   
+#'
+#' Given an `rsplit` object, `complement` will determine which
+#'   of the data rows are contained in the assessment set. To save space,
+#'   many of the `rset` objects will not contain indicies for the
+#'   assessment split.
+#'
 #' @param x An `rsplit` object
 #' @param ... Not currently used
-#' @return A integer vector. 
-#' @seealso [fill()]
-#' @examples 
+#' @return A integer vector.
+#' @seealso [populate()]
+#' @examples
 #' set.seed(28432)
 #' fold_rs <- vfold_cv(mtcars)
 #' head(fold_rs$splits[[1]]$in_id)
@@ -62,39 +62,71 @@ complement.apparent_split <- function(x, ...) {
 
 
 #' Add Assessment Indicies
-#' 
+#'
 #' Many `rsplit` and `rset` objects do not contain indicators for
-#'   the assessment samples. `fill` can be used to populate the slot
-#'   for the appropriate indices. 
+#'   the assessment samples. `populate()` can be used to fill the slot
+#'   for the appropriate indices.
 #' @param x A `rsplit` and `rset` object.
 #' @param ... Not currently used
-#' @return An object of the same time with the integer indicies. 
-#' @examples 
+#' @return An object of the same kind with the integer indicies.
+#' @examples
 #' set.seed(28432)
 #' fold_rs <- vfold_cv(mtcars)
-#' 
+#'
 #' fold_rs$splits[[1]]$out_id
 #' complement(fold_rs$splits[[1]])
-#' 
-#' fill(fold_rs$splits[[1]])$out_id
-#' 
-#' fold_rs_all <- fill(fold_rs)
+#'
+#' populate(fold_rs$splits[[1]])$out_id
+#'
+#' fold_rs_all <- populate(fold_rs)
 #' fold_rs_all$splits[[1]]$out_id
 #' @export
-fill <- function (x, ...) UseMethod("fill")
+populate <- function (x, ...) UseMethod("populate")
 
 #' @export
-fill.rsplit <- function(x, ...) {
+populate.rsplit <- function(x, ...) {
   x$out_id <- complement(x, ...)
   x
 }
 
 #' @export
-fill.rset <- function(x, ...) {
-  x$splits <- map(x$splits, fill)
+populate.rset <- function(x, ...) {
+  x$splits <- map(x$splits, populate)
   x
 }
 
+
+# Remove fill() in 0.0.4 because of its conflict with tidyr::fill()
+fill_deprecation_msg <- paste0(
+  "`rsample::fill()` has been deprecated ",
+  "and will be removed in version `0.0.4`. ",
+  "Please use `rsample::populate()` instead.")
+
+#' Add Assessment Indicies
+#'
+#' `fill()` has been deprecated and will be removed in version `0.0.4`.
+#' Please use [populate()] instead.
+#'
+#' @export
+#' @inheritParams populate
+fill <- function (x, ...) UseMethod("fill")
+
+#' @export
+fill.default <- function(x, ...) {
+  stop(fill_deprecation_msg, call. = FALSE)
+}
+
+#' @export
+fill.rsplit <- function(x, ...) {
+  warning(fill_deprecation_msg, call. = FALSE)
+  populate(x, ...)
+}
+
+#' @export
+fill.rset <- function(x, ...) {
+  warning(fill_deprecation_msg, call. = FALSE)
+  populate(x, ...)
+}
 
 ## This will remove the assessment indices from an rsplit object
 rm_out <- function(x) {
