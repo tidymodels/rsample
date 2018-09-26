@@ -130,9 +130,23 @@ obj_sum.rsplit <- function(x, ...) {
 
   paste0("rsplit [",
          length(x$in_id), "/",
-         out_char, "/",
-         nrow(x$data), "]")
+         out_char, "]")
 }
 
+
+#' @importFrom tibble type_sum
+#' @method type_sum rsplit
+#' @export
+type_sum.rsplit <- function(x, ...) {
+  out_char <-
+    if (all(is.na(x$out_id)))
+      paste(length(complement(x)))
+  else
+    paste(length(x$out_id))
+  
+  paste0("rsplit [",
+         length(x$in_id), "/",
+         out_char, "]")
+}
 
 
