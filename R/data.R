@@ -51,7 +51,7 @@ NULL
 #' @docType data
 #' @return \item{drinks}{a data frame}
 #'
-#' @source The Federal Reserve Back of St. Louis website https://fred.stlouisfed.org/series/S4248SM144NCEN
+#' @source The Federal Reserve Bank of St. Louis website https://fred.stlouisfed.org/series/S4248SM144NCEN
 #'
 #' @keywords datasets
 #' @examples
