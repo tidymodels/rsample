@@ -135,18 +135,28 @@ obj_sum.rsplit <- function(x, ...) {
 
 
 #' @importFrom tibble type_sum
+#' @importFrom dplyr case_when
 #' @method type_sum rsplit
 #' @export
 type_sum.rsplit <- function(x, ...) {
   out_char <-
     if (all(is.na(x$out_id)))
-      paste(length(complement(x)))
+      format_n(length(complement(x)))
   else
-    paste(length(x$out_id))
-  
-  paste0("rsplit [",
-         length(x$in_id), "/",
-         out_char, "]")
+    format_n(length(x$out_id))
+
+  paste0(
+    "split [",
+    format_n(length(x$in_id)), "/",
+    out_char, "]"
+  )
 }
 
 
+format_n <- function(x, digits = 1) {
+  case_when(
+    log10(x) < 3  ~ paste(x),
+    log10(x) >= 3 & log10(x) < 6 ~ paste0(round(x/1000, digits = digits), "K"),
+    TRUE ~ paste0(round(x/1000000, digits = digits), "M"),
+  )
+}

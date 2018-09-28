@@ -5,7 +5,7 @@
 \alias{drinks}
 \title{Sample Time Series Data}
 \source{
-The Federal Reserve Back of St. Louis website https://fred.stlouisfed.org/series/S4248SM144NCEN
+The Federal Reserve Bank of St. Louis website https://fred.stlouisfed.org/series/S4248SM144NCEN
 }
 \value{
 \item{drinks}{a data frame}
