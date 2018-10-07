@@ -103,9 +103,9 @@
 
     <div class="ref-description">
     
-    <p>`nested_cv` can be used to take the results of one resampling procedure
-  and conduct further resamples within each split. Any type of resampling
-  used in `rsample` can be used.</p>
+    <p><code>nested_cv</code> can be used to take the results of one resampling procedure
+and conduct further resamples within each split. Any type of resampling
+used in <code>rsample</code> can be used.</p>
     
     </div>
 
@@ -122,7 +122,7 @@
       <th>outside</th>
       <td><p>The initial resampling specification. This can be an already
 created object or an expression of a new object (see the examples below).
-If the latter is used, the `data` argument does not need to be
+If the latter is used, the <code>data</code> argument does not need to be
 specified and, if it is given, will be ignored.</p></td>
     </tr>
     <tr>
@@ -134,16 +134,16 @@ within the initial procedure.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An tibble with classe `nested_cv` and any other classes that
-  outer resampling process normally contains. The results include a
- column for the outer data split objects, one or more `id` columns,
- and a column of nested tibbles called `inner_resamples` with the
- additional resamples.</p>
+    <p>An tibble with classe <code>nested_cv</code> and any other classes that
+outer resampling process normally contains. The results include a
+column for the outer data split objects, one or more <code>id</code> columns,
+and a column of nested tibbles called <code>inner_resamples</code> with the
+additional resamples.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>It is a bad idea to use bootstrapping as the outer resampling procedure (see
-  the example below)</p>
+the example below)</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -154,11 +154,11 @@ within the initial procedure.</p></td>
 #&gt; #  outer: 3-fold cross-validation
 #&gt; #  inner: Bootstrap sampling
 #&gt; # A tibble: 3 x 3
-#&gt;   splits       id    inner_resamples 
-#&gt;   &lt;list&gt;       &lt;chr&gt; &lt;list&gt;          
-#&gt; 1 &lt;S3: rsplit&gt; Fold1 &lt;tibble [5 × 2]&gt;
-#&gt; 2 &lt;S3: rsplit&gt; Fold2 &lt;tibble [5 × 2]&gt;
-#&gt; 3 &lt;S3: rsplit&gt; Fold3 &lt;tibble [5 × 2]&gt;</div><div class='input'>
+#&gt;   splits          id    inner_resamples 
+#&gt;   &lt;list&gt;          &lt;chr&gt; &lt;list&gt;          
+#&gt; 1 &lt;split [21/11]&gt; Fold1 &lt;tibble [5 × 2]&gt;
+#&gt; 2 &lt;split [21/11]&gt; Fold2 &lt;tibble [5 × 2]&gt;
+#&gt; 3 &lt;split [22/10]&gt; Fold3 &lt;tibble [5 × 2]&gt;</div><div class='input'>
 <span class='co'>## Using an existing object:</span>
 <span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>)
 <span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>, <span class='no'>folds</span>, <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; [1] "nested_cv"  "vfold_cv"   "rset"       "tbl_df"     "tbl"       
@@ -167,18 +167,18 @@ within the initial procedure.</p></td>
 #&gt; #  outer: `folds`
 #&gt; #  inner: Bootstrap sampling
 #&gt; # A tibble: 10 x 3
-#&gt;    splits       id     inner_resamples 
-#&gt;    &lt;list&gt;       &lt;chr&gt;  &lt;list&gt;          
-#&gt;  1 &lt;S3: rsplit&gt; Fold01 &lt;tibble [5 × 2]&gt;
-#&gt;  2 &lt;S3: rsplit&gt; Fold02 &lt;tibble [5 × 2]&gt;
-#&gt;  3 &lt;S3: rsplit&gt; Fold03 &lt;tibble [5 × 2]&gt;
-#&gt;  4 &lt;S3: rsplit&gt; Fold04 &lt;tibble [5 × 2]&gt;
-#&gt;  5 &lt;S3: rsplit&gt; Fold05 &lt;tibble [5 × 2]&gt;
-#&gt;  6 &lt;S3: rsplit&gt; Fold06 &lt;tibble [5 × 2]&gt;
-#&gt;  7 &lt;S3: rsplit&gt; Fold07 &lt;tibble [5 × 2]&gt;
-#&gt;  8 &lt;S3: rsplit&gt; Fold08 &lt;tibble [5 × 2]&gt;
-#&gt;  9 &lt;S3: rsplit&gt; Fold09 &lt;tibble [5 × 2]&gt;
-#&gt; 10 &lt;S3: rsplit&gt; Fold10 &lt;tibble [5 × 2]&gt;</div><div class='input'>
+#&gt;    splits         id     inner_resamples 
+#&gt;    &lt;list&gt;         &lt;chr&gt;  &lt;list&gt;          
+#&gt;  1 &lt;split [28/4]&gt; Fold01 &lt;tibble [5 × 2]&gt;
+#&gt;  2 &lt;split [28/4]&gt; Fold02 &lt;tibble [5 × 2]&gt;
+#&gt;  3 &lt;split [29/3]&gt; Fold03 &lt;tibble [5 × 2]&gt;
+#&gt;  4 &lt;split [29/3]&gt; Fold04 &lt;tibble [5 × 2]&gt;
+#&gt;  5 &lt;split [29/3]&gt; Fold05 &lt;tibble [5 × 2]&gt;
+#&gt;  6 &lt;split [29/3]&gt; Fold06 &lt;tibble [5 × 2]&gt;
+#&gt;  7 &lt;split [29/3]&gt; Fold07 &lt;tibble [5 × 2]&gt;
+#&gt;  8 &lt;split [29/3]&gt; Fold08 &lt;tibble [5 × 2]&gt;
+#&gt;  9 &lt;split [29/3]&gt; Fold09 &lt;tibble [5 × 2]&gt;
+#&gt; 10 &lt;split [29/3]&gt; Fold10 &lt;tibble [5 × 2]&gt;</div><div class='input'>
 <span class='co'>## The dangers of outer bootstraps:</span>
 <span class='fu'>set.seed</span>(<span class='fl'>2222</span>)
 <span class='no'>bad_idea</span> <span class='kw'>&lt;-</span> <span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>,

@@ -69,8 +69,9 @@ To define the design matrix, an initial recipe is created:
 ```{r rec_setup, message=FALSE, warning=FALSE}
 library(recipes)
 
-rec <- recipe(Sale_Price ~ Neighborhood + House_Style + Year_Sold + Lot_Area, 
-              data = ames) %>%
+rec <- 
+  recipe(Sale_Price ~ Neighborhood + House_Style + Year_Sold + Lot_Area, 
+         data = ames) %>%
   # Log the outcome
   step_log(Sale_Price, base = 10) %>%
   # Collapse rarely occurring jobs into "other"
@@ -177,9 +178,9 @@ bt_samples
 Calculating the RMSE:
 
 ```{r cols-rmse}
-rmse <- function(dat) 
-  sqrt(mean((dat$Sale_Price - dat$predicted)^2))
-bt_samples$RMSE <- map_dbl(bt_samples$pred, rmse)
-summary(bt_samples$RMSE)
+library(yardstick)
+results <- map_dfr(bt_samples$pred, rmse, Sale_Price, predicted)
+results
+mean(results$.estimate)
 ```
 

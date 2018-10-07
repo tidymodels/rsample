@@ -71,7 +71,6 @@ Now let's write a function that will, for each resample:
 Here is our function:
 
 ```{r lm_func}
-library(broom)
 ## splits will be the `rsplit` object with the 90/10 partition
 holdout_results <- function(splits, ...) {
   # Fit the model to the 90%

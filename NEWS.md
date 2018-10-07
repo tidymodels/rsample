@@ -5,6 +5,7 @@
 * The `recipes`-related `prepper` function was [moved to the `recipes` package](https://github.com/tidymodels/rsample/issues/48). This makes the `rsample` install footprint much smaller.
 * Added function `initial_time_split` for ordered initial sampling appropriate for time series data.
 * `rsplit` objects are shown differently inside of a tibble.
+* Moved from the `broom` package to the `generics` package.
 
 
 # `rsample` 0.0.2

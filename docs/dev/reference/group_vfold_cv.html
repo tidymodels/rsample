@@ -104,11 +104,11 @@
     <div class="ref-description">
     
     <p>Group V-fold cross-validation creates splits of the data based
- on some grouping variable (which may have more than a single row
- associated with it). The function can create as many splits as
- there are unique values of the grouping variable or it can
- create a smaller set of splits where more than one value is left
- out at a time.</p>
+on some grouping variable (which may have more than a single row
+associated with it). The function can create as many splits as
+there are unique values of the grouping variable or it can
+create a smaller set of splits where more than one value is left
+out at a time.</p>
     
     </div>
 
@@ -129,7 +129,7 @@ data that will be used to create the splits.</p></td>
     <tr>
       <th>v</th>
       <td><p>The number of partitions of the data set. If let
-`NULL`, `v` will be set to the number of unique values
+<code>NULL</code>, <code>v</code> will be set to the number of unique values
 in the group.</p></td>
     </tr>
     <tr>
@@ -140,10 +140,10 @@ in the group.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An tibble with classes `group_vfold_cv`,
- `rset`, `tbl_df`, `tbl`, and `data.frame`.
- The results include a column for the data split objects and an
- identification variable.</p>
+    <p>An tibble with classes <code>group_vfold_cv</code>,
+<code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and <code>data.frame</code>.
+The results include a column for the data split objects and an
+identification variable.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

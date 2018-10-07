@@ -39,7 +39,6 @@
 #' ts_cv <- tidy(ts_cv)
 #' ggplot(ts_cv, aes(x = Resample, y = factor(Row), fill = Data)) +
 #'   geom_tile() + scale_fill_brewer()
-#' @importFrom broom tidy
 #' @importFrom dplyr bind_rows arrange_
 #' @importFrom tibble tibble
 #' @export

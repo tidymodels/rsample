@@ -104,8 +104,8 @@
     <div class="ref-description">
     
     <p>For stratified resampling, this function can create strata from numeric data
-  and also make non-numeric data more conducive to be used for 
-  stratification.</p>
+and also make non-numeric data more conducive to be used for
+stratification.</p>
     
     </div>
 
@@ -120,7 +120,7 @@
     </tr>
     <tr>
       <th>nunique</th>
-      <td><p>An integer for the number of unique value threshold in the 
+      <td><p>An integer for the number of unique value threshold in the
 algorithm.</p></td>
     </tr>
     <tr>
@@ -130,11 +130,11 @@ too small and should be pooled into another group.</p></td>
     </tr>
     <tr>
       <th>depth</th>
-      <td><p>An integer that is used to determine the best number of 
-percentiles that should be used. The number of bins are based on 
-`min(5, floor(n / depth))` where `n = length(x)`. 
-If `x` is numeric, there must be at least 40 rows in the data set 
-(when `depth = 20`) to conduct stratified sampling.</p></td>
+      <td><p>An integer that is used to determine the best number of
+percentiles that should be used. The number of bins are based on
+<code>min(5, floor(n / depth))</code> where <code>n = length(x)</code>.
+If <code>x</code> is numeric, there must be at least 40 rows in the data set
+(when <code>depth = 20</code>) to conduct stratified sampling.</p></td>
     </tr>
     </table>
     
@@ -144,17 +144,17 @@ If `x` is numeric, there must be at least 40 rows in the data set
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For numeric data, if the number of unique levels is less than 
-`nunique`, the data are treated as categorical data.</p>
-<p>For categorical inputs, the function will find levels of `x` than
-  occur in the data with percentage less than `pool`. The values from
-  these groups will be randomly assigned to the remaining strata (as will
-  data points that have missing values in `x`).</p>  
-<p>For numeric data with more unique values than `nunique`, the data
-  will be converted to being categorical based on percentiles of the data. 
-  The percentile groups will have no more than 20 percent of the data in 
-  each group. Again, missing values in `x` are randomly assigned
-  to groups.</p>
+    <p>For numeric data, if the number of unique levels is less than
+<code>nunique</code>, the data are treated as categorical data.</p>
+<p>For categorical inputs, the function will find levels of <code>x</code> than
+occur in the data with percentage less than <code>pool</code>. The values from
+these groups will be randomly assigned to the remaining strata (as will
+data points that have missing values in <code>x</code>).</p>
+<p>For numeric data with more unique values than <code>nunique</code>, the data
+will be converted to being categorical based on percentiles of the data.
+The percentile groups will have no more than 20 percent of the data in
+each group. Again, missing values in <code>x</code> are randomly assigned
+to groups.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

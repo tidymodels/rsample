@@ -104,8 +104,14 @@
 <h1 class="page-header">
 <a href="#rsample-0-0-2-9000" class="anchor"></a><small> Unreleased </small><code>rsample</code> 0.0.2.9000</h1>
 <ul>
+<li>
+<code><a href="../reference/fill.html">fill()</a></code> has been renamed <code><a href="../reference/populate.html">populate()</a></code> to avoid a conflict with <code><a href="http://www.rdocumentation.org/packages/tidyr/topics/fill">tidyr::fill()</a></code>.</li>
 <li>Changed the R version requirement to be R &gt;= 3.1 instead of 3.3.3.</li>
 <li>The <code>recipes</code>-related <code>prepper</code> function was <a href="https://github.com/tidymodels/rsample/issues/48">moved to the <code>recipes</code> package</a>. This makes the <code>rsample</code> install footprint much smaller.</li>
+<li>Added function <code>initial_time_split</code> for ordered initial sampling appropriate for time series data.</li>
+<li>
+<code>rsplit</code> objects are shown differently inside of a tibble.</li>
+<li>Moved from the <code>broom</code> package to the <code>generics</code> package.</li>
 </ul>
 </div>
     <div id="rsample-0-0-2" class="section level1">
