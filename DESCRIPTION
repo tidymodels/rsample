@@ -23,7 +23,7 @@ Suggests:
     rmarkdown, 
     knitr, 
     AmesHousing, 
-    recipes (>= 0.1.3.9000), 
+    recipes (>= 0.1.3.9002), 
     broom
 URL: https://tidymodels.github.io/rsample
 BugReports: https://github.com/tidymodels/rsample/issues
@@ -35,4 +35,5 @@ RoxygenNote: 6.1.0.9000
 Roxygen: list(markdown = TRUE)
 Remotes:
     tidymodels/recipes,
+    tidymodels/yardstick,
     r-lib/generics

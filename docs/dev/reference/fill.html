@@ -103,9 +103,8 @@
 
     <div class="ref-description">
     
-    <p>Many `rsplit` and `rset` objects do not contain indicators for
-  the assessment samples. `fill` can be used to populate the slot
-  for the appropriate indices.</p>
+    <p><code>fill()</code> has been deprecated and will be removed in version <code>0.0.4</code>.
+Please use <code><a href='populate.html'>populate()</a></code> instead.</p>
     
     </div>
 
@@ -116,7 +115,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A `rsplit` and `rset` object.</p></td>
+      <td><p>A <code>rsplit</code> and <code>rset</code> object.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -124,29 +123,13 @@
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same time with the integer indicies.</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>set.seed</span>(<span class='fl'>28432</span>)
-<span class='no'>fold_rs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>)
-
-<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1] NA</div><div class='input'><span class='fu'><a href='complement.html'>complement</a></span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; [1]  2  8 25 29</div><div class='input'>
-<span class='fu'>fill</span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  2  8 25 29</div><div class='input'>
-<span class='no'>fold_rs_all</span> <span class='kw'>&lt;-</span> <span class='fu'>fill</span>(<span class='no'>fold_rs</span>)
-<span class='no'>fold_rs_all</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  2  8 25 29</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

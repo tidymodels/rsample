@@ -136,52 +136,52 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and `data.frame`. The results include a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called `id` that has a character string with the fold identifier. For repeats, `id` is the repeat number and an additional column called `id2` that contains the fold information (within repeat).</p>
+    <p>A tibble with classes <code>vfold_cv</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and <code>data.frame</code>. The results include a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called <code>id</code> that has a character string with the fold identifier. For repeats, <code>id</code> is the repeat number and an additional column called <code>id2</code> that contains the fold information (within repeat).</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The `strata` argument causes the random sampling to be conducted *within the stratification variable*. The can help ensure that the number of data points in the analysis data is equivalent to the proportions in the original data set.</p>
-<p>When more than one repeat is requested, the basic V-fold cross-validation is conducted each time. For example, if three repeats are used with `v = 10`, there are a total of 30 splits which as three groups of 10 that are generated separately.</p>
+    <p>The <code>strata</code> argument causes the random sampling to be conducted <em>within the stratification variable</em>. The can help ensure that the number of data points in the analysis data is equivalent to the proportions in the original data set.</p>
+<p>When more than one repeat is requested, the basic V-fold cross-validation is conducted each time. For example, if three repeats are used with <code>v = 10</code>, there are a total of 30 splits which as three groups of 10 that are generated separately.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>vfold_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; #  10-fold cross-validation 
 #&gt; # A tibble: 10 x 2
-#&gt;    splits       id    
-#&gt;    &lt;list&gt;       &lt;chr&gt; 
-#&gt;  1 &lt;S3: rsplit&gt; Fold01
-#&gt;  2 &lt;S3: rsplit&gt; Fold02
-#&gt;  3 &lt;S3: rsplit&gt; Fold03
-#&gt;  4 &lt;S3: rsplit&gt; Fold04
-#&gt;  5 &lt;S3: rsplit&gt; Fold05
-#&gt;  6 &lt;S3: rsplit&gt; Fold06
-#&gt;  7 &lt;S3: rsplit&gt; Fold07
-#&gt;  8 &lt;S3: rsplit&gt; Fold08
-#&gt;  9 &lt;S3: rsplit&gt; Fold09
-#&gt; 10 &lt;S3: rsplit&gt; Fold10</div><div class='input'><span class='fu'>vfold_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; #  10-fold cross-validation repeated 2 times 
+#&gt;    splits         id    
+#&gt;    &lt;list&gt;         &lt;chr&gt; 
+#&gt;  1 &lt;split [28/4]&gt; Fold01
+#&gt;  2 &lt;split [28/4]&gt; Fold02
+#&gt;  3 &lt;split [29/3]&gt; Fold03
+#&gt;  4 &lt;split [29/3]&gt; Fold04
+#&gt;  5 &lt;split [29/3]&gt; Fold05
+#&gt;  6 &lt;split [29/3]&gt; Fold06
+#&gt;  7 &lt;split [29/3]&gt; Fold07
+#&gt;  8 &lt;split [29/3]&gt; Fold08
+#&gt;  9 &lt;split [29/3]&gt; Fold09
+#&gt; 10 &lt;split [29/3]&gt; Fold10</div><div class='input'><span class='fu'>vfold_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; #  10-fold cross-validation repeated 2 times 
 #&gt; # A tibble: 20 x 3
-#&gt;    splits       id      id2   
-#&gt;    &lt;list&gt;       &lt;chr&gt;   &lt;chr&gt; 
-#&gt;  1 &lt;S3: rsplit&gt; Repeat1 Fold01
-#&gt;  2 &lt;S3: rsplit&gt; Repeat1 Fold02
-#&gt;  3 &lt;S3: rsplit&gt; Repeat1 Fold03
-#&gt;  4 &lt;S3: rsplit&gt; Repeat1 Fold04
-#&gt;  5 &lt;S3: rsplit&gt; Repeat1 Fold05
-#&gt;  6 &lt;S3: rsplit&gt; Repeat1 Fold06
-#&gt;  7 &lt;S3: rsplit&gt; Repeat1 Fold07
-#&gt;  8 &lt;S3: rsplit&gt; Repeat1 Fold08
-#&gt;  9 &lt;S3: rsplit&gt; Repeat1 Fold09
-#&gt; 10 &lt;S3: rsplit&gt; Repeat1 Fold10
-#&gt; 11 &lt;S3: rsplit&gt; Repeat2 Fold01
-#&gt; 12 &lt;S3: rsplit&gt; Repeat2 Fold02
-#&gt; 13 &lt;S3: rsplit&gt; Repeat2 Fold03
-#&gt; 14 &lt;S3: rsplit&gt; Repeat2 Fold04
-#&gt; 15 &lt;S3: rsplit&gt; Repeat2 Fold05
-#&gt; 16 &lt;S3: rsplit&gt; Repeat2 Fold06
-#&gt; 17 &lt;S3: rsplit&gt; Repeat2 Fold07
-#&gt; 18 &lt;S3: rsplit&gt; Repeat2 Fold08
-#&gt; 19 &lt;S3: rsplit&gt; Repeat2 Fold09
-#&gt; 20 &lt;S3: rsplit&gt; Repeat2 Fold10</div><div class='input'>
+#&gt;    splits         id      id2   
+#&gt;    &lt;list&gt;         &lt;chr&gt;   &lt;chr&gt; 
+#&gt;  1 &lt;split [28/4]&gt; Repeat1 Fold01
+#&gt;  2 &lt;split [28/4]&gt; Repeat1 Fold02
+#&gt;  3 &lt;split [29/3]&gt; Repeat1 Fold03
+#&gt;  4 &lt;split [29/3]&gt; Repeat1 Fold04
+#&gt;  5 &lt;split [29/3]&gt; Repeat1 Fold05
+#&gt;  6 &lt;split [29/3]&gt; Repeat1 Fold06
+#&gt;  7 &lt;split [29/3]&gt; Repeat1 Fold07
+#&gt;  8 &lt;split [29/3]&gt; Repeat1 Fold08
+#&gt;  9 &lt;split [29/3]&gt; Repeat1 Fold09
+#&gt; 10 &lt;split [29/3]&gt; Repeat1 Fold10
+#&gt; 11 &lt;split [28/4]&gt; Repeat2 Fold01
+#&gt; 12 &lt;split [28/4]&gt; Repeat2 Fold02
+#&gt; 13 &lt;split [29/3]&gt; Repeat2 Fold03
+#&gt; 14 &lt;split [29/3]&gt; Repeat2 Fold04
+#&gt; 15 &lt;split [29/3]&gt; Repeat2 Fold05
+#&gt; 16 &lt;split [29/3]&gt; Repeat2 Fold06
+#&gt; 17 &lt;split [29/3]&gt; Repeat2 Fold07
+#&gt; 18 &lt;split [29/3]&gt; Repeat2 Fold08
+#&gt; 19 &lt;split [29/3]&gt; Repeat2 Fold09
+#&gt; 20 &lt;split [29/3]&gt; Repeat2 Fold10</div><div class='input'>
 <span class='fu'>library</span>(<span class='no'>purrr</span>)
 <span class='no'>iris2</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>130</span>, ]
 

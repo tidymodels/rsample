@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Short Decriptions of rsets — pretty.vfold_cv • rsample</title>
+<title>Add Assessment Indicies — populate • rsample</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -96,59 +96,47 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Short Decriptions of rsets</h1>
+    <h1>Add Assessment Indicies</h1>
     
-    <div class="hidden name"><code>pretty.vfold_cv.Rd</code></div>
+    <div class="hidden name"><code>populate.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Produce a chracter vector of describing the resampling method.</p>
+    <p>Many <code>rsplit</code> and <code>rset</code> objects do not contain indicators for
+the assessment samples. <code>populate()</code> can be used to fill the slot
+for the appropriate indices.</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for vfold_cv</span>
-<span class='fu'>pretty</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for loo_cv</span>
-<span class='fu'>pretty</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for apparent</span>
-<span class='fu'>pretty</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for rolling_origin</span>
-<span class='fu'>pretty</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for mc_cv</span>
-<span class='fu'>pretty</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for nested_cv</span>
-<span class='fu'>pretty</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for bootstraps</span>
-<span class='fu'>pretty</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for group_vfold_cv</span>
-<span class='fu'>pretty</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>populate</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>An <code>rset</code> object</p></td>
+      <td><p>A <code>rsplit</code> and <code>rset</code> object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Not currently used.</p></td>
+      <td><p>Not currently used</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A character vector.</p>
+    <p>An object of the same kind with the integer indicies.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>set.seed</span>(<span class='fl'>28432</span>)
+<span class='no'>fold_rs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>)
+
+<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1] NA</div><div class='input'><span class='fu'><a href='complement.html'>complement</a></span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; [1]  2  8 25 29</div><div class='input'>
+<span class='fu'>populate</span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  2  8 25 29</div><div class='input'>
+<span class='no'>fold_rs_all</span> <span class='kw'>&lt;-</span> <span class='fu'>populate</span>(<span class='no'>fold_rs</span>)
+<span class='no'>fold_rs_all</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  2  8 25 29</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -156,7 +144,9 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

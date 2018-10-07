@@ -104,7 +104,7 @@
     <div class="ref-description">
     
     <p>These functions can convert resampling objects between
- <span class="pkg">rsample</span> and <span class="pkg">caret</span>.</p>
+<span class="pkg">rsample</span> and <span class="pkg">caret</span>.</p>
     
     </div>
 
@@ -117,29 +117,29 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>An `rset` object. Currently,
-`nested_cv` is not supported.</p></td>
+      <td><p>An <code>rset</code> object. Currently,
+<code>nested_cv</code> is not supported.</p></td>
     </tr>
     <tr>
       <th>data</th>
       <td><p>The data that was originally used to produce the
-`ctrl` object.</p></td>
+<code>ctrl</code> object.</p></td>
     </tr>
     <tr>
       <th>ctrl</th>
-      <td><p>An object produced by `trainControl` that has
-had the `index` and `indexOut` elements populated by
+      <td><p>An object produced by <code>trainControl</code> that has
+had the <code>index</code> and <code>indexOut</code> elements populated by
 integers. One method of getting this is to extract the
-`control` objects from an object produced by `train`.</p></td>
+<code>control</code> objects from an object produced by <code>train</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>`rsample2caret` returns a list that mimics the
- `index` and `indexOut` elements of a
- `trainControl` object. `caret2rsample` returns an
- `rset` object of the appropriate class.</p>
+    <p><code>rsample2caret</code> returns a list that mimics the
+<code>index</code> and <code>indexOut</code> elements of a
+<code>trainControl</code> object. <code>caret2rsample</code> returns an
+<code>rset</code> object of the appropriate class.</p>
     
 
   </div>

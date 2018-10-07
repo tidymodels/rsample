@@ -90,35 +90,35 @@
 </ul>
 <p>The scope of <code>rsample</code> is to provide the basic building blocks for creating and analyzing resamples of a data set but does not include code for modeling or calculating statistics. The “Working with Resample Sets” vignette gives demonstrations of how <code>rsample</code> tools can be used.</p>
 <p>To install it, use:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"rsample"</span>)
-
-## For the devel version:
-<span class="kw">require</span>(devtools)
-<span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"tidymodels/rsample"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"rsample"</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">## For the devel version:</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">require</span>(devtools)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"tidymodels/rsample"</span>)</a></code></pre></div>
 <p>Note that resampled data sets created by <code>rsample</code> are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
 <p>For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(rsample)
-<span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(mlbench)
-<span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(pryr)
-<span class="op">&gt;</span><span class="st"> </span>
-<span class="er">&gt;</span><span class="st"> </span><span class="kw">data</span>(LetterRecognition)
-<span class="op">&gt;</span><span class="st"> </span>
-<span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(LetterRecognition)
-<span class="fl">2.64</span> MB
-<span class="op">&gt;</span><span class="st"> </span>
-<span class="er">&gt;</span><span class="st"> </span><span class="kw">set.seed</span>(<span class="dv">35222</span>)
-<span class="op">&gt;</span><span class="st"> </span>boots &lt;-<span class="st"> </span><span class="kw"><a href="reference/bootstraps.html">bootstraps</a></span>(LetterRecognition, <span class="dt">times =</span> <span class="dv">50</span>)
-<span class="op">&gt;</span><span class="st"> </span>
-<span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)
-<span class="fl">6.69</span> MB
-<span class="op">&gt;</span><span class="st"> </span>
-<span class="er">&gt;</span><span class="st"> </span><span class="co"># Object size per resample</span>
-<span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)<span class="op">/</span><span class="kw">nrow</span>(boots)
-<span class="dv">134</span> kB
-<span class="op">&gt;</span><span class="st"> </span>
-<span class="er">&gt;</span><span class="st"> </span><span class="co"># Fold increase is &lt;&lt;&lt; 50</span>
-<span class="er">&gt;</span><span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">object_size</span>(boots)<span class="op">/</span><span class="kw">object_size</span>(LetterRecognition))
-[<span class="dv">1</span>] <span class="fl">2.528695</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(rsample)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(mlbench)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(pryr)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="op">&gt;</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="er">&gt;</span><span class="st"> </span><span class="kw">data</span>(LetterRecognition)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="op">&gt;</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(LetterRecognition)</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="fl">2.64</span> MB</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="op">&gt;</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="er">&gt;</span><span class="st"> </span><span class="kw">set.seed</span>(<span class="dv">35222</span>)</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="op">&gt;</span><span class="st"> </span>boots &lt;-<span class="st"> </span><span class="kw"><a href="reference/bootstraps.html">bootstraps</a></span>(LetterRecognition, <span class="dt">times =</span> <span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="op">&gt;</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="fl">6.69</span> MB</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="op">&gt;</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="er">&gt;</span><span class="st"> </span><span class="co"># Object size per resample</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="er">&gt;</span><span class="st"> </span><span class="kw">object_size</span>(boots)<span class="op">/</span><span class="kw">nrow</span>(boots)</a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="dv">134</span> kB</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="op">&gt;</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="er">&gt;</span><span class="st"> </span><span class="co"># Fold increase is &lt;&lt;&lt; 50</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="er">&gt;</span><span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">object_size</span>(boots)<span class="op">/</span><span class="kw">object_size</span>(LetterRecognition))</a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">[<span class="dv">1</span>] <span class="fl">2.528695</span></a></code></pre></div>
 <p>The memory usage for 50 boostrap samples is less than 3-fold more than the original data set.</p>
   </div>
 

@@ -39,7 +39,8 @@ library(rsample)
 set.seed(4595)
 data_split <- initial_split(ames, strata = "Sale_Price")
 
-ames_train <- training(data_split) %>%
+ames_train <- 
+  training(data_split) %>%
   mutate(Sale_Price = log10(Sale_Price),
          Longitude  = scale(Longitude, center = TRUE),
          Latitude   = scale(Latitude, center = TRUE))
@@ -91,7 +92,8 @@ mlp_rmse <- function(epoch, split, ...) {
   )
   
   # The data used for modeling (aka the "analysis" set)
-  geocode <- analysis(split) %>%
+  geocode <- 
+    analysis(split) %>%
     select(-Sale_Price) %>%
     as.matrix()
   
@@ -104,13 +106,16 @@ mlp_rmse <- function(epoch, split, ...) {
   
   # Now obtain the holdout set for prediction
   holdout <- assessment(split)
-  pred_geocode <- holdout %>%
+  pred_geocode <- 
+    holdout %>%
     select(-Sale_Price) %>%
     as.matrix()
   
-  holdout$predicted <- predict(model, pred_geocode)[,1]
-
-  rmse(holdout, truth = Sale_Price, estimate = predicted)
+  # Get predicted values and compute RMSE
+  holdout %>%
+    mutate(predicted = predict(model, pred_geocode)[,1]) %>% 
+    rmse(truth = Sale_Price, estimate = predicted) %>%
+    pull(.estimate)
 }
 ```
 
@@ -171,7 +176,8 @@ head(tune_results)
 The mean RMSE per epoch is computed and plotted along with the individual curves for each resample. 
 
 ```{r resample-means}
-mean_values <- tune_results %>%
+mean_values <- 
+  tune_results %>%
   group_by(epoch) %>%
   summarize(rmse = mean(rmse))
 mean_values

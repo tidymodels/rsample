@@ -103,10 +103,10 @@
 
     <div class="ref-description">
     
-    <p>`initial_split` creates a single binary split of the data into a training set
-and testing set. `initial_time_split` does the same, but takes the _first_ `prop`
-samples for training, instead of a a random selection. `training` and
-`testing` are used to extract the resulting data.</p>
+    <p><code>initial_split</code> creates a single binary split of the data into a training set
+and testing set. <code>initial_time_split</code> does the same, but takes the <em>first</em> <code>prop</code>
+samples for training, instead of a a random selection. <code>training</code> and
+<code>testing</code> are used to extract the resulting data.</p>
     
     </div>
 
@@ -139,17 +139,17 @@ samples for training, instead of a a random selection. `training` and
     </tr>
     <tr>
       <th>x</th>
-      <td><p>An `rsplit` object produced by `initial_split`</p></td>
+      <td><p>An <code>rsplit</code> object produced by <code>initial_split</code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An `rset` object that can be used with the `training` and `testing` functions to extract the data in each split.</p>
+    <p>An <code>rset</code> object that can be used with the <code>training</code> and <code>testing</code> functions to extract the data in each split.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The `strata` argument causes the random sampling to be conducted *within the stratification variable*. The can help ensure that the number of data points in the training data is equivalent to the proportions in the original data set.</p>
+    <p>The <code>strata</code> argument causes the random sampling to be conducted <em>within the stratification variable</em>. The can help ensure that the number of data points in the training data is equivalent to the proportions in the original data set.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
