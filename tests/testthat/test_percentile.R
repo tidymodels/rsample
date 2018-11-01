@@ -91,8 +91,8 @@ test_that("Percentile wrapper -- selection of multiple variables works", {
                            wage_diff,
                            alpha = 0.05)
 
-  expect_equal(results_wage_diff$lower, perc_results$lower, tolerance = 0.1)
-  expect_equal(results_wage_diff$upper, perc_results$upper, tolerance = 0.1)
+  expect_equal(results_wage_diff$lower, perc_results$lower, tolerance = 0.01)
+  expect_equal(results_wage_diff$upper, perc_results$upper, tolerance = 0.01)
 })
 
 
@@ -109,6 +109,72 @@ test_that('Upper & lower confidence interval does not contain NA', {
   expect_error(rsample:::perc_interval(bt_na$tmean, alpha = 0.05))
 
 })
+
+
+
+context("boot_ci() Insufficient Number of Bootstrap Resamples")
+
+get_median <- function(dat) {
+  median(dat$Sepal.Length, na.rm = TRUE)
+}
+
+set.seed(888)
+bt_one <- bootstraps(iris, apparent = TRUE, times = 1) %>%
+  dplyr::mutate(median_sepal = map_dbl(splits, function(x)
+    get_median(analysis(x))))
+
+
+# TODO more restrictive for BCA
+# test_that(
+#   "At least B=1000 replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
+#   {
+#     expect_warning(rsample:::boot_ci_bca(
+#       bt_one,
+#       stat = "median_sepal",
+#       func = get_median,
+#       alpha = 0.05
+#     ))
+#   }
+# )
+
+
+# TODO
+# test_that("statistic is entered", {
+#   expect_error(rsample:::boot_ci_perc(bt_norm$cat, alpha = 0.5))
+# })
+#
+# test_that("bootstraps(apparent = TRUE)", {
+#   get_mean <- function(dat) {
+#     mean(dat[['Sepal.Length']], na.rm = TRUE)
+#   }
+#   bt_small <- bootstraps(iris, times = 1000, apparent = FALSE) %>%
+#     dplyr::mutate(tmean = map_dbl(splits, function(x)
+#       get_mean(analysis(x))))
+#   expect_error(rsample:::boot_ci_bca(
+#     bt_small,
+#     func = get_mean,
+#     stat = "tmean",
+#     alpha = 0.5
+#   ))
+# })
+
+#TODO CURR TESTING
+test_that('bt_resamples is a bootstrap object', {
+  expect_equal(class(bt_one)[1], "bootstraps")
+})
+
+#TODO
+# test_that('must enter a bootstraps object', {
+#   expect_error(rsample:::boot_ci_bca(
+#     "blah",
+#     stat = "tmean",
+#     func = get_mean,
+#     alpha = 0.5
+#   ))
+# })
+
+
+
 
 
 
