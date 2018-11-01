@@ -124,18 +124,16 @@ bt_one <- bootstraps(iris, apparent = TRUE, times = 1) %>%
     get_median(analysis(x))))
 
 
-# TODO more restrictive for BCA
-# test_that(
-#   "At least B=1000 replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
-#   {
-#     expect_warning(rsample:::boot_ci_bca(
-#       bt_one,
-#       stat = "median_sepal",
-#       func = get_median,
-#       alpha = 0.05
-#     ))
-#   }
-# )
+# TODO replace with BCA later
+test_that(
+  "At least B=1000 replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
+  {
+    expect_warning(rsample:::perc_interval(
+      bt_one$median_sepal,
+      alpha = 0.05
+    ))
+  }
+)
 
 
 # TODO
@@ -158,7 +156,6 @@ bt_one <- bootstraps(iris, apparent = TRUE, times = 1) %>%
 #   ))
 # })
 
-#TODO CURR TESTING
 test_that('bt_resamples is a bootstrap object', {
   expect_equal(class(bt_one)[1], "bootstraps")
 })
