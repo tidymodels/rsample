@@ -12,6 +12,11 @@
 #' @export
 perc_interval <- function(stats, alpha = 0.05) {
 
+
+  if(all(is.na(stats)))
+    stop("All statistics (", stats, ") are missing values.", call. = FALSE)
+
+
   # stats is a numeric vector of values
   ci <- stats %>% quantile(probs = c(alpha / 2, 1 - alpha / 2), na.rm = TRUE)
 

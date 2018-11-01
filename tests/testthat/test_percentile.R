@@ -97,3 +97,18 @@ test_that("Percentile wrapper -- selection of multiple variables works", {
 
 
 
+context("boot_ci() Prompt Errors: Too Many NAs")
+test_that('Upper & lower confidence interval does not contain NA', {
+  iris_na <- iris
+  iris_na$Sepal.Width[c(1, 51, 101)] <- NA
+
+  set.seed(888)
+  bt_na <- bootstraps(iris_na, apparent = TRUE, times = 1000) %>%
+    dplyr::mutate(tmean = rep(NA_real_, 1001))
+
+  expect_error(rsample:::perc_interval(bt_na$tmean, alpha = 0.05))
+
+})
+
+
+
