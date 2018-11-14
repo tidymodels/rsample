@@ -1,8 +1,3 @@
-# library(tidyverse)
-# library(rlang)
-# library(AmesHousing)
-
-
 #'  Bootstrap Confidence Intervals
 #' @description
 #' Calculate bootstrap confidence intervals for a statistic of interest.
@@ -18,9 +13,6 @@ perc_interval <- function(stats, alpha = 0.05) {
 
   if (length(stats) < 500)
     warning("Recommend at least 500 bootstrap resamples.", call. = FALSE)
-
-  # if (class(bt_resamples)[1] != "bootstraps")
-  #   stop("Please enter a bootstraps sample using the rsample package.", call. = FALSE)
 
   # stats is a numeric vector of values
   ci <- stats %>% quantile(probs = c(alpha / 2, 1 - alpha / 2), na.rm = TRUE)
@@ -40,7 +32,12 @@ perc_interval <- function(stats, alpha = 0.05) {
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
 #' @importFrom dplyr select_vars mutate
+#' @export
 perc_all <- function(object, ..., alpha = 0.05) {
+
+  if (class(bt_resamples)[1] != "bootstraps")
+    stop("Please enter a bootstraps sample using the rsample package.", call. = FALSE)
+
   columns <- select_vars(names(object), !!!quos(...))
   res <- purrr::map_dfr(object[, columns], perc_interval, alpha = alpha)
   res %>% mutate(statistic = columns)

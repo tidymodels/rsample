@@ -10,8 +10,6 @@ library(dplyr)
 
 context("boot_ci() Check Against Standard Confidence Interval")
 
-
-
 test_that('Bootstrap estimate of mean is close to estimate of mean from normal distribution',
           {
             n <- 10000
@@ -54,6 +52,7 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
           })
 
 
+context("Percentile Wrapper")
 test_that("Percentile wrapper -- selection of multiple variables works", {
 
   # generate boostrap resamples
@@ -87,7 +86,7 @@ test_that("Percentile wrapper -- selection of multiple variables works", {
   )
 
   # OK - CI is reasonable
-  perc_results <- perc_all(bt_resamples,
+  perc_results <- rsample:::perc_all(bt_resamples,
                            wage_diff,
                            alpha = 0.05)
 
@@ -136,6 +135,7 @@ test_that(
 )
 
 
+context("boot_ci() Input Validation")
 # TODO
 # test_that("statistic is entered", {
 #   expect_error(rsample:::boot_ci_perc(bt_norm$cat, alpha = 0.5))
@@ -156,18 +156,20 @@ test_that(
 #   ))
 # })
 
-test_that('bt_resamples is a bootstrap object', {
-  expect_equal(class(bt_one)[1], "bootstraps")
-})
+# test_that('bt_resamples is a bootstrap object', {
+#   expect_equal(class(bt_one)[1], "bootstraps")
+#
+# })
 
-#TODO
+# expect this to error if not a bootstrap object
+# perc_results <- perc_all(bt_resamples,
+#                          wage_diff,
+#                          alpha = 0.05)
+
 # test_that('must enter a bootstraps object', {
-#   expect_error(rsample:::boot_ci_bca(
-#     "blah",
-#     stat = "tmean",
-#     func = get_mean,
-#     alpha = 0.5
-#   ))
+#   expect_error(rsample:::perc_all("lal",
+#                         wage_diff,
+#                         alpha = 0.5))
 # })
 
 
