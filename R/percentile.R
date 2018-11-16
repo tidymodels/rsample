@@ -14,6 +14,12 @@ perc_interval <- function(stats, alpha = 0.05) {
   if (length(stats) < 500)
     warning("Recommend at least 500 bootstrap resamples.", call. = FALSE)
 
+
+  if (!is.numeric(stats))
+    stop("`stats` must be a numeric vector.", call. = FALSE)
+
+
+  #
   # stats is a numeric vector of values
   ci <- stats %>% quantile(probs = c(alpha / 2, 1 - alpha / 2), na.rm = TRUE)
 
@@ -31,12 +37,16 @@ perc_interval <- function(stats, alpha = 0.05) {
 # percentile wrapper
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
-#' @importFrom dplyr select_vars mutate
+#' @importFrom dplyr select_vars mutate last
 #' @export
 perc_all <- function(object, ..., alpha = 0.05) {
 
-  # if (class(bt_resamples)[1] != "bootstraps")
-    # stop("Please enter a bootstraps sample using the rsample package.", call. = FALSE)
+  if (class(object)[1] != "bootstraps")
+    stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
+
+  if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
+    stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
+
 
   columns <- select_vars(names(object), !!!quos(...))
   res <- purrr::map_dfr(object[, columns], perc_interval, alpha = alpha)
