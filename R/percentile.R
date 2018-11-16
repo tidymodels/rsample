@@ -35,8 +35,8 @@ perc_interval <- function(stats, alpha = 0.05) {
 #' @export
 perc_all <- function(object, ..., alpha = 0.05) {
 
-  if (class(bt_resamples)[1] != "bootstraps")
-    stop("Please enter a bootstraps sample using the rsample package.", call. = FALSE)
+  # if (class(bt_resamples)[1] != "bootstraps")
+    # stop("Please enter a bootstraps sample using the rsample package.", call. = FALSE)
 
   columns <- select_vars(names(object), !!!quos(...))
   res <- purrr::map_dfr(object[, columns], perc_interval, alpha = alpha)
