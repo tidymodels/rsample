@@ -58,7 +58,7 @@ test_that("Percentile wrapper -- selection of multiple variables works", {
   # generate boostrap resamples
   data("attrition")
   set.seed(888)
-  bt_resamples <- bootstraps(attrition, times = 1000)
+  bt_resamples <- bootstraps(attrition, times = 1000, apparent = TRUE)
 
 
   # stat of interest
@@ -136,41 +136,36 @@ test_that(
 
 
 context("boot_ci() Input Validation")
-# TODO
-# test_that("statistic is entered", {
-#   expect_error(rsample:::boot_ci_perc(bt_norm$cat, alpha = 0.5))
-# })
-#
+
+
+test_that("statistic is entered", {
+  expect_error(rsample:::perc_interval(bt_resamples$cat, alpha = 0.5))
+})
+
+# test for apparent=true in perc_interval
+
+
+# test for apparent=true in perc_all
 # test_that("bootstraps(apparent = TRUE)", {
 #   get_mean <- function(dat) {
 #     mean(dat[['Sepal.Length']], na.rm = TRUE)
 #   }
-#   bt_small <- bootstraps(iris, times = 1000, apparent = FALSE) %>%
+#
+#   bt_small <- bootstraps(iris, times = 500, apparent = FALSE) %>%
 #     dplyr::mutate(tmean = map_dbl(splits, function(x)
 #       get_mean(analysis(x))))
-#   expect_error(rsample:::boot_ci_bca(
-#     bt_small,
-#     func = get_mean,
-#     stat = "tmean",
+#   expect_error(rsample:::perc_interval(
+#     bt_small$tmean,
 #     alpha = 0.5
 #   ))
 # })
 
-# test_that('bt_resamples is a bootstrap object', {
-#   expect_equal(class(bt_one)[1], "bootstraps")
-#
-# })
 
-# expect this to error if not a bootstrap object
-# perc_results <- perc_all(bt_resamples,
-#                          wage_diff,
-#                          alpha = 0.05)
-
-# test_that('must enter a bootstraps object', {
-#   expect_error(rsample:::perc_all("lal",
-#                         wage_diff,
-#                         alpha = 0.5))
-# })
+test_that('must enter a bootstraps object', {
+  expect_error(rsample:::perc_all("lal",
+                        wage_diff,
+                        alpha = 0.5))
+})
 
 
 
