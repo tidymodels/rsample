@@ -14,7 +14,7 @@
 
 * `rsplit` objects are shown differently inside of a tibble.
 
-å* Moved from the `broom` package to the `generics` package.
+* Moved from the `broom` package to the `generics` package.
 
 
 # `rsample` 0.0.2
