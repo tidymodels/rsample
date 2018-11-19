@@ -1,6 +1,6 @@
 pandoc: 2.0.5
-pkgdown: 0.1.0.9000
-pkgdown_sha: b524cc3bf952f00c11a6a1b342d681a4d59d00c3
+pkgdown: 1.1.0.9000
+pkgdown_sha: ~
 articles:
   Keras: Applications/Keras.html
   Nested_Resampling: Applications/Nested_Resampling.html

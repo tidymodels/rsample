@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Short Decriptions of rsets — pretty.vfold_cv • rsample</title>
+<title>Sample Time Series Data — drinks • rsample</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -29,9 +29,9 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<meta property="og:title" content="Short Decriptions of rsets — pretty.vfold_cv" />
+<meta property="og:title" content="Sample Time Series Data — drinks" />
 
-<meta property="og:description" content="Produce a chracter vector of describing the resampling method." />
+<meta property="og:description" content="Sample Time Series Data" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,67 +124,54 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Short Decriptions of rsets</h1>
+    <h1>Sample Time Series Data</h1>
     
-    <div class="hidden name"><code>pretty.vfold_cv.Rd</code></div>
+    <div class="hidden name"><code>drinks.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Produce a chracter vector of describing the resampling method.</p>
+    <p>Sample Time Series Data</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for vfold_cv</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/pretty'>pretty</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
+        
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-<span class='co'># S3 method for loo_cv</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/pretty'>pretty</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for apparent</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/pretty'>pretty</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for rolling_origin</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/pretty'>pretty</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for mc_cv</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/pretty'>pretty</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for nested_cv</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/pretty'>pretty</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for bootstraps</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/pretty'>pretty</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for group_vfold_cv</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/pretty'>pretty</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>An <code>rset</code> object</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Not currently used.</p></td>
-    </tr>
-    </table>
+    <p>The Federal Reserve Bank of St. Louis website https://fred.stlouisfed.org/series/S4248SM144NCEN</p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A character vector.</p>
     
 
+<dt>drinks</dt><dd><p>a data frame</p></dd>
+
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Drink sales. The exact name of the series from FRED is:
+"Merchant Wholesalers, Except Manufacturers' Sales Branches and Offices
+Sales: Nondurable Goods: Beer, Wine, and Distilled Alcoholic Beverages Sales"</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>drinks</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>drinks</span>)</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	309 obs. of  2 variables:
+#&gt;  $ date          : Date, format: "1992-01-01" "1992-02-01" ...
+#&gt;  $ S4248SM144NCEN: num  3459 3458 4002 4564 4221 ...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#source">Source</a></li>
+
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
