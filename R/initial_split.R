@@ -2,7 +2,7 @@
 #'
 #' `initial_split` creates a single binary split of the data into a training set
 #' and testing set. `initial_time_split` does the same, but takes the _first_ `prop`
-#' samples for training, instead of a a random selection. `training` and
+#' samples for training, instead of a random selection. `training` and
 #' `testing` are used to extract the resulting data.
 #'
 #' @details
