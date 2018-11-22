@@ -37,7 +37,11 @@
 #' @export
 rolling_origin <- function(data, initial = 5, assess = 1,
                            cumulative = TRUE, skip = 0, ...) {
-  n <- nrow(data)
+  if(is.vector(data)) {
+    n <- NROW(data) # lowercase `nrow()` will not work for vectors
+  } else {
+    n <- nrow(data)
+  }
 
   if (n < initial + assess)
     stop("There should be at least ",
