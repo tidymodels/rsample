@@ -88,21 +88,36 @@ test_that("Percentile wrapper -- selection of multiple variables works", {
 
 
   # baseline
-  wage_diff <- quantile(bt_resamples$wage_diff,
+  wage_diff_baseline <- quantile(bt_resamples$wage_diff,
            probs = c(0.025, 0.975))
 
 
   results_wage_diff <- tibble(
-    lower = min(wage_diff),
-    upper = max(wage_diff),
+    lower = min(wage_diff_baseline),
+    upper = max(wage_diff_baseline),
     alpha = 0.05,
     method = "percentile"
   )
 
+
   # OK - CI is reasonable
   perc_results <- rsample:::perc_all(bt_resamples,
-                           wage_diff,
-                           alpha = 0.05)
+                                     wage_diff,
+                                     alpha = 0.05)
+  # t_results <- rsample:::student_t_all(bt_resamples,
+  #                                      wage_diff,
+  #                                      wage_diff_var,
+  #                                      theta_obs,
+  #                                     var_obs,
+  #                                      alpha = 0.05)
+
+  # results_mean_boot_t <- rsample:::t_interval(bt_norm$tmean,
+  #                                             bt_norm$tmean_var,
+  #                                             theta_obs,
+  #                                             var_obs,
+  #                                             alpha = 0.05)
+
+
 
   expect_equal(results_wage_diff$lower, perc_results$lower, tolerance = 0.01)
   expect_equal(results_wage_diff$upper, perc_results$upper, tolerance = 0.01)
