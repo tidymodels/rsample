@@ -36,6 +36,7 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
               var(dat[['rand_nums']], na.rm = TRUE)
             }
 
+
             bt_norm <-
               bootstraps(random_nums, times = 500, apparent = TRUE) %>%
               dplyr::mutate(
@@ -45,14 +46,27 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
                   get_var(analysis(x)))
               )
 
-            results_mean_boot_perc <- rsample:::perc_interval(bt_norm$tmean, alpha = 0.05)
+            theta_obs <- bt_norm %>% filter(id == "Apparent") %>% pull(tmean)
+            var_obs <- bt_norm %>% filter(id == "Apparent") %>% pull(tmean_var)
+
+            results_mean_boot_perc <- rsample:::perc_interval(bt_norm$tmean,
+                                                              alpha = 0.05)
+
+            results_mean_boot_t <- rsample:::t_interval(bt_norm$tmean,
+                                                        bt_norm$tmean_var,
+                                                        theta_obs,
+                                                        var_obs,
+                                                        alpha = 0.05)
 
             expect_equal(results_ttest$lower, results_mean_boot_perc$lower, tolerance = 0.01)
             expect_equal(results_ttest$upper, results_mean_boot_perc$upper, tolerance = 0.01)
+
+            expect_equal(results_ttest$lower, results_mean_boot_t$lower, tolerance = 0.01)
+            expect_equal(results_ttest$upper, results_mean_boot_t$upper, tolerance = 0.01)
           })
 
 
-context("Percentile Wrapper")
+context("Wrapper Functions")
 test_that("Percentile wrapper -- selection of multiple variables works", {
 
   # generate boostrap resamples

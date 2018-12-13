@@ -56,3 +56,35 @@ perc_all <- function(object, ..., alpha = 0.05) {
 
 
 
+# t-dist low-level api
+t_interval <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
+  # stats is a numeric vector of values
+  # vars is a numeric vector of variances
+  # return a tibble with .lower, .estimate, .upper
+
+  # T.b = (theta.i-theta.obs)/(sd(boot.sample)/sqrt(length(boot.sample)))
+  # z_dist <-
+  #   (bt_resamples[[stat]] - theta_obs) / sqrt(bt_resamples[[stat_var]])
+
+  z_dist <-
+    (stats - theta_obs) / sqrt(stat_var)
+
+  z_pntl <-
+    quantile(z_dist, probs = c(alpha / 2, 1 - (alpha) / 2), na.rm = TRUE)
+
+  ci <- theta_obs - z_pntl * sqrt(var_obs)
+
+
+  tibble(
+    lower = min(ci),
+    upper = max(ci),
+    alpha = alpha,
+    method = "bootstrap-t"
+  )
+}
+
+# student-t wrapper
+student_t_all <- function(object, ..., alpha = 0.05) {
+  columns <- select_vars(names(object), !!!quos(...))
+  purrr::map(object[, columns], t_interval, alpha = alpha)
+}
