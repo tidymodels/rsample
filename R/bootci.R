@@ -32,7 +32,9 @@ perc_interval <- function(stats, alpha = 0.05) {
   )
 }
 
-# percentile wrapper for multiple statistics
+#' Percentile wrapper for multiple statistics
+#' @description
+#' Calculate bootstrap confidence intervals for a statistic of interest.
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
 #' @importFrom dplyr select_vars mutate last
@@ -79,7 +81,6 @@ t_interval <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
 #' @importFrom dplyr filter pull
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
-#' @export
 t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
   theta_obs <- dat %>% filter(id == "Apparent") %>% pull(stat_name)
   var_obs <- dat %>% filter(id == "Apparent")%>% pull(var_name)
@@ -92,7 +93,9 @@ t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
 }
 
 
-# student-t wrapper for multiple statistics
+#' Student-t wrapper for multiple statistics
+#' @description
+#' Calculate bootstrap confidence intervals for a statistic of interest.
 #' @importFrom dplyr select_vars as_tibble mutate
 #' @importFrom rlang quos
 #' @importFrom purrr map2 map_dfr
