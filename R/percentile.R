@@ -93,15 +93,19 @@ t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
 
 
 # student-t wrapper for multiple statistics
-#' @importFrom dplyr select_vars
+#' @importFrom dplyr select_vars as_tibble mutate
 #' @importFrom rlang quos
-#' @importFrom purrr map2 flatten_dfr
+#' @importFrom purrr map2 map_dfr
 #' @export
 student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
   column_stats <- select_vars(names(object), !!!quos(...))
   column_vars <-  select_vars(names(object), !!!var_cols)
   res <- purrr::map2(column_stats, column_vars, t_interval_wrapper, dat=object, alpha = alpha)
-  res %>% flatten_dfr #purr equivalent of base::unlist
+
+
+  res <- res %>% purrr::map_dfr(as_tibble) %>% mutate(statistic = column_stats)
+  # %>%
+    # flatten_dfr #purr equivalent of base::unlist
 }
 
 

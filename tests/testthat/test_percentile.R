@@ -53,10 +53,7 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
             results_mean_boot_perc <- rsample:::perc_interval(bt_norm$tmean,
                                                               alpha = 0.05)
 
-            #TODO change arguments passed
-            # results_mean_boot_t <- rsample:::t_interval(bt_norm %>% select(tmean),
-            #                                             bt_norm$tmean_var,
-            #                                             alpha = 0.05)
+
             results_mean_boot_t <- rsample:::student_t_all(bt_norm,
                                                            tmean,
                                                            var_cols = vars(tmean_var),
@@ -72,7 +69,7 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
 
 
 context("Wrapper Functions")
-test_that("Percentile wrapper -- selection of multiple variables works", {
+test_that("Wrappers -- selection of multiple variables works", {
 
 # Fits a linear model, then collapses the columns to get the beta and variance estimates
   wide_lm <- function(dat, variance = TRUE) {
@@ -145,17 +142,23 @@ test_that("Percentile wrapper -- selection of multiple variables works", {
     tolerance = 0.01)
 
 
+  t_results <- rsample:::student_t_all(bt_resamples,
+                                       Sepal.Width_estimate,
+                                       Sepal.Length_estimate,
+                                       var_cols = vars(Sepal.Width_var, Sepal.Length_var),
+                                       alpha = 0.05)
 
-  # TODO test wrapper
-  # t_results <- rsample:::student_t_all(bt_resamples,
-  #                                      wage_diff,
-  #                                      wage_diff_var,
-  #                                      theta_obs,
-  #                                     var_obs,
-  #                                      alpha = 0.05)
-
+  expect_equal(
+    sepal_width_baseline$lower,
+    t_results %>% filter(statistic == "Sepal.Width_estimate") %>% pull(lower),
+    tolerance = 0.01
+  )
 
 })
+
+
+
+
 
 
 
