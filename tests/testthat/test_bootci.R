@@ -208,19 +208,33 @@ test_that("statistic is entered", {
   expect_error(rsample:::perc_interval(bt_resamples$cat, alpha = 0.5))
 })
 
-# test for apparent=true in perc_all
+
 test_that("bootstraps(apparent = TRUE)", {
   get_mean <- function(dat) {
     mean(dat[['Sepal.Length']], na.rm = TRUE)
   }
 
+  get_var <- function(dat) {
+    var(dat[['Sepal.Length']], na.rm = TRUE)
+  }
+
   bt_small <- bootstraps(iris, times = 500, apparent = FALSE) %>%
-    dplyr::mutate(tmean = map_dbl(splits, function(x)
-      get_mean(analysis(x))))
+    dplyr::mutate(tmean = map_dbl(splits, function(x) get_mean(analysis(x))),
+                  tmean_var = map_dbl(splits, function(x) get_var(analysis(x)))
+      )
+
   expect_error(rsample:::perc_all(
     bt_small$tmean,
     alpha = 0.5
   ))
+
+  expect_error(rsample:::student_t_all(
+    bt_small,
+    tmean,
+    var_cols = vars(tmean_var),
+    alpha = 0.5
+  ))
+
 })
 
 
