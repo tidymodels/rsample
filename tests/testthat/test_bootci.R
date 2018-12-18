@@ -179,14 +179,19 @@ test_that('Upper & lower confidence interval does not contain NA', {
 
 context("boot_ci() Insufficient Number of Bootstrap Resamples")
 
-get_median <- function(dat) {
-  median(dat$Sepal.Length, na.rm = TRUE)
+get_trimmed_mean <- function(dat) {
+  mean(dat[['Sepal.Length']], trim = 0.5, na.rm = TRUE)
+}
+
+get_var <- function(dat) {
+  var(dat[['Sepal.Length']], na.rm = TRUE)
 }
 
 set.seed(888)
 bt_one <- bootstraps(iris, apparent = TRUE, times = 1) %>%
-  dplyr::mutate(median_sepal = map_dbl(splits, function(x)
-    get_median(analysis(x))))
+  dplyr::mutate(trimmed_mean_sepal = map_dbl(splits, function(x) get_trimmed_mean(analysis(x))),
+    trimmed_mean_sepal_var = map_dbl(splits, function(x) get_var(analysis(x)))
+    )
 
 
 # TODO replace with BCA later
@@ -194,11 +199,19 @@ test_that(
   "At least B=1000 replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
   {
     expect_warning(rsample:::perc_interval(
-      bt_one$median_sepal,
+      bt_one[['trimmed_mean_sepal']],
       alpha = 0.05
     ))
-  }
-)
+
+    expect_warning(rsample:::student_t_all(
+      bt_one,
+      trimmed_mean_sepal,
+      var_cols = vars(trimmed_mean_sepal_var),
+      alpha = 0.05
+    ))
+
+
+  })
 
 
 context("boot_ci() Input Validation")

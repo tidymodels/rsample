@@ -108,6 +108,9 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
     stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
 
+  if (nrow(object) < 500)
+    warning("Recommend at least 500 bootstrap resamples.", call. = FALSE)
+
 
   column_stats <- select_vars(names(object), !!!quos(...))
   column_vars <-  select_vars(names(object), !!!var_cols)
