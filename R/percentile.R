@@ -19,7 +19,6 @@ perc_interval <- function(stats, alpha = 0.05) {
     stop("`stats` must be a numeric vector.", call. = FALSE)
 
 
-
   # stats is a numeric vector of values
   ci <- stats %>% quantile(probs = c(alpha / 2, 1 - alpha / 2), na.rm = TRUE)
 
@@ -33,7 +32,7 @@ perc_interval <- function(stats, alpha = 0.05) {
   )
 }
 
-# percentile wrapper
+# percentile wrapper for multiple statistics
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
 #' @importFrom dplyr select_vars mutate last
@@ -54,7 +53,6 @@ perc_all <- function(object, ..., alpha = 0.05) {
 
 # t-dist low-level
 #' @importFrom tibble tibble
-#' @export
 t_interval <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
   # stats is a numeric vector of values
   # vars is a numeric vector of variances
@@ -75,6 +73,35 @@ t_interval <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
     alpha = alpha,
     method = "student-t"
   )
+}
+
+# student-t call
+#' @importFrom dplyr filter pull
+#' @importFrom purrr map map_dfr
+#' @importFrom rlang quos
+#' @export
+t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
+  theta_obs <- dat %>% filter(id == "Apparent") %>% pull(stat_name)
+  var_obs <- dat %>% filter(id == "Apparent")%>% pull(var_name)
+
+  stats <- dat %>% filter(id != "Apparent") %>% pull(stat_name)
+  stat_var <- dat %>% filter(id != "Apparent")%>% pull(var_name)
+
+  t_interval(stats, stat_var, theta_obs, var_obs, alpha)
+
+}
+
+
+# student-t wrapper for multiple statistics
+#' @importFrom dplyr select_vars
+#' @importFrom rlang quos
+#' @importFrom purrr map2 flatten_dfr
+#' @export
+student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
+  column_stats <- select_vars(names(object), !!!quos(...))
+  column_vars <-  select_vars(names(object), !!!var_cols)
+  res <- purrr::map2(column_stats, column_vars, t_interval_wrapper, dat=object, alpha = alpha)
+  res %>% flatten_dfr #purr equivalent of base::unlist
 }
 
 

@@ -54,16 +54,20 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
                                                               alpha = 0.05)
 
             #TODO change arguments passed
-            # results_mean_boot_t <- rsample:::t_interval(bt_norm[[mean]],
+            # results_mean_boot_t <- rsample:::t_interval(bt_norm %>% select(tmean),
             #                                             bt_norm$tmean_var,
             #                                             alpha = 0.05)
+            results_mean_boot_t <- rsample:::student_t_all(bt_norm,
+                                                           tmean,
+                                                           var_cols = vars(tmean_var),
+                                                           alpha = 0.05)
 
             expect_equal(results_ttest$lower, results_mean_boot_perc$lower, tolerance = 0.01)
             expect_equal(results_ttest$lower, results_mean_boot_perc$lower, tolerance = 0.01)
             expect_equal(results_ttest$upper, results_mean_boot_perc$upper, tolerance = 0.01)
 
-            # expect_equal(results_ttest$lower, results_mean_boot_t$lower, tolerance = 0.01)
-            # expect_equal(results_ttest$upper, results_mean_boot_t$upper, tolerance = 0.01)
+            expect_equal(results_ttest$lower, results_mean_boot_t$lower, tolerance = 0.01)
+            expect_equal(results_ttest$upper, results_mean_boot_t$upper, tolerance = 0.01)
           })
 
 
@@ -113,7 +117,7 @@ test_that("Percentile wrapper -- selection of multiple variables works", {
     estimate = mean(sepal_width_baseline, na.rm = TRUE),
     upper = max(sepal_width_baseline),
     alpha = 0.05,
-    method = "percentile"
+    method = "percentile baseline"
   )
 
 
@@ -133,7 +137,6 @@ test_that("Percentile wrapper -- selection of multiple variables works", {
     sepal_width_baseline$estimate,
     perc_results %>% filter(statistic == "Sepal.Width_estimate") %>% pull(estimate),
     tolerance = 0.01)
-
 
 
   expect_equal(
