@@ -102,6 +102,9 @@ t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
 #' @export
 student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
 
+  if (class(object)[1] != "bootstraps")
+    stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
+
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
     stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
 

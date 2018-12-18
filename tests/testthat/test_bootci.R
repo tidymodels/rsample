@@ -242,8 +242,12 @@ test_that("bootstraps(apparent = TRUE)", {
 
 test_that('must enter a bootstraps object', {
   expect_error(rsample:::perc_all("lal",
-                        wage_diff,
+                        startrek,
                         alpha = 0.5))
+
+  expect_error(rsample:::student_t_all("lal",
+                                  startrek,
+                                  alpha = 0.5))
 })
 
 
