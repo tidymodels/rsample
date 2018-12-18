@@ -59,6 +59,7 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
             #                                             alpha = 0.05)
 
             expect_equal(results_ttest$lower, results_mean_boot_perc$lower, tolerance = 0.01)
+            expect_equal(results_ttest$lower, results_mean_boot_perc$lower, tolerance = 0.01)
             expect_equal(results_ttest$upper, results_mean_boot_perc$upper, tolerance = 0.01)
 
             # expect_equal(results_ttest$lower, results_mean_boot_t$lower, tolerance = 0.01)
@@ -109,18 +110,38 @@ test_that("Percentile wrapper -- selection of multiple variables works", {
 
   sepal_width_baseline <- tibble(
     lower = min(sepal_width_baseline),
+    estimate = mean(sepal_width_baseline, na.rm = TRUE),
     upper = max(sepal_width_baseline),
     alpha = 0.05,
     method = "percentile"
   )
 
 
-
-
   # OK - CI is reasonable
   perc_results <- rsample:::perc_all(bt_resamples,
                                      Sepal.Width_estimate,
+                                     Sepal.Length_estimate,
                                      alpha = 0.05)
+
+  expect_equal(
+    sepal_width_baseline$lower,
+    perc_results %>% filter(statistic == "Sepal.Width_estimate") %>% pull(lower),
+    tolerance = 0.01
+  )
+
+  expect_equal(
+    sepal_width_baseline$estimate,
+    perc_results %>% filter(statistic == "Sepal.Width_estimate") %>% pull(estimate),
+    tolerance = 0.01)
+
+
+
+  expect_equal(
+    sepal_width_baseline$upper,
+    perc_results %>% filter(statistic == "Sepal.Width_estimate") %>% pull(upper),
+    tolerance = 0.01)
+
+
 
   # TODO test wrapper
   # t_results <- rsample:::student_t_all(bt_resamples,
@@ -130,11 +151,7 @@ test_that("Percentile wrapper -- selection of multiple variables works", {
   #                                     var_obs,
   #                                      alpha = 0.05)
 
-  #
 
-#
-  expect_equal(sepal_width_baseline$lower, perc_results$lower, tolerance = 0.01)
-  expect_equal(sepal_width_baseline$upper, perc_results$upper, tolerance = 0.01)
 })
 
 

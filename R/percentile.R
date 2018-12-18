@@ -51,3 +51,31 @@ perc_all <- function(object, ..., alpha = 0.05) {
   res <- purrr::map_dfr(object[, columns], perc_interval, alpha = alpha)
   res %>% mutate(statistic = columns)
 }
+
+# t-dist low-level
+#' @importFrom tibble tibble
+#' @export
+t_interval <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
+  # stats is a numeric vector of values
+  # vars is a numeric vector of variances
+  # return a tibble with .lower, .estimate, .upper
+
+  z_dist <-
+    (stats - theta_obs) / sqrt(stat_var)
+
+  z_pntl <-
+    quantile(z_dist, probs = c(alpha / 2, 1 - (alpha) / 2), na.rm = TRUE)
+
+  ci <- theta_obs - z_pntl * sqrt(var_obs)
+
+
+  tibble(
+    lower = min(ci),
+    upper = max(ci),
+    alpha = alpha,
+    method = "student-t"
+  )
+}
+
+
+
