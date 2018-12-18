@@ -5,6 +5,7 @@ library(testthat)
 library(purrr)
 library(tibble)
 library(dplyr)
+library(broom)
 
 
 
@@ -46,64 +47,82 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
                   get_var(analysis(x)))
               )
 
-            theta_obs <- bt_norm %>% filter(id == "Apparent") %>% pull(tmean)
-            var_obs <- bt_norm %>% filter(id == "Apparent") %>% pull(tmean_var)
+
+
 
             results_mean_boot_perc <- rsample:::perc_interval(bt_norm$tmean,
                                                               alpha = 0.05)
 
-            results_mean_boot_t <- rsample:::t_interval(bt_norm$tmean,
-                                                        bt_norm$tmean_var,
-                                                        theta_obs,
-                                                        var_obs,
-                                                        alpha = 0.05)
+            #TODO change arguments passed
+            # results_mean_boot_t <- rsample:::t_interval(bt_norm[[mean]],
+            #                                             bt_norm$tmean_var,
+            #                                             alpha = 0.05)
 
             expect_equal(results_ttest$lower, results_mean_boot_perc$lower, tolerance = 0.01)
             expect_equal(results_ttest$upper, results_mean_boot_perc$upper, tolerance = 0.01)
 
-            expect_equal(results_ttest$lower, results_mean_boot_t$lower, tolerance = 0.01)
-            expect_equal(results_ttest$upper, results_mean_boot_t$upper, tolerance = 0.01)
+            # expect_equal(results_ttest$lower, results_mean_boot_t$lower, tolerance = 0.01)
+            # expect_equal(results_ttest$upper, results_mean_boot_t$upper, tolerance = 0.01)
           })
 
 
 context("Wrapper Functions")
 test_that("Percentile wrapper -- selection of multiple variables works", {
 
-  # generate boostrap resamples
-  data("attrition")
-  set.seed(888)
-  bt_resamples <- bootstraps(attrition, times = 1000, apparent = TRUE)
+# Fits a linear model, then collapses the columns to get the beta and variance estimates
+  wide_lm <- function(dat, variance = TRUE) {
+    res <- lm(Petal.Width ~ Sepal.Length + Sepal.Width, data = dat) %>%
+      broom::tidy() %>%
+      # keep only coefficients of interest
+      filter(term != "(Intercept)") %>%
+      # change to the variance
+      mutate(var = std.error^2) %>%
+      select(term, var, estimate) %>%
+      gather(type, value, -term) %>%
+      # collapse term & type into a variable called "item"
+      unite(item, term, type) %>%
+      spread(item, value)
 
+  # if we don't want the variance columns, get rid of it
+  if (!variance)
+    res <- res %>%
+      select(-ends_with("_var"))
 
-  # stat of interest
-  median_diff <- function(splits) {
-    x <- analysis(splits)
-    median(x$MonthlyIncome[x$Gender == "Female"]) -
-      median(x$MonthlyIncome[x$Gender == "Male"])
+  return(res)
   }
 
+  # generate boostrap resamples
+  set.seed(888)
+  bt_resamples <- bootstraps(iris, times = 1000, apparent = TRUE)
 
   # compute function across each resample
-  bt_resamples$wage_diff <- map_dbl(bt_resamples$splits, median_diff)
+  model_res <- map_dfr(bt_resamples$splits, ~ wide_lm(analysis(.x)))
+
+  bt_resamples <- bind_cols(bt_resamples, model_res)
+
+
 
 
   # baseline
-  wage_diff_baseline <- quantile(bt_resamples$wage_diff,
+  sepal_width_baseline <- quantile(bt_resamples$Sepal.Width_estimate,
            probs = c(0.025, 0.975))
 
-
-  results_wage_diff <- tibble(
-    lower = min(wage_diff_baseline),
-    upper = max(wage_diff_baseline),
+  sepal_width_baseline <- tibble(
+    lower = min(sepal_width_baseline),
+    upper = max(sepal_width_baseline),
     alpha = 0.05,
     method = "percentile"
   )
 
 
+
+
   # OK - CI is reasonable
   perc_results <- rsample:::perc_all(bt_resamples,
-                                     wage_diff,
+                                     Sepal.Width_estimate,
                                      alpha = 0.05)
+
+  # TODO test wrapper
   # t_results <- rsample:::student_t_all(bt_resamples,
   #                                      wage_diff,
   #                                      wage_diff_var,
@@ -111,16 +130,11 @@ test_that("Percentile wrapper -- selection of multiple variables works", {
   #                                     var_obs,
   #                                      alpha = 0.05)
 
-  # results_mean_boot_t <- rsample:::t_interval(bt_norm$tmean,
-  #                                             bt_norm$tmean_var,
-  #                                             theta_obs,
-  #                                             var_obs,
-  #                                             alpha = 0.05)
+  #
 
-
-
-  expect_equal(results_wage_diff$lower, perc_results$lower, tolerance = 0.01)
-  expect_equal(results_wage_diff$upper, perc_results$upper, tolerance = 0.01)
+#
+  expect_equal(sepal_width_baseline$lower, perc_results$lower, tolerance = 0.01)
+  expect_equal(sepal_width_baseline$upper, perc_results$upper, tolerance = 0.01)
 })
 
 
@@ -189,7 +203,7 @@ test_that("statistic is entered", {
 #   ))
 # })
 
-
+#
 test_that('must enter a bootstraps object', {
   expect_error(rsample:::perc_all("lal",
                         wage_diff,

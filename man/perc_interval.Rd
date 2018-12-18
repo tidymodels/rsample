@@ -7,9 +7,9 @@
 perc_interval(stats, alpha = 0.05)
 }
 \arguments{
-\item{alpha}{level of significance}
+\item{stats}{A statistic of interest, a vector, from \code{rsplit} object created by the \code{bootstraps} function}
 
-\item{stat}{A statistic of interest, a vector, from \code{rsplit} object created by the \code{bootstraps} function}
+\item{alpha}{level of significance}
 }
 \description{
 Calculate bootstrap confidence intervals for a statistic of interest.
