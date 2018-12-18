@@ -173,6 +173,8 @@ test_that('Upper & lower confidence interval does not contain NA', {
 
   expect_error(rsample:::perc_interval(bt_na$tmean, alpha = 0.05))
 
+  expect_error(rsample::student_t_all(bt_na, tmean, alpha = 0.1))
+
 })
 
 

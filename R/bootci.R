@@ -60,6 +60,9 @@ t_interval <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
   # vars is a numeric vector of variances
   # return a tibble with .lower, .estimate, .upper
 
+  if(all(is.na(stats)))
+    stop("All statistics (", stats, ") are missing values.", call. = FALSE)
+
   z_dist <-
     (stats - theta_obs) / sqrt(stat_var)
 
