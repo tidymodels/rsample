@@ -107,8 +107,7 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
 
 
   res <- res %>% purrr::map_dfr(as_tibble) %>% mutate(statistic = column_stats)
-  # %>%
-    # flatten_dfr #purr equivalent of base::unlist
+
 }
 
 

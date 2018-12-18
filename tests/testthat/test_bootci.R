@@ -208,25 +208,24 @@ test_that("statistic is entered", {
   expect_error(rsample:::perc_interval(bt_resamples$cat, alpha = 0.5))
 })
 
-# test for apparent=true in perc_interval
-
-
 # test for apparent=true in perc_all
-# test_that("bootstraps(apparent = TRUE)", {
-#   get_mean <- function(dat) {
-#     mean(dat[['Sepal.Length']], na.rm = TRUE)
-#   }
-#
-#   bt_small <- bootstraps(iris, times = 500, apparent = FALSE) %>%
-#     dplyr::mutate(tmean = map_dbl(splits, function(x)
-#       get_mean(analysis(x))))
-#   expect_error(rsample:::perc_interval(
-#     bt_small$tmean,
-#     alpha = 0.5
-#   ))
-# })
+test_that("bootstraps(apparent = TRUE)", {
+  get_mean <- function(dat) {
+    mean(dat[['Sepal.Length']], na.rm = TRUE)
+  }
 
-#
+  bt_small <- bootstraps(iris, times = 500, apparent = FALSE) %>%
+    dplyr::mutate(tmean = map_dbl(splits, function(x)
+      get_mean(analysis(x))))
+  expect_error(rsample:::perc_all(
+    bt_small$tmean,
+    alpha = 0.5
+  ))
+})
+
+
+
+
 test_that('must enter a bootstraps object', {
   expect_error(rsample:::perc_all("lal",
                         wage_diff,
