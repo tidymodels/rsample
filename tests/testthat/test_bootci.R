@@ -169,11 +169,13 @@ test_that('Upper & lower confidence interval does not contain NA', {
 
   set.seed(888)
   bt_na <- bootstraps(iris_na, apparent = TRUE, times = 1000) %>%
-    dplyr::mutate(tmean = rep(NA_real_, 1001))
+    dplyr::mutate(tmean = rep(NA_real_, 1001),
+                  tvar = rep(NA_real_, 1001)
+                  )
 
-  expect_error(rsample:::perc_interval(bt_na$tmean, alpha = 0.05))
+  expect_error(rsample:::perc_interval(bt_na[['tmean']], alpha = 0.05))
 
-  expect_error(rsample::student_t_all(bt_na, tmean, alpha = 0.1))
+  expect_error(rsample::student_t_all(bt_na, tmean, var_cols = vars(tvar), alpha = 0.1))
 
 })
 
