@@ -1,4 +1,4 @@
-context("Bootstrapping Confidence Intervals - Percentile Method")
+context("Bootstrapping Confidence Intervals")
 
 library(rsample)
 library(testthat)
@@ -6,8 +6,6 @@ library(purrr)
 library(tibble)
 library(dplyr)
 library(broom)
-
-
 
 context("boot_ci() Check Against Standard Confidence Interval")
 
@@ -50,7 +48,7 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
 
 
 
-            results_mean_boot_perc <- rsample:::perc_interval(bt_norm$tmean,
+            results_mean_boot_perc <- rsample:::perc_interval(bt_norm %>% pull(tmean),
                                                               alpha = 0.05)
 
 
@@ -74,7 +72,7 @@ test_that("Wrappers -- selection of multiple variables works", {
 # Fits a linear model, then collapses the columns to get the beta and variance estimates
   wide_lm <- function(dat, variance = TRUE) {
     res <- lm(Petal.Width ~ Sepal.Length + Sepal.Width, data = dat) %>%
-      broom::tidy() %>%
+      tidy() %>%
       # keep only coefficients of interest
       filter(term != "(Intercept)") %>%
       # change to the variance
@@ -98,11 +96,9 @@ test_that("Wrappers -- selection of multiple variables works", {
   bt_resamples <- bootstraps(iris, times = 1000, apparent = TRUE)
 
   # compute function across each resample
-  model_res <- map_dfr(bt_resamples$splits, ~ wide_lm(analysis(.x)))
+  model_res <- map_dfr(bt_resamples$splits, ~ wide_lm(analysis(.x), variance = TRUE))
 
   bt_resamples <- bind_cols(bt_resamples, model_res)
-
-
 
 
   # baseline
@@ -154,6 +150,29 @@ test_that("Wrappers -- selection of multiple variables works", {
     tolerance = 0.01
   )
 
+  #TODO replace this parsing in intermediate wrapper later vars_select()
+  # stats <- bt_resamples %>%  select(Sepal.Length_estimate, Sepal.Width_estimate)
+  stats <- bt_resamples %>%  pull(Sepal.Width_estimate)
+  splits <- bt_resamples %>% pull(splits)
+
+
+  #TODO test low-level call
+  bca_results <- rsample:::bca_interval(stats,
+                         splits,
+                         fn = wide_lm,
+                         args = list(variance=FALSE),
+                         alpha = 0.05)
+
+  # TODO test high-level call
+  # bca call
+  # bca_results <- rsample:::bca_all(bt_resamples,
+  #                                 Sepal.Width_estimate,
+  #                                 Sepal.Length_estimate,
+  #                                 fn = wide_lm,
+  #                                 args = list(variance=FALSE),
+  #                                 alpha = 0.05)
+
+
 })
 
 
@@ -173,7 +192,7 @@ test_that('Upper & lower confidence interval does not contain NA', {
                   tvar = rep(NA_real_, 1001)
                   )
 
-  expect_error(rsample:::perc_interval(bt_na[['tmean']], alpha = 0.05))
+  expect_error(rsample:::perc_interval(bt_na %>% pull(tmean), alpha = 0.05))
 
   expect_error(rsample::student_t_all(bt_na, tmean, var_cols = vars(tvar), alpha = 0.1))
 
@@ -203,7 +222,7 @@ test_that(
   "At least B=1000 replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
   {
     expect_warning(rsample:::perc_interval(
-      bt_one[['trimmed_mean_sepal']],
+      bt_one %>% pull(trimmed_mean_sepal),
       alpha = 0.05
     ))
 
