@@ -9,7 +9,7 @@ dat1 <- data.frame(a = 1:20, b = letters[1:20])
 test_that('default param', {
   set.seed(11)
   rs1 <- bootstraps(dat1)
-  sizes1 <- rsample:::dim_rset(rs1)
+  sizes1 <- dim_rset(rs1)
 
   expect_true(all(sizes1$analysis == nrow(dat1)))
   same_data <-
@@ -26,7 +26,7 @@ test_that('default param', {
 
 test_that('apparent', {
   rs2 <- bootstraps(dat1, apparent = TRUE)
-  sizes2 <- rsample:::dim_rset(rs2)
+  sizes2 <- dim_rset(rs2)
 
   expect_true(all(sizes2$analysis == nrow(dat1)))
   expect_true(all(sizes2$assessment[nrow(sizes2)] == nrow(dat1)))
@@ -41,7 +41,7 @@ test_that('strata', {
   iris2 <- iris[1:130, ]
   set.seed(11)
   rs4 <- bootstraps(iris2,  strata = "Species")
-  sizes4 <- rsample:::dim_rset(rs4)
+  sizes4 <- dim_rset(rs4)
 
   expect_true(all(sizes4$analysis == nrow(iris2)))
 
@@ -59,7 +59,7 @@ test_that('strata', {
   expect_true(all(good_holdout))
 
   rs5 <- bootstraps(iris2, apparent = TRUE, strata = "Species")
-  sizes5 <- rsample:::dim_rset(rs5)
+  sizes5 <- dim_rset(rs5)
 
   expect_true(all(sizes5$analysis == nrow(iris2)))
   expect_true(all(sizes5$assessment[nrow(sizes5)] == nrow(iris2)))
