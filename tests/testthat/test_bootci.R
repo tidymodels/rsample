@@ -48,7 +48,7 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
 
 
 
-            results_mean_boot_perc <- rsample:::perc_interval(bt_norm %>% pull(tmean),
+            results_mean_boot_perc <- rsample:::perc_interval(bt_norm$tmean,
                                                               alpha = 0.05)
 
 
@@ -57,12 +57,28 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
                                                            var_cols = vars(tmean_var),
                                                            alpha = 0.05)
 
+            # results_mean_bca <- rsample:::bca_all(bt_norm,
+            #                                            tmean,
+            #                                            fn = get_mean,
+            #                                            alpha = 0.05)
+            #
+            # bca_results <- rsample:::bca_all(bt_resamples,
+            #                                  Sepal.Width_estimate,
+            #                                  Sepal.Length_estimate,
+            #                                  fn = wide_lm,
+            #                                  args = list(variance=FALSE),
+            #                                  alpha = 0.05)
+
+
             expect_equal(results_ttest$lower, results_mean_boot_perc$lower, tolerance = 0.01)
             expect_equal(results_ttest$lower, results_mean_boot_perc$lower, tolerance = 0.01)
             expect_equal(results_ttest$upper, results_mean_boot_perc$upper, tolerance = 0.01)
 
             expect_equal(results_ttest$lower, results_mean_boot_t$lower, tolerance = 0.01)
             expect_equal(results_ttest$upper, results_mean_boot_t$upper, tolerance = 0.01)
+
+            # expect_equal(results_ttest$lower, results_mean_bca$lower, tolerance = 0.01)
+            # expect_equal(results_ttest$uppper, results_mean_bca$upper, tolerance = 0.01)
           })
 
 
@@ -150,27 +166,19 @@ test_that("Wrappers -- selection of multiple variables works", {
     tolerance = 0.01
   )
 
-  #TODO replace this parsing in intermediate wrapper later vars_select()
-  # stats <- bt_resamples %>%  select(Sepal.Length_estimate, Sepal.Width_estimate)
-  stats <- bt_resamples %>%  pull(Sepal.Width_estimate)
-  splits <- bt_resamples %>% pull(splits)
 
-
-  #TODO test low-level call
-  bca_results <- rsample:::bca_interval(stats,
-                         splits,
-                         fn = wide_lm,
-                         args = list(variance=FALSE),
-                         alpha = 0.05)
-
-  # TODO test high-level call
-  # bca call
-  # bca_results <- rsample:::bca_all(bt_resamples,
-  #                                 Sepal.Width_estimate,
-  #                                 Sepal.Length_estimate,
-  #                                 fn = wide_lm,
-  #                                 args = list(variance=FALSE),
-  #                                 alpha = 0.05)
+  #  High-level BCa call
+  bca_results <- rsample:::bca_all(bt_resamples,
+                                  Sepal.Width_estimate,
+                                  Sepal.Length_estimate,
+                                  fn = wide_lm,
+                                  args = list(variance=FALSE),
+                                  alpha = 0.05)
+  expect_equal(
+    sepal_width_baseline$lower,
+    bca_results %>% filter(statistic == "Sepal.Width_estimate") %>% pull(lower),
+    tolerance = 0.01
+  )
 
 
 })
@@ -192,7 +200,7 @@ test_that('Upper & lower confidence interval does not contain NA', {
                   tvar = rep(NA_real_, 1001)
                   )
 
-  expect_error(rsample:::perc_interval(bt_na %>% pull(tmean), alpha = 0.05))
+  expect_error(rsample:::perc_interval(bt_na$tmean, alpha = 0.05))
 
   expect_error(rsample::student_t_all(bt_na, tmean, var_cols = vars(tvar), alpha = 0.1))
 
@@ -222,7 +230,7 @@ test_that(
   "At least B=1000 replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
   {
     expect_warning(rsample:::perc_interval(
-      bt_one %>% pull(trimmed_mean_sepal),
+      bt_one$trimmed_mean_sepal,
       alpha = 0.05
     ))
 
