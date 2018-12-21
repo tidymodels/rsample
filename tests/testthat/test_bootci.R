@@ -57,17 +57,12 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
                                                            var_cols = vars(tmean_var),
                                                            alpha = 0.05)
 
-            # results_mean_bca <- rsample:::bca_all(bt_norm,
-            #                                            tmean,
-            #                                            fn = get_mean,
-            #                                            alpha = 0.05)
-            #
-            # bca_results <- rsample:::bca_all(bt_resamples,
-            #                                  Sepal.Width_estimate,
-            #                                  Sepal.Length_estimate,
-            #                                  fn = wide_lm,
-            #                                  args = list(variance=FALSE),
-            #                                  alpha = 0.05)
+            results_mean_boot_bca <- rsample:::bca_all(bt_norm,
+                                                       tmean,
+                                                       fn = get_mean,
+                                                       alpha = 0.05)
+
+
 
 
             expect_equal(results_ttest$lower, results_mean_boot_perc$lower, tolerance = 0.01)
@@ -77,8 +72,8 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
             expect_equal(results_ttest$lower, results_mean_boot_t$lower, tolerance = 0.01)
             expect_equal(results_ttest$upper, results_mean_boot_t$upper, tolerance = 0.01)
 
-            # expect_equal(results_ttest$lower, results_mean_bca$lower, tolerance = 0.01)
-            # expect_equal(results_ttest$uppper, results_mean_bca$upper, tolerance = 0.01)
+            expect_equal(results_ttest$lower, results_mean_boot_bca$lower, tolerance = 0.01)
+            expect_equal(results_ttest$upper, results_mean_boot_bca$upper, tolerance = 0.01)
           })
 
 

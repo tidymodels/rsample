@@ -131,24 +131,21 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
 #' @importFrom rlang exec
 #' @importFrom purrr pluck map_dbl map_dfr
 #' @export
-bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args = list(), alpha = 0.05) {
+bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha = 0.05) {
   # stats is a numeric vector of values
   # splits is a vector of rsplits
   # funcs is a function
   # args is a list
   # return a tibble with .lower, .estimate, .upper
 
-  #TODO get stats, theta_hat, call bca_interval from an intermediate wrapper
-  # from APPARENT = TRUE
   # theta_hat <- tail(stats, -1)
 
-  #TODO get x_i from a intermediate wrapper
   ### Estimating Z0 bias-correction
   po <- mean(stats <= theta_hat, na.rm = TRUE)
   Z0 <- qnorm(po)
   Za <- qnorm(1 - alpha / 2)
 
-  #TODO parse splits from bt_rsamples in intermediate wrapper?
+
   #need the original data frame here
   # loo_rs <- loo_cv(splits %>% pluck(1, "data"))
   loo_rs <- loo_cv(orig_data)
@@ -157,7 +154,6 @@ bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args = list
   # To test, we run on the first LOO data set and see if it is a vector or df
   loo_test <- rlang::exec(fn, analysis(loo_rs$splits[[1]]), !!!args)
 
-  # TODO apply rlang::exec to each loo_rs$split
   if (is.vector(loo_test)) {
     if (length(loo_test) > 1)
       stop("The function should return a single value or a data frame/",
@@ -169,14 +165,13 @@ bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args = list
     if (!is.data.frame(loo_test))
       stop("The function should return a single value or a data frame/",
            "tibble.", call. = FALSE)
-    leave_one_out_theta <- map_dfr(loo_rs$splits, ~fn(analysis(.x)))
+    leave_one_out_theta <- map_dfr(loo_rs$splits, ~fn(analysis(.x))) %>%
+      pull(stat_name)
+
   }
 
 
-# TODO leave_one_out_theta needs to be a numeric vector -- not a df
-# TODO get correct stat from intermediate wrapper
-  theta_minus_one <-
-    mean(leave_one_out_theta %>% pluck(stat_name), na.rm = TRUE)
+  theta_minus_one <- mean(leave_one_out_theta, na.rm = TRUE)
 
   a <- sum( (theta_minus_one - leave_one_out_theta) ^ 3) /
     ( 6 * (sum( (theta_minus_one - leave_one_out_theta) ^ 2)) ^ (3 / 2) )
@@ -202,18 +197,15 @@ bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args = list
 #' @importFrom dplyr filter pull
 #' @importFrom purrr pluck
 #' @export
-bca_interval_wrapper <- function(stat_name, fn, args = list(), dat, alpha){
+bca_interval_wrapper <- function(stat_name, fn, args, dat, alpha){
 
   theta_hat <- dat %>% dplyr::filter(id == "Apparent") %>% pull(stat_name)
-  # var_obs <- dat %>% filter(id == "Apparent")%>% pull(var_name)
 
   stats <- dat %>% dplyr::filter(id != "Apparent") %>% pull(stat_name)
-  # stat_var <- dat %>% filter(id != "Apparent")%>% pull(var_name)
 
-  # splits <- dat %>% dplyr::filter(id != "Apparent") %>% pull(splits)
   orig_data <- dat %>% dplyr::filter(id == "Apparent") %>% pluck("splits", 1, "data")
 
-  bca_interval(stats, stat_name, theta_hat, orig_data, fn, args = list(), alpha = alpha)
+  bca_interval(stats, stat_name, theta_hat, orig_data, fn, args = args, alpha = alpha)
 
 }
 
@@ -224,13 +216,9 @@ bca_interval_wrapper <- function(stat_name, fn, args = list(), dat, alpha){
 #' @importFrom dplyr select_vars
 #' @importFrom purrr map_dfr
 #' @export
-bca_all <- function(object, ..., fn, args, alpha = 0.05){
-
+bca_all <- function(object, ..., fn, args=list(), alpha = 0.05){
 
   column_stats <- select_vars(names(object), !!!quos(...))
-
-  # splits <- object %>% filter(id != "Apparent") %>% pull(splits)
-
 
   res <-
     purrr::map_dfr(
@@ -242,68 +230,8 @@ bca_all <- function(object, ..., fn, args, alpha = 0.05){
       alpha = alpha
     )
 
-  # stat_name, splits, fn, args = list(), dat, alpha = alpha
-  # res <- purrr::map_dfr(object[, column_stats], perc_interval, alpha = alpha)
-  # res <- purrr::map2(column_stats, splits, fn, args=args, alpha=alpha)
-  # res <- rlang::exec(fn, stats, !!!args)
-
-  # TODO append statistic column
   res %>% mutate(statistic = column_stats)
 
 }
-
-
-
-
-
-# TODO mini-test
-# bca_int<- function(stats, splits, fn, args = list(), alpha = 0.05) {
-#   # stats is a numeric vector of values
-#   # splits is a vector of rsplits
-#   # fn is a function
-#   # args is a list
-#   # return a tibble with .lower, .estimate, .upper
-#
-#   # evaluates the function on the stats numeric vector using list of args
-#   # We will use this to evaluate the function on each LOO rplit
-#   rlang::exec(fn, stats, !!!args)
-#
-# }
-#
-# bca_int(c(1:10, 100), fn = mean, args = list(trim = .1))
-# bca_int(c(1:10, 100), fn = mean)
-#
-#
-#
-#
-# bca_int(
-#   object,
-#   mean_value,
-#   funcs = mean,
-#   args = list(trim = .1)
-# )
-
-# TODO Will this be high-level wrapper?
-# Or should user filter for splits & stats by themselves?
-# bca_all <- function(object, ..., alpha = 0.05){
-#   # stats is a numeric vector of values
-#   # splits is a vector of rsplits
-#   # funcs is a function
-#   # args is a list
-#   # return a tibble with .lower, .estimate, .upper
-#
-#   column_stats <- select_vars(names(object), !!!quos(...))
-#
-#
-#
-#
-#
-#   res <- rlang::exec(funcs, stats, !!!args)
-#
-#   # TODO append statistic column
-#   res %>% mutate(statistic = column_stats)
-#
-# }
-
 
 
