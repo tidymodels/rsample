@@ -4,7 +4,18 @@
 \alias{bca_all}
 \title{BCA Interval high-level}
 \usage{
-bca_all(object, ..., fn, args, alpha = 0.05)
+bca_all(object, ..., fn, args = list(), alpha = 0.05)
+}
+\arguments{
+\item{object}{bootstrap resamples created by the \code{bootstraps} function}
+
+\item{...}{parameters to pass to the specific confidence interval methods}
+
+\item{fn}{function to calculate statistic of interest}
+
+\item{args}{list of arguments passed to \code{fn}}
+
+\item{alpha}{level of significance}
 }
 \description{
 Calculate bootstrap confidence intervals for a statistic of interest.

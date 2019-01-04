@@ -14,7 +14,6 @@ perc_interval <- function(stats, alpha = 0.05) {
   if (length(stats) < 500)
     warning("Recommend at least 500 bootstrap resamples.", call. = FALSE)
 
-
   if (!is.numeric(stats))
     stop("`stats` must be a numeric vector.", call. = FALSE)
 
@@ -33,7 +32,10 @@ perc_interval <- function(stats, alpha = 0.05) {
 
 #' Percentile wrapper for multiple statistics
 #' @description
-#' Calculate bootstrap confidence intervals for a statistic of interest.
+#' Calculate bootstrap confidence interval with percentile method
+#' @param object bootstrap resamples created by the `bootstraps` function
+#' @param ... parameters to pass to the specific confidence interval methods
+#' @param alpha level of significance
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
 #' @importFrom dplyr select_vars mutate last
@@ -43,6 +45,7 @@ perc_all <- function(object, ..., alpha = 0.05) {
   if (class(object)[1] != "bootstraps")
     stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
 
+  id = NULL
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
     stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
 
@@ -85,6 +88,8 @@ t_interval <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
 t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
+  id = NULL
+
   theta_obs <- dat %>% filter(id == "Apparent") %>% pull(stat_name)
   var_obs <- dat %>% filter(id == "Apparent")%>% pull(var_name)
 
@@ -98,7 +103,11 @@ t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
 
 #' Student-t wrapper for multiple statistics
 #' @description
-#' Calculate bootstrap confidence intervals for a statistic of interest.
+#' Calculate bootstrap confidence interval with student-t method
+#' @param object bootstrap resamples created by the `bootstraps` function
+#' @param ... parameters to pass to the specific confidence interval methods
+#' @param var_cols variance variables for statistics of interest. Must be quoted `vars(variance1, variance2)``
+#' @param alpha level of significance
 #' @importFrom dplyr select_vars as_tibble mutate
 #' @importFrom rlang quos
 #' @importFrom purrr map2 map_dfr
@@ -108,6 +117,7 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
   if (class(object)[1] != "bootstraps")
     stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
 
+  id = NULL
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
     stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
 
@@ -127,9 +137,17 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
 #' BCA Interval low-level
 #' @description
 #' Calculate bootstrap confidence intervals for a statistic of interest.
+#' @param stats A statistic of interest, a vector, from `rsplit` object created by the `bootstraps` function
+#' @param stat_name name of statistic of interest?
+#' @param theta_hat statistics of interest
+#' @param orig_data original dataset
+#' @param fn function to calculate stastic of interest
+#' @param args list of arguments passed to `fn`
+#' @param alpha level of significance
 #' @importFrom dplyr last
 #' @importFrom rlang exec
 #' @importFrom purrr pluck map_dbl map_dfr
+#' @importFrom stats qnorm pnorm
 #' @export
 bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha = 0.05) {
   # stats is a numeric vector of values
@@ -138,12 +156,16 @@ bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha
   # args is a list
   # return a tibble with .lower, .estimate, .upper
 
-  # theta_hat <- tail(stats, -1)
+
+
+  if(all(is.na(stats)))
+    stop("All statistics (", stats, ") are missing values.", call. = FALSE)
+
 
   ### Estimating Z0 bias-correction
   po <- mean(stats <= theta_hat, na.rm = TRUE)
-  Z0 <- qnorm(po)
-  Za <- qnorm(1 - alpha / 2)
+  Z0 <- stats::qnorm(po)
+  Za <- stats::qnorm(1 - alpha / 2)
 
 
   #need the original data frame here
@@ -178,8 +200,8 @@ bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha
 
   Zu <- (Z0 + Za) / ( 1 - a * (Z0 + Za)) + Z0 # upper limit for Z
   Zl <- (Z0 - Za) / (1 - a * (Z0 - Za)) + Z0 # lower limit for Z
-  lower_percentile <- pnorm(Zl, lower.tail = TRUE) # percentile for Z
-  upper_percentile <- pnorm(Zu, lower.tail = TRUE) # percentile for Z
+  lower_percentile <- stats::pnorm(Zl, lower.tail = TRUE) # percentile for Z
+  upper_percentile <- stats::pnorm(Zu, lower.tail = TRUE) # percentile for Z
   ci_bca <- as.numeric(quantile(stats, c(lower_percentile, upper_percentile)))
 
 
@@ -192,13 +214,15 @@ bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha
 }
 
 #' BCA Interval wrapper
-#' @description
-#' Help calculate bootstrap confidence intervals for a statistic of interest.
+#' @param stat_name statistic name
+#' @param fn function to calculate statistic of interest
+#' @param args list of arguments passed to `fn`
+#' @param dat resamples
+#' @param alpha level of significance
 #' @importFrom dplyr filter pull
 #' @importFrom purrr pluck
-#' @export
 bca_interval_wrapper <- function(stat_name, fn, args, dat, alpha){
-
+  id = NULL
   theta_hat <- dat %>% dplyr::filter(id == "Apparent") %>% pull(stat_name)
 
   stats <- dat %>% dplyr::filter(id != "Apparent") %>% pull(stat_name)
@@ -213,10 +237,26 @@ bca_interval_wrapper <- function(stat_name, fn, args, dat, alpha){
 #' BCA Interval high-level
 #' @description
 #' Calculate bootstrap confidence intervals for a statistic of interest.
+#' @param object bootstrap resamples created by the `bootstraps` function
+#' @param ... parameters to pass to the specific confidence interval methods
+#' @param fn function to calculate statistic of interest
+#' @param args list of arguments passed to `fn`
+#' @param alpha level of significance
 #' @importFrom dplyr select_vars
 #' @importFrom purrr map_dfr
 #' @export
 bca_all <- function(object, ..., fn, args=list(), alpha = 0.05){
+
+  if (class(object)[1] != "bootstraps")
+    # stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
+
+  id = NULL
+  if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
+    stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
+
+
+  if (nrow(object) < 1000)
+    warning("Recommend at least 1000 bootstrap resamples.", call. = FALSE)
 
   column_stats <- select_vars(names(object), !!!quos(...))
 

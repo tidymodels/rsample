@@ -37,7 +37,7 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
 
 
             bt_norm <-
-              bootstraps(random_nums, times = 500, apparent = TRUE) %>%
+              bootstraps(random_nums, times = 1000, apparent = TRUE) %>%
               dplyr::mutate(
                 tmean = map_dbl(splits, function(x)
                   get_mean(analysis(x))),
@@ -195,9 +195,18 @@ test_that('Upper & lower confidence interval does not contain NA', {
                   tvar = rep(NA_real_, 1001)
                   )
 
-  expect_error(rsample:::perc_interval(bt_na$tmean, alpha = 0.05))
+  expect_error(rsample:::perc_interval(bt_na$tmean,
+                                       alpha = 0.05))
 
-  expect_error(rsample::student_t_all(bt_na, tmean, var_cols = vars(tvar), alpha = 0.1))
+  expect_error(rsample:::student_t_all(bt_na,
+                                       tmean,
+                                       var_cols = vars(tvar),
+                                       alpha = 0.1))
+
+  expect_error(rsample:::bca_all(bt_na,
+                                 tmean,
+                                 fn = median,
+                                 alpha = 0.05))
 
 })
 
@@ -222,7 +231,7 @@ bt_one <- bootstraps(iris, apparent = TRUE, times = 1) %>%
 
 # TODO replace with BCA later
 test_that(
-  "At least B=1000 replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
+  "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
   {
     expect_warning(rsample:::perc_interval(
       bt_one$trimmed_mean_sepal,
@@ -235,6 +244,15 @@ test_that(
       var_cols = vars(trimmed_mean_sepal_var),
       alpha = 0.05
     ))
+
+    expect_warning(rsample:::bca_all(
+      bt_one,
+      trimmed_mean_sepal,
+      fn = mean,
+      args = list(na.rm=TRUE, trim = 0.1),
+      alpha = 0.05
+    ))
+
 
 
   })
@@ -257,22 +275,30 @@ test_that("bootstraps(apparent = TRUE)", {
     var(dat[['Sepal.Length']], na.rm = TRUE)
   }
 
-  bt_small <- bootstraps(iris, times = 500, apparent = FALSE) %>%
+  bt_without_apparent <- bootstraps(iris, times = 500, apparent = FALSE) %>%
     dplyr::mutate(tmean = map_dbl(splits, function(x) get_mean(analysis(x))),
                   tmean_var = map_dbl(splits, function(x) get_var(analysis(x)))
       )
 
   expect_error(rsample:::perc_all(
-    bt_small$tmean,
+    bt_without_apparent$tmean,
     alpha = 0.5
   ))
 
   expect_error(rsample:::student_t_all(
-    bt_small,
+    bt_without_apparent,
     tmean,
     var_cols = vars(tmean_var),
     alpha = 0.5
   ))
+
+  expect_error(rsample:::bca_all(
+    bt_without_apparent,
+    tmean,
+    fn=get_mean,
+    alpha = 0.1
+  ))
+
 
 })
 

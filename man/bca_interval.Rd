@@ -4,8 +4,23 @@
 \alias{bca_interval}
 \title{BCA Interval low-level}
 \usage{
-bca_interval(stats, stat_name, theta_hat, orig_data, fn, args = list(),
+bca_interval(stats, stat_name, theta_hat, orig_data, fn, args,
   alpha = 0.05)
+}
+\arguments{
+\item{stats}{A statistic of interest, a vector, from \code{rsplit} object created by the \code{bootstraps} function}
+
+\item{stat_name}{name of statistic of interest?}
+
+\item{theta_hat}{statistics of interest}
+
+\item{orig_data}{original dataset}
+
+\item{fn}{function to calculate stastic of interest}
+
+\item{args}{list of arguments passed to \code{fn}}
+
+\item{alpha}{level of significance}
 }
 \description{
 Calculate bootstrap confidence intervals for a statistic of interest.

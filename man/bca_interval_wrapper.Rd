@@ -4,8 +4,19 @@
 \alias{bca_interval_wrapper}
 \title{BCA Interval wrapper}
 \usage{
-bca_interval_wrapper(stat_name, fn, args = list(), dat, alpha)
+bca_interval_wrapper(stat_name, fn, args, dat, alpha)
+}
+\arguments{
+\item{stat_name}{statistic name}
+
+\item{fn}{function to calculate statistic of interest}
+
+\item{args}{list of arguments passed to \code{fn}}
+
+\item{dat}{resamples}
+
+\item{alpha}{level of significance}
 }
 \description{
-Help calculate bootstrap confidence intervals for a statistic of interest.
+BCA Interval wrapper
 }

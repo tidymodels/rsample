@@ -6,6 +6,13 @@
 \usage{
 perc_all(object, ..., alpha = 0.05)
 }
+\arguments{
+\item{object}{bootstrap resamples created by the \code{bootstraps} function}
+
+\item{...}{parameters to pass to the specific confidence interval methods}
+
+\item{alpha}{level of significance}
+}
 \description{
-Calculate bootstrap confidence intervals for a statistic of interest.
+Calculate bootstrap confidence interval with percentile method
 }

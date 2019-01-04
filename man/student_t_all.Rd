@@ -6,6 +6,15 @@
 \usage{
 student_t_all(object, ..., var_cols, alpha = 0.05)
 }
+\arguments{
+\item{object}{bootstrap resamples created by the \code{bootstraps} function}
+
+\item{...}{parameters to pass to the specific confidence interval methods}
+
+\item{var_cols}{variance variables for statistics of interest. Must be quoted `vars(variance1, variance2)``}
+
+\item{alpha}{level of significance}
+}
 \description{
-Calculate bootstrap confidence intervals for a statistic of interest.
+Calculate bootstrap confidence interval with student-t method
 }
