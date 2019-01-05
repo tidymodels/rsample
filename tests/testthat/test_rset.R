@@ -42,7 +42,7 @@ test_that('simple rset', {
   expect_equal(names(res2), c("splits", "id"))
   expect_equal(class(res2), c("rset", "tbl_df", "tbl", "data.frame"))
   expect_equal(sort(names(attributes(res2))),
-               c("class", "names", "row.names"))
+               sort(names(attributes(cars_10fold))))
 })
 
 test_that('rset with attributes', {
