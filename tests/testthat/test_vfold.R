@@ -9,7 +9,7 @@ dat1 <- data.frame(a = 1:20, b = letters[1:20])
 test_that('default param', {
   set.seed(11)
   rs1 <- vfold_cv(dat1)
-  sizes1 <- rsample:::dim_rset(rs1)
+  sizes1 <- dim_rset(rs1)
 
   expect_true(all(sizes1$analysis == 18))
   expect_true(all(sizes1$assessment == 2))
@@ -28,7 +28,7 @@ test_that('default param', {
 test_that('repeated', {
   set.seed(11)
   rs2 <- vfold_cv(dat1, repeats = 4)
-  sizes2 <- rsample:::dim_rset(rs2)
+  sizes2 <- dim_rset(rs2)
 
   expect_true(all(sizes2$analysis == 18))
   expect_true(all(sizes2$assessment == 2))
@@ -48,7 +48,7 @@ test_that('strata', {
   iris2 <- iris[1:130, ]
   set.seed(11)
   rs3 <- vfold_cv(iris2, repeats = 2, strata = "Species")
-  sizes3 <- rsample:::dim_rset(rs3)
+  sizes3 <- dim_rset(rs3)
 
   expect_true(all(sizes3$analysis == 117))
   expect_true(all(sizes3$assessment == 13))

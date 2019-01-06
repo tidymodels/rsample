@@ -8,7 +8,7 @@ dat1 <- data.frame(a = 1:20, b = letters[1:20])
 
 test_that('default param', {
   rs1 <- rolling_origin(dat1)
-  sizes1 <- rsample:::dim_rset(rs1)
+  sizes1 <- dim_rset(rs1)
 
   expect_true(all(sizes1$assessment == 1))
   expect_true(all(sizes1$analysis == 5:19))
@@ -28,7 +28,7 @@ test_that('default param', {
 
 test_that('larger holdout', {
   rs2 <- rolling_origin(dat1, assess = 3)
-  sizes2 <- rsample:::dim_rset(rs2)
+  sizes2 <- dim_rset(rs2)
 
   expect_true(all(sizes2$assessment == 3))
   expect_true(all(sizes2$analysis == 5:17))
@@ -45,7 +45,7 @@ test_that('larger holdout', {
 
 test_that('fixed analysis size', {
   rs3 <- rolling_origin(dat1, cumulative = FALSE)
-  sizes3 <- rsample:::dim_rset(rs3)
+  sizes3 <- dim_rset(rs3)
 
   expect_true(all(sizes3$assessment == 1))
   expect_true(all(sizes3$analysis == 5))
@@ -62,7 +62,7 @@ test_that('fixed analysis size', {
 
 test_that('skipping', {
   rs4 <- rolling_origin(dat1, cumulative = FALSE, skip = 2)
-  sizes4 <- rsample:::dim_rset(rs4)
+  sizes4 <- dim_rset(rs4)
 
   expect_true(all(sizes4$assessment == 1))
   expect_true(all(sizes4$analysis == 5))

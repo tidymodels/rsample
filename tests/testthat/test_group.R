@@ -5,7 +5,7 @@ library(rsample)
 library(purrr)
 library(tibble)
 
-iris2 <- as.tibble(iris)
+iris2 <- as_tibble(iris)
 
 get_id_left_out <- function(x)
      unique(as.character(assessment(x)$Species))
@@ -22,7 +22,7 @@ test_that('bad args', {
 test_that('default param', {
   set.seed(11)
   rs1 <- group_vfold_cv(iris, "Species")
-  sizes1 <- rsample:::dim_rset(rs1)
+  sizes1 <- dim_rset(rs1)
 
   expect_true(all(sizes1$analysis == 100))
   expect_true(all(sizes1$assessment == 50))
@@ -45,7 +45,7 @@ test_that('default param', {
 test_that('v < max v', {
   set.seed(11)
   rs2 <- group_vfold_cv(iris, "Species", v = 2)
-  sizes2 <- rsample:::dim_rset(rs2)
+  sizes2 <- dim_rset(rs2)
 
   expect_true(!all(sizes2$analysis == 100))
   expect_true(!all(sizes2$assessment == 50))
@@ -67,7 +67,7 @@ test_that('v < max v', {
 test_that('tibble input', {
   set.seed(11)
   rs3 <- group_vfold_cv(iris2, "Species")
-  sizes3 <- rsample:::dim_rset(rs3)
+  sizes3 <- dim_rset(rs3)
 
   expect_true(all(sizes3$analysis == 100))
   expect_true(all(sizes3$assessment == 50))

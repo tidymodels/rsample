@@ -9,7 +9,7 @@ dat1 <- data.frame(a = 1:20, b = letters[1:20])
 test_that('default param', {
   set.seed(11)
   rs1 <- mc_cv(dat1)
-  sizes1 <- rsample:::dim_rset(rs1)
+  sizes1 <- dim_rset(rs1)
 
   expect_true(all(sizes1$analysis == 15))
   expect_true(all(sizes1$assessment == 5))
@@ -28,7 +28,7 @@ test_that('default param', {
 test_that('different percent', {
   set.seed(11)
   rs2 <- mc_cv(dat1, prop = .5)
-  sizes2 <- rsample:::dim_rset(rs2)
+  sizes2 <- dim_rset(rs2)
 
   expect_true(all(sizes2$analysis == 10))
   expect_true(all(sizes2$assessment == 10))
@@ -48,7 +48,7 @@ test_that('strata', {
   iris2 <- iris[1:130, ]
   set.seed(11)
   rs3 <- mc_cv(iris2, strata = "Species")
-  sizes3 <- rsample:::dim_rset(rs3)
+  sizes3 <- dim_rset(rs3)
 
   expect_true(all(sizes3$analysis == 99))
   expect_true(all(sizes3$assessment == 31))
