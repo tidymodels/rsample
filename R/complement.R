@@ -95,39 +95,6 @@ populate.rset <- function(x, ...) {
   x
 }
 
-
-# Remove fill() in 0.0.4 because of its conflict with tidyr::fill()
-fill_deprecation_msg <- paste0(
-  "`rsample::fill()` has been deprecated ",
-  "and will be removed in version `0.0.4`. ",
-  "Please use `rsample::populate()` instead.")
-
-#' Add Assessment Indicies
-#'
-#' `fill()` has been deprecated and will be removed in version `0.0.4`.
-#' Please use [populate()] instead.
-#'
-#' @export
-#' @inheritParams populate
-fill <- function (x, ...) UseMethod("fill")
-
-#' @export
-fill.default <- function(x, ...) {
-  stop(fill_deprecation_msg, call. = FALSE)
-}
-
-#' @export
-fill.rsplit <- function(x, ...) {
-  warning(fill_deprecation_msg, call. = FALSE)
-  populate(x, ...)
-}
-
-#' @export
-fill.rset <- function(x, ...) {
-  warning(fill_deprecation_msg, call. = FALSE)
-  populate(x, ...)
-}
-
 ## This will remove the assessment indices from an rsplit object
 rm_out <- function(x) {
   x$out_id <- NA
