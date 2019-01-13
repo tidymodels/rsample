@@ -19,7 +19,7 @@ test_that('simple boot', {
   rs1 <- bootstraps(dat1)
   td1 <- tidy(rs1, unique_ind = FALSE)
 
-  name_vals <- rsample:::names0(nrow(rs1), "Bootstrap")
+  name_vals <- names0(nrow(rs1), "Bootstrap")
   for(i in 1:nrow(rs1)) {
     expect_true(
       check_ind(rs1$splits[[i]],

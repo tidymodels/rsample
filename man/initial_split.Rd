@@ -32,7 +32,7 @@ An \code{rset} object that can be used with the \code{training} and \code{testin
 \description{
 \code{initial_split} creates a single binary split of the data into a training set
 and testing set. \code{initial_time_split} does the same, but takes the \emph{first} \code{prop}
-samples for training, instead of a a random selection. \code{training} and
+samples for training, instead of a random selection. \code{training} and
 \code{testing} are used to extract the resulting data.
 }
 \details{

@@ -7,17 +7,17 @@ cars_10fold <- vfold_cv(mtcars)
 
 test_that('bad args', {
   expect_error(
-    rsample:::new_rset(cars_10fold$splits[1:2], cars_10fold$id)
+    new_rset(cars_10fold$splits[1:2], cars_10fold$id)
   )
   expect_error(
-    rsample:::new_rset(cars_10fold$splits, cars_10fold[ "splits"])
+    new_rset(cars_10fold$splits, cars_10fold[ "splits"])
   )
   expect_error(
-    rsample:::new_rset(cars_10fold$splits, cars_10fold$splits)
+    new_rset(cars_10fold$splits, cars_10fold$splits)
   )
   args <- list(a = 1, b = 2, 3)
   expect_error(
-    rsample:::new_rset(
+    new_rset(
       cars_10fold$splits,
       cars_10fold$id,
       attrib = args
@@ -26,7 +26,7 @@ test_that('bad args', {
 })
 
 test_that('simple rset', {
-  res1 <- rsample:::new_rset(
+  res1 <- new_rset(
     cars_10fold$splits,
     cars_10fold$id
   )
@@ -35,19 +35,19 @@ test_that('simple rset', {
   expect_equal(sort(names(attributes(res1))),
                c("class", "names", "row.names"))
 
-  res2 <- rsample:::new_rset(
+  res2 <- new_rset(
     cars_10fold[, "splits"],
     cars_10fold[, "id"]
   )
   expect_equal(names(res2), c("splits", "id"))
   expect_equal(class(res2), c("rset", "tbl_df", "tbl", "data.frame"))
   expect_equal(sort(names(attributes(res2))),
-               c("class", "names", "row.names"))
+               sort(names(attributes(cars_10fold))))
 })
 
 test_that('rset with attributes', {
   args <- list(value = "potato")
-  res3 <- rsample:::new_rset(
+  res3 <- new_rset(
     cars_10fold$splits,
     cars_10fold$id,
     attrib = args
@@ -58,7 +58,7 @@ test_that('rset with attributes', {
 })
 
 test_that('rset with additional classes', {
-  res4 <- rsample:::new_rset(
+  res4 <- new_rset(
     cars_10fold$splits,
     cars_10fold$id,
     subclass = "potato"

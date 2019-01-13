@@ -1,3 +1,12 @@
+# `rsample` 0.0.4
+
+Small maintenence release. 
+
+## Minor improvements and fixes
+
+ * `fill()` was removed per the deprecation warning. 
+ * Small changes were made for the new version of `tibble`. 
+
 # `rsample` 0.0.3
 
 ## New features
