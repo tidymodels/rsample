@@ -21,7 +21,7 @@ perc_interval <- function(stats, alpha = 0.05) {
   ci <- stats %>% quantile(probs = c(alpha / 2, 1 - alpha / 2), na.rm = TRUE)
 
   # return a tibble with .lower, .estimate, .upper
-  tibble(
+  res <- tibble(
     lower = min(ci),
     estimate = mean(stats, na.rm = TRUE),
     upper = max(ci),
@@ -53,7 +53,8 @@ perc_all <- function(object, ..., alpha = 0.05) {
 
   column_stats <- select_vars(names(object), !!!quos(...))
   res <- purrr::map_dfr(object[, column_stats], perc_interval, alpha = alpha)
-  res %>% mutate(statistic = column_stats)
+  res %>% mutate(method = "percentile",
+                 statistic = column_stats)
 }
 
 # t-dist low-level
@@ -77,6 +78,7 @@ t_interval <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
 
   tibble(
     lower = min(ci),
+    estimate = theta_obs,
     upper = max(ci),
     alpha = alpha,
     method = "student-t"
@@ -130,7 +132,10 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
   res <- purrr::map2(column_stats, column_vars, t_interval_wrapper, dat=object, alpha = alpha)
 
 
-  res <- res %>% purrr::map_dfr(as_tibble) %>% mutate(statistic = column_stats)
+  res <- res %>%
+    purrr::map_dfr(as_tibble) %>%
+    mutate(statistic = column_stats,
+           method = "student-t")
 
 }
 
@@ -207,6 +212,7 @@ bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha
 
   tibble(
     lower = min(ci_bca),
+    estimate = theta_hat,
     upper = max(ci_bca),
     alpha = alpha,
     method = "BCa"
@@ -248,7 +254,7 @@ bca_interval_wrapper <- function(stat_name, fn, args, dat, alpha){
 bca_all <- function(object, ..., fn, args=list(), alpha = 0.05){
 
   if (class(object)[1] != "bootstraps")
-    # stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
+    stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
 
   id = NULL
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
@@ -270,7 +276,7 @@ bca_all <- function(object, ..., fn, args=list(), alpha = 0.05){
       alpha = alpha
     )
 
-  res %>% mutate(statistic = column_stats)
+  res %>% mutate(method = "BCa", statistic = column_stats)
 
 }
 
