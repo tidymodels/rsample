@@ -45,7 +45,7 @@ perc_all <- function(object, ..., alpha = 0.05) {
   if (class(object)[1] != "bootstraps")
     stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
 
-  id = NULL
+
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
     stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
 
@@ -90,7 +90,6 @@ t_interval <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
 t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
-  id = NULL
 
   theta_obs <- dat %>% filter(id == "Apparent") %>% pull(stat_name)
   var_obs <- dat %>% filter(id == "Apparent")%>% pull(var_name)
@@ -119,7 +118,7 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
   if (class(object)[1] != "bootstraps")
     stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
 
-  id = NULL
+
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
     stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
 
@@ -228,7 +227,7 @@ bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha
 #' @importFrom dplyr filter pull
 #' @importFrom purrr pluck
 bca_interval_wrapper <- function(stat_name, fn, args, dat, alpha){
-  id = NULL
+
   theta_hat <- dat %>% dplyr::filter(id == "Apparent") %>% pull(stat_name)
 
   stats <- dat %>% dplyr::filter(id != "Apparent") %>% pull(stat_name)
@@ -256,7 +255,7 @@ bca_all <- function(object, ..., fn, args=list(), alpha = 0.05){
   if (class(object)[1] != "bootstraps")
     stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
 
-  id = NULL
+
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
     stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
 
@@ -279,5 +278,8 @@ bca_all <- function(object, ..., fn, args=list(), alpha = 0.05){
   res %>% mutate(method = "BCa", statistic = column_stats)
 
 }
+
+#' @importFrom utils globalVariables
+utils::globalVariables(c("id"))
 
 

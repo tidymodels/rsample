@@ -13,7 +13,8 @@ Imports:
     tibble, 
     rlang, 
     methods, 
-    generics
+    generics,
+    utils
 Depends: 
     R (>= 3.1), 
     tidyr
