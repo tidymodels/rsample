@@ -49,7 +49,7 @@ perc_all <- function(object, ..., alpha = 0.05) {
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
     stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
 
-  object <-  object %>% dplyr::filter(id != "Apparent")
+  object <- object %>% dplyr::filter(id != "Apparent")
 
   column_stats <- select_vars(names(object), !!!quos(...))
   res <- purrr::map_dfr(object[, column_stats], perc_interval, alpha = alpha)
@@ -120,7 +120,7 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
 
 
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
-    stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
+    stop("`apparent = TRUE` in bootstraps() function", call. = FALSE)
 
   if (nrow(object) < 500)
     warning("Recommend at least 500 bootstrap resamples.", call. = FALSE)

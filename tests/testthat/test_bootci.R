@@ -48,16 +48,16 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
 
 
 
-            results_mean_boot_perc <- rsample:::perc_interval(bt_norm$tmean,
+            results_mean_boot_perc <- perc_interval(bt_norm$tmean,
                                                               alpha = 0.05)
 
 
-            results_mean_boot_t <- rsample:::student_t_all(bt_norm,
+            results_mean_boot_t <- student_t_all(bt_norm,
                                                            tmean,
                                                            var_cols = vars(tmean_var),
                                                            alpha = 0.05)
 
-            results_mean_boot_bca <- rsample:::bca_all(bt_norm,
+            results_mean_boot_bca <- bca_all(bt_norm,
                                                        tmean,
                                                        fn = get_mean,
                                                        alpha = 0.05)
@@ -126,7 +126,7 @@ test_that("Wrappers -- selection of multiple variables works", {
 
 
   # OK - CI is reasonable
-  perc_results <- rsample:::perc_all(bt_resamples,
+  perc_results <- perc_all(bt_resamples,
                                      Sepal.Width_estimate,
                                      Sepal.Length_estimate,
                                      alpha = 0.05)
@@ -149,7 +149,7 @@ test_that("Wrappers -- selection of multiple variables works", {
     tolerance = 0.01)
 
 
-  t_results <- rsample:::student_t_all(bt_resamples,
+  t_results <- student_t_all(bt_resamples,
                                        Sepal.Width_estimate,
                                        Sepal.Length_estimate,
                                        var_cols = vars(Sepal.Width_var, Sepal.Length_var),
@@ -163,7 +163,7 @@ test_that("Wrappers -- selection of multiple variables works", {
 
 
   #  High-level BCa call
-  bca_results <- rsample:::bca_all(bt_resamples,
+  bca_results <- bca_all(bt_resamples,
                                   Sepal.Width_estimate,
                                   Sepal.Length_estimate,
                                   fn = wide_lm,
@@ -195,15 +195,15 @@ test_that('Upper & lower confidence interval does not contain NA', {
                   tvar = rep(NA_real_, 1001)
                   )
 
-  expect_error(rsample:::perc_interval(bt_na$tmean,
+  expect_error(perc_interval(bt_na$tmean,
                                        alpha = 0.05))
 
-  expect_error(rsample:::student_t_all(bt_na,
+  expect_error(student_t_all(bt_na,
                                        tmean,
                                        var_cols = vars(tvar),
                                        alpha = 0.1))
 
-  expect_error(rsample:::bca_all(bt_na,
+  expect_error(bca_all(bt_na,
                                  tmean,
                                  fn = median,
                                  alpha = 0.05))
@@ -233,19 +233,19 @@ bt_one <- bootstraps(iris, apparent = TRUE, times = 1) %>%
 test_that(
   "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
   {
-    expect_warning(rsample:::perc_interval(
+    expect_warning(perc_interval(
       bt_one$trimmed_mean_sepal,
       alpha = 0.05
     ))
 
-    expect_warning(rsample:::student_t_all(
+    expect_warning(student_t_all(
       bt_one,
       trimmed_mean_sepal,
       var_cols = vars(trimmed_mean_sepal_var),
       alpha = 0.05
     ))
 
-    expect_warning(rsample:::bca_all(
+    expect_warning(bca_all(
       bt_one,
       trimmed_mean_sepal,
       fn = mean,
@@ -262,7 +262,7 @@ context("boot_ci() Input Validation")
 
 
 test_that("statistic is entered", {
-  expect_error(rsample:::perc_interval(bt_resamples$cat, alpha = 0.5))
+  expect_error(perc_interval(bt_resamples$cat, alpha = 0.5))
 })
 
 
@@ -280,19 +280,20 @@ test_that("bootstraps(apparent = TRUE)", {
                   tmean_var = map_dbl(splits, function(x) get_var(analysis(x)))
       )
 
-  expect_error(rsample:::perc_all(
+  expect_error(perc_all(
     bt_without_apparent$tmean,
     alpha = 0.5
   ))
 
-  expect_error(rsample:::student_t_all(
+  expect_error(student_t_all(
     bt_without_apparent,
     tmean,
     var_cols = vars(tmean_var),
-    alpha = 0.5
+    alpha = 0.5,
+    "`apparent = TRUE`"
   ))
 
-  expect_error(rsample:::bca_all(
+  expect_error(bca_all(
     bt_without_apparent,
     tmean,
     fn=get_mean,
@@ -306,11 +307,11 @@ test_that("bootstraps(apparent = TRUE)", {
 
 
 test_that('must enter a bootstraps object', {
-  expect_error(rsample:::perc_all("lal",
+  expect_error(perc_all("lal",
                         startrek,
                         alpha = 0.5))
 
-  expect_error(rsample:::student_t_all("lal",
+  expect_error(student_t_all("lal",
                                   startrek,
                                   alpha = 0.5))
 })
