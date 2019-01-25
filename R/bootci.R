@@ -26,7 +26,7 @@ perc_interval <- function(stats, alpha = 0.05) {
     estimate = mean(stats, na.rm = TRUE),
     upper = max(ci),
     alpha = alpha,
-    method = "percentile"
+    .method = "percentile"
   )
 }
 
@@ -53,7 +53,7 @@ perc_all <- function(object, ..., alpha = 0.05) {
 
   column_stats <- select_vars(names(object), !!!quos(...))
   res <- purrr::map_dfr(object[, column_stats], perc_interval, alpha = alpha)
-  res %>% mutate(method = "percentile",
+  res %>% mutate(.method = "percentile",
                  statistic = column_stats)
 }
 
@@ -81,7 +81,7 @@ t_interval <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
     estimate = theta_obs,
     upper = max(ci),
     alpha = alpha,
-    method = "student-t"
+    .method = "student-t"
   )
 }
 
@@ -134,7 +134,7 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
   res <- res %>%
     purrr::map_dfr(as_tibble) %>%
     mutate(statistic = column_stats,
-           method = "student-t")
+           .method = "student-t")
 
 }
 
@@ -214,7 +214,7 @@ bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha
     estimate = theta_hat,
     upper = max(ci_bca),
     alpha = alpha,
-    method = "BCa"
+    .method = "BCa"
   )
 }
 
@@ -275,7 +275,7 @@ bca_all <- function(object, ..., fn, args=list(), alpha = 0.05){
       alpha = alpha
     )
 
-  res %>% mutate(method = "BCa", statistic = column_stats)
+  res %>% mutate(.method = "BCa", statistic = column_stats)
 
 }
 
