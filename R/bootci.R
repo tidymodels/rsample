@@ -28,6 +28,7 @@ perc_interval <- function(stats, alpha = 0.05) {
     alpha = alpha,
     .method = "percentile"
   )
+  res
 }
 
 #' Percentile wrapper for multiple statistics
@@ -135,6 +136,7 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
     purrr::map_dfr(as_tibble) %>%
     mutate(statistic = column_stats,
            .method = "student-t")
+  res
 
 }
 
