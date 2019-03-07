@@ -23,26 +23,42 @@ pctl_single <- function(stats, alpha = 0.05) {
   res
 }
 
-#' Bootstrap percentile confidence intervals
+#' Bootstrap confidence intervals
 #' @description
-#' Calculate bootstrap confidence interval with percentile method
-#' @param object Bootstrap resamples created by the `bootstraps` function
+#' Calculate bootstrap confidence intervals using various methods.
+#' @param object Bootstrap resamples created by the `bootstraps`
+#'  function. For t- and BCa-intervals, the `apparent` argument
+#'  should be set to `TRUE`.
 #' @param ... One or more unquoted expressions separated by commas
 #'  that select columns containing individual bootstrap estimates.
 #'  You can treat variable names like they are positions.
 #' @param alpha Level of significance
+#' @return Each function returns a tibble with columns `lower`,
+#'  `estimate`, `upper`, `alpha`, .`method`, and `statistics`.
+#'  `.method` is the type of interval (eg. "percentile",
+#'  "student-t", or "BCa"). `statistic` is the name of the
+#'  column being analyzed.
+#' @details Percentile intervals are the standard method of
+#'  obtaining confidence intervals but require thousands of
+#'  resamples to be accurate. t-intervals can require fewer
+#'  resamples but required a corresponding variance estimate is
+#'  required. Bias-correct intervals require the original function
+#'  that was used to create the statistics of interest and are
+#'  computationally taxing
+#'
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
 #' @importFrom dplyr select_vars mutate last
 #' @export
 int_pctl <- function(object, ..., alpha = 0.05) {
 
+  # TODO make functions out of checks
   if (class(object)[1] != "bootstraps")
     stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
 
-
+  # TODO remove these instead
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
-    stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
+    stop("Please set apparent = TRUE in bootstraps() function", call. = FALSE)
 
   object <- object %>% dplyr::filter(id != "Apparent")
 
@@ -70,7 +86,6 @@ t_single <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
 
   ci <- theta_obs - z_pntl * sqrt(var_obs)
 
-
   tibble(
     lower = min(ci),
     estimate = theta_obs,
@@ -85,7 +100,6 @@ t_single <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
 t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
-
   theta_obs <- dat %>% filter(id == "Apparent") %>% pull(stat_name)
   var_obs <- dat %>% filter(id == "Apparent")%>% pull(var_name)
 
@@ -93,13 +107,10 @@ t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
   stat_var <- dat %>% filter(id != "Apparent")%>% pull(var_name)
 
   t_single(stats, stat_var, theta_obs, var_obs, alpha)
-
 }
 
 
-#' Bootstrap Student-t confidence intervals
-#' @description
-#' Calculate bootstrap confidence interval with student-t method
+#' @rdname int_pctl
 #' @inheritParams int_pctl
 #' @param var_cols One or more unquoted expressions separated by commas
 #'  that select columns containing individual bootstrap estimate
@@ -160,24 +171,28 @@ bca_single <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha =
 
   # We can't be sure what we will get back from the analysis function.
   # To test, we run on the first LOO data set and see if it is a vector or df
-  loo_test <- rlang::exec(fn, analysis(loo_rs$splits[[1]]), !!!args)
 
+  loo_test <- try(rlang::exec(fn, loo_rs$splits[[1]], !!!args), silent = TRUE)
+  if (inherits(loo_test, "try-error")) {
+    cat("Running `fn` on the LOO resamples produced an error:\n")
+    print(loo_test)
+    stop("`fn` failed.", call. = FALSE)
+  }
+
+  ## TODO use furrr
   if (is.vector(loo_test)) {
     if (length(loo_test) > 1)
       stop("The function should return a single value or a data frame/",
            "tibble.", call. = FALSE)
-    leave_one_out_theta <-
-        map_dbl(loo_rs$splits, ~fn(analysis(.x)))
-
+    leave_one_out_theta <- map_dbl(loo_rs$splits, fn, !!!args)
   } else {
     if (!is.data.frame(loo_test))
       stop("The function should return a single value or a data frame/",
            "tibble.", call. = FALSE)
-    leave_one_out_theta <- map_dfr(loo_rs$splits, ~fn(analysis(.x))) %>%
+    leave_one_out_theta <- map_dfr(loo_rs$splits, fn, !!!args) %>%
       pull(stat_name)
 
   }
-
 
   theta_minus_one <- mean(leave_one_out_theta, na.rm = TRUE)
 
@@ -189,7 +204,6 @@ bca_single <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha =
   lower_percentile <- stats::pnorm(Zl, lower.tail = TRUE) # percentile for Z
   upper_percentile <- stats::pnorm(Zu, lower.tail = TRUE) # percentile for Z
   ci_bca <- as.numeric(quantile(stats, c(lower_percentile, upper_percentile)))
-
 
   tibble(
     lower = min(ci_bca),
@@ -215,13 +229,11 @@ bca_single_wrapper <- function(stat_name, fn, args, dat, alpha){
 }
 
 
-#' Bootstrap bias-corrected confidence intervals
-#' @description
-#' Calculate bootstrap confidence intervals for a statistic of interest.
+#' @rdname int_pctl
 #' @inheritParams int_pctl
-#' @param object bootstrap resamples created by the `bootstraps` function
-#' @param fn function to calculate statistic of interest
-#' @param args list of arguments passed to `fn`
+#' @param fn A function to calculate statistic of interest. The
+#'  function should take an `rsplit` object as the first argument.
+#' @param args A named list of arguments to pass to `fn`.
 #' @importFrom dplyr select_vars
 #' @importFrom purrr map_dfr
 #' @export
@@ -231,7 +243,7 @@ int_bca <- function(object, ..., fn, args = list(), alpha = 0.05){
     stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
 
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
-    stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
+    stop("Please set apparent = TRUE in bootstraps() function", call. = FALSE)
 
   if (nrow(object) < 1000)
     warning("Recommend at least 1000 bootstrap resamples.", call. = FALSE)
@@ -249,8 +261,24 @@ int_bca <- function(object, ..., fn, args = list(), alpha = 0.05){
     )
 
   res %>% mutate(.method = "BCa", statistic = column_stats)
-
 }
+
+# ----------------------------------------------------------------
+
+check_rset <- function(x, app = TRUE) {
+  if (inherits(x, "bootstraps"))
+    stop("Please enter a bootstraps object using the rsample package.",
+         call. = FALSE)
+
+  if(app) {
+    if(x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
+      stop("Please set apparent = TRUE in bootstraps() function",
+           call. = FALSE)
+  }
+  invisible(NULL)
+}
+
+
 
 #' @importFrom utils globalVariables
 utils::globalVariables(c("id"))

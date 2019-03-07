@@ -2,19 +2,55 @@
 % Please edit documentation in R/bootci.R
 \name{int_pctl}
 \alias{int_pctl}
-\title{Bootstrap percentile confidence intervals}
+\alias{int_t}
+\alias{int_bca}
+\title{Bootstrap confidence intervals}
 \usage{
 int_pctl(object, ..., alpha = 0.05)
+
+int_t(object, ..., var_cols, alpha = 0.05)
+
+int_bca(object, ..., fn, args = list(), alpha = 0.05)
 }
 \arguments{
-\item{object}{Bootstrap resamples created by the \code{bootstraps} function}
+\item{object}{Bootstrap resamples created by the \code{bootstraps}
+function. For t- and BCa-intervals, the \code{apparent} argument
+should be set to \code{TRUE}.}
 
 \item{...}{One or more unquoted expressions separated by commas
 that select columns containing individual bootstrap estimates.
 You can treat variable names like they are positions.}
 
 \item{alpha}{Level of significance}
+
+\item{var_cols}{One or more unquoted expressions separated by commas
+that select columns containing individual bootstrap estimate
+of \emph{variance} for the statistics. These selections can be
+wrapped in \code{\link[dplyr:vars]{dplyr::vars()}}. It is assumed that the order of
+these columns is in the same order as the statistics selected
+by \code{...}.}
+
+\item{fn}{A function to calculate statistic of interest. The
+function should take an \code{rsplit} object as the first argument.}
+
+\item{args}{A named list of arguments to pass to \code{fn}.}
+}
+\value{
+Each function returns a tibble with columns \code{lower},
+\code{estimate}, \code{upper}, \code{alpha}, .\code{method}, and \code{statistics}.
+\code{.method} is the type of interval (eg. "percentile",
+"student-t", or "BCa"). \code{statistic} is the name of the
+column being analyzed.
 }
 \description{
 Calculate bootstrap confidence interval with percentile method
+}
+\details{
+Percentile intervals are the standard method of
+obtaining confidence intervals but require thousands of
+resamples to be accurate. t-intervals can require fewer
+resamples but required a corresponding variance estimate is
+required. Bias-correct intervals require the original function
+that was used to create the statistics of interest and are
+computationally taxing
 }
