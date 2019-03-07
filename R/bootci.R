@@ -1,12 +1,4 @@
-#'  Bootstrap Confidence Intervals
-#' @description
-#' Calculate bootstrap confidence intervals for a statistic of interest.
-#' @param stats A statistic of interest, a vector, from `rsplit` object created by the `bootstraps` function
-#' @param alpha level of significance
-#' @importFrom tibble tibble
-#' @export
-perc_interval <- function(stats, alpha = 0.05) {
-
+pctl_single <- function(stats, alpha = 0.05) {
 
   if(all(is.na(stats)))
     stop("All statistics (", stats, ") are missing values.", call. = FALSE)
@@ -31,17 +23,19 @@ perc_interval <- function(stats, alpha = 0.05) {
   res
 }
 
-#' Percentile wrapper for multiple statistics
+#' Bootstrap percentile confidence intervals
 #' @description
 #' Calculate bootstrap confidence interval with percentile method
-#' @param object bootstrap resamples created by the `bootstraps` function
-#' @param ... parameters to pass to the specific confidence interval methods
-#' @param alpha level of significance
+#' @param object Bootstrap resamples created by the `bootstraps` function
+#' @param ... One or more unquoted expressions separated by commas
+#'  that select columns containing individual bootstrap estimates.
+#'  You can treat variable names like they are positions.
+#' @param alpha Level of significance
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
 #' @importFrom dplyr select_vars mutate last
 #' @export
-perc_all <- function(object, ..., alpha = 0.05) {
+int_pctl <- function(object, ..., alpha = 0.05) {
 
   if (class(object)[1] != "bootstraps")
     stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
@@ -53,14 +47,14 @@ perc_all <- function(object, ..., alpha = 0.05) {
   object <- object %>% dplyr::filter(id != "Apparent")
 
   column_stats <- select_vars(names(object), !!!quos(...))
-  res <- purrr::map_dfr(object[, column_stats], perc_interval, alpha = alpha)
+  res <- purrr::map_dfr(object[, column_stats], pctl_single, alpha = alpha)
   res %>% mutate(.method = "percentile",
                  statistic = column_stats)
 }
 
 # t-dist low-level
 #' @importFrom tibble tibble
-t_interval <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
+t_single <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
   # stats is a numeric vector of values
   # vars is a numeric vector of variances
   # return a tibble with .lower, .estimate, .upper
@@ -98,23 +92,26 @@ t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
   stats <- dat %>% filter(id != "Apparent") %>% pull(stat_name)
   stat_var <- dat %>% filter(id != "Apparent")%>% pull(var_name)
 
-  t_interval(stats, stat_var, theta_obs, var_obs, alpha)
+  t_single(stats, stat_var, theta_obs, var_obs, alpha)
 
 }
 
 
-#' Student-t wrapper for multiple statistics
+#' Bootstrap Student-t confidence intervals
 #' @description
 #' Calculate bootstrap confidence interval with student-t method
-#' @param object bootstrap resamples created by the `bootstraps` function
-#' @param ... parameters to pass to the specific confidence interval methods
-#' @param var_cols variance variables for statistics of interest. Must be quoted `vars(variance1, variance2)``
-#' @param alpha level of significance
+#' @inheritParams int_pctl
+#' @param var_cols One or more unquoted expressions separated by commas
+#'  that select columns containing individual bootstrap estimate
+#'  of _variance_ for the statistics. These selections can be
+#'  wrapped in [dplyr::vars()]. It is assumed that the order of
+#'  these columns is in the same order as the statistics selected
+#'  by `...`.
 #' @importFrom dplyr select_vars as_tibble mutate
 #' @importFrom rlang quos
 #' @importFrom purrr map2 map_dfr
 #' @export
-student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
+int_t <- function(object, ..., var_cols, alpha = 0.05) {
 
   if (class(object)[1] != "bootstraps")
     stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
@@ -126,11 +123,9 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
   if (nrow(object) < 500)
     warning("Recommend at least 500 bootstrap resamples.", call. = FALSE)
 
-
   column_stats <- select_vars(names(object), !!!quos(...))
   column_vars <-  select_vars(names(object), !!!var_cols)
   res <- purrr::map2(column_stats, column_vars, t_interval_wrapper, dat=object, alpha = alpha)
-
 
   res <- res %>%
     purrr::map_dfr(as_tibble) %>%
@@ -140,39 +135,24 @@ student_t_all <- function(object, ..., var_cols, alpha = 0.05) {
 
 }
 
-#' BCA Interval low-level
-#' @description
-#' Calculate bootstrap confidence intervals for a statistic of interest.
-#' @param stats A statistic of interest, a vector, from `rsplit` object created by the `bootstraps` function
-#' @param stat_name name of statistic of interest?
-#' @param theta_hat statistics of interest
-#' @param orig_data original dataset
-#' @param fn function to calculate stastic of interest
-#' @param args list of arguments passed to `fn`
-#' @param alpha level of significance
 #' @importFrom dplyr last
 #' @importFrom rlang exec
 #' @importFrom purrr pluck map_dbl map_dfr
 #' @importFrom stats qnorm pnorm
-#' @export
-bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha = 0.05) {
+bca_single <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha = 0.05) {
   # stats is a numeric vector of values
   # splits is a vector of rsplits
   # funcs is a function
   # args is a list
   # return a tibble with .lower, .estimate, .upper
 
-
-
   if(all(is.na(stats)))
     stop("All statistics (", stats, ") are missing values.", call. = FALSE)
-
 
   ### Estimating Z0 bias-correction
   po <- mean(stats <= theta_hat, na.rm = TRUE)
   Z0 <- stats::qnorm(po)
   Za <- stats::qnorm(1 - alpha / 2)
-
 
   #need the original data frame here
   # loo_rs <- loo_cv(splits %>% pluck(1, "data"))
@@ -220,15 +200,9 @@ bca_interval <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha
   )
 }
 
-#' BCA Interval wrapper
-#' @param stat_name statistic name
-#' @param fn function to calculate statistic of interest
-#' @param args list of arguments passed to `fn`
-#' @param dat resamples
-#' @param alpha level of significance
 #' @importFrom dplyr filter pull
 #' @importFrom purrr pluck
-bca_interval_wrapper <- function(stat_name, fn, args, dat, alpha){
+bca_single_wrapper <- function(stat_name, fn, args, dat, alpha){
 
   theta_hat <- dat %>% dplyr::filter(id == "Apparent") %>% pull(stat_name)
 
@@ -236,31 +210,28 @@ bca_interval_wrapper <- function(stat_name, fn, args, dat, alpha){
 
   orig_data <- dat %>% dplyr::filter(id == "Apparent") %>% pluck("splits", 1, "data")
 
-  bca_interval(stats, stat_name, theta_hat, orig_data, fn, args = args, alpha = alpha)
+  bca_single(stats, stat_name, theta_hat, orig_data, fn, args = args, alpha = alpha)
 
 }
 
 
-#' BCA Interval high-level
+#' Bootstrap bias-corrected confidence intervals
 #' @description
 #' Calculate bootstrap confidence intervals for a statistic of interest.
+#' @inheritParams int_pctl
 #' @param object bootstrap resamples created by the `bootstraps` function
-#' @param ... parameters to pass to the specific confidence interval methods
 #' @param fn function to calculate statistic of interest
 #' @param args list of arguments passed to `fn`
-#' @param alpha level of significance
 #' @importFrom dplyr select_vars
 #' @importFrom purrr map_dfr
 #' @export
-bca_all <- function(object, ..., fn, args=list(), alpha = 0.05){
+int_bca <- function(object, ..., fn, args = list(), alpha = 0.05){
 
   if (class(object)[1] != "bootstraps")
     stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
 
-
   if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
     stop("Please set apparent=TRUE in bootstraps() function", call. = FALSE)
-
 
   if (nrow(object) < 1000)
     warning("Recommend at least 1000 bootstrap resamples.", call. = FALSE)
@@ -270,7 +241,7 @@ bca_all <- function(object, ..., fn, args=list(), alpha = 0.05){
   res <-
     purrr::map_dfr(
       column_stats,
-      bca_interval_wrapper,
+      bca_single_wrapper,
       fn,
       args = args,
       dat = object,
