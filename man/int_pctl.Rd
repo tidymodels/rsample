@@ -31,7 +31,8 @@ these columns is in the same order as the statistics selected
 by \code{...}.}
 
 \item{fn}{A function to calculate statistic of interest. The
-function should take an \code{rsplit} object as the first argument.}
+function should take an \code{rsplit} object as the first argument. See the url
+below for examples.}
 
 \item{args}{A named list of arguments to pass to \code{fn}.}
 }
@@ -58,4 +59,6 @@ computationally taxing
 Davison, A., & Hinkley, D. (1997). \emph{Bootstrap Methods and their
 Application}. Cambridge: Cambridge University Press.
 doi:10.1017/CBO9780511802843
+
+\url{https://tidymodels.github.io/rsample/articles/Applications/Intervals.html}
 }

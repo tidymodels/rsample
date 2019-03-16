@@ -228,8 +228,10 @@ bca_single_wrapper <- function(stat_name, fn, args, dat, alpha){
 #' @rdname int_pctl
 #' @inheritParams int_pctl
 #' @param fn A function to calculate statistic of interest. The
-#'  function should take an `rsplit` object as the first argument.
+#'  function should take an `rsplit` object as the first argument. See the url
+#'  below for examples.
 #' @param args A named list of arguments to pass to `fn`.
+#' @references \url{https://tidymodels.github.io/rsample/articles/Applications/Intervals.html}
 #' @importFrom dplyr select_vars
 #' @importFrom purrr map_dfr
 #' @export
