@@ -1,7 +1,7 @@
 pctl_single <- function(stats, alpha = 0.05) {
 
   if(all(is.na(stats)))
-    stop("All statistics (", stats, ") are missing values.", call. = FALSE)
+    stop("All statistics (", stats, ") are missing.", call. = FALSE)
 
   if (length(stats) < 500)
     warning("Recommend at least 500 bootstrap resamples.", call. = FALSE)
@@ -46,19 +46,17 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'  that was used to create the statistics of interest and are
 #'  computationally taxing
 #'
+#' @references Davison, A., & Hinkley, D. (1997). _Bootstrap Methods and their
+#'  Application_. Cambridge: Cambridge University Press.
+#'  doi:10.1017/CBO9780511802843
+#'
 #' @importFrom purrr map map_dfr
 #' @importFrom rlang quos
 #' @importFrom dplyr select_vars mutate last
 #' @export
 int_pctl <- function(object, ..., alpha = 0.05) {
 
-  # TODO make functions out of checks
-  if (class(object)[1] != "bootstraps")
-    stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
-
-  # TODO remove these instead
-  if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
-    stop("Please set apparent = TRUE in bootstraps() function", call. = FALSE)
+  check_rset(object)
 
   object <- object %>% dplyr::filter(id != "Apparent")
 
@@ -68,7 +66,8 @@ int_pctl <- function(object, ..., alpha = 0.05) {
                  statistic = column_stats)
 }
 
-# t-dist low-level
+# ----------------------------------------------------------------
+
 #' @importFrom tibble tibble
 t_single <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
   # stats is a numeric vector of values
@@ -88,7 +87,7 @@ t_single <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
 
   tibble(
     lower = min(ci),
-    estimate = theta_obs,
+    estimate = mean(stats, na.rm = TRUE),
     upper = max(ci),
     alpha = alpha,
     .method = "student-t"
@@ -124,19 +123,20 @@ t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
 #' @export
 int_t <- function(object, ..., var_cols, alpha = 0.05) {
 
-  if (class(object)[1] != "bootstraps")
-    stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
-
-
-  if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
-    stop("`apparent = TRUE` in bootstraps() function", call. = FALSE)
+  check_rset(object)
 
   if (nrow(object) < 500)
-    warning("Recommend at least 500 bootstrap resamples.", call. = FALSE)
+    warning("Recommend at least 500 bootstrap resamples.",
+            call. = FALSE)
 
   column_stats <- select_vars(names(object), !!!quos(...))
   column_vars <-  select_vars(names(object), !!!var_cols)
-  res <- purrr::map2(column_stats, column_vars, t_interval_wrapper, dat=object, alpha = alpha)
+  res <-
+    purrr::map2(column_stats,
+                column_vars,
+                t_interval_wrapper,
+                dat = object,
+                alpha = alpha)
 
   res <- res %>%
     purrr::map_dfr(as_tibble) %>%
@@ -146,19 +146,16 @@ int_t <- function(object, ..., var_cols, alpha = 0.05) {
 
 }
 
+# ----------------------------------------------------------------
+
 #' @importFrom dplyr last
 #' @importFrom rlang exec
 #' @importFrom purrr pluck map_dbl map_dfr
 #' @importFrom stats qnorm pnorm
 bca_single <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha = 0.05) {
-  # stats is a numeric vector of values
-  # splits is a vector of rsplits
-  # funcs is a function
-  # args is a list
-  # return a tibble with .lower, .estimate, .upper
 
   if(all(is.na(stats)))
-    stop("All statistics (", stats, ") are missing values.", call. = FALSE)
+    stop("All statistics (", stats, ") are missing.", call. = FALSE)
 
   ### Estimating Z0 bias-correction
   po <- mean(stats <= theta_hat, na.rm = TRUE)
@@ -171,7 +168,6 @@ bca_single <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha =
 
   # We can't be sure what we will get back from the analysis function.
   # To test, we run on the first LOO data set and see if it is a vector or df
-
   loo_test <- try(rlang::exec(fn, loo_rs$splits[[1]], !!!args), silent = TRUE)
   if (inherits(loo_test, "try-error")) {
     cat("Running `fn` on the LOO resamples produced an error:\n")
@@ -184,12 +180,12 @@ bca_single <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha =
     if (length(loo_test) > 1)
       stop("The function should return a single value or a data frame/",
            "tibble.", call. = FALSE)
-    leave_one_out_theta <- map_dbl(loo_rs$splits, fn, !!!args)
+    leave_one_out_theta <- map_dbl(loo_rs$splits, rlang::exec, .fn = fn, !!!args)
   } else {
     if (!is.data.frame(loo_test))
       stop("The function should return a single value or a data frame/",
            "tibble.", call. = FALSE)
-    leave_one_out_theta <- map_dfr(loo_rs$splits, fn, !!!args) %>%
+    leave_one_out_theta <- map_dfr(loo_rs$splits, rlang::exec, .fn = fn, !!!args) %>%
       pull(stat_name)
 
   }
@@ -207,7 +203,7 @@ bca_single <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha =
 
   tibble(
     lower = min(ci_bca),
-    estimate = theta_hat,
+    estimate = mean(stats, na.rm = TRUE),
     upper = max(ci_bca),
     alpha = alpha,
     .method = "BCa"
@@ -239,14 +235,11 @@ bca_single_wrapper <- function(stat_name, fn, args, dat, alpha){
 #' @export
 int_bca <- function(object, ..., fn, args = list(), alpha = 0.05){
 
-  if (class(object)[1] != "bootstraps")
-    stop("Please enter a bootstraps object using the rsample package.", call. = FALSE)
-
-  if(object %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
-    stop("Please set apparent = TRUE in bootstraps() function", call. = FALSE)
+  check_rset(object)
 
   if (nrow(object) < 1000)
-    warning("Recommend at least 1000 bootstrap resamples.", call. = FALSE)
+    warning("Recommend at least 1000 bootstrap resamples.",
+            call. = FALSE)
 
   column_stats <- select_vars(names(object), !!!quos(...))
 
@@ -266,19 +259,19 @@ int_bca <- function(object, ..., fn, args = list(), alpha = 0.05){
 # ----------------------------------------------------------------
 
 check_rset <- function(x, app = TRUE) {
-  if (inherits(x, "bootstraps"))
-    stop("Please enter a bootstraps object using the rsample package.",
+  if (!inherits(x, "bootstraps"))
+    stop("`object` should be an `rset` object generated from `bootstraps()`",
          call. = FALSE)
 
   if(app) {
     if(x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
-      stop("Please set apparent = TRUE in bootstraps() function",
+      stop("Please set `apparent = TRUE` in `bootstraps()` function",
            call. = FALSE)
   }
   invisible(NULL)
 }
 
-
+# ----------------------------------------------------------------
 
 #' @importFrom utils globalVariables
 utils::globalVariables(c("id"))

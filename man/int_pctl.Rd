@@ -43,7 +43,7 @@ Each function returns a tibble with columns \code{lower},
 column being analyzed.
 }
 \description{
-Calculate bootstrap confidence interval with percentile method
+Calculate bootstrap confidence intervals using various methods.
 }
 \details{
 Percentile intervals are the standard method of
