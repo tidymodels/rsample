@@ -1,0 +1,237 @@
+---
+title: "Bootstrap Confidence Intervals"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Bootstrap Confidence Intervals}
+output:
+  knitr:::html_vignette:
+    toc: yes
+---
+
+
+```{r setup, include=FALSE}
+library(rsample)   
+library(purrr)
+library(dplyr)
+library(ggplot2)
+library(survival)
+theme_set(theme_bw())
+```
+
+The bootstrap was originally intended for estimating confidence intervals for complex statistics whose variance properties are difficult to analytically derive. Davison and Hinkley's [_Bootstrap Methods and Their Applications_](https://www.cambridge.org/core/books/bootstrap-methods-and-their-application/ED2FD043579F27952363566DC09CBD6A) is a great resource for these methods. `rsample` contains a few function to compute the most common types of intervals. 
+
+To demonstrate the computations for the different types of intervals, we'll use a event time data set and parametric survival models. We'll use the ubiquitous Ovarian cancer data to demonstrate with a simple model with two terms. 
+
+```{r model-info}
+library(rsample)
+library(purrr)
+library(dplyr)
+library(ggplot2)
+library(survival)
+
+f <- Surv(futime, fustat) ~ ecog.ps + rx
+
+# Will be used to fit the models to different bootstrap data sets:
+fit_fun <- function(split, ...) {
+  survreg(..., data = analysis(split))
+}
+```
+
+First, let's create a set of resamples and fit separate models to each. The options `apparent = TRUE` will be set. This create a final resample that is simple a copy of the original (unsampled) data set. This is required for some of the interval methods. 
+
+```{r resample}
+set.seed(462)
+ov_bt <-
+  bootstraps(ovarian, times = 2000, apparent = TRUE) %>%
+  mutate(models = map(splits, fit_fun, f, dist = 'weibull'))
+ov_bt
+```
+
+For each of the interval methods, we'll need to extract the coefficients from each model. The `tidy` method can do this: 
+
+```{r single-tidy}
+# For one model:
+one_model <- 
+  ov_bt %>% 
+  pull(models) %>% 
+  pluck(1)
+one_model
+one_model %>% broom::tidy()
+```
+
+We will focus on the model terms for `rx` and `ecog.ps` here. For each model, we can extract these specific parameter estimates: 
+
+```{r coefs}
+ov_bt <-
+  ov_bt %>% 
+  mutate(
+    rx = map_dbl(
+      models,
+      ~ broom::tidy(.x) %>% filter(term == "rx") %>% pull(estimate)
+    ),
+    ecog_ps = map_dbl(
+      models,
+      ~ broom::tidy(.x) %>% filter(term == "ecog.ps") %>% pull(estimate)
+    )
+  )
+```
+
+However, if we look at the estimates, there are some outliers:
+
+```{r coef-plot}
+ggplot(ov_bt, aes(x = rx, y = ecog_ps)) + 
+  geom_point(alpha = .3)
+```
+
+These aberrant points correspond to models that had convergence issues. Let's extract the number of iterations and filter out models that required more than 15 iterations. The distributions are less problematic by doing this:  
+
+
+```{r filtered}
+ov_bt_filtered <-
+  ov_bt %>% 
+  mutate(iters = map_int(models, pluck, "iter")) %>% 
+  dplyr::filter(iters <= 15)
+
+ggplot(ov_bt_filtered, aes(x = rx, y = ecog_ps)) + 
+  geom_point(alpha = .3)
+```
+
+Three were `r nrow(ov_bt) - nrow(ov_bt_filtered)` models removed by doing so. 
+
+The univariate distirbutions are:
+
+```{r hists}
+ov_bt_filtered %>% 
+  dplyr::select(rx, ecog_ps) %>% 
+  gather(terms, statistic) %>% 
+  ggplot(aes(x = statistic)) + 
+  geom_histogram(bins = 30, col = "red", fill = "red", alpha = .5) + 
+  facet_wrap(~ terms)
+```
+
+The most basic type of interval uses _percentiles_ of the resampling distribution. To get the  percentile intervals, the `rset` objects is passed as the first argument and the columns of interest in the `rset` object are passed (unquoted): 
+
+```{r pctl}
+p_ints <- int_pctl(ov_bt_filtered, rx, ecog_ps)
+p_ints
+```
+
+When overlyed with the univariate distributions: 
+
+```{r pctl-plot}
+ov_bt_filtered %>% 
+  dplyr::select(rx, ecog_ps) %>% 
+  gather(statistic, coefficients) %>% 
+  ggplot(aes(x = coefficients)) + 
+  geom_histogram(bins = 30, col = "red", fill = "red", alpha = .5) + 
+  facet_wrap(~ statistic) + 
+  geom_vline(data = p_ints, aes(xintercept = lower)) + 
+  geom_vline(data = p_ints, aes(xintercept = upper))
+```
+
+How does these compare to the parametric asymptotic values?
+
+```{r int-compare}
+full_model <- survreg(f, data = ovarian, dist = 'weibull')
+
+parametric <- 
+  broom::tidy(full_model) %>% 
+  dplyr::select(conf.low, estimate, conf.high, term) %>% 
+  slice(3:2) %>% 
+  rename(lower = conf.low, upper = conf.high, statistic = term) %>% 
+  mutate(alpha = 0.05, .method = "parametric") %>% 
+  dplyr::select(lower, estimate, upper, alpha, .method, statistic)
+
+intervals <- 
+  bind_rows(parametric, p_ints) %>% 
+  arrange(statistic)
+intervals
+```
+
+These are wider than the parametric intervals (which assume asymptotic normality). Do the estimates appear to be normally distributed? We can look at quantile-quantile plots:  
+
+```{r qqplot}
+ov_bt_filtered %>% 
+  dplyr::select(rx, ecog_ps) %>% 
+  gather(statistic, coefficients) %>% 
+  ggplot(aes(sample = coefficients))  + 
+  facet_wrap(~ statistic) +  
+  stat_qq() +
+  stat_qq_line()
+```
+
+The departures from normality may account for the different in the intervals (and would suggest that the nonparametric estimates are better). 
+
+Bootstrap _t_-intervals are estimated by computing intermediate statistics that are _t_-like in structure. To use these, we require the estimated variance _for each individual resampled estimate_. In our example, this comes along with the fitted model object. We can extract the variance of the parameters: 
+
+```{r var-cols}
+ov_bt_filtered <-
+  ov_bt_filtered %>%
+  mutate(
+    rx_var = map_dbl(
+      models,
+      ~ broom::tidy(.x) %>% filter(term == "rx") %>% pull(std.error)
+    ),
+    rx_var = rx_var^2,
+    ecog_ps_var = map_dbl(
+      models,
+      ~ broom::tidy(.x) %>% filter(term == "ecog.ps") %>% pull(std.error)
+    ),
+    ecog_ps_var = ecog_ps_var^2
+  )
+
+ov_bt_filtered %>% select(-id, -models, -splits, -iters) %>% slice(1:4)
+```
+
+The _t_-intervals require the names of the variance columns (assumed to be in the same order as the original values). These names can be wrapped inside of a `dplyr` `vars` function: 
+
+```{r t-ints}
+t_ints <- int_t(ov_bt_filtered, rx, ecog_ps, var_cols = vars(ends_with("var")))
+intervals <- 
+  bind_rows(intervals, t_ints) %>% 
+  arrange(statistic)
+intervals
+```
+
+For bias-corrected (BCa) intervals, a different type of argument is required. The `fn` argument is a function that computes the statistic of interest. The first argument should be for an `rsplit` object and other arguments can be passed in using the ellipses. For example, to get the `rx` coefficient for the model:
+
+```{r bca-func}
+mod_coef <- function(split, ..., term_name) {
+  res <- survreg(..., data = analysis(split))
+  rx_est <-
+    broom::tidy(res) %>%
+    dplyr::filter(term == term_name) %>%
+    pull(estimate)
+
+  rx_est
+}
+
+mod_coef(ov_bt_filtered$splits[[1]], f, dist = "weibull", term_name = "rx")
+# checking: 
+ov_bt_filtered$rx[[1]]
+```
+
+These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for _every bootstrap resample_. If the statistic is expensive to compute, this make take some time. 
+
+The user-facing function takes this function and a named list (called `args`) for any additional arguments that should be directed to the `...`. For example: 
+
+```{r bca-comp}
+b_int_rx <- 
+  int_bca(
+    ov_bt_filtered,
+    rx,
+    fn = mod_coef,
+    args = list(formula = f, dist = "weibull", term_name = "rx")
+  )
+b_int_ecog <- 
+  int_bca(
+    ov_bt_filtered,
+    ecog_ps,
+    fn = mod_coef,
+    args = list(formula = f, dist = "weibull", term_name = "ecog.ps")
+  )
+intervals <- 
+  bind_rows(intervals, b_int_rx, b_int_ecog) %>% 
+  arrange(statistic)
+intervals
+```
