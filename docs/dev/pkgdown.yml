@@ -1,7 +1,8 @@
-pandoc: 2.0.5
+pandoc: 1.19.2.1
 pkgdown: 1.1.0.9000
-pkgdown_sha: ~
+pkgdown_sha: 6e70f7b8610b52658ada49e40e2d05bcf2c0616a
 articles:
+  Intervals: Applications/Intervals.html
   Keras: Applications/Keras.html
   Nested_Resampling: Applications/Nested_Resampling.html
   Recipes_and_rsample: Applications/Recipes_and_rsample.html

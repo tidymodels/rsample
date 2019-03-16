@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sampling for the Apparent Error Rate — apparent • rsample</title>
+<title>Bootstrap confidence intervals — int_pctl • rsample</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -29,15 +29,9 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<meta property="og:title" content="Sampling for the Apparent Error Rate — apparent" />
+<meta property="og:title" content="Bootstrap confidence intervals — int_pctl" />
 
-<meta property="og:description" content="When building a model on a data set and re-predicting the same data, the
-performance estimate from those predictions is often call the
-&quot;apparent&quot; performance of the model. This estimate can be wildly
-optimistic. &quot;Apparent sampling&quot; here means that the analysis and
-assessment samples are the same. These resamples are sometimes used in
-the analysis of bootstrap samples and should otherwise be
-avoided like old sushi." />
+<meta property="og:description" content="Calculate bootstrap confidence intervals using various methods." />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -133,52 +127,87 @@ avoided like old sushi." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sampling for the Apparent Error Rate</h1>
+    <h1>Bootstrap confidence intervals</h1>
     
-    <div class="hidden name"><code>apparent.Rd</code></div>
+    <div class="hidden name"><code>int_pctl.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>When building a model on a data set and re-predicting the same data, the
-performance estimate from those predictions is often call the
-"apparent" performance of the model. This estimate can be wildly
-optimistic. "Apparent sampling" here means that the analysis and
-assessment samples are the same. These resamples are sometimes used in
-the analysis of bootstrap samples and should otherwise be
-avoided like old sushi.</p>
+    <p>Calculate bootstrap confidence intervals using various methods.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>apparent</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>int_pctl</span>(<span class='no'>object</span>, <span class='no'>...</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)
+
+<span class='fu'>int_t</span>(<span class='no'>object</span>, <span class='no'>...</span>, <span class='no'>var_cols</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)
+
+<span class='fu'>int_bca</span>(<span class='no'>object</span>, <span class='no'>...</span>, <span class='no'>fn</span>, <span class='kw'>args</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>A data frame.</p></td>
+      <th>object</th>
+      <td><p>Bootstrap resamples created by the <code>bootstraps</code>
+function. For t- and BCa-intervals, the <code>apparent</code> argument
+should be set to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Not currently used.</p></td>
+      <td><p>One or more unquoted expressions separated by commas
+that select columns containing individual bootstrap estimates.
+You can treat variable names like they are positions.</p></td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td><p>Level of significance</p></td>
+    </tr>
+    <tr>
+      <th>var_cols</th>
+      <td><p>One or more unquoted expressions separated by commas
+that select columns containing individual bootstrap estimate
+of <em>variance</em> for the statistics. These selections can be
+wrapped in <code><a href='https://dplyr.tidyverse.org/reference/vars.html'>dplyr::vars()</a></code>. It is assumed that the order of
+these columns is in the same order as the statistics selected
+by <code>...</code>.</p></td>
+    </tr>
+    <tr>
+      <th>fn</th>
+      <td><p>A function to calculate statistic of interest. The
+function should take an <code>rsplit</code> object as the first argument.</p></td>
+    </tr>
+    <tr>
+      <th>args</th>
+      <td><p>A named list of arguments to pass to <code>fn</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with a single row and classes <code>apparent</code>,
-<code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and <code>data.frame</code>. The
-results include a column for the data split objects and one column
-called <code>id</code> that has a character string with the resample identifier.</p>
+    <p>Each function returns a tibble with columns <code>lower</code>,
+<code>estimate</code>, <code>upper</code>, <code>alpha</code>, .<code>method</code>, and <code>statistics</code>.
+<code>.method</code> is the type of interval (eg. "percentile",
+"student-t", or "BCa"). <code>statistic</code> is the name of the
+column being analyzed.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Percentile intervals are the standard method of
+obtaining confidence intervals but require thousands of
+resamples to be accurate. t-intervals can require fewer
+resamples but required a corresponding variance estimate is
+required. Bias-correct intervals require the original function
+that was used to create the statistics of interest and are
+computationally taxing</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Davison, A., &amp; Hinkley, D. (1997). <em>Bootstrap Methods and their
+Application</em>. Cambridge: Cambridge University Press.
+doi:10.1017/CBO9780511802843</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>apparent</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; # Apparent sampling 
-#&gt; [38;5;246m# A tibble: 1 x 2[39m
-#&gt;   splits          id      
-#&gt;   [3m[38;5;246m&lt;list&gt;[39m[23m          [3m[38;5;246m&lt;chr&gt;[39m[23m   
-#&gt; [38;5;250m1[39m [38;5;246m&lt;split [32/32]&gt;[39m Apparent</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -186,9 +215,11 @@ called <code>id</code> that has a character string with the resample identifier.
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
+          </ul>
 
   </div>
 </div>

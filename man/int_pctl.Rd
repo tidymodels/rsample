@@ -54,3 +54,8 @@ required. Bias-correct intervals require the original function
 that was used to create the statistics of interest and are
 computationally taxing
 }
+\references{
+Davison, A., & Hinkley, D. (1997). \emph{Bootstrap Methods and their
+Application}. Cambridge: Cambridge University Press.
+doi:10.1017/CBO9780511802843
+}

@@ -23,6 +23,9 @@ reference:
       - rolling_origin
       - nested_cv
       - apparent
+  - title: Analysis
+    contents:    
+      - int_pctl 
   - title: Utilities
     contents:
       - as.data.frame.rsplit
@@ -31,6 +34,8 @@ reference:
       - complement
       - populate
       - form_pred
+      - gather.rset
+      - rsample2caret
   - title: Data
     contents:
       - attrition
@@ -55,6 +60,8 @@ navbar:
       href: articles/Applications/Nested_Resampling.html
     - text: Grid Search Tuning of Keras Models
       href: articles/Applications/Keras.html
+    - text: Bootstrap Interval Estimation
+      href: articles/Applications/Intervals.html      
   - text: Reference
     href: reference/index.html
 

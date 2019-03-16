@@ -59,7 +59,7 @@ one_model
 one_model %>% broom::tidy()
 ```
 
-We will focus on the model terms for `rx` and `ecog.ps` here. For each model, we can extract these specific parameter estimates: 
+We will focus on the model terms for `rx` and the Weibull scale parameter here. Note that the scale parameter does not have a parametric confidence interval. For each model, we can extract these specific parameter estimates: 
 
 ```{r coefs}
 ov_bt <-
@@ -69,9 +69,9 @@ ov_bt <-
       models,
       ~ broom::tidy(.x) %>% filter(term == "rx") %>% pull(estimate)
     ),
-    ecog_ps = map_dbl(
+    log_scale = map_dbl(
       models,
-      ~ broom::tidy(.x) %>% filter(term == "ecog.ps") %>% pull(estimate)
+      ~ broom::tidy(.x) %>% filter(term == "Log(scale)") %>% pull(estimate)
     )
   )
 ```
@@ -79,7 +79,7 @@ ov_bt <-
 However, if we look at the estimates, there are some outliers:
 
 ```{r coef-plot}
-ggplot(ov_bt, aes(x = rx, y = ecog_ps)) + 
+ggplot(ov_bt, aes(x = rx, y = log_scale)) + 
   geom_point(alpha = .3)
 ```
 
@@ -92,7 +92,7 @@ ov_bt_filtered <-
   mutate(iters = map_int(models, pluck, "iter")) %>% 
   dplyr::filter(iters <= 15)
 
-ggplot(ov_bt_filtered, aes(x = rx, y = ecog_ps)) + 
+ggplot(ov_bt_filtered, aes(x = rx, y = log_scale)) + 
   geom_point(alpha = .3)
 ```
 
@@ -102,17 +102,17 @@ The univariate distirbutions are:
 
 ```{r hists}
 ov_bt_filtered %>% 
-  dplyr::select(rx, ecog_ps) %>% 
+  dplyr::select(rx, log_scale) %>% 
   gather(terms, statistic) %>% 
   ggplot(aes(x = statistic)) + 
   geom_histogram(bins = 30, col = "red", fill = "red", alpha = .5) + 
-  facet_wrap(~ terms)
+  facet_wrap(~ terms, scales = "free_x")
 ```
 
 The most basic type of interval uses _percentiles_ of the resampling distribution. To get the  percentile intervals, the `rset` objects is passed as the first argument and the columns of interest in the `rset` object are passed (unquoted): 
 
 ```{r pctl}
-p_ints <- int_pctl(ov_bt_filtered, rx, ecog_ps)
+p_ints <- int_pctl(ov_bt_filtered, rx, log_scale)
 p_ints
 ```
 
@@ -120,11 +120,11 @@ When overlyed with the univariate distributions:
 
 ```{r pctl-plot}
 ov_bt_filtered %>% 
-  dplyr::select(rx, ecog_ps) %>% 
+  dplyr::select(rx, log_scale) %>% 
   gather(statistic, coefficients) %>% 
   ggplot(aes(x = coefficients)) + 
   geom_histogram(bins = 30, col = "red", fill = "red", alpha = .5) + 
-  facet_wrap(~ statistic) + 
+  facet_wrap(~ statistic, scales = "free_x") + 
   geom_vline(data = p_ints, aes(xintercept = lower)) + 
   geom_vline(data = p_ints, aes(xintercept = upper))
 ```
@@ -137,14 +137,14 @@ full_model <- survreg(f, data = ovarian, dist = 'weibull')
 parametric <- 
   broom::tidy(full_model) %>% 
   dplyr::select(conf.low, estimate, conf.high, term) %>% 
-  slice(3:2) %>% 
+  dplyr::filter(term %in% c("rx", "Log(scale)")) %>% 
   rename(lower = conf.low, upper = conf.high, statistic = term) %>% 
   mutate(alpha = 0.05, .method = "parametric") %>% 
   dplyr::select(lower, estimate, upper, alpha, .method, statistic)
 
 intervals <- 
   bind_rows(parametric, p_ints) %>% 
-  arrange(statistic)
+  arrange(statistic, .method)
 intervals
 ```
 
@@ -152,10 +152,10 @@ These are wider than the parametric intervals (which assume asymptotic normality
 
 ```{r qqplot}
 ov_bt_filtered %>% 
-  dplyr::select(rx, ecog_ps) %>% 
+  dplyr::select(rx, log_scale) %>% 
   gather(statistic, coefficients) %>% 
   ggplot(aes(sample = coefficients))  + 
-  facet_wrap(~ statistic) +  
+  facet_wrap(~ statistic, scales = "free") +  
   stat_qq() +
   stat_qq_line()
 ```
@@ -173,11 +173,11 @@ ov_bt_filtered <-
       ~ broom::tidy(.x) %>% filter(term == "rx") %>% pull(std.error)
     ),
     rx_var = rx_var^2,
-    ecog_ps_var = map_dbl(
+    log_scale_var = map_dbl(
       models,
-      ~ broom::tidy(.x) %>% filter(term == "ecog.ps") %>% pull(std.error)
+      ~ broom::tidy(.x) %>% filter(term == "Log(scale)") %>% pull(std.error)
     ),
-    ecog_ps_var = ecog_ps_var^2
+    log_scale_var = log_scale_var^2
   )
 
 ov_bt_filtered %>% select(-id, -models, -splits, -iters) %>% slice(1:4)
@@ -186,10 +186,10 @@ ov_bt_filtered %>% select(-id, -models, -splits, -iters) %>% slice(1:4)
 The _t_-intervals require the names of the variance columns (assumed to be in the same order as the original values). These names can be wrapped inside of a `dplyr` `vars` function: 
 
 ```{r t-ints}
-t_ints <- int_t(ov_bt_filtered, rx, ecog_ps, var_cols = vars(ends_with("var")))
+t_ints <- int_t(ov_bt_filtered, rx, log_scale, var_cols = vars(ends_with("var")))
 intervals <- 
   bind_rows(intervals, t_ints) %>% 
-  arrange(statistic)
+  arrange(statistic, .method)
 intervals
 ```
 
@@ -223,15 +223,15 @@ b_int_rx <-
     fn = mod_coef,
     args = list(formula = f, dist = "weibull", term_name = "rx")
   )
-b_int_ecog <- 
+b_int_scale <- 
   int_bca(
     ov_bt_filtered,
-    ecog_ps,
+    log_scale,
     fn = mod_coef,
-    args = list(formula = f, dist = "weibull", term_name = "ecog.ps")
+    args = list(formula = f, dist = "weibull", term_name = "Log(scale)")
   )
 intervals <- 
-  bind_rows(intervals, b_int_rx, b_int_ecog) %>% 
-  arrange(statistic)
+  bind_rows(intervals, b_int_rx, b_int_scale) %>% 
+  arrange(statistic, .method)
 intervals
 ```

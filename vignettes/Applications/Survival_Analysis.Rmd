@@ -102,13 +102,13 @@ The distributions of the resampling estimates
 ```{r concord-df}
 library(dplyr)
 concord_est <- mc_samp %>%
-  select(-matches("^mod"))
+  dplyr::select(-matches("^mod"))
 
 library(tidyr)
 library(ggplot2)
 concord_est %>%
-  select(-splits) %>%
-  gather() %>%
+  dplyr::select(-splits, -id) %>%
+  gather(model, statistic) %>%
   ggplot(aes(x = statistic, col = model)) + 
   geom_line(stat = "density") + 
   theme_bw() + 
@@ -154,7 +154,7 @@ The ROPE statistics quantify the practical effects:
 
 ```{r diff-sum}
 summary(comparisons, size = 0.05) %>%
-  select(contrast, starts_with("pract"))
+  dplyr::select(contrast, starts_with("pract"))
 ```
 
 
