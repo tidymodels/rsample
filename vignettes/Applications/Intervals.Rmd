@@ -20,7 +20,7 @@ theme_set(theme_bw())
 
 The bootstrap was originally intended for estimating confidence intervals for complex statistics whose variance properties are difficult to analytically derive. Davison and Hinkley's [_Bootstrap Methods and Their Applications_](https://www.cambridge.org/core/books/bootstrap-methods-and-their-application/ED2FD043579F27952363566DC09CBD6A) is a great resource for these methods. `rsample` contains a few function to compute the most common types of intervals. 
 
-To demonstrate the computations for the different types of intervals, we'll use a event time data set and parametric survival models. We'll use the ubiquitous Ovarian cancer data to demonstrate with a simple model with two terms. 
+To demonstrate the computations for the different types of intervals, we'll use an event time data set and parametric survival models. We'll use the ubiquitous Ovarian cancer data to demonstrate intervals for a simple model with two terms. 
 
 ```{r model-info}
 library(rsample)
@@ -37,7 +37,7 @@ fit_fun <- function(split, ...) {
 }
 ```
 
-First, let's create a set of resamples and fit separate models to each. The options `apparent = TRUE` will be set. This create a final resample that is simple a copy of the original (unsampled) data set. This is required for some of the interval methods. 
+First, let's create a set of resamples and fit separate models to each. The options `apparent = TRUE` will be set. This creates a final resample that is a copy of the original (unsampled) data set. This is required for some of the interval methods. 
 
 ```{r resample}
 set.seed(462)
@@ -98,7 +98,7 @@ ggplot(ov_bt_filtered, aes(x = rx, y = log_scale)) +
 
 Three were `r nrow(ov_bt) - nrow(ov_bt_filtered)` models removed by doing so. 
 
-The univariate distirbutions are:
+The univariate distributions are:
 
 ```{r hists}
 ov_bt_filtered %>% 
@@ -109,14 +109,14 @@ ov_bt_filtered %>%
   facet_wrap(~ terms, scales = "free_x")
 ```
 
-The most basic type of interval uses _percentiles_ of the resampling distribution. To get the  percentile intervals, the `rset` objects is passed as the first argument and the columns of interest in the `rset` object are passed (unquoted): 
+The most basic type of interval uses _percentiles_ of the resampling distribution. To get the percentile intervals, the `rset` objects is passed as the first argument and the columns of interest in the `rset` object are passed (unquoted): 
 
 ```{r pctl}
 p_ints <- int_pctl(ov_bt_filtered, rx, log_scale)
 p_ints
 ```
 
-When overlyed with the univariate distributions: 
+When overlaid with the univariate distributions: 
 
 ```{r pctl-plot}
 ov_bt_filtered %>% 
@@ -129,7 +129,7 @@ ov_bt_filtered %>%
   geom_vline(data = p_ints, aes(xintercept = upper))
 ```
 
-How does these compare to the parametric asymptotic values?
+How do these intervals compare to the parametric asymptotic values?
 
 ```{r int-compare}
 full_model <- survreg(f, data = ovarian, dist = 'weibull')
@@ -148,7 +148,7 @@ intervals <-
 intervals
 ```
 
-These are wider than the parametric intervals (which assume asymptotic normality). Do the estimates appear to be normally distributed? We can look at quantile-quantile plots:  
+The percentile intervals are wider than the parametric intervals (which assume asymptotic normality). Do the estimates appear to be normally distributed? We can look at quantile-quantile plots:  
 
 ```{r qqplot}
 ov_bt_filtered %>% 
@@ -160,7 +160,7 @@ ov_bt_filtered %>%
   stat_qq_line()
 ```
 
-The departures from normality may account for the different in the intervals (and would suggest that the nonparametric estimates are better). 
+The departures from normality may account for the difference in the intervals (and would suggest that the nonparametric estimates are better). 
 
 Bootstrap _t_-intervals are estimated by computing intermediate statistics that are _t_-like in structure. To use these, we require the estimated variance _for each individual resampled estimate_. In our example, this comes along with the fitted model object. We can extract the variance of the parameters: 
 
@@ -183,7 +183,8 @@ ov_bt_filtered <-
 ov_bt_filtered %>% select(-id, -models, -splits, -iters) %>% slice(1:4)
 ```
 
-The _t_-intervals require the names of the variance columns (assumed to be in the same order as the original values). These names can be wrapped inside of a `dplyr` `vars` function: 
+
+The _t_-intervals require the names of the variance columns (assumed to be in the same order as the original values). These names can be wrapped inside of a `dplyr::vars()` function: 
 
 ```{r t-ints}
 t_ints <- int_t(ov_bt_filtered, rx, log_scale, var_cols = vars(ends_with("var")))
@@ -193,7 +194,7 @@ intervals <-
 intervals
 ```
 
-For bias-corrected (BCa) intervals, a different type of argument is required. The `fn` argument is a function that computes the statistic of interest. The first argument should be for an `rsplit` object and other arguments can be passed in using the ellipses. For example, to get the `rx` coefficient for the model:
+For bias-corrected and accelerated (BCa) intervals, a different type of argument is required. The `fn` argument is a function that computes the statistic of interest. The first argument should be for an `rsplit` object and other arguments can be passed in using the ellipses. For example, to get the `rx` coefficient for the model:
 
 ```{r bca-func}
 mod_coef <- function(split, ..., term_name) {
@@ -211,7 +212,7 @@ mod_coef(ov_bt_filtered$splits[[1]], f, dist = "weibull", term_name = "rx")
 ov_bt_filtered$rx[[1]]
 ```
 
-These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for _every bootstrap resample_. If the statistic is expensive to compute, this make take some time. 
+These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for _every bootstrap resample_. If the statistic is expensive to compute, this may take some time. 
 
 The user-facing function takes this function and a named list (called `args`) for any additional arguments that should be directed to the `...`. For example: 
 

@@ -34,17 +34,17 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'  You can treat variable names like they are positions.
 #' @param alpha Level of significance
 #' @return Each function returns a tibble with columns `lower`,
-#'  `estimate`, `upper`, `alpha`, .`method`, and `statistics`.
+#'  `estimate`, `upper`, `alpha`, .`method`, and `statistic`.
 #'  `.method` is the type of interval (eg. "percentile",
 #'  "student-t", or "BCa"). `statistic` is the name of the
 #'  column being analyzed.
 #' @details Percentile intervals are the standard method of
 #'  obtaining confidence intervals but require thousands of
-#'  resamples to be accurate. t-intervals can require fewer
-#'  resamples but required a corresponding variance estimate is
-#'  required. Bias-correct intervals require the original function
+#'  resamples to be accurate. T-intervals may need fewer
+#'  resamples but require a corresponding variance estimate.
+#'  Bias-corrected and accelerated intervals require the original function
 #'  that was used to create the statistics of interest and are
-#'  computationally taxing
+#'  computationally taxing.
 #'
 #' @references Davison, A., & Hinkley, D. (1997). _Bootstrap Methods and their
 #'  Application_. Cambridge: Cambridge University Press.
