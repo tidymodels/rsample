@@ -32,8 +32,8 @@ library(survival)
 f <- Surv(futime, fustat) ~ ecog.ps + rx
 
 # Will be used to fit the models to different bootstrap data sets:
-fit_fun <- function(split, ...) {
-  survreg(..., data = analysis(split))
+fit_fun <- function(data, ...) {
+  survreg(..., data = data)
 }
 ```
 
@@ -43,7 +43,7 @@ First, let's create a set of resamples and fit separate models to each. The opti
 set.seed(462)
 ov_bt <-
   bootstraps(ovarian, times = 2000, apparent = TRUE) %>%
-  mutate(models = map(splits, fit_fun, f, dist = 'weibull'))
+  mutate(models = map(splits, ~ fit_fun(analysis(.x), f, dist = 'weibull')))
 ov_bt
 ```
 
@@ -194,11 +194,11 @@ intervals <-
 intervals
 ```
 
-For bias-corrected and accelerated (BCa) intervals, a different type of argument is required. The `fn` argument is a function that computes the statistic of interest. The first argument should be for an `rsplit` object and other arguments can be passed in using the ellipses. For example, to get the `rx` coefficient for the model:
+For bias-corrected and accelerated (BCa) intervals, a different type of argument is required. The `fn` argument is a function that computes the statistic of interest. The first argument should be for a data frame and other arguments can be passed in using the ellipses. For example, to get the `rx` coefficient for the model:
 
 ```{r bca-func}
-mod_coef <- function(split, ..., term_name) {
-  res <- survreg(..., data = analysis(split))
+mod_coef <- function(data, ..., term_name) {
+  res <- survreg(..., data = data)
   rx_est <-
     broom::tidy(res) %>%
     dplyr::filter(term == term_name) %>%
@@ -207,7 +207,9 @@ mod_coef <- function(split, ..., term_name) {
   rx_est
 }
 
-mod_coef(ov_bt_filtered$splits[[1]], f, dist = "weibull", term_name = "rx")
+ov_bt_filtered$splits[[1]] %>% 
+  analysis() %>% 
+  mod_coef(f, dist = "weibull", term_name = "rx")
 # checking: 
 ov_bt_filtered$rx[[1]]
 ```

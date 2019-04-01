@@ -31,7 +31,7 @@ these columns is in the same order as the statistics selected
 by \code{...}.}
 
 \item{fn}{A function to calculate statistic of interest. The
-function should take an \code{rsplit} object as the first argument. See the url
+function should take a data frame as the first argument. See the url
 below for examples.}
 
 \item{args}{A named list of arguments to pass to \code{fn}.}

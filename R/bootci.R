@@ -152,6 +152,7 @@ int_t <- function(object, ..., var_cols, alpha = 0.05) {
 #' @importFrom rlang exec
 #' @importFrom purrr pluck map_dbl map_dfr
 #' @importFrom stats qnorm pnorm
+
 bca_single <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha = 0.05) {
 
   if(all(is.na(stats)))
@@ -168,7 +169,7 @@ bca_single <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha =
 
   # We can't be sure what we will get back from the analysis function.
   # To test, we run on the first LOO data set and see if it is a vector or df
-  loo_test <- try(rlang::exec(fn, loo_rs$splits[[1]], !!!args), silent = TRUE)
+  loo_test <- try(rlang::exec(fn, analysis(loo_rs$splits[[1]]), !!!args), silent = TRUE)
   if (inherits(loo_test, "try-error")) {
     cat("Running `fn` on the LOO resamples produced an error:\n")
     print(loo_test)
@@ -180,12 +181,12 @@ bca_single <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha =
     if (length(loo_test) > 1)
       stop("The function should return a single value or a data frame/",
            "tibble.", call. = FALSE)
-    leave_one_out_theta <- map_dbl(loo_rs$splits, rlang::exec, .fn = fn, !!!args)
+    leave_one_out_theta <- map_dbl(loo_rs$splits, ~ rlang::exec(fn, analysis(.x), !!!args))
   } else {
     if (!is.data.frame(loo_test))
       stop("The function should return a single value or a data frame/",
            "tibble.", call. = FALSE)
-    leave_one_out_theta <- map_dfr(loo_rs$splits, rlang::exec, .fn = fn, !!!args) %>%
+    leave_one_out_theta <- map_dfr(loo_rs$splits, ~ rlang::exec(fn, analysis(.x), !!!args)) %>%
       pull(stat_name)
 
   }
@@ -228,7 +229,7 @@ bca_single_wrapper <- function(stat_name, fn, args, dat, alpha){
 #' @rdname int_pctl
 #' @inheritParams int_pctl
 #' @param fn A function to calculate statistic of interest. The
-#'  function should take an `rsplit` object as the first argument. See the url
+#'  function should take a data frame as the first argument. See the url
 #'  below for examples.
 #' @param args A named list of arguments to pass to `fn`.
 #' @references \url{https://tidymodels.github.io/rsample/articles/Applications/Intervals.html}

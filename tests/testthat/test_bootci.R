@@ -9,18 +9,17 @@ context("Bootstrap intervals")
 
 # ------------------------------------------------------------------------------
 
-get_mean <- function(split) {
-  split %>%
-    analysis() %>%
+get_mean <- function(data) {
+  data %>%
     pull(1) %>%
     mean(na.rm = TRUE)
 }
 
-get_var <- function(split) {
-  split %>%
-    analysis() %>%
+get_var <- function(data) {
+  n <- nrow(data)
+  data %>%
     pull(1) %>%
-    var(na.rm = TRUE)
+    var(na.rm = TRUE)/n
 }
 
 # ------------------------------------------------------------------------------
@@ -46,8 +45,8 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
   bt_norm <-
     bootstraps(random_nums, times = 1000, apparent = TRUE) %>%
     dplyr::mutate(
-      tmean = map_dbl(splits, get_mean),
-      tmean_var = map_dbl(splits, get_var)
+      tmean = map_dbl(splits,  ~ get_mean(analysis(.x))),
+      tmean_var = map_dbl(splits, ~ get_var(analysis(.x)))
     )
 
   results_mean_boot_perc <- rsample:::pctl_single(bt_norm$tmean)
@@ -79,10 +78,9 @@ context("Wrapper Functions")
 
 test_that("Wrappers -- selection of multiple variables works", {
   # Fits a linear model, then collapses the columns to get the beta and variance estimates
-  wide_lm <- function(split, variance = TRUE) {
-    dat <- analysis(split)
+  wide_lm <- function(data, variance = TRUE) {
     res <-
-      lm(Petal.Width ~ Sepal.Length + Sepal.Width, data = dat) %>%
+      lm(Petal.Width ~ Sepal.Length + Sepal.Width, data = data) %>%
       broom::tidy() %>%
       # keep only coefficients of interest
       dplyr::filter(term != "(Intercept)") %>%
@@ -108,7 +106,7 @@ test_that("Wrappers -- selection of multiple variables works", {
 
   # compute function across each resample
   model_res <-
-    map_dfr(bt_resamples$splits, ~ wide_lm(.x, variance = TRUE))
+    map_dfr(bt_resamples$splits, ~ wide_lm(analysis(.x), variance = TRUE))
 
   bt_resamples <- bind_cols(bt_resamples, model_res)
 
@@ -209,8 +207,8 @@ context("boot_ci() Insufficient Number of Bootstrap Resamples")
 set.seed(888)
 bt_one <- bootstraps(iris, apparent = TRUE, times = 1) %>%
   dplyr::mutate(
-    mean_sepal = map_dbl(splits, get_mean),
-    mean_sepal_var = map_dbl(splits, get_var)
+    mean_sepal = map_dbl(splits, ~ get_mean(analysis(.x))),
+    mean_sepal_var = map_dbl(splits, ~ get_var(analysis(.x)))
   )
 
 
@@ -258,8 +256,8 @@ test_that("bootstraps(apparent = TRUE)", {
   bt_without_apparent <-
     bootstraps(iris, times = 500, apparent = FALSE) %>%
     dplyr::mutate(
-      tmean = map_dbl(splits, get_mean),
-      tmean_var = map_dbl(splits, get_var)
+      tmean = map_dbl(splits, ~ get_mean(analysis(.x))),
+      tmean_var = map_dbl(splits, ~ get_var(analysis(.x)))
     )
 
   expect_error(int_pctl(bt_without_apparent$tmean, alpha = 0.5))
@@ -278,7 +276,7 @@ test_that("bootstraps(apparent = TRUE)", {
     int_bca(
       bt_without_apparent,
       tmean,
-      fn = get_mean,
+      fn = ~ get_mean(analysis(.x)),
       alpha = 0.1
     ),
     "`apparent = TRUE`"
