@@ -316,17 +316,17 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
   loo_res <- furrr::future_map_dfr(loo_rs$splits, ~ .fn(.x, ...))
   loo_estimate <-
     loo_res %>%
-    group_by(term) %>%
-    summarize(loo = mean(estimate, na.rm = TRUE)) %>%
-    inner_join(loo_res, by = "term")  %>%
-    group_by(term) %>%
-    summarize(
+    dplyr::group_by(term) %>%
+    dplyr::summarize(loo = mean(estimate, na.rm = TRUE)) %>%
+    dplyr::inner_join(loo_res, by = "term")  %>%
+    dplyr::group_by(term) %>%
+    dplyr::summarize(
       cubed = sum((loo - estimate)^3),
       squared = sum((loo - estimate)^2)
     ) %>%
-    ungroup() %>%
-    inner_join(bias_corr_stats, by = "term") %>%
-    mutate(
+    dplyr::ungroup() %>%
+    dplyr::inner_join(bias_corr_stats, by = "term") %>%
+    dplyr::mutate(
       a = cubed/(6 * (squared^(3 / 2))),
       Zu = (Z0 + Za) / ( 1 - a * (Z0 + Za)) + Z0,
       Zl = (Z0 - Za) / (1 - a * (Z0 - Za)) + Z0,
