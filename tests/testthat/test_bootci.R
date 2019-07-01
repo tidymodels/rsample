@@ -5,71 +5,77 @@ library(tibble)
 library(dplyr)
 library(broom)
 
+data("attrition")
+
 context("Bootstrap intervals")
 
 # ------------------------------------------------------------------------------
 
-get_mean <- function(data) {
-  data %>%
-    pull(1) %>%
-    mean(na.rm = TRUE)
-}
-
-get_var <- function(data) {
-  n <- nrow(data)
-  data %>%
-    pull(1) %>%
-    var(na.rm = TRUE)/n
+get_stats <- function(split, ...) {
+  dat <- analysis(split)
+  x <- dat[[1]]
+  tibble(
+    term = "mean",
+    estimate = mean(x, na.rm = TRUE),
+    std.error = sqrt(var(x, na.rm = TRUE)/sum(!is.na(x)))
+  )
 }
 
 # ------------------------------------------------------------------------------
 
-test_that('Bootstrap estimate of mean is close to estimate of mean from normal distribution',{
-  n <- 10000
-  mu <- 10
-  sigma <- 1
+n <- 1000
+mu <- 10
+sigma <- 1
 
-  set.seed(888)
-  rand_nums <- rnorm(n, mu, sigma)
-  random_nums <- as.data.frame(rand_nums)
-  ttest <- t.test(random_nums)
+set.seed(888)
+rand_nums <- rnorm(n, mu, sigma)
+ttest <- tidy(t.test(rand_nums))
+dat <- data.frame(x = rand_nums)
 
-  results_ttest <-
-    tibble(
-    lower = min(ttest$conf.int),
-    upper = max(ttest$conf.int),
-    alpha = 0.05,
-    method = "t-test"
+set.seed(456765)
+bt_norm <-
+  bootstraps(dat, times = 1000, apparent = TRUE) %>%
+  dplyr::mutate(
+    stats = map(splits,  ~ get_stats(.x))
   )
 
-  bt_norm <-
-    bootstraps(random_nums, times = 1000, apparent = TRUE) %>%
-    dplyr::mutate(
-      tmean = map_dbl(splits,  ~ get_mean(analysis(.x))),
-      tmean_var = map_dbl(splits, ~ get_var(analysis(.x)))
-    )
+test_that('Bootstrap estimate of mean is close to estimate of mean from normal distribution',{
 
-  results_mean_boot_perc <- rsample:::pctl_single(bt_norm$tmean)
+  single_pct_res <- int_pctl(bt_norm, stats)
 
-  results_mean_boot_t <- int_t(bt_norm, tmean, var_cols = vars(tmean_var))
+  single_t_res <- int_t(bt_norm, stats)
 
-  results_mean_boot_bca <- int_bca(bt_norm, tmean, fn = get_mean)
+  single_bca_res <- int_bca(bt_norm, stats, .fn = get_stats)
 
-  expect_equal(results_ttest$lower,
-               results_mean_boot_perc$lower,
+  expect_equal(ttest$conf.low,
+               single_pct_res$.lower,
                tolerance = 0.01)
-  expect_equal(results_ttest$lower,
-               results_mean_boot_perc$lower,
+  expect_equal(ttest$estimate,
+               single_pct_res$.estimate,
                tolerance = 0.01)
-  expect_equal(results_ttest$upper,
-               results_mean_boot_perc$upper,
+  expect_equal(ttest$conf.high,
+               single_pct_res$.upper,
                tolerance = 0.01)
 
-  expect_equal(results_ttest$lower, results_mean_boot_t$lower, tolerance = 0.01)
-  expect_equal(results_ttest$upper, results_mean_boot_t$upper, tolerance = 0.01)
+  expect_equal(ttest$conf.low,
+               single_t_res$.lower,
+               tolerance = 0.01)
+  expect_equal(ttest$estimate,
+               single_t_res$.estimate,
+               tolerance = 0.01)
+  expect_equal(ttest$conf.high,
+               single_pct_res$.upper,
+               tolerance = 0.01)
 
-  expect_equal(results_ttest$lower, results_mean_boot_bca$lower, tolerance = 0.01)
-  expect_equal(results_ttest$upper, results_mean_boot_bca$upper, tolerance = 0.01)
+  expect_equal(ttest$conf.low,
+               single_bca_res$.lower,
+               tolerance = 0.01)
+  expect_equal(ttest$estimate,
+               single_bca_res$.estimate,
+               tolerance = 0.01)
+  expect_equal(ttest$conf.high,
+               single_bca_res$.upper,
+               tolerance = 0.01)
 })
 
 # ------------------------------------------------------------------------------
@@ -77,105 +83,40 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
 context("Wrapper Functions")
 
 test_that("Wrappers -- selection of multiple variables works", {
-  # Fits a linear model, then collapses the columns to get the beta and variance estimates
-  wide_lm <- function(data, variance = TRUE) {
-    res <-
-      lm(Petal.Width ~ Sepal.Length + Sepal.Width, data = data) %>%
-      broom::tidy() %>%
-      # keep only coefficients of interest
-      dplyr::filter(term != "(Intercept)") %>%
-      # change to the variance
-      mutate(var = std.error ^ 2) %>%
-      dplyr::select(term, var, estimate) %>%
-      gather(type, value,-term) %>%
-      # collapse term & type into a variable called "item"
-      unite(item, term, type) %>%
-      spread(item, value)
 
-    # if we don't want the variance columns, get rid of it
-    if (!variance)
-      res <- res %>%
-        dplyr::select(-ends_with("_var"))
-
-    return(res)
+  func <- function(split, ...) {
+    lm(Age ~ HourlyRate + DistanceFromHome, data = analysis(split)) %>% tidy()
   }
 
   # generate boostrap resamples
   set.seed(888)
-  bt_resamples <- bootstraps(iris, times = 1000, apparent = TRUE)
+  bt_resamples <- bootstraps(attrition, times = 1000, apparent = TRUE) %>%
+    mutate(res = map(splits, func))
 
-  # compute function across each resample
-  model_res <-
-    map_dfr(bt_resamples$splits, ~ wide_lm(analysis(.x), variance = TRUE))
+  iris_tidy <-
+    lm(Age ~ HourlyRate + DistanceFromHome, data = attrition) %>%
+    tidy(conf.int = TRUE) %>%
+    dplyr::arrange(term)
 
-  bt_resamples <- bind_cols(bt_resamples, model_res)
+  pct_res <-
+    int_pctl(bt_resamples, res) %>%
+    inner_join(iris_tidy, by = "term")
+  expect_equal(pct_res$conf.low,  pct_res$.lower, tolerance = .01)
+  expect_equal(pct_res$conf.high, pct_res$.upper, tolerance = .01)
 
-  # baseline
-  sepal_width_baseline <-
-    quantile(bt_resamples$Sepal.Width_estimate,
-             probs = c(0.025, 0.975))
 
-  sepal_width_baseline <- tibble(
-    lower = min(sepal_width_baseline),
-    estimate = mean(sepal_width_baseline, na.rm = TRUE),
-    upper = max(sepal_width_baseline),
-    alpha = 0.05,
-    method = "percentile baseline"
-  )
+  t_res <-
+    int_t(bt_resamples, res) %>%
+    inner_join(iris_tidy, by = "term")
+  expect_equal(t_res$conf.low,  t_res$.lower, tolerance = .01)
+  expect_equal(t_res$conf.high, t_res$.upper, tolerance = .01)
 
-  # OK - CI is reasonable
-  perc_results <- int_pctl(bt_resamples,
-                           Sepal.Width_estimate,
-                           Sepal.Length_estimate,
-                           alpha = 0.05)
 
-  expect_equal(
-    sepal_width_baseline$lower,
-    perc_results %>% filter(statistic == "Sepal.Width_estimate") %>% pull(lower),
-    tolerance = 0.01
-  )
-
-  expect_equal(
-    sepal_width_baseline$estimate,
-    perc_results %>% filter(statistic == "Sepal.Width_estimate") %>% pull(estimate),
-    tolerance = 0.01
-  )
-
-  expect_equal(
-    sepal_width_baseline$upper,
-    perc_results %>% filter(statistic == "Sepal.Width_estimate") %>% pull(upper),
-    tolerance = 0.01
-  )
-
-  t_results <- int_t(
-    bt_resamples,
-    Sepal.Width_estimate,
-    Sepal.Length_estimate,
-    var_cols = vars(Sepal.Width_var, Sepal.Length_var),
-    alpha = 0.05
-  )
-
-  expect_equal(
-    sepal_width_baseline$lower,
-    t_results %>% filter(statistic == "Sepal.Width_estimate") %>% pull(lower),
-    tolerance = 0.01
-  )
-
-  #  High-level BCa call
-  bca_results <- int_bca(
-    bt_resamples,
-    Sepal.Width_estimate,
-    Sepal.Length_estimate,
-    fn = wide_lm,
-    args = list(variance = FALSE),
-    alpha = 0.05
-  )
-
-  expect_equal(
-    sepal_width_baseline$lower,
-    bca_results %>% filter(statistic == "Sepal.Width_estimate") %>% pull(lower),
-    tolerance = 0.01
-  )
+  bca_res <-
+    int_bca(bt_resamples, res, .fn = func) %>%
+    inner_join(iris_tidy, by = "term")
+  expect_equal(bca_res$conf.low,  bca_res$.lower, tolerance = .01)
+  expect_equal(bca_res$conf.high, bca_res$.upper, tolerance = .01)
 
 })
 
@@ -184,60 +125,52 @@ test_that("Wrappers -- selection of multiple variables works", {
 context("boot_ci() Prompt Errors: Too Many NAs")
 
 test_that('Upper & lower confidence interval does not contain NA', {
-  iris_na <- iris
-  iris_na$Sepal.Width[c(1, 51, 101)] <- NA
+
+  bad_stats <- function(split, ...) {
+    tibble(
+      term = "mean",
+      estimate = NA_real_,
+      std.error = runif(1)
+    )
+  }
 
   set.seed(888)
-  bt_na <- bootstraps(iris_na, apparent = TRUE, times = 1000) %>%
-    dplyr::mutate(tmean = rep(NA_real_, 1001),
-                  tvar = rep(NA_real_, 1001))
+  bt_resamples <- bootstraps(data.frame(x = 1:100), times = 1000, apparent = TRUE) %>%    mutate(res = map(splits, bad_stats))
 
-  expect_error(rsample:::pctl_single(bt_na$tmean, alpha = 0.05))
+  expect_error(
+    int_pctl(bt_resamples, res),
+    "missing values"
+  )
 
-  expect_error(rsample:::t_single(bt_na, tmean, var_cols = vars(tvar), alpha = 0.1))
+  expect_error(
+    int_t(bt_resamples, res),
+    "missing values"
+  )
 
-  expect_error(int_bca(bt_na, tmean, fn = median, alpha = 0.05))
-
+  # expect_error(
+  #   int_bca(bt_resamples, res, .fn = bad_stats),
+  #   "missing values"
+  # )
 })
 
 # ------------------------------------------------------------------------------
 
 context("boot_ci() Insufficient Number of Bootstrap Resamples")
 
-set.seed(888)
-bt_one <- bootstraps(iris, apparent = TRUE, times = 1) %>%
+set.seed(456765)
+bt_small <-
+  bootstraps(dat, times = 10, apparent = TRUE) %>%
   dplyr::mutate(
-    mean_sepal = map_dbl(splits, ~ get_mean(analysis(.x))),
-    mean_sepal_var = map_dbl(splits, ~ get_var(analysis(.x)))
+    stats = map(splits,  ~ get_stats(.x)),
+    junk = 1:11
   )
 
-
-# TODO replace with BCA later
 test_that(
   "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method", {
 
-    expect_warning(
-      rsample:::pctl_single(bt_one$mean_sepal, alpha = 0.05)
-    )
-
-    expect_warning(
-      int_t(
-        bt_one,
-        mean_sepal,
-        var_cols = vars(mean_sepal_var),
-        alpha = 0.05
-      )
-    )
-
-    expect_warning(
-      int_bca(
-        bt_one,
-        mean_sepal,
-        fn = mean,
-        args = list(na.rm = TRUE, trim = 0.1),
-        alpha = 0.05
-      )
-    )
+    expect_warning(int_pctl(bt_small, stats))
+    expect_warning(int_t(bt_small, stats))
+    expect_warning(int_bca(bt_small, stats, .fn = get_stats))
 
   }
 )
@@ -246,44 +179,57 @@ test_that(
 context("boot_ci() Input Validation")
 
 
-test_that("statistic is entered", {
-  expect_error(rsample:::pctl_single(bt_resamples$cat, alpha = 0.5))
-})
+test_that("bad input", {
+  expect_error(int_pctl(bt_small, id))
+  expect_error(int_pctl(bt_small, junk))
 
+  bad_bt_norm <-
+    bt_norm %>%
+    mutate(stats = map(stats, ~ .x[, 1:2]))
+  expect_error(int_t(bad_bt_norm, stats))
 
-test_that("bootstraps(apparent = TRUE)", {
+  expect_error(int_bca(bad_bt_norm, stats))
 
-  bt_without_apparent <-
-    bootstraps(iris, times = 500, apparent = FALSE) %>%
-    dplyr::mutate(
-      tmean = map_dbl(splits, ~ get_mean(analysis(.x))),
-      tmean_var = map_dbl(splits, ~ get_var(analysis(.x)))
+  no_dots <- function(split) {
+    dat <- analysis(split)
+    x <- dat[[1]]
+    tibble(
+      term = "mean",
+      estimate = mean(x, na.rm = TRUE),
+      std.error = sqrt(var(x, na.rm = TRUE)/sum(!is.na(x)))
     )
-
-  expect_error(int_pctl(bt_without_apparent$tmean, alpha = 0.5))
-
+  }
   expect_error(
-    int_t(
-      bt_without_apparent,
-      tmean,
-      var_cols = vars(tmean_var),
-      alpha = 0.5
-    ),
-    "`apparent = TRUE`"
+    int_bca(bt_norm, stats, .fn = no_dots),
+    "must have an argument"
   )
 
-  expect_error(
-    int_bca(
-      bt_without_apparent,
-      tmean,
-      fn = ~ get_mean(analysis(.x)),
-      alpha = 0.1
-    ),
-    "`apparent = TRUE`"
-  )
-})
+  expect_error(int_pctl(as.data.frame(bt_norm), stats))
+  expect_error(int_t(as.data.frame(bt_norm), stats))
+  expect_error(int_bca(as.data.frame(bt_norm), stats, .fn = get_stats))
 
-test_that('must enter a bootstraps object', {
-  expect_error(int_pctl("lal", startrek, alpha = 0.5))
-  expect_error(rsample:::t_single("lal", startrek, alpha = 0.5))
+  expect_error(
+    int_t(bt_norm %>% dplyr::filter(id != "Apparent"), stats)
+    )
+  expect_error(
+    int_bca(bt_norm %>% dplyr::filter(id != "Apparent"), stats, .fn = get_stats)
+  )
+
+  poo <- function(x) {
+    x$estimate <- "a"
+    x
+  }
+  badder_bt_norm <-
+    bt_norm %>%
+    mutate(
+      bad_term = map(stats, ~ .x %>% setNames(c("a", "estimate", "std.err"))),
+      bad_est = map(stats, ~ .x %>% setNames(c("term", "b", "std.err"))),
+      bad_err = map(stats, ~ .x %>% setNames(c("term", "estimate", "c"))),
+      bad_num = map(stats, ~ poo(.x))
+      )
+  expect_error(int_pctl(badder_bt_norm, bad_term))
+  expect_error(int_t(badder_bt_norm, bad_err))
+  expect_error(int_bca(badder_bt_norm, bad_est, .fn = get_stats))
+  expect_error(int_pctl(badder_bt_norm, bad_num))
+
 })

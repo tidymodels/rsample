@@ -6,42 +6,37 @@
 \alias{int_bca}
 \title{Bootstrap confidence intervals}
 \usage{
-int_pctl(object, ..., alpha = 0.05)
+int_pctl(.data, statistics, alpha = 0.05)
 
-int_t(object, ..., var_cols, alpha = 0.05)
+int_t(.data, statistics, alpha = 0.05)
 
-int_bca(object, ..., fn, args = list(), alpha = 0.05)
+int_bca(.data, statistics, alpha = 0.05, .fn, ...)
 }
 \arguments{
-\item{object}{Bootstrap resamples created by the \code{bootstraps}
-function. For t- and BCa-intervals, the \code{apparent} argument
+\item{.data}{A data frame containing the bootstrap resamples created using
+\code{bootstraps()}. For t- and BCa-intervals, the \code{apparent} argument
 should be set to \code{TRUE}.}
 
-\item{...}{One or more unquoted expressions separated by commas
-that select columns containing individual bootstrap estimates.
-You can treat variable names like they are positions.}
+\item{statistics}{An unquoted column name or \code{dplyr} selector that identifies
+a single column in the data set that contains the indiviual bootstrap
+estimates. This can be a list column of tidy tibbles (that contains columns
+\code{term} and \code{estimate}) or a simple numeric column. For t-intervals, a
+standard tidy column (usually called \code{std.err}) is required.
+See the examples below.}
 
 \item{alpha}{Level of significance}
 
-\item{var_cols}{One or more unquoted expressions separated by commas
-that select columns containing individual bootstrap estimate
-of \emph{variance} for the statistics. These selections can be
-wrapped in \code{\link[dplyr:vars]{dplyr::vars()}}. It is assumed that the order of
-these columns is in the same order as the statistics selected
-by \code{...}.}
+\item{.fn}{A function to calculate statistic of interest. The
+function should take an \code{rsplit} as the first argument and the \code{...} are
+required.}
 
-\item{fn}{A function to calculate statistic of interest. The
-function should take a data frame as the first argument. See the url
-below for examples.}
-
-\item{args}{A named list of arguments to pass to \code{fn}.}
+\item{...}{Arguments to pass to \code{.fn}.}
 }
 \value{
-Each function returns a tibble with columns \code{lower},
-\code{estimate}, \code{upper}, \code{alpha}, .\code{method}, and \code{statistic}.
+Each function returns a tibble with columns \code{.lower},
+\code{.estimate}, \code{.upper}, \code{.alpha}, \code{.method}, and \code{term}.
 \code{.method} is the type of interval (eg. "percentile",
-"student-t", or "BCa"). \code{statistic} is the name of the
-column being analyzed.
+"student-t", or "BCa"). \code{term} is the name of the estimate.
 }
 \description{
 Calculate bootstrap confidence intervals using various methods.
@@ -49,7 +44,7 @@ Calculate bootstrap confidence intervals using various methods.
 \details{
 Percentile intervals are the standard method of
 obtaining confidence intervals but require thousands of
-resamples to be accurate. T-intervals may need fewer
+resamples to be accurate. t-intervals may need fewer
 resamples but require a corresponding variance estimate.
 Bias-corrected and accelerated intervals require the original function
 that was used to create the statistics of interest and are

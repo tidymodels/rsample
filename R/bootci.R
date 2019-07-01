@@ -1,7 +1,131 @@
+# Bootstrap confidence interval code
+
+# ------------------------------------------------------------------------------
+# helpers
+
+
+check_rset <- function(x, app = TRUE) {
+  if (!inherits(x, "bootstraps"))
+    stop("`.data` should be an `rset` object generated from `bootstraps()`",
+         call. = FALSE)
+
+  if (app) {
+    if(x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
+      stop("Please set `apparent = TRUE` in `bootstraps()` function",
+           call. = FALSE)
+  }
+  invisible(NULL)
+}
+
+
+stat_fmt_err <- paste("`statistics` should select a list column of tidy results.")
+stat_nm_err <- paste("The tibble in `statistics` should have columns for",
+                     "'estimate' and 'term`")
+std_exp <- c("std.error", "robust.se")
+
+check_tidy_names <- function(x, std_col) {
+  # check for proper columns
+  if (sum(colnames(x) == "estimate") != 1) {
+    stop(stat_nm_err, call. = FALSE)
+  }
+  if (sum(colnames(x) == "term") != 1) {
+    stop(stat_nm_err, call. = FALSE)
+  }
+  if (std_col) {
+    std_candidates <- colnames(x) %in% std_exp
+    if (sum(std_candidates) != 1) {
+      stop("`statistics` should select a single column for the standard ",
+           "error.", call. = FALSE)
+    }
+  }
+  invisible(TRUE)
+}
+
+#' @importFrom stats setNames
+check_tidy <- function(x, std_col = FALSE) {
+  if (!is.list(x)) {
+    stop(stat_fmt_err, call. = FALSE)
+  }
+
+  # convert to data frame from list
+  has_id <- any(names(x) == "id")
+  if (has_id) {
+    x <- try(unnest(x), silent = TRUE)
+  } else {
+    x <- try(map_dfr(x, ~ .x), silent = TRUE)
+  }
+
+  if (inherits(x, "try-error")) {
+    stop(stat_fmt_err, call. = FALSE)
+  }
+
+  check_tidy_names(x, std_col)
+
+  if (std_col) {
+    std_candidates <- colnames(x) %in% std_exp
+    std_candidates <- colnames(x)[std_candidates]
+    if (has_id) {
+      x <-
+        dplyr::select(x, term, estimate, id, tidyselect::one_of(std_candidates)) %>%
+        mutate(id = (id == "Apparent")) %>%
+        setNames(c("term", "estimate", "orig", "std_err"))
+    } else {
+      x <-
+        dplyr::select(x, term, estimate, tidyselect::one_of(std_candidates)) %>%
+        setNames(c("term", "estimate", "std_err"))
+    }
+
+  } else {
+    if (has_id) {
+      x <-
+        dplyr::select(x, term, estimate, id) %>%
+        mutate(orig = (id == "Apparent")) %>%
+        dplyr::select(-id)
+    } else {
+      x <- dplyr::select(x, term, estimate)
+    }
+  }
+
+  x
+}
+
+
+get_p0 <- function(x, alpha = 0.05) {
+  orig <- x %>%
+    group_by(term) %>%
+    dplyr::filter(orig) %>%
+    dplyr::select(term, theta_0 = estimate) %>%
+    ungroup()
+  x %>%
+    dplyr::filter(!orig) %>%
+    inner_join(orig, by = "term") %>%
+    group_by(term) %>%
+    summarize(p0 = mean(estimate <= theta_0, na.rm = TRUE)) %>%
+    mutate(Z0 = stats::qnorm(p0),
+           Za = stats::qnorm(1 - alpha / 2))
+}
+
+new_stats <- function(x, lo, hi) {
+  res <- as.numeric(quantile(x, probs = c(lo, hi), na.rm = TRUE))
+  tibble(.lower = min(res), .estimate = mean(x, na.rm = TRUE), .upper = max(res))
+}
+
+has_dots <- function(x) {
+  nms <- names(formals(x))
+  if (!any(nms == "...")) {
+    stop("`.fn` must have an argument `...`.", call. = FALSE)
+  }
+  invisible(NULL)
+}
+
+# ------------------------------------------------------------------------------
+# percentile code
+
+
 pctl_single <- function(stats, alpha = 0.05) {
 
-  if(all(is.na(stats)))
-    stop("All statistics (", stats, ") are missing.", call. = FALSE)
+  if (all(is.na(stats)))
+    stop("All statistics have missing values..", call. = FALSE)
 
   if (length(stats) < 500)
     warning("Recommend at least 500 bootstrap resamples.", call. = FALSE)
@@ -14,10 +138,10 @@ pctl_single <- function(stats, alpha = 0.05) {
 
   # return a tibble with .lower, .estimate, .upper
   res <- tibble(
-    lower = min(ci),
-    estimate = mean(stats, na.rm = TRUE),
-    upper = max(ci),
-    alpha = alpha,
+    .lower = min(ci),
+    .estimate = mean(stats, na.rm = TRUE),
+    .upper = max(ci),
+    .alpha = alpha,
     .method = "percentile"
   )
   res
@@ -26,21 +150,23 @@ pctl_single <- function(stats, alpha = 0.05) {
 #' Bootstrap confidence intervals
 #' @description
 #' Calculate bootstrap confidence intervals using various methods.
-#' @param object Bootstrap resamples created by the `bootstraps`
-#'  function. For t- and BCa-intervals, the `apparent` argument
+#' @param .data A data frame containing the bootstrap resamples created using
+#'  `bootstraps()`. For t- and BCa-intervals, the `apparent` argument
 #'  should be set to `TRUE`.
-#' @param ... One or more unquoted expressions separated by commas
-#'  that select columns containing individual bootstrap estimates.
-#'  You can treat variable names like they are positions.
+#' @param statistics An unquoted column name or `dplyr` selector that identifies
+#'  a single column in the data set that contains the indiviual bootstrap
+#'  estimates. This can be a list column of tidy tibbles (that contains columns
+#'  `term` and `estimate`) or a simple numeric column. For t-intervals, a
+#'  standard tidy column (usually called `std.err`) is required.
+#'  See the examples below.
 #' @param alpha Level of significance
-#' @return Each function returns a tibble with columns `lower`,
-#'  `estimate`, `upper`, `alpha`, .`method`, and `statistic`.
+#' @return Each function returns a tibble with columns `.lower`,
+#'  `.estimate`, `.upper`, `.alpha`, `.method`, and `term`.
 #'  `.method` is the type of interval (eg. "percentile",
-#'  "student-t", or "BCa"). `statistic` is the name of the
-#'  column being analyzed.
+#'  "student-t", or "BCa"). `term` is the name of the estimate.
 #' @details Percentile intervals are the standard method of
 #'  obtaining confidence intervals but require thousands of
-#'  resamples to be accurate. T-intervals may need fewer
+#'  resamples to be accurate. t-intervals may need fewer
 #'  resamples but require a corresponding variance estimate.
 #'  Bias-corrected and accelerated intervals require the original function
 #'  that was used to create the statistics of interest and are
@@ -51,100 +177,112 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'  doi:10.1017/CBO9780511802843
 #'
 #' @importFrom purrr map map_dfr
-#' @importFrom rlang quos
-#' @importFrom dplyr select_vars mutate last
+#' @importFrom rlang enquo
+#' @importFrom dplyr mutate last ungroup group_by inner_join summarize do
+#' @importFrom tidyselect vars_select one_of
+#' @importFrom furrr future_map_dfr
 #' @export
-int_pctl <- function(object, ..., alpha = 0.05) {
+int_pctl <- function(.data, statistics, alpha = 0.05) {
 
-  check_rset(object)
+  check_rset(.data)
 
-  object <- object %>% dplyr::filter(id != "Apparent")
+  .data <- .data %>% dplyr::filter(id != "Apparent")
 
-  column_stats <- select_vars(names(object), !!!quos(...))
-  res <- purrr::map_dfr(object[, column_stats], pctl_single, alpha = alpha)
-  res %>% mutate(.method = "percentile",
-                 statistic = column_stats)
+  column_name <- tidyselect::vars_select(names(.data), !!rlang::enquo(statistics))
+  if (length(column_name) != 1) {
+    stop(stat_fmt_err, call. = FALSE)
+  }
+  stats <- .data[[column_name]]
+  stats <- check_tidy(stats, std_col = FALSE)
+
+  vals <- stats %>%
+    group_by(term) %>%
+    do(pctl_single(.$estimate, alpha = alpha)) %>%
+    ungroup()
+  vals
+
 }
 
-# ----------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# t interval code
 
 #' @importFrom tibble tibble
-t_single <- function(stats, stat_var, theta_obs, var_obs, alpha = 0.05) {
+t_single <- function(stats, std_err, is_orig, alpha = 0.05) {
   # stats is a numeric vector of values
   # vars is a numeric vector of variances
   # return a tibble with .lower, .estimate, .upper
+  # which_orig is the index of stats and std_err that has the original result
 
-  if(all(is.na(stats)))
-    stop("All statistics (", stats, ") are missing values.", call. = FALSE)
+  if (all(is.na(stats)))
+    stop("All statistics have missing values.", call. = FALSE)
+
+  if (!is.logical(is_orig) || any(is.na(is_orig))) {
+    stop("`is_orig` should be a logical column the same length as `stats` ",
+         "with no missing values.", call. = FALSE)
+  }
+  if (length(stats) != length(std_err) && length(stats) != length(is_orig)) {
+    stop("`stats`, `std_err`, and `is_orig` should have the same length.",
+         call. = FALSE)
+  }
+  if (sum(is_orig) != 1) {
+    stop("The original statistic must be in a single row.", call. = FALSE)
+  }
+
+  theta_obs   <- stats[is_orig]
+  std_err_obs <- std_err[is_orig]
+
+  stats   <- stats[!is_orig]
+  std_err <- std_err[!is_orig]
 
   z_dist <-
-    (stats - theta_obs) / sqrt(stat_var)
+    (stats - theta_obs) / std_err
 
   z_pntl <-
     quantile(z_dist, probs = c(alpha / 2, 1 - (alpha) / 2), na.rm = TRUE)
 
-  ci <- theta_obs - z_pntl * sqrt(var_obs)
+  ci <- theta_obs - z_pntl * std_err_obs
 
   tibble(
-    lower = min(ci),
-    estimate = mean(stats, na.rm = TRUE),
-    upper = max(ci),
-    alpha = alpha,
+    .lower = min(ci),
+    .estimate = mean(stats, na.rm = TRUE),
+    .upper = max(ci),
+    .alpha = alpha,
     .method = "student-t"
   )
-}
-
-# student-t intermediate wrapper
-#' @importFrom dplyr filter pull
-#' @importFrom purrr map map_dfr
-#' @importFrom rlang quos
-t_interval_wrapper <- function(stat_name, var_name, dat, alpha){
-  theta_obs <- dat %>% filter(id == "Apparent") %>% pull(stat_name)
-  var_obs <- dat %>% filter(id == "Apparent")%>% pull(var_name)
-
-  stats <- dat %>% filter(id != "Apparent") %>% pull(stat_name)
-  stat_var <- dat %>% filter(id != "Apparent")%>% pull(var_name)
-
-  t_single(stats, stat_var, theta_obs, var_obs, alpha)
 }
 
 
 #' @rdname int_pctl
 #' @inheritParams int_pctl
-#' @param var_cols One or more unquoted expressions separated by commas
-#'  that select columns containing individual bootstrap estimate
-#'  of _variance_ for the statistics. These selections can be
-#'  wrapped in [dplyr::vars()]. It is assumed that the order of
-#'  these columns is in the same order as the statistics selected
-#'  by `...`.
-#' @importFrom dplyr select_vars as_tibble mutate
+#' @importFrom dplyr as_tibble mutate
 #' @importFrom rlang quos
 #' @importFrom purrr map2 map_dfr
 #' @export
-int_t <- function(object, ..., var_cols, alpha = 0.05) {
+int_t <- function(.data, statistics, alpha = 0.05) {
 
-  check_rset(object)
+  check_rset(.data)
 
-  if (nrow(object) < 500)
+  # TODO do by term
+  if (nrow(.data) < 500) {
     warning("Recommend at least 500 bootstrap resamples.",
             call. = FALSE)
+  }
 
-  column_stats <- select_vars(names(object), !!!quos(...))
-  column_vars <-  select_vars(names(object), !!!var_cols)
-  res <-
-    purrr::map2(column_stats,
-                column_vars,
-                t_interval_wrapper,
-                dat = object,
-                alpha = alpha)
+  column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
+  if (length(column_name) != 1) {
+    stop(stat_fmt_err, call. = FALSE)
+  }
+  stats <- .data %>% dplyr::select(!!column_name, id)
+  stats <- check_tidy(stats, std_col = TRUE)
 
-  res <- res %>%
-    purrr::map_dfr(as_tibble) %>%
-    mutate(statistic = column_stats,
-           .method = "student-t")
-  res
-
+  vals <-
+    stats %>%
+    group_by(term) %>%
+    do(t_single(.$estimate, .$std_err, .$orig, alpha = alpha)) %>%
+    ungroup()
+  vals
 }
+
 
 # ----------------------------------------------------------------
 
@@ -153,130 +291,107 @@ int_t <- function(object, ..., var_cols, alpha = 0.05) {
 #' @importFrom purrr pluck map_dbl map_dfr
 #' @importFrom stats qnorm pnorm
 
-bca_single <- function(stats, stat_name, theta_hat, orig_data, fn, args, alpha = 0.05) {
+bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
 
-  if(all(is.na(stats)))
-    stop("All statistics (", stats, ") are missing.", call. = FALSE)
+  # TODO check per term
+  if (all(is.na(stats$estimate))) {
+    stop("All statistics have missing values.", call. = FALSE)
+  }
 
   ### Estimating Z0 bias-correction
-  po <- mean(stats <= theta_hat, na.rm = TRUE)
-  Z0 <- stats::qnorm(po)
-  Za <- stats::qnorm(1 - alpha / 2)
+  bias_corr_stats <- get_p0(stats)
 
-  #need the original data frame here
-  # loo_rs <- loo_cv(splits %>% pluck(1, "data"))
+  # need the original data frame here
   loo_rs <- loo_cv(orig_data)
 
   # We can't be sure what we will get back from the analysis function.
   # To test, we run on the first LOO data set and see if it is a vector or df
-  loo_test <- try(rlang::exec(fn, analysis(loo_rs$splits[[1]]), !!!args), silent = TRUE)
+  loo_test <- try(rlang::exec(.fn, loo_rs$splits[[1]], ...), silent = TRUE)
   if (inherits(loo_test, "try-error")) {
-    cat("Running `fn` on the LOO resamples produced an error:\n")
+    cat("Running `.fn` on the LOO resamples produced an error:\n")
     print(loo_test)
-    stop("`fn` failed.", call. = FALSE)
+    stop("`.fn` failed.", call. = FALSE)
   }
 
-  ## TODO use furrr
-  if (is.vector(loo_test)) {
-    if (length(loo_test) > 1)
-      stop("The function should return a single value or a data frame/",
-           "tibble.", call. = FALSE)
-    leave_one_out_theta <- map_dbl(loo_rs$splits, ~ rlang::exec(fn, analysis(.x), !!!args))
-  } else {
-    if (!is.data.frame(loo_test))
-      stop("The function should return a single value or a data frame/",
-           "tibble.", call. = FALSE)
-    leave_one_out_theta <- map_dfr(loo_rs$splits, ~ rlang::exec(fn, analysis(.x), !!!args)) %>%
-      pull(stat_name)
+  loo_res <- furrr::future_map_dfr(loo_rs$splits, ~ rlang::exec(.fn, .x, ...))
+  loo_estimate <-
+    loo_res %>%
+    group_by(term) %>%
+    summarize(loo = mean(estimate, na.rm = TRUE)) %>%
+    inner_join(loo_res, by = "term")  %>%
+    group_by(term) %>%
+    summarize(
+      cubed = sum((loo - estimate)^3),
+      squared = sum((loo - estimate)^2)
+    ) %>%
+    ungroup() %>%
+    inner_join(bias_corr_stats, by = "term") %>%
+    mutate(
+      a = cubed/(6 * (squared^(3 / 2))),
+      Zu = (Z0 + Za) / ( 1 - a * (Z0 + Za)) + Z0,
+      Zl = (Z0 - Za) / (1 - a * (Z0 - Za)) + Z0,
+      lo = stats::pnorm(Zl, lower.tail = TRUE),
+      hi = stats::pnorm(Zu, lower.tail = TRUE)
+    )
 
+  terms <- loo_estimate$term
+  stats <- stats %>% dplyr::filter(!orig)
+  for (i in seq_along(terms)) {
+    tmp <- new_stats(stats$estimate[ stats$term == terms[i] ],
+                     lo = loo_estimate$lo[i],
+                     hi = loo_estimate$hi[i])
+    tmp$term <- terms[i]
+    if (i == 1) {
+      ci_bca <- tmp
+    } else {
+      ci_bca <- bind_rows(ci_bca, tmp)
+    }
   }
-
-  theta_minus_one <- mean(leave_one_out_theta, na.rm = TRUE)
-
-  a <- sum( (theta_minus_one - leave_one_out_theta) ^ 3) /
-    ( 6 * (sum( (theta_minus_one - leave_one_out_theta) ^ 2)) ^ (3 / 2) )
-
-  Zu <- (Z0 + Za) / ( 1 - a * (Z0 + Za)) + Z0 # upper limit for Z
-  Zl <- (Z0 - Za) / (1 - a * (Z0 - Za)) + Z0 # lower limit for Z
-  lower_percentile <- stats::pnorm(Zl, lower.tail = TRUE) # percentile for Z
-  upper_percentile <- stats::pnorm(Zu, lower.tail = TRUE) # percentile for Z
-  ci_bca <- as.numeric(quantile(stats, c(lower_percentile, upper_percentile)))
-
-  tibble(
-    lower = min(ci_bca),
-    estimate = mean(stats, na.rm = TRUE),
-    upper = max(ci_bca),
-    alpha = alpha,
-    .method = "BCa"
-  )
-}
-
-#' @importFrom dplyr filter pull
-#' @importFrom purrr pluck
-bca_single_wrapper <- function(stat_name, fn, args, dat, alpha){
-
-  theta_hat <- dat %>% dplyr::filter(id == "Apparent") %>% pull(stat_name)
-
-  stats <- dat %>% dplyr::filter(id != "Apparent") %>% pull(stat_name)
-
-  orig_data <- dat %>% dplyr::filter(id == "Apparent") %>% pluck("splits", 1, "data")
-
-  bca_single(stats, stat_name, theta_hat, orig_data, fn, args = args, alpha = alpha)
-
+  ci_bca <-
+    ci_bca %>%
+    dplyr::select(term, .lower, .estimate, .upper) %>%
+    dplyr::mutate(
+      .alpha = alpha,
+      .method = "BCa"
+    )
 }
 
 
 #' @rdname int_pctl
 #' @inheritParams int_pctl
-#' @param fn A function to calculate statistic of interest. The
-#'  function should take a data frame as the first argument. See the url
-#'  below for examples.
-#' @param args A named list of arguments to pass to `fn`.
+#' @param .fn A function to calculate statistic of interest. The
+#'  function should take an `rsplit` as the first argument and the `...` are
+#'  required.
+#' @param ... Arguments to pass to `.fn`.
 #' @references \url{https://tidymodels.github.io/rsample/articles/Applications/Intervals.html}
-#' @importFrom dplyr select_vars
 #' @importFrom purrr map_dfr
 #' @export
-int_bca <- function(object, ..., fn, args = list(), alpha = 0.05){
+int_bca <- function(.data, statistics, alpha = 0.05, .fn, ...) {
 
-  check_rset(object)
+  check_rset(.data)
 
-  if (nrow(object) < 1000)
+  has_dots(.fn)
+
+  if (nrow(.data) < 1000) {
     warning("Recommend at least 1000 bootstrap resamples.",
             call. = FALSE)
-
-  column_stats <- select_vars(names(object), !!!quos(...))
-
-  res <-
-    purrr::map_dfr(
-      column_stats,
-      bca_single_wrapper,
-      fn,
-      args = args,
-      dat = object,
-      alpha = alpha
-    )
-
-  res %>% mutate(.method = "BCa", statistic = column_stats)
-}
-
-# ----------------------------------------------------------------
-
-check_rset <- function(x, app = TRUE) {
-  if (!inherits(x, "bootstraps"))
-    stop("`object` should be an `rset` object generated from `bootstraps()`",
-         call. = FALSE)
-
-  if(app) {
-    if(x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
-      stop("Please set `apparent = TRUE` in `bootstraps()` function",
-           call. = FALSE)
   }
-  invisible(NULL)
+
+  column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
+  if (length(column_name) != 1) {
+    stop(stat_fmt_err, call. = FALSE)
+  }
+  stats <- .data %>% dplyr::select(!!column_name, id)
+  stats <- check_tidy(stats)
+
+  vals <- bca_calc(stats, .data$splits[[1]]$data, alpha = alpha, .fn = .fn, ...)
+  vals
 }
 
 # ----------------------------------------------------------------
 
 #' @importFrom utils globalVariables
-utils::globalVariables(c("id"))
-
-
+utils::globalVariables(
+  c("id", ".", ".estimate", ".lower", ".upper", "Z0", "Za", "Zl", "Zu", "a",
+    "cubed", "estimate", "orig", "p0", "squared", "term", "theta_0", "loo")
+)

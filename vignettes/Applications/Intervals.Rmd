@@ -23,10 +23,7 @@ The bootstrap was originally intended for estimating confidence intervals for co
 To demonstrate the computations for the different types of intervals, we'll use an event time data set and parametric survival models. We'll use the ubiquitous Ovarian cancer data to demonstrate intervals for a simple model with two terms. 
 
 ```{r model-info}
-library(rsample)
-library(purrr)
-library(dplyr)
-library(ggplot2)
+library(tidymodels)
 library(survival)
 
 f <- Surv(futime, fustat) ~ ecog.ps + rx
@@ -109,6 +106,8 @@ ov_bt_filtered %>%
   facet_wrap(~ terms, scales = "free_x")
 ```
 
+## Percentile iIntervals
+
 The most basic type of interval uses _percentiles_ of the resampling distribution. To get the percentile intervals, the `rset` objects is passed as the first argument and the columns of interest in the `rset` object are passed (unquoted): 
 
 ```{r pctl}
@@ -153,14 +152,16 @@ The percentile intervals are wider than the parametric intervals (which assume a
 ```{r qqplot}
 ov_bt_filtered %>% 
   dplyr::select(rx, log_scale) %>% 
-  gather(statistic, coefficients) %>% 
+  tidyr::gather(statistic, coefficients) %>% 
   ggplot(aes(sample = coefficients))  + 
   facet_wrap(~ statistic, scales = "free") +  
   stat_qq() +
   stat_qq_line()
 ```
 
-The departures from normality may account for the difference in the intervals (and would suggest that the nonparametric estimates are better). 
+The departures from normality may account for the difference in the intervals (and would suggest that the nonparametric estimates are advisable). 
+
+## t-intervals
 
 Bootstrap _t_-intervals are estimated by computing intermediate statistics that are _t_-like in structure. To use these, we require the estimated variance _for each individual resampled estimate_. In our example, this comes along with the fitted model object. We can extract the variance of the parameters: 
 
@@ -184,7 +185,7 @@ ov_bt_filtered %>% select(-id, -models, -splits, -iters) %>% slice(1:4)
 ```
 
 
-The _t_-intervals require the names of the variance columns (assumed to be in the same order as the original values). These names can be wrapped inside of a `dplyr::vars()` function: 
+The _t_-intervals require the names of the variance columns (assumed to be in the same order as the columns with the individual statistics). These names can be wrapped inside of a `dplyr::vars()` function: 
 
 ```{r t-ints}
 t_ints <- int_t(ov_bt_filtered, rx, log_scale, var_cols = vars(ends_with("var")))
@@ -193,6 +194,9 @@ intervals <-
   arrange(statistic, .method)
 intervals
 ```
+
+
+# Bias-corrected and accelerated intervals
 
 For bias-corrected and accelerated (BCa) intervals, a different type of argument is required. The `fn` argument is a function that computes the statistic of interest. The first argument should be for a data frame and other arguments can be passed in using the ellipses. For example, to get the `rx` coefficient for the model:
 

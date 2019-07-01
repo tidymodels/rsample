@@ -15,7 +15,9 @@ Imports:
     rlang, 
     methods, 
     generics,
-    utils
+    utils,
+    tidyselect,
+    furrr
 Depends: 
     R (>= 3.1), 
     tidyr
