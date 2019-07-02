@@ -3,37 +3,14 @@
 # https://docs.travis-ci.com/user/languages/r/
 
 language: R
-
 sudo: false
-
-cache:
-  packages: true
-  directories:
-    - $HOME/.keras
-    - $HOME/.cache/pip
-
+cache: packages
 warnings_are_errors: false
 
 env:
   global:
-  - KERAS_BACKEND="tensorflow"
   - MAKEFLAGS="-j 2"
 
-
-r_packages: 
-  - covr
-  - nlstools
-  - GGally
-  - yardstick
-  - keras
-  - mlbench
-  - kernlab
-  - scales
-  - survival
-  - tidyposterior
-  - timetk
-  - forecast
-  - sweep
 
 matrix:
   fast_finish: true
@@ -44,17 +21,6 @@ matrix:
     after_failure:
       - find . -name testthat.Rout | xargs cat
   - r: release
-    before_script:
-    - python -m pip install --upgrade --ignore-installed --user travis pip setuptools wheel virtualenv
-    - python -m pip install --upgrade --ignore-installed --user travis keras h5py pyyaml requests Pillow scipy theano
-    - R -e 'tensorflow::install_tensorflow()'
-    before_install:
-    - sudo apt-get -y install libnlopt-dev 
-    - sudo apt-get update
-    - sudo apt-get -y install python3
-    - mkdir -p ~/.R
-    - echo "CXX14FLAGS=-O3 -mtune=native -march=native -Wno-unused-variable -Wno-unused-function  -Wno-macro-redefined" >> ~/.R/Makevars
-    - echo "CXX14=g++ -std=c++1y -fPIC" >> ~/.R/Makevars
     after_success:
     - Rscript -e 'covr::codecov()'
     - find . -name testthat.Rout | xargs cat
@@ -72,4 +38,6 @@ matrix:
   - r: 3.3
   - r: 3.2
 
+r_packages: 
+  - covr
   
