@@ -313,7 +313,8 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
     stop("`.fn` failed.", call. = FALSE)
   }
 
-  loo_res <- furrr::future_map_dfr(loo_rs$splits, ~ .fn(.x, ...))
+  loo_res <- furrr::future_map_dfr(loo_rs$splits, .fn, ...)
+
   loo_estimate <-
     loo_res %>%
     dplyr::group_by(term) %>%

@@ -32,7 +32,10 @@ nonlin_form <-
       (VO2rest + (VO2peak - VO2rest) * (1 - exp(-(t - 5.883) / mu)))
     )
 
-res <- nls(nonlin_form, start = list(VO2rest = 400, VO2peak = 1600, mu = 1), data = O2K) 
+# Starting values from visual inspection
+start_vals <- list(VO2rest = 400, VO2peak = 1600, mu = 1)
+
+res <- nls(nonlin_form, start = start_vals, data = O2K) 
 
 tidy(res)
 ```
@@ -48,9 +51,7 @@ To run our model over different bootstraps, we'll write a function that uses the
 # Will be used to fit the models to different bootstrap data sets:
 fit_fun <- function(split, ...) {
   # We could check for convergence, make new parameters, etc.
-  start_vals <- list(VO2rest = 400, VO2peak = 1600, mu = 1)
-
-  nls(nonlin_form, data = analysis(split), start = start_vals, ...) %>%
+  nls(nonlin_form, data = analysis(split), ...) %>%
     tidy()
 }
 ```
@@ -61,8 +62,7 @@ First, let's create a set of resamples and fit separate models to each. The opti
 set.seed(462)
 nlin_bt <-
   bootstraps(O2K, times = 2000, apparent = TRUE) %>%
-  # mutate(models = map(splits, ~ fit_fun(.x, start = start_vals)))
-  mutate(models = map(splits, ~ fit_fun(.x)))
+  mutate(models = map(splits, ~ fit_fun(.x, start = start_vals)))
 nlin_bt
 
 nlin_bt$models[[1]]
@@ -172,14 +172,14 @@ intervals %>% split(intervals$term)
 
 # Bias-corrected and accelerated intervals
 
-For bias-corrected and accelerated (BCa) intervals, a different type of argument is required. The `.fn` argument is a function that computes the statistic of interest. The first argument should be for the `rsplit` object and other arguments can be passed in using the ellipses. 
+For bias-corrected and accelerated (BCa) intervals, an additional argument is required. The `.fn` argument is a function that computes the statistic of interest. The first argument should be for the `rsplit` object and other arguments can be passed in using the ellipses. 
 
 These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for _every bootstrap resample_. If the statistic is expensive to compute, this may take some time. For those calculations, we use the `furrr` package so these can be computed in parallel if you have set up a parallel processing plan. 
 
 The user-facing function takes an argument for the function and the ellipses. 
 
 ```{r bca-comp}
-bias_corr <- int_bca(nlin_bt, models, .fn = fit_fun)
+bias_corr <- int_bca(nlin_bt, models, .fn = fit_fun, start = start_vals)
 intervals <- 
   bind_rows(intervals, bias_corr) %>% 
   arrange(term, .method)
