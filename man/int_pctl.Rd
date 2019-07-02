@@ -50,6 +50,42 @@ Bias-corrected and accelerated intervals require the original function
 that was used to create the statistics of interest and are
 computationally taxing.
 }
+\examples{
+library(broom)
+library(dplyr)
+library(purrr)
+library(tibble)
+
+lm_est <- function(split, ...) {
+  lm(mpg ~ disp + hp, data = analysis(split)) \%>\%
+    tidy()
+}
+
+set.seed(52156)
+car_rs <-
+  bootstraps(mtcars, 1000, apparent = TRUE) \%>\%
+  mutate(results = map(splits, lm_est))
+
+int_pctl(car_rs, results)
+int_t(car_rs, results)
+int_bca(car_rs, results, .fn = lm_est)
+
+# putting results into a tidy format
+rank_corr <- function(split) {
+  dat <- analysis(split)
+  tibble(
+    term = "corr",
+    estimate = cor(dat$Sepal.Length, dat$Sepal.Width, method = "spearman"),
+    # don't know the analytical std.err so no t-intervals
+    std.err = NA_real_
+  )
+}
+
+set.seed(69325)
+bootstraps(iris, 1000, apparent = TRUE) \%>\%
+  mutate(correlations = map(splits, rank_corr)) \%>\%
+  int_pctl(correlations)
+}
 \references{
 Davison, A., & Hinkley, D. (1997). \emph{Bootstrap Methods and their
 Application}. Cambridge: Cambridge University Press.

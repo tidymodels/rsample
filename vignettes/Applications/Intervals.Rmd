@@ -18,17 +18,26 @@ theme_set(theme_bw())
 
 The bootstrap was originally intended for estimating confidence intervals for complex statistics whose variance properties are difficult to analytically derive. Davison and Hinkley's [_Bootstrap Methods and Their Applications_](https://www.cambridge.org/core/books/bootstrap-methods-and-their-application/ED2FD043579F27952363566DC09CBD6A) is a great resource for these methods. `rsample` contains a few function to compute the most common types of intervals. 
 
-To demonstrate the computations for the different types of intervals, we'll use a nonlinear regression example from `?nls`:
+To demonstrate the computations for the different types of intervals, we'll use a nonlinear regression example from [Baty _et al_ (2015)](https://www.jstatsoft.org/article/view/v066i05). The showed data that monitored oxygen uptake in a patient with rest and exercise phases (in the data frame `O2K`). 
 
-```{r dnase-ex}
+```{r O2K-dat}
 library(tidymodels)
 library(nlstools)
 library(GGally)
 
+data(O2K)
+
+ggplot(O2K, aes(x = t, y = VO2)) + 
+  geom_point()
+```
+
+The authors fit a segmented regression model where the transition point was known (this is the time when exercise commenced).Their model was:
+
+```{r O2K-fit}
 nonlin_form <-  
   as.formula(
     VO2 ~ (t <= 5.883) * VO2rest + 
-      (t > 5.883) * + 
+      (t > 5.883) * 
       (VO2rest + (VO2peak - VO2rest) * (1 - exp(-(t - 5.883) / mu)))
     )
 
@@ -170,11 +179,11 @@ intervals %>% split(intervals$term)
 ```
 
 
-# Bias-corrected and accelerated intervals
+## Bias-corrected and accelerated intervals
 
 For bias-corrected and accelerated (BCa) intervals, an additional argument is required. The `.fn` argument is a function that computes the statistic of interest. The first argument should be for the `rsplit` object and other arguments can be passed in using the ellipses. 
 
-These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for _every bootstrap resample_. If the statistic is expensive to compute, this may take some time. For those calculations, we use the `furrr` package so these can be computed in parallel if you have set up a parallel processing plan. 
+These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for _every bootstrap resample_. If the statistic is expensive to compute, this may take some time. For those calculations, we use the `furrr` package so these can be computed in parallel if you have set up a parallel processing plan (see `?future::plan`). 
 
 The user-facing function takes an argument for the function and the ellipses. 
 
@@ -185,3 +194,42 @@ intervals <-
   arrange(term, .method)
 intervals %>% split(intervals$term)
 ```
+
+
+## No existing tidy method
+
+In this case, your function can emulate the minimum results: 
+
+ * a character column called `term`, 
+ * a numeric column called `estimate`, and, optionally, 
+ * a numeric column called `std.error`. 
+
+The last column is only needed for `int_t`. 
+
+Suppose we just want to estimate the fold-increase in the outcome between the 90th and 10th percentiles over the course of the experiment. Our function might look like:
+
+```{r fold-foo}
+fold_incr <- function(split, ...) {
+  dat <- analysis(split)
+  quants <- quantile(dat$VO2, probs = c(.1, .9))
+  tibble(
+    term = "fold increase",
+    estimate = unname(quants[2]/quants[1]),
+    # We don't know the analytical formula for this 
+    std.err = NA_real_
+  )
+}
+```
+
+Everything else works the same as before:
+
+```{r fold-ci}
+nlin_bt <-
+  nlin_bt %>%
+  mutate(folds = map(splits, fold_incr))
+
+int_pctl(nlin_bt, folds)
+int_bca(nlin_bt, folds, .fn = fold_incr)
+```
+
+ 
