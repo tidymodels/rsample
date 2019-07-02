@@ -75,7 +75,7 @@ To calculate the efficacy of the model, the concordance statistic is used (see `
 get_concord <- function(split, mod, ...) {
   pred_dat <- assessment(split)
   pred_dat$pred <- predict(mod, newdata = pred_dat)
-  survConcordance(Surv(time, status) ~ pred, pred_dat, ...)$concordance
+  concordance(Surv(time, status) ~ pred, pred_dat, ...)$concordance
 }
 ```
 
@@ -107,8 +107,7 @@ concord_est <- mc_samp %>%
 library(tidyr)
 library(ggplot2)
 concord_est %>%
-  dplyr::select(-splits, -id) %>%
-  gather(model, statistic) %>%
+  gather() %>%
   ggplot(aes(x = statistic, col = model)) + 
   geom_line(stat = "density") + 
   theme_bw() + 
