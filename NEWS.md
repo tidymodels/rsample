@@ -1,3 +1,7 @@
+# `rsample` 0.0.4.9000
+
+* Added three functions to compute different bootstrap confidence intervals. 
+
 # `rsample` 0.0.4
 
 Small maintenence release. 

@@ -8,7 +8,7 @@
 <title>Time Series Analysis Example • rsample</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
 <script src="../../pkgdown.js"></script><link href="../../tidyverse-2.css" rel="stylesheet">
 <meta property="og:title" content="Time Series Analysis Example">
 <meta property="og:description" content="">
@@ -40,7 +40,7 @@
         <a class="navbar-brand" href="../../index.html">rsample</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
         </div>
       </div>
     </div>
@@ -79,6 +79,9 @@
 <li>
   <a href="../../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../../news/index.html">News</a>
+</li>
         
       </ul>
 </div>
@@ -89,6 +92,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -104,20 +108,20 @@
     
 <p>“<a href="http://www.business-science.io/code-tools/2017/10/25/demo_week_sweep.html">Demo Week: Tidy Forecasting with <code>sweep</code></a>” is an excellent article that uses tidy methods with time series. This article uses their analysis with <code>rsample</code> to get performance estimates for future observations using <a href="https://robjhyndman.com/hyndsight/crossvalidation/">rolling forecast origin resampling</a>.</p>
 <p>The data are sales of alcoholic beverages originally from <a href="https://fred.stlouisfed.org/series/S4248SM144NCEN">the Federal Reserve Bank of St. Louis website</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidymodels)</a></code></pre></div>
-<pre><code>## ── Attaching packages ───────────────────────────────── tidymodels 0.0.1 ──</code></pre>
-<pre><code>## ✔ tibble    1.4.2     ✔ yardstick 0.0.2
-## ✔ recipes   0.1.4     ✔ infer     0.3.1
-## ✔ broom     0.5.0</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidymodels)</a></code></pre></div>
+<pre><code>## ── Attaching packages ───────────────────────────────── tidymodels 0.0.2 ──</code></pre>
+<pre><code>## ✔ broom     0.5.1          ✔ recipes   0.1.6     
+## ✔ dials     0.0.2          ✔ tibble    2.1.3     
+## ✔ infer     0.4.0          ✔ yardstick 0.0.2     
+## ✔ parsnip   0.0.2.9000</code></pre>
 <pre><code>## ── Conflicts ──────────────────────────────────── tidymodels_conflicts() ──
 ## ✖ yardstick::accuracy() masks forecast::accuracy()
-## ✖ rsample::fill()       masks tidyr::fill()
+## ✖ scales::discard()     masks purrr::discard()
 ## ✖ dplyr::filter()       masks stats::filter()
 ## ✖ dplyr::lag()          masks stats::lag()
-## ✖ recipes::step()       masks stats::step()
-## ✖ yardstick::tidy()     masks broom::tidy(), recipes::tidy(), rsample::tidy()</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"drinks"</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(drinks, <span class="dt">give.att =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+## ✖ recipes::step()       masks stats::step()</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"drinks"</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(drinks, <span class="dt">give.att =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## Classes 'tbl_df', 'tbl' and 'data.frame':    309 obs. of  2 variables:
 ##  $ date          : Date, format: "1992-01-01" "1992-02-01" ...
 ##  $ S4248SM144NCEN: num  3459 3458 4002 4564 4221 ...</code></pre>
@@ -129,7 +133,7 @@
 <a class="sourceLine" id="cb7-4" data-line-number="4">  <span class="dt">assess =</span> <span class="dv">12</span>,</a>
 <a class="sourceLine" id="cb7-5" data-line-number="5">  <span class="dt">cumulative =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb7-6" data-line-number="6">  )</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(roll_rs)</a></code></pre></div>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(roll_rs)</a></code></pre></div>
 <pre><code>## [1] 58</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">roll_rs</a></code></pre></div>
 <pre><code>## # Rolling origin forecast resampling 
@@ -146,23 +150,23 @@
 ##  8 &lt;split [240/12]&gt; Slice08
 ##  9 &lt;split [240/12]&gt; Slice09
 ## 10 &lt;split [240/12]&gt; Slice10
-## # ... with 48 more rows</code></pre>
+## # … with 48 more rows</code></pre>
 <p>Each <code>split</code> element contains the information about that resample:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">roll_rs<span class="op">$</span>splits[[<span class="dv">1</span>]]</a></code></pre></div>
 <pre><code>## &lt;240/12/309&gt;</code></pre>
 <p>For plotting, let’s index each split by the first day of the assessment set:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">get_date &lt;-<span class="st"> </span><span class="cf">function</span>(x) </a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">min</a></span>(<span class="kw"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span>(x)<span class="op">$</span>date)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="kw"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span>(x)<span class="op">$</span>date)</a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb13-4" data-line-number="4">start_date &lt;-<span class="st"> </span><span class="kw">map</span>(roll_rs<span class="op">$</span>splits, get_date)</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">roll_rs<span class="op">$</span>start_date &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/do.call">do.call</a></span>(<span class="st">"c"</span>, start_date)</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(roll_rs<span class="op">$</span>start_date)</a></code></pre></div>
+<a class="sourceLine" id="cb13-5" data-line-number="5">roll_rs<span class="op">$</span>start_date &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(<span class="st">"c"</span>, start_date)</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(roll_rs<span class="op">$</span>start_date)</a></code></pre></div>
 <pre><code>## [1] "2012-01-01" "2012-02-01" "2012-03-01" "2012-04-01" "2012-05-01"
 ## [6] "2012-06-01"</code></pre>
 <p>This resampling scheme has 58 splits of the data so that there will be 58 ARIMA models that are fit. To create the models, the <code>auto.arima</code> function from the <code>forecast</code> package is used. The functions <code>analysis</code> and <code>assessment</code> return the data frame, so another step converts the data in to a <code>ts</code> object called <code>mod_dat</code> using a function in the <code>timetk</code> package.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(forecast)  <span class="co"># for `auto.arima`</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(timetk)    <span class="co"># for `tk_ts`</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(zoo)       <span class="co"># for `as.yearmon`</span></a>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(forecast)  <span class="co"># for `auto.arima`</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(timetk)    <span class="co"># for `tk_ts`</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(zoo)       <span class="co"># for `as.yearmon`</span></a>
 <a class="sourceLine" id="cb15-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb15-5" data-line-number="5">fit_model &lt;-<span class="st"> </span><span class="cf">function</span>(x, ...) {</a>
 <a class="sourceLine" id="cb15-6" data-line-number="6">  <span class="co"># suggested by Matt Dancho:</span></a>
@@ -170,10 +174,10 @@
 <a class="sourceLine" id="cb15-8" data-line-number="8"><span class="st">    </span><span class="kw"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb15-9" data-line-number="9"><span class="st">    </span><span class="co"># Since the first day changes over resamples, adjust it</span></a>
 <a class="sourceLine" id="cb15-10" data-line-number="10"><span class="st">    </span><span class="co"># based on the first date value in the data frame </span></a>
-<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="st">    </span><span class="kw"><a href="https://www.rdocumentation.org/packages/timetk/topics/tk_ts">tk_ts</a></span>(<span class="dt">start =</span> .<span class="op">$</span>date[[<span class="dv">1</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/zoo/topics/yearmon">as.yearmon</a></span>(), </a>
+<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="st">    </span><span class="kw"><a href="https://rdrr.io/pkg/timetk/man/tk_ts.html">tk_ts</a></span>(<span class="dt">start =</span> .<span class="op">$</span>date[[<span class="dv">1</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/zoo/man/yearmon.html">as.yearmon</a></span>(), </a>
 <a class="sourceLine" id="cb15-12" data-line-number="12">          <span class="dt">freq =</span> <span class="dv">12</span>, </a>
 <a class="sourceLine" id="cb15-13" data-line-number="13">          <span class="dt">silent =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="st">    </span><span class="kw"><a href="https://www.rdocumentation.org/packages/forecast/topics/auto.arima">auto.arima</a></span>(...)</a>
+<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="st">    </span><span class="kw"><a href="https://rdrr.io/pkg/forecast/man/auto.arima.html">auto.arima</a></span>(...)</a>
 <a class="sourceLine" id="cb15-15" data-line-number="15">}</a></code></pre></div>
 <p>Each model is saved in a new column:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">roll_rs<span class="op">$</span>arima &lt;-<span class="st"> </span><span class="kw">map</span>(roll_rs<span class="op">$</span>splits, fit_model)</a>
@@ -181,15 +185,15 @@
 <a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co"># For example:</span></a>
 <a class="sourceLine" id="cb16-4" data-line-number="4">roll_rs<span class="op">$</span>arima[[<span class="dv">1</span>]]</a></code></pre></div>
 <pre><code>## Series: . 
-## ARIMA(2,1,2)(2,1,1)[12] 
+## ARIMA(4,1,1)(0,1,2)[12] 
 ## 
 ## Coefficients:
-##          ar1     ar2    ma1     ma2   sar1    sar2    sma1
-##       -0.994  -0.502  0.024  -0.414  0.404  -0.334  -0.554
-## s.e.   0.106   0.081  0.111   0.125  0.100   0.076   0.083
+##          ar1     ar2    ar3     ar4     ma1    sma1    sma2
+##       -0.185  -0.024  0.358  -0.152  -0.831  -0.193  -0.324
+## s.e.   0.147   0.166  0.144   0.081   0.138   0.067   0.064
 ## 
-## sigma^2 estimated as 71958:  log likelihood=-1591
-## AIC=3199   AICc=3199   BIC=3226</code></pre>
+## sigma^2 estimated as 72198:  log likelihood=-1591
+## AIC=3198   AICc=3199   BIC=3226</code></pre>
 <p>(There are some warnings produced by these first regarding extra columns in the data that can be ignored)</p>
 <p>Using the model fits, performance will be measured in two ways:</p>
 <ul>
@@ -199,34 +203,34 @@
 <em>extrapolation</em> or <em>forecast</em> error evaluates the efficacy of the model on the data from the following year (that were not used in the model fit).</li>
 </ul>
 <p>In each case, the mean absolute percent error (MAPE) is the statistic used to characterize the model fits. The interpolation error can be computed from the <code>Arima</code> object. to make things easy, the <code>sweep</code> package’s <code>sw_glance</code> function is used:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sweep)</a>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sweep)</a>
 <a class="sourceLine" id="cb18-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb18-3" data-line-number="3">roll_rs<span class="op">$</span>interpolation &lt;-<span class="st"> </span><span class="kw">map_dbl</span>(</a>
 <a class="sourceLine" id="cb18-4" data-line-number="4">  roll_rs<span class="op">$</span>arima,</a>
 <a class="sourceLine" id="cb18-5" data-line-number="5">  <span class="cf">function</span>(x) </a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">    <span class="kw"><a href="https://www.rdocumentation.org/packages/sweep/topics/sw_glance">sw_glance</a></span>(x)[[<span class="st">"MAPE"</span>]]</a>
+<a class="sourceLine" id="cb18-6" data-line-number="6">    <span class="kw"><a href="https://rdrr.io/pkg/sweep/man/sw_glance.html">sw_glance</a></span>(x)[[<span class="st">"MAPE"</span>]]</a>
 <a class="sourceLine" id="cb18-7" data-line-number="7">  )</a>
-<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(roll_rs<span class="op">$</span>interpolation)</a></code></pre></div>
+<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(roll_rs<span class="op">$</span>interpolation)</a></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    2.84    2.89    2.92    2.93    2.95    3.13</code></pre>
+##    2.84    2.92    2.95    2.95    2.97    3.13</code></pre>
 <p>For the extrapolation error, the model and split objects are required. Using these:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">get_extrap &lt;-<span class="st"> </span><span class="cf">function</span>(split, mod) {</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">  n &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(<span class="kw"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span>(split))</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">  n &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span>(split))</a>
 <a class="sourceLine" id="cb20-3" data-line-number="3">  <span class="co"># Get assessment data</span></a>
 <a class="sourceLine" id="cb20-4" data-line-number="4">  pred_dat &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span>(split) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb20-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb20-6" data-line-number="6">      <span class="dt">pred =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/vector">as.vector</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/forecast/topics/forecast">forecast</a></span>(mod, <span class="dt">h =</span> n)<span class="op">$</span>mean),</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">      <span class="dt">pred =</span> <span class="kw"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span>(<span class="kw"><a href="https://rdrr.io/pkg/forecast/man/forecast.html">forecast</a></span>(mod, <span class="dt">h =</span> n)<span class="op">$</span>mean),</a>
 <a class="sourceLine" id="cb20-7" data-line-number="7">      <span class="dt">pct_error =</span> ( S4248SM144NCEN <span class="op">-</span><span class="st"> </span>pred ) <span class="op">/</span><span class="st"> </span>S4248SM144NCEN <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a>
 <a class="sourceLine" id="cb20-8" data-line-number="8">    )</a>
-<a class="sourceLine" id="cb20-9" data-line-number="9">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(pred_dat<span class="op">$</span>pct_error))</a>
+<a class="sourceLine" id="cb20-9" data-line-number="9">  <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(pred_dat<span class="op">$</span>pct_error))</a>
 <a class="sourceLine" id="cb20-10" data-line-number="10">}</a>
 <a class="sourceLine" id="cb20-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb20-12" data-line-number="12">roll_rs<span class="op">$</span>extrapolation &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb20-13" data-line-number="13"><span class="st">  </span><span class="kw">map2_dbl</span>(roll_rs<span class="op">$</span>splits, roll_rs<span class="op">$</span>arima, get_extrap)</a>
 <a class="sourceLine" id="cb20-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb20-15" data-line-number="15"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(roll_rs<span class="op">$</span>extrapolation)</a></code></pre></div>
+<a class="sourceLine" id="cb20-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(roll_rs<span class="op">$</span>extrapolation)</a></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    2.37    3.19    3.56    3.65    4.16    5.45</code></pre>
+##    2.37    3.23    3.63    3.65    4.11    5.45</code></pre>
 <p>What do these error estimates look like over time?</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">roll_rs <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(interpolation, extrapolation, start_date) <span class="op">%&gt;%</span></a>
@@ -237,14 +241,14 @@
 <a class="sourceLine" id="cb22-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb22-8" data-line-number="8"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb22-9" data-line-number="9"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"top"</span>)</a></code></pre></div>
-<p><img src="Time_Series_files/figure-html/plot-1.png" width="700"></p>
+<p><img src="Time_Series_files/figure-html/plot-1.png" width="768"></p>
 <p>It is likely that the interpolation error is an underestimate to some degree.</p>
 <p>It is also worth noting that <code><a href="../../reference/rolling_origin.html">rolling_origin()</a></code> can be used over calendar periods, rather than just over a fixed window size. This is especially useful for irregular series where a fixed window size might not make sense because of missing data points, or because of calendar features like different months having a different number of days.</p>
 <p>The example below demonstrates this idea by splitting <code>drinks</code> into a nested set of 26 years, and rolling over years rather than months. Note that the end result accomplishes a different task than the original example, in this case, each slice moves forward an entire year, rather than just one month.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># The idea is to nest by the period to roll over,</span></a>
 <a class="sourceLine" id="cb23-2" data-line-number="2"><span class="co"># which in this case is the year.</span></a>
 <a class="sourceLine" id="cb23-3" data-line-number="3">roll_rs_annual &lt;-<span class="st"> </span>drinks <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.POSIXlt">as.POSIXlt</a></span>(date)<span class="op">$</span>year <span class="op">+</span><span class="st"> </span><span class="dv">1900</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXlt</a></span>(date)<span class="op">$</span>year <span class="op">+</span><span class="st"> </span><span class="dv">1900</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb23-5" data-line-number="5"><span class="st">  </span><span class="kw">nest</span>(<span class="op">-</span>year) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb23-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../../reference/rolling_origin.html">rolling_origin</a></span>(</a>
 <a class="sourceLine" id="cb23-7" data-line-number="7">    <span class="dt">initial =</span> <span class="dv">20</span>, </a>
@@ -299,6 +303,7 @@
 </div>
 
 
+
       <footer><div class="tidyverse">
   <p><code>rsample</code> is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
 </div>
@@ -309,10 +314,12 @@
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

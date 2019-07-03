@@ -1,0 +1,235 @@
+---
+title: "Bootstrap Confidence Intervals"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Bootstrap Confidence Intervals}
+output:
+  knitr:::html_vignette:
+    toc: yes
+---
+
+
+```{r setup, include=FALSE}
+library(tidymodels)
+library(nlstools)
+library(GGally)
+theme_set(theme_bw())
+```
+
+The bootstrap was originally intended for estimating confidence intervals for complex statistics whose variance properties are difficult to analytically derive. Davison and Hinkley's [_Bootstrap Methods and Their Applications_](https://www.cambridge.org/core/books/bootstrap-methods-and-their-application/ED2FD043579F27952363566DC09CBD6A) is a great resource for these methods. `rsample` contains a few function to compute the most common types of intervals. 
+
+To demonstrate the computations for the different types of intervals, we'll use a nonlinear regression example from [Baty _et al_ (2015)](https://www.jstatsoft.org/article/view/v066i05). The showed data that monitored oxygen uptake in a patient with rest and exercise phases (in the data frame `O2K`). 
+
+```{r O2K-dat}
+library(tidymodels)
+library(nlstools)
+library(GGally)
+
+data(O2K)
+
+ggplot(O2K, aes(x = t, y = VO2)) + 
+  geom_point()
+```
+
+The authors fit a segmented regression model where the transition point was known (this is the time when exercise commenced).Their model was:
+
+```{r O2K-fit}
+nonlin_form <-  
+  as.formula(
+    VO2 ~ (t <= 5.883) * VO2rest + 
+      (t > 5.883) * 
+      (VO2rest + (VO2peak - VO2rest) * (1 - exp(-(t - 5.883) / mu)))
+    )
+
+# Starting values from visual inspection
+start_vals <- list(VO2rest = 400, VO2peak = 1600, mu = 1)
+
+res <- nls(nonlin_form, start = start_vals, data = O2K) 
+
+tidy(res)
+```
+
+
+`broom::tidy()` returns our analysis object in a standardized way. The column names shown here are used for most types of objects and this allows us to use the results more easily. 
+
+For `rsample`, we'll rely on the `tidy()` method to work with bootstrap estimates when we need confidence intervals. There's an example at the end of a univariate statistic that isn't automatically formatted with `tidy()`. 
+
+To run our model over different bootstraps, we'll write a function that uses the `split` object as input and produces a tidy data frame:
+
+```{r model-info}
+# Will be used to fit the models to different bootstrap data sets:
+fit_fun <- function(split, ...) {
+  # We could check for convergence, make new parameters, etc.
+  nls(nonlin_form, data = analysis(split), ...) %>%
+    tidy()
+}
+```
+
+First, let's create a set of resamples and fit separate models to each. The options `apparent = TRUE` will be set. This creates a final resample that is a copy of the original (unsampled) data set. This is required for some of the interval methods. 
+
+```{r resample}
+set.seed(462)
+nlin_bt <-
+  bootstraps(O2K, times = 2000, apparent = TRUE) %>%
+  mutate(models = map(splits, ~ fit_fun(.x, start = start_vals)))
+nlin_bt
+
+nlin_bt$models[[1]]
+```
+
+Let's look at the data and see if there any outliers or aberrant results:
+
+```{r extract}
+nls_coef <- 
+  nlin_bt %>%
+  dplyr::select(-splits) %>%
+  # Turn it into a tibble by stacking the `models` col
+  unnest() %>%
+  # Get rid of unneeded columns
+  dplyr::select(id, term, estimate) 
+
+head(nls_coef)
+```
+Now let's create a scatterplot matrix:
+
+```{r splom} 
+nls_coef %>%
+  # Put different parameters in columns
+  tidyr::spread(term, estimate) %>% 
+  # Keep only numeric columns
+  dplyr::select(-id) %>% 
+  ggscatmat(alpha = .25)
+```
+
+One potential outlier on the right for `VO2peak` but we'll leave it in. 
+
+The univariate distributions are:
+
+```{r hists}
+nls_coef %>% 
+  ggplot(aes(x = estimate)) + 
+  geom_histogram(bins = 20, col = "white") + 
+  facet_wrap(~ term, scales = "free_x")
+```
+
+## Percentile intervals
+
+The most basic type of interval uses _percentiles_ of the resampling distribution. To get the percentile intervals, the `rset` objects is passed as the first argument and the second argument is the list column of tidy results: 
+
+```{r pctl}
+p_ints <- int_pctl(nlin_bt, models)
+p_ints
+```
+
+When overlaid with the univariate distributions: 
+
+```{r pctl-plot}
+nls_coef %>% 
+  ggplot(aes(x = estimate)) + 
+  geom_histogram(bins = 20, col = "white") + 
+  facet_wrap(~ term, scales = "free_x") + 
+  geom_vline(data = p_ints, aes(xintercept = .lower), col = "red") + 
+  geom_vline(data = p_ints, aes(xintercept = .upper), col = "red")
+```
+
+How do these intervals compare to the parametric asymptotic values?
+
+```{r int-compare}
+parametric <- 
+  tidy(res, conf.int = TRUE) %>% 
+  dplyr::select(
+    term,
+    .lower = conf.low,
+    .estimate = estimate,
+    .upper = conf.high
+  ) %>% 
+  mutate(
+    .alpha = 0.05,
+    .method = "parametric"
+  )
+
+intervals <- 
+  bind_rows(parametric, p_ints) %>% 
+  arrange(term, .method)
+intervals %>% split(intervals$term)
+```
+
+The percentile intervals are wider than the parametric intervals (which assume asymptotic normality). Do the estimates appear to be normally distributed? We can look at quantile-quantile plots:  
+
+```{r qqplot}
+nls_coef %>% 
+  ggplot(aes(sample = estimate)) + 
+  stat_qq() +
+  stat_qq_line(alpha = .25) + 
+  facet_wrap(~ term, scales = "free") 
+```
+
+## t-intervals
+
+Bootstrap _t_-intervals are estimated by computing intermediate statistics that are _t_-like in structure. To use these, we require the estimated variance _for each individual resampled estimate_. In our example, this comes along with the fitted model object. We can extract the standard errors of the parameters. Luckily, most `tidy()` provide this in a column names `std.err`. 
+
+The arguments for these intervals are the same:
+
+```{r t-ints}
+t_stats <- int_t(nlin_bt, models)
+intervals <- 
+  bind_rows(intervals, t_stats) %>% 
+  arrange(term, .method)
+intervals %>% split(intervals$term)
+```
+
+
+## Bias-corrected and accelerated intervals
+
+For bias-corrected and accelerated (BCa) intervals, an additional argument is required. The `.fn` argument is a function that computes the statistic of interest. The first argument should be for the `rsplit` object and other arguments can be passed in using the ellipses. 
+
+These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for _every bootstrap resample_. If the statistic is expensive to compute, this may take some time. For those calculations, we use the `furrr` package so these can be computed in parallel if you have set up a parallel processing plan (see `?future::plan`). 
+
+The user-facing function takes an argument for the function and the ellipses. 
+
+```{r bca-comp}
+bias_corr <- int_bca(nlin_bt, models, .fn = fit_fun, start = start_vals)
+intervals <- 
+  bind_rows(intervals, bias_corr) %>% 
+  arrange(term, .method)
+intervals %>% split(intervals$term)
+```
+
+
+## No existing tidy method
+
+In this case, your function can emulate the minimum results: 
+
+ * a character column called `term`, 
+ * a numeric column called `estimate`, and, optionally, 
+ * a numeric column called `std.error`. 
+
+The last column is only needed for `int_t`. 
+
+Suppose we just want to estimate the fold-increase in the outcome between the 90th and 10th percentiles over the course of the experiment. Our function might look like:
+
+```{r fold-foo}
+fold_incr <- function(split, ...) {
+  dat <- analysis(split)
+  quants <- quantile(dat$VO2, probs = c(.1, .9))
+  tibble(
+    term = "fold increase",
+    estimate = unname(quants[2]/quants[1]),
+    # We don't know the analytical formula for this 
+    std.err = NA_real_
+  )
+}
+```
+
+Everything else works the same as before:
+
+```{r fold-ci}
+nlin_bt <-
+  nlin_bt %>%
+  mutate(folds = map(splits, fold_incr))
+
+int_pctl(nlin_bt, folds)
+int_bca(nlin_bt, folds, .fn = fold_incr)
+```
+
+ 

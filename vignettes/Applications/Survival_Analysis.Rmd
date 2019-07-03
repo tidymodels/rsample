@@ -75,7 +75,7 @@ To calculate the efficacy of the model, the concordance statistic is used (see `
 get_concord <- function(split, mod, ...) {
   pred_dat <- assessment(split)
   pred_dat$pred <- predict(mod, newdata = pred_dat)
-  survConcordance(Surv(time, status) ~ pred, pred_dat, ...)$concordance
+  concordance(Surv(time, status) ~ pred, pred_dat, ...)$concordance
 }
 ```
 
@@ -102,12 +102,11 @@ The distributions of the resampling estimates
 ```{r concord-df}
 library(dplyr)
 concord_est <- mc_samp %>%
-  select(-matches("^mod"))
+  dplyr::select(-matches("^mod"))
 
 library(tidyr)
 library(ggplot2)
 concord_est %>%
-  select(-splits) %>%
   gather() %>%
   ggplot(aes(x = statistic, col = model)) + 
   geom_line(stat = "density") + 
@@ -154,7 +153,7 @@ The ROPE statistics quantify the practical effects:
 
 ```{r diff-sum}
 summary(comparisons, size = 0.05) %>%
-  select(contrast, starts_with("pract"))
+  dplyr::select(contrast, starts_with("pract"))
 ```
 
 
