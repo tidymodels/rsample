@@ -65,9 +65,9 @@ navbar:
       href: articles/Applications/Keras.html
     - text: Bootstrap Interval Estimation
       href: articles/Applications/Intervals.html      
-  - text: Reference
-    href: reference/index.html
-   - text: News
+    - text: Reference
+      href: reference/index.html
+  - text: News
     href: news/index.html
    
 

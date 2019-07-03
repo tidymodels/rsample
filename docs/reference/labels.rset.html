@@ -19,7 +19,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- sticky kit -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
@@ -29,11 +29,13 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+
+
 <meta property="og:title" content="Find Labels from rset Object — labels.rset" />
 
 <meta property="og:description" content="Produce a vector of resampling labels (e.g. &quot;Fold1&quot;) from
-an rset object. Currently, nested_cv
-is not supported." />
+ an `rset` object. Currently, `nested_cv`
+ is not supported." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -55,6 +57,7 @@ is not supported." />
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -74,7 +77,7 @@ is not supported." />
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
         </div>
       </div>
     </div>
@@ -108,10 +111,13 @@ is not supported." />
     <li>
       <a href="../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
     </li>
+    <li>
+      <a href="../reference/index.html">Reference</a>
+    </li>
   </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../news/index.html">News</a>
 </li>
         
       </ul>
@@ -121,6 +127,7 @@ is not supported." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -134,23 +141,23 @@ is not supported." />
     <div class="ref-description">
     
     <p>Produce a vector of resampling labels (e.g. "Fold1") from
-an <code>rset</code> object. Currently, <code>nested_cv</code>
-is not supported.</p>
+ an `rset` object. Currently, `nested_cv`
+ is not supported.</p>
     
     </div>
 
     <pre class="usage"><span class='co'># S3 method for rset</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/labels'>labels</a></span>(<span class='no'>object</span>, <span class='kw'>make_factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/labels.html'>labels</a></span>(<span class='no'>object</span>, <span class='kw'>make_factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for vfold_cv</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/labels'>labels</a></span>(<span class='no'>object</span>, <span class='kw'>make_factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/labels.html'>labels</a></span>(<span class='no'>object</span>, <span class='kw'>make_factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>An <code>rset</code> object</p></td>
+      <td><p>An `rset` object</p></td>
     </tr>
     <tr>
       <th>make_factor</th>
@@ -169,7 +176,7 @@ character or a factor.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/labels'>labels</a></span>(<span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>))</div><div class='output co'>#&gt;  [1] "Fold01" "Fold02" "Fold03" "Fold04" "Fold05" "Fold06" "Fold07" "Fold08"
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/labels.html'>labels</a></span>(<span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>))</div><div class='output co'>#&gt;  [1] "Fold01" "Fold02" "Fold03" "Fold04" "Fold05" "Fold06" "Fold07" "Fold08"
 #&gt;  [9] "Fold09" "Fold10"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -185,6 +192,7 @@ character or a factor.</p></td>
   </div>
 </div>
 
+
       <footer>
       <div class="tidyverse">
   <p><code>rsample</code> is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
@@ -196,11 +204,14 @@ character or a factor.</p></td>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

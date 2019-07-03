@@ -19,7 +19,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- sticky kit -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
@@ -28,6 +28,8 @@
 <link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script>
 <link href="tidyverse-2.css" rel="stylesheet">
+
+
 
 <meta property="og:title" content="NA" />
 
@@ -50,6 +52,7 @@
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -106,10 +109,13 @@
     <li>
       <a href="articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
     </li>
+    <li>
+      <a href="reference/index.html">Reference</a>
+    </li>
   </ul>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="news/index.html">News</a>
 </li>
         
       </ul>
@@ -119,6 +125,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -131,10 +138,11 @@
 <p>If you are filing a bug, make sure these boxes are checked before submitting your issue— thank you!</p>
 <ul>
 <li>[ ] Start a new R session</li>
-<li>[ ] Install the latest version of of the package: <code>update.packages(oldPkgs="rsample", ask=FALSE)</code>
+<li>[ ] Install the latest version of of the package: <code><a href="https://rdrr.io/r/utils/update.packages.html">update.packages(oldPkgs="rsample", ask=FALSE)</a></code>
 </li>
-<li>[ ] [Write a minimal reproducible example](<a href="http://stackoverflow.com/a/5963610" class="uri">http://stackoverflow.com/a/5963610</a>)</li>
-<li>[ ] run <code>sessionInfo()</code> and add the results to the issue. Even better would be to use the <a href="https://github.com/r-lib/sessioninfo"><code>sessioninfo</code></a> package’s <code>session_info()</code>.</li>
+<li>[ ] <a href="http://stackoverflow.com/a/5963610">Write a minimal reproducible example</a>
+</li>
+<li>[ ] run <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code> and add the results to the issue. Even better would be to use the <a href="https://github.com/r-lib/sessioninfo"><code>sessioninfo</code></a> package’s <code>session_info()</code>.</li>
 </ul>
 <div id="minimal-reproducible-example" class="section level3">
 <h3 class="hasAnchor">
@@ -144,27 +152,27 @@
 <div id="minimal-reproducible-dataset" class="section level4">
 <h4 class="hasAnchor">
 <a href="#minimal-reproducible-dataset" class="anchor"></a><em>Minimal</em> Reproducible Dataset:</h4>
-<p>If you are not using a data set in a package then use e.g. <code>dput()</code> to give us something that can be put in R immediately, e.g.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dput</span>(<span class="kw">head</span>(iris,<span class="dv">4</span>))</code></pre></div>
+<p>If you are not using a data set in a package then use e.g. <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> to give us something that can be put in R immediately, e.g.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/dput.html">dput</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(iris,<span class="dv">4</span>))</a></code></pre></div>
 <p>Without a dataset, there usually isn’t much that we can do to help.</p>
-<p>If your data frame has a factor with many levels, the <code>dput</code> output can be unwieldy because it will still list all the possible factor levels even if they aren’t present in the the subset of your data. To solve this issue, you can use the <code>droplevels()</code> function. Notice below how species is a factor with only one level: <code>dput(droplevels(head(iris, 4)))</code>.</p>
+<p>If your data frame has a factor with many levels, the <code>dput</code> output can be unwieldy because it will still list all the possible factor levels even if they aren’t present in the the subset of your data. To solve this issue, you can use the <code><a href="https://rdrr.io/r/base/droplevels.html">droplevels()</a></code> function. Notice below how species is a factor with only one level: <code><a href="https://rdrr.io/r/base/dput.html">dput(droplevels(head(iris, 4)))</a></code>.</p>
 </div>
 <div id="minimal-runnable-code" class="section level4">
 <h4 class="hasAnchor">
 <a href="#minimal-runnable-code" class="anchor"></a>Minimal, runnable code:</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample)
-
-<span class="co"># Set the seed before using random numbers</span>
-<span class="kw">set.seed</span>(<span class="dv">4121</span>)
-cv &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/generics/topics/tidy">tidy</a></span>(<span class="kw"><a href="reference/vfold_cv.html">vfold_cv</a></span>(mtcars, <span class="dt">v =</span> <span class="dv">5</span>)) </code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rsample)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># Set the seed before using random numbers</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">4121</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">cv &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(<span class="kw"><a href="reference/vfold_cv.html">vfold_cv</a></span>(mtcars, <span class="dt">v =</span> <span class="dv">5</span>)) </a></code></pre></div>
 </div>
 </div>
 <div id="session-info" class="section level3">
 <h3 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info:</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()
-
-<span class="co"># or sessioninfo::session_info()</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># or sessioninfo::session_info()</span></a></code></pre></div>
 <p>Be sure to test your chunks of code in an empty R session before submitting your issue!</p>
 </div>
 
@@ -172,6 +180,7 @@ cv &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumenta
   </div>
 
 </div>
+
 
 
       <footer>
@@ -185,11 +194,14 @@ cv &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumenta
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

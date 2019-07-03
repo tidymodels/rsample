@@ -19,7 +19,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- sticky kit -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
@@ -28,6 +28,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
+
+
 
 <meta property="og:title" content="Extract Predictor Names from Formula or Terms — form_pred" />
 
@@ -56,6 +58,7 @@ object is terms with a data set specified)." />
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -112,10 +115,13 @@ object is terms with a data set specified)." />
     <li>
       <a href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
     </li>
+    <li>
+      <a href="../reference/index.html">Reference</a>
+    </li>
   </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../news/index.html">News</a>
 </li>
         
       </ul>
@@ -125,6 +131,7 @@ object is terms with a data set specified)." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -151,12 +158,12 @@ object is terms with a data set specified).</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>A model formula or <code><a href='http://www.rdocumentation.org/packages/stats/topics/terms'>stats::terms()</a></code>
+      <td><p>A model formula or <code><a href='https://rdrr.io/r/stats/terms.html'>stats::terms()</a></code>
 object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments to pass to <code>all.vars()</code></p></td>
+      <td><p>Arguments to pass to <code><a href='https://rdrr.io/r/base/allnames.html'>all.vars()</a></code></p></td>
     </tr>
     </table>
     
@@ -166,13 +173,13 @@ object.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>form_pred</span>(<span class='no'>y</span> ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'>terms</span>(<span class='no'>y</span> ~ <span class='no'>x</span> + <span class='no'>z</span>))</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'>
-<span class='fu'>form_pred</span>(<span class='no'>y</span> ~ <span class='no'>x</span> + <span class='fu'>log</span>(<span class='no'>z</span>))</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'>log</span>(<span class='no'>y</span>) ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'>
-<span class='fu'>form_pred</span>(<span class='no'>y1</span> + <span class='no'>y2</span> ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'>log</span>(<span class='no'>y1</span>) + <span class='no'>y2</span> ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>form_pred</span>(<span class='no'>y</span> ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'><a href='https://rdrr.io/r/stats/terms.html'>terms</a></span>(<span class='no'>y</span> ~ <span class='no'>x</span> + <span class='no'>z</span>))</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'>
+<span class='fu'>form_pred</span>(<span class='no'>y</span> ~ <span class='no'>x</span> + <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>z</span>))</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>y</span>) ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'>
+<span class='fu'>form_pred</span>(<span class='no'>y1</span> + <span class='no'>y2</span> ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>y1</span>) + <span class='no'>y2</span> ~ <span class='no'>x</span> + <span class='no'>z</span>)</div><div class='output co'>#&gt; [1] "x" "z"</div><div class='input'>
 <span class='co'># will fail:</span>
 <span class='co'># form_pred(y ~ .)</span>
 
-<span class='fu'>form_pred</span>(<span class='fu'>terms</span>(<span class='no'>Species</span> ~ (<span class='no'>.</span>)^<span class='fl'>2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>))</div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" </div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'>terms</span>( ~ (<span class='no'>.</span>)^<span class='fl'>2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>))</div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     </div></pre>
+<span class='fu'>form_pred</span>(<span class='fu'><a href='https://rdrr.io/r/stats/terms.html'>terms</a></span>(<span class='no'>Species</span> ~ (<span class='no'>.</span>)^<span class='fl'>2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>))</div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" </div><div class='input'><span class='fu'>form_pred</span>(<span class='fu'><a href='https://rdrr.io/r/stats/terms.html'>terms</a></span>( ~ (<span class='no'>.</span>)^<span class='fl'>2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>))</div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -187,6 +194,7 @@ object.</p></td>
   </div>
 </div>
 
+
       <footer>
       <div class="tidyverse">
   <p><code>rsample</code> is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
@@ -198,11 +206,14 @@ object.</p></td>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

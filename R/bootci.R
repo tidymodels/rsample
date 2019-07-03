@@ -118,6 +118,27 @@ has_dots <- function(x) {
   invisible(NULL)
 }
 
+check_num_resamples <- function(x, B = 1000) {
+  x <-
+    x %>%
+    dplyr::group_by(term) %>%
+    dplyr::summarize(n = sum(!is.na(estimate))) %>%
+    dplyr::filter(n < B)
+
+  if (nrow(x) > 0) {
+    terms <- paste0("`", x$term, "`")
+    msg <-
+      paste0(
+        "Recommend at least ", B, " non-missing bootstrap resamples for ",
+        ifelse(length(terms) > 1, "terms: ", "term "),
+        paste0(terms, collapse = ", "),
+        "."
+      )
+    warning(msg, call. = FALSE)
+  }
+  invisible(NULL)
+}
+
 # ------------------------------------------------------------------------------
 # percentile code
 
@@ -126,9 +147,6 @@ pctl_single <- function(stats, alpha = 0.05) {
 
   if (all(is.na(stats)))
     stop("All statistics have missing values..", call. = FALSE)
-
-  if (length(stats) < 500)
-    warning("Recommend at least 500 bootstrap resamples.", call. = FALSE)
 
   if (!is.numeric(stats))
     stop("`stats` must be a numeric vector.", call. = FALSE)
@@ -230,10 +248,12 @@ int_pctl <- function(.data, statistics, alpha = 0.05) {
   stats <- .data[[column_name]]
   stats <- check_tidy(stats, std_col = FALSE)
 
+  check_num_resamples(stats, B = 1000)
+
   vals <- stats %>%
-    group_by(term) %>%
-    do(pctl_single(.$estimate, alpha = alpha)) %>%
-    ungroup()
+    dplyr::group_by(term) %>%
+    dplyr::do(pctl_single(.$estimate, alpha = alpha)) %>%
+    dplyr::ungroup()
   vals
 
 }
@@ -297,12 +317,6 @@ int_t <- function(.data, statistics, alpha = 0.05) {
 
   check_rset(.data)
 
-  # TODO do by term
-  if (nrow(.data) < 500) {
-    warning("Recommend at least 500 bootstrap resamples.",
-            call. = FALSE)
-  }
-
   column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
   if (length(column_name) != 1) {
     stop(stat_fmt_err, call. = FALSE)
@@ -310,11 +324,13 @@ int_t <- function(.data, statistics, alpha = 0.05) {
   stats <- .data %>% dplyr::select(!!column_name, id)
   stats <- check_tidy(stats, std_col = TRUE)
 
+  check_num_resamples(stats, B = 500)
+
   vals <-
     stats %>%
-    group_by(term) %>%
-    do(t_single(.$estimate, .$std_err, .$orig, alpha = alpha)) %>%
-    ungroup()
+    dplyr::group_by(term) %>%
+    dplyr::do(t_single(.$estimate, .$std_err, .$orig, alpha = alpha)) %>%
+    dplyr::ungroup()
   vals
 }
 
@@ -408,17 +424,14 @@ int_bca <- function(.data, statistics, alpha = 0.05, .fn, ...) {
 
   has_dots(.fn)
 
-  if (nrow(.data) < 1000) {
-    warning("Recommend at least 1000 bootstrap resamples.",
-            call. = FALSE)
-  }
-
   column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
   if (length(column_name) != 1) {
     stop(stat_fmt_err, call. = FALSE)
   }
   stats <- .data %>% dplyr::select(!!column_name, id)
   stats <- check_tidy(stats)
+
+  check_num_resamples(stats, B = 1000)
 
   vals <- bca_calc(stats, .data$splits[[1]]$data, alpha = alpha, .fn = .fn, ...)
   vals
@@ -429,5 +442,5 @@ int_bca <- function(.data, statistics, alpha = 0.05, .fn, ...) {
 #' @importFrom utils globalVariables
 utils::globalVariables(
   c("id", ".", ".estimate", ".lower", ".upper", "Z0", "Za", "Zl", "Zu", "a",
-    "cubed", "estimate", "orig", "p0", "squared", "term", "theta_0", "loo")
+    "cubed", "estimate", "orig", "p0", "squared", "term", "theta_0", "loo", "n")
 )
