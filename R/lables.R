@@ -140,14 +140,14 @@ pretty.nested_cv <- function(x, ...) {
   print(class(x))
   details <- attributes(x)
 
-  if (is_lang(details$outside)) {
+  if (is_call(details$outside)) {
     class(x) <- class(x)[!(class(x) == "nested_cv")]
     outer_label <- pretty(x)
   } else {
     outer_label <- paste0("`", deparse(details$outside), "`")
   }
 
-  inner_label <- if (is_lang(details$inside))
+  inner_label <- if (is_call(details$inside))
     pretty(x$inner_resamples[[1]])
   else
     paste0("`", deparse(details$inside), "`")

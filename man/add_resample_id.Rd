@@ -28,12 +28,14 @@ set.seed(363)
 car_folds <- vfold_cv(mtcars, repeats = 3)
 
 analysis(car_folds$splits[[1]]) \%>\%
-  add_resample_id(car_folds$splits[[1]])
+  add_resample_id(car_folds$splits[[1]]) \%>\%
+  head()
 
 car_bt <- bootstraps(mtcars)
 
 analysis(car_bt$splits[[1]]) \%>\%
-  add_resample_id(car_bt$splits[[1]])
+  add_resample_id(car_bt$splits[[1]]) \%>\%
+  head()
 }
 \seealso{
 labels.rsplit
