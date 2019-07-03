@@ -39,6 +39,7 @@ reference:
       - form_pred
       - gather.rset
       - rsample2caret
+      - starts_with("labels")
   - title: Data
     contents:
       - attrition
@@ -65,8 +66,8 @@ navbar:
       href: articles/Applications/Keras.html
     - text: Bootstrap Interval Estimation
       href: articles/Applications/Intervals.html      
-    - text: Reference
-      href: reference/index.html
+  - text: Reference
+    href: reference/index.html
   - text: News
     href: news/index.html
    

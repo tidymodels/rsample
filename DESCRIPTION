@@ -2,9 +2,9 @@ Package: rsample
 Title: General Resampling Infrastructure
 Version: 0.0.4.9000
 Authors@R: c(
-    person("Max", "Kuhn", , "max@rstudio.com", c("aut", "cre")),
-    person("Chow", "Fanny", , "hadley@rstudio.com", c("aut")),
-    person("Hadley", "Wickham", , "fannybchow@gmail.com", c("aut")),
+    person(given = "Max",    family = "Kuhn",    email = "max@rstudio.com",      role = c("aut", "cre")),
+    person(given = "Fanny",  family = "Chow",    email = "hadley@rstudio.com",   role = c("aut")),
+    person(given = "Hadley", family = "Wickham", email = "fannybchow@gmail.com", role = c("aut")),
     person("RStudio", role = "cph"))
 Maintainer: Max Kuhn <max@rstudio.com>
 Description: Classes and functions to create and summarize different types of resampling objects (e.g. bootstrap, cross-validation). 

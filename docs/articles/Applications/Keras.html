@@ -74,10 +74,10 @@
     <li>
       <a href="../../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
     </li>
-    <li>
-      <a href="../../reference/index.html">Reference</a>
-    </li>
   </ul>
+</li>
+<li>
+  <a href="../../reference/index.html">Reference</a>
 </li>
 <li>
   <a href="../../news/index.html">News</a>
@@ -196,7 +196,7 @@
 <a class="sourceLine" id="cb7-5" data-line-number="5">  <span class="dt">batch_size =</span> <span class="dv">128</span>, </a>
 <a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="dt">verbose =</span> <span class="dv">0</span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7">)</a></code></pre></div>
-<pre><code>## [1] 0.340217</code></pre>
+<pre><code>## [1] 0.4450318</code></pre>
 <p>This works for a single resample and a single epoch setting. To tune over epochs, another function uses <code>map</code> to work over the tuning parameter for a specific resample. This is more advantageous than fixing the tuning parameter and then iterating over the data. If there was a complex feature engineering process being used, it only needs to be called once if functions are configured so that the <em>inner</em> loop is over the tuning parameters.</p>
 <p>The result value is a tibble with the tuning parameter values, the performance estimates, and an indicator for the fold.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">across_grid &lt;-<span class="st"> </span><span class="cf">function</span>(split, ...) {</a>
@@ -225,12 +225,12 @@
 <a class="sourceLine" id="cb10-7" data-line-number="7">  )</a></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(tune_results)</a></code></pre></div>
 <pre><code>##   epoch      rmse     id
-## 1    50 1.3633835 Fold01
-## 2   100 0.3941506 Fold01
-## 3   150 0.3166667 Fold01
-## 4   200 0.2529835 Fold01
-## 5   250 0.2451766 Fold01
-## 6   300 0.1880067 Fold01</code></pre>
+## 1    50 0.7937113 Fold01
+## 2   100 0.4468617 Fold01
+## 3   150 0.3635912 Fold01
+## 4   200 0.2217370 Fold01
+## 5   250 0.1976875 Fold01
+## 6   300 0.1801689 Fold01</code></pre>
 <p>The mean RMSE per epoch is computed and plotted along with the individual curves for each resample.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">mean_values &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span>tune_results <span class="op">%&gt;%</span></a>
@@ -240,13 +240,13 @@
 <pre><code>## # A tibble: 12 x 2
 ##    epoch  rmse
 ##    &lt;dbl&gt; &lt;dbl&gt;
-##  1    50 1.15 
-##  2   100 0.372
-##  3   150 0.283
-##  4   200 0.250
-##  5   250 0.198
-##  6   300 0.171
-##  7   350 0.153
+##  1    50 0.882
+##  2   100 0.393
+##  3   150 0.291
+##  4   200 0.247
+##  5   250 0.189
+##  6   300 0.167
+##  7   350 0.154
 ##  8   400 0.148
 ##  9   450 0.148
 ## 10   500 0.148

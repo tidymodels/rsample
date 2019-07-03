@@ -1,9 +1,16 @@
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+---
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
 ```
 
-
-<img src="rsample_hex_thumb.png" title="hex sticker thumb" alt="rsample" style="display: block; margin: auto;" />
+# rsample <img src="man/figures/logo.png" align="right" height="80px"/> 
 
 [![Travis-CI Build Status](https://travis-ci.org/tidymodels/rsample.svg?branch=master)](https://travis-ci.org/tidymodels/rsample)
 [![Coverage Status](https://img.shields.io/codecov/c/github/tidymodels/rsample/master.svg)](https://codecov.io/github/tidymodels/rsample?branch=master)
