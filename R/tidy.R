@@ -1,40 +1,40 @@
 #' Tidy Resampling Object
 #'
-#' The `tidy` function from the  \pkg{broom} package can be used on  `rset` and  `rsplit` objects to generate tibbles with which rows are in the analysis and assessment sets. 
+#' The `tidy` function from the  \pkg{broom} package can be used on  `rset` and  `rsplit` objects to generate tibbles with which rows are in the analysis and assessment sets.
 #' @param x A  `rset` or  `rsplit` object
-#' @param unique_ind Should unique row identifiers be returned? For example, if  `FALSE` then bootstrapping results will include multiple rows in the sample for the same row in the original data. 
-#' @param ... Not currently used. 
-#' @return A tibble with columns  `Row` and  `Data`. The latter has possible values "Analysis" or "Assessment". For  `rset` inputs, identification columns are also returned but their names and values depend on the type of resampling.  `vfold_cv` contains a column "Fold" and, if repeats are used, another called "Repeats".  `bootstraps` and  `mc_cv` use the column "Resample". 
-#' @details Note that for nested resampling, the rows of the inner resample, 
+#' @param unique_ind Should unique row identifiers be returned? For example, if  `FALSE` then bootstrapping results will include multiple rows in the sample for the same row in the original data.
+#' @param ... Not currently used.
+#' @return A tibble with columns  `Row` and  `Data`. The latter has possible values "Analysis" or "Assessment". For  `rset` inputs, identification columns are also returned but their names and values depend on the type of resampling.  `vfold_cv` contains a column "Fold" and, if repeats are used, another called "Repeats".  `bootstraps` and  `mc_cv` use the column "Resample".
+#' @details Note that for nested resampling, the rows of the inner resample,
 #'   named `inner_Row`, are *relative* row indices and do not
-#'   correspond to the rows in the original data set.  
-#' @examples 
+#'   correspond to the rows in the original data set.
+#' @examples
 #' library(ggplot2)
 #' theme_set(theme_bw())
-#' 
+#'
 #' set.seed(4121)
 #' cv <- tidy(vfold_cv(mtcars, v = 5))
-#' ggplot(cv, aes(x = Fold, y = Row, fill = Data)) + 
+#' ggplot(cv, aes(x = Fold, y = Row, fill = Data)) +
 #'   geom_tile() + scale_fill_brewer()
-#'   
+#'
 #' set.seed(4121)
 #' rcv <- tidy(vfold_cv(mtcars, v = 5, repeats = 2))
-#' ggplot(rcv, aes(x = Fold, y = Row, fill = Data)) + 
+#' ggplot(rcv, aes(x = Fold, y = Row, fill = Data)) +
 #'   geom_tile() + facet_wrap(~Repeat) + scale_fill_brewer()
-#'   
+#'
 #' set.seed(4121)
 #' mccv <- tidy(mc_cv(mtcars, times = 5))
-#' ggplot(mccv, aes(x = Resample, y = Row, fill = Data)) + 
-#'   geom_tile() + scale_fill_brewer() 
-#'   
+#' ggplot(mccv, aes(x = Resample, y = Row, fill = Data)) +
+#'   geom_tile() + scale_fill_brewer()
+#'
 #' set.seed(4121)
 #' bt <- tidy(bootstraps(mtcars, time = 5))
-#' ggplot(bt, aes(x = Resample, y = Row, fill = Data)) + 
+#' ggplot(bt, aes(x = Resample, y = Row, fill = Data)) +
 #'   geom_tile() + scale_fill_brewer()
-#'   
+#'
 #' dat <- data.frame(day = 1:30)
 #' # Resample by week instead of day
-#' ts_cv <- rolling_origin(dat, initial = 7, assess = 7, 
+#' ts_cv <- rolling_origin(dat, initial = 7, assess = 7,
 #'                         skip = 6, cumulative = FALSE)
 #' ts_cv <- tidy(ts_cv)
 #' ggplot(ts_cv, aes(x = Resample, y = factor(Row), fill = Data)) +
@@ -43,11 +43,11 @@
 #' @importFrom tibble tibble
 #' @export
 tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
-  if(unique_ind) x$in_id <- unique(x$in_id)
+  if (unique_ind) x$in_id <- unique(x$in_id)
   out <- tibble(Row = c(x$in_id, complement(x)),
                 Data = rep(c("Analysis", "Assessment"),
                            c(length(x$in_id), length(complement(x)))))
-  out <- dplyr::arrange_(.data = out, .dots=c("Data","Row"))
+  out <- dplyr::arrange(.data = out, Data, Row)
   out
 }
 
@@ -57,12 +57,12 @@ tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
 #' @importFrom dplyr arrange
 tidy.rset <- function(x, ...)  {
   stacked <- purrr::map(x$splits, tidy)
-  for(i in seq(along = stacked))
+  for (i in seq(along = stacked))
     stacked[[i]]$Resample <- x$id[i]
   stacked <- dplyr::bind_rows(stacked)
-  stacked <- dplyr::arrange_(.data = stacked, .dots=c("Data","Row"))
+  stacked <- dplyr::arrange(.data = stacked, Data, Row)
   stacked
-}  
+}
 #' @rdname tidy.rsplit
 #' @export
 #' @inheritParams tidy.rsplit
@@ -77,9 +77,9 @@ tidy.vfold_cv <- function(x, ...)  {
       stacked[[i]]$Fold <- x$id[i]
   }
   stacked <- dplyr::bind_rows(stacked)
-  stacked <- dplyr::arrange_(.data = stacked, .dots=c("Data","Row"))
+  stacked <- dplyr::arrange(.data = stacked, Data, Row)
   stacked
-}  
+}
 
 #' @rdname tidy.rsplit
 #' @export
@@ -95,13 +95,13 @@ tidy.nested_cv <- function(x, ...)  {
   outer_tidy <- tidy(x)
   id_cols <- names(outer_tidy)
   id_cols <- id_cols[!(id_cols %in% c("Row", "Data"))]
-  
+
   inner_id <- grep("^id", names(inner_tidy))
   if(length(inner_id) != length(id_cols))
     stop("Cannot merge tidt data sets", call. = FALSE)
   names(inner_tidy)[inner_id] <- id_cols
   full_join(outer_tidy, inner_tidy, by = id_cols)
-}  
+}
 
 tidy_wrap <- function(x) {
   x <- tidy(x)

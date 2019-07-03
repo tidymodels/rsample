@@ -137,14 +137,18 @@ test_that('Upper & lower confidence interval does not contain NA', {
   set.seed(888)
   bt_resamples <- bootstraps(data.frame(x = 1:100), times = 1000, apparent = TRUE) %>%    mutate(res = map(splits, bad_stats))
 
-  expect_error(
-    int_pctl(bt_resamples, res),
-    "missing values"
+  expect_warning(
+    expect_error(
+      int_pctl(bt_resamples, res),
+      "missing values"
+    )
   )
 
-  expect_error(
-    int_t(bt_resamples, res),
-    "missing values"
+  expect_warning(
+    expect_error(
+      int_t(bt_resamples, res),
+      "missing values"
+    )
   )
 
   # expect_error(
