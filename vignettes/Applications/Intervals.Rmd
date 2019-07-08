@@ -166,7 +166,7 @@ nls_coef %>%
 
 ## t-intervals
 
-Bootstrap _t_-intervals are estimated by computing intermediate statistics that are _t_-like in structure. To use these, we require the estimated variance _for each individual resampled estimate_. In our example, this comes along with the fitted model object. We can extract the standard errors of the parameters. Luckily, most `tidy()` provide this in a column names `std.err`. 
+Bootstrap _t_-intervals are estimated by computing intermediate statistics that are _t_-like in structure. To use these, we require the estimated variance _for each individual resampled estimate_. In our example, this comes along with the fitted model object. We can extract the standard errors of the parameters. Luckily, most `tidy()` provide this in a column named `std.error`. 
 
 The arguments for these intervals are the same:
 
@@ -216,7 +216,7 @@ fold_incr <- function(split, ...) {
     term = "fold increase",
     estimate = unname(quants[2]/quants[1]),
     # We don't know the analytical formula for this 
-    std.err = NA_real_
+    std.error = NA_real_
   )
 }
 ```
