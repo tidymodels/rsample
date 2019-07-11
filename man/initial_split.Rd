@@ -20,7 +20,7 @@ testing(x)
 
 \item{prop}{The proportion of data to be retained for modeling/analysis.}
 
-\item{strata}{A variable that is used to conduct stratified sampling to create the resamples.}
+\item{strata}{A variable that is used to conduct stratified sampling to create the resamples. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.}
 
 \item{...}{Not currently used.}
 
