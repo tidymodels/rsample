@@ -9,8 +9,8 @@ group_vfold_cv(data, group = NULL, v = NULL, ...)
 \arguments{
 \item{data}{A data frame.}
 
-\item{group}{A single character value for the column of the
-data that will be used to create the splits.}
+\item{group}{This could be a single character value or a variable
+name that corresponds to a variable that exists in the data frame.}
 
 \item{v}{The number of partitions of the data set. If let
 \code{NULL}, \code{v} will be set to the number of unique values
