@@ -11,7 +11,7 @@ bootstraps(data, times = 25, strata = NULL, apparent = FALSE, ...)
 
 \item{times}{The number of bootstrap samples.}
 
-\item{strata}{A variable that is used to conduct stratified sampling. When not \code{NULL}, each bootstrap sample is created within the stratification variable.}
+\item{strata}{A variable that is used to conduct stratified sampling. When not \code{NULL}, each bootstrap sample is created within the stratification variable. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.}
 
 \item{apparent}{A logical. Should an extra resample be added where the analysis and holdout subset are the entire data set. This is required for some estimators used by the \code{summary} function that require the apparent error rate.}
 
