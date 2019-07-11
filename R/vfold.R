@@ -10,7 +10,7 @@
 #' @param data A data frame.
 #' @param v The number of partitions of the data set.
 #' @param repeats The number of times to repeat the V-fold partitioning.
-#' @param strata A variable that is used to conduct stratified sampling to create the folds. This should be a single character value.
+#' @param strata A variable that is used to conduct stratified sampling to create the folds. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.
 #' @param ... Not currently used.
 #' @export
 #' @return  A tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and `data.frame`. The results include a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called `id` that has a character string with the fold identifier. For repeats, `id` is the repeat number and an additional column called `id2` that contains the fold information (within repeat).
@@ -38,6 +38,11 @@
 #'         })
 #' @export
 vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, ...) {
+
+  if(!missing(strata)) {
+    strata <- tidyselect::vars_select(names(data), !!enquo(strata))
+    if(length(strata) == 0) strata <- NULL
+  }
 
   strata_check(strata, names(data))
 
