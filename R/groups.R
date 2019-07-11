@@ -8,8 +8,8 @@
 #'  out at a time.
 #'
 #' @param data A data frame.
-#' @param group A single character value for the column of the
-#'  data that will be used to create the splits.
+#' @param group This could be a single character value or a variable
+#'  name that corresponds to a variable that exists in the data frame.
 #' @param v The number of partitions of the data set. If let
 #'  `NULL`, `v` will be set to the number of unique values
 #'  in the group.
@@ -41,6 +41,14 @@
 #' map_int(held_out, length)
 #' @export
 group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
+
+  if(!missing(group)) {
+    group <- tidyselect::vars_select(names(data), !!enquo(group))
+    if(length(group) == 0) {
+      group <- NULL
+    }
+  }
+
   if (is.null(group) || !is.character(group) || length(group) != 1)
     stop(
       "`group` should be a single character value for the column ",

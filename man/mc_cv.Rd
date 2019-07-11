@@ -13,7 +13,7 @@ mc_cv(data, prop = 3/4, times = 25, strata = NULL, ...)
 
 \item{times}{The number of times to repeat the sampling..}
 
-\item{strata}{A variable that is used to conduct stratified sampling to create the resamples.}
+\item{strata}{A variable that is used to conduct stratified sampling to create the resamples. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.}
 
 \item{...}{Not currently used.}
 }

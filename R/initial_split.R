@@ -10,7 +10,7 @@
 #'
 #' @inheritParams vfold_cv
 #' @param prop The proportion of data to be retained for modeling/analysis.
-#' @param strata A variable that is used to conduct stratified sampling to create the resamples.
+#' @param strata A variable that is used to conduct stratified sampling to create the resamples. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.
 #' @export
 #' @return  An `rset` object that can be used with the `training` and `testing` functions to extract the data in each split.
 #' @examples
@@ -26,6 +26,12 @@
 #' @export
 #'
 initial_split <- function(data, prop = 3/4, strata = NULL, ...) {
+
+  if(!missing(strata)) {
+    strata <- tidyselect::vars_select(names(data), !!enquo(strata))
+    if(length(strata) == 0) strata <- NULL
+  }
+
   res <-
     mc_cv(
       data = data,
