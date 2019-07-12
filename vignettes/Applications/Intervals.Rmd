@@ -16,9 +16,9 @@ library(GGally)
 theme_set(theme_bw())
 ```
 
-The bootstrap was originally intended for estimating confidence intervals for complex statistics whose variance properties are difficult to analytically derive. Davison and Hinkley's [_Bootstrap Methods and Their Applications_](https://www.cambridge.org/core/books/bootstrap-methods-and-their-application/ED2FD043579F27952363566DC09CBD6A) is a great resource for these methods. `rsample` contains a few function to compute the most common types of intervals. 
+The bootstrap was originally intended for estimating confidence intervals for complex statistics whose variance properties are difficult to analytically derive. Davison and Hinkley's [_Bootstrap Methods and Their Application_](https://www.cambridge.org/core/books/bootstrap-methods-and-their-application/ED2FD043579F27952363566DC09CBD6A) is a great resource for these methods. `rsample` contains a few function to compute the most common types of intervals. 
 
-To demonstrate the computations for the different types of intervals, we'll use a nonlinear regression example from [Baty _et al_ (2015)](https://www.jstatsoft.org/article/view/v066i05). The showed data that monitored oxygen uptake in a patient with rest and exercise phases (in the data frame `O2K`). 
+To demonstrate the computations for the different types of intervals, we'll use a nonlinear regression example from [Baty _et al_ (2015)](https://www.jstatsoft.org/article/view/v066i05). They showed data that monitored oxygen uptake in a patient with rest and exercise phases (in the data frame `O2K`). 
 
 ```{r O2K-dat}
 library(tidymodels)
@@ -31,7 +31,7 @@ ggplot(O2K, aes(x = t, y = VO2)) +
   geom_point()
 ```
 
-The authors fit a segmented regression model where the transition point was known (this is the time when exercise commenced).Their model was:
+The authors fit a segmented regression model where the transition point was known (this is the time when exercise commenced). Their model was:
 
 ```{r O2K-fit}
 nonlin_form <-  
@@ -114,7 +114,7 @@ nls_coef %>%
 
 ## Percentile intervals
 
-The most basic type of interval uses _percentiles_ of the resampling distribution. To get the percentile intervals, the `rset` objects is passed as the first argument and the second argument is the list column of tidy results: 
+The most basic type of interval uses _percentiles_ of the resampling distribution. To get the percentile intervals, the `rset` object is passed as the first argument and the second argument is the list column of tidy results: 
 
 ```{r pctl}
 p_ints <- int_pctl(nlin_bt, models)
@@ -166,7 +166,7 @@ nls_coef %>%
 
 ## t-intervals
 
-Bootstrap _t_-intervals are estimated by computing intermediate statistics that are _t_-like in structure. To use these, we require the estimated variance _for each individual resampled estimate_. In our example, this comes along with the fitted model object. We can extract the standard errors of the parameters. Luckily, most `tidy()` provide this in a column names `std.err`. 
+Bootstrap _t_-intervals are estimated by computing intermediate statistics that are _t_-like in structure. To use these, we require the estimated variance _for each individual resampled estimate_. In our example, this comes along with the fitted model object. We can extract the standard errors of the parameters. Luckily, most `tidy()` provide this in a column named `std.error`. 
 
 The arguments for these intervals are the same:
 
@@ -216,7 +216,7 @@ fold_incr <- function(split, ...) {
     term = "fold increase",
     estimate = unname(quants[2]/quants[1]),
     # We don't know the analytical formula for this 
-    std.err = NA_real_
+    std.error = NA_real_
   )
 }
 ```

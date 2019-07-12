@@ -93,28 +93,28 @@ test_that("Wrappers -- selection of multiple variables works", {
   bt_resamples <- bootstraps(attrition, times = 1000, apparent = TRUE) %>%
     mutate(res = map(splits, func))
 
-  iris_tidy <-
+  attrit_tidy <-
     lm(Age ~ HourlyRate + DistanceFromHome, data = attrition) %>%
     tidy(conf.int = TRUE) %>%
     dplyr::arrange(term)
 
   pct_res <-
     int_pctl(bt_resamples, res) %>%
-    inner_join(iris_tidy, by = "term")
+    inner_join(attrit_tidy, by = "term")
   expect_equal(pct_res$conf.low,  pct_res$.lower, tolerance = .01)
   expect_equal(pct_res$conf.high, pct_res$.upper, tolerance = .01)
 
 
   t_res <-
     int_t(bt_resamples, res) %>%
-    inner_join(iris_tidy, by = "term")
+    inner_join(attrit_tidy, by = "term")
   expect_equal(t_res$conf.low,  t_res$.lower, tolerance = .01)
   expect_equal(t_res$conf.high, t_res$.upper, tolerance = .01)
 
 
   bca_res <-
     int_bca(bt_resamples, res, .fn = func) %>%
-    inner_join(iris_tidy, by = "term")
+    inner_join(attrit_tidy, by = "term")
   expect_equal(bca_res$conf.low,  bca_res$.lower, tolerance = .01)
   expect_equal(bca_res$conf.high, bca_res$.upper, tolerance = .01)
 
@@ -135,26 +135,24 @@ test_that('Upper & lower confidence interval does not contain NA', {
   }
 
   set.seed(888)
-  bt_resamples <- bootstraps(data.frame(x = 1:100), times = 1000, apparent = TRUE) %>%    mutate(res = map(splits, bad_stats))
+  bt_resamples <- bootstraps(data.frame(x = 1:100), times = 1000, apparent = TRUE) %>%
+    mutate(res = map(splits, bad_stats))
 
-  expect_warning(
-    expect_error(
-      int_pctl(bt_resamples, res),
-      "missing values"
-    )
+  expect_error(
+    int_pctl(bt_resamples, res),
+    "missing values"
   )
 
-  expect_warning(
-    expect_error(
-      int_t(bt_resamples, res),
-      "missing values"
-    )
+  expect_error(
+    int_t(bt_resamples, res),
+    "missing values"
   )
 
-  # expect_error(
-  #   int_bca(bt_resamples, res, .fn = bad_stats),
-  #   "missing values"
-  # )
+  expect_error(
+    int_bca(bt_resamples, res, .fn = bad_stats),
+    "missing values"
+  )
+
 })
 
 # ------------------------------------------------------------------------------
