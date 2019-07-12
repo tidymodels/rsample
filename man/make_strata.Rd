@@ -4,10 +4,13 @@
 \alias{make_strata}
 \title{Create or Modify Stratification Variables}
 \usage{
-make_strata(x, nunique = 5, pool = 0.15, depth = 20)
+make_strata(x, breaks = 4, nunique = 5, pool = 0.15, depth = 20)
 }
 \arguments{
 \item{x}{An input vector.}
+
+\item{breaks}{A single number giving the number of bins desired to stratify a
+numeric stratification variable.}
 
 \item{nunique}{An integer for the number of unique value threshold in the
 algorithm.}
@@ -73,6 +76,6 @@ table(make_strata(x5))
 
 set.seed(483)
 x6 <- rnorm(200)
-quantile(x6, probs = (0:5)/5)
-table(make_strata(x6))
+quantile(x6, probs = (0:10)/10)
+table(make_strata(x6, breaks = 10))
 }
