@@ -10,6 +10,7 @@
 #' @inheritParams vfold_cv
 #' @param times The number of bootstrap samples.
 #' @param strata A variable that is used to conduct stratified sampling. When not `NULL`, each bootstrap sample is created within the stratification variable. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.
+#' @param breaks A single number giving the number of bins desired to stratify a numeric stratification variable.
 #' @param apparent A logical. Should an extra resample be added where the analysis and holdout subset are the entire data set. This is required for some estimators used by the `summary` function that require the apparent error rate.
 #' @export
 #' @return  An tibble with classes `bootstraps`, `rset`, `tbl_df`, `tbl`, and `data.frame`. The results include a column for the data split objects and a column called `id` that has a character string with the resample identifier.
@@ -35,11 +36,20 @@
 #'           dat <- as.data.frame(x)$Species
 #'           mean(dat == "virginica")
 #'         })
+#'
+#' set.seed(13)
+#' resample3 <- bootstraps(iris2, strata = "Sepal.Length", breaks = 6, times = 3)
+#' map_dbl(resample3$splits,
+#'         function(x) {
+#'           dat <- as.data.frame(x)$Species
+#'           mean(dat == "virginica")
+#'         })
 #' @export
 bootstraps <-
   function(data,
            times = 25,
            strata = NULL,
+           breaks = 4,
            apparent = FALSE,
            ...) {
 
@@ -54,7 +64,8 @@ bootstraps <-
     boot_splits(
       data = data,
       times = times,
-      strata = strata
+      strata = strata,
+      breaks = breaks
     )
   if(apparent)
     split_objs <- bind_rows(split_objs, apparent(data))
@@ -80,7 +91,8 @@ boot_complement <- function(ind, n) {
 boot_splits <-
   function(data,
            times = 25,
-           strata = NULL) {
+           strata = NULL,
+           breaks = 4) {
 
   n <- nrow(data)
 
@@ -88,7 +100,8 @@ boot_splits <-
     indices <- purrr::map(rep(n, times), sample, replace = TRUE)
   } else {
     stratas <- tibble::tibble(idx = 1:n,
-                              strata = make_strata(getElement(data, strata)))
+                              strata = make_strata(getElement(data, strata),
+                                                   breaks = breaks))
     stratas <- split(stratas, stratas$strata)
     stratas <-
       purrr::map_df(
