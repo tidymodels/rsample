@@ -1,4 +1,4 @@
-# `rsample` 0.0.4.9000
+# `rsample` 0.0.5
 
 * Added three functions to compute different bootstrap confidence intervals. 
 * A new function (`add_resample_id`) augments a data frame with columns for the resampling identifier. 

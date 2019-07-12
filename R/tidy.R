@@ -108,3 +108,10 @@ tidy_wrap <- function(x) {
   names(x) <- paste0("inner_", names(x))
   x
 }
+
+# ----------------------------------------------------------------
+
+#' @importFrom utils globalVariables
+utils::globalVariables(
+  c("Data", "Row")
+)

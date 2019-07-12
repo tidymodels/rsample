@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Page not found (404) • rsample</title>
+<title>NA • rsample</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -31,7 +31,7 @@
 
 
 
-<meta property="og:title" content="Page not found (404)" />
+<meta property="og:title" content="NA" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -134,10 +134,51 @@
 <div class="row">
   <div class="contents col-md-9">
     <div class="page-header">
-      <h1>Page not found (404)</h1>
+      <h1>NA</h1>
     </div>
 
-Content not found. Please use links in the navbar.
+
+<p>If you are filing a bug, make sure these boxes are checked before submitting your issue— thank you!</p>
+<ul>
+<li>[ ] Start a new R session</li>
+<li>[ ] Install the latest version of of the package: <code><a href="https://rdrr.io/r/utils/update.packages.html">update.packages(oldPkgs="rsample", ask=FALSE)</a></code>
+</li>
+<li>[ ] <a href="http://stackoverflow.com/a/5963610">Write a minimal reproducible example</a>
+</li>
+<li>[ ] run <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code> and add the results to the issue. Even better would be to use the <a href="https://github.com/r-lib/sessioninfo"><code>sessioninfo</code></a> package’s <code>session_info()</code>.</li>
+</ul>
+<div id="minimal-reproducible-example" class="section level3">
+<h3 class="hasAnchor">
+<a href="#minimal-reproducible-example" class="anchor"></a>Minimal, reproducible example:</h3>
+<p><strong>Please read this page</strong>: <a href="https://github.com/jennybc/reprex#what-is-a-reprex">reprex = {repr}oducible {ex}ample</a></p>
+<p>Text and example code modified from <a href="http://stackoverflow.com/a/5963610">the R FAQ on stackoverflow</a></p>
+<div id="minimal-reproducible-dataset" class="section level4">
+<h4 class="hasAnchor">
+<a href="#minimal-reproducible-dataset" class="anchor"></a><em>Minimal</em> Reproducible Dataset:</h4>
+<p>If you are not using a data set in a package then use e.g. <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> to give us something that can be put in R immediately, e.g.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/dput.html">dput</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(iris,<span class="dv">4</span>))</a></code></pre></div>
+<p>Without a dataset, there usually isn’t much that we can do to help.</p>
+<p>If your data frame has a factor with many levels, the <code>dput</code> output can be unwieldy because it will still list all the possible factor levels even if they aren’t present in the the subset of your data. To solve this issue, you can use the <code><a href="https://rdrr.io/r/base/droplevels.html">droplevels()</a></code> function. Notice below how species is a factor with only one level: <code><a href="https://rdrr.io/r/base/dput.html">dput(droplevels(head(iris, 4)))</a></code>.</p>
+</div>
+<div id="minimal-runnable-code" class="section level4">
+<h4 class="hasAnchor">
+<a href="#minimal-runnable-code" class="anchor"></a>Minimal, runnable code:</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rsample)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># Set the seed before using random numbers</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">4121</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">cv &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(<span class="kw"><a href="reference/vfold_cv.html">vfold_cv</a></span>(mtcars, <span class="dt">v =</span> <span class="dv">5</span>)) </a></code></pre></div>
+</div>
+</div>
+<div id="session-info" class="section level3">
+<h3 class="hasAnchor">
+<a href="#session-info" class="anchor"></a>Session Info:</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># or sessioninfo::session_info()</span></a></code></pre></div>
+<p>Be sure to test your chunks of code in an empty R session before submitting your issue!</p>
+</div>
+
 
   </div>
 

@@ -33,7 +33,9 @@
 
 <meta property="og:title" content="Tidy Resampling Object — tidy.rsplit" />
 
-<meta property="og:description" content="The `tidy` function from the  broom package can be used on  `rset` and  `rsplit` objects to generate tibbles with which rows are in the analysis and assessment sets." />
+<meta property="og:description" content="The tidy function from the  broom package can be used on  rset and  rsplit objects to generate tibbles with which rows are in the analysis and assessment sets." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -75,7 +77,7 @@
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
         </div>
       </div>
     </div>
@@ -109,6 +111,9 @@
     <li>
       <a href="../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
     </li>
+    <li>
+      <a href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -138,7 +143,7 @@
 
     <div class="ref-description">
     
-    <p>The `tidy` function from the  <span class="pkg">broom</span> package can be used on  `rset` and  `rsplit` objects to generate tibbles with which rows are in the analysis and assessment sets.</p>
+    <p>The <code>tidy</code> function from the  <span class="pkg">broom</span> package can be used on  <code>rset</code> and  <code>rsplit</code> objects to generate tibbles with which rows are in the analysis and assessment sets.</p>
     
     </div>
 
@@ -159,11 +164,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A  `rset` or  `rsplit` object</p></td>
+      <td><p>A  <code>rset</code> or  <code>rsplit</code> object</p></td>
     </tr>
     <tr>
       <th>unique_ind</th>
-      <td><p>Should unique row identifiers be returned? For example, if  `FALSE` then bootstrapping results will include multiple rows in the sample for the same row in the original data.</p></td>
+      <td><p>Should unique row identifiers be returned? For example, if  <code>FALSE</code> then bootstrapping results will include multiple rows in the sample for the same row in the original data.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -173,21 +178,18 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with columns  `Row` and  `Data`. The latter has possible values "Analysis" or "Assessment". For  `rset` inputs, identification columns are also returned but their names and values depend on the type of resampling.  `vfold_cv` contains a column "Fold" and, if repeats are used, another called "Repeats".  `bootstraps` and  `mc_cv` use the column "Resample".</p>
+    <p>A tibble with columns  <code>Row</code> and  <code>Data</code>. The latter has possible values "Analysis" or "Assessment". For  <code>rset</code> inputs, identification columns are also returned but their names and values depend on the type of resampling.  <code>vfold_cv</code> contains a column "Fold" and, if repeats are used, another called "Repeats".  <code>bootstraps</code> and  <code>mc_cv</code> use the column "Resample".</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that for nested resampling, the rows of the inner resample, 
-  named `inner_Row`, are *relative* row indices and do not
-  correspond to the rows in the original data set.</p>
+    <p>Note that for nested resampling, the rows of the inner resample,
+named <code>inner_Row</code>, are <em>relative</em> row indices and do not
+correspond to the rows in the original data set.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)</div><div class='output co'>#&gt; <span class='message'>Registered S3 methods overwritten by 'ggplot2':</span>
-#&gt; <span class='message'>  method         from </span>
-#&gt; <span class='message'>  [.quosures     rlang</span>
-#&gt; <span class='message'>  c.quosures     rlang</span>
-#&gt; <span class='message'>  print.quosures rlang</span></div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme_get.html'>theme_set</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>())
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme_get.html'>theme_set</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>())
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>4121</span>)
 <span class='no'>cv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span>(<span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>5</span>))
@@ -236,7 +238,7 @@
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, <a href='http://hadley.nz'>Hadley Wickham</a>.
+    Developed by Max Kuhn, Fanny Chow, <a href='http://hadley.nz'>Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

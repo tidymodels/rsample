@@ -1,6 +1,6 @@
 Package: rsample
 Title: General Resampling Infrastructure
-Version: 0.0.4.9000
+Version: 0.0.5
 Authors@R: c(
     person(given = "Max",    family = "Kuhn",    email = "max@rstudio.com",      role = c("aut", "cre")),
     person(given = "Fanny",  family = "Chow",    email = "hadley@rstudio.com",   role = c("aut")),
