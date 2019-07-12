@@ -75,7 +75,7 @@
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.4.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -138,11 +138,14 @@
       
     </div>
 
-    <div id="rsample-0-0-4-9000" class="section level1">
+    <div id="rsample-0-0-5" class="section level1">
 <h1 class="page-header">
-<a href="#rsample-0-0-4-9000" class="anchor"></a><small> Unreleased </small><code>rsample</code> 0.0.4.9000</h1>
+<a href="#rsample-0-0-5" class="anchor"></a><small> Unreleased </small><code>rsample</code> 0.0.5</h1>
 <ul>
 <li>Added three functions to compute different bootstrap confidence intervals.</li>
+<li>A new function (<code>add_resample_id</code>) augments a data frame with columns for the resampling identifier.</li>
+<li>Updated <code>initial_split</code>, <code>mc_cv</code>, <code>vfold_cv</code>, <code>bootstraps</code>, and <code>group_vfold_cv</code> to use tidyselect on the stratification variable.</li>
+<li>Updated <code>initial_split</code>, <code>mc_cv</code>, <code>vfold_cv</code>, <code>bootstraps</code> with new <code>breaks</code> parameter that specifies the number of bins to stratify by for a numeric stratification variable.</li>
 </ul>
 </div>
     <div id="rsample-0-0-4" class="section level1">
@@ -208,7 +211,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#rsample-0-0-4-9000">0.0.4.9000</a></li>
+        <li><a href="#rsample-0-0-5">0.0.5</a></li>
         <li><a href="#rsample-0-0-4">0.0.4</a></li>
         <li><a href="#rsample-0-0-3">0.0.3</a></li>
         <li><a href="#rsample-0-0-2">0.0.2</a></li>

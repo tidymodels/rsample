@@ -33,7 +33,10 @@
 
 <meta property="og:title" content="Rolling Origin Forecast Resampling — rolling_origin" />
 
-<meta property="og:description" content="This resampling method is useful when the data set has a strong time component. The resamples are not random and contain data points that are consecutive values. The function assumes that the original data set are sorted in time order." />
+<meta property="og:description" content="This resampling method is useful when the data set has a strong time
+component. The resamples are not random and contain data points that are
+consecutive values. The function assumes that the original data set are
+sorted in time order." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -143,7 +146,10 @@
 
     <div class="ref-description">
     
-    <p>This resampling method is useful when the data set has a strong time component. The resamples are not random and contain data points that are consecutive values. The function assumes that the original data set are sorted in time order.</p>
+    <p>This resampling method is useful when the data set has a strong time
+component. The resamples are not random and contain data points that are
+consecutive values. The function assumes that the original data set are
+sorted in time order.</p>
     
     </div>
 
@@ -159,7 +165,8 @@
     </tr>
     <tr>
       <th>initial</th>
-      <td><p>The number of samples used for analysis/modeling in the initial resample.</p></td>
+      <td><p>The number of samples used for analysis/modeling in the
+initial resample.</p></td>
     </tr>
     <tr>
       <th>assess</th>
@@ -167,11 +174,14 @@
     </tr>
     <tr>
       <th>cumulative</th>
-      <td><p>A logical. Should the analysis resample grow beyond the size specified by <code>initial</code> at each resample?.</p></td>
+      <td><p>A logical. Should the analysis resample grow beyond the
+size specified by <code>initial</code> at each resample?.</p></td>
     </tr>
     <tr>
       <th>skip</th>
-      <td><p>A integer indicating how many (if any) resamples to skip to thin the total amount of data points in the analysis resample.</p></td>
+      <td><p>A integer indicating how many (if any) <em>additional</em> resamples
+to skip to thin the total amount of data points in the analysis resample.
+See the example below.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -181,12 +191,23 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An tibble with classes <code>rolling_origin</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and <code>data.frame</code>. The results include a column for the data split objects and a column called <code>id</code> that has a character string with the resample identifier.</p>
+    <p>An tibble with classes <code>rolling_origin</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>,
+and <code>data.frame</code>. The results include a column for the data split objects
+and a column called <code>id</code> that has a character string with the resample
+identifier.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The main options, <code>initial</code> and <code>assess</code>, control the number of data points from the original data that are in the analysis and assessment set, respectively. When <code>cumulative = TRUE</code>, the analysis set will grow as resampling continues while the assessment set size will always remain static.
-<code>skip</code> enables the function to not use every data point in the resamples. When <code>skip = 0</code>, the resampling data sets will increment by one position. Suppose that the rows of a data set are consecutive days. Using <code>skip = 6</code> will make the analysis data set operate on <em>weeks</em> instead of days. The assessment set size is not affected by this option.</p>
+    <p>The main options, <code>initial</code> and <code>assess</code>, control the number of
+data points from the original data that are in the analysis and assessment
+set, respectively. When <code>cumulative = TRUE</code>, the analysis set will grow as
+resampling continues while the assessment set size will always remain
+static.
+<code>skip</code> enables the function to not use every data point in the resamples.
+When <code>skip = 0</code>, the resampling data sets will increment by one position.
+Suppose that the rows of a data set are consecutive days. Using <code>skip = 6</code>
+will make the analysis data set operate on <em>weeks</em> instead of days. The
+assessment set size is not affected by this option.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

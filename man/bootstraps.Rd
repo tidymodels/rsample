@@ -12,24 +12,43 @@ bootstraps(data, times = 25, strata = NULL, breaks = 4,
 
 \item{times}{The number of bootstrap samples.}
 
-\item{strata}{A variable that is used to conduct stratified sampling. When not \code{NULL}, each bootstrap sample is created within the stratification variable. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.}
+\item{strata}{A variable that is used to conduct stratified sampling. When
+not \code{NULL}, each bootstrap sample is created within the stratification
+variable. This could be a single character value or a variable name that
+corresponds to a variable that exists in the data frame.}
 
-\item{breaks}{A single number giving the number of bins desired to stratify a numeric stratification variable.}
+\item{breaks}{A single number giving the number of bins desired to stratify
+a numeric stratification variable.}
 
-\item{apparent}{A logical. Should an extra resample be added where the analysis and holdout subset are the entire data set. This is required for some estimators used by the \code{summary} function that require the apparent error rate.}
+\item{apparent}{A logical. Should an extra resample be added where the
+analysis and holdout subset are the entire data set. This is required for
+some estimators used by the \code{summary} function that require the apparent
+error rate.}
 
 \item{...}{Not currently used.}
 }
 \value{
-An tibble with classes \code{bootstraps}, \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}. The results include a column for the data split objects and a column called \code{id} that has a character string with the resample identifier.
+An tibble with classes \code{bootstraps}, \code{rset}, \code{tbl_df}, \code{tbl}, and
+\code{data.frame}. The results include a column for the data split objects and a
+column called \code{id} that has a character string with the resample identifier.
 }
 \description{
-A bootstrap sample is a sample that is the same size as the original data set that is made using replacement.  This results in analysis samples that have multiple replicates of some of the original rows of the data. The assessment set is defined as the rows of the original data that were not included in the bootstrap sample. This is often referred to as the "out-of-bag" (OOB) sample.
+A bootstrap sample is a sample that is the same size as the original data
+set that is made using replacement. This results in analysis samples that
+have multiple replicates of some of the original rows of the data. The
+assessment set is defined as the rows of the original data that were not
+included in the bootstrap sample. This is often referred to as the
+"out-of-bag" (OOB) sample.
 }
 \details{
-The argument \code{apparent} enables the option of an additional "resample" where the analysis and assessment data sets are the same as the original data set. This can be required for some types of analysis of the bootstrap results.
-
-The \code{strata} argument is based on a similar argument in the random forest package were the bootstrap samples are conducted \emph{within the stratification variable}. The can help ensure that the number of data points in the bootstrap sample is equivalent to the proportions in the original data set.
+The argument \code{apparent} enables the option of an additional
+"resample" where the analysis and assessment data sets are the same as the
+original data set. This can be required for some types of analysis of the
+bootstrap results.
+The \code{strata} argument is based on a similar argument in the random forest
+package were the bootstrap samples are conducted \emph{within the stratification
+variable}. The can help ensure that the number of data points in the
+bootstrap sample is equivalent to the proportions in the original data set.
 }
 \examples{
 bootstraps(mtcars, times = 2)

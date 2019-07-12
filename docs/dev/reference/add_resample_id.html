@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>rsample: General Resampling Infrastructure for R — rsample • rsample</title>
+<title>Augment a data set with resampling identifiers — add_resample_id • rsample</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -31,11 +31,11 @@
 
 
 
-<meta property="og:title" content="rsample: General Resampling Infrastructure for R — rsample" />
+<meta property="og:title" content="Augment a data set with resampling identifiers — add_resample_id" />
 
-<meta property="og:description" content="rsample has functions to create variations of a data set
-that can be used to evaluate models or to estimate the
-sampling distribution of some statistic." />
+<meta property="og:description" content="For a data set, add_resample_id() will add at least one new column that
+identifies which resample that the data came from. In most cases, a single
+column is added but for some resampling methods two or more are added." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -138,60 +138,99 @@ sampling distribution of some statistic." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>rsample: General Resampling Infrastructure for R</h1>
+    <h1>Augment a data set with resampling identifiers</h1>
     
-    <div class="hidden name"><code>rsample.Rd</code></div>
+    <div class="hidden name"><code>add_resample_id.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><span class="pkg">rsample</span> has functions to create variations of a data set
-that can be used to evaluate models or to estimate the
-sampling distribution of some statistic.</p>
+    <p>For a data set, <code>add_resample_id()</code> will add at least one new column that
+identifies which resample that the data came from. In most cases, a single
+column is added but for some resampling methods two or more are added.</p>
     
     </div>
 
-        
-    <h2 class="hasAnchor" id="terminology"><a class="anchor" href="#terminology"></a>Terminology</h2>
+    <pre class="usage"><span class='fu'>add_resample_id</span>(<span class='no'>.data</span>, <span class='no'>split</span>, <span class='kw'>dots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>A data frame</p></td>
+    </tr>
+    <tr>
+      <th>split</th>
+      <td><p>A single <code>rset</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>dots</th>
+      <td><p>A single logical: should the id columns be prefixed with a "."
+to avoid name conflicts with <code>.data</code>?</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>An updated data frame.</p>
     
-    <ul>
-<li><p>A <strong>resample</strong> is the result of a two-way split of a
-data set. For example, when bootstrapping, one part of the
-resample is a sample with replacement of the original data.
-The other part of the split contains the instances that were
-not contained in the bootstrap sample. The data structure
-<code>rsplit</code> is used to store a single resample.</p></li>
-<li><p>When the data are split in two, the portion that are
-used to estimate the model or calculate the statistic is
-called the <strong>analysis</strong> set here. In machine learning this
-is sometimes called the "training set" but this would be
-poorly named since it might conflict with any initial split
-of the original data.</p></li>
-<li><p>Conversely, the other data in the split are called the
-<strong>assessment</strong> data. In bootstrapping, these data are
-often called the "out-of-bag" samples.</p></li>
-<li><p>A collection of resamples is contained in an
-<code>rset</code> object.</p></li>
-</ul>
-    
-    <h2 class="hasAnchor" id="basic-functions"><a class="anchor" href="#basic-functions"></a>Basic Functions</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    
-    <p>The main resampling functions are: <code><a href='vfold_cv.html'>vfold_cv()</a></code>,
-<code><a href='bootstraps.html'>bootstraps()</a></code>, <code><a href='mc_cv.html'>mc_cv()</a></code>,
-<code><a href='rolling_origin.html'>rolling_origin()</a></code>, and <code><a href='nested_cv.html'>nested_cv()</a></code>.</p>
+    <div class='dont-index'><p>labels.rsplit</p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>363</span>)
+<span class='no'>car_folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+
+<span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span>(<span class='no'>car_folds</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='kw'>%&gt;%</span>
+  <span class='fu'>add_resample_id</span>(<span class='no'>car_folds</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()</div><div class='output co'>#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb      id
+#&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4 Repeat1
+#&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4 Repeat1
+#&gt; Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1 Repeat1
+#&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1 Repeat1
+#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2 Repeat1
+#&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1 Repeat1
+#&gt;                      id2
+#&gt; Mazda RX4         Fold01
+#&gt; Mazda RX4 Wag     Fold01
+#&gt; Datsun 710        Fold01
+#&gt; Hornet 4 Drive    Fold01
+#&gt; Hornet Sportabout Fold01
+#&gt; Valiant           Fold01</div><div class='input'>
+<span class='no'>car_bt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='no'>mtcars</span>)
+
+<span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span>(<span class='no'>car_bt</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='kw'>%&gt;%</span>
+  <span class='fu'>add_resample_id</span>(<span class='no'>car_bt</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+#&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+#&gt; Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+#&gt; Chrysler Imperial.1 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+#&gt; Volvo 142E.1        21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+#&gt;                              id
+#&gt; Toyota Corona       Bootstrap01
+#&gt; Mazda RX4           Bootstrap01
+#&gt; Chrysler Imperial   Bootstrap01
+#&gt; Volvo 142E          Bootstrap01
+#&gt; Chrysler Imperial.1 Bootstrap01
+#&gt; Volvo 142E.1        Bootstrap01</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#terminology">Terminology</a></li>
+      <li><a href="#value">Value</a></li>
 
-      <li><a href="#basic-functions">Basic Functions</a></li>
-          </ul>
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

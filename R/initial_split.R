@@ -1,19 +1,23 @@
 #' Simple Training/Test Set Splitting
 #'
-#' `initial_split` creates a single binary split of the data into a training set
-#' and testing set. `initial_time_split` does the same, but takes the _first_ `prop`
-#' samples for training, instead of a random selection. `training` and
-#' `testing` are used to extract the resulting data.
-#'
-#' @details
-#' The `strata` argument causes the random sampling to be conducted *within the stratification variable*. The can help ensure that the number of data points in the training data is equivalent to the proportions in the original data set.
-#'
+#' `initial_split` creates a single binary split of the data into a training
+#'  set and testing set. `initial_time_split` does the same, but takes the
+#'  _first_ `prop` samples for training, instead of a random selection.
+#'  `training` and `testing` are used to extract the resulting data.
+#' @details The `strata` argument causes the random sampling to be conducted
+#'  *within the stratification variable*. The can help ensure that the number of
+#'  data points in the training data is equivalent to the proportions in the
+#'  original data set.
 #' @inheritParams vfold_cv
 #' @param prop The proportion of data to be retained for modeling/analysis.
-#' @param strata A variable that is used to conduct stratified sampling to create the resamples. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.
-#' @param breaks A single number giving the number of bins desired to stratify a numeric stratification variable.
+#' @param strata A variable that is used to conduct stratified sampling to
+#'  create the resamples. This could be a single character value or a variable
+#'  name that corresponds to a variable that exists in the data frame.
+#' @param breaks A single number giving the number of bins desired to stratify
+#'  a numeric stratification variable.
 #' @export
-#' @return  An `rset` object that can be used with the `training` and `testing` functions to extract the data in each split.
+#' @return An `rset` object that can be used with the `training` and `testing`
+#'  functions to extract the data in each split.
 #' @examples
 #' set.seed(1353)
 #' car_split <- initial_split(mtcars)

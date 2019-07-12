@@ -1,20 +1,36 @@
 #' V-Fold Cross-Validation
 #'
-#' V-fold cross-validation randomly splits the data into V groups of roughly equal size (called "folds"). A resample of the analysis data consisted of V-1 of the folds while the assessment set contains the final fold. In basic V-fold cross-validation (i.e. no repeats), the number of resamples is equal to V.
-
+#' V-fold cross-validation randomly splits the data into V groups of roughly
+#'  equal size (called "folds"). A resample of the analysis data consisted of
+#'  V-1 of the folds while the assessment set contains the final fold. In basic
+#'  V-fold cross-validation (i.e. no repeats), the number of resamples is equal
+#'  to V.
 #' @details
-#' The `strata` argument causes the random sampling to be conducted *within the stratification variable*. The can help ensure that the number of data points in the analysis data is equivalent to the proportions in the original data set.
-#'
-#' When more than one repeat is requested, the basic V-fold cross-validation is conducted each time. For example, if three repeats are used with `v = 10`, there are a total of 30 splits which as three groups of 10 that are generated separately.
-#'
+#' The `strata` argument causes the random sampling to be conducted *within
+#'  the stratification variable*. The can help ensure that the number of data
+#'  points in the analysis data is equivalent to the proportions in the original
+#'  data set.
+#' When more than one repeat is requested, the basic V-fold cross-validation
+#'  is conducted each time. For example, if three repeats are used with `v =
+#'  10`, there are a total of 30 splits which as three groups of 10 that are
+#'  generated separately.
 #' @param data A data frame.
 #' @param v The number of partitions of the data set.
 #' @param repeats The number of times to repeat the V-fold partitioning.
-#' @param strata A variable that is used to conduct stratified sampling to create the folds. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.
-#' @param breaks A single number giving the number of bins desired to stratify a numeric stratification variable.
+#' @param strata A variable that is used to conduct stratified sampling to
+#'  create the folds. This could be a single character value or a variable name
+#'  that corresponds to a variable that exists in the data frame.
+#' @param breaks A single number giving the number of bins desired to stratify
+#'  a numeric stratification variable.
 #' @param ... Not currently used.
 #' @export
-#' @return  A tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and `data.frame`. The results include a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called `id` that has a character string with the fold identifier. For repeats, `id` is the repeat number and an additional column called `id2` that contains the fold information (within repeat).
+#' @return A tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and
+#'  `data.frame`. The results include a column for the data split objects and
+#'  one or more identification variables. For a single repeats, there will be
+#'  one column called `id` that has a character string with the fold identifier.
+#'  For repeats, `id` is the repeat number and an additional column called `id2`
+#'  that contains the fold information (within repeat).
+
 #' @examples
 #' vfold_cv(mtcars, v = 10)
 #' vfold_cv(mtcars, v = 10, repeats = 2)

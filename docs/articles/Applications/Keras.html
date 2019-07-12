@@ -200,7 +200,7 @@
 <a class="sourceLine" id="cb7-5" data-line-number="5">  <span class="dt">batch_size =</span> <span class="dv">128</span>, </a>
 <a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="dt">verbose =</span> <span class="dv">0</span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7">)</a></code></pre></div>
-<pre><code>## [1] 0.3153094</code></pre>
+<pre><code>## [1] 0.5520515</code></pre>
 <p>This works for a single resample and a single epoch setting. To tune over epochs, another function uses <code>map</code> to work over the tuning parameter for a specific resample. This is more advantageous than fixing the tuning parameter and then iterating over the data. If there was a complex feature engineering process being used, it only needs to be called once if functions are configured so that the <em>inner</em> loop is over the tuning parameters.</p>
 <p>The result value is a tibble with the tuning parameter values, the performance estimates, and an indicator for the fold.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">across_grid &lt;-<span class="st"> </span><span class="cf">function</span>(split, ...) {</a>
@@ -229,12 +229,12 @@
 <a class="sourceLine" id="cb10-7" data-line-number="7">  )</a></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(tune_results)</a></code></pre></div>
 <pre><code>##   epoch      rmse     id
-## 1    50 1.4491586 Fold01
-## 2   100 0.4353334 Fold01
-## 3   150 0.4511556 Fold01
-## 4   200 0.2404787 Fold01
-## 5   250 0.2000595 Fold01
-## 6   300 0.1815458 Fold01</code></pre>
+## 1    50 0.6861948 Fold01
+## 2   100 0.3958742 Fold01
+## 3   150 0.3609710 Fold01
+## 4   200 0.2474238 Fold01
+## 5   250 0.2106353 Fold01
+## 6   300 0.1777445 Fold01</code></pre>
 <p>The mean RMSE per epoch is computed and plotted along with the individual curves for each resample.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">mean_values &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span>tune_results <span class="op">%&gt;%</span></a>
@@ -244,17 +244,17 @@
 <pre><code>## # A tibble: 12 x 2
 ##    epoch  rmse
 ##    &lt;dbl&gt; &lt;dbl&gt;
-##  1    50 0.860
-##  2   100 0.397
-##  3   150 0.330
-##  4   200 0.257
-##  5   250 0.207
-##  6   300 0.174
-##  7   350 0.156
+##  1    50 0.925
+##  2   100 0.409
+##  3   150 0.312
+##  4   200 0.248
+##  5   250 0.211
+##  6   300 0.172
+##  7   350 0.155
 ##  8   400 0.150
-##  9   450 0.150
+##  9   450 0.149
 ## 10   500 0.150
-## 11   550 0.150
+## 11   550 0.149
 ## 12   600 0.150</code></pre>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2"></a>

@@ -18,20 +18,29 @@
 \arguments{
 \item{x}{A  \code{rset} or  \code{rsplit} object}
 
-\item{unique_ind}{Should unique row identifiers be returned? For example, if  \code{FALSE} then bootstrapping results will include multiple rows in the sample for the same row in the original data.}
+\item{unique_ind}{Should unique row identifiers be returned? For example,
+if \code{FALSE} then bootstrapping results will include multiple rows in the
+sample for the same row in the original data.}
 
 \item{...}{Not currently used.}
 }
 \value{
-A tibble with columns  \code{Row} and  \code{Data}. The latter has possible values "Analysis" or "Assessment". For  \code{rset} inputs, identification columns are also returned but their names and values depend on the type of resampling.  \code{vfold_cv} contains a column "Fold" and, if repeats are used, another called "Repeats".  \code{bootstraps} and  \code{mc_cv} use the column "Resample".
+A tibble with columns \code{Row} and \code{Data}. The latter has possible
+values "Analysis" or "Assessment". For \code{rset} inputs, identification columns
+are also returned but their names and values depend on the type of
+resampling. \code{vfold_cv} contains a column "Fold" and, if repeats are used,
+another called "Repeats". \code{bootstraps} and \code{mc_cv} use the column
+"Resample".
 }
 \description{
-The \code{tidy} function from the  \pkg{broom} package can be used on  \code{rset} and  \code{rsplit} objects to generate tibbles with which rows are in the analysis and assessment sets.
+The \code{tidy} function from the \pkg{broom} package can be used on \code{rset} and
+\code{rsplit} objects to generate tibbles with which rows are in the analysis and
+assessment sets.
 }
 \details{
 Note that for nested resampling, the rows of the inner resample,
-named \code{inner_Row}, are \emph{relative} row indices and do not
-correspond to the rows in the original data set.
+named \code{inner_Row}, are \emph{relative} row indices and do not correspond to the
+rows in the original data set.
 }
 \examples{
 library(ggplot2)

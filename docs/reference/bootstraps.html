@@ -33,7 +33,12 @@
 
 <meta property="og:title" content="Bootstrap Sampling — bootstraps" />
 
-<meta property="og:description" content="A bootstrap sample is a sample that is the same size as the original data set that is made using replacement.  This results in analysis samples that have multiple replicates of some of the original rows of the data. The assessment set is defined as the rows of the original data that were not included in the bootstrap sample. This is often referred to as the &quot;out-of-bag&quot; (OOB) sample." />
+<meta property="og:description" content="A bootstrap sample is a sample that is the same size as the original data
+set that is made using replacement. This results in analysis samples that
+have multiple replicates of some of the original rows of the data. The
+assessment set is defined as the rows of the original data that were not
+included in the bootstrap sample. This is often referred to as the
+&quot;out-of-bag&quot; (OOB) sample." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -143,7 +148,12 @@
 
     <div class="ref-description">
     
-    <p>A bootstrap sample is a sample that is the same size as the original data set that is made using replacement.  This results in analysis samples that have multiple replicates of some of the original rows of the data. The assessment set is defined as the rows of the original data that were not included in the bootstrap sample. This is often referred to as the "out-of-bag" (OOB) sample.</p>
+    <p>A bootstrap sample is a sample that is the same size as the original data
+set that is made using replacement. This results in analysis samples that
+have multiple replicates of some of the original rows of the data. The
+assessment set is defined as the rows of the original data that were not
+included in the bootstrap sample. This is often referred to as the
+"out-of-bag" (OOB) sample.</p>
     
     </div>
 
@@ -163,15 +173,22 @@
     </tr>
     <tr>
       <th>strata</th>
-      <td><p>A variable that is used to conduct stratified sampling. When not <code>NULL</code>, each bootstrap sample is created within the stratification variable. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.</p></td>
+      <td><p>A variable that is used to conduct stratified sampling. When
+not <code>NULL</code>, each bootstrap sample is created within the stratification
+variable. This could be a single character value or a variable name that
+corresponds to a variable that exists in the data frame.</p></td>
     </tr>
     <tr>
       <th>breaks</th>
-      <td><p>A single number giving the number of bins desired to stratify a numeric stratification variable.</p></td>
+      <td><p>A single number giving the number of bins desired to stratify
+a numeric stratification variable.</p></td>
     </tr>
     <tr>
       <th>apparent</th>
-      <td><p>A logical. Should an extra resample be added where the analysis and holdout subset are the entire data set. This is required for some estimators used by the <code>summary</code> function that require the apparent error rate.</p></td>
+      <td><p>A logical. Should an extra resample be added where the
+analysis and holdout subset are the entire data set. This is required for
+some estimators used by the <code>summary</code> function that require the apparent
+error rate.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -181,12 +198,20 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An tibble with classes <code>bootstraps</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and <code>data.frame</code>. The results include a column for the data split objects and a column called <code>id</code> that has a character string with the resample identifier.</p>
+    <p>An tibble with classes <code>bootstraps</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and
+<code>data.frame</code>. The results include a column for the data split objects and a
+column called <code>id</code> that has a character string with the resample identifier.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The argument <code>apparent</code> enables the option of an additional "resample" where the analysis and assessment data sets are the same as the original data set. This can be required for some types of analysis of the bootstrap results.</p>
-<p>The <code>strata</code> argument is based on a similar argument in the random forest package were the bootstrap samples are conducted <em>within the stratification variable</em>. The can help ensure that the number of data points in the bootstrap sample is equivalent to the proportions in the original data set.</p>
+    <p>The argument <code>apparent</code> enables the option of an additional
+"resample" where the analysis and assessment data sets are the same as the
+original data set. This can be required for some types of analysis of the
+bootstrap results.
+The <code>strata</code> argument is based on a similar argument in the random forest
+package were the bootstrap samples are conducted <em>within the stratification
+variable</em>. The can help ensure that the number of data points in the
+bootstrap sample is equivalent to the proportions in the original data set.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
