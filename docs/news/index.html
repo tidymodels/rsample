@@ -33,6 +33,9 @@
 
 <meta property="og:title" content="Changelog" />
 
+<meta property="og:image" content="/logo.png" />
+<meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -72,7 +75,7 @@
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
         </div>
       </div>
     </div>
@@ -106,6 +109,9 @@
     <li>
       <a href="../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
     </li>
+    <li>
+      <a href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -132,6 +138,16 @@
       
     </div>
 
+    <div id="rsample-0-0-5" class="section level1">
+<h1 class="page-header">
+<a href="#rsample-0-0-5" class="anchor"></a><small> Unreleased </small><code>rsample</code> 0.0.5</h1>
+<ul>
+<li>Added three functions to compute different bootstrap confidence intervals.</li>
+<li>A new function (<code>add_resample_id</code>) augments a data frame with columns for the resampling identifier.</li>
+<li>Updated <code>initial_split</code>, <code>mc_cv</code>, <code>vfold_cv</code>, <code>bootstraps</code>, and <code>group_vfold_cv</code> to use tidyselect on the stratification variable.</li>
+<li>Updated <code>initial_split</code>, <code>mc_cv</code>, <code>vfold_cv</code>, <code>bootstraps</code> with new <code>breaks</code> parameter that specifies the number of bins to stratify by for a numeric stratification variable.</li>
+</ul>
+</div>
     <div id="rsample-0-0-4" class="section level1">
 <h1 class="page-header">
 <a href="#rsample-0-0-4" class="anchor"></a><small> 2019-01-07 </small><code>rsample</code> 0.0.4</h1>
@@ -195,6 +211,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#rsample-0-0-5">0.0.5</a></li>
         <li><a href="#rsample-0-0-4">0.0.4</a></li>
         <li><a href="#rsample-0-0-3">0.0.3</a></li>
         <li><a href="#rsample-0-0-2">0.0.2</a></li>
@@ -213,7 +230,7 @@
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, <a href='http://hadley.nz'>Hadley Wickham</a>.
+    Developed by Max Kuhn, Fanny Chow, <a href='http://hadley.nz'>Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

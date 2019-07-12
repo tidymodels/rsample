@@ -34,11 +34,13 @@
 <meta property="og:title" content="Group V-Fold Cross-Validation — group_vfold_cv" />
 
 <meta property="og:description" content="Group V-fold cross-validation creates splits of the data based
- on some grouping variable (which may have more than a single row
- associated with it). The function can create as many splits as
- there are unique values of the grouping variable or it can
- create a smaller set of splits where more than one value is left
- out at a time." />
+on some grouping variable (which may have more than a single row
+associated with it). The function can create as many splits as
+there are unique values of the grouping variable or it can
+create a smaller set of splits where more than one value is left
+out at a time." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -80,7 +82,7 @@
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
         </div>
       </div>
     </div>
@@ -114,6 +116,9 @@
     <li>
       <a href="../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
     </li>
+    <li>
+      <a href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -144,11 +149,11 @@
     <div class="ref-description">
     
     <p>Group V-fold cross-validation creates splits of the data based
- on some grouping variable (which may have more than a single row
- associated with it). The function can create as many splits as
- there are unique values of the grouping variable or it can
- create a smaller set of splits where more than one value is left
- out at a time.</p>
+on some grouping variable (which may have more than a single row
+associated with it). The function can create as many splits as
+there are unique values of the grouping variable or it can
+create a smaller set of splits where more than one value is left
+out at a time.</p>
     
     </div>
 
@@ -163,13 +168,13 @@
     </tr>
     <tr>
       <th>group</th>
-      <td><p>A single character value for the column of the
-data that will be used to create the splits.</p></td>
+      <td><p>This could be a single character value or a variable
+name that corresponds to a variable that exists in the data frame.</p></td>
     </tr>
     <tr>
       <th>v</th>
       <td><p>The number of partitions of the data set. If let
-`NULL`, `v` will be set to the number of unique values
+<code>NULL</code>, <code>v</code> will be set to the number of unique values
 in the group.</p></td>
     </tr>
     <tr>
@@ -180,10 +185,10 @@ in the group.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An tibble with classes `group_vfold_cv`,
- `rset`, `tbl_df`, `tbl`, and `data.frame`.
- The results include a column for the data split objects and an
- identification variable.</p>
+    <p>An tibble with classes <code>group_vfold_cv</code>,
+<code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and <code>data.frame</code>.
+The results include a column for the data split objects and an
+identification variable.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -231,7 +236,7 @@ in the group.</p></td>
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, <a href='http://hadley.nz'>Hadley Wickham</a>.
+    Developed by Max Kuhn, Fanny Chow, <a href='http://hadley.nz'>Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

@@ -33,10 +33,12 @@
 
 <meta property="og:title" content="Extract Predictor Names from Formula or Terms — form_pred" />
 
-<meta property="og:description" content="`all.vars` returns all variables used in a formula. This
- function only returns the variables explicitly used on the
- right-hand side (i.e., it will not resolve dots unless the
- object is terms with a data set specified)." />
+<meta property="og:description" content="all.vars returns all variables used in a formula. This
+function only returns the variables explicitly used on the
+right-hand side (i.e., it will not resolve dots unless the
+object is terms with a data set specified)." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -78,7 +80,7 @@
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
         </div>
       </div>
     </div>
@@ -112,6 +114,9 @@
     <li>
       <a href="../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
     </li>
+    <li>
+      <a href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -141,10 +146,10 @@
 
     <div class="ref-description">
     
-    <p>`all.vars` returns all variables used in a formula. This
- function only returns the variables explicitly used on the
- right-hand side (i.e., it will not resolve dots unless the
- object is terms with a data set specified).</p>
+    <p><code>all.vars</code> returns all variables used in a formula. This
+function only returns the variables explicitly used on the
+right-hand side (i.e., it will not resolve dots unless the
+object is terms with a data set specified).</p>
     
     </div>
 
@@ -155,12 +160,12 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>A model formula or [stats::terms()]
+      <td><p>A model formula or <code><a href='https://rdrr.io/r/stats/terms.html'>stats::terms()</a></code>
 object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments to pass to [all.vars()]</p></td>
+      <td><p>Arguments to pass to <code><a href='https://rdrr.io/r/base/allnames.html'>all.vars()</a></code></p></td>
     </tr>
     </table>
     
@@ -199,7 +204,7 @@ object.</p></td>
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, <a href='http://hadley.nz'>Hadley Wickham</a>.
+    Developed by Max Kuhn, Fanny Chow, <a href='http://hadley.nz'>Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gather an `rset` Object — gather.rset • rsample</title>
+<title>Gather an <code>rset</code> Object — gather.rset • rsample</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -31,13 +31,15 @@
 
 
 
-<meta property="og:title" content="Gather an `rset` Object — gather.rset" />
+<meta property="og:title" content="Gather an <code>rset</code> Object — gather.rset" />
 
-<meta property="og:description" content="This method uses `gather` on an `rset` object to stack all of
- the non-ID or split columns in the data and is useful for
- stacking model evaluation statistics. The resulting data frame
- has a column based on the column names of `data` and another for
- the values." />
+<meta property="og:description" content="This method uses gather on an rset object to stack all of
+the non-ID or split columns in the data and is useful for
+stacking model evaluation statistics. The resulting data frame
+has a column based on the column names of data and another for
+the values." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -79,7 +81,7 @@
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
         </div>
       </div>
     </div>
@@ -113,6 +115,9 @@
     <li>
       <a href="../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
     </li>
+    <li>
+      <a href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -135,18 +140,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Gather an `rset` Object</h1>
+    <h1>Gather an <code>rset</code> Object</h1>
     
     <div class="hidden name"><code>gather.rset.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This method uses `gather` on an `rset` object to stack all of
- the non-ID or split columns in the data and is useful for
- stacking model evaluation statistics. The resulting data frame
- has a column based on the column names of `data` and another for
- the values.</p>
+    <p>This method uses <code>gather</code> on an <code>rset</code> object to stack all of
+the non-ID or split columns in the data and is useful for
+stacking model evaluation statistics. The resulting data frame
+has a column based on the column names of <code>data</code> and another for
+the values.</p>
     
     </div>
 
@@ -159,7 +164,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>An `rset` object.</p></td>
+      <td><p>An <code>rset</code> object.</p></td>
     </tr>
     <tr>
       <th>key, value, ...</th>
@@ -169,19 +174,19 @@ they are passed to the function.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>If `TRUE`, will remove rows from output where the
-value column in `NA`.</p></td>
+      <td><p>If <code>TRUE</code>, will remove rows from output where the
+value column in <code>NA</code>.</p></td>
     </tr>
     <tr>
       <th>convert</th>
-      <td><p>If `TRUE` will automatically run
-`type.convert()` on the key column. This is useful if the column
+      <td><p>If <code>TRUE</code> will automatically run
+<code><a href='https://rdrr.io/r/utils/type.convert.html'>type.convert()</a></code> on the key column. This is useful if the column
 names are actually numeric, integer, or logical.</p></td>
     </tr>
     <tr>
       <th>factor_key</th>
       <td><p>If FALSE, the default, the key values will be
-stored as a character vector. If `TRUE`, will be stored as a
+stored as a character vector. If <code>TRUE</code>, will be stored as a
 factor, which preserves the original ordering of the columns.</p></td>
     </tr>
     </table>
@@ -189,8 +194,8 @@ factor, which preserves the original ordering of the columns.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data frame with the ID columns, a column called
- `model` (with the previous column names), and a column called
- `statistic` (with the values).</p>
+<code>model</code> (with the previous column names), and a column called
+<code>statistic</code> (with the values).</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -241,7 +246,7 @@ factor, which preserves the original ordering of the columns.</p></td>
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, <a href='http://hadley.nz'>Hadley Wickham</a>.
+    Developed by Max Kuhn, Fanny Chow, <a href='http://hadley.nz'>Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

@@ -33,9 +33,11 @@
 
 <meta property="og:title" content="Nested or Double Resampling — nested_cv" />
 
-<meta property="og:description" content="`nested_cv` can be used to take the results of one resampling procedure
-  and conduct further resamples within each split. Any type of resampling
-  used in `rsample` can be used." />
+<meta property="og:description" content="nested_cv can be used to take the results of one resampling procedure
+and conduct further resamples within each split. Any type of resampling
+used in rsample can be used." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -77,7 +79,7 @@
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
         </div>
       </div>
     </div>
@@ -111,6 +113,9 @@
     <li>
       <a href="../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
     </li>
+    <li>
+      <a href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -140,9 +145,9 @@
 
     <div class="ref-description">
     
-    <p>`nested_cv` can be used to take the results of one resampling procedure
-  and conduct further resamples within each split. Any type of resampling
-  used in `rsample` can be used.</p>
+    <p><code>nested_cv</code> can be used to take the results of one resampling procedure
+and conduct further resamples within each split. Any type of resampling
+used in <code>rsample</code> can be used.</p>
     
     </div>
 
@@ -159,7 +164,7 @@
       <th>outside</th>
       <td><p>The initial resampling specification. This can be an already
 created object or an expression of a new object (see the examples below).
-If the latter is used, the `data` argument does not need to be
+If the latter is used, the <code>data</code> argument does not need to be
 specified and, if it is given, will be ignored.</p></td>
     </tr>
     <tr>
@@ -171,33 +176,31 @@ within the initial procedure.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An tibble with classe `nested_cv` and any other classes that
-  outer resampling process normally contains. The results include a
- column for the outer data split objects, one or more `id` columns,
- and a column of nested tibbles called `inner_resamples` with the
- additional resamples.</p>
+    <p>An tibble with classe <code>nested_cv</code> and any other classes that
+outer resampling process normally contains. The results include a
+column for the outer data split objects, one or more <code>id</code> columns,
+and a column of nested tibbles called <code>inner_resamples</code> with the
+additional resamples.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>It is a bad idea to use bootstrapping as the outer resampling procedure (see
-  the example below)</p>
+the example below)</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Using expressions for the resampling procedures:</span>
-<span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>outside</span> <span class='kw'>=</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>3</span>), <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `is_lang()` is deprecated as of rlang 0.2.0.</span>
-#&gt; <span class='warning'>Please use `is_call()` instead.</span>
-#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once per session.</span><span></span></div><div class='output co'>#&gt; [1] "nested_cv"  "vfold_cv"   "rset"       "tbl_df"     "tbl"       
+<span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>outside</span> <span class='kw'>=</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>3</span>), <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; [1] "nested_cv"  "vfold_cv"   "rset"       "tbl_df"     "tbl"       
 #&gt; [6] "data.frame"
 #&gt; # Nested resampling:
 #&gt; #  outer: 3-fold cross-validation
 #&gt; #  inner: Bootstrap sampling
-#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
+#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   splits          id    inner_resamples 
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;named list&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;named list&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> </span><span style='color: #949494;'>&lt;split [21/11]&gt;</span><span> Fold1 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> </span><span style='color: #949494;'>&lt;split [21/11]&gt;</span><span> Fold2 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> </span><span style='color: #949494;'>&lt;split [22/10]&gt;</span><span> Fold3 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span></div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #555555;'>&lt;split [21/11]&gt;</span><span> Fold1 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> </span><span style='color: #555555;'>&lt;split [21/11]&gt;</span><span> Fold2 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> </span><span style='color: #555555;'>&lt;split [22/10]&gt;</span><span> Fold3 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span></div><div class='input'>
 <span class='co'>## Using an existing object:</span>
 <span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>)
 <span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>, <span class='no'>folds</span>, <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; [1] "nested_cv"  "vfold_cv"   "rset"       "tbl_df"     "tbl"       
@@ -205,19 +208,19 @@ within the initial procedure.</p></td>
 #&gt; # Nested resampling:
 #&gt; #  outer: `folds`
 #&gt; #  inner: Bootstrap sampling
-#&gt; </span><span style='color: #949494;'># A tibble: 10 x 3</span><span>
+#&gt; </span><span style='color: #555555;'># A tibble: 10 x 3</span><span>
 #&gt;    splits         id     inner_resamples 
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;named list&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;named list&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Fold01 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Fold02 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold03 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold04 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold05 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold06 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold07 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold08 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold09 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold10 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span></div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'> 1</span><span> </span><span style='color: #555555;'>&lt;split [28/4]&gt;</span><span> Fold01 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #555555;'>&lt;split [28/4]&gt;</span><span> Fold02 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold03 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 4</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold04 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 5</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold05 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 6</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold06 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold07 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold08 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 9</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold09 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>10</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold10 </span><span style='color: #555555;'>&lt;tibble [5 × 2]&gt;</span><span></div><div class='input'>
 <span class='co'>## The dangers of outer bootstraps:</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>2222</span>)
 <span class='no'>bad_idea</span> <span class='kw'>&lt;-</span> <span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>,
@@ -257,7 +260,7 @@ within the initial procedure.</p></td>
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, <a href='http://hadley.nz'>Hadley Wickham</a>.
+    Developed by Max Kuhn, Fanny Chow, <a href='http://hadley.nz'>Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

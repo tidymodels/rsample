@@ -12,6 +12,7 @@
 <script src="../../pkgdown.js"></script><link href="../../tidyverse-2.css" rel="stylesheet">
 <meta property="og:title" content="Survival Analysis Example">
 <meta property="og:description" content="">
+<meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -40,7 +41,7 @@
         <a class="navbar-brand" href="../../index.html">rsample</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
         </div>
       </div>
     </div>
@@ -73,6 +74,9 @@
     </li>
     <li>
       <a href="../../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
+    </li>
+    <li>
+      <a href="../../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
     </li>
   </ul>
 </li>
@@ -185,7 +189,7 @@
 <p>The distributions of the resampling estimates</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">concord_est &lt;-<span class="st"> </span>mc_samp <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">matches</a></span>(<span class="st">"^mod"</span>))</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">matches</a></span>(<span class="st">"^mod"</span>))</a>
 <a class="sourceLine" id="cb14-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb14-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyr)</a>
 <a class="sourceLine" id="cb14-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
@@ -203,8 +207,8 @@
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000139 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.39 seconds.
+## Chain 1: Gradient evaluation took 0.000129 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.29 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -221,15 +225,15 @@
 ## Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 6.24177 seconds (Warm-up)
-## Chain 1:                2.20405 seconds (Sampling)
-## Chain 1:                8.44582 seconds (Total)
+## Chain 1:  Elapsed Time: 6.13119 seconds (Warm-up)
+## Chain 1:                2.1284 seconds (Sampling)
+## Chain 1:                8.2596 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 5.5e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.55 seconds.
+## Chain 2: Gradient evaluation took 5.3e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.53 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -246,15 +250,15 @@
 ## Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 6.7566 seconds (Warm-up)
-## Chain 2:                1.65109 seconds (Sampling)
-## Chain 2:                8.40769 seconds (Total)
+## Chain 2:  Elapsed Time: 6.52606 seconds (Warm-up)
+## Chain 2:                1.58985 seconds (Sampling)
+## Chain 2:                8.11591 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 4.2e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.42 seconds.
+## Chain 3: Gradient evaluation took 5.3e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.53 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -271,15 +275,15 @@
 ## Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 6.4902 seconds (Warm-up)
-## Chain 3:                1.44996 seconds (Sampling)
-## Chain 3:                7.94016 seconds (Total)
+## Chain 3:  Elapsed Time: 6.31717 seconds (Warm-up)
+## Chain 3:                1.39691 seconds (Sampling)
+## Chain 3:                7.71408 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 4.1e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.41 seconds.
+## Chain 4: Gradient evaluation took 3.6e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -296,9 +300,9 @@
 ## Chain 4: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 7.16214 seconds (Warm-up)
-## Chain 4:                1.31792 seconds (Sampling)
-## Chain 4:                8.48005 seconds (Total)
+## Chain 4:  Elapsed Time: 7.03219 seconds (Warm-up)
+## Chain 4:                1.2961 seconds (Sampling)
+## Chain 4:                8.3283 seconds (Total)
 ## Chain 4:</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">concord_est<span class="op">$</span>stan</a></code></pre></div>
 <pre><code>## stan_glmer
@@ -346,7 +350,7 @@
 <p><img src="Survival_Analysis_files/figure-html/diff-post-1.png" width="768"></p>
 <p>The ROPE statistics quantify the practical effects:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(comparisons, <span class="dt">size =</span> <span class="fl">0.05</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(contrast, <span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"pract"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(contrast, <span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"pract"</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ##   contrast        pract_neg pract_equiv pract_pos
 ##   &lt;chr&gt;               &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
@@ -368,7 +372,7 @@
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, <a href="http://hadley.nz">Hadley Wickham</a>.
+    Developed by Max Kuhn, Fanny Chow, <a href="http://hadley.nz">Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

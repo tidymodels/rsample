@@ -1,9 +1,13 @@
 #' Leave-One-Out Cross-Validation
 #'
-#' Leave-one-out (LOO) cross-validation uses one data point in the original set as the assessment data and all other data points as the analysis set. A LOO resampling set has as many resamples as rows in the original data set.
-#'
+#' Leave-one-out (LOO) cross-validation uses one data point in the original
+#'  set as the assessment data and all other data points as the analysis set. A
+#'  LOO resampling set has as many resamples as rows in the original data set.
 #' @inheritParams vfold_cv
-#' @return  An tibble with classes `loo_cv`, `rset`, `tbl_df`, `tbl`, and `data.frame`. The results include a column for the data split objects and one column called `id` that has a character string with the resample identifier.
+#' @return An tibble with classes `loo_cv`, `rset`, `tbl_df`, `tbl`, and
+#'  `data.frame`. The results include a column for the data split objects and
+#'  one column called `id` that has a character string with the resample
+#'  identifier.
 #' @examples
 #' loo_cv(mtcars)
 #' @importFrom purrr map

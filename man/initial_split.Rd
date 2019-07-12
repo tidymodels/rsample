@@ -20,25 +20,32 @@ testing(x)
 
 \item{prop}{The proportion of data to be retained for modeling/analysis.}
 
-\item{strata}{A variable that is used to conduct stratified sampling to create the resamples. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.}
+\item{strata}{A variable that is used to conduct stratified sampling to
+create the resamples. This could be a single character value or a variable
+name that corresponds to a variable that exists in the data frame.}
 
-\item{breaks}{A single number giving the number of bins desired to stratify a numeric stratification variable.}
+\item{breaks}{A single number giving the number of bins desired to stratify
+a numeric stratification variable.}
 
 \item{...}{Not currently used.}
 
 \item{x}{An \code{rsplit} object produced by \code{initial_split}}
 }
 \value{
-An \code{rset} object that can be used with the \code{training} and \code{testing} functions to extract the data in each split.
+An \code{rset} object that can be used with the \code{training} and \code{testing}
+functions to extract the data in each split.
 }
 \description{
-\code{initial_split} creates a single binary split of the data into a training set
-and testing set. \code{initial_time_split} does the same, but takes the \emph{first} \code{prop}
-samples for training, instead of a random selection. \code{training} and
-\code{testing} are used to extract the resulting data.
+\code{initial_split} creates a single binary split of the data into a training
+set and testing set. \code{initial_time_split} does the same, but takes the
+\emph{first} \code{prop} samples for training, instead of a random selection.
+\code{training} and \code{testing} are used to extract the resulting data.
 }
 \details{
-The \code{strata} argument causes the random sampling to be conducted \emph{within the stratification variable}. The can help ensure that the number of data points in the training data is equivalent to the proportions in the original data set.
+The \code{strata} argument causes the random sampling to be conducted
+\emph{within the stratification variable}. The can help ensure that the number of
+data points in the training data is equivalent to the proportions in the
+original data set.
 }
 \examples{
 set.seed(1353)

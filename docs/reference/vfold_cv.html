@@ -33,7 +33,13 @@
 
 <meta property="og:title" content="V-Fold Cross-Validation — vfold_cv" />
 
-<meta property="og:description" content="V-fold cross-validation randomly splits the data into V groups of roughly equal size (called &quot;folds&quot;). A resample of the analysis data consisted of V-1 of the folds while the assessment set contains the final fold. In basic V-fold cross-validation (i.e. no repeats), the number of resamples is equal to V." />
+<meta property="og:description" content="V-fold cross-validation randomly splits the data into V groups of roughly
+equal size (called &quot;folds&quot;). A resample of the analysis data consisted of
+V-1 of the folds while the assessment set contains the final fold. In basic
+V-fold cross-validation (i.e. no repeats), the number of resamples is equal
+to V." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -75,7 +81,7 @@
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
         </div>
       </div>
     </div>
@@ -109,6 +115,9 @@
     <li>
       <a href="../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
     </li>
+    <li>
+      <a href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -138,11 +147,15 @@
 
     <div class="ref-description">
     
-    <p>V-fold cross-validation randomly splits the data into V groups of roughly equal size (called "folds"). A resample of the analysis data consisted of V-1 of the folds while the assessment set contains the final fold. In basic V-fold cross-validation (i.e. no repeats), the number of resamples is equal to V.</p>
+    <p>V-fold cross-validation randomly splits the data into V groups of roughly
+equal size (called "folds"). A resample of the analysis data consisted of
+V-1 of the folds while the assessment set contains the final fold. In basic
+V-fold cross-validation (i.e. no repeats), the number of resamples is equal
+to V.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>vfold_cv</span>(<span class='no'>data</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>vfold_cv</span>(<span class='no'>data</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,7 +174,14 @@
     </tr>
     <tr>
       <th>strata</th>
-      <td><p>A variable that is used to conduct stratified sampling to create the folds. This should be a single character value.</p></td>
+      <td><p>A variable that is used to conduct stratified sampling to
+create the folds. This could be a single character value or a variable name
+that corresponds to a variable that exists in the data frame.</p></td>
+    </tr>
+    <tr>
+      <th>breaks</th>
+      <td><p>A single number giving the number of bins desired to stratify
+a numeric stratification variable.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -171,52 +191,62 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and `data.frame`. The results include a column for the data split objects and one or more identification variables. For a single repeats, there will be one column called `id` that has a character string with the fold identifier. For repeats, `id` is the repeat number and an additional column called `id2` that contains the fold information (within repeat).</p>
+    <p>A tibble with classes <code>vfold_cv</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and
+<code>data.frame</code>. The results include a column for the data split objects and
+one or more identification variables. For a single repeats, there will be
+one column called <code>id</code> that has a character string with the fold identifier.
+For repeats, <code>id</code> is the repeat number and an additional column called <code>id2</code>
+that contains the fold information (within repeat).</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The `strata` argument causes the random sampling to be conducted *within the stratification variable*. The can help ensure that the number of data points in the analysis data is equivalent to the proportions in the original data set.</p>
-<p>When more than one repeat is requested, the basic V-fold cross-validation is conducted each time. For example, if three repeats are used with `v = 10`, there are a total of 30 splits which as three groups of 10 that are generated separately.</p>
+    <p>The <code>strata</code> argument causes the random sampling to be conducted <em>within
+the stratification variable</em>. The can help ensure that the number of data
+points in the analysis data is equivalent to the proportions in the original
+data set.
+When more than one repeat is requested, the basic V-fold cross-validation
+is conducted each time. For example, if three repeats are used with <code>v = 10</code>, there are a total of 30 splits which as three groups of 10 that are
+generated separately.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>vfold_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; #  10-fold cross-validation 
-#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span><span>
+#&gt; <span style='color: #555555;'># A tibble: 10 x 2</span><span>
 #&gt;    splits         id    
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;named list&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Fold01
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Fold02
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold03
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold04
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold05
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold06
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold07
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold08
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold09
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold10</div><div class='input'><span class='fu'>vfold_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; #  10-fold cross-validation repeated 2 times 
-#&gt; </span><span style='color: #949494;'># A tibble: 20 x 3</span><span>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> </span><span style='color: #555555;'>&lt;split [28/4]&gt;</span><span> Fold01
+#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #555555;'>&lt;split [28/4]&gt;</span><span> Fold02
+#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold03
+#&gt; </span><span style='color: #555555;'> 4</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold04
+#&gt; </span><span style='color: #555555;'> 5</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold05
+#&gt; </span><span style='color: #555555;'> 6</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold06
+#&gt; </span><span style='color: #555555;'> 7</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold07
+#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold08
+#&gt; </span><span style='color: #555555;'> 9</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold09
+#&gt; </span><span style='color: #555555;'>10</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold10</div><div class='input'><span class='fu'>vfold_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; #  10-fold cross-validation repeated 2 times 
+#&gt; </span><span style='color: #555555;'># A tibble: 20 x 3</span><span>
 #&gt;    splits         id      id2   
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;named list&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Repeat1 Fold01
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Repeat1 Fold02
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold03
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold04
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold05
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold06
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold07
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold08
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold09
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold10
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Repeat2 Fold01
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Repeat2 Fold02
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold03
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold04
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold05
-#&gt; </span><span style='color: #BCBCBC;'>16</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold06
-#&gt; </span><span style='color: #BCBCBC;'>17</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold07
-#&gt; </span><span style='color: #BCBCBC;'>18</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold08
-#&gt; </span><span style='color: #BCBCBC;'>19</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold09
-#&gt; </span><span style='color: #BCBCBC;'>20</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold10</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> </span><span style='color: #555555;'>&lt;split [28/4]&gt;</span><span> Repeat1 Fold01
+#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #555555;'>&lt;split [28/4]&gt;</span><span> Repeat1 Fold02
+#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold03
+#&gt; </span><span style='color: #555555;'> 4</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold04
+#&gt; </span><span style='color: #555555;'> 5</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold05
+#&gt; </span><span style='color: #555555;'> 6</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold06
+#&gt; </span><span style='color: #555555;'> 7</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold07
+#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold08
+#&gt; </span><span style='color: #555555;'> 9</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold09
+#&gt; </span><span style='color: #555555;'>10</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold10
+#&gt; </span><span style='color: #555555;'>11</span><span> </span><span style='color: #555555;'>&lt;split [28/4]&gt;</span><span> Repeat2 Fold01
+#&gt; </span><span style='color: #555555;'>12</span><span> </span><span style='color: #555555;'>&lt;split [28/4]&gt;</span><span> Repeat2 Fold02
+#&gt; </span><span style='color: #555555;'>13</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold03
+#&gt; </span><span style='color: #555555;'>14</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold04
+#&gt; </span><span style='color: #555555;'>15</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold05
+#&gt; </span><span style='color: #555555;'>16</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold06
+#&gt; </span><span style='color: #555555;'>17</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold07
+#&gt; </span><span style='color: #555555;'>18</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold08
+#&gt; </span><span style='color: #555555;'>19</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold09
+#&gt; </span><span style='color: #555555;'>20</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold10</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>purrr</span>)
 <span class='no'>iris2</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>130</span>, ]
 
@@ -235,7 +265,15 @@
           <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>x</span>)$<span class='no'>Species</span>
           <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>dat</span> <span class='kw'>==</span> <span class='st'>"virginica"</span>)
         })</div><div class='output co'>#&gt;         1         2         3         4         5 
-#&gt; 0.2307692 0.2307692 0.2307692 0.2307692 0.2307692 </div></span></pre>
+#&gt; 0.2307692 0.2307692 0.2307692 0.2307692 0.2307692 </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>13</span>)
+<span class='no'>folds3</span> <span class='kw'>&lt;-</span> <span class='fu'>vfold_cv</span>(<span class='no'>iris2</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='st'>"Petal.Length"</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>5</span>)
+<span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dbl</a></span>(<span class='no'>folds3</span>$<span class='no'>splits</span>,
+        <span class='kw'>function</span>(<span class='no'>x</span>) {
+          <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>x</span>)$<span class='no'>Species</span>
+          <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>dat</span> <span class='kw'>==</span> <span class='st'>"virginica"</span>)
+        })</div><div class='output co'>#&gt;         1         2         3         4         5 
+#&gt; 0.2254902 0.2330097 0.2307692 0.2380952 0.2264151 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -260,7 +298,7 @@
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, <a href='http://hadley.nz'>Hadley Wickham</a>.
+    Developed by Max Kuhn, Fanny Chow, <a href='http://hadley.nz'>Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
