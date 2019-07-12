@@ -4,7 +4,7 @@
 \alias{vfold_cv}
 \title{V-Fold Cross-Validation}
 \usage{
-vfold_cv(data, v = 10, repeats = 1, strata = NULL, ...)
+vfold_cv(data, v = 10, repeats = 1, strata = NULL, breaks = 4, ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -14,6 +14,8 @@ vfold_cv(data, v = 10, repeats = 1, strata = NULL, ...)
 \item{repeats}{The number of times to repeat the V-fold partitioning.}
 
 \item{strata}{A variable that is used to conduct stratified sampling to create the folds. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.}
+
+\item{breaks}{A single number giving the number of bins desired to stratify a numeric stratification variable.}
 
 \item{...}{Not currently used.}
 }
@@ -46,6 +48,14 @@ map_dbl(folds1$splits,
 set.seed(13)
 folds2 <- vfold_cv(iris2, strata = "Species", v = 5)
 map_dbl(folds2$splits,
+        function(x) {
+          dat <- as.data.frame(x)$Species
+          mean(dat == "virginica")
+        })
+
+set.seed(13)
+folds3 <- vfold_cv(iris2, strata = "Petal.Length", breaks = 6, v = 5)
+map_dbl(folds3$splits,
         function(x) {
           dat <- as.data.frame(x)$Species
           mean(dat == "virginica")
