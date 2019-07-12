@@ -4,14 +4,17 @@
 \alias{bootstraps}
 \title{Bootstrap Sampling}
 \usage{
-bootstraps(data, times = 25, strata = NULL, apparent = FALSE, ...)
+bootstraps(data, times = 25, strata = NULL, breaks = 4,
+  apparent = FALSE, ...)
 }
 \arguments{
 \item{data}{A data frame.}
 
 \item{times}{The number of bootstrap samples.}
 
-\item{strata}{A variable that is used to conduct stratified sampling. When not \code{NULL}, each bootstrap sample is created within the stratification variable.}
+\item{strata}{A variable that is used to conduct stratified sampling. When not \code{NULL}, each bootstrap sample is created within the stratification variable. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.}
+
+\item{breaks}{A single number giving the number of bins desired to stratify a numeric stratification variable.}
 
 \item{apparent}{A logical. Should an extra resample be added where the analysis and holdout subset are the entire data set. This is required for some estimators used by the \code{summary} function that require the apparent error rate.}
 
@@ -46,6 +49,14 @@ map_dbl(resample1$splits,
 set.seed(13)
 resample2 <- bootstraps(iris2, strata = "Species", times = 3)
 map_dbl(resample2$splits,
+        function(x) {
+          dat <- as.data.frame(x)$Species
+          mean(dat == "virginica")
+        })
+
+set.seed(13)
+resample3 <- bootstraps(iris2, strata = "Sepal.Length", breaks = 6, times = 3)
+map_dbl(resample3$splits,
         function(x) {
           dat <- as.data.frame(x)$Species
           mean(dat == "virginica")

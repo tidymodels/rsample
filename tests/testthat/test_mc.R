@@ -70,8 +70,7 @@ test_that('strata', {
 
 test_that('bad args', {
   expect_error(mc_cv(iris, strata = iris$Species))
-  expect_error(mc_cv(iris, strata = 2))
-  expect_error(mc_cv(iris, strata = c("Species", "Species")))
+  expect_error(mc_cv(iris, strata = c("Species", "Sepal.Length")))
 })
 
 

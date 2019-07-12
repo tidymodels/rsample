@@ -73,8 +73,7 @@ test_that('strata', {
 
 test_that('bad args', {
   expect_error(bootstraps(iris, strata = iris$Species))
-  expect_error(bootstraps(iris, strata = 2))
-  expect_error(bootstraps(iris, strata = c("Species", "Species")))
+  expect_error(bootstraps(iris, strata = c("Species", "Sepal.Length")))
 })
 
 

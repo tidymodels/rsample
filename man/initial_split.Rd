@@ -7,7 +7,7 @@
 \alias{testing}
 \title{Simple Training/Test Set Splitting}
 \usage{
-initial_split(data, prop = 3/4, strata = NULL, ...)
+initial_split(data, prop = 3/4, strata = NULL, breaks = 4, ...)
 
 initial_time_split(data, prop = 3/4, ...)
 
@@ -20,7 +20,9 @@ testing(x)
 
 \item{prop}{The proportion of data to be retained for modeling/analysis.}
 
-\item{strata}{A variable that is used to conduct stratified sampling to create the resamples.}
+\item{strata}{A variable that is used to conduct stratified sampling to create the resamples. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.}
+
+\item{breaks}{A single number giving the number of bins desired to stratify a numeric stratification variable.}
 
 \item{...}{Not currently used.}
 

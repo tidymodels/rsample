@@ -22,3 +22,6 @@ splits can be linked to a particular resample.
 cv_splits <- vfold_cv(mtcars)
 labels(cv_splits$splits[[1]])
 }
+\seealso{
+add_resample_id
+}

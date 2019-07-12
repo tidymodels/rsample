@@ -48,7 +48,7 @@
 #' sum(grepl("Volvo 142E", rownames(inner_analysis)))
 #' sum(grepl("Volvo 142E", rownames(inner_assess)))
 
-#' @importFrom rlang is_lang
+#' @importFrom rlang is_call
 #' @importFrom purrr map
 #' @importFrom dplyr bind_cols
 #' @importFrom methods formalArgs
@@ -56,16 +56,16 @@
 nested_cv <- function(data, outside, inside)  {
   nest_args <- formalArgs(nested_cv)
   cl <- match.call()
-  
+
   boot_msg <-
     paste0(
       "Using bootstrapping as the outer resample is dangerous ",
       "since the inner resample might have the same data ",
       "point in both the analysis and assessment set."
     )
-  
+
   outer_cl <- cl[["outside"]]
-  if (is_lang(outer_cl)) {
+  if (is_call(outer_cl)) {
     if (grepl("^bootstraps", deparse(outer_cl)))
       warning(boot_msg, call. = FALSE)
     outer_cl$data <- quote(data)
@@ -74,9 +74,9 @@ nested_cv <- function(data, outside, inside)  {
     if (inherits(outside, "bootstraps"))
       warning(boot_msg, call. = FALSE)
   }
-  
+
   inner_cl <- cl[["inside"]]
-  if (!is_lang(inner_cl))
+  if (!is_call(inner_cl))
     stop(
       "`inside` should be a expression such as `vfold()` or ",
       "bootstraps(times = 10)` instead of a existing object.",
@@ -84,12 +84,12 @@ nested_cv <- function(data, outside, inside)  {
     )
   inside <- map(outside$splits, inside_resample, cl = inner_cl)
   inside <- tibble(inner_resamples = inside)
-  
+
   out <- dplyr::bind_cols(outside, inside)
   out <- add_class(out, cls = "nested_cv", at_end = FALSE)
   attr(out, "outside") <- cl$outside
   attr(out, "inside") <- cl$inside
-  
+
   out
 }
 
@@ -99,7 +99,7 @@ inside_resample <- function(src, cl) {
 }
 
 #' @importFrom tibble tibble
-#' @importFrom rlang is_lang
+#' @importFrom rlang is_call
 #' @export
 print.nested_cv <- function(x, ...) {
   char_x <- paste("#", pretty(x))

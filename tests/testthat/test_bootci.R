@@ -152,6 +152,7 @@ test_that('Upper & lower confidence interval does not contain NA', {
     int_bca(bt_resamples, res, .fn = bad_stats),
     "missing values"
   )
+
 })
 
 # ------------------------------------------------------------------------------
