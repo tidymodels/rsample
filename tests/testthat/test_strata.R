@@ -9,7 +9,7 @@ test_that('simple numerics', {
   x1 <- rnorm(1000)
   str1a <- make_strata(x1)
   tab1a <- table(str1a)
-  expect_equal(as.vector(tab1a), rep(200, 5))
+  expect_equal(as.vector(tab1a), rep(250, 4))
 
   str1b <- make_strata(x1, depth = 500)
   tab1b <- table(str1b)

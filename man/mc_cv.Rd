@@ -4,7 +4,7 @@
 \alias{mc_cv}
 \title{Monte Carlo Cross-Validation}
 \usage{
-mc_cv(data, prop = 3/4, times = 25, strata = NULL, ...)
+mc_cv(data, prop = 3/4, times = 25, strata = NULL, breaks = 4, ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -14,6 +14,8 @@ mc_cv(data, prop = 3/4, times = 25, strata = NULL, ...)
 \item{times}{The number of times to repeat the sampling..}
 
 \item{strata}{A variable that is used to conduct stratified sampling to create the resamples. This could be a single character value or a variable name that corresponds to a variable that exists in the data frame.}
+
+\item{breaks}{A single number giving the number of bins desired to stratify a numeric stratification variable.}
 
 \item{...}{Not currently used.}
 }
@@ -44,6 +46,14 @@ map_dbl(resample1$splits,
 set.seed(13)
 resample2 <- mc_cv(iris2, strata = "Species", times = 3, prop = .5)
 map_dbl(resample2$splits,
+        function(x) {
+          dat <- as.data.frame(x)$Species
+          mean(dat == "virginica")
+        })
+
+set.seed(13)
+resample3 <- mc_cv(iris2, strata = "Sepal.Length", breaks = 6, times = 3, prop = .5)
+map_dbl(resample3$splits,
         function(x) {
           dat <- as.data.frame(x)$Species
           mean(dat == "virginica")

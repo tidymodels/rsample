@@ -2,6 +2,8 @@
 
 * Added three functions to compute different bootstrap confidence intervals. 
 * A new function (`add_resample_id`) augments a data frame with columns for the resampling identifier. 
+* Updated `initial_split`, `mc_cv`, `vfold_cv`, `bootstraps`, and `group_vfold_cv` to use tidyselect on the stratification variable.
+* Updated `initial_split`, `mc_cv`, `vfold_cv`, `bootstraps` with new `breaks` parameter that specifies the number of bins to stratify by for a numeric stratification variable.
 
 # `rsample` 0.0.4
 
