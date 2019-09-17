@@ -11,3 +11,4 @@ rsample_hex_thumb.png
 ^pkgdown$
 .github
 ^revdep$
+^azure-pipelines\.yml$
