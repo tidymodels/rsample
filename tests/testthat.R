@@ -1,6 +1,8 @@
 library(testthat)
 library(rsample)
 
-test_check(package = "rsample")
-q("no")
-
+if (requireNamespace("xml2")) {
+  test_check("rsample", reporter = MultiReporter$new(reporters = list(JunitReporter$new(file = "test-results.xml"), CheckReporter$new())))
+} else {
+  test_check("rsample")
+}
