@@ -208,8 +208,8 @@
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000117 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.17 seconds.
+## Chain 1: Gradient evaluation took 0.001116 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 11.16 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -226,15 +226,15 @@
 ## Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 6.15687 seconds (Warm-up)
-## Chain 1:                2.13345 seconds (Sampling)
-## Chain 1:                8.29031 seconds (Total)
+## Chain 1:  Elapsed Time: 5.56993 seconds (Warm-up)
+## Chain 1:                1.96219 seconds (Sampling)
+## Chain 1:                7.53212 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 5e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.5 seconds.
+## Chain 2: Gradient evaluation took 5.3e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.53 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -251,15 +251,15 @@
 ## Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 6.60425 seconds (Warm-up)
-## Chain 2:                1.61396 seconds (Sampling)
-## Chain 2:                8.2182 seconds (Total)
+## Chain 2:  Elapsed Time: 6.1737 seconds (Warm-up)
+## Chain 2:                1.49999 seconds (Sampling)
+## Chain 2:                7.67369 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 4.3e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.43 seconds.
+## Chain 3: Gradient evaluation took 6.3e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.63 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -276,15 +276,15 @@
 ## Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 6.34949 seconds (Warm-up)
-## Chain 3:                1.40685 seconds (Sampling)
-## Chain 3:                7.75634 seconds (Total)
+## Chain 3:  Elapsed Time: 5.77661 seconds (Warm-up)
+## Chain 3:                1.30112 seconds (Sampling)
+## Chain 3:                7.07773 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 5.4e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.54 seconds.
+## Chain 4: Gradient evaluation took 3.4e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.34 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -301,9 +301,9 @@
 ## Chain 4: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 7.01813 seconds (Warm-up)
-## Chain 4:                1.29459 seconds (Sampling)
-## Chain 4:                8.31272 seconds (Total)
+## Chain 4:  Elapsed Time: 6.38504 seconds (Warm-up)
+## Chain 4:                1.20027 seconds (Sampling)
+## Chain 4:                7.5853 seconds (Total)
 ## Chain 4:</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">concord_est<span class="op">$</span>stan</a></code></pre></div>
 <pre><code>## stan_glmer
@@ -326,10 +326,6 @@
 ##  id       (Intercept) 0.033   
 ##  Residual             0.030   
 ## Num. levels: id 100 
-## 
-## Sample avg. posterior predictive distribution of y:
-##          Median MAD_SD
-## mean_PPD 0.6    0.0   
 ## 
 ## ------
 ## * For help interpreting the printed output see ?print.stanreg
@@ -361,6 +357,7 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
       </div>
 
 </div>

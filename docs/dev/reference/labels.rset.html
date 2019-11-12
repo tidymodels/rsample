@@ -32,13 +32,12 @@
 
 
 <meta property="og:title" content="Find Labels from rset Object — labels.rset" />
-
 <meta property="og:description" content="Produce a vector of resampling labels (e.g. &quot;Fold1&quot;) from
 an rset object. Currently, nested_cv
 is not supported." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
@@ -144,11 +143,9 @@ is not supported." />
     </div>
 
     <div class="ref-description">
-    
     <p>Produce a vector of resampling labels (e.g. "Fold1") from
 an <code>rset</code> object. Currently, <code>nested_cv</code>
 is not supported.</p>
-    
     </div>
 
     <pre class="usage"><span class='co'># S3 method for rset</span>
@@ -156,7 +153,7 @@ is not supported.</p>
 
 <span class='co'># S3 method for vfold_cv</span>
 <span class='fu'><a href='https://rdrr.io/r/base/labels.html'>labels</a></span>(<span class='no'>object</span>, <span class='kw'>make_factor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -174,11 +171,10 @@ character or a factor.</p></td>
       <td><p>Not currently used.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A single character or factor vector.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/labels.html'>labels</a></span>(<span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>))</div><div class='output co'>#&gt;  [1] "Fold01" "Fold02" "Fold03" "Fold04" "Fold05" "Fold06" "Fold07" "Fold08"
@@ -188,9 +184,7 @@ character or a factor.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

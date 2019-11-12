@@ -32,14 +32,13 @@
 
 
 <meta property="og:title" content="Rolling Origin Forecast Resampling — rolling_origin" />
-
 <meta property="og:description" content="This resampling method is useful when the data set has a strong time
 component. The resamples are not random and contain data points that are
 consecutive values. The function assumes that the original data set are
 sorted in time order." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
@@ -145,17 +144,15 @@ sorted in time order." />
     </div>
 
     <div class="ref-description">
-    
     <p>This resampling method is useful when the data set has a strong time
 component. The resamples are not random and contain data points that are
 consecutive values. The function assumes that the original data set are
 sorted in time order.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>rolling_origin</span>(<span class='no'>data</span>, <span class='kw'>initial</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>assess</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cumulative</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -188,14 +185,13 @@ See the example below.</p></td>
       <td><p>Not currently used.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An tibble with classes <code>rolling_origin</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>,
 and <code>data.frame</code>. The results include a column for the data split objects
 and a column called <code>id</code> that has a character string with the resample
 identifier.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The main options, <code>initial</code> and <code>assess</code>, control the number of
@@ -208,7 +204,6 @@ When <code>skip = 0</code>, the resampling data sets will increment by one posit
 Suppose that the rows of a data set are consecutive days. Using <code>skip = 6</code>
 will make the analysis data set operate on <em>weeks</em> instead of days. The
 assessment set size is not affected by this option.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1131</span>)
@@ -222,32 +217,29 @@ assessment set size is not affected by this option.</p>
 
 <span class='no'>drinks_annual</span> <span class='kw'>&lt;-</span> <span class='no'>drinks</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.POSIXlt.html'>as.POSIXlt</a></span>(<span class='no'>date</span>)$<span class='no'>year</span> + <span class='fl'>1900</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>nest</span>(-<span class='no'>year</span>)
-
+  <span class='fu'>nest</span>(-<span class='no'>year</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: All elements of `...` must be named.</span>
+#&gt; <span class='warning'>Did you want `data = c(date, S4248SM144NCEN)`?</span></div><div class='input'>
 <span class='no'>multi_year_roll</span> <span class='kw'>&lt;-</span> <span class='fu'>rolling_origin</span>(<span class='no'>drinks_annual</span>, <span class='kw'>cumulative</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span>(<span class='no'>multi_year_roll</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 2</span><span>
-#&gt;    year data             
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>           
-#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>992 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span>  </span><span style='text-decoration: underline;'>1</span><span>993 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span>  </span><span style='text-decoration: underline;'>1</span><span>994 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span>  </span><span style='text-decoration: underline;'>1</span><span>995 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>996 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span></div><div class='input'><span class='fu'><a href='as.data.frame.rsplit.html'>assessment</a></span>(<span class='no'>multi_year_roll</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
-#&gt;    year data             
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>           
-#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>997 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span></div><div class='input'>
+#&gt;    year           data
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,2]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>992       [12 × 2]
+#&gt; </span><span style='color: #555555;'>2</span><span>  </span><span style='text-decoration: underline;'>1</span><span>993       [12 × 2]
+#&gt; </span><span style='color: #555555;'>3</span><span>  </span><span style='text-decoration: underline;'>1</span><span>994       [12 × 2]
+#&gt; </span><span style='color: #555555;'>4</span><span>  </span><span style='text-decoration: underline;'>1</span><span>995       [12 × 2]
+#&gt; </span><span style='color: #555555;'>5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>996       [12 × 2]</div><div class='input'><span class='fu'><a href='as.data.frame.rsplit.html'>assessment</a></span>(<span class='no'>multi_year_roll</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
+#&gt;    year           data
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,2]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>997       [12 × 2]</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

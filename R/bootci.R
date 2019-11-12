@@ -170,7 +170,9 @@ pctl_single <- function(stats, alpha = 0.05) {
 #' Calculate bootstrap confidence intervals using various methods.
 #' @param .data A data frame containing the bootstrap resamples created using
 #'  `bootstraps()`. For t- and BCa-intervals, the `apparent` argument
-#'  should be set to `TRUE`.
+#'  should be set to `TRUE`. Even if the `apparent` argument is set to
+#'  `TRUE` for the percentile method, the apparent data is never used in calculating
+#'  the percentile confidence interval.
 #' @param statistics An unquoted column name or `dplyr` selector that identifies
 #'  a single column in the data set that contains the indiviual bootstrap
 #'  estimates. This can be a list column of tidy tibbles (that contains columns
@@ -181,10 +183,13 @@ pctl_single <- function(stats, alpha = 0.05) {
 #' @return Each function returns a tibble with columns `.lower`,
 #'  `.estimate`, `.upper`, `.alpha`, `.method`, and `term`.
 #'  `.method` is the type of interval (eg. "percentile",
-#'  "student-t", or "BCa"). `term` is the name of the estimate.
+#'  "student-t", or "BCa"). `term` is the name of the estimate. Note
+#'  the `.estimate` returned from `int_pctl()`
+#'  is the mean of the estimates from the bootstrap resamples
+#'  and not the estimate from the apparent model.
 #' @details Percentile intervals are the standard method of
 #'  obtaining confidence intervals but require thousands of
-#'  resamples to be accurate. t-intervals may need fewer
+#'  resamples to be accurate. T-intervals may need fewer
 #'  resamples but require a corresponding variance estimate.
 #'  Bias-corrected and accelerated intervals require the original function
 #'  that was used to create the statistics of interest and are
@@ -237,7 +242,7 @@ pctl_single <- function(stats, alpha = 0.05) {
 #' @export
 int_pctl <- function(.data, statistics, alpha = 0.05) {
 
-  check_rset(.data)
+  check_rset(.data, app = FALSE)
 
   .data <- .data %>% dplyr::filter(id != "Apparent")
 

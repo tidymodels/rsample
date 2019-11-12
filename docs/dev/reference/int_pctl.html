@@ -32,11 +32,10 @@
 
 
 <meta property="og:title" content="Bootstrap confidence intervals — int_pctl" />
-
 <meta property="og:description" content="Calculate bootstrap confidence intervals using various methods." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
@@ -142,9 +141,7 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Calculate bootstrap confidence intervals using various methods.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>int_pctl</span>(<span class='no'>.data</span>, <span class='no'>statistics</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)
@@ -152,7 +149,7 @@
 <span class='fu'>int_t</span>(<span class='no'>.data</span>, <span class='no'>statistics</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)
 
 <span class='fu'>int_bca</span>(<span class='no'>.data</span>, <span class='no'>statistics</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='no'>.fn</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -160,7 +157,9 @@
       <th>.data</th>
       <td><p>A data frame containing the bootstrap resamples created using
 <code><a href='bootstraps.html'>bootstraps()</a></code>. For t- and BCa-intervals, the <code>apparent</code> argument
-should be set to <code>TRUE</code>.</p></td>
+should be set to <code>TRUE</code>. Even if the <code>apparent</code> argument is set to
+<code>TRUE</code> for the percentile method, the apparent data is never used in calculating
+the percentile confidence interval.</p></td>
     </tr>
     <tr>
       <th>statistics</th>
@@ -186,31 +185,31 @@ required.</p></td>
       <td><p>Arguments to pass to <code>.fn</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Each function returns a tibble with columns <code>.lower</code>,
 <code>.estimate</code>, <code>.upper</code>, <code>.alpha</code>, <code>.method</code>, and <code>term</code>.
 <code>.method</code> is the type of interval (eg. "percentile",
-"student-t", or "BCa"). <code>term</code> is the name of the estimate.</p>
-    
+"student-t", or "BCa"). <code>term</code> is the name of the estimate. Note
+the <code>.estimate</code> returned from <code>int_pctl()</code>
+is the mean of the estimates from the bootstrap resamples
+and not the estimate from the apparent model.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Percentile intervals are the standard method of
 obtaining confidence intervals but require thousands of
-resamples to be accurate. t-intervals may need fewer
+resamples to be accurate. T-intervals may need fewer
 resamples but require a corresponding variance estimate.
 Bias-corrected and accelerated intervals require the original function
 that was used to create the statistics of interest and are
 computationally taxing.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Davison, A., &amp; Hinkley, D. (1997). <em>Bootstrap Methods and their
 Application</em>. Cambridge: Cambridge University Press.
 doi:10.1017/CBO9780511802843</p>
 <p><a href='https://tidymodels.github.io/rsample/articles/Applications/Intervals.html'>https://tidymodels.github.io/rsample/articles/Applications/Intervals.html</a></p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>broom</span>)
@@ -233,12 +232,14 @@ doi:10.1017/CBO9780511802843</p>
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     
 #&gt; </span><span style='color: #555555;'>1</span><span> (Intercept) 27.7      30.8    33.5       0.05 percentile
 #&gt; </span><span style='color: #555555;'>2</span><span> disp        -</span><span style='color: #BB0000;'>0.043</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span>   -</span><span style='color: #BB0000;'>0.029</span><span style='color: #BB0000;text-decoration: underline;'>7</span><span> -</span><span style='color: #BB0000;'>0.015</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span>    0.05 percentile
-#&gt; </span><span style='color: #555555;'>3</span><span> hp          -</span><span style='color: #BB0000;'>0.058</span><span style='color: #BB0000;text-decoration: underline;'>4</span><span>   -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>7</span><span> -</span><span style='color: #BB0000;'>0.008</span><span style='color: #BB0000;text-decoration: underline;'>09</span><span>   0.05 percentile</div><div class='input'><span class='fu'>int_t</span>(<span class='no'>car_rs</span>, <span class='no'>results</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 6</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> hp          -</span><span style='color: #BB0000;'>0.058</span><span style='color: #BB0000;text-decoration: underline;'>4</span><span>   -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>7</span><span> -</span><span style='color: #BB0000;'>0.008</span><span style='color: #BB0000;text-decoration: underline;'>09</span><span>   0.05 percentile</div><div class='input'><span class='fu'>int_t</span>(<span class='no'>car_rs</span>, <span class='no'>results</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `cols` is now required.</span>
+#&gt; <span class='warning'>Please use `cols = c(results)`</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 6</span><span>
 #&gt;   term         .lower .estimate   .upper .alpha .method  
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
 #&gt; </span><span style='color: #555555;'>1</span><span> (Intercept) 28.1      30.8    34.4       0.05 student-t
 #&gt; </span><span style='color: #555555;'>2</span><span> disp        -</span><span style='color: #BB0000;'>0.045</span><span style='color: #BB0000;text-decoration: underline;'>7</span><span>   -</span><span style='color: #BB0000;'>0.029</span><span style='color: #BB0000;text-decoration: underline;'>7</span><span> -</span><span style='color: #BB0000;'>0.017</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span>    0.05 student-t
-#&gt; </span><span style='color: #555555;'>3</span><span> hp          -</span><span style='color: #BB0000;'>0.045</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span>   -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>7</span><span> -</span><span style='color: #BB0000;'>0.001</span><span style='color: #BB0000;text-decoration: underline;'>01</span><span>   0.05 student-t</div><div class='input'><span class='fu'>int_bca</span>(<span class='no'>car_rs</span>, <span class='no'>results</span>, <span class='kw'>.fn</span> <span class='kw'>=</span> <span class='no'>lm_est</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 6</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> hp          -</span><span style='color: #BB0000;'>0.045</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span>   -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>7</span><span> -</span><span style='color: #BB0000;'>0.001</span><span style='color: #BB0000;text-decoration: underline;'>01</span><span>   0.05 student-t</div><div class='input'><span class='fu'>int_bca</span>(<span class='no'>car_rs</span>, <span class='no'>results</span>, <span class='kw'>.fn</span> <span class='kw'>=</span> <span class='no'>lm_est</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `cols` is now required.</span>
+#&gt; <span class='warning'>Please use `cols = c(results)`</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 6</span><span>
 #&gt;   term         .lower .estimate   .upper .alpha .method
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'>1</span><span> (Intercept) 27.8      30.8    33.6       0.05 BCa    
@@ -267,13 +268,9 @@ doi:10.1017/CBO9780511802843</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
