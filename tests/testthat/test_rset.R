@@ -34,15 +34,25 @@ test_that('simple rset', {
   expect_equal(class(res1), c("tbl_df", "tbl", "data.frame"))
   expect_equal(sort(names(attributes(res1))),
                c("class", "names", "row.names"))
+})
 
-  res2 <- new_rset(
-    cars_10fold[, "splits"],
-    cars_10fold[, "id"]
+test_that("`[` keeps rset attributes if splits/id columns are present", {
+  expect_identical(
+    attributes(cars_10fold[, c("splits", "id")]),
+    attributes(cars_10fold)
   )
-  expect_equal(names(res2), c("splits", "id"))
-  expect_equal(class(res2), c("rset", "tbl_df", "tbl", "data.frame"))
-  expect_equal(sort(names(attributes(res2))),
-               sort(names(attributes(cars_10fold))))
+})
+
+test_that("`[` drops to tibble if splits/id columns are not present", {
+  expect <- tibble::new_tibble(list(splits = cars_10fold$splits))
+  expect <- attributes(expect)
+  expect <- expect[sort(names(expect))]
+
+  x <- cars_10fold[, "splits"]
+  x <- attributes(x)
+  x <- x[sort(names(x))]
+
+  expect_identical(x, expect)
 })
 
 test_that('rset with attributes', {

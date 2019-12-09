@@ -1,6 +1,6 @@
 ## adapted from
 ## https://github.com/hadley/dtplyr/blob/2308ff25e88bb81fe84f9051e37ddd9d572189ee/R/compat-dplyr-0.6.0.R
-## and based on 
+## and based on
 ## https://github.com/tidyverse/googledrive/commit/95455812d2e0d6bdf92b5f6728e3265bf65d8467#diff-ba61d4f2ccd992868e27305a9ab68a3c
 
 ## function is called in .onLoad()
@@ -36,60 +36,78 @@ reset_rset <- function(x) {
 
 #' @importFrom tibble is_tibble
 is_rset <- function(x) {
-  is_tibble(x) && 
-    all("splits" %in% names(x)) &&
-    length(grepl("^id", names(x))) > 0
+  is_tibble(x) &&
+    "splits" %in% names(x) &&
+    any(grepl("^id", names(x)))
 }
 
 #' @export
 `[.rset` <- function(x, i, j, drop = FALSE) {
-  maybe_rset(NextMethod())
+  extra_classes <- setdiff(class(x), base_classes)
+  orig_att <- attributes(x)
+  maybe_rset(NextMethod(), extras = extra_classes, att = orig_att)
 }
 
 # A list of attribute names in the various resampling functions. These
 # could get stripped off by dplyr operations
-rsample_att <- c("times", "apparent", "strata", "v", "repeats", 
-                 "group", "prop", "outside", "inside", 
+rsample_att <- c("times", "apparent", "strata", "v", "repeats",
+                 "group", "prop", "outside", "inside",
                  "initial", "assess", "cumulative", "skip"
                  )
 
+as_tibble_from_rset <- function(x) {
+  attributes <- attributes(x)
+  attribute_names <- names(attributes)
+
+  non_rset_attribute_names <- attribute_names[! (attribute_names %in% rsample_att)]
+  non_rset_attributes <- attributes[non_rset_attribute_names]
+
+  attributes(x) <- non_rset_attributes
+
+  as_tibble(x)
+}
+
 #' @importFrom dplyr as_tibble
 maybe_rset <- function(x, extras = NULL, att = NULL) {
-  if (is_rset(x)) {
-    x <- reset_rset(x)
-    
-    ## possibly reset attributes that dplyr methods removed
-    att <- att[names(att) %in% rsample_att]
-    if (length(att) > 0) {
-      missing_att <- setdiff(names(att), attributes(x))
-      if (length(missing_att) > 0) {
-        for (i in missing_att)
-          attr(x, i) <- att[[i]]
+  # Strip all rsample attributes and convert to tibble
+  if (!is_rset(x)) {
+    return(as_tibble_from_rset(x))
+  }
+
+  x <- reset_rset(x)
+
+  ## possibly reset attributes that dplyr methods removed
+  att <- att[names(att) %in% rsample_att]
+  if (length(att) > 0) {
+    missing_att <- setdiff(names(att), attributes(x))
+    if (length(missing_att) > 0) {
+      for (i in missing_att) {
+        attr(x, i) <- att[[i]]
       }
     }
-    
-    ## Add an missing classes
-    if(length(extras) > 0)
-      class(x) <- c(extras, class(x))
-  } else {
-    x <- as_tibble(x)
   }
+
+  ## Add an missing classes
+  if(length(extras) > 0) {
+    class(x) <- c(extras, class(x))
+  }
+
   x
 }
 
 ## rsample does not import any generics from dplyr,
-## but if dplyr is loaded and main verbs are used on a 
-## `rset` object generated from the various resampling 
-## functions, we want to retain the `rset`` class (and 
-## any others) if it is proper to do so therefore these 
+## but if dplyr is loaded and main verbs are used on a
+## `rset` object generated from the various resampling
+## functions, we want to retain the `rset`` class (and
+## any others) if it is proper to do so therefore these
 ## S3 methods are registered manually in .onLoad()
 
 base_classes <- c("rset", class(tibble()))
 
 arrange.rset <- function(.data, ...) {
-  # Find out if there are extra classes beyond `rset` such 
+  # Find out if there are extra classes beyond `rset` such
   # as `vfold_cv` or `bootstraps` and add them in after
-  # the `dplyr` method is executed. 
+  # the `dplyr` method is executed.
   extra_classes <- setdiff(class(.data), base_classes)
   orig_att <- attributes(.data)
   maybe_rset(NextMethod(), extras = extra_classes, att = orig_att)
@@ -102,7 +120,7 @@ filter.rset <- function(.data, ...) {
 }
 
 # `mutate` appears to add rownames but remove other attributes. We'll
-# add them back in. 
+# add them back in.
 mutate.rset <- function(.data, ...) {
   extra_classes <- setdiff(class(.data), base_classes)
   orig_att <- attributes(.data)
