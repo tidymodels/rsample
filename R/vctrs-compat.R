@@ -1,13 +1,34 @@
 #' @importFrom vctrs vec_ptype2
 #' @importFrom vctrs vec_ptype2.data.frame
+NULL
 
 #' @importFrom vctrs vec_cast
 #' @importFrom vctrs vec_cast.data.frame
+NULL
+
+#' vctrs compatibility functions
+#'
+#' These functions are the extensions that allow rset objects to
+#' work with vctrs.
+#'
+#' @param x,y Objects.
+#' @param to Type to cast to.
+#' @param ... Used to pass along error message information.
+#' @inheritParams vec_ptype2
+#'
+#' @return
+#'
+#' See the corresponding vctrs function for the exact return value.
+#'
+#' @name vctrs-compat
+#'
+NULL
 
 # Coercion ----------------------------------------------------------------
 
 #' @export vec_ptype2.rset
 #' @method vec_ptype2 rset
+#' @rdname vctrs-compat
 #' @export
 vec_ptype2.rset <- function(x, y, ...) {
   UseMethod("vec_ptype2.rset", y)
@@ -83,6 +104,7 @@ vec_ptype2.rset.default <- function(x, y, ..., x_arg = "x", y_arg = "y") {
 
 #' @export vec_cast.rset
 #' @method vec_cast rset
+#' @rdname vctrs-compat
 #' @export
 vec_cast.rset <- function(x, to, ...) {
   UseMethod("vec_cast.rset")
