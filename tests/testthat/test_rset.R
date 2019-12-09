@@ -37,10 +37,13 @@ test_that('simple rset', {
 })
 
 test_that("`[` keeps rset attributes if splits/id columns are present", {
-  expect_identical(
-    attributes(cars_10fold[, c("splits", "id")]),
-    attributes(cars_10fold)
-  )
+  x <- attributes(cars_10fold[, c("splits", "id")])
+  x <- x[sort(names(x))]
+
+  expect <- attributes(cars_10fold)
+  expect <- expect[sort(names(x))]
+
+  expect_identical(x, expect)
 })
 
 test_that("`[` drops to tibble if splits/id columns are not present", {
