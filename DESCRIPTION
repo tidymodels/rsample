@@ -41,4 +41,5 @@ LazyData: true
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 Remotes:
-    tidyverse/tidyr#812
+    tidyverse/tidyr#812,
+    r-lib/vctrs#690
