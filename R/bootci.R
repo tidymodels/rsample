@@ -50,7 +50,8 @@ check_tidy <- function(x, std_col = FALSE) {
   # convert to data frame from list
   has_id <- any(names(x) == "id")
   if (has_id) {
-    x <- try(unnest(x), silent = TRUE)
+    list_cols <- names(x)[map_lgl(x, is_list)]
+    x <- try(unnest(x, cols = list_cols), silent = TRUE)
   } else {
     x <- try(map_dfr(x, ~ .x), silent = TRUE)
   }
