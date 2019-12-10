@@ -21,7 +21,7 @@ Imports:
     vctrs
 Depends: 
     R (>= 3.1), 
-    tidyr
+    tidyr (>= 1.0.0)
 Suggests: 
     ggplot2,
     testthat (>= 2.1.0),
