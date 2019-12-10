@@ -139,17 +139,26 @@ test_that('Upper & lower confidence interval does not contain NA', {
     mutate(res = map(splits, bad_stats))
 
   expect_error(
-    int_pctl(bt_resamples, res),
+    expect_warning(
+      int_pctl(bt_resamples, res),
+      "at least 1000 non-missing"
+    ),
     "missing values"
   )
 
   expect_error(
-    int_t(bt_resamples, res),
+    expect_warning(
+      int_t(bt_resamples, res),
+      "at least 1000 non-missing"
+    ),
     "missing values"
   )
 
   expect_error(
-    int_bca(bt_resamples, res, .fn = bad_stats),
+    expect_warning(
+      int_bca(bt_resamples, res, .fn = bad_stats),
+      "at least 1000 non-missing"
+    ),
     "missing values"
   )
 
