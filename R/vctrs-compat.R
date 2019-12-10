@@ -42,6 +42,12 @@ vec_ptype2_rset_data_frame <- function(x, y) {
   maybe_rset(ptype, extras = extra_classes, att = attributes(x))
 }
 
+vec_ptype2_data_frame_rset <- function(x, y) {
+  ptype <- as_tibble(vctrs::vec_ptype2(x, as.data.frame(y)))
+  extra_classes <- setdiff(class(y), base_classes)
+  maybe_rset(ptype, extras = extra_classes, att = attributes(y))
+}
+
 #' @method vec_ptype2.rset data.frame
 #' @export
 vec_ptype2.rset.data.frame <- function(x, y, ..., x_arg = "x", y_arg = "y") {
@@ -51,7 +57,7 @@ vec_ptype2.rset.data.frame <- function(x, y, ..., x_arg = "x", y_arg = "y") {
 #' @method vec_ptype2.data.frame rset
 #' @export
 vec_ptype2.data.frame.rset <- function(x, y, ..., x_arg = "x", y_arg = "y") {
-  vec_ptype2_rset_data_frame(y, x)
+  vec_ptype2_data_frame_rset(x, y)
 }
 
 # Conditionally registered in onLoad
@@ -61,7 +67,7 @@ vec_ptype2.rset.tbl_df <- function(x, y, ..., x_arg = "x", y_arg = "y") {
 
 # Conditionally registered in onLoad
 vec_ptype2.tbl_df.rset <- function(x, y, ..., x_arg = "x", y_arg = "y") {
-  vec_ptype2_rset_data_frame(y, x)
+  vec_ptype2_data_frame_rset(x, y)
 }
 
 # Common type of rset + rset is the union of the columns as an rset,
