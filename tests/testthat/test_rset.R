@@ -47,7 +47,7 @@ test_that("`[` keeps rset attributes if splits/id columns are present", {
 })
 
 test_that("`[` drops to tibble if splits/id columns are not present", {
-  expect <- tibble::new_tibble(list(splits = cars_10fold$splits))
+  expect <- tibble::new_tibble(list(splits = cars_10fold$splits), nrow = nrow(cars_10fold))
   expect <- attributes(expect)
   expect <- expect[sort(names(expect))]
 
