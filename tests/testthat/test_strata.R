@@ -11,7 +11,7 @@ test_that('simple numerics', {
   tab1a <- table(str1a)
   expect_equal(as.vector(tab1a), rep(250, 4))
 
-  str1b <- make_strata(x1, depth = 500)
+  str1b <- expect_warning(make_strata(x1, depth = 500), "2 breaks instead")
   tab1b <- table(str1b)
   expect_equal(as.vector(tab1b), rep(500, 2))
 })
