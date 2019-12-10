@@ -24,7 +24,7 @@ Depends:
     tidyr
 Suggests: 
     ggplot2,
-    testthat,
+    testthat (>= 2.1.0),
     rmarkdown,
     knitr,
     AmesHousing,
