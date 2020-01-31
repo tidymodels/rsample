@@ -35,7 +35,7 @@ apparent <- function(data, ...) {
 print.apparent <- function(x, ...) {
   cat("#", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("apparent", "rset"))]
-  print(x)
+  print(x, ...)
 }
 
 

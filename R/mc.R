@@ -125,5 +125,5 @@ strat_sample <- function(x, prop, times, ...) {
 print.mc_cv <- function(x, ...) {
   cat("#", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("mc_cv", "rset"))]
-  print(x)
+  print(x, ...)
 }
