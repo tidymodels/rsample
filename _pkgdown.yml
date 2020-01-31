@@ -1,3 +1,5 @@
+url: https://tidymodels.github.io/rsample
+
 template:
   package: tidytemplate
   params:
@@ -27,8 +29,8 @@ reference:
       - nested_cv
       - apparent
   - title: Analysis
-    contents:    
-      - int_pctl 
+    contents:
+      - int_pctl
   - title: Utilities
     contents:
       - as.data.frame.rsplit
@@ -66,10 +68,10 @@ navbar:
     - text: Grid Search Tuning of Keras Models
       href: articles/Applications/Keras.html
     - text: Bootstrap Interval Estimation
-      href: articles/Applications/Intervals.html      
+      href: articles/Applications/Intervals.html
   - text: Reference
     href: reference/index.html
   - text: News
     href: news/index.html
-   
+
 
