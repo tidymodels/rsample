@@ -32,13 +32,12 @@
 
 
 <meta property="og:title" content="Create or Modify Stratification Variables — make_strata" />
-
 <meta property="og:description" content="For stratified resampling, this function can create strata from numeric data
 and also make non-numeric data more conducive to be used for
 stratification." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
@@ -144,15 +143,13 @@ stratification." />
     </div>
 
     <div class="ref-description">
-    
     <p>For stratified resampling, this function can create strata from numeric data
 and also make non-numeric data more conducive to be used for
 stratification.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>make_strata</span>(<span class='no'>x</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>nunique</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>pool</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>depth</span> <span class='kw'>=</span> <span class='fl'>20</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -184,11 +181,10 @@ If <code>x</code> is numeric, there must be at least 40 rows in the data set
 (when <code>depth = 20</code>) to conduct stratified sampling.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A factor vector.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>For numeric data, if the number of unique levels is less than
@@ -202,7 +198,6 @@ will be converted to being categorical based on percentiles of the data.
 The percentile groups will have no more than 20 percent of the data in
 each group. Again, missing values in <code>x</code> are randomly assigned
 to groups.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>61</span>)
@@ -259,11 +254,8 @@ to groups.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

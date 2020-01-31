@@ -32,14 +32,13 @@
 
 
 <meta property="og:title" content="Simple Training/Test Set Splitting — initial_split" />
-
 <meta property="og:description" content="initial_split creates a single binary split of the data into a training
 set and testing set. initial_time_split does the same, but takes the
 first prop samples for training, instead of a random selection.
 training and testing are used to extract the resulting data." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
@@ -145,12 +144,10 @@ training and testing are used to extract the resulting data." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>initial_split</code> creates a single binary split of the data into a training
 set and testing set. <code>initial_time_split</code> does the same, but takes the
 <em>first</em> <code>prop</code> samples for training, instead of a random selection.
 <code>training</code> and <code>testing</code> are used to extract the resulting data.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>initial_split</span>(<span class='no'>data</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>3</span>/<span class='fl'>4</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='no'>...</span>)
@@ -160,7 +157,7 @@ set and testing set. <code>initial_time_split</code> does the same, but takes th
 <span class='fu'>training</span>(<span class='no'>x</span>)
 
 <span class='fu'>testing</span>(<span class='no'>x</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -192,19 +189,17 @@ a numeric stratification variable.</p></td>
       <td><p>An <code>rsplit</code> object produced by <code>initial_split</code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An <code>rset</code> object that can be used with the <code>training</code> and <code>testing</code>
 functions to extract the data in each split.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>strata</code> argument causes the random sampling to be conducted
 <em>within the stratification variable</em>. The can help ensure that the number of
 data points in the training data is equivalent to the proportions in the
 original data set.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1353</span>)
@@ -221,11 +216,8 @@ original data set.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

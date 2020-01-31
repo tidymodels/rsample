@@ -32,16 +32,15 @@
 
 
 <meta property="og:title" content="Bootstrap Sampling — bootstraps" />
-
 <meta property="og:description" content="A bootstrap sample is a sample that is the same size as the original data
 set that is made using replacement. This results in analysis samples that
 have multiple replicates of some of the original rows of the data. The
 assessment set is defined as the rows of the original data that were not
 included in the bootstrap sample. This is often referred to as the
 &quot;out-of-bag&quot; (OOB) sample." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
@@ -147,19 +146,17 @@ included in the bootstrap sample. This is often referred to as the
     </div>
 
     <div class="ref-description">
-    
     <p>A bootstrap sample is a sample that is the same size as the original data
 set that is made using replacement. This results in analysis samples that
 have multiple replicates of some of the original rows of the data. The
 assessment set is defined as the rows of the original data that were not
 included in the bootstrap sample. This is often referred to as the
 "out-of-bag" (OOB) sample.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>bootstraps</span>(<span class='no'>data</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>apparent</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -195,13 +192,12 @@ error rate.</p></td>
       <td><p>Not currently used.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An tibble with classes <code>bootstraps</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and
 <code>data.frame</code>. The results include a column for the data split objects and a
 column called <code>id</code> that has a character string with the resample identifier.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The argument <code>apparent</code> enables the option of an additional
@@ -212,7 +208,6 @@ The <code>strata</code> argument is based on a similar argument in the random fo
 package were the bootstrap samples are conducted <em>within the stratification
 variable</em>. The can help ensure that the number of data points in the
 bootstrap sample is equivalent to the proportions in the original data set.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>bootstraps</span>(<span class='no'>mtcars</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; # Bootstrap sampling 
@@ -227,10 +222,8 @@ bootstrap sample is equivalent to the proportions in the original data set.</p>
 #&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #555555;'>&lt;split [32/11]&gt;</span><span> Bootstrap1
 #&gt; </span><span style='color: #555555;'>2</span><span> </span><span style='color: #555555;'>&lt;split [32/13]&gt;</span><span> Bootstrap2
 #&gt; </span><span style='color: #555555;'>3</span><span> </span><span style='color: #555555;'>&lt;split [32/32]&gt;</span><span> Apparent  </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>purrr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘purrr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    is_null</span></div><div class='input'><span class='no'>iris2</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>130</span>, ]
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>purrr</span>)
+<span class='no'>iris2</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>130</span>, ]
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>13</span>)
 <span class='no'>resample1</span> <span class='kw'>&lt;-</span> <span class='fu'>bootstraps</span>(<span class='no'>iris2</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>3</span>)
@@ -260,11 +253,8 @@ bootstrap sample is equivalent to the proportions in the original data set.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

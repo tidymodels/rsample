@@ -15,7 +15,9 @@ int_bca(.data, statistics, alpha = 0.05, .fn, ...)
 \arguments{
 \item{.data}{A data frame containing the bootstrap resamples created using
 \code{bootstraps()}. For t- and BCa-intervals, the \code{apparent} argument
-should be set to \code{TRUE}.}
+should be set to \code{TRUE}. Even if the \code{apparent} argument is set to
+\code{TRUE} for the percentile method, the apparent data is never used in calculating
+the percentile confidence interval.}
 
 \item{statistics}{An unquoted column name or \code{dplyr} selector that identifies
 a single column in the data set that contains the indiviual bootstrap
@@ -36,7 +38,10 @@ required.}
 Each function returns a tibble with columns \code{.lower},
 \code{.estimate}, \code{.upper}, \code{.alpha}, \code{.method}, and \code{term}.
 \code{.method} is the type of interval (eg. "percentile",
-"student-t", or "BCa"). \code{term} is the name of the estimate.
+"student-t", or "BCa"). \code{term} is the name of the estimate. Note
+the \code{.estimate} returned from \code{int_pctl()}
+is the mean of the estimates from the bootstrap resamples
+and not the estimate from the apparent model.
 }
 \description{
 Calculate bootstrap confidence intervals using various methods.
@@ -44,7 +49,7 @@ Calculate bootstrap confidence intervals using various methods.
 \details{
 Percentile intervals are the standard method of
 obtaining confidence intervals but require thousands of
-resamples to be accurate. t-intervals may need fewer
+resamples to be accurate. T-intervals may need fewer
 resamples but require a corresponding variance estimate.
 Bias-corrected and accelerated intervals require the original function
 that was used to create the statistics of interest and are
