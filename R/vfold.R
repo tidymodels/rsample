@@ -144,5 +144,5 @@ add_vfolds <- function(x, v) {
 print.vfold_cv <- function(x, ...) {
   cat("# ", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("vfold_cv", "rset"))]
-  print(x)
+  print(x, ...)
 }

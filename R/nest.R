@@ -105,5 +105,5 @@ print.nested_cv <- function(x, ...) {
   char_x <- paste("#", pretty(x))
   cat(char_x, sep = "\n")
   class(x) <- class(tibble())
-  print(x)
+  print(x, ...)
 }

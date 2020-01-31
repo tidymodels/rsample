@@ -91,6 +91,11 @@ test_that('printing', {
   expect_output(print(group_vfold_cv(iris, "Species")))
 })
 
+test_that('printing with ...', {
+  verify_output("test-print-groups.txt", {
+    print(group_vfold_cv(iris, "Species"), n = 2)
+  })
+})
 
 test_that('rsplit labels', {
   rs <- group_vfold_cv(iris, "Species")

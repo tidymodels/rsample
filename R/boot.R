@@ -142,5 +142,5 @@ boot_splits <-
 print.bootstraps <- function(x, ...) {
   cat("#", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("bootstraps", "rset"))]
-  print(x)
+  print(x, ...)
 }
