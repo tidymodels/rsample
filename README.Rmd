@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
 # rsample <img src="man/figures/logo.png" align="right" height="80px"/> 
 
 [![Travis-CI Build Status](https://travis-ci.org/tidymodels/rsample.svg?branch=master)](https://travis-ci.org/tidymodels/rsample)
+[![R build status](https://github.com/tidymodels/rsample/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/rsample/actions)
 [![Coverage Status](https://img.shields.io/codecov/c/github/tidymodels/rsample/master.svg)](https://codecov.io/github/tidymodels/rsample?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsample)](https://cran.r-project.org/package=rsample)
 [![Downloads](http://cranlogs.r-pkg.org/badges/rsample)](https://cran.r-project.org/package=rsample)
