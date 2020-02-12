@@ -6,7 +6,6 @@
 #'  has a column based on the column names of `data` and another for
 #'  the values.
 #'
-#' @inheritParams gather
 #' @param data An `rset` object.
 #' @param key,value,... Not specified in this method and will be
 #'  ignored. Note that this means that selectors are ignored if
@@ -32,9 +31,7 @@
 #' @export gather.rset
 #' @export
 #' @method gather rset
-#' @importFrom tidyr gather
-#' @importFrom dplyr select %>%
-#' @importFrom rlang !!
+
 
 gather.rset <- function(data, key = NULL, value = NULL, ..., na.rm = TRUE,
                         convert = FALSE, factor_key = TRUE) {
@@ -64,6 +61,3 @@ gather.rset <- function(data, key = NULL, value = NULL, ..., na.rm = TRUE,
   )
 
 }
-
-#' @importFrom utils globalVariables
-utils::globalVariables(c("model", "splits", "statistic"))

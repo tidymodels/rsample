@@ -106,9 +106,6 @@ vfold_complement <- function(ind, n) {
        assessment = ind)
 }
 
-#' @importFrom tibble tibble
-#' @importFrom purrr map
-#' @importFrom dplyr bind_rows
 vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4) {
   if (!is.numeric(v) || length(v) != 1)
     stop("`v` must be a single integer.", call. = FALSE)

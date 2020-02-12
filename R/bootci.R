@@ -41,7 +41,6 @@ check_tidy_names <- function(x, std_col) {
   invisible(TRUE)
 }
 
-#' @importFrom stats setNames
 check_tidy <- function(x, std_col = FALSE) {
   if (!is.list(x)) {
     stop(stat_fmt_err, call. = FALSE)
@@ -235,11 +234,6 @@ pctl_single <- function(stats, alpha = 0.05) {
 #' bootstraps(iris, 1000, apparent = TRUE) %>%
 #'   mutate(correlations = map(splits, rank_corr)) %>%
 #'   int_pctl(correlations)
-#' @importFrom purrr map map_dfr
-#' @importFrom rlang enquo
-#' @importFrom dplyr mutate last ungroup group_by inner_join summarize do
-#' @importFrom tidyselect vars_select one_of
-#' @importFrom furrr future_map_dfr
 #' @export
 int_pctl <- function(.data, statistics, alpha = 0.05) {
 
@@ -267,7 +261,6 @@ int_pctl <- function(.data, statistics, alpha = 0.05) {
 # ------------------------------------------------------------------------------
 # t interval code
 
-#' @importFrom tibble tibble
 t_single <- function(stats, std_err, is_orig, alpha = 0.05) {
   # stats is a numeric vector of values
   # vars is a numeric vector of variances
@@ -314,10 +307,6 @@ t_single <- function(stats, std_err, is_orig, alpha = 0.05) {
 
 
 #' @rdname int_pctl
-#' @inheritParams int_pctl
-#' @importFrom dplyr as_tibble mutate
-#' @importFrom rlang quos
-#' @importFrom purrr map2 map_dfr
 #' @export
 int_t <- function(.data, statistics, alpha = 0.05) {
 
@@ -342,11 +331,6 @@ int_t <- function(.data, statistics, alpha = 0.05) {
 
 
 # ----------------------------------------------------------------
-
-#' @importFrom dplyr last
-#' @importFrom rlang exec
-#' @importFrom purrr pluck map_dbl map_dfr
-#' @importFrom stats qnorm pnorm
 
 bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
 
@@ -416,13 +400,11 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
 
 
 #' @rdname int_pctl
-#' @inheritParams int_pctl
 #' @param .fn A function to calculate statistic of interest. The
 #'  function should take an `rsplit` as the first argument and the `...` are
 #'  required.
 #' @param ... Arguments to pass to `.fn`.
 #' @references \url{https://tidymodels.github.io/rsample/articles/Applications/Intervals.html}
-#' @importFrom purrr map_dfr
 #' @export
 int_bca <- function(.data, statistics, alpha = 0.05, .fn, ...) {
 
@@ -442,11 +424,3 @@ int_bca <- function(.data, statistics, alpha = 0.05, .fn, ...) {
   vals <- bca_calc(stats, .data$splits[[1]]$data, alpha = alpha, .fn = .fn, ...)
   vals
 }
-
-# ----------------------------------------------------------------
-
-#' @importFrom utils globalVariables
-utils::globalVariables(
-  c("id", ".", ".estimate", ".lower", ".upper", "Z0", "Za", "Zl", "Zu", "a",
-    "cubed", "estimate", "orig", "p0", "squared", "term", "theta_0", "loo", "n")
-)

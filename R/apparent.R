@@ -15,7 +15,6 @@
 #'   called `id` that has a character string with the resample identifier.
 #' @examples
 #' apparent(mtcars)
-#' @importFrom purrr map
 #' @export
 apparent <- function(data, ...) {
   splits <- rsplit(data, in_id = 1:nrow(data), out_id = 1:nrow(data))

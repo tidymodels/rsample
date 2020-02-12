@@ -66,7 +66,6 @@
 #' quantile(x6, probs = (0:10)/10)
 #' table(make_strata(x6, breaks = 10))
 #' @export
-#' @importFrom stats quantile
 make_strata <- function(x, breaks = 4, nunique = 5, pool = .15, depth = 20) {
   num_vals <- unique(x)
   n <- length(x)

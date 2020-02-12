@@ -15,10 +15,10 @@ dim_rset <- function(x, ...) {
   for (i in seq_along(id_cols))
     dims[id_cols[i]] <- getElement(x, id_cols[i])
   dims
-} 
+}
 
 names0 <- function (num, prefix = "x") {
-  if (num < 1) 
+  if (num < 1)
     stop("`num` should be > 0", call. = FALSE)
   ind <- format(1:num)
   ind <- gsub(" ", "0", ind)
@@ -39,17 +39,16 @@ strata_check <- function(strata, vars) {
       stop("`strata` should be a single character value", call. = FALSE)
     if (!(strata %in% vars))
       stop(strata, " is not in `data`")
-  }  
+  }
   invisible(NULL)
 }
 
-#' @importFrom tibble is_tibble as_tibble tibble
-#' @importFrom dplyr bind_cols
+
 # `splits`` should be either a list or a tibble with a single column
 #  called "splits"
-# `ids`` should be either a character vector or a tibble with 
-#  one or more columns that begin with "id" 
-new_rset <-  function(splits, ids, attrib = NULL, 
+# `ids`` should be either a character vector or a tibble with
+#  one or more columns that begin with "id"
+new_rset <-  function(splits, ids, attrib = NULL,
                       subclass = character()) {
   stopifnot(is.list(splits))
   if (!is_tibble(ids)) {
@@ -65,28 +64,28 @@ new_rset <-  function(splits, ids, attrib = NULL,
   if(!all(ch_check))
     stop("All ID columns should be character or factor ",
          "vectors.", call. = FALSE)
-  
+
   if (!is_tibble(splits)) {
     splits <- tibble(splits = splits)
   } else {
     if(ncol(splits) > 1 | names(splits)[1] != "splits")
-      stop("The `splits` tibble should have a single column ", 
+      stop("The `splits` tibble should have a single column ",
            "named `splits`.", call. = FALSE)
   }
 
   if (nrow(ids) != nrow(splits))
     stop("Split and ID vectors have different lengths.",
-         call. = FALSE)  
-  
+         call. = FALSE)
+
   # Create another element to the splits that is a tibble containing
   # an identifer for each id column so that, in isolation, the resample
   # id can be known just based on the `rsplit` object. This can then be
   # accessed using the `labels` methof for `rsplits`
-  
+
   splits$splits <- map2(splits$splits, split(ids, 1:nrow(ids)), add_id)
-  
+
   res <- bind_cols(splits, ids)
-  
+
   if (!is.null(attrib)) {
     if (any(names(attrib) == ""))
       stop("`attrib` should be a fully named list.",
@@ -94,10 +93,10 @@ new_rset <-  function(splits, ids, attrib = NULL,
     for (i in names(attrib))
       attr(res, i) <- attrib[[i]]
   }
-  
+
   if (length(subclass) > 0)
     res <- add_class(res, cls = subclass, at_end = FALSE)
-  
+
   res
 }
 

@@ -48,8 +48,6 @@
 #' ts_cv <- tidy(ts_cv)
 #' ggplot(ts_cv, aes(x = Resample, y = factor(Row), fill = Data)) +
 #'   geom_tile() + scale_fill_brewer()
-#' @importFrom dplyr bind_rows arrange_
-#' @importFrom tibble tibble
 #' @export
 tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
   if (unique_ind) x$in_id <- unique(x$in_id)
@@ -62,8 +60,6 @@ tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
 
 #' @rdname tidy.rsplit
 #' @export
-#' @inheritParams tidy.rsplit
-#' @importFrom dplyr arrange
 tidy.rset <- function(x, ...)  {
   stacked <- purrr::map(x$splits, tidy)
   for (i in seq(along = stacked))
@@ -74,8 +70,6 @@ tidy.rset <- function(x, ...)  {
 }
 #' @rdname tidy.rsplit
 #' @export
-#' @inheritParams tidy.rsplit
-#' @importFrom dplyr arrange
 tidy.vfold_cv <- function(x, ...)  {
   stacked <- purrr::map(x$splits, tidy)
   for (i in seq(along = stacked)) {
@@ -92,10 +86,6 @@ tidy.vfold_cv <- function(x, ...)  {
 
 #' @rdname tidy.rsplit
 #' @export
-#' @inheritParams tidy.rsplit
-#' @importFrom dplyr arrange full_join
-#' @importFrom tidyr unnest
-#' @importFrom purrr map
 tidy.nested_cv <- function(x, ...)  {
 
   x$inner_tidy <- purrr::map(x$inner_resamples, tidy_wrap)
@@ -106,7 +96,7 @@ tidy.nested_cv <- function(x, ...)  {
   id_cols <- id_cols[!(id_cols %in% c("Row", "Data"))]
 
   inner_id <- grep("^id", names(inner_tidy))
-  if(length(inner_id) != length(id_cols))
+  if (length(inner_id) != length(id_cols))
     stop("Cannot merge tidt data sets", call. = FALSE)
   names(inner_tidy)[inner_id] <- id_cols
   full_join(outer_tidy, inner_tidy, by = id_cols)
@@ -117,10 +107,3 @@ tidy_wrap <- function(x) {
   names(x) <- paste0("inner_", names(x))
   x
 }
-
-# ----------------------------------------------------------------
-
-#' @importFrom utils globalVariables
-utils::globalVariables(
-  c("Data", "Row")
-)

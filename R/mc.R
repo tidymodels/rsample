@@ -87,8 +87,7 @@ mc_complement <- function(ind, n) {
        assessment = ind)
 }
 
-#' @importFrom purrr map map_df
-#' @importFrom tibble tibble
+
 mc_splits <- function(data, prop = 3/4, times = 25, strata = NULL, breaks = 4) {
   if (!is.numeric(prop) | prop >= 1 | prop <= 0)
     stop("`prop` must be a number on (0, 1).", call. = FALSE)
@@ -112,7 +111,6 @@ mc_splits <- function(data, prop = 3/4, times = 25, strata = NULL, breaks = 4) {
        id = names0(length(split_objs), "Resample"))
 }
 
-#' @importFrom purrr map map_df
 strat_sample <- function(x, prop, times, ...) {
   n <- nrow(x)
   idx <- purrr::map(rep(n, times), sample, size = floor(n*prop), ...)

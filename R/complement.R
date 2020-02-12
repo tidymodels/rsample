@@ -16,7 +16,7 @@
 #' fold_rs$splits[[1]]$out_id
 #' complement(fold_rs$splits[[1]])
 #' @export
-complement <- function (x, ...)
+complement <- function(x, ...)
   UseMethod("complement")
 
 #' @export
@@ -29,6 +29,8 @@ complement.vfold_split <- function(x, ...) {
 }
 #' @export
 complement.mc_split  <- complement.vfold_split
+#' @export
+complement.val_split <- complement.vfold_split
 #' @export
 complement.loo_split <- complement.vfold_split
 #' @export

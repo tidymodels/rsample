@@ -118,8 +118,6 @@ dim.rsplit <- function(x, ...) {
   )
 }
 
-
-#' @importFrom tibble obj_sum
 #' @method obj_sum rsplit
 #' @export
 obj_sum.rsplit <- function(x, ...) {
@@ -135,8 +133,6 @@ obj_sum.rsplit <- function(x, ...) {
 }
 
 
-#' @importFrom tibble type_sum
-#' @importFrom dplyr case_when
 #' @method type_sum rsplit
 #' @export
 type_sum.rsplit <- function(x, ...) {

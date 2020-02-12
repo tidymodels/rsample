@@ -3,7 +3,6 @@
 \docType{package}
 \name{rsample}
 \alias{rsample}
-\alias{rsample-package}
 \title{rsample: General Resampling Infrastructure for R}
 \description{
 \pkg{rsample} has functions to create variations of a data set
