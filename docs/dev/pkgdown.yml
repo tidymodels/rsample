@@ -1,6 +1,6 @@
-pandoc: 2.3.1
-pkgdown: 1.4.1
-pkgdown_sha: ~
+pandoc: 2.9.1
+pkgdown: 1.4.1.9000
+pkgdown_sha: 03fa5022ff360a6f87586145e45f71fe090c64a2
 articles:
   Intervals: Applications/Intervals.html
   Keras: Applications/Keras.html
@@ -10,4 +10,7 @@ articles:
   Time_Series: Applications/Time_Series.html
   Basics: Basics.html
   Working_with_rsets: Working_with_rsets.html
+urls:
+  reference: https://tidymodels.github.io/rsample/reference
+  article: https://tidymodels.github.io/rsample/articles
 
