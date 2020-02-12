@@ -21,14 +21,15 @@ a numeric stratification variable.}
 \item{...}{Not currently used.}
 }
 \value{
-An tibble with classes \code{validation_split}, \code{rset}, \code{tbl_df}, \code{tbl}, and
-\code{data.frame}. The results include a column for the data split objects and a
-column called \code{id} that has a character string with the resample identifier.
+An tibble with classes \code{validation_split}, \code{rset}, \code{tbl_df}, \code{tbl},
+and \code{data.frame}. The results include a column for the data split objects
+and a column called \code{id} that has a character string with the resample
+identifier.
 }
 \description{
-One resample of Monte Carlo cross-validation takes a random sample (without
-replacement) of the original data set to be used for analysis. All other
-data points are added to the assessment set.
+\code{validation_split()} takes a single random sample (without replacement) of
+the original data set to be used for analysis. All other data points are
+added to the assessment set (to be used as the validation set).
 }
 \details{
 The \code{strata} argument causes the random sampling to be conducted
