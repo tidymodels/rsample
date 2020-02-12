@@ -1,9 +1,13 @@
+# `rsample` 0.0.5.9000
+
+* Added `validation_set()` for making a single resample. 
+
 # `rsample` 0.0.5
 
 * Added three functions to compute different bootstrap confidence intervals. 
-* A new function (`add_resample_id`) augments a data frame with columns for the resampling identifier. 
-* Updated `initial_split`, `mc_cv`, `vfold_cv`, `bootstraps`, and `group_vfold_cv` to use tidyselect on the stratification variable.
-* Updated `initial_split`, `mc_cv`, `vfold_cv`, `bootstraps` with new `breaks` parameter that specifies the number of bins to stratify by for a numeric stratification variable.
+* A new function (`add_resample_id()`) augments a data frame with columns for the resampling identifier. 
+* Updated `initial_split()`, `mc_cv()`, `vfold_cv()`, `bootstraps()`, and `group_vfold_cv()` to use tidyselect on the stratification variable.
+* Updated `initial_split()`, `mc_cv()`, `vfold_cv()`, `bootstraps()` with new `breaks` parameter that specifies the number of bins to stratify by for a numeric stratification variable.
 
 
 # `rsample` 0.0.4
@@ -19,7 +23,7 @@ Small maintenence release.
 
 ## New features
 
-* Added function `initial_time_split` for ordered initial sampling appropriate for time series data.
+* Added function `initial_time_split()` for ordered initial sampling appropriate for time series data.
 
 ## Minor improvements and fixes
 

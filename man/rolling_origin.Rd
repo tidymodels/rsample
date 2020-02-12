@@ -4,8 +4,7 @@
 \alias{rolling_origin}
 \title{Rolling Origin Forecast Resampling}
 \usage{
-rolling_origin(data, initial = 5, assess = 1, cumulative = TRUE,
-  skip = 0, ...)
+rolling_origin(data, initial = 5, assess = 1, cumulative = TRUE, skip = 0, ...)
 }
 \arguments{
 \item{data}{A data frame.}

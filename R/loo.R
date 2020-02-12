@@ -10,7 +10,6 @@
 #'  identifier.
 #' @examples
 #' loo_cv(mtcars)
-#' @importFrom purrr map
 #' @export
 loo_cv <- function(data, ...) {
   split_objs <- vfold_splits(data = data, v = nrow(data))

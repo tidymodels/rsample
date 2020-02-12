@@ -6,6 +6,7 @@
 \alias{pretty.apparent}
 \alias{pretty.rolling_origin}
 \alias{pretty.mc_cv}
+\alias{pretty.validation_split}
 \alias{pretty.nested_cv}
 \alias{pretty.bootstraps}
 \alias{pretty.group_vfold_cv}
@@ -20,6 +21,8 @@
 \method{pretty}{rolling_origin}(x, ...)
 
 \method{pretty}{mc_cv}(x, ...)
+
+\method{pretty}{validation_split}(x, ...)
 
 \method{pretty}{nested_cv}(x, ...)
 

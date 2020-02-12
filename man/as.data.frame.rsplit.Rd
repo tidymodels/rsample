@@ -6,8 +6,7 @@
 \alias{assessment}
 \title{Convert an \code{rsplit} object to a data frame}
 \usage{
-\method{as.data.frame}{rsplit}(x, row.names = NULL, optional = FALSE,
-  data = "analysis", ...)
+\method{as.data.frame}{rsplit}(x, row.names = NULL, optional = FALSE, data = "analysis", ...)
 
 analysis(x, ...)
 

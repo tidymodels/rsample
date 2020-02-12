@@ -24,6 +24,7 @@ reference:
       - vfold_cv
       - loo_cv
       - mc_cv
+      - validation_split
       - group_vfold_cv
       - rolling_origin
       - nested_cv

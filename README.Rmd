@@ -13,10 +13,8 @@ knitr::opts_chunk$set(
 # rsample <img src="man/figures/logo.png" align="right" height="80px"/> 
 
 [![Travis-CI Build Status](https://travis-ci.org/tidymodels/rsample.svg?branch=master)](https://travis-ci.org/tidymodels/rsample)
-[![Azure pipelines build status](https://img.shields.io/azure-devops/build/tidymodels/rsample/2)](https://dev.azure.com/tidymodels/rsample/_build/latest?definitionId=1&branchName=master)
-[![Azure pipelines test status](https://img.shields.io/azure-devops/tests/tidymodels/rsample/2?color=brightgreen&compact_message)](https://dev.azure.com/tidymodels/rsample/_build/latest?definitionId=1&branchName=master)
+[![R build status](https://github.com/tidymodels/rsample/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/rsample/actions)
 [![Coverage Status](https://img.shields.io/codecov/c/github/tidymodels/rsample/master.svg)](https://codecov.io/github/tidymodels/rsample?branch=master)
-[![Azure pipelines coverage status](https://img.shields.io/azure-devops/coverage/tidymodels/rsample/2)](https://dev.azure.com/tidymodels/rsample/_build/latest?definitionId=1&branchName=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsample)](https://cran.r-project.org/package=rsample)
 [![Downloads](http://cranlogs.r-pkg.org/badges/rsample)](https://cran.r-project.org/package=rsample)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)

@@ -12,3 +12,6 @@ rsample_hex_thumb.png
 .github
 ^revdep$
 ^azure-pipelines\.yml$
+^\.github/workflows/R-CMD-check\.yaml$
+^codecov\.yml$
+^\.github/workflows/pr-commands\.yaml$

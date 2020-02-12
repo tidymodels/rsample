@@ -4,8 +4,7 @@
 \alias{bootstraps}
 \title{Bootstrap Sampling}
 \usage{
-bootstraps(data, times = 25, strata = NULL, breaks = 4,
-  apparent = FALSE, ...)
+bootstraps(data, times = 25, strata = NULL, breaks = 4, apparent = FALSE, ...)
 }
 \arguments{
 \item{data}{A data frame.}

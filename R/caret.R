@@ -10,7 +10,6 @@
 #'  `trainControl` object. `caret2rsample` returns an
 #'  `rset` object of the appropriate class.
 #' @export
-#' @importFrom purrr map
 rsample2caret <- function(object, data = c("analysis", "assessment")) {
   if(!inherits(object, "rset"))
     stop("`object` must be an `rset`", call. = FALSE)
@@ -29,9 +28,6 @@ rsample2caret <- function(object, data = c("analysis", "assessment")) {
 #'  `control` objects from an object produced by `train`.
 #' @param data The data that was originally used to produce the
 #'  `ctrl` object.
-#' @importFrom purrr map map2
-#' @importFrom tibble tibble
-#' @importFrom dplyr bind_cols
 #' @export
 caret2rsample <- function(ctrl, data = NULL) {
   if (is.null(data))

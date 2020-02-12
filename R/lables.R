@@ -118,13 +118,32 @@ pretty.rolling_origin <- function(x, ...)
 pretty.mc_cv <- function(x, ...) {
   details <- attributes(x)
   res <- paste0(
-    "# Monte Carlo cross-validation (",
+    "Monte Carlo cross-validation (",
     signif(details$prop, 2),
     "/",
     signif(1 - details$prop, 2),
     ") with ",
     details$times,
     " resamples "
+  )
+  if (details$strata)
+    res <- paste(res, "using stratification")
+  res
+}
+
+#' @exportMethod pretty.validation_split
+#' @export pretty.validation_split
+#' @export
+#' @method pretty validation_split
+#' @rdname pretty.vfold_cv
+pretty.validation_split <- function(x, ...) {
+  details <- attributes(x)
+  res <- paste0(
+    "Validation Set Split (",
+    signif(details$prop, 2),
+    "/",
+    signif(1 - details$prop, 2),
+    ") "
   )
   if (details$strata)
     res <- paste(res, "using stratification")
