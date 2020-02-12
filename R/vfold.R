@@ -20,8 +20,7 @@
 #' @param strata A variable that is used to conduct stratified sampling to
 #'  create the folds. This could be a single character value or a variable name
 #'  that corresponds to a variable that exists in the data frame.
-#' @param breaks A single number giving the number of bins desired to stratify
-#'  a numeric stratification variable.
+#' @inheritParams make_strata
 #' @param ... Not currently used.
 #' @export
 #' @return A tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and
@@ -62,7 +61,8 @@
 #'           mean(dat == "virginica")
 #'         })
 #' @export
-vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, breaks = 4, ...) {
+vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, breaks = 4,
+                     pool = 0.15, ...) {
 
   if(!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
@@ -72,10 +72,11 @@ vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, breaks = 4, ...) 
   strata_check(strata, names(data))
 
   if (repeats == 1) {
-    split_objs <- vfold_splits(data = data, v = v, strata = strata, breaks = breaks)
+    split_objs <- vfold_splits(data = data, v = v, strata = strata,
+                               breaks = breaks, pool = pool)
   } else {
     for (i in 1:repeats) {
-      tmp <- vfold_splits(data = data, v = v, strata = strata)
+      tmp <- vfold_splits(data = data, v = v, strata = strata, pool = pool)
       tmp$id2 <- tmp$id
       tmp$id <- names0(repeats, "Repeat")[i]
       split_objs <- if (i == 1)
@@ -109,7 +110,7 @@ vfold_complement <- function(ind, n) {
 #' @importFrom tibble tibble
 #' @importFrom purrr map
 #' @importFrom dplyr bind_rows
-vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4) {
+vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.15) {
   if (!is.numeric(v) || length(v) != 1)
     stop("`v` must be a single integer.", call. = FALSE)
 
@@ -121,7 +122,8 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4) {
   } else {
     stratas <- tibble::tibble(idx = 1:n,
                               strata = make_strata(getElement(data, strata),
-                                                   breaks = breaks))
+                                                   breaks = breaks,
+                                                   pool = pool))
     stratas <- split(stratas, stratas$strata)
     stratas <- purrr::map(stratas, add_vfolds, v = v)
     stratas <- dplyr::bind_rows(stratas)
