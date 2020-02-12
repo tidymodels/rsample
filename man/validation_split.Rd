@@ -33,7 +33,7 @@ added to the assessment set (to be used as the validation set).
 }
 \details{
 The \code{strata} argument causes the random sampling to be conducted
-\emph{within the stratification variable}. The can help ensure that the number of
+\emph{within the stratification variable}. This can help ensure that the number of
 data points in the analysis data is equivalent to the proportions in the
 original data set.
 }
