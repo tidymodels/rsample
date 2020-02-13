@@ -18,6 +18,7 @@ test_that('simple boot', {
   set.seed(11)
   rs1 <- bootstraps(dat1)
   td1 <- tidy(rs1, unique_ind = FALSE)
+  expect_gt(nrow(td1), nrow(dat1))
 
   name_vals <- names0(nrow(rs1), "Bootstrap")
   for(i in 1:nrow(rs1)) {

@@ -61,7 +61,11 @@ tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
 #' @rdname tidy.rsplit
 #' @export
 tidy.rset <- function(x, ...)  {
-  stacked <- purrr::map(x$splits, tidy)
+  dots <- list(...)
+  unique_ind <- dplyr::if_else(is.null(dots$unique_ind),
+                               TRUE,
+                               dots$unique_ind)
+  stacked <- purrr::map(x$splits, tidy, unique_ind = unique_ind)
   for (i in seq(along = stacked))
     stacked[[i]]$Resample <- x$id[i]
   stacked <- dplyr::bind_rows(stacked)

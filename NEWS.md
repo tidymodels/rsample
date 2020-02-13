@@ -1,6 +1,7 @@
 # `rsample` 0.0.5.9000
 
-* Added `validation_set()` for making a single resample. 
+* Added `validation_set()` for making a single resample.
+* Correct the tidy method for bootstraps (#115).
 
 # `rsample` 0.0.5
 
