@@ -4,7 +4,15 @@
 \alias{rolling_origin}
 \title{Rolling Origin Forecast Resampling}
 \usage{
-rolling_origin(data, initial = 5, assess = 1, cumulative = TRUE, skip = 0, ...)
+rolling_origin(
+  data,
+  initial = 5,
+  assess = 1,
+  cumulative = TRUE,
+  skip = 0,
+  overlap = 0,
+  ...
+)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -20,6 +28,10 @@ size specified by \code{initial} at each resample?.}
 \item{skip}{A integer indicating how many (if any) \emph{additional} resamples
 to skip to thin the total amount of data points in the analysis resample.
 See the example below.}
+
+\item{overlap}{A value to include an overlap between the assessment
+and analysis set. This is useful if lagged predictors will be used
+during training and testing.}
 
 \item{...}{Not currently used.}
 }

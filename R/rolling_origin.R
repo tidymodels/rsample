@@ -23,6 +23,9 @@
 #' @param skip A integer indicating how many (if any) _additional_ resamples
 #'  to skip to thin the total amount of data points in the analysis resample.
 #' See the example below.
+#' @param overlap A value to include an overlap between the assessment
+#'  and analysis set. This is useful if lagged predictors will be used
+#'  during training and testing.
 #' @export
 #' @return An tibble with classes `rolling_origin`, `rset`, `tbl_df`, `tbl`,
 #'  and `data.frame`. The results include a column for the data split objects
@@ -52,7 +55,7 @@
 #'
 #' @export
 rolling_origin <- function(data, initial = 5, assess = 1,
-                           cumulative = TRUE, skip = 0, ...) {
+                           cumulative = TRUE, skip = 0, overlap = 0, ...) {
   n <- nrow(data)
 
   if (n < initial + assess)
@@ -69,7 +72,7 @@ rolling_origin <- function(data, initial = 5, assess = 1,
 
   in_ind <- mapply(seq, starts, stops, SIMPLIFY = FALSE)
   out_ind <-
-    mapply(seq, stops + 1, stops + assess, SIMPLIFY = FALSE)
+    mapply(seq, stops + 1 - overlap, stops + assess, SIMPLIFY = FALSE)
   indices <- mapply(merge_lists, in_ind, out_ind, SIMPLIFY = FALSE)
   split_objs <-
     purrr::map(indices, make_splits, data = data, class = "rof_split")
@@ -79,7 +82,8 @@ rolling_origin <- function(data, initial = 5, assess = 1,
   roll_att <- list(initial = initial,
                    assess = assess,
                    cumulative = cumulative,
-                   skip = skip)
+                   skip = skip,
+                   overlap = overlap)
 
   new_rset(splits = split_objs$splits,
            ids = split_objs$id,
