@@ -9,7 +9,7 @@
 \usage{
 initial_split(data, prop = 3/4, strata = NULL, breaks = 4, ...)
 
-initial_time_split(data, prop = 3/4, ...)
+initial_time_split(data, prop = 3/4, overlap = 0, ...)
 
 training(x)
 
@@ -28,6 +28,10 @@ name that corresponds to a variable that exists in the data frame.}
 a numeric stratification variable.}
 
 \item{...}{Not currently used.}
+
+\item{overlap}{A value to include an overlap between the assessment
+and analysis set. This is useful if lagged predictors will be used
+during training and testing.}
 
 \item{x}{An \code{rsplit} object produced by \code{initial_split}}
 }
@@ -55,6 +59,13 @@ test_data <- testing(car_split)
 
 drinks_split <- initial_time_split(drinks)
 train_data <- training(drinks_split)
-test_data <- testing(car_split)
+test_data <- testing(drinks_split)
 c(max(train_data$date), min(test_data$date))  # no overlap
+
+# With 12 period overlap
+drinks_overlap_split <- initial_time_split(drinks, overlap = 12)
+train_data <- training(drinks_overlap_split)
+test_data <- testing(drinks_overlap_split)
+c(max(train_data$date), min(test_data$date))  # 12 period overlap
+
 }
