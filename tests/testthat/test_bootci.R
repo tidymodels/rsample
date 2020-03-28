@@ -50,7 +50,7 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
   expect_equal(ttest$conf.low,
                single_pct_res$.lower,
                tolerance = 0.01)
-  expect_equal(ttest$estimate,
+  expect_equal(unname(ttest$estimate),
                single_pct_res$.estimate,
                tolerance = 0.01)
   expect_equal(ttest$conf.high,
@@ -60,7 +60,7 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
   expect_equal(ttest$conf.low,
                single_t_res$.lower,
                tolerance = 0.01)
-  expect_equal(ttest$estimate,
+  expect_equal(unname(ttest$estimate),
                single_t_res$.estimate,
                tolerance = 0.01)
   expect_equal(ttest$conf.high,
@@ -70,7 +70,7 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
   expect_equal(ttest$conf.low,
                single_bca_res$.lower,
                tolerance = 0.01)
-  expect_equal(ttest$estimate,
+  expect_equal(unname(ttest$estimate),
                single_bca_res$.estimate,
                tolerance = 0.01)
   expect_equal(ttest$conf.high,
