@@ -15,3 +15,5 @@ rsample_hex_thumb.png
 ^\.github/workflows/R-CMD-check\.yaml$
 ^codecov\.yml$
 ^\.github/workflows/pr-commands\.yaml$
+^README\.Rmd$
+^CODE_OF_CONDUCT\.md$
