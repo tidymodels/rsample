@@ -32,7 +32,7 @@ a numeric stratification variable.}
 \item{x}{An \code{rsplit} object produced by \code{initial_split}}
 }
 \value{
-An \code{rset} object that can be used with the \code{training} and \code{testing}
+An \code{rsplit} object that can be used with the \code{training} and \code{testing}
 functions to extract the data in each split.
 }
 \description{
