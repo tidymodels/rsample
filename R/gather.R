@@ -35,20 +35,24 @@
 
 gather.rset <- function(data, key = NULL, value = NULL, ..., na.rm = TRUE,
                         convert = FALSE, factor_key = TRUE) {
-  if(any(names(data) == "splits"))
-    data <- data %>% select(-splits)
+  if (any(names(data) == "splits")) {
+    data <- data %>% dplyr::select(-splits)
+  }
 
   data <- as.data.frame(data)
 
   id_vars <- grep("^id", names(data), value = TRUE)
 
   other_vars <- names(data)[!(names(data) %in% id_vars)]
-  if(length(other_vars) < 2)
-    stop("There should be at least two other columns ",
-         "(besides `id` variables) in the data set to ",
-         "use `gather`.")
-
-  # check types?
+  if (length(other_vars) < 2) {
+    rlang::abort(
+      paste0(
+        "There should be at least two other columns ",
+        "(besides `id` variables) in the data set to ",
+        "use `gather.rset()`."
+      )
+    )
+  }
 
   gather(
     data,
@@ -59,5 +63,5 @@ gather.rset <- function(data, key = NULL, value = NULL, ..., na.rm = TRUE,
     convert = convert,
     factor_key = factor_key
   )
-
 }
+
