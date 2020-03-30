@@ -156,6 +156,7 @@ accomplishes a different task than the original example, in this case, each slic
 moves forward an entire year, rather than just one month.
 
 ```{r rof-annual}
+library(tidyr)
 # The idea is to nest by the period to roll over,
 # which in this case is the year.
 roll_rs_annual <- drinks %>%
