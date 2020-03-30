@@ -216,6 +216,7 @@ pretty.group_vfold_cv  <- function(x, ...) {
 #'  to avoid name conflicts with `.data`?
 #' @return An updated data frame.
 #' @examples
+#' library(dplyr)
 #'
 #' set.seed(363)
 #' car_folds <- vfold_cv(mtcars, repeats = 3)

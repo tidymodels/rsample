@@ -23,6 +23,7 @@ identifies which resample that the data came from. In most cases, a single
 column is added but for some resampling methods two or more are added.
 }
 \examples{
+library(dplyr)
 
 set.seed(363)
 car_folds <- vfold_cv(mtcars, repeats = 3)

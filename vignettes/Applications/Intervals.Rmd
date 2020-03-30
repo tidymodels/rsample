@@ -80,6 +80,7 @@ nlin_bt$models[[1]]
 Let's look at the data and see if there any outliers or aberrant results:
 
 ```{r extract}
+library(tidyr)
 nls_coef <- 
   nlin_bt %>%
   dplyr::select(-splits) %>%

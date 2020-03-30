@@ -31,8 +31,6 @@
 #' @export gather.rset
 #' @export
 #' @method gather rset
-
-
 gather.rset <- function(data, key = NULL, value = NULL, ..., na.rm = TRUE,
                         convert = FALSE, factor_key = TRUE) {
   if (any(names(data) == "splits")) {
@@ -54,7 +52,7 @@ gather.rset <- function(data, key = NULL, value = NULL, ..., na.rm = TRUE,
     )
   }
 
-  gather(
+  tidyr::gather(
     data,
     key = model,
     value = statistic,
