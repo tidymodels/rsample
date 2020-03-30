@@ -1,3 +1,9 @@
+#' Constructor for split objects
+#' @param ind A list of integers with names "analysis" and "assessment".
+#' @param data A data frame.
+#' @param class An optional class to give the object.
+#' @keywords internal
+#' @export
 make_splits <- function(ind, data, class = NULL) {
   res <- rsplit(data, ind$analysis,  ind$assessment)
   if (!is.null(class))
@@ -12,14 +18,16 @@ dim_rset <- function(x, ...) {
   dims <- do.call("rbind", dims)
   dims <- tibble::as_tibble(dims)
   id_cols <- grep("^id", colnames(x), value = TRUE)
-  for (i in seq_along(id_cols))
+  for (i in seq_along(id_cols)) {
     dims[id_cols[i]] <- getElement(x, id_cols[i])
+  }
   dims
 }
 
 names0 <- function(num, prefix = "x") {
-  if (num < 1)
+  if (num < 1) {
     rlang::abort("`num` should be > 0")
+  }
   ind <- format(1:num)
   ind <- gsub(" ", "0", ind)
   paste0(prefix, ind)
@@ -35,10 +43,12 @@ add_class <- function(x, cls, at_end = TRUE) {
 
 strata_check <- function(strata, vars) {
   if (!is.null(strata)) {
-    if (!is.character(strata) | length(strata) != 1)
-      rlang::abort("`strata` should be a single character value")
-    if (!(strata %in% vars))
-      rlang::abort(strata, " is not in `data`")
+    if (!is.character(strata) | length(strata) != 1) {
+      rlang::abort("`strata` should be a single character value.")
+    }
+    if (!(strata %in% vars)) {
+      rlang::abort(strata, " is not in `data`.")
+    }
   }
   invisible(NULL)
 }
@@ -60,7 +70,7 @@ new_rset <-  function(splits, ids, attrib = NULL,
     ids <- tibble(id = ids)
   } else {
     if (!all(grepl("^id", names(ids)))) {
-        rlang::abort("The `ids` tibble column names should start with 'id'")
+        rlang::abort("The `ids` tibble column names should start with 'id'.")
     }
   }
   either_type <- function(x)
