@@ -1,7 +1,12 @@
 # `rsample` 0.0.5.9000
 
 * Added `validation_set()` for making a single resample.
+
 * Correct the tidy method for bootstraps (#115).
+
+* Changes for upcoming `tibble release. 
+
+* Exported constructors for `rset` and `split` objects (#40)
 
 # `rsample` 0.0.5
 
