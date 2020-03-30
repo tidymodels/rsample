@@ -40,7 +40,7 @@ bt_norm <-
   )
 
 test_that('Bootstrap estimate of mean is close to estimate of mean from normal distribution',{
-
+  skip_on_cran()
   single_pct_res <- int_pctl(bt_norm, stats)
 
   single_t_res <- int_t(bt_norm, stats)
