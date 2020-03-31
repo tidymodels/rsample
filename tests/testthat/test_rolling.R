@@ -77,8 +77,22 @@ test_that('skipping', {
 
 })
 
-test_that('printing', {
-  expect_output(print(rolling_origin(dat1)))
+test_that('lag', {
+  rs5 <- rolling_origin(dat1, initial = 5, assess = 1, cumulative = FALSE, skip = 0, lag = 3)
+  sizes5 <- dim_rset(rs5)
+
+  expect_true(all(sizes5$assessment == attr(rs5, "assess") + attr(rs5, "lag")))
+  expect_true(all(sizes5$analysis == attr(rs5, "initial")))
+
+  for (i in 1:nrow(rs5)) {
+    expect_equal(rs5$splits[[i]]$in_id,
+                 i:(i + attr(rs5, "initial") - 1))
+    expect_equal(rs5$splits[[i]]$out_id,
+                 (i + attr(rs5, "initial") - attr(rs5, "lag")):(i + attr(rs5, "initial") + attr(rs5, "assess") - 1))
+  }
+
+  expect_error(rolling_origin(drinks, initial = 5, lag = 6)) # lag must be less than training observations
+  expect_error(olling_origin(drinks, lag = 2.1))             # lag must be whole number
 })
 
 test_that('rsplit labels', {
