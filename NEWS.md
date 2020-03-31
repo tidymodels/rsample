@@ -8,6 +8,8 @@
 
 * Exported constructors for `rset` and `split` objects (#40)
 
+* `initial_time_split()` and `rolling_origin()` now have a `lag` parameter that ensures that previous data are available so that lagged variables can be calculated. (#135, #136)
+
 # `rsample` 0.0.5
 
 * Added three functions to compute different bootstrap confidence intervals. 
