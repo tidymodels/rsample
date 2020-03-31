@@ -10,7 +10,7 @@ rolling_origin(
   assess = 1,
   cumulative = TRUE,
   skip = 0,
-  overlap = 0,
+  lag = 0,
   ...
 )
 }
@@ -29,7 +29,7 @@ size specified by \code{initial} at each resample?.}
 to skip to thin the total amount of data points in the analysis resample.
 See the example below.}
 
-\item{overlap}{A value to include an overlap between the assessment
+\item{lag}{A value to include an lag between the assessment
 and analysis set. This is useful if lagged predictors will be used
 during training and testing.}
 

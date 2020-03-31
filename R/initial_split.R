@@ -74,7 +74,7 @@ initial_time_split <- function(data, prop = 3/4, lag = 0, ...) {
   n_train <- floor(nrow(data) * prop)
 
   if (lag > n_train) {
-    stop("`lag` must be less than the number of training observations.", call. = FALSE)
+    stop("`lag` must be less than or equal to the number of training observations.", call. = FALSE)
   }
 
   rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
