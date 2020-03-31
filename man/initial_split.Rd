@@ -9,7 +9,7 @@
 \usage{
 initial_split(data, prop = 3/4, strata = NULL, breaks = 4, ...)
 
-initial_time_split(data, prop = 3/4, overlap = 0, ...)
+initial_time_split(data, prop = 3/4, lag = 0, ...)
 
 training(x)
 
@@ -29,7 +29,7 @@ a numeric stratification variable.}
 
 \item{...}{Not currently used.}
 
-\item{overlap}{A value to include an overlap between the assessment
+\item{lag}{A value to include an lag between the assessment
 and analysis set. This is useful if lagged predictors will be used
 during training and testing.}
 
@@ -60,12 +60,12 @@ test_data <- testing(car_split)
 drinks_split <- initial_time_split(drinks)
 train_data <- training(drinks_split)
 test_data <- testing(drinks_split)
-c(max(train_data$date), min(test_data$date))  # no overlap
+c(max(train_data$date), min(test_data$date))  # no lag
 
-# With 12 period overlap
-drinks_overlap_split <- initial_time_split(drinks, overlap = 12)
-train_data <- training(drinks_overlap_split)
-test_data <- testing(drinks_overlap_split)
-c(max(train_data$date), min(test_data$date))  # 12 period overlap
+# With 12 period lag
+drinks_lag_split <- initial_time_split(drinks, lag = 12)
+train_data <- training(drinks_lag_split)
+test_data <- testing(drinks_lag_split)
+c(max(train_data$date), min(test_data$date))  # 12 period lag
 
 }

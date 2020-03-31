@@ -27,13 +27,13 @@
 #' drinks_split <- initial_time_split(drinks)
 #' train_data <- training(drinks_split)
 #' test_data <- testing(drinks_split)
-#' c(max(train_data$date), min(test_data$date))  # no overlap
+#' c(max(train_data$date), min(test_data$date))  # no lag
 #'
-#' # With 12 period overlap
-#' drinks_overlap_split <- initial_time_split(drinks, overlap = 12)
-#' train_data <- training(drinks_overlap_split)
-#' test_data <- testing(drinks_overlap_split)
-#' c(max(train_data$date), min(test_data$date))  # 12 period overlap
+#' # With 12 period lag
+#' drinks_lag_split <- initial_time_split(drinks, lag = 12)
+#' train_data <- training(drinks_lag_split)
+#' test_data <- testing(drinks_lag_split)
+#' c(max(train_data$date), min(test_data$date))  # 12 period lag
 #'
 #' @export
 #'
@@ -57,19 +57,27 @@ initial_split <- function(data, prop = 3/4, strata = NULL, breaks = 4, ...) {
 }
 
 #' @rdname initial_split
-#' @param overlap A value to include an overlap between the assessment
+#' @param lag A value to include an lag between the assessment
 #'  and analysis set. This is useful if lagged predictors will be used
 #'  during training and testing.
 #' @export
-initial_time_split <- function(data, prop = 3/4, overlap = 0, ...) {
+initial_time_split <- function(data, prop = 3/4, lag = 0, ...) {
 
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
     stop("`prop` must be a number on (0, 1).", call. = FALSE)
   }
 
+  if (!is.numeric(lag) | !(lag%%1==0)) {
+    stop("`lag` must be a whole number.", call. = FALSE)
+  }
+
   n_train <- floor(nrow(data) * prop)
 
-  rsplit(data, 1:n_train, (n_train + 1 - overlap):nrow(data))
+  if (lag > n_train) {
+    stop("`lag` must be less than the number of training observations.", call. = FALSE)
+  }
+
+  rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
 }
 
 #' @rdname initial_split
