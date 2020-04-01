@@ -95,9 +95,9 @@ new_rset <-  function(splits, ids, attrib = NULL,
   }
 
   # Create another element to the splits that is a tibble containing
-  # an identifer for each id column so that, in isolation, the resample
+  # an identifier for each id column so that, in isolation, the resample
   # id can be known just based on the `rsplit` object. This can then be
-  # accessed using the `labels` methof for `rsplits`
+  # accessed using the `labels` method for `rsplits`
 
   splits$splits <- map2(splits$splits, split(ids, 1:nrow(ids)), add_id)
 
