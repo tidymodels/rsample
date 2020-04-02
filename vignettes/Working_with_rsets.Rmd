@@ -168,9 +168,10 @@ The variation is considerable in this statistic. One method of computing a confi
 
 ```{r ci}
 quantile(bt_resamples$wage_diff, 
-         probs = c(0.025, 0.500, 0.975))
+         probs = c(0.025, 0.975))
 ```
-_On average_, there is no evidence for a difference in the genders. 
+
+The calculated 95% confidence interval contains 0. Hence, there are no significant differences in the median monthly income between genders at a confidence level of 95%.
 
 ## Bootstrap Estimates of Model Coefficients
 
