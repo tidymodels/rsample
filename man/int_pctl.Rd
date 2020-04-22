@@ -68,7 +68,7 @@ lm_est <- function(split, ...) {
 
 set.seed(52156)
 car_rs <-
-  bootstraps(mtcars, 1000, apparent = TRUE) \%>\%
+  bootstraps(mtcars, 500, apparent = TRUE) \%>\%
   mutate(results = map(splits, lm_est))
 
 int_pctl(car_rs, results)
@@ -87,7 +87,7 @@ rank_corr <- function(split) {
 }
 
 set.seed(69325)
-bootstraps(iris, 1000, apparent = TRUE) \%>\%
+bootstraps(iris, 500, apparent = TRUE) \%>\%
   mutate(correlations = map(splits, rank_corr)) \%>\%
   int_pctl(correlations)
 }

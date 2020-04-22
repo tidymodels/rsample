@@ -1,4 +1,6 @@
-# `rsample` 0.0.5.9000
+# rsample (development version)
+
+# `rsample` 0.0.6
 
 * Added `validation_set()` for making a single resample.
 
@@ -7,6 +9,8 @@
 * Changes for upcoming `tibble release. 
 
 * Exported constructors for `rset` and `split` objects (#40)
+
+* `initial_time_split()` and `rolling_origin()` now have a `lag` parameter that ensures that previous data are available so that lagged variables can be calculated. (#135, #136)
 
 # `rsample` 0.0.5
 
