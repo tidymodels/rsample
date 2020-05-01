@@ -171,7 +171,7 @@ quantile(bt_resamples$wage_diff,
          probs = c(0.025, 0.975))
 ```
 
-The calculated 95% confidence interval contains 0. Hence, there are no significant differences in the median monthly income between genders at a confidence level of 95%.
+The calculated 95% confidence interval contains zero, so we don't have evidence for a difference in median income between these genders at a confidence level of 95%.
 
 ## Bootstrap Estimates of Model Coefficients
 
