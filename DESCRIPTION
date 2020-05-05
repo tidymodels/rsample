@@ -9,7 +9,7 @@ Authors@R: c(
 Maintainer: Max Kuhn <max@rstudio.com>
 Description: Classes and functions to create and summarize different types of resampling objects (e.g. bootstrap, cross-validation). 
 Imports: 
-    dplyr, 
+    dplyr (>= 0.8.99.9002), 
     purrr, 
     tibble, 
     rlang (>= 0.4.0), 
@@ -30,7 +30,8 @@ Suggests:
     recipes (>= 0.1.4),
     broom,
     xml2,
-    covr
+    covr,
+    vctrs (>= 0.2.99.9011)
 URL: https://rsample.tidymodels.org, https://github.com/tidymodels/rsample
 BugReports: https://github.com/tidymodels/rsample/issues
 License: GPL-2
@@ -39,3 +40,6 @@ VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 7.1.0.9000
 Roxygen: list(markdown = TRUE)
+Remotes:
+    r-lib/vctrs,
+    tidyverse/dplyr
