@@ -62,3 +62,52 @@ test_that("vec_cast() is working", {
     expect_error(vec_cast(df, x), class = "vctrs_error_incompatible_type")
   }
 })
+
+# ------------------------------------------------------------------------------
+# vctrs methods
+
+test_that("vec_slice() returns a bare tibble", {
+  for (x in rset_subclasses) {
+    expect_identical(vec_slice(x, 1), vec_slice(rset_strip(x), 1))
+    expect_s3_class_bare_tibble(vec_slice(x, 1))
+  }
+})
+
+test_that("vec_c() returns a bare tibble", {
+  for (x in rset_subclasses) {
+    tbl <- rset_strip(x)
+
+    expect_identical(vec_c(x), vec_c(tbl))
+    expect_identical(vec_c(x, x), vec_c(tbl, tbl))
+    expect_identical(vec_c(x, tbl), vec_c(tbl, tbl))
+
+    expect_s3_class_bare_tibble(vec_c(x))
+    expect_s3_class_bare_tibble(vec_c(x, x))
+  }
+})
+
+test_that("vec_rbind() returns a bare tibble", {
+  for (x in rset_subclasses) {
+    tbl <- rset_strip(x)
+
+    expect_identical(vec_rbind(x), vec_rbind(tbl))
+    expect_identical(vec_rbind(x, x), vec_rbind(tbl, tbl))
+    expect_identical(vec_rbind(x, tbl), vec_rbind(tbl, tbl))
+
+    expect_s3_class_bare_tibble(vec_rbind(x))
+    expect_s3_class_bare_tibble(vec_cbind(x, x))
+  }
+})
+
+test_that("vec_cbind() returns a bare tibble", {
+  for (x in rset_subclasses) {
+    tbl <- rset_strip(x)
+
+    expect_identical(vec_cbind(x), vec_cbind(tbl))
+    expect_identical(vec_cbind(x, x), vec_cbind(tbl, tbl))
+    expect_identical(vec_cbind(x, tbl), vec_cbind(tbl, tbl))
+
+    expect_s3_class_bare_tibble(vec_cbind(x))
+    expect_s3_class_bare_tibble(vec_cbind(x, x))
+  }
+})
