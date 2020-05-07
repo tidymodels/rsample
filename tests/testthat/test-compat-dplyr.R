@@ -117,9 +117,6 @@ test_that("slice() drops rset class", {
 # arrange()
 
 test_that("arrange() drops rset class", {
-  skip("Until dplyr/5205")
-  # https://github.com/tidyverse/dplyr/pull/5205
-
   for (x in rset_subclasses) {
     expect_s3_class_bare_tibble(arrange(x))
     expect_s3_class_bare_tibble(arrange(x, splits))
@@ -130,9 +127,6 @@ test_that("arrange() drops rset class", {
 # filter()
 
 test_that("filter() drops rset class", {
-  skip("Until dplyr/5206")
-  # https://github.com/tidyverse/dplyr/pull/5206
-
   for (x in rset_subclasses) {
     expect_s3_class_bare_tibble(filter(x))
     expect_s3_class_bare_tibble(filter(x, is.character(id)))
