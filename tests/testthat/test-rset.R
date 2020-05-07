@@ -12,7 +12,8 @@ test_that("subsetting with nothing returns rset", {
 
 test_that("can subset with just `i` and return rset", {
   for (x in rset_subclasses) {
-    expect_s3_class_rset(x[c(1, 2)])
+    loc <- seq_len(ncol(x))
+    expect_s3_class_rset(x[loc])
   }
 })
 
@@ -24,13 +25,15 @@ test_that("removing any rset specific columns falls back", {
 
 test_that("duplicating an rset column falls back", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(x[c(1, 1, 2)])
+    loc <- c(1, seq_len(ncol(x)))
+    expect_s3_class_bare_tibble(x[loc])
   }
 })
 
 test_that("can reorder columns and keep rset class", {
   for (x in rset_subclasses) {
-    expect_s3_class_rset(x[c(2, 1)])
+    loc <- rev(seq_len(ncol(x)))
+    expect_s3_class_rset(x[loc])
   }
 })
 
@@ -50,7 +53,8 @@ test_that("can row subset and drop to a tibble", {
 
 test_that("can subset with just `j` and keep rset class", {
   for (x in rset_subclasses) {
-    expect_s3_class_rset(x[,c(1,2)])
+    loc <- seq_len(ncol(x))
+    expect_s3_class_rset(x[,loc])
   }
 })
 
@@ -65,7 +69,8 @@ test_that("removing an rset specific class drops the rset class", {
 
 test_that("row subsetting mixed with col subsetting drops to tibble", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(x[1, c(1, 2)])
+    loc <- seq_len(ncol(x))
+    expect_s3_class_bare_tibble(x[1, loc])
   }
 })
 
@@ -76,7 +81,8 @@ test_that("additional attributes are kept when subsetting and rset class is kept
   for (x in rset_subclasses) {
     attr(x, "foo") <- "bar"
 
-    result <- x[c(1, 2)]
+    loc <- seq_len(ncol(x))
+    result <- x[loc]
 
     expect_s3_class_rset(result)
     expect_identical(attr(result, "foo"), "bar")

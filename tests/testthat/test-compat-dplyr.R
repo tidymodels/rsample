@@ -86,7 +86,7 @@ test_that("adding a column that looks like an `id` drops the class", {
 
 test_that("select() can keep rset class", {
   for (x in rset_subclasses) {
-    expect_s3_class_rset(select(x, splits, id))
+    expect_s3_class_rset(select(x, splits, starts_with("id")))
   }
 })
 
@@ -177,7 +177,7 @@ test_that("renaming can keep the rset class", {
 
 test_that("renaming `id` can keep the rset class", {
   for (x in rset_subclasses) {
-    x <- rename(x, id2 = id)
+    x <- rename(x, id50 = id)
     expect_s3_class_rset(x)
   }
 })
@@ -243,3 +243,4 @@ test_that("bind_cols() drops the class", {
     expect_s3_class_bare_tibble(bind_cols(x, x))
   }
 })
+
