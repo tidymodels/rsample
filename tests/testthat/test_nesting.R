@@ -70,3 +70,30 @@ test_that('rsplit labels', {
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
 })
+
+# ------------------------------------------------------------------------------
+# `[`
+
+test_that("can keep the rset class", {
+  x <- rset_subclasses$nested_cv
+  loc <- seq_len(ncol(x))
+  expect_s3_class_rset(x[loc])
+})
+
+test_that("drops the rset class if missing `inner_resamples`", {
+  x <- rset_subclasses$nested_cv
+
+  names <- names(x)
+  names <- names[names != "inner_resamples"]
+
+  expect_s3_class_bare_tibble(x[names])
+})
+
+test_that("drops the rset class if duplicating `inner_resamples`", {
+  x <- rset_subclasses$nested_cv
+
+  names <- names(x)
+  names <- c(names, "inner_resamples")
+
+  expect_s3_class_bare_tibble(x[names])
+})

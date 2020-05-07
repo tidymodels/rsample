@@ -76,10 +76,11 @@ nested_cv <- function(data, outside, inside)  {
       call. = FALSE
     )
   inside <- map(outside$splits, inside_resample, cl = inner_cl)
-  inside <- tibble(inner_resamples = inside)
 
-  out <- dplyr::bind_cols(outside, inside)
+  out <- dplyr::mutate(outside, inner_resamples = inside)
+
   out <- add_class(out, cls = "nested_cv", at_end = FALSE)
+
   attr(out, "outside") <- cl$outside
   attr(out, "inside") <- cl$inside
 
@@ -97,4 +98,36 @@ print.nested_cv <- function(x, ...) {
   cat(char_x, sep = "\n")
   class(x) <- class(tibble())
   print(x, ...)
+}
+
+
+#' @export
+`[.nested_cv` <- function(x, i, j, drop = FALSE, ...) {
+  # Call `[.rset`
+  out <- NextMethod()
+
+  # If we already dropped the rset subclass, return
+  if (!inherits(out, "rset")) {
+    return(out)
+  }
+
+  if (col_subset_requires_fallback_nested_cv(out)) {
+    out <- rset_strip(out)
+  }
+
+  out
+}
+
+# Must have the `inner_resamples` column exactly once
+col_subset_requires_fallback_nested_cv <- function(new) {
+  names <- names(new)
+  inner_resamples_indicator <- col_matches_inner_resamples(names)
+
+  times <- sum(inner_resamples_indicator)
+
+  !identical(times, 1L)
+}
+
+col_matches_inner_resamples <- function(x) {
+  vec_in(x, "inner_resamples")
 }

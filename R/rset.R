@@ -237,7 +237,10 @@ delayedAssign("rset_subclasses", {
   list(
     bootstraps = bootstraps(mtcars),
     vfold_cv = vfold_cv(mtcars, v = 10, repeats = 2),
-    group_vfold_cv = group_vfold_cv(mtcars, cyl)
+    group_vfold_cv = group_vfold_cv(mtcars, cyl),
+    loo_cv = loo_cv(mtcars),
+    mc_cv = mc_cv(mtcars),
+    nested_cv = nested_cv(mtcars, outside = vfold_cv(v = 3), inside = bootstraps(times = 5))
   )
 })
 
@@ -245,7 +248,10 @@ delayedAssign("rset_subclasses", {
 rset_attribute_dictionary <- list(
   bootstraps = c("times", "apparent", "strata"),
   vfold_cv = c("v", "repeats", "strata"),
-  group_vfold_cv = c("v", "group")
+  group_vfold_cv = c("v", "group"),
+  loo_cv = character(),
+  mc_cv = c("prop", "times", "strata"),
+  nested_cv = c("outside", "inside")
 )
 
 rset_attributes <- function(x) {
@@ -255,6 +261,15 @@ rset_attributes <- function(x) {
 
   if (is.null(attributes)) {
     rlang::abort("Unrecognized class in `rset_attributes()`.")
+  }
+
+  # Special case `nested_cv`, which appends a class onto an existing
+  # rset subclass. We need to strip the `nested_cv` specific attributes
+  # and the ones for the existing subclass.
+  if (identical(cls, "nested_cv")) {
+    class(x) <- class(x)[-1]
+    extra_attributes <- rset_attributes(x)
+    attributes <- c(attributes, extra_attributes)
   }
 
   attributes

@@ -55,6 +55,12 @@ test_that("modifying rset columns removes rset class", {
   }
 })
 
+test_that("for nested_cv, `inner_resamples` is also a protected column", {
+  x <- rset_subclasses$nested_cv
+  cols <- list(inner_resamples = rep(1, vec_size(x)))
+  expect_s3_class_bare_tibble(dplyr_col_modify(x, cols))
+})
+
 # ------------------------------------------------------------------------------
 # mutate()
 
@@ -86,7 +92,7 @@ test_that("adding a column that looks like an `id` drops the class", {
 
 test_that("select() can keep rset class", {
   for (x in rset_subclasses) {
-    expect_s3_class_rset(select(x, splits, starts_with("id")))
+    expect_s3_class_rset(select(x, everything()))
   }
 })
 

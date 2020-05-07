@@ -170,6 +170,165 @@ vec_cast.data.frame.group_vfold_cv <- function(x, to, ..., x_arg = "", to_arg = 
 }
 
 # ------------------------------------------------------------------------------
+# loo_cv
+
+#' @export
+vec_restore.loo_cv <- function(x, to, ...) {
+  out <- NextMethod()
+  rset_strip(x)
+}
+
+
+#' @export
+vec_ptype2.loo_cv.loo_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.loo_cv.loo_cv")
+}
+#' @export
+vec_ptype2.loo_cv.tbl_df <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.loo_cv.tbl_df")
+}
+#' @export
+vec_ptype2.tbl_df.loo_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.tbl_df.loo_cv")
+}
+#' @export
+vec_ptype2.loo_cv.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.loo_cv.data.frame")
+}
+#' @export
+vec_ptype2.data.frame.loo_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.data.frame.loo_cv")
+}
+
+
+#' @export
+vec_cast.loo_cv.loo_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.loo_cv.tbl_df <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.tbl_df.loo_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.loo_cv.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.data.frame.loo_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+
+# ------------------------------------------------------------------------------
+# mc_cv
+
+#' @export
+vec_restore.mc_cv <- function(x, to, ...) {
+  out <- NextMethod()
+  rset_strip(x)
+}
+
+
+#' @export
+vec_ptype2.mc_cv.mc_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.mc_cv.mc_cv")
+}
+#' @export
+vec_ptype2.mc_cv.tbl_df <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.mc_cv.tbl_df")
+}
+#' @export
+vec_ptype2.tbl_df.mc_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.tbl_df.mc_cv")
+}
+#' @export
+vec_ptype2.mc_cv.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.mc_cv.data.frame")
+}
+#' @export
+vec_ptype2.data.frame.mc_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.data.frame.mc_cv")
+}
+
+
+#' @export
+vec_cast.mc_cv.mc_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.mc_cv.tbl_df <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.tbl_df.mc_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.mc_cv.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.data.frame.mc_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+
+# ------------------------------------------------------------------------------
+# nested_cv
+
+#' @export
+vec_restore.nested_cv <- function(x, to, ...) {
+  out <- NextMethod()
+  rset_strip(x)
+}
+
+
+#' @export
+vec_ptype2.nested_cv.nested_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.nested_cv.nested_cv")
+}
+#' @export
+vec_ptype2.nested_cv.tbl_df <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.nested_cv.tbl_df")
+}
+#' @export
+vec_ptype2.tbl_df.nested_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.tbl_df.nested_cv")
+}
+#' @export
+vec_ptype2.nested_cv.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.nested_cv.data.frame")
+}
+#' @export
+vec_ptype2.data.frame.nested_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.data.frame.nested_cv")
+}
+
+
+#' @export
+vec_cast.nested_cv.nested_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.nested_cv.tbl_df <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.tbl_df.nested_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.nested_cv.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.data.frame.nested_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+
+# ------------------------------------------------------------------------------
 
 stop_incompatible_cast_rset <- function(x, to, ..., x_arg, to_arg) {
   details <- "Can't cast to an rset because attributes are likely incompatible."
