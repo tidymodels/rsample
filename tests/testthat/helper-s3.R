@@ -5,8 +5,3 @@ expect_s3_class_rset <- function(x) {
 expect_s3_class_bare_tibble <- function(x) {
   expect_s3_class(x, c("tbl_df", "tbl", "data.frame"), exact = TRUE)
 }
-
-# Keep this list up to date with known rset subclasses
-rset_subclasses <- list(
-  bootstraps = bootstraps(mtcars)
-)

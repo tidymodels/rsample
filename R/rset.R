@@ -139,7 +139,7 @@ col_subset_requires_fallback <- function(old, new) {
   # Each `rset_name` must be in `new_names` exactly once
   # otherwise we have to fall back.
   for (rset_name in rset_names) {
-    times <- sum(grepl(rset_name, new_names, fixed = TRUE))
+    times <- sum(vec_in(new_names, rset_name))
 
     if (times != 1L) {
       return(TRUE)
@@ -230,9 +230,20 @@ df_size <- function(x) {
 
 # ------------------------------------------------------------------------------
 
+# Keep this list up to date with known rset subclasses for testing.
+# Delay assignment because we are creating this directly in the R script
+# and not all of the required helpers might have been sourced yet.
+delayedAssign("rset_subclasses", {
+  list(
+    bootstraps = bootstraps(mtcars),
+    vfold_cv = vfold_cv(mtcars, v = 10, repeats = 2)
+  )
+})
+
 # Keep this dictionary up to date with any changes to the rset subclasses
 rset_attribute_dictionary <- list(
-  bootstraps = c("times", "apparent", "strata")
+  bootstraps = c("times", "apparent", "strata"),
+  vfold_cv = c("v", "repeats", "strata")
 )
 
 rset_attributes <- function(x) {
