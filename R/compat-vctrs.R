@@ -1,20 +1,17 @@
 #' @import vctrs
 NULL
 
-# ------------------------------------------------------------------------------
-# bootstraps
-
 # Use `vec_restore()` to restore to a fresh tibble, rather than to
 # an rset. This ensures that `vec_slice()` and `vec_ptype()` return
 # tibbles, and ensures that `vec_ptype2()` methods that deal with `bootstraps`
 # are never called.
 
+# ------------------------------------------------------------------------------
+# bootstraps
+
 #' @export
 vec_restore.bootstraps <- function(x, to, ...) {
-  # Default restore method restores all attributes
   out <- NextMethod()
-
-  # Now strip that back down to a bare tibble
   rset_strip(x)
 }
 
