@@ -65,6 +65,11 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
 
   split_objs$splits <- map(split_objs$splits, rm_out)
 
+  # Update `v` if not supplied directly
+  if (is.null(v)) {
+    v <- length(split_objs$splits)
+  }
+
   ## Save some overall information
 
   cv_att <- list(v = v, group = group)
