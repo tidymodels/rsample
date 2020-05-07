@@ -2,6 +2,7 @@
 
 S3method("[",nested_cv)
 S3method("[",rset)
+S3method("names<-",nested_cv)
 S3method("names<-",rset)
 S3method(as.data.frame,rsplit)
 S3method(as.integer,rsplit)

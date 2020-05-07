@@ -189,6 +189,12 @@ test_that("renaming `id` to a non-id name drops the rset class", {
   }
 })
 
+test_that("for nested_cv, renaming `inner_resamples` drops the rset class", {
+  x <- rset_subclasses$nested_cv
+  x <- rename(x, inner_stuff = inner_resamples)
+  expect_s3_class_bare_tibble(x)
+})
+
 # ------------------------------------------------------------------------------
 # relocate()
 

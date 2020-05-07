@@ -97,3 +97,43 @@ test_that("drops the rset class if duplicating `inner_resamples`", {
 
   expect_s3_class_bare_tibble(x[names])
 })
+
+# ------------------------------------------------------------------------------
+# `names<-`
+
+test_that("can keep the rset subclass when renaming doesn't touch rset columns", {
+  x <- rset_subclasses$nested_cv
+  x <- mutate(x, a = 1)
+
+  names <- names(x)
+  names[names == "a"] <- "b"
+
+  names(x) <- names
+
+  expect_s3_class_rset(x)
+})
+
+test_that("drops the rset class if `inner_resamples` is renamed", {
+  x <- rset_subclasses$nested_cv
+
+  names <- names(x)
+  names[names == "inner_resamples"] <- "inner_things"
+
+  names(x) <- names
+
+  expect_s3_class_bare_tibble(x)
+})
+
+test_that("drops the rset class if `inner_resamples` is moved", {
+  x <- rset_subclasses$nested_cv
+  x <- mutate(x, a = 1)
+
+  names <- names(x)
+  new_names <- names
+  new_names[names == "inner_resamples"] <- "a"
+  new_names[names == "a"] <- "inner_resamples"
+
+  names(x) <- new_names
+
+  expect_s3_class_bare_tibble(x)
+})
