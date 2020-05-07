@@ -4,7 +4,7 @@
 \alias{make_strata}
 \title{Create or Modify Stratification Variables}
 \usage{
-make_strata(x, breaks = 4, nunique = 5, pool = 0.15, depth = 20)
+make_strata(x, breaks = 4, nunique = 5, pool = 0.1, depth = 20)
 }
 \arguments{
 \item{x}{An input vector.}
