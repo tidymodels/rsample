@@ -240,7 +240,8 @@ delayedAssign("rset_subclasses", {
     group_vfold_cv = group_vfold_cv(mtcars, cyl),
     loo_cv = loo_cv(mtcars),
     mc_cv = mc_cv(mtcars),
-    nested_cv = nested_cv(mtcars, outside = vfold_cv(v = 3), inside = bootstraps(times = 5))
+    nested_cv = nested_cv(mtcars, outside = vfold_cv(v = 3), inside = bootstraps(times = 5)),
+    validation_split = validation_split(mtcars)
   )
 })
 
@@ -251,7 +252,8 @@ rset_attribute_dictionary <- list(
   group_vfold_cv = c("v", "group"),
   loo_cv = character(),
   mc_cv = c("prop", "times", "strata"),
-  nested_cv = c("outside", "inside")
+  nested_cv = c("outside", "inside"),
+  validation_split = c("prop", "strata")
 )
 
 rset_attributes <- function(x) {

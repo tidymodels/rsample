@@ -329,6 +329,60 @@ vec_cast.data.frame.nested_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
 }
 
 # ------------------------------------------------------------------------------
+# validation_split
+
+#' @export
+vec_restore.validation_split <- function(x, to, ...) {
+  out <- NextMethod()
+  rset_strip(x)
+}
+
+
+#' @export
+vec_ptype2.validation_split.validation_split <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.validation_split.validation_split")
+}
+#' @export
+vec_ptype2.validation_split.tbl_df <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.validation_split.tbl_df")
+}
+#' @export
+vec_ptype2.tbl_df.validation_split <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.tbl_df.validation_split")
+}
+#' @export
+vec_ptype2.validation_split.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.validation_split.data.frame")
+}
+#' @export
+vec_ptype2.data.frame.validation_split <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.data.frame.validation_split")
+}
+
+
+#' @export
+vec_cast.validation_split.validation_split <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.validation_split.tbl_df <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.tbl_df.validation_split <- function(x, to, ..., x_arg = "", to_arg = "") {
+  tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.validation_split.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.data.frame.validation_split <- function(x, to, ..., x_arg = "", to_arg = "") {
+  df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+
+
+# ------------------------------------------------------------------------------
 
 stop_incompatible_cast_rset <- function(x, to, ..., x_arg, to_arg) {
   details <- "Can't cast to an rset because attributes are likely incompatible."
