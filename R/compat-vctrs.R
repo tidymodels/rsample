@@ -434,6 +434,58 @@ vec_cast.data.frame.rolling_origin <- function(x, to, ..., x_arg = "", to_arg = 
   df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
 }
 
+# ------------------------------------------------------------------------------
+# apparent
+
+#' @export
+vec_restore.apparent <- function(x, to, ...) {
+  out <- NextMethod()
+  rset_strip(x)
+}
+
+
+#' @export
+vec_ptype2.apparent.apparent <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.apparent.apparent")
+}
+#' @export
+vec_ptype2.apparent.tbl_df <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.apparent.tbl_df")
+}
+#' @export
+vec_ptype2.tbl_df.apparent <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.tbl_df.apparent")
+}
+#' @export
+vec_ptype2.apparent.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.apparent.data.frame")
+}
+#' @export
+vec_ptype2.data.frame.apparent <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.data.frame.apparent")
+}
+
+
+#' @export
+vec_cast.apparent.apparent <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.apparent.tbl_df <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.tbl_df.apparent <- function(x, to, ..., x_arg = "", to_arg = "") {
+  tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.apparent.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.data.frame.apparent <- function(x, to, ..., x_arg = "", to_arg = "") {
+  df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
 
 # ------------------------------------------------------------------------------
 
