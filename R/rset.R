@@ -241,7 +241,8 @@ delayedAssign("rset_subclasses", {
     loo_cv = loo_cv(mtcars),
     mc_cv = mc_cv(mtcars),
     nested_cv = nested_cv(mtcars, outside = vfold_cv(v = 3), inside = bootstraps(times = 5)),
-    validation_split = validation_split(mtcars)
+    validation_split = validation_split(mtcars),
+    rolling_origin = rolling_origin(data.frame(row = 1:20, some_var = 1:20))
   )
 })
 
@@ -253,7 +254,8 @@ rset_attribute_dictionary <- list(
   loo_cv = character(),
   mc_cv = c("prop", "times", "strata"),
   nested_cv = c("outside", "inside"),
-  validation_split = c("prop", "strata")
+  validation_split = c("prop", "strata"),
+  rolling_origin = c("initial", "assess", "cumulative", "skip", "lag")
 )
 
 rset_attributes <- function(x) {
