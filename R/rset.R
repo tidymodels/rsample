@@ -131,7 +131,7 @@ col_subset_requires_fallback <- function(old, new) {
   new_names <- names(new)
 
   rset_names_indicator <-
-    col_matches_splits(old_names) |
+    col_equals_splits(old_names) |
     col_starts_with_id(old_names)
 
   rset_names <- old_names[rset_names_indicator]
@@ -158,8 +158,8 @@ col_subset_requires_fallback <- function(old, new) {
   old_names <- names(x)
   new_names <- names(out)
 
-  old_rset_splits_indicator <- col_matches_splits(old_names)
-  new_rset_splits_indicator <- col_matches_splits(new_names)
+  old_rset_splits_indicator <- col_equals_splits(old_names)
+  new_rset_splits_indicator <- col_equals_splits(new_names)
 
   # Ensure that the single `splits` column is in the same place
   if (!identical(old_rset_splits_indicator, new_rset_splits_indicator)) {

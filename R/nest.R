@@ -122,15 +122,15 @@ print.nested_cv <- function(x, ...) {
 # Must have the `inner_resamples` column exactly once
 col_subset_requires_fallback_nested_cv <- function(new) {
   names <- names(new)
-  inner_resamples_indicator <- col_matches_inner_resamples(names)
+  inner_resamples_indicator <- col_equals_inner_resamples(names)
 
   times <- sum(inner_resamples_indicator)
 
   !identical(times, 1L)
 }
 
-col_matches_inner_resamples <- function(x) {
-  vec_in(x, "inner_resamples")
+col_equals_inner_resamples <- function(x) {
+  vec_equal(x, "inner_resamples")
 }
 
 # ------------------------------------------------------------------------------
@@ -148,8 +148,8 @@ col_matches_inner_resamples <- function(x) {
   old_names <- names(x)
   new_names <- names(out)
 
-  old_rset_inner_resamples_indicator <- col_matches_inner_resamples(old_names)
-  new_rset_inner_resamples_indicator <- col_matches_inner_resamples(new_names)
+  old_rset_inner_resamples_indicator <- col_equals_inner_resamples(old_names)
+  new_rset_inner_resamples_indicator <- col_equals_inner_resamples(new_names)
 
   # Ensure that the single `inner_resamples` column is in the same place
   if (!identical(old_rset_inner_resamples_indicator, new_rset_inner_resamples_indicator)) {

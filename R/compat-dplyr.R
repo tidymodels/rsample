@@ -38,12 +38,12 @@ rset_reconstruct <- function(data, template) {
 
 touches_any_rset_columns <- function(cols) {
   names <- names(cols)
-  problems <- col_matches_splits(names) | col_starts_with_id(names)
+  problems <- col_equals_splits(names) | col_starts_with_id(names)
   any(problems)
 }
 
-col_matches_splits <- function(x) {
-  vec_in(x, "splits")
+col_equals_splits <- function(x) {
+  vec_equal(x, "splits")
 }
 
 col_starts_with_id <- function(x) {
