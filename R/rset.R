@@ -230,20 +230,24 @@ df_size <- function(x) {
 
 # ------------------------------------------------------------------------------
 
+test_data <- function() {
+  data.frame(x = 1:50, y = rep(c(1, 2), each = 25))
+}
+
 # Keep this list up to date with known rset subclasses for testing.
 # Delay assignment because we are creating this directly in the R script
 # and not all of the required helpers might have been sourced yet.
 delayedAssign("rset_subclasses", {
   list(
-    bootstraps = bootstraps(mtcars),
-    vfold_cv = vfold_cv(mtcars, v = 10, repeats = 2),
-    group_vfold_cv = group_vfold_cv(mtcars, cyl),
-    loo_cv = loo_cv(mtcars),
-    mc_cv = mc_cv(mtcars),
-    nested_cv = nested_cv(mtcars, outside = vfold_cv(v = 3), inside = bootstraps(times = 5)),
-    validation_split = validation_split(mtcars),
-    rolling_origin = rolling_origin(data.frame(row = 1:20, some_var = 1:20)),
-    apparent = apparent(mtcars)
+    bootstraps = bootstraps(test_data()),
+    vfold_cv = vfold_cv(test_data(), v = 10, repeats = 2),
+    group_vfold_cv = group_vfold_cv(test_data(), y),
+    loo_cv = loo_cv(test_data()),
+    mc_cv = mc_cv(test_data()),
+    nested_cv = nested_cv(test_data(), outside = vfold_cv(v = 3), inside = bootstraps(times = 5)),
+    validation_split = validation_split(test_data()),
+    rolling_origin = rolling_origin(test_data()),
+    apparent = apparent(test_data())
   )
 })
 
