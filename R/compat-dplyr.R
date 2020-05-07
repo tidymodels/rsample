@@ -28,7 +28,7 @@ dplyr_col_modify.rset <- function(data, cols) {
 }
 
 # This is `dplyr_reconstruct.data.frame()`
-rset_reconstruct <- function (data, template) {
+rset_reconstruct <- function(data, template) {
   attrs <- attributes(template)
   attrs$names <- names(data)
   attrs$row.names <- .row_names_info(data, type = 0L)
@@ -43,7 +43,7 @@ touches_any_rset_columns <- function(cols) {
 }
 
 col_matches_splits <- function(x) {
-  grepl("splits", x, fixed = TRUE)
+  vec_in(x, "splits")
 }
 
 col_starts_with_id <- function(x) {
