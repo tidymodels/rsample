@@ -151,6 +151,46 @@ col_subset_requires_fallback <- function(old, new) {
 
 # ------------------------------------------------------------------------------
 
+#' @export
+`names<-.rset` <- function(x, value) {
+  out <- NextMethod()
+
+  old_names <- names(x)
+  new_names <- names(out)
+
+  old_rset_splits_indicator <- col_matches_splits(old_names)
+  new_rset_splits_indicator <- col_matches_splits(new_names)
+
+  # Ensure that the single `splits` column is in the same place
+  if (!identical(old_rset_splits_indicator, new_rset_splits_indicator)) {
+    out <- rset_strip(out)
+    return(out)
+  }
+
+  old_rset_id_indicator <- col_starts_with_id(old_names)
+  new_rset_id_indicator <- col_starts_with_id(new_names)
+
+  # Ensure that we have renamed `id` columns in such a way that they are all
+  # still in the same place. We cannot add or remove `id` columns, but we
+  # can rename them.
+  if (!identical(old_rset_id_indicator, new_rset_id_indicator)) {
+    out <- rset_strip(out)
+    return(out)
+  }
+
+  new_id_cols <- new_names[new_rset_id_indicator]
+
+  # Ensure that the renamed `id` columns don't have any duplicates.
+  if (any(duplicated(new_id_cols))) {
+    out <- rset_strip(out)
+    return(out)
+  }
+
+  out
+}
+
+# ------------------------------------------------------------------------------
+
 rset_strip <- function(x) {
   attribs <- attributes(x)
 

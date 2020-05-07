@@ -93,3 +93,88 @@ test_that("additional attributes are kept when subsetting and rset class is drop
     expect_identical(attr(result, "foo"), "bar")
   }
 })
+
+# ------------------------------------------------------------------------------
+# `names<-`
+
+test_that("can modify non-rset names and keep the rset class", {
+  for (x in rset_subclasses) {
+    x <- mutate(x, a = 1)
+
+    names <- names(x)
+    names[names == "a"] <- "b"
+    names(x) <- names
+
+    expect_s3_class_rset(x)
+  }
+})
+
+test_that("touching the `splits` name removes the class", {
+  for (x in rset_subclasses) {
+    names <- names(x)
+    names[names == "splits"] <- "splits2"
+    names(x) <- names
+
+    expect_s3_class_bare_tibble(x)
+  }
+})
+
+test_that("renaming an `id` column is allowed if it still starts with `id`", {
+  for (x in rset_subclasses) {
+    names <- names(x)
+    names[names == "id"] <- "id50"
+    names(x) <- names
+
+    expect_s3_class_rset(x)
+  }
+})
+
+test_that("renaming an `id` column to something that doesn't start with `id` drops the class", {
+  for (x in rset_subclasses) {
+    names <- names(x)
+    names[names == "id"] <- "foo"
+    names(x) <- names
+
+    expect_s3_class_bare_tibble(x)
+  }
+})
+
+test_that("`splits` and `id` columns can't just be switched", {
+  for (x in rset_subclasses) {
+    names <- names(x)
+    new_names <- names
+    new_names[names == "splits"] <- "id"
+    new_names[names == "id"] <- "splits"
+    names(x) <- new_names
+
+    expect_s3_class_bare_tibble(x)
+  }
+})
+
+test_that("`id` column can't just be moved", {
+  for (x in rset_subclasses) {
+    x <- mutate(x, a = 1)
+
+    names <- names(x)
+    new_names <- names
+    new_names[names == "a"] <- "id"
+    new_names[names == "id"] <- "a"
+    names(x) <- new_names
+
+    expect_s3_class_bare_tibble(x)
+  }
+})
+
+test_that("`splits` column can't just be moved", {
+  for (x in rset_subclasses) {
+    x <- mutate(x, a = 1)
+
+    names <- names(x)
+    new_names <- names
+    new_names[names == "a"] <- "splits"
+    new_names[names == "splits"] <- "a"
+    names(x) <- new_names
+
+    expect_s3_class_bare_tibble(x)
+  }
+})
