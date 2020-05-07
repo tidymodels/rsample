@@ -1,5 +1,5 @@
 > print(group_vfold_cv(iris, "Species"), n = 2)
-# Group -fold cross-validation 
+# Group 3-fold cross-validation 
 # A tibble: 3 x 2
   splits           id       
   <named list>     <chr>    
