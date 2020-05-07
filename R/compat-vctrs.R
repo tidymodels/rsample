@@ -117,6 +117,59 @@ vec_cast.data.frame.vfold_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
 }
 
 # ------------------------------------------------------------------------------
+# group_vfold_cv
+
+#' @export
+vec_restore.group_vfold_cv <- function(x, to, ...) {
+  out <- NextMethod()
+  rset_strip(x)
+}
+
+
+#' @export
+vec_ptype2.group_vfold_cv.group_vfold_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.group_vfold_cv.group_vfold_cv")
+}
+#' @export
+vec_ptype2.group_vfold_cv.tbl_df <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.group_vfold_cv.tbl_df")
+}
+#' @export
+vec_ptype2.tbl_df.group_vfold_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.tbl_df.group_vfold_cv")
+}
+#' @export
+vec_ptype2.group_vfold_cv.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.group_vfold_cv.data.frame")
+}
+#' @export
+vec_ptype2.data.frame.group_vfold_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.data.frame.group_vfold_cv")
+}
+
+
+#' @export
+vec_cast.group_vfold_cv.group_vfold_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.group_vfold_cv.tbl_df <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.tbl_df.group_vfold_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.group_vfold_cv.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.data.frame.group_vfold_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+
+# ------------------------------------------------------------------------------
 
 stop_incompatible_cast_rset <- function(x, to, ..., x_arg, to_arg) {
   details <- "Can't cast to an rset because attributes are likely incompatible."

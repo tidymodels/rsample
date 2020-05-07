@@ -236,14 +236,16 @@ df_size <- function(x) {
 delayedAssign("rset_subclasses", {
   list(
     bootstraps = bootstraps(mtcars),
-    vfold_cv = vfold_cv(mtcars, v = 10, repeats = 2)
+    vfold_cv = vfold_cv(mtcars, v = 10, repeats = 2),
+    group_vfold_cv = group_vfold_cv(mtcars, cyl)
   )
 })
 
 # Keep this dictionary up to date with any changes to the rset subclasses
 rset_attribute_dictionary <- list(
   bootstraps = c("times", "apparent", "strata"),
-  vfold_cv = c("v", "repeats", "strata")
+  vfold_cv = c("v", "repeats", "strata"),
+  group_vfold_cv = c("v", "group")
 )
 
 rset_attributes <- function(x) {
