@@ -239,29 +239,30 @@ test_data <- function() {
 # and not all of the required helpers might have been sourced yet.
 delayedAssign("rset_subclasses", {
   list(
-    bootstraps = bootstraps(test_data()),
-    vfold_cv = vfold_cv(test_data(), v = 10, repeats = 2),
-    group_vfold_cv = group_vfold_cv(test_data(), y),
-    loo_cv = loo_cv(test_data()),
-    mc_cv = mc_cv(test_data()),
-    nested_cv = nested_cv(test_data(), outside = vfold_cv(v = 3), inside = bootstraps(times = 5)),
+    bootstraps       = bootstraps(test_data()),
+    vfold_cv         = vfold_cv(test_data(), v = 10, repeats = 2),
+    group_vfold_cv   = group_vfold_cv(test_data(), y),
+    loo_cv           = loo_cv(test_data()),
+    mc_cv            = mc_cv(test_data()),
+    nested_cv        = nested_cv(test_data(), outside = vfold_cv(v = 3), inside = bootstraps(times = 5)),
     validation_split = validation_split(test_data()),
-    rolling_origin = rolling_origin(test_data()),
-    apparent = apparent(test_data())
+    rolling_origin   = rolling_origin(test_data()),
+    apparent         = apparent(test_data())
   )
 })
 
-# Keep this dictionary up to date with any changes to the rset subclasses
+# Keep this dictionary up to date with any changes to the rset subclasses.
+# These are the attributes that this specific subclass knows about.
 rset_attribute_dictionary <- list(
-  bootstraps = c("times", "apparent", "strata"),
-  vfold_cv = c("v", "repeats", "strata"),
-  group_vfold_cv = c("v", "group"),
-  loo_cv = character(),
-  mc_cv = c("prop", "times", "strata"),
-  nested_cv = c("outside", "inside"),
+  bootstraps       = c("times", "apparent", "strata"),
+  vfold_cv         = c("v", "repeats", "strata"),
+  group_vfold_cv   = c("v", "group"),
+  loo_cv           = character(),
+  mc_cv            = c("prop", "times", "strata"),
+  nested_cv        = c("outside", "inside"),
   validation_split = c("prop", "strata"),
-  rolling_origin = c("initial", "assess", "cumulative", "skip", "lag"),
-  apparent = character()
+  rolling_origin   = c("initial", "assess", "cumulative", "skip", "lag"),
+  apparent         = character()
 )
 
 rset_attributes <- function(x) {
