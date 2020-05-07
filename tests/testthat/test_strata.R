@@ -23,7 +23,7 @@ test_that('simple character', {
 })
 
 test_that('bad data', {
-  x3 <- factor(rep(LETTERS[1:10], each = 50))
+  x3 <- factor(rep(LETTERS[1:15], each = 50))
   expect_warning(make_strata(x3))
   expect_warning(make_strata(mtcars$mpg))
 })
