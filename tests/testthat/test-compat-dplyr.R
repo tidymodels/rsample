@@ -3,21 +3,35 @@ library(dplyr)
 # ------------------------------------------------------------------------------
 # dplyr_reconstruct()
 
-test_that("reconstructing to an rset returns a bare tibble", {
+test_that("dplyr_reconstruct() returns an rset subclass if `x` retains rset structure", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(dplyr_reconstruct(x, x))
-    expect_identical(dplyr_reconstruct(x, x), rset_strip(x))
+    expect_identical(dplyr_reconstruct(x, x), x)
+    expect_s3_class_rset(dplyr_reconstruct(x, x))
   }
 })
 
-test_that("reconstructing retains extra attributes", {
+test_that("dplyr_reconstruct() returns bare tibble if `x` loses rset structure", {
   for (x in rset_subclasses) {
-    x2 <- x
-    attr(x2, "foo") <- "bar"
+    col <- x[1]
+    row <- x[0,]
 
-    result <- dplyr_reconstruct(x, x2)
+    expect_s3_class_bare_tibble(dplyr_reconstruct(col, x))
+    expect_s3_class_bare_tibble(dplyr_reconstruct(row, x))
+  }
+})
 
-    expect_identical(attr(result, "foo"), "bar")
+test_that("dplyr_reconstruct() retains extra attributes of `to` no matter what", {
+  for (x in rset_subclasses) {
+    to <- x
+    attr(to, "foo") <- "bar"
+
+    x_tbl <- x[1]
+
+    expect_identical(attr(dplyr_reconstruct(x, to), "foo"), "bar")
+    expect_identical(attr(dplyr_reconstruct(x_tbl, to), "foo"), "bar")
+
+    expect_s3_class_rset(dplyr_reconstruct(x, to))
+    expect_s3_class_bare_tibble(dplyr_reconstruct(x_tbl, to))
   }
 })
 
@@ -55,10 +69,49 @@ test_that("modifying rset columns removes rset class", {
   }
 })
 
+test_that("replacing rset columns with the exact same column retains rset class", {
+  for (x in rset_subclasses) {
+    cols <- list(splits = x$splits)
+
+    result <- dplyr_col_modify(x, cols)
+
+    expect_s3_class_rset(result)
+    expect_identical(result, x)
+  }
+})
+
 test_that("for nested_cv, `inner_resamples` is also a protected column", {
   x <- rset_subclasses$nested_cv
   cols <- list(inner_resamples = rep(1, vec_size(x)))
   expect_s3_class_bare_tibble(dplyr_col_modify(x, cols))
+})
+
+# ------------------------------------------------------------------------------
+# dplyr_row_slice()
+
+test_that("row slicing generally removes the rset subclass", {
+  for (x in rset_subclasses) {
+    expect_s3_class_bare_tibble(dplyr_row_slice(x, 0))
+  }
+})
+
+test_that("row slicing and selecting everything keeps the rset subclass", {
+  for (x in rset_subclasses) {
+    loc <- seq_len(nrow(x))
+    expect_s3_class_rset(dplyr_row_slice(x, loc))
+  }
+})
+
+test_that("rset subclass is dropped if row order is changed", {
+  # These only have 1 row
+  subclasses <- rset_subclasses
+  subclasses$apparent <- NULL
+  subclasses$validation_split <- NULL
+
+  for (x in subclasses) {
+    loc <- rev(seq_len(nrow(x)))
+    expect_s3_class_bare_tibble(dplyr_row_slice(x, loc))
+  }
 })
 
 # ------------------------------------------------------------------------------
@@ -81,9 +134,16 @@ test_that("mutate() drops rset class if any rset columns are touched", {
   }
 })
 
+test_that("mutate() keeps rset class if replacement rset column is same as original", {
+  for (x in rset_subclasses) {
+    expect_s3_class_rset(mutate(x, splits = splits))
+    expect_s3_class_rset(mutate(x, id = id))
+  }
+})
+
 test_that("adding a column that looks like an `id` drops the class", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(mutate(x, id20 = 1))
+    expect_s3_class_bare_tibble(mutate(x, id9 = 1))
   }
 })
 
@@ -106,30 +166,57 @@ test_that("select() drops rset class if any rset columns aren't selected", {
 # ------------------------------------------------------------------------------
 # slice()
 
-test_that("slice() drops rset class", {
+test_that("slice() drops rset class when rows are modified", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(slice(x))
-    expect_s3_class_bare_tibble(slice(x, 1:5))
+    expect_s3_class_bare_tibble(slice(x, 0))
+  }
+})
+
+test_that("slice() keeps rset class when rows are untouched", {
+  for (x in rset_subclasses) {
+    expect_s3_class_rset(slice(x))
+    expect_s3_class_rset(slice(x, seq_len(nrow(x))))
   }
 })
 
 # ------------------------------------------------------------------------------
 # arrange()
 
-test_that("arrange() drops rset class", {
+test_that("arrange() drops rset class when row order is modified", {
+  # These only have 1 row
+  subclasses <- rset_subclasses
+  subclasses$apparent <- NULL
+  subclasses$validation_split <- NULL
+
+  for (x in subclasses) {
+    x <- mutate(x, rn = row_number())
+    expect_s3_class_bare_tibble(arrange(x, desc(rn)))
+  }
+})
+
+test_that("arrange() keeps rset class when row order is untouched", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(arrange(x))
-    expect_s3_class_bare_tibble(arrange(x, splits))
+    expect_s3_class_rset(arrange(x))
+
+    x <- mutate(x, rn = row_number())
+    expect_s3_class_rset(arrange(x, rn))
   }
 })
 
 # ------------------------------------------------------------------------------
 # filter()
 
-test_that("filter() drops rset class", {
+test_that("filter() drops rset class when rows are modified", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(filter(x))
-    expect_s3_class_bare_tibble(filter(x, is.character(id)))
+    expect_s3_class_bare_tibble(filter(x, 0 == 1))
+    expect_s3_class_bare_tibble(filter(x, is.numeric(id)))
+  }
+})
+
+test_that("filter() keeps rset class if row order is untouched", {
+  for (x in rset_subclasses) {
+    expect_s3_class_rset(filter(x))
+    expect_s3_class_rset(filter(x, is.character(id)))
   }
 })
 
@@ -208,34 +295,139 @@ test_that("can relocate() and keep the class", {
 # ------------------------------------------------------------------------------
 # distinct()
 
-test_that("distinct() drops the class", {
+test_that("distinct() keeps the class if everything is intact", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(distinct(x))
+    expect_s3_class_rset(distinct(x))
+  }
+})
+
+test_that("distinct() drops the class if any rset columns are lost", {
+  for (x in rset_subclasses) {
     expect_s3_class_bare_tibble(distinct(x, splits))
   }
 })
 
 # ------------------------------------------------------------------------------
-# joins
+# left_join()
 
-test_that("joins drops the class", {
+test_that("left_join() can keep rset class if rset structure is intact", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(left_join(x, x, by = names(x)))
-    expect_s3_class_bare_tibble(right_join(x, x, by = names(x)))
-    expect_s3_class_bare_tibble(full_join(x, x, by = names(x)))
-    expect_s3_class_bare_tibble(inner_join(x, x, by = names(x)))
-    expect_s3_class_bare_tibble(semi_join(x, x, by = names(x)))
-    expect_s3_class_bare_tibble(anti_join(x, x, by = names(x)))
-    expect_s3_class_bare_tibble(nest_join(x, x, by = names(x)))
+    expect_s3_class_rset(left_join(x, x, by = names(x)))
+
+    y <- tibble(id = x$id[[1]], x = 1)
+    expect_s3_class_rset(left_join(x, y, by = "id"))
+  }
+})
+
+test_that("left_join() can lose rset class if rows are added", {
+  for (x in rset_subclasses) {
+    y <- tibble(id = x$id[[1]], x = 1:2)
+    expect_s3_class_bare_tibble(left_join(x, y, by = "id"))
+  }
+})
+
+# ------------------------------------------------------------------------------
+# right_join()
+
+test_that("right_join() can keep rset class if rset structure is intact", {
+  for (x in rset_subclasses) {
+    expect_s3_class_rset(right_join(x, x, by = names(x)))
+
+    x_names <- names(x)
+    id_names <- x_names[col_starts_with_id(x_names)]
+
+    y <- mutate(select(x, all_of(id_names)), x = 1)
+    expect_s3_class_rset(right_join(x, y, by = id_names))
+  }
+})
+
+test_that("right_join() can lose rset class if rows are added", {
+  for (x in rset_subclasses) {
+    y <- tibble(id = x$id[[1]], x = 1:2)
+    expect_s3_class_bare_tibble(right_join(x, y, by = "id"))
+  }
+})
+
+test_that("right_join() restores to the type of first input", {
+  for (x in rset_subclasses) {
+    y <- tibble(id = x$id[[1]], x = 1)
+    # technically rset structure is intact, but `y` is a bare tibble!
+    expect_s3_class_bare_tibble(right_join(y, x, by = "id"))
+  }
+})
+
+# ------------------------------------------------------------------------------
+# full_join()
+
+test_that("full_join() can keep rset class if rset structure is intact", {
+  for (x in rset_subclasses) {
+    expect_s3_class_rset(full_join(x, x, by = names(x)))
+  }
+})
+
+test_that("full_join() can lose rset class if rows are added", {
+  for (x in rset_subclasses) {
+    y <- tibble(id = "foo", x = 1)
+    expect_s3_class_bare_tibble(full_join(x, y, by = "id"))
+  }
+})
+
+# ------------------------------------------------------------------------------
+# anti_join()
+
+test_that("anti_join() can keep rset class if rset structure is intact", {
+  for (x in rset_subclasses) {
+    y <- tibble(id = "foo")
+    expect_s3_class_rset(anti_join(x, y, by = "id"))
+  }
+})
+
+test_that("anti_join() can lose rset class if rows are removed", {
+  for (x in rset_subclasses) {
+    y <- tibble(id = x$id[[1]], x = 1)
+    expect_s3_class_bare_tibble(anti_join(x, y, by = "id"))
+  }
+})
+
+# ------------------------------------------------------------------------------
+# semi_join()
+
+test_that("semi_join() can keep rset class if rset structure is intact", {
+  for (x in rset_subclasses) {
+    expect_s3_class_rset(semi_join(x, x, by = names(x)))
+  }
+})
+
+test_that("semi_join() can lose rset class if rows are removed", {
+  for (x in rset_subclasses) {
+    y <- tibble(id = "foo", x = 1)
+    expect_s3_class_bare_tibble(semi_join(x, y, by = "id"))
+  }
+})
+
+# ------------------------------------------------------------------------------
+# nest_join()
+
+test_that("nest_join() can keep rset class if rset structure is intact", {
+  for (x in rset_subclasses) {
+    y <- mutate(x, foo =  "bar")
+    expect_s3_class_rset(nest_join(x, y, by = names(x)))
   }
 })
 
 # ------------------------------------------------------------------------------
 # bind_rows()
 
-test_that("bind_rows() drops the class", {
+test_that("bind_rows() keeps the class if there are no new rows/cols and the first object is an rset subclass", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(bind_rows(x))
+    expect_s3_class_rset(bind_rows(x))
+    expect_s3_class_rset(bind_rows(x, tibble()))
+    expect_s3_class_bare_tibble(bind_rows(tibble(), x))
+  }
+})
+
+test_that("bind_rows() drops the class with new rows", {
+  for (x in rset_subclasses) {
     expect_s3_class_bare_tibble(bind_rows(x, x))
   }
 })
@@ -243,10 +435,17 @@ test_that("bind_rows() drops the class", {
 # ------------------------------------------------------------------------------
 # bind_cols()
 
-test_that("bind_cols() drops the class", {
+test_that("bind_cols() keeps the class if there are no new rows and the first object is an rset subclass", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(bind_cols(x))
-    expect_s3_class_bare_tibble(bind_cols(x, x))
+    expect_s3_class_rset(bind_cols(x))
+    expect_s3_class_rset(bind_cols(x, tibble(x = 1)))
+    expect_s3_class_bare_tibble(bind_cols(tibble(x = 1), x))
   }
+})
+
+test_that("bind_cols() drops the class with new rows", {
+  # Use rset subclass with 1 row, these get recycled
+  x <- rset_subclasses$apparent
+  expect_s3_class_bare_tibble(bind_cols(x, tibble(x = 1:2)))
 })
 

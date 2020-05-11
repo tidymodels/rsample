@@ -331,3 +331,22 @@ rset_attributes <- function(x) {
 
   attributes
 }
+
+# ------------------------------------------------------------------------------
+
+# This is `dplyr_reconstruct.data.frame()`
+rset_reconstruct <- function(data, template) {
+  attrs <- attributes(template)
+  attrs$names <- names(data)
+  attrs$row.names <- .row_names_info(data, type = 0L)
+  attributes(data) <- attrs
+  data
+}
+
+col_equals_splits <- function(x) {
+  vec_equal(x, "splits")
+}
+
+col_starts_with_id <- function(x) {
+  grepl("^id", x)
+}
