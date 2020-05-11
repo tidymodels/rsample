@@ -184,3 +184,69 @@ test_that("`splits` column can't just be moved", {
     expect_s3_class_bare_tibble(x)
   }
 })
+
+# ------------------------------------------------------------------------------
+# rset_identical()
+
+test_that("two rset subclasses can be considered identical", {
+  for (x in rset_subclasses) {
+    expect_true(rset_identical(x, x))
+  }
+})
+
+test_that("order doesn't matter", {
+  for (x in rset_subclasses) {
+    y <- x[rev(names(x))]
+    expect_true(rset_identical(x, y))
+  }
+})
+
+test_that("no longer identical if `splits` is lost", {
+  for (to in rset_subclasses) {
+    locs <- col_equals_splits(names(to))
+    x <- to[!locs]
+    expect_false(rset_identical(x, to))
+  }
+})
+
+test_that("no longer identical if any `id` columns are lost", {
+  for (to in rset_subclasses) {
+    locs <- col_starts_with_id(names(to))
+    first_id <- which(locs)[[1]]
+    x <- to[-first_id]
+    expect_false(rset_identical(x, to))
+  }
+})
+
+test_that("no longer identical if rows are lost", {
+  # Apparent/Validation only have 1 row
+  subclasses <- rset_subclasses
+  subclasses$apparent <- NULL
+  subclasses$validation_split <- NULL
+
+  for (to in subclasses) {
+    x <- to[1,]
+    expect_false(rset_identical(x, to))
+  }
+})
+
+test_that("no longer identical if rows are reordered", {
+  # Apparent/Validation only have 1 row
+  subclasses <- rset_subclasses
+  subclasses$apparent <- NULL
+  subclasses$validation_split <- NULL
+
+  for (to in subclasses) {
+    loc <- rev(seq_len(nrow(to)))
+    x <- to[loc,]
+    expect_false(rset_identical(x, to))
+  }
+})
+
+test_that("the `inner_resamples` column of `nested_cv` is handled specially", {
+  to <- rset_subclasses$nested_cv
+  x <- to[c("splits", "id")]
+
+  expect_false(rset_identical(x, to))
+})
+

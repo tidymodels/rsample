@@ -230,6 +230,52 @@ df_size <- function(x) {
 
 # ------------------------------------------------------------------------------
 
+# Two data frames are considered identical by `rset_identical()` if the rset
+# sub-data-frames are identical. This means that if we select out the rset
+# specific columns, they should be exactly the same (modulo reordering).
+
+# It is expected that `y` is an rset object already, but `x` can be a
+# bare data frame, or even a named list.
+
+rset_identical <- function(x, y) {
+  x_names <- names(x)
+  y_names <- names(y)
+
+  x_rset_indicator <- col_equals_splits(x_names) | col_starts_with_id(x_names)
+  y_rset_indicator <- col_equals_splits(y_names) | col_starts_with_id(y_names)
+
+  # Special casing of `nested_cv` to also look for `inner_resamples`
+  if (inherits(y, "nested_cv")) {
+    x_rset_indicator <- x_rset_indicator | col_equals_inner_resamples(x_names)
+    y_rset_indicator <- y_rset_indicator | col_equals_inner_resamples(y_names)
+  }
+
+  x_rset_names <- x_names[x_rset_indicator]
+  y_rset_names <- y_names[y_rset_indicator]
+
+  # Ignore ordering
+  x_rset_names <- sort(x_rset_names)
+  y_rset_names <- sort(y_rset_names)
+
+  # Early return if names aren't identical
+  if (!identical(x_rset_names, y_rset_names)) {
+    return(FALSE)
+  }
+
+  # Avoid all S3 dispatch and don't look at outer level attributes,
+  # just looking at underlying structure now
+  attributes(x) <- list(names = x_names)
+  attributes(y) <- list(names = y_names)
+
+  x_rset_cols <- x[x_rset_names]
+  y_rset_cols <- y[y_rset_names]
+
+  # Check identical structures
+  identical(x_rset_cols, y_rset_cols)
+}
+
+# ------------------------------------------------------------------------------
+
 test_data <- function() {
   data.frame(x = 1:50, y = rep(c(1, 2), each = 25))
 }
