@@ -103,39 +103,6 @@ print.nested_cv <- function(x, ...) {
 # ------------------------------------------------------------------------------
 
 #' @export
-`[.nested_cv` <- function(x, i, j, drop = FALSE, ...) {
-  # Call `[.rset`
-  out <- NextMethod()
-
-  # If we already dropped the rset subclass, return
-  if (!inherits(out, "rset")) {
-    return(out)
-  }
-
-  if (col_subset_requires_fallback_nested_cv(out)) {
-    out <- rset_strip(out)
-  }
-
-  out
-}
-
-# Must have the `inner_resamples` column exactly once
-col_subset_requires_fallback_nested_cv <- function(new) {
-  names <- names(new)
-  inner_resamples_indicator <- col_equals_inner_resamples(names)
-
-  times <- sum(inner_resamples_indicator)
-
-  !identical(times, 1L)
-}
-
-col_equals_inner_resamples <- function(x) {
-  vec_equal(x, "inner_resamples")
-}
-
-# ------------------------------------------------------------------------------
-
-#' @export
 `names<-.nested_cv` <- function(x, value) {
   # Call `names<-.rset`
   out <- NextMethod()
@@ -158,4 +125,8 @@ col_equals_inner_resamples <- function(x) {
   }
 
   out
+}
+
+col_equals_inner_resamples <- function(x) {
+  vec_equal(x, "inner_resamples")
 }

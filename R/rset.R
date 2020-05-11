@@ -71,82 +71,15 @@ add_id <- function(split, id) {
 
 # ------------------------------------------------------------------------------
 
-# Internally setting `i` or `j` to `NULL` is a way to signal that
-# it wasn't provided. If `NULL` is provided by the user, this is
-# replaced with `integer()`, which has the same typical meaning of
-# subsetting nothing.
-
-# The first chunk of code is focused on standardizing `i` and `j` based
-# on the various ways that they can be provided, and is based on tibble's
-# `[.tbl_df`. For example, it standardizes `x[i]` to `i = NULL, j = i` to
-# more clearly indicate that this is a column subsetting operation.
-
 #' @export
 `[.rset` <- function(x, i, j, drop = FALSE, ...) {
   out <- NextMethod()
 
-  if (missing(i)) {
-    i <- NULL
-  } else if (is.null(i)) {
-    i <- integer()
+  if (rset_identical(out, x)) {
+    rset_reconstruct(out, x)
+  } else {
+    rset_strip(out)
   }
-
-  if (missing(j)) {
-    j <- NULL
-  } else if (is.null(j)) {
-    j <- integer()
-  }
-
-  n_real_args <- nargs() - !missing(drop)
-  if (n_real_args <= 2L) {
-    j <- i
-    i <- NULL
-  }
-
-  # Row subset of some kind.
-  # rset structure must be lost here.
-  if (!is.null(i)) {
-    out <- rset_strip(out)
-    return(out)
-  }
-
-  # Both `i` and `j` are `NULL` (i.e. both are missing)
-  # This happens with `x[]` and it means we select everything.
-  if (is.null(j)) {
-    return(out)
-  }
-
-  # Otherwise, only `j` is used, so we are column subsetting.
-  # Check that `splits` and each `id` column still
-  # exist in `out` exactly once.
-  if (col_subset_requires_fallback(x, out)) {
-    out <- rset_strip(out)
-  }
-
-  out
-}
-
-col_subset_requires_fallback <- function(old, new) {
-  old_names <- names(old)
-  new_names <- names(new)
-
-  rset_names_indicator <-
-    col_equals_splits(old_names) |
-    col_starts_with_id(old_names)
-
-  rset_names <- old_names[rset_names_indicator]
-
-  # Each `rset_name` must be in `new_names` exactly once
-  # otherwise we have to fall back.
-  for (rset_name in rset_names) {
-    times <- sum(vec_in(new_names, rset_name))
-
-    if (times != 1L) {
-      return(TRUE)
-    }
-  }
-
-  FALSE
 }
 
 # ------------------------------------------------------------------------------

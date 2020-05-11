@@ -42,7 +42,14 @@ test_that("can reorder columns and keep rset class", {
 
 test_that("can row subset and drop to a tibble", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(x[1,])
+    expect_s3_class_bare_tibble(x[0,])
+  }
+})
+
+test_that("can row subset and keep rset class", {
+  for (x in rset_subclasses) {
+    loc <- seq_len(nrow(x))
+    expect_s3_class_rset(x[loc,])
   }
 })
 
@@ -67,10 +74,18 @@ test_that("removing an rset specific class drops the rset class", {
 # ------------------------------------------------------------------------------
 # `[i, j]`
 
-test_that("row subsetting mixed with col subsetting drops to tibble", {
+test_that("row subsetting mixed with col subsetting can drop to tibble", {
   for (x in rset_subclasses) {
     loc <- seq_len(ncol(x))
-    expect_s3_class_bare_tibble(x[1, loc])
+    expect_s3_class_bare_tibble(x[0, loc])
+  }
+})
+
+test_that("row subsetting mixed with col subsetting can keep rset subclass", {
+  for (x in rset_subclasses) {
+    row_loc <- seq_len(nrow(x))
+    col_loc <- seq_len(ncol(x))
+    expect_s3_class_rset(x[row_loc, col_loc])
   }
 })
 
