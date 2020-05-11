@@ -140,13 +140,13 @@ test_that("touching the `splits` name removes the class", {
   }
 })
 
-test_that("renaming an `id` column is allowed if it still starts with `id`", {
+test_that("renaming an `id` column is not allowed", {
   for (x in rset_subclasses) {
     names <- names(x)
-    names[names == "id"] <- "id50"
+    names[names == "id"] <- "id9"
     names(x) <- names
 
-    expect_s3_class_rset(x)
+    expect_s3_class_bare_tibble(x)
   }
 })
 

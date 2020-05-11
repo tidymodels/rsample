@@ -88,38 +88,11 @@ add_id <- function(split, id) {
 `names<-.rset` <- function(x, value) {
   out <- NextMethod()
 
-  old_names <- names(x)
-  new_names <- names(out)
-
-  old_rset_splits_indicator <- col_equals_splits(old_names)
-  new_rset_splits_indicator <- col_equals_splits(new_names)
-
-  # Ensure that the single `splits` column is in the same place
-  if (!identical(old_rset_splits_indicator, new_rset_splits_indicator)) {
-    out <- rset_strip(out)
-    return(out)
+  if (rset_identical(out, x)) {
+    rset_reconstruct(out, x)
+  } else {
+    rset_strip(out)
   }
-
-  old_rset_id_indicator <- col_starts_with_id(old_names)
-  new_rset_id_indicator <- col_starts_with_id(new_names)
-
-  # Ensure that we have renamed `id` columns in such a way that they are all
-  # still in the same place. We cannot add or remove `id` columns, but we
-  # can rename them.
-  if (!identical(old_rset_id_indicator, new_rset_id_indicator)) {
-    out <- rset_strip(out)
-    return(out)
-  }
-
-  new_id_cols <- new_names[new_rset_id_indicator]
-
-  # Ensure that the renamed `id` columns don't have any duplicates.
-  if (any(duplicated(new_id_cols))) {
-    out <- rset_strip(out)
-    return(out)
-  }
-
-  out
 }
 
 # ------------------------------------------------------------------------------
@@ -276,10 +249,16 @@ rset_reconstruct <- function(data, template) {
   data
 }
 
+# ------------------------------------------------------------------------------
+
 col_equals_splits <- function(x) {
   vec_equal(x, "splits")
 }
 
 col_starts_with_id <- function(x) {
   grepl("^id", x)
+}
+
+col_equals_inner_resamples <- function(x) {
+  vec_equal(x, "inner_resamples")
 }

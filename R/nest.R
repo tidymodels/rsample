@@ -99,34 +99,3 @@ print.nested_cv <- function(x, ...) {
   class(x) <- class(tibble())
   print(x, ...)
 }
-
-# ------------------------------------------------------------------------------
-
-#' @export
-`names<-.nested_cv` <- function(x, value) {
-  # Call `names<-.rset`
-  out <- NextMethod()
-
-  # If we already dropped the rset subclass, return
-  if (!inherits(out, "rset")) {
-    return(out)
-  }
-
-  old_names <- names(x)
-  new_names <- names(out)
-
-  old_rset_inner_resamples_indicator <- col_equals_inner_resamples(old_names)
-  new_rset_inner_resamples_indicator <- col_equals_inner_resamples(new_names)
-
-  # Ensure that the single `inner_resamples` column is in the same place
-  if (!identical(old_rset_inner_resamples_indicator, new_rset_inner_resamples_indicator)) {
-    out <- rset_strip(out)
-    return(out)
-  }
-
-  out
-}
-
-col_equals_inner_resamples <- function(x) {
-  vec_equal(x, "inner_resamples")
-}

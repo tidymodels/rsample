@@ -262,10 +262,10 @@ test_that("renaming can keep the rset class", {
   }
 })
 
-test_that("renaming `id` can keep the rset class", {
+test_that("renaming `id` at all drops the rset class", {
   for (x in rset_subclasses) {
-    x <- rename(x, id50 = id)
-    expect_s3_class_rset(x)
+    x <- rename(x, id9 = id)
+    expect_s3_class_bare_tibble(x)
   }
 })
 
