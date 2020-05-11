@@ -1,9 +1,9 @@
-url: https://tidymodels.github.io/rsample
+url: https://rsample.tidymodels.org
 
 template:
   package: tidytemplate
   params:
-    part_of: <a href="https://github.com/tidymodels">tidymodels</a>
+    part_of: <a href="https://tidymodels.org">tidymodels</a>
     footer: <code>rsample</code> is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
 
 development:

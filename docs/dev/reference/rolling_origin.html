@@ -46,7 +46,7 @@
 component. The resamples are not random and contain data points that are
 consecutive values. The function assumes that the original data set are
 sorted in time order." />
-<meta property="og:image" content="https://tidymodels.github.io/rsample/logo.png" />
+<meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -65,7 +65,7 @@ sorted in time order." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,8 +81,8 @@ sorted in time order." />
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -128,7 +128,7 @@ sorted in time order." />
   <a href="../news/index.html">News</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rsample">
+  <a href="https://github.com/tidymodels/rsample/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -158,7 +158,15 @@ consecutive values. The function assumes that the original data set are
 sorted in time order.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rolling_origin</span>(<span class='no'>data</span>, <span class='kw'>initial</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>assess</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cumulative</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>rolling_origin</span>(
+  <span class='no'>data</span>,
+  <span class='kw'>initial</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>assess</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>cumulative</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>lag</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,6 +194,12 @@ size specified by <code>initial</code> at each resample?.</p></td>
       <td><p>A integer indicating how many (if any) <em>additional</em> resamples
 to skip to thin the total amount of data points in the analysis resample.
 See the example below.</p></td>
+    </tr>
+    <tr>
+      <th>lag</th>
+      <td><p>A value to include an lag between the assessment
+and analysis set. This is useful if lagged predictors will be used
+during training and testing.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -220,36 +234,32 @@ assessment set size is not affected by this option.</p>
 <span class='co'># which is especially useful for irregular series where a fixed window</span>
 <span class='co'># is not useful. This example slides over 5 years at a time.</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>drinks</span>)
 
 <span class='no'>drinks_annual</span> <span class='kw'>&lt;-</span> <span class='no'>drinks</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.POSIXlt.html'>as.POSIXlt</a></span>(<span class='no'>date</span>)$<span class='no'>year</span> + <span class='fl'>1900</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>nest</span>(-<span class='no'>year</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: All elements of `...` must be named.</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/nest.html'>nest</a></span>(-<span class='no'>year</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: All elements of `...` must be named.</span>
 #&gt; <span class='warning'>Did you want `data = c(date, S4248SM144NCEN)`?</span></div><div class='input'>
 <span class='no'>multi_year_roll</span> <span class='kw'>&lt;-</span> <span class='fu'>rolling_origin</span>(<span class='no'>drinks_annual</span>, <span class='kw'>cumulative</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span>(<span class='no'>multi_year_roll</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 2</span><span>
-#&gt;    year           data
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,2]&gt;&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>992       </span><span style='color: #555555;'>[12 × 2]</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span>  </span><span style='text-decoration: underline;'>1</span><span>993       </span><span style='color: #555555;'>[12 × 2]</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span>  </span><span style='text-decoration: underline;'>1</span><span>994       </span><span style='color: #555555;'>[12 × 2]</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span>  </span><span style='text-decoration: underline;'>1</span><span>995       </span><span style='color: #555555;'>[12 × 2]</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>996       </span><span style='color: #555555;'>[12 × 2]</span><span></div><div class='input'><span class='fu'><a href='as.data.frame.rsplit.html'>assessment</a></span>(<span class='no'>multi_year_roll</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
-#&gt;    year           data
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;df[,2]&gt;&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>997       </span><span style='color: #555555;'>[12 × 2]</span><span></div><div class='input'>
+#&gt;    year data             
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>           
+#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>992 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span>  </span><span style='text-decoration: underline;'>1</span><span>993 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>  </span><span style='text-decoration: underline;'>1</span><span>994 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span>  </span><span style='text-decoration: underline;'>1</span><span>995 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>996 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span></div><div class='input'><span class='fu'><a href='as.data.frame.rsplit.html'>assessment</a></span>(<span class='no'>multi_year_roll</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
+#&gt;    year data             
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>           
+#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>997 </span><span style='color: #555555;'>&lt;tibble [12 × 2]&gt;</span><span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 

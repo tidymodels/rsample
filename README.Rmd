@@ -28,9 +28,8 @@ Note that resampled data sets created by `rsample` are directly accessible in a 
  
 For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:
 
-```r
+``` r
 library(rsample)
-#> Loading required package: tidyr
 library(mlbench)
 
 data(LetterRecognition)
@@ -43,17 +42,15 @@ lobstr::obj_size(boots)
 #> 6,686,512 B
 
 # Object size per resample
-object_size(boots)/nrow(boots)
-#> Error in object_size(boots): could not find function "object_size"
+lobstr::obj_size(boots)/nrow(boots)
+#> 133,730.2 B
 
 # Fold increase is <<< 50
 as.numeric(lobstr::obj_size(boots)/lobstr::obj_size(LetterRecognition))
 #> [1] 2.528326
 ```
 
-<sup>Created on 2020-03-30 by the [reprex package](https://reprex.tidyverse.org) (v0.3.0)</sup>
-
-The memory usage for 50 boostrap samples is less than 3-fold more than the original data set. 
+The memory usage for 50 bootstrap samples is less than 3-fold more than the original data set. 
 
 ## Installation
 
