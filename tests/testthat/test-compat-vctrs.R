@@ -1,23 +1,35 @@
 # ------------------------------------------------------------------------------
 # vec_restore()
 
-test_that("vec_restore() returns a bare tibble, not a rset subclass", {
+test_that("vec_restore() returns an rset subclass if `x` retains rset structure", {
   for (x in rset_subclasses) {
-    expect_identical(vec_restore(x, x), rset_strip(x))
-    expect_s3_class_bare_tibble(vec_restore(x, x))
+    expect_identical(vec_restore(x, x), x)
+    expect_s3_class_rset(vec_restore(x, x))
   }
 })
 
-test_that("vec_restore() retains extra attributes", {
+test_that("vec_restore() returns bare tibble if `x` loses rset structure", {
   for (x in rset_subclasses) {
-    y <- x
-    attr(y, "foo") <- "bar"
+    col <- x[1]
+    row <- x[0,]
 
-    # retain extra attributes of `to`
-    expect_identical(attr(vec_restore(y, x), "foo"), NULL)
-    expect_identical(attr(vec_restore(x, y), "foo"), "bar")
+    expect_s3_class_bare_tibble(vec_restore(col, x))
+    expect_s3_class_bare_tibble(vec_restore(row, x))
+  }
+})
 
-    expect_s3_class_bare_tibble(vec_restore(x, y))
+test_that("vec_restore() retains extra attributes of `to` no matter what", {
+  for (x in rset_subclasses) {
+    to <- x
+    attr(to, "foo") <- "bar"
+
+    x_tbl <- x[1]
+
+    expect_identical(attr(vec_restore(x, to), "foo"), "bar")
+    expect_identical(attr(vec_restore(x_tbl, to), "foo"), "bar")
+
+    expect_s3_class_rset(vec_restore(x, to))
+    expect_s3_class_bare_tibble(vec_restore(x_tbl, to))
   }
 })
 
@@ -66,10 +78,24 @@ test_that("vec_cast() is working", {
 # ------------------------------------------------------------------------------
 # vctrs methods
 
-test_that("vec_slice() returns a bare tibble", {
+test_that("vec_ptype() returns a bare tibble", {
   for (x in rset_subclasses) {
-    expect_identical(vec_slice(x, 1), vec_slice(rset_strip(x), 1))
-    expect_s3_class_bare_tibble(vec_slice(x, 1))
+    expect_identical(vec_ptype(x), vec_ptype(rset_strip(x)))
+    expect_s3_class_bare_tibble(vec_ptype(x))
+  }
+})
+
+test_that("vec_slice() generally returns a bare tibble", {
+  for (x in rset_subclasses) {
+    expect_identical(vec_slice(x, 0), vec_slice(rset_strip(x), 0))
+    expect_s3_class_bare_tibble(vec_slice(x, 0))
+  }
+})
+
+test_that("vec_slice() can return an rset if all rows are selected", {
+  for (x in rset_subclasses) {
+    expect_identical(vec_slice(x, TRUE), x)
+    expect_s3_class_rset(vec_slice(x, TRUE))
   }
 })
 

@@ -5,10 +5,22 @@ NULL
 # can't use inheritance because vctrs doesn't allow it in the ptype2 and
 # cast methods.
 
-# Use `vec_restore()` to restore to a fresh tibble, rather than to
-# an rset. This ensures that `vec_slice()` and `vec_ptype()` return
-# tibbles, and ensures that `vec_ptype2()` methods that deal with `bootstraps`
-# are never called.
+# `vec_restore()`
+#
+# Called at the end of `vec_slice()` and `vec_ptype()` after all slicing has
+# been done on the proxy object.
+#
+# If no changes have been made to the row/column structure of rset specific
+# columns, then we can return an rset subclass. Otherwise, the resulting
+# object is no longer guaranteed to return a valid rset, and we have to
+# fallback to a bare tibble.
+#
+# It is very important that the result of `vec_ptype()` is a bare tibble.
+# This ensures that the `vec_ptype2.<rset-subclass>.<rset-subclass>()` methods
+# never get called. `vec_ptype()` is able to return a bare tibble because it
+# essentially takes a 0-row slice of the rset, and then calls `vec_restore()`.
+# Because the row structure has been modified, we return a bare tibble from
+# `vec_restore.<rset-subclass>()`.
 
 # ------------------------------------------------------------------------------
 # bootstraps
@@ -16,7 +28,12 @@ NULL
 #' @export
 vec_restore.bootstraps <- function(x, to, ...) {
   out <- NextMethod()
-  rset_strip(x)
+
+  if (rset_identical(out, to)) {
+    rset_reconstruct(out, to)
+  } else {
+    rset_strip(out)
+  }
 }
 
 
@@ -69,7 +86,12 @@ vec_cast.data.frame.bootstraps <- function(x, to, ..., x_arg = "", to_arg = "") 
 #' @export
 vec_restore.vfold_cv <- function(x, to, ...) {
   out <- NextMethod()
-  rset_strip(x)
+
+  if (rset_identical(out, to)) {
+    rset_reconstruct(out, to)
+  } else {
+    rset_strip(out)
+  }
 }
 
 
@@ -122,7 +144,12 @@ vec_cast.data.frame.vfold_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
 #' @export
 vec_restore.group_vfold_cv <- function(x, to, ...) {
   out <- NextMethod()
-  rset_strip(x)
+
+  if (rset_identical(out, to)) {
+    rset_reconstruct(out, to)
+  } else {
+    rset_strip(out)
+  }
 }
 
 
@@ -175,7 +202,12 @@ vec_cast.data.frame.group_vfold_cv <- function(x, to, ..., x_arg = "", to_arg = 
 #' @export
 vec_restore.loo_cv <- function(x, to, ...) {
   out <- NextMethod()
-  rset_strip(x)
+
+  if (rset_identical(out, to)) {
+    rset_reconstruct(out, to)
+  } else {
+    rset_strip(out)
+  }
 }
 
 
@@ -228,7 +260,12 @@ vec_cast.data.frame.loo_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
 #' @export
 vec_restore.mc_cv <- function(x, to, ...) {
   out <- NextMethod()
-  rset_strip(x)
+
+  if (rset_identical(out, to)) {
+    rset_reconstruct(out, to)
+  } else {
+    rset_strip(out)
+  }
 }
 
 
@@ -281,7 +318,18 @@ vec_cast.data.frame.mc_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
 #' @export
 vec_restore.nested_cv <- function(x, to, ...) {
   out <- NextMethod()
-  rset_strip(x)
+
+  # If underlying rset subclass restore method already dropped the
+  # subclass, then we return immediately.
+  if (!inherits(out, "nested_cv")) {
+    return(out)
+  }
+
+  if (rset_identical(out, to)) {
+    rset_reconstruct(out, to)
+  } else {
+    rset_strip(out)
+  }
 }
 
 
@@ -334,7 +382,12 @@ vec_cast.data.frame.nested_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
 #' @export
 vec_restore.validation_split <- function(x, to, ...) {
   out <- NextMethod()
-  rset_strip(x)
+
+  if (rset_identical(out, to)) {
+    rset_reconstruct(out, to)
+  } else {
+    rset_strip(out)
+  }
 }
 
 
@@ -387,7 +440,12 @@ vec_cast.data.frame.validation_split <- function(x, to, ..., x_arg = "", to_arg 
 #' @export
 vec_restore.rolling_origin <- function(x, to, ...) {
   out <- NextMethod()
-  rset_strip(x)
+
+  if (rset_identical(out, to)) {
+    rset_reconstruct(out, to)
+  } else {
+    rset_strip(out)
+  }
 }
 
 
@@ -440,7 +498,12 @@ vec_cast.data.frame.rolling_origin <- function(x, to, ..., x_arg = "", to_arg = 
 #' @export
 vec_restore.apparent <- function(x, to, ...) {
   out <- NextMethod()
-  rset_strip(x)
+
+  if (rset_identical(out, to)) {
+    rset_reconstruct(out, to)
+  } else {
+    rset_strip(out)
+  }
 }
 
 
