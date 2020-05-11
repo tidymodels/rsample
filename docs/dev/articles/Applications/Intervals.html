@@ -18,8 +18,8 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
 <script src="../../pkgdown.js"></script><link href="../../tidyverse-2.css" rel="stylesheet">
 <meta property="og:title" content="Bootstrap Confidence Intervals">
-<meta property="og:description" content="">
-<meta property="og:image" content="https://tidymodels.github.io/rsample/logo.png">
+<meta property="og:description" content="rsample">
+<meta property="og:image" content="https://rsample.tidymodels.org/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -27,7 +27,7 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -42,8 +42,8 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../../index.html">rsample</a>
         <div class="info">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -89,7 +89,7 @@
   <a href="../../news/index.html">News</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rsample">
+  <a href="https://github.com/tidymodels/rsample/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -104,10 +104,10 @@
 
       
 
-      </header><script src="Intervals_files/jquery-1.11.3/jquery.min.js"></script><script src="Intervals_files/elevate-section-attrs-2.0/elevate-section-attrs.js"></script><div class="row">
+      </header><script src="Intervals_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Bootstrap Confidence Intervals</h1>
+      <h1 data-toc-skip>Bootstrap Confidence Intervals</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/rsample/blob/master/vignettes/Applications/Intervals.Rmd"><code>vignettes/Applications/Intervals.Rmd</code></a></small>
@@ -119,29 +119,29 @@
     
 <p>The bootstrap was originally intended for estimating confidence intervals for complex statistics whose variance properties are difficult to analytically derive. Davison and Hinkley’s <a href="https://www.cambridge.org/core/books/bootstrap-methods-and-their-application/ED2FD043579F27952363566DC09CBD6A"><em>Bootstrap Methods and Their Application</em></a> is a great resource for these methods. <code>rsample</code> contains a few function to compute the most common types of intervals.</p>
 <p>To demonstrate the computations for the different types of intervals, we’ll use a nonlinear regression example from <a href="https://www.jstatsoft.org/article/view/v066i05">Baty <em>et al</em> (2015)</a>. They showed data that monitored oxygen uptake in a patient with rest and exercise phases (in the data frame <code>O2K</code>).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidymodels)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(nlstools)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(GGally)</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(O2K)</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">ggplot</span>(O2K, <span class="kw">aes</span>(<span class="dt">x =</span> t, <span class="dt">y =</span> VO2)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidymodels</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">nlstools</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">GGally</span>)
+
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">O2K</span>)
+
+<span class="fu">ggplot</span>(<span class="no">O2K</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">t</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">VO2</span>)) +
+  <span class="fu">geom_point</span>()</pre></body></html></div>
 <p><img src="Intervals_files/figure-html/O2K-dat-1.png" width="768"></p>
 <p>The authors fit a segmented regression model where the transition point was known (this is the time when exercise commenced). Their model was:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>nonlin_form &lt;-<span class="st">  </span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span>(</span>
-<span id="cb2-3"><a href="#cb2-3"></a>    VO2 <span class="op">~</span><span class="st"> </span>(t <span class="op">&lt;=</span><span class="st"> </span><span class="fl">5.883</span>) <span class="op">*</span><span class="st"> </span>VO2rest <span class="op">+</span><span class="st"> </span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="st">      </span>(t <span class="op">&gt;</span><span class="st"> </span><span class="fl">5.883</span>) <span class="op">*</span><span class="st"> </span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="st">      </span>(VO2rest <span class="op">+</span><span class="st"> </span>(VO2peak <span class="op">-</span><span class="st"> </span>VO2rest) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="op">-</span>(t <span class="op">-</span><span class="st"> </span><span class="fl">5.883</span>) <span class="op">/</span><span class="st"> </span>mu)))</span>
-<span id="cb2-6"><a href="#cb2-6"></a>    )</span>
-<span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co"># Starting values from visual inspection</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>start_vals &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">VO2rest =</span> <span class="dv">400</span>, <span class="dt">VO2peak =</span> <span class="dv">1600</span>, <span class="dt">mu =</span> <span class="dv">1</span>)</span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a>res &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/nls.html">nls</a></span>(nonlin_form, <span class="dt">start =</span> start_vals, <span class="dt">data =</span> O2K) </span>
-<span id="cb2-12"><a href="#cb2-12"></a></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="kw"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(res)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">nonlin_form</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span>(
+    <span class="no">VO2</span> ~ (<span class="no">t</span> <span class="kw">&lt;=</span> <span class="fl">5.883</span>) * <span class="no">VO2rest</span> +
+      (<span class="no">t</span> <span class="kw">&gt;</span> <span class="fl">5.883</span>) *
+      (<span class="no">VO2rest</span> + (<span class="no">VO2peak</span> - <span class="no">VO2rest</span>) * (<span class="fl">1</span> - <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(-(<span class="no">t</span> - <span class="fl">5.883</span>) / <span class="no">mu</span>)))
+    )
+
+<span class="co"># Starting values from visual inspection</span>
+<span class="no">start_vals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">VO2rest</span> <span class="kw">=</span> <span class="fl">400</span>, <span class="kw">VO2peak</span> <span class="kw">=</span> <span class="fl">1600</span>, <span class="kw">mu</span> <span class="kw">=</span> <span class="fl">1</span>)
+
+<span class="no">res</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/nls.html">nls</a></span>(<span class="no">nonlin_form</span>, <span class="kw">start</span> <span class="kw">=</span> <span class="no">start_vals</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">O2K</span>)
+
+<span class="fu"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(<span class="no">res</span>)</pre></body></html></div>
 <pre><code>## # A tibble: 3 x 5
 ##   term    estimate std.error statistic  p.value
 ##   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
@@ -151,18 +151,18 @@
 <p><code><a href="https://rdrr.io/pkg/broom/man/reexports.html">broom::tidy()</a></code> returns our analysis object in a standardized way. The column names shown here are used for most types of objects and this allows us to use the results more easily.</p>
 <p>For <code>rsample</code>, we’ll rely on the <code><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy()</a></code> method to work with bootstrap estimates when we need confidence intervals. There’s an example at the end of a univariate statistic that isn’t automatically formatted with <code><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy()</a></code>.</p>
 <p>To run our model over different bootstraps, we’ll write a function that uses the <code>split</code> object as input and produces a tidy data frame:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Will be used to fit the models to different bootstrap data sets:</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>fit_fun &lt;-<span class="st"> </span><span class="cf">function</span>(split, ...) {</span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="co"># We could check for convergence, make new parameters, etc.</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>  <span class="kw"><a href="https://rdrr.io/r/stats/nls.html">nls</a></span>(nonlin_form, <span class="dt">data =</span> <span class="kw"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(split), ...) <span class="op">%&gt;%</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="st">    </span><span class="kw"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>()</span>
-<span id="cb4-6"><a href="#cb4-6"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># Will be used to fit the models to different bootstrap data sets:</span>
+<span class="no">fit_fun</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">split</span>, <span class="no">...</span>) {
+  <span class="co"># We could check for convergence, make new parameters, etc.</span>
+  <span class="fu"><a href="https://rdrr.io/r/stats/nls.html">nls</a></span>(<span class="no">nonlin_form</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(<span class="no">split</span>), <span class="no">...</span>) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>()
+}</pre></body></html></div>
 <p>First, let’s create a set of resamples and fit separate models to each. The options <code>apparent = TRUE</code> will be set. This creates a final resample that is a copy of the original (unsampled) data set. This is required for some of the interval methods.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">462</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>nlin_bt &lt;-</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw"><a href="../../reference/bootstraps.html">bootstraps</a></span>(O2K, <span class="dt">times =</span> <span class="dv">2000</span>, <span class="dt">apparent =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">models =</span> <span class="kw">map</span>(splits, <span class="op">~</span><span class="st"> </span><span class="kw">fit_fun</span>(.x, <span class="dt">start =</span> start_vals)))</span>
-<span id="cb5-5"><a href="#cb5-5"></a>nlin_bt</span></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">462</span>)
+<span class="no">nlin_bt</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="../../reference/bootstraps.html">bootstraps</a></span>(<span class="no">O2K</span>, <span class="kw">times</span> <span class="kw">=</span> <span class="fl">2000</span>, <span class="kw">apparent</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="kw">%&gt;%</span>
+  <span class="fu">mutate</span>(<span class="kw">models</span> <span class="kw">=</span> <span class="fu">map</span>(<span class="no">splits</span>, ~ <span class="fu">fit_fun</span>(<span class="no">.x</span>, <span class="kw">start</span> <span class="kw">=</span> <span class="no">start_vals</span>)))
+<span class="no">nlin_bt</span></pre></body></html></div>
 <pre><code>## # Bootstrap sampling with apparent sample 
 ## # A tibble: 2,001 x 3
 ##    splits          id            models          
@@ -178,7 +178,7 @@
 ##  9 &lt;split [36/11]&gt; Bootstrap0009 &lt;tibble [3 × 5]&gt;
 ## 10 &lt;split [36/13]&gt; Bootstrap0010 &lt;tibble [3 × 5]&gt;
 ## # … with 1,991 more rows</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>nlin_bt<span class="op">$</span>models[[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">nlin_bt</span>$<span class="no">models</span><span class="kw">[[</span><span class="fl">1</span>]]</pre></body></html></div>
 <pre><code>## # A tibble: 3 x 5
 ##   term    estimate std.error statistic  p.value
 ##   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
@@ -186,16 +186,17 @@
 ## 2 VO2peak  1656.      31.1        53.3 1.39e-33
 ## 3 mu          1.23     0.113      10.9 2.01e-12</code></pre>
 <p>Let’s look at the data and see if there any outliers or aberrant results:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>nls_coef &lt;-<span class="st"> </span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span>nlin_bt <span class="op">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>splits) <span class="op">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span><span class="co"># Turn it into a tibble by stacking the `models` col</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="st">  </span><span class="co"># Get rid of unneeded columns</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, term, estimate) </span></code></pre></div>
-<pre><code>## Warning: `cols` is now required.
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)
+<span class="no">nls_coef</span> <span class="kw">&lt;-</span>
+  <span class="no">nlin_bt</span> <span class="kw">%&gt;%</span>
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">splits</span>) <span class="kw">%&gt;%</span>
+  <span class="co"># Turn it into a tibble by stacking the `models` col</span>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>() <span class="kw">%&gt;%</span>
+  <span class="co"># Get rid of unneeded columns</span>
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">id</span>, <span class="no">term</span>, <span class="no">estimate</span>)</pre></body></html></div>
+<pre><code>## Warning: `cols` is now required when using unnest().
 ## Please use `cols = c(models)`</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(nls_coef)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">nls_coef</span>)</pre></body></html></div>
 <pre><code>## # A tibble: 6 x 3
 ##   id            term    estimate
 ##   &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt;
@@ -206,26 +207,26 @@
 ## 5 Bootstrap0002 VO2peak  1662.  
 ## 6 Bootstrap0002 mu          1.26</code></pre>
 <p>Now let’s create a scatterplot matrix:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>nls_coef <span class="op">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="st">  </span><span class="co"># Put different parameters in columns</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span>tidyr<span class="op">::</span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/spread.html">spread</a></span>(term, estimate) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="st">  </span><span class="co"># Keep only numeric columns</span></span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>id) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-6"><a href="#cb13-6"></a><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/GGally/man/ggscatmat.html">ggscatmat</a></span>(<span class="dt">alpha =</span> <span class="fl">.25</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">nls_coef</span> <span class="kw">%&gt;%</span>
+  <span class="co"># Put different parameters in columns</span>
+  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/spread.html">spread</a></span>(<span class="no">term</span>, <span class="no">estimate</span>) <span class="kw">%&gt;%</span>
+  <span class="co"># Keep only numeric columns</span>
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">id</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/GGally/man/ggscatmat.html">ggscatmat</a></span>(<span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">.25</span>)</pre></body></html></div>
 <p><img src="Intervals_files/figure-html/splom-1.png" width="768"></p>
 <p>One potential outlier on the right for <code>VO2peak</code> but we’ll leave it in.</p>
 <p>The univariate distributions are:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>nls_coef <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> estimate)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">20</span>, <span class="dt">col =</span> <span class="st">"white"</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>term, <span class="dt">scales =</span> <span class="st">"free_x"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">nls_coef</span> <span class="kw">%&gt;%</span>
+  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">estimate</span>)) +
+  <span class="fu">geom_histogram</span>(<span class="kw">bins</span> <span class="kw">=</span> <span class="fl">20</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"white"</span>) +
+  <span class="fu">facet_wrap</span>(~ <span class="no">term</span>, <span class="kw">scales</span> <span class="kw">=</span> <span class="st">"free_x"</span>)</pre></body></html></div>
 <p><img src="Intervals_files/figure-html/hists-1.png" width="768"></p>
 <div id="percentile-intervals" class="section level2">
 <h2 class="hasAnchor">
 <a href="#percentile-intervals" class="anchor"></a>Percentile intervals</h2>
 <p>The most basic type of interval uses <em>percentiles</em> of the resampling distribution. To get the percentile intervals, the <code>rset</code> object is passed as the first argument and the second argument is the list column of tidy results:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>p_ints &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/int_pctl.html">int_pctl</a></span>(nlin_bt, models)</span>
-<span id="cb15-2"><a href="#cb15-2"></a>p_ints</span></code></pre></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">p_ints</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/int_pctl.html">int_pctl</a></span>(<span class="no">nlin_bt</span>, <span class="no">models</span>)
+<span class="no">p_ints</span></pre></body></html></div>
 <pre><code>## # A tibble: 3 x 6
 ##   term     .lower .estimate  .upper .alpha .method   
 ##   &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
@@ -233,31 +234,31 @@
 ## 2 VO2peak 1576.     1632.   1694.     0.05 percentile
 ## 3 VO2rest  344.      357.    370.     0.05 percentile</code></pre>
 <p>When overlaid with the univariate distributions:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>nls_coef <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> estimate)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">20</span>, <span class="dt">col =</span> <span class="st">"white"</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>term, <span class="dt">scales =</span> <span class="st">"free_x"</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb17-5"><a href="#cb17-5"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">data =</span> p_ints, <span class="kw">aes</span>(<span class="dt">xintercept =</span> .lower), <span class="dt">col =</span> <span class="st">"red"</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb17-6"><a href="#cb17-6"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">data =</span> p_ints, <span class="kw">aes</span>(<span class="dt">xintercept =</span> .upper), <span class="dt">col =</span> <span class="st">"red"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">nls_coef</span> <span class="kw">%&gt;%</span>
+  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">estimate</span>)) +
+  <span class="fu">geom_histogram</span>(<span class="kw">bins</span> <span class="kw">=</span> <span class="fl">20</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"white"</span>) +
+  <span class="fu">facet_wrap</span>(~ <span class="no">term</span>, <span class="kw">scales</span> <span class="kw">=</span> <span class="st">"free_x"</span>) +
+  <span class="fu">geom_vline</span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">p_ints</span>, <span class="fu">aes</span>(<span class="kw">xintercept</span> <span class="kw">=</span> <span class="no">.lower</span>), <span class="kw">col</span> <span class="kw">=</span> <span class="st">"red"</span>) +
+  <span class="fu">geom_vline</span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">p_ints</span>, <span class="fu">aes</span>(<span class="kw">xintercept</span> <span class="kw">=</span> <span class="no">.upper</span>), <span class="kw">col</span> <span class="kw">=</span> <span class="st">"red"</span>)</pre></body></html></div>
 <p><img src="Intervals_files/figure-html/pctl-plot-1.png" width="768"></p>
 <p>How do these intervals compare to the parametric asymptotic values?</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>parametric &lt;-<span class="st"> </span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(res, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(</span>
-<span id="cb18-4"><a href="#cb18-4"></a>    term,</span>
-<span id="cb18-5"><a href="#cb18-5"></a>    <span class="dt">.lower =</span> conf.low,</span>
-<span id="cb18-6"><a href="#cb18-6"></a>    <span class="dt">.estimate =</span> estimate,</span>
-<span id="cb18-7"><a href="#cb18-7"></a>    <span class="dt">.upper =</span> conf.high</span>
-<span id="cb18-8"><a href="#cb18-8"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb18-9"><a href="#cb18-9"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb18-10"><a href="#cb18-10"></a>    <span class="dt">.alpha =</span> <span class="fl">0.05</span>,</span>
-<span id="cb18-11"><a href="#cb18-11"></a>    <span class="dt">.method =</span> <span class="st">"parametric"</span></span>
-<span id="cb18-12"><a href="#cb18-12"></a>  )</span>
-<span id="cb18-13"><a href="#cb18-13"></a></span>
-<span id="cb18-14"><a href="#cb18-14"></a>intervals &lt;-<span class="st"> </span></span>
-<span id="cb18-15"><a href="#cb18-15"></a><span class="st">  </span><span class="kw">bind_rows</span>(parametric, p_ints) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb18-16"><a href="#cb18-16"></a><span class="st">  </span><span class="kw">arrange</span>(term, .method)</span>
-<span id="cb18-17"><a href="#cb18-17"></a>intervals <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(intervals<span class="op">$</span>term)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">parametric</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(<span class="no">res</span>, <span class="kw">conf.int</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(
+    <span class="no">term</span>,
+    <span class="kw">.lower</span> <span class="kw">=</span> <span class="no">conf.low</span>,
+    <span class="kw">.estimate</span> <span class="kw">=</span> <span class="no">estimate</span>,
+    <span class="kw">.upper</span> <span class="kw">=</span> <span class="no">conf.high</span>
+  ) <span class="kw">%&gt;%</span>
+  <span class="fu">mutate</span>(
+    <span class="kw">.alpha</span> <span class="kw">=</span> <span class="fl">0.05</span>,
+    <span class="kw">.method</span> <span class="kw">=</span> <span class="st">"parametric"</span>
+  )
+
+<span class="no">intervals</span> <span class="kw">&lt;-</span>
+  <span class="fu">bind_rows</span>(<span class="no">parametric</span>, <span class="no">p_ints</span>) <span class="kw">%&gt;%</span>
+  <span class="fu">arrange</span>(<span class="no">term</span>, <span class="no">.method</span>)
+<span class="no">intervals</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">intervals</span>$<span class="no">term</span>)</pre></body></html></div>
 <pre><code>## $mu
 ## # A tibble: 2 x 6
 ##   term  .lower .estimate .upper .alpha .method   
@@ -279,11 +280,11 @@
 ## 1 VO2rest   334.      357.   380.   0.05 parametric
 ## 2 VO2rest   344.      357.   370.   0.05 percentile</code></pre>
 <p>The percentile intervals are wider than the parametric intervals (which assume asymptotic normality). Do the estimates appear to be normally distributed? We can look at quantile-quantile plots:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>nls_coef <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> estimate)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb20-3"><a href="#cb20-3"></a><span class="st">  </span><span class="kw">stat_qq</span>() <span class="op">+</span></span>
-<span id="cb20-4"><a href="#cb20-4"></a><span class="st">  </span><span class="kw">stat_qq_line</span>(<span class="dt">alpha =</span> <span class="fl">.25</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb20-5"><a href="#cb20-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>term, <span class="dt">scales =</span> <span class="st">"free"</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">nls_coef</span> <span class="kw">%&gt;%</span>
+  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="kw">sample</span> <span class="kw">=</span> <span class="no">estimate</span>)) +
+  <span class="fu">stat_qq</span>() +
+  <span class="fu">stat_qq_line</span>(<span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">.25</span>) +
+  <span class="fu">facet_wrap</span>(~ <span class="no">term</span>, <span class="kw">scales</span> <span class="kw">=</span> <span class="st">"free"</span>)</pre></body></html></div>
 <p><img src="Intervals_files/figure-html/qqplot-1.png" width="768"></p>
 </div>
 <div id="t-intervals" class="section level2">
@@ -291,11 +292,11 @@
 <a href="#t-intervals" class="anchor"></a>t-intervals</h2>
 <p>Bootstrap <em>t</em>-intervals are estimated by computing intermediate statistics that are <em>t</em>-like in structure. To use these, we require the estimated variance <em>for each individual resampled estimate</em>. In our example, this comes along with the fitted model object. We can extract the standard errors of the parameters. Luckily, most <code><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy()</a></code> provide this in a column named <code>std.error</code>.</p>
 <p>The arguments for these intervals are the same:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>t_stats &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/int_pctl.html">int_t</a></span>(nlin_bt, models)</span>
-<span id="cb21-2"><a href="#cb21-2"></a>intervals &lt;-<span class="st"> </span></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="st">  </span><span class="kw">bind_rows</span>(intervals, t_stats) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb21-4"><a href="#cb21-4"></a><span class="st">  </span><span class="kw">arrange</span>(term, .method)</span>
-<span id="cb21-5"><a href="#cb21-5"></a>intervals <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(intervals<span class="op">$</span>term)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">t_stats</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/int_pctl.html">int_t</a></span>(<span class="no">nlin_bt</span>, <span class="no">models</span>)
+<span class="no">intervals</span> <span class="kw">&lt;-</span>
+  <span class="fu">bind_rows</span>(<span class="no">intervals</span>, <span class="no">t_stats</span>) <span class="kw">%&gt;%</span>
+  <span class="fu">arrange</span>(<span class="no">term</span>, <span class="no">.method</span>)
+<span class="no">intervals</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">intervals</span>$<span class="no">term</span>)</pre></body></html></div>
 <pre><code>## $mu
 ## # A tibble: 3 x 6
 ##   term  .lower .estimate .upper .alpha .method   
@@ -326,11 +327,11 @@
 <p>For bias-corrected and accelerated (BCa) intervals, an additional argument is required. The <code>.fn</code> argument is a function that computes the statistic of interest. The first argument should be for the <code>rsplit</code> object and other arguments can be passed in using the ellipses.</p>
 <p>These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for <em>every bootstrap resample</em>. If the statistic is expensive to compute, this may take some time. For those calculations, we use the <code>furrr</code> package so these can be computed in parallel if you have set up a parallel processing plan (see <code><a href="https://rdrr.io/pkg/future/man/plan.html">?future::plan</a></code>).</p>
 <p>The user-facing function takes an argument for the function and the ellipses.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>bias_corr &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/int_pctl.html">int_bca</a></span>(nlin_bt, models, <span class="dt">.fn =</span> fit_fun, <span class="dt">start =</span> start_vals)</span>
-<span id="cb23-2"><a href="#cb23-2"></a>intervals &lt;-<span class="st"> </span></span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="st">  </span><span class="kw">bind_rows</span>(intervals, bias_corr) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb23-4"><a href="#cb23-4"></a><span class="st">  </span><span class="kw">arrange</span>(term, .method)</span>
-<span id="cb23-5"><a href="#cb23-5"></a>intervals <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/split.html">split</a></span>(intervals<span class="op">$</span>term)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">bias_corr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/int_pctl.html">int_bca</a></span>(<span class="no">nlin_bt</span>, <span class="no">models</span>, <span class="kw">.fn</span> <span class="kw">=</span> <span class="no">fit_fun</span>, <span class="kw">start</span> <span class="kw">=</span> <span class="no">start_vals</span>)
+<span class="no">intervals</span> <span class="kw">&lt;-</span>
+  <span class="fu">bind_rows</span>(<span class="no">intervals</span>, <span class="no">bias_corr</span>) <span class="kw">%&gt;%</span>
+  <span class="fu">arrange</span>(<span class="no">term</span>, <span class="no">.method</span>)
+<span class="no">intervals</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span>(<span class="no">intervals</span>$<span class="no">term</span>)</pre></body></html></div>
 <pre><code>## $mu
 ## # A tibble: 4 x 6
 ##   term  .lower .estimate .upper .alpha .method   
@@ -369,27 +370,27 @@
 </ul>
 <p>The last column is only needed for <code>int_t</code>.</p>
 <p>Suppose we just want to estimate the fold-increase in the outcome between the 90th and 10th percentiles over the course of the experiment. Our function might look like:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>fold_incr &lt;-<span class="st"> </span><span class="cf">function</span>(split, ...) {</span>
-<span id="cb25-2"><a href="#cb25-2"></a>  dat &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(split)</span>
-<span id="cb25-3"><a href="#cb25-3"></a>  quants &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span>(dat<span class="op">$</span>VO2, <span class="dt">probs =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(.<span class="dv">1</span>, <span class="fl">.9</span>))</span>
-<span id="cb25-4"><a href="#cb25-4"></a>  <span class="kw">tibble</span>(</span>
-<span id="cb25-5"><a href="#cb25-5"></a>    <span class="dt">term =</span> <span class="st">"fold increase"</span>,</span>
-<span id="cb25-6"><a href="#cb25-6"></a>    <span class="dt">estimate =</span> <span class="kw"><a href="https://rdrr.io/r/base/unname.html">unname</a></span>(quants[<span class="dv">2</span>]<span class="op">/</span>quants[<span class="dv">1</span>]),</span>
-<span id="cb25-7"><a href="#cb25-7"></a>    <span class="co"># We don't know the analytical formula for this </span></span>
-<span id="cb25-8"><a href="#cb25-8"></a>    <span class="dt">std.error =</span> <span class="ot">NA_real_</span></span>
-<span id="cb25-9"><a href="#cb25-9"></a>  )</span>
-<span id="cb25-10"><a href="#cb25-10"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">fold_incr</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">split</span>, <span class="no">...</span>) {
+  <span class="no">dat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(<span class="no">split</span>)
+  <span class="no">quants</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span>(<span class="no">dat</span>$<span class="no">VO2</span>, <span class="kw">probs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">.1</span>, <span class="fl">.9</span>))
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/reexports.html">tibble</a></span>(
+    <span class="kw">term</span> <span class="kw">=</span> <span class="st">"fold increase"</span>,
+    <span class="kw">estimate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span>(<span class="no">quants</span>[<span class="fl">2</span>]/<span class="no">quants</span>[<span class="fl">1</span>]),
+    <span class="co"># We don't know the analytical formula for this </span>
+    <span class="kw">std.error</span> <span class="kw">=</span> <span class="fl">NA_real_</span>
+  )
+}</pre></body></html></div>
 <p>Everything else works the same as before:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>nlin_bt &lt;-</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="st">  </span>nlin_bt <span class="op">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">folds =</span> <span class="kw">map</span>(splits, fold_incr))</span>
-<span id="cb26-4"><a href="#cb26-4"></a></span>
-<span id="cb26-5"><a href="#cb26-5"></a><span class="kw"><a href="../../reference/int_pctl.html">int_pctl</a></span>(nlin_bt, folds)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">nlin_bt</span> <span class="kw">&lt;-</span>
+  <span class="no">nlin_bt</span> <span class="kw">%&gt;%</span>
+  <span class="fu">mutate</span>(<span class="kw">folds</span> <span class="kw">=</span> <span class="fu">map</span>(<span class="no">splits</span>, <span class="no">fold_incr</span>))
+
+<span class="fu"><a href="../../reference/int_pctl.html">int_pctl</a></span>(<span class="no">nlin_bt</span>, <span class="no">folds</span>)</pre></body></html></div>
 <pre><code>## # A tibble: 1 x 6
 ##   term          .lower .estimate .upper .alpha .method   
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 fold increase   4.42      4.76   5.05   0.05 percentile</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw"><a href="../../reference/int_pctl.html">int_bca</a></span>(nlin_bt, folds, <span class="dt">.fn =</span> fold_incr)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="fu"><a href="../../reference/int_pctl.html">int_bca</a></span>(<span class="no">nlin_bt</span>, <span class="no">folds</span>, <span class="kw">.fn</span> <span class="kw">=</span> <span class="no">fold_incr</span>)</pre></body></html></div>
 <pre><code>## # A tibble: 1 x 6
 ##   term          .lower .estimate .upper .alpha .method
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  
@@ -399,17 +400,9 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#percentile-intervals">Percentile intervals</a></li>
-      <li><a href="#t-intervals">t-intervals</a></li>
-      <li><a href="#bias-corrected-and-accelerated-intervals">Bias-corrected and accelerated intervals</a></li>
-      <li><a href="#no-existing-tidy-method">No existing tidy method</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 

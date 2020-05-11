@@ -18,8 +18,8 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../tidyverse-2.css" rel="stylesheet">
 <meta property="og:title" content="Working with rsets">
-<meta property="og:description" content="">
-<meta property="og:image" content="https://tidymodels.github.io/rsample/logo.png">
+<meta property="og:description" content="rsample">
+<meta property="og:image" content="https://rsample.tidymodels.org/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -27,7 +27,7 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -42,8 +42,8 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -89,7 +89,7 @@
   <a href="../news/index.html">News</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rsample">
+  <a href="https://github.com/tidymodels/rsample/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -104,10 +104,10 @@
 
       
 
-      </header><script src="Working_with_rsets_files/jquery-1.11.3/jquery.min.js"></script><script src="Working_with_rsets_files/elevate-section-attrs-2.0/elevate-section-attrs.js"></script><div class="row">
+      </header><script src="Working_with_rsets_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Working with rsets</h1>
+      <h1 data-toc-skip>Working with rsets</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/rsample/blob/master/vignettes/Working_with_rsets.Rmd"><code>vignettes/Working_with_rsets.Rmd</code></a></small>
@@ -126,54 +126,54 @@
 <p>These data are from the IBM Watson Analytics Lab. The website describes the data with “Uncover the factors that lead to employee attrition and explore important questions such as ‘show me a breakdown of distance from home by job role and attrition’ or ‘compare average monthly income by education and attrition’. This is a fictional data set created by IBM data scientists.” There are 1470 rows.</p>
 </blockquote>
 <p>The data can be accessed using</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rsample)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"attrition"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(attrition)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt;  [1] "Age"                      "Attrition"                "BusinessTravel"          </span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;  [4] "DailyRate"                "Department"               "DistanceFromHome"        </span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;  [7] "Education"                "EducationField"           "EnvironmentSatisfaction" </span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt; [10] "Gender"                   "HourlyRate"               "JobInvolvement"          </span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; [13] "JobLevel"                 "JobRole"                  "JobSatisfaction"         </span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt; [16] "MaritalStatus"            "MonthlyIncome"            "MonthlyRate"             </span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt; [19] "NumCompaniesWorked"       "OverTime"                 "PercentSalaryHike"       </span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt; [22] "PerformanceRating"        "RelationshipSatisfaction" "StockOptionLevel"        </span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt; [25] "TotalWorkingYears"        "TrainingTimesLastYear"    "WorkLifeBalance"         </span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt; [28] "YearsAtCompany"           "YearsInCurrentRole"       "YearsSinceLastPromotion" </span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt; [31] "YearsWithCurrManager"</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(attrition<span class="op">$</span>Attrition)</span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt; </span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt;   No  Yes </span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt; 1233  237</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rsample</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"attrition"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">attrition</span>)
+<span class="co">#&gt;  [1] "Age"                      "Attrition"                "BusinessTravel"          </span>
+<span class="co">#&gt;  [4] "DailyRate"                "Department"               "DistanceFromHome"        </span>
+<span class="co">#&gt;  [7] "Education"                "EducationField"           "EnvironmentSatisfaction" </span>
+<span class="co">#&gt; [10] "Gender"                   "HourlyRate"               "JobInvolvement"          </span>
+<span class="co">#&gt; [13] "JobLevel"                 "JobRole"                  "JobSatisfaction"         </span>
+<span class="co">#&gt; [16] "MaritalStatus"            "MonthlyIncome"            "MonthlyRate"             </span>
+<span class="co">#&gt; [19] "NumCompaniesWorked"       "OverTime"                 "PercentSalaryHike"       </span>
+<span class="co">#&gt; [22] "PerformanceRating"        "RelationshipSatisfaction" "StockOptionLevel"        </span>
+<span class="co">#&gt; [25] "TotalWorkingYears"        "TrainingTimesLastYear"    "WorkLifeBalance"         </span>
+<span class="co">#&gt; [28] "YearsAtCompany"           "YearsInCurrentRole"       "YearsSinceLastPromotion" </span>
+<span class="co">#&gt; [31] "YearsWithCurrManager"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">attrition</span>$<span class="no">Attrition</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   No  Yes </span>
+<span class="co">#&gt; 1233  237</span></pre></body></html></div>
 </div>
 <div id="model-assessment" class="section level2">
 <h2 class="hasAnchor">
 <a href="#model-assessment" class="anchor"></a>Model Assessment</h2>
 <p>Let’s fit a logistic regression model to the data with model terms for the job satisfaction, gender, and monthly income.</p>
 <p>If we were fitting the model to the entire data set, we might model attrition using</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(Attrition <span class="op">~</span><span class="st"> </span>JobSatisfaction <span class="op">+</span><span class="st"> </span>Gender <span class="op">+</span><span class="st"> </span>MonthlyIncome, <span class="dt">data =</span> attrition, <span class="dt">family =</span> binomial)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="no">Attrition</span> ~ <span class="no">JobSatisfaction</span> + <span class="no">Gender</span> + <span class="no">MonthlyIncome</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">attrition</span>, <span class="kw">family</span> <span class="kw">=</span> <span class="no">binomial</span>)</pre></body></html></div>
 <p>For convenience, we’ll create a formula object that will be used later:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mod_form &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span>(Attrition <span class="op">~</span><span class="st"> </span>JobSatisfaction <span class="op">+</span><span class="st"> </span>Gender <span class="op">+</span><span class="st"> </span>MonthlyIncome)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">mod_form</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span>(<span class="no">Attrition</span> ~ <span class="no">JobSatisfaction</span> + <span class="no">Gender</span> + <span class="no">MonthlyIncome</span>)</pre></body></html></div>
 <p>To evaluate this model, we will use 10 repeats of 10-fold cross-validation and use the 100 holdout samples to evaluate the overall accuracy of the model.</p>
 <p>First, let’s make the splits of the data:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rsample)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">4622</span>)</span>
-<span id="cb4-3"><a href="#cb4-3"></a>rs_obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vfold_cv.html">vfold_cv</a></span>(attrition, <span class="dt">v =</span> <span class="dv">10</span>, <span class="dt">repeats =</span> <span class="dv">10</span>)</span>
-<span id="cb4-4"><a href="#cb4-4"></a>rs_obj</span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; #  10-fold cross-validation repeated 10 times </span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; # A tibble: 100 x 3</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt;    splits             id       id2   </span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;    &lt;named list&gt;       &lt;chr&gt;    &lt;chr&gt; </span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt;  1 &lt;split [1.3K/147]&gt; Repeat01 Fold01</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt;  2 &lt;split [1.3K/147]&gt; Repeat01 Fold02</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt;  3 &lt;split [1.3K/147]&gt; Repeat01 Fold03</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt;  4 &lt;split [1.3K/147]&gt; Repeat01 Fold04</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt;  5 &lt;split [1.3K/147]&gt; Repeat01 Fold05</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt;  6 &lt;split [1.3K/147]&gt; Repeat01 Fold06</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt;  7 &lt;split [1.3K/147]&gt; Repeat01 Fold07</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt;  8 &lt;split [1.3K/147]&gt; Repeat01 Fold08</span></span>
-<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt;  9 &lt;split [1.3K/147]&gt; Repeat01 Fold09</span></span>
-<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt; 10 &lt;split [1.3K/147]&gt; Repeat01 Fold10</span></span>
-<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt; # … with 90 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rsample</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">4622</span>)
+<span class="no">rs_obj</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/vfold_cv.html">vfold_cv</a></span>(<span class="no">attrition</span>, <span class="kw">v</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">repeats</span> <span class="kw">=</span> <span class="fl">10</span>)
+<span class="no">rs_obj</span>
+<span class="co">#&gt; #  10-fold cross-validation repeated 10 times </span>
+<span class="co">#&gt; # A tibble: 100 x 3</span>
+<span class="co">#&gt;    splits             id       id2   </span>
+<span class="co">#&gt;    &lt;named list&gt;       &lt;chr&gt;    &lt;chr&gt; </span>
+<span class="co">#&gt;  1 &lt;split [1.3K/147]&gt; Repeat01 Fold01</span>
+<span class="co">#&gt;  2 &lt;split [1.3K/147]&gt; Repeat01 Fold02</span>
+<span class="co">#&gt;  3 &lt;split [1.3K/147]&gt; Repeat01 Fold03</span>
+<span class="co">#&gt;  4 &lt;split [1.3K/147]&gt; Repeat01 Fold04</span>
+<span class="co">#&gt;  5 &lt;split [1.3K/147]&gt; Repeat01 Fold05</span>
+<span class="co">#&gt;  6 &lt;split [1.3K/147]&gt; Repeat01 Fold06</span>
+<span class="co">#&gt;  7 &lt;split [1.3K/147]&gt; Repeat01 Fold07</span>
+<span class="co">#&gt;  8 &lt;split [1.3K/147]&gt; Repeat01 Fold08</span>
+<span class="co">#&gt;  9 &lt;split [1.3K/147]&gt; Repeat01 Fold09</span>
+<span class="co">#&gt; 10 &lt;split [1.3K/147]&gt; Repeat01 Fold10</span>
+<span class="co">#&gt; # … with 90 more rows</span></pre></body></html></div>
 <p>Now let’s write a function that will, for each resample:</p>
 <ol style="list-style-type: decimal">
 <li>obtain the analysis data set (i.e. the 90% used for modeling)</li>
@@ -182,71 +182,71 @@
 <li>determine if each sample was predicted correctly.</li>
 </ol>
 <p>Here is our function:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## splits will be the `rsplit` object with the 90/10 partition</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>holdout_results &lt;-<span class="st"> </span><span class="cf">function</span>(splits, ...) {</span>
-<span id="cb5-3"><a href="#cb5-3"></a>  <span class="co"># Fit the model to the 90%</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>  mod &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(..., <span class="dt">data =</span> <span class="kw"><a href="../reference/as.data.frame.rsplit.html">analysis</a></span>(splits), <span class="dt">family =</span> binomial)</span>
-<span id="cb5-5"><a href="#cb5-5"></a>  <span class="co"># Save the 10%</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>  holdout &lt;-<span class="st"> </span><span class="kw"><a href="../reference/as.data.frame.rsplit.html">assessment</a></span>(splits)</span>
-<span id="cb5-7"><a href="#cb5-7"></a>  <span class="co"># `augment` will save the predictions with the holdout data set</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>  res &lt;-<span class="st"> </span>broom<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/broom/man/reexports.html">augment</a></span>(mod, <span class="dt">newdata =</span> holdout)</span>
-<span id="cb5-9"><a href="#cb5-9"></a>  <span class="co"># Class predictions on the assessment set from class probs</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>  lvls &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(holdout<span class="op">$</span>Attrition)</span>
-<span id="cb5-11"><a href="#cb5-11"></a>  predictions &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(res<span class="op">$</span>.fitted <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, lvls[<span class="dv">2</span>], lvls[<span class="dv">1</span>]),</span>
-<span id="cb5-12"><a href="#cb5-12"></a>                        <span class="dt">levels =</span> lvls)</span>
-<span id="cb5-13"><a href="#cb5-13"></a>  <span class="co"># Calculate whether the prediction was correct</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a>  res<span class="op">$</span>correct &lt;-<span class="st"> </span>predictions <span class="op">==</span><span class="st"> </span>holdout<span class="op">$</span>Attrition</span>
-<span id="cb5-15"><a href="#cb5-15"></a>  <span class="co"># Return the assessment data set with the additional columns</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a>  res</span>
-<span id="cb5-17"><a href="#cb5-17"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co">## splits will be the `rsplit` object with the 90/10 partition</span>
+<span class="no">holdout_results</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">splits</span>, <span class="no">...</span>) {
+  <span class="co"># Fit the model to the 90%</span>
+  <span class="no">mod</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="no">...</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="../reference/as.data.frame.rsplit.html">analysis</a></span>(<span class="no">splits</span>), <span class="kw">family</span> <span class="kw">=</span> <span class="no">binomial</span>)
+  <span class="co"># Save the 10%</span>
+  <span class="no">holdout</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/as.data.frame.rsplit.html">assessment</a></span>(<span class="no">splits</span>)
+  <span class="co"># `augment` will save the predictions with the holdout data set</span>
+  <span class="no">res</span> <span class="kw">&lt;-</span> <span class="kw pkg">broom</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/broom/man/reexports.html">augment</a></span>(<span class="no">mod</span>, <span class="kw">newdata</span> <span class="kw">=</span> <span class="no">holdout</span>)
+  <span class="co"># Class predictions on the assessment set from class probs</span>
+  <span class="no">lvls</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">holdout</span>$<span class="no">Attrition</span>)
+  <span class="no">predictions</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">res</span>$<span class="no">.fitted</span> <span class="kw">&gt;</span> <span class="fl">0</span>, <span class="no">lvls</span>[<span class="fl">2</span>], <span class="no">lvls</span>[<span class="fl">1</span>]),
+                        <span class="kw">levels</span> <span class="kw">=</span> <span class="no">lvls</span>)
+  <span class="co"># Calculate whether the prediction was correct</span>
+  <span class="no">res</span>$<span class="no">correct</span> <span class="kw">&lt;-</span> <span class="no">predictions</span> <span class="kw">==</span> <span class="no">holdout</span>$<span class="no">Attrition</span>
+  <span class="co"># Return the assessment data set with the additional columns</span>
+  <span class="no">res</span>
+}</pre></body></html></div>
 <p>For example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>example &lt;-<span class="st"> </span><span class="kw">holdout_results</span>(rs_obj<span class="op">$</span>splits[[<span class="dv">1</span>]],  mod_form)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(example)</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt; [1] 147  35</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="kw"><a href="../reference/as.data.frame.rsplit.html">assessment</a></span>(rs_obj<span class="op">$</span>splits[[<span class="dv">1</span>]]))</span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; [1] 147  31</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="co">## newly added columns:</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a>example[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="kw"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(example), <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(attrition))]</span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt; # A tibble: 10 x 4</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt;    .rownames .fitted .se.fit correct</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt;    &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt; &lt;lgl&gt;  </span></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt;  1 11          -1.20   0.155 TRUE   </span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt;  2 24          -1.78   0.166 TRUE   </span></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt;  3 30          -1.45   0.183 TRUE   </span></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt;  4 39          -1.60   0.172 TRUE   </span></span>
-<span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt;  5 53          -1.54   0.176 TRUE   </span></span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt;  6 72          -1.93   0.190 TRUE   </span></span>
-<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt;  7 73          -3.06   0.266 TRUE   </span></span>
-<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt;  8 80          -3.28   0.346 TRUE   </span></span>
-<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt;  9 83          -2.23   0.199 TRUE   </span></span>
-<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt; 10 90          -1.28   0.151 FALSE</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">example</span> <span class="kw">&lt;-</span> <span class="fu">holdout_results</span>(<span class="no">rs_obj</span>$<span class="no">splits</span><span class="kw">[[</span><span class="fl">1</span>]],  <span class="no">mod_form</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="no">example</span>)
+<span class="co">#&gt; [1] 147  35</span>
+<span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="fu"><a href="../reference/as.data.frame.rsplit.html">assessment</a></span>(<span class="no">rs_obj</span>$<span class="no">splits</span><span class="kw">[[</span><span class="fl">1</span>]]))
+<span class="co">#&gt; [1] 147  31</span>
+<span class="co">## newly added columns:</span>
+<span class="no">example</span>[<span class="fl">1</span>:<span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">example</span>), <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">attrition</span>))]
+<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt;    .rownames .fitted .se.fit correct</span>
+<span class="co">#&gt;    &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt; &lt;lgl&gt;  </span>
+<span class="co">#&gt;  1 11          -1.20   0.155 TRUE   </span>
+<span class="co">#&gt;  2 24          -1.78   0.166 TRUE   </span>
+<span class="co">#&gt;  3 30          -1.45   0.183 TRUE   </span>
+<span class="co">#&gt;  4 39          -1.60   0.172 TRUE   </span>
+<span class="co">#&gt;  5 53          -1.54   0.176 TRUE   </span>
+<span class="co">#&gt;  6 72          -1.93   0.190 TRUE   </span>
+<span class="co">#&gt;  7 73          -3.06   0.266 TRUE   </span>
+<span class="co">#&gt;  8 80          -3.28   0.346 TRUE   </span>
+<span class="co">#&gt;  9 83          -2.23   0.199 TRUE   </span>
+<span class="co">#&gt; 10 90          -1.28   0.151 FALSE</span></pre></body></html></div>
 <p>For this model, the <code>.fitted</code> value is the linear predictor in log-odds units.</p>
 <p>To compute this data set for each of the 100 resamples, we’ll use the <code>map</code> function from the <code>purrr</code> package:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(purrr)</span>
-<span id="cb7-2"><a href="#cb7-2"></a>rs_obj<span class="op">$</span>results &lt;-<span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(rs_obj<span class="op">$</span>splits,</span>
-<span id="cb7-3"><a href="#cb7-3"></a>                      holdout_results,</span>
-<span id="cb7-4"><a href="#cb7-4"></a>                      mod_form)</span>
-<span id="cb7-5"><a href="#cb7-5"></a>rs_obj</span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; #  10-fold cross-validation repeated 10 times </span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; # A tibble: 100 x 4</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt;    splits             id       id2    results            </span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt;    &lt;named list&gt;       &lt;chr&gt;    &lt;chr&gt;  &lt;named list&gt;       </span></span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt;  1 &lt;split [1.3K/147]&gt; Repeat01 Fold01 &lt;tibble [147 × 35]&gt;</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt;  2 &lt;split [1.3K/147]&gt; Repeat01 Fold02 &lt;tibble [147 × 35]&gt;</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt;  3 &lt;split [1.3K/147]&gt; Repeat01 Fold03 &lt;tibble [147 × 35]&gt;</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt;  4 &lt;split [1.3K/147]&gt; Repeat01 Fold04 &lt;tibble [147 × 35]&gt;</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt;  5 &lt;split [1.3K/147]&gt; Repeat01 Fold05 &lt;tibble [147 × 35]&gt;</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt;  6 &lt;split [1.3K/147]&gt; Repeat01 Fold06 &lt;tibble [147 × 35]&gt;</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt;  7 &lt;split [1.3K/147]&gt; Repeat01 Fold07 &lt;tibble [147 × 35]&gt;</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt;  8 &lt;split [1.3K/147]&gt; Repeat01 Fold08 &lt;tibble [147 × 35]&gt;</span></span>
-<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt;  9 &lt;split [1.3K/147]&gt; Repeat01 Fold09 &lt;tibble [147 × 35]&gt;</span></span>
-<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#&gt; 10 &lt;split [1.3K/147]&gt; Repeat01 Fold10 &lt;tibble [147 × 35]&gt;</span></span>
-<span id="cb7-20"><a href="#cb7-20"></a><span class="co">#&gt; # … with 90 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">purrr</span>)
+<span class="no">rs_obj</span>$<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">rs_obj</span>$<span class="no">splits</span>,
+                      <span class="no">holdout_results</span>,
+                      <span class="no">mod_form</span>)
+<span class="no">rs_obj</span>
+<span class="co">#&gt; #  10-fold cross-validation repeated 10 times </span>
+<span class="co">#&gt; # A tibble: 100 x 4</span>
+<span class="co">#&gt;    splits             id       id2    results            </span>
+<span class="co">#&gt;    &lt;named list&gt;       &lt;chr&gt;    &lt;chr&gt;  &lt;named list&gt;       </span>
+<span class="co">#&gt;  1 &lt;split [1.3K/147]&gt; Repeat01 Fold01 &lt;tibble [147 × 35]&gt;</span>
+<span class="co">#&gt;  2 &lt;split [1.3K/147]&gt; Repeat01 Fold02 &lt;tibble [147 × 35]&gt;</span>
+<span class="co">#&gt;  3 &lt;split [1.3K/147]&gt; Repeat01 Fold03 &lt;tibble [147 × 35]&gt;</span>
+<span class="co">#&gt;  4 &lt;split [1.3K/147]&gt; Repeat01 Fold04 &lt;tibble [147 × 35]&gt;</span>
+<span class="co">#&gt;  5 &lt;split [1.3K/147]&gt; Repeat01 Fold05 &lt;tibble [147 × 35]&gt;</span>
+<span class="co">#&gt;  6 &lt;split [1.3K/147]&gt; Repeat01 Fold06 &lt;tibble [147 × 35]&gt;</span>
+<span class="co">#&gt;  7 &lt;split [1.3K/147]&gt; Repeat01 Fold07 &lt;tibble [147 × 35]&gt;</span>
+<span class="co">#&gt;  8 &lt;split [1.3K/147]&gt; Repeat01 Fold08 &lt;tibble [147 × 35]&gt;</span>
+<span class="co">#&gt;  9 &lt;split [1.3K/147]&gt; Repeat01 Fold09 &lt;tibble [147 × 35]&gt;</span>
+<span class="co">#&gt; 10 &lt;split [1.3K/147]&gt; Repeat01 Fold10 &lt;tibble [147 × 35]&gt;</span>
+<span class="co">#&gt; # … with 90 more rows</span></pre></body></html></div>
 <p>Now we can compute the accuracy values for all of the assessment data sets:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>rs_obj<span class="op">$</span>accuracy &lt;-<span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span>(rs_obj<span class="op">$</span>results, <span class="cf">function</span>(x) <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(x<span class="op">$</span>correct))</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(rs_obj<span class="op">$</span>accuracy)</span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt;   0.776   0.821   0.840   0.839   0.859   0.905</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">rs_obj</span>$<span class="no">accuracy</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span>(<span class="no">rs_obj</span>$<span class="no">results</span>, <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">x</span>$<span class="no">correct</span>))
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">rs_obj</span>$<span class="no">accuracy</span>)
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;   0.776   0.821   0.840   0.839   0.859   0.905</span></pre></body></html></div>
 <p>Keep in mind that the baseline accuracy to beat is the rate of non-attrition, which is 0.839. Not a great model so far.</p>
 </div>
 <div id="using-the-bootstrap-to-make-comparisons" class="section level2">
@@ -254,124 +254,115 @@
 <a href="#using-the-bootstrap-to-make-comparisons" class="anchor"></a>Using the Bootstrap to Make Comparisons</h2>
 <p>Traditionally, the bootstrap has been primarily used to empirically determine the sampling distribution of a test statistic. Given a set of samples with replacement, a statistic can be calculated on each analysis set and the results can be used to make inferences (such as confidence intervals).</p>
 <p>For example, are there differences in the median monthly income between genders?</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">ggplot</span>(attrition, <span class="kw">aes</span>(<span class="dt">x =</span> Gender, <span class="dt">y =</span> MonthlyIncome)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">scale_y_log10</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">attrition</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">Gender</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">MonthlyIncome</span>)) +
+  <span class="fu">geom_boxplot</span>() +
+  <span class="fu">scale_y_log10</span>()</pre></body></html></div>
 <p><img src="Working_with_rsets_files/figure-html/type_plot-1.png" width="768"></p>
 <p>If we wanted to compare the genders, we could conduct a <em>t</em>-test or rank-based test. Instead, let’s use the bootstrap to see if there is a difference in the median incomes for the two groups. We need a simple function to compute this statistic on the resample:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>median_diff &lt;-<span class="st"> </span><span class="cf">function</span>(splits) {</span>
-<span id="cb10-2"><a href="#cb10-2"></a>  x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/as.data.frame.rsplit.html">analysis</a></span>(splits)</span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="kw"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(x<span class="op">$</span>MonthlyIncome[x<span class="op">$</span>Gender <span class="op">==</span><span class="st"> "Female"</span>]) <span class="op">-</span><span class="st"> </span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="st">      </span><span class="kw"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(x<span class="op">$</span>MonthlyIncome[x<span class="op">$</span>Gender <span class="op">==</span><span class="st"> "Male"</span>])     </span>
-<span id="cb10-5"><a href="#cb10-5"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">median_diff</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">splits</span>) {
+  <span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/as.data.frame.rsplit.html">analysis</a></span>(<span class="no">splits</span>)
+  <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(<span class="no">x</span>$<span class="no">MonthlyIncome</span>[<span class="no">x</span>$<span class="no">Gender</span> <span class="kw">==</span> <span class="st">"Female"</span>]) -
+      <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(<span class="no">x</span>$<span class="no">MonthlyIncome</span>[<span class="no">x</span>$<span class="no">Gender</span> <span class="kw">==</span> <span class="st">"Male"</span>])
+}</pre></body></html></div>
 <p>Now we would create a large number of bootstrap samples (say 2000+). For illustration, we’ll only do 500 in this document.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">353</span>)</span>
-<span id="cb11-2"><a href="#cb11-2"></a>bt_resamples &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bootstraps.html">bootstraps</a></span>(attrition, <span class="dt">times =</span> <span class="dv">500</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">353</span>)
+<span class="no">bt_resamples</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/bootstraps.html">bootstraps</a></span>(<span class="no">attrition</span>, <span class="kw">times</span> <span class="kw">=</span> <span class="fl">500</span>)</pre></body></html></div>
 <p>This function is then computed across each resample:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>bt_resamples<span class="op">$</span>wage_diff &lt;-<span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span>(bt_resamples<span class="op">$</span>splits, median_diff)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">bt_resamples</span>$<span class="no">wage_diff</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span>(<span class="no">bt_resamples</span>$<span class="no">splits</span>, <span class="no">median_diff</span>)</pre></body></html></div>
 <p>The bootstrap distribution of this statistic has a slightly bimodal and skewed distribution:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">ggplot</span>(bt_resamples, <span class="kw">aes</span>(<span class="dt">x =</span> wage_diff)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">stat =</span> <span class="st">"density"</span>, <span class="dt">adjust =</span> <span class="fl">1.25</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Difference in Median Monthly Income (Female - Male)"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">bt_resamples</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">wage_diff</span>)) +
+  <span class="fu">geom_line</span>(<span class="kw">stat</span> <span class="kw">=</span> <span class="st">"density"</span>, <span class="kw">adjust</span> <span class="kw">=</span> <span class="fl">1.25</span>) +
+  <span class="fu">xlab</span>(<span class="st">"Difference in Median Monthly Income (Female - Male)"</span>)</pre></body></html></div>
 <p><img src="Working_with_rsets_files/figure-html/stats_plot-1.png" width="768"></p>
 <p>The variation is considerable in this statistic. One method of computing a confidence interval is to take the percentiles of the bootstrap distribution. A 95% confidence interval for the difference in the means would be:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span>(bt_resamples<span class="op">$</span>wage_diff, </span>
-<span id="cb14-2"><a href="#cb14-2"></a>         <span class="dt">probs =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.025</span>, <span class="fl">0.500</span>, <span class="fl">0.975</span>))</span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="co">#&gt;  2.5%   50% 97.5% </span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt;  -189   262   615</span></span></code></pre></div>
-<p><em>On average</em>, there is no evidence for a difference in the genders.</p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span>(<span class="no">bt_resamples</span>$<span class="no">wage_diff</span>,
+         <span class="kw">probs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))
+<span class="co">#&gt;  2.5% 97.5% </span>
+<span class="co">#&gt;  -189   615</span></pre></body></html></div>
+<p>The calculated 95% confidence interval contains zero, so we don’t have evidence for a difference in median income between these genders at a confidence level of 95%.</p>
 </div>
 <div id="bootstrap-estimates-of-model-coefficients" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bootstrap-estimates-of-model-coefficients" class="anchor"></a>Bootstrap Estimates of Model Coefficients</h2>
 <p>Unless there is already a column in the resample object that contains the fitted model, a function can be used to fit the model and save all of the model coefficients. The <a href="https://cran.r-project.org/package=broom"><code>broom</code> package</a> package has a <code>tidy</code> function that will save the coefficients in a data frame. Instead of returning a data frame with a row for each model term, we will save a data frame with a single row and columns for each model term. As before, <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map</a></code> can be used to estimate and save these values for each split.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>glm_coefs &lt;-<span class="st"> </span><span class="cf">function</span>(splits, ...) {</span>
-<span id="cb15-2"><a href="#cb15-2"></a>  <span class="co">## use `analysis` or `as.data.frame` to get the analysis data</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>  mod &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(..., <span class="dt">data =</span> <span class="kw"><a href="../reference/as.data.frame.rsplit.html">analysis</a></span>(splits), <span class="dt">family =</span> binomial)</span>
-<span id="cb15-4"><a href="#cb15-4"></a>  <span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/t.html">t</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span>(mod)))</span>
-<span id="cb15-5"><a href="#cb15-5"></a>}</span>
-<span id="cb15-6"><a href="#cb15-6"></a>bt_resamples<span class="op">$</span>betas &lt;-<span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="dt">.x =</span> bt_resamples<span class="op">$</span>splits, </span>
-<span id="cb15-7"><a href="#cb15-7"></a>                          <span class="dt">.f =</span> glm_coefs, </span>
-<span id="cb15-8"><a href="#cb15-8"></a>                          mod_form)</span>
-<span id="cb15-9"><a href="#cb15-9"></a>bt_resamples</span>
-<span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt; # Bootstrap sampling </span></span>
-<span id="cb15-11"><a href="#cb15-11"></a><span class="co">#&gt; # A tibble: 500 x 4</span></span>
-<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt;    splits             id           wage_diff betas           </span></span>
-<span id="cb15-13"><a href="#cb15-13"></a><span class="co">#&gt;    &lt;list&gt;             &lt;chr&gt;            &lt;dbl&gt; &lt;list&gt;          </span></span>
-<span id="cb15-14"><a href="#cb15-14"></a><span class="co">#&gt;  1 &lt;split [1.5K/558]&gt; Bootstrap001      136  &lt;df[,6] [1 × 6]&gt;</span></span>
-<span id="cb15-15"><a href="#cb15-15"></a><span class="co">#&gt;  2 &lt;split [1.5K/528]&gt; Bootstrap002      282. &lt;df[,6] [1 × 6]&gt;</span></span>
-<span id="cb15-16"><a href="#cb15-16"></a><span class="co">#&gt;  3 &lt;split [1.5K/541]&gt; Bootstrap003      470  &lt;df[,6] [1 × 6]&gt;</span></span>
-<span id="cb15-17"><a href="#cb15-17"></a><span class="co">#&gt;  4 &lt;split [1.5K/561]&gt; Bootstrap004     -213  &lt;df[,6] [1 × 6]&gt;</span></span>
-<span id="cb15-18"><a href="#cb15-18"></a><span class="co">#&gt;  5 &lt;split [1.5K/518]&gt; Bootstrap005      453  &lt;df[,6] [1 × 6]&gt;</span></span>
-<span id="cb15-19"><a href="#cb15-19"></a><span class="co">#&gt;  6 &lt;split [1.5K/539]&gt; Bootstrap006      684  &lt;df[,6] [1 × 6]&gt;</span></span>
-<span id="cb15-20"><a href="#cb15-20"></a><span class="co">#&gt;  7 &lt;split [1.5K/542]&gt; Bootstrap007       60  &lt;df[,6] [1 × 6]&gt;</span></span>
-<span id="cb15-21"><a href="#cb15-21"></a><span class="co">#&gt;  8 &lt;split [1.5K/536]&gt; Bootstrap008      286  &lt;df[,6] [1 × 6]&gt;</span></span>
-<span id="cb15-22"><a href="#cb15-22"></a><span class="co">#&gt;  9 &lt;split [1.5K/552]&gt; Bootstrap009      -30  &lt;df[,6] [1 × 6]&gt;</span></span>
-<span id="cb15-23"><a href="#cb15-23"></a><span class="co">#&gt; 10 &lt;split [1.5K/517]&gt; Bootstrap010      410  &lt;df[,6] [1 × 6]&gt;</span></span>
-<span id="cb15-24"><a href="#cb15-24"></a><span class="co">#&gt; # … with 490 more rows</span></span>
-<span id="cb15-25"><a href="#cb15-25"></a>bt_resamples<span class="op">$</span>betas[[<span class="dv">1</span>]]</span>
-<span id="cb15-26"><a href="#cb15-26"></a><span class="co">#&gt;   (Intercept) JobSatisfaction.L JobSatisfaction.Q JobSatisfaction.C GenderMale</span></span>
-<span id="cb15-27"><a href="#cb15-27"></a><span class="co">#&gt; 1      -0.939            -0.501            -0.272            0.0842     0.0989</span></span>
-<span id="cb15-28"><a href="#cb15-28"></a><span class="co">#&gt;   MonthlyIncome</span></span>
-<span id="cb15-29"><a href="#cb15-29"></a><span class="co">#&gt; 1     -0.000129</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">glm_coefs</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">splits</span>, <span class="no">...</span>) {
+  <span class="co">## use `analysis` or `as.data.frame` to get the analysis data</span>
+  <span class="no">mod</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="no">...</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="../reference/as.data.frame.rsplit.html">analysis</a></span>(<span class="no">splits</span>), <span class="kw">family</span> <span class="kw">=</span> <span class="no">binomial</span>)
+  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span>(<span class="no">mod</span>)))
+}
+<span class="no">bt_resamples</span>$<span class="no">betas</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="kw">.x</span> <span class="kw">=</span> <span class="no">bt_resamples</span>$<span class="no">splits</span>,
+                          <span class="kw">.f</span> <span class="kw">=</span> <span class="no">glm_coefs</span>,
+                          <span class="no">mod_form</span>)
+<span class="no">bt_resamples</span>
+<span class="co">#&gt; # Bootstrap sampling </span>
+<span class="co">#&gt; # A tibble: 500 x 4</span>
+<span class="co">#&gt;    splits             id           wage_diff betas           </span>
+<span class="co">#&gt;    &lt;list&gt;             &lt;chr&gt;            &lt;dbl&gt; &lt;list&gt;          </span>
+<span class="co">#&gt;  1 &lt;split [1.5K/558]&gt; Bootstrap001      136  &lt;df[,6] [1 × 6]&gt;</span>
+<span class="co">#&gt;  2 &lt;split [1.5K/528]&gt; Bootstrap002      282. &lt;df[,6] [1 × 6]&gt;</span>
+<span class="co">#&gt;  3 &lt;split [1.5K/541]&gt; Bootstrap003      470  &lt;df[,6] [1 × 6]&gt;</span>
+<span class="co">#&gt;  4 &lt;split [1.5K/561]&gt; Bootstrap004     -213  &lt;df[,6] [1 × 6]&gt;</span>
+<span class="co">#&gt;  5 &lt;split [1.5K/518]&gt; Bootstrap005      453  &lt;df[,6] [1 × 6]&gt;</span>
+<span class="co">#&gt;  6 &lt;split [1.5K/539]&gt; Bootstrap006      684  &lt;df[,6] [1 × 6]&gt;</span>
+<span class="co">#&gt;  7 &lt;split [1.5K/542]&gt; Bootstrap007       60  &lt;df[,6] [1 × 6]&gt;</span>
+<span class="co">#&gt;  8 &lt;split [1.5K/536]&gt; Bootstrap008      286  &lt;df[,6] [1 × 6]&gt;</span>
+<span class="co">#&gt;  9 &lt;split [1.5K/552]&gt; Bootstrap009      -30  &lt;df[,6] [1 × 6]&gt;</span>
+<span class="co">#&gt; 10 &lt;split [1.5K/517]&gt; Bootstrap010      410  &lt;df[,6] [1 × 6]&gt;</span>
+<span class="co">#&gt; # … with 490 more rows</span>
+<span class="no">bt_resamples</span>$<span class="no">betas</span><span class="kw">[[</span><span class="fl">1</span>]]
+<span class="co">#&gt;   (Intercept) JobSatisfaction.L JobSatisfaction.Q JobSatisfaction.C GenderMale</span>
+<span class="co">#&gt; 1      -0.939            -0.501            -0.272            0.0842     0.0989</span>
+<span class="co">#&gt;   MonthlyIncome</span>
+<span class="co">#&gt; 1     -0.000129</span></pre></body></html></div>
 </div>
 <div id="keeping-tidy" class="section level2">
 <h2 class="hasAnchor">
 <a href="#keeping-tidy" class="anchor"></a>Keeping Tidy</h2>
 <p>As previously mentioned, the <a href="https://cran.r-project.org/package=broom"><code>broom</code> package</a> contains a class called <code>tidy</code> that created representations of objects that can be easily used for analysis, plotting, etc. <code>rsample</code> contains <code>tidy</code> methods for <code>rset</code> and <code>rsplit</code> objects. For example:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>first_resample &lt;-<span class="st"> </span>bt_resamples<span class="op">$</span>splits[[<span class="dv">1</span>]]</span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(first_resample)</span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="co">#&gt; [1] "rsplit"     "boot_split"</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="kw"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(first_resample)</span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="co">#&gt; # A tibble: 1,470 x 2</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="co">#&gt;      Row Data    </span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;   </span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="co">#&gt;  1     2 Analysis</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a><span class="co">#&gt;  2     3 Analysis</span></span>
-<span id="cb16-10"><a href="#cb16-10"></a><span class="co">#&gt;  3     4 Analysis</span></span>
-<span id="cb16-11"><a href="#cb16-11"></a><span class="co">#&gt;  4     7 Analysis</span></span>
-<span id="cb16-12"><a href="#cb16-12"></a><span class="co">#&gt;  5     9 Analysis</span></span>
-<span id="cb16-13"><a href="#cb16-13"></a><span class="co">#&gt;  6    10 Analysis</span></span>
-<span id="cb16-14"><a href="#cb16-14"></a><span class="co">#&gt;  7    11 Analysis</span></span>
-<span id="cb16-15"><a href="#cb16-15"></a><span class="co">#&gt;  8    13 Analysis</span></span>
-<span id="cb16-16"><a href="#cb16-16"></a><span class="co">#&gt;  9    18 Analysis</span></span>
-<span id="cb16-17"><a href="#cb16-17"></a><span class="co">#&gt; 10    19 Analysis</span></span>
-<span id="cb16-18"><a href="#cb16-18"></a><span class="co">#&gt; # … with 1,460 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">first_resample</span> <span class="kw">&lt;-</span> <span class="no">bt_resamples</span>$<span class="no">splits</span><span class="kw">[[</span><span class="fl">1</span>]]
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">first_resample</span>)
+<span class="co">#&gt; [1] "rsplit"     "boot_split"</span>
+<span class="fu"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(<span class="no">first_resample</span>)
+<span class="co">#&gt; # A tibble: 1,470 x 2</span>
+<span class="co">#&gt;      Row Data    </span>
+<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;   </span>
+<span class="co">#&gt;  1     2 Analysis</span>
+<span class="co">#&gt;  2     3 Analysis</span>
+<span class="co">#&gt;  3     4 Analysis</span>
+<span class="co">#&gt;  4     7 Analysis</span>
+<span class="co">#&gt;  5     9 Analysis</span>
+<span class="co">#&gt;  6    10 Analysis</span>
+<span class="co">#&gt;  7    11 Analysis</span>
+<span class="co">#&gt;  8    13 Analysis</span>
+<span class="co">#&gt;  9    18 Analysis</span>
+<span class="co">#&gt; 10    19 Analysis</span>
+<span class="co">#&gt; # … with 1,460 more rows</span></pre></body></html></div>
 <p>and</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(bt_resamples)</span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co">#&gt; [1] "bootstraps" "rset"       "tbl_df"     "tbl"        "data.frame"</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="kw"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(bt_resamples)</span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="co">#&gt; # A tibble: 735,000 x 3</span></span>
-<span id="cb17-5"><a href="#cb17-5"></a><span class="co">#&gt;      Row Data     Resample    </span></span>
-<span id="cb17-6"><a href="#cb17-6"></a><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;       </span></span>
-<span id="cb17-7"><a href="#cb17-7"></a><span class="co">#&gt;  1     1 Analysis Bootstrap002</span></span>
-<span id="cb17-8"><a href="#cb17-8"></a><span class="co">#&gt;  2     1 Analysis Bootstrap004</span></span>
-<span id="cb17-9"><a href="#cb17-9"></a><span class="co">#&gt;  3     1 Analysis Bootstrap007</span></span>
-<span id="cb17-10"><a href="#cb17-10"></a><span class="co">#&gt;  4     1 Analysis Bootstrap008</span></span>
-<span id="cb17-11"><a href="#cb17-11"></a><span class="co">#&gt;  5     1 Analysis Bootstrap009</span></span>
-<span id="cb17-12"><a href="#cb17-12"></a><span class="co">#&gt;  6     1 Analysis Bootstrap010</span></span>
-<span id="cb17-13"><a href="#cb17-13"></a><span class="co">#&gt;  7     1 Analysis Bootstrap011</span></span>
-<span id="cb17-14"><a href="#cb17-14"></a><span class="co">#&gt;  8     1 Analysis Bootstrap013</span></span>
-<span id="cb17-15"><a href="#cb17-15"></a><span class="co">#&gt;  9     1 Analysis Bootstrap015</span></span>
-<span id="cb17-16"><a href="#cb17-16"></a><span class="co">#&gt; 10     1 Analysis Bootstrap016</span></span>
-<span id="cb17-17"><a href="#cb17-17"></a><span class="co">#&gt; # … with 734,990 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">bt_resamples</span>)
+<span class="co">#&gt; [1] "bootstraps" "rset"       "tbl_df"     "tbl"        "data.frame"</span>
+<span class="fu"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(<span class="no">bt_resamples</span>)
+<span class="co">#&gt; # A tibble: 735,000 x 3</span>
+<span class="co">#&gt;      Row Data     Resample    </span>
+<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;       </span>
+<span class="co">#&gt;  1     1 Analysis Bootstrap002</span>
+<span class="co">#&gt;  2     1 Analysis Bootstrap004</span>
+<span class="co">#&gt;  3     1 Analysis Bootstrap007</span>
+<span class="co">#&gt;  4     1 Analysis Bootstrap008</span>
+<span class="co">#&gt;  5     1 Analysis Bootstrap009</span>
+<span class="co">#&gt;  6     1 Analysis Bootstrap010</span>
+<span class="co">#&gt;  7     1 Analysis Bootstrap011</span>
+<span class="co">#&gt;  8     1 Analysis Bootstrap013</span>
+<span class="co">#&gt;  9     1 Analysis Bootstrap015</span>
+<span class="co">#&gt; 10     1 Analysis Bootstrap016</span>
+<span class="co">#&gt; # … with 734,990 more rows</span></pre></body></html></div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#introduction">Introduction</a></li>
-      <li><a href="#model-assessment">Model Assessment</a></li>
-      <li><a href="#using-the-bootstrap-to-make-comparisons">Using the Bootstrap to Make Comparisons</a></li>
-      <li><a href="#bootstrap-estimates-of-model-coefficients">Bootstrap Estimates of Model Coefficients</a></li>
-      <li><a href="#keeping-tidy">Keeping Tidy</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 

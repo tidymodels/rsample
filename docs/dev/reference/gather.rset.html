@@ -47,7 +47,7 @@ the non-ID or split columns in the data and is useful for
 stacking model evaluation statistics. The resulting data frame
 has a column based on the column names of data and another for
 the values." />
-<meta property="og:image" content="https://tidymodels.github.io/rsample/logo.png" />
+<meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -66,7 +66,7 @@ the values." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -82,8 +82,8 @@ the values." />
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -129,7 +129,7 @@ the values." />
   <a href="../news/index.html">News</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rsample">
+  <a href="https://github.com/tidymodels/rsample/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -161,7 +161,7 @@ the values.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for rset</span>
-<span class='fu'>gather</span>(
+<span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span>(
   <span class='no'>data</span>,
   <span class='kw'>key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -214,7 +214,7 @@ factor, which preserves the original ordering of the columns.</p></td>
 <span class='no'>cv_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>, <span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 <span class='no'>cv_obj</span>$<span class='no'>lm_rmse</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='no'>cv_obj</span>$<span class='no'>nnet_rmse</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='fu'>gather</span>(<span class='no'>cv_obj</span>)</div><div class='output co'>#&gt;        id     model  statistic
+<span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span>(<span class='no'>cv_obj</span>)</div><div class='output co'>#&gt;        id     model  statistic
 #&gt; 1  Fold01   lm_rmse  0.2057106
 #&gt; 2  Fold02   lm_rmse  1.6133574
 #&gt; 3  Fold03   lm_rmse  0.6221739
@@ -237,13 +237,9 @@ factor, which preserves the original ordering of the columns.</p></td>
 #&gt; 20 Fold10 nnet_rmse  0.3114896</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 

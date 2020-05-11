@@ -42,7 +42,7 @@
 
 
 <meta property="og:title" content="Changelog" />
-<meta property="og:image" content="https://tidymodels.github.io/rsample/logo.png" />
+<meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -61,7 +61,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -77,8 +77,8 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -124,7 +124,7 @@
   <a href="../news/index.html">News</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rsample">
+  <a href="https://github.com/tidymodels/rsample/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -142,19 +142,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
       <small>Source: <a href='https://github.com/tidymodels/rsample/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="rsample-0059000" class="section level1">
-<h1 class="page-header">
-<a href="#rsample-0059000" class="anchor"></a><small> Unreleased </small><code>rsample</code> 0.0.5.9000</h1>
+    <div id="rsample-development-version" class="section level1">
+<h1 class="page-header" data-toc-text="development version">
+<a href="#rsample-development-version" class="anchor"></a>rsample (development version)<small> Unreleased </small>
+</h1>
+</div>
+    <div id="rsample-006" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.6">
+<a href="#rsample-006" class="anchor"></a><small> 2020-03-31 </small><code>rsample</code> 0.0.6</h1>
 <ul>
-<li>Added <code>validation_set()</code> for making a single resample.</li>
+<li><p>Added <code>validation_set()</code> for making a single resample.</p></li>
+<li><p>Correct the tidy method for bootstraps (<a href='https://github.com/tidymodels/rsample/issues/115'>#115</a>).</p></li>
+<li><p>Changes for upcoming `tibble release.</p></li>
+<li><p>Exported constructors for <code>rset</code> and <code>split</code> objects (<a href='https://github.com/tidymodels/rsample/issues/40'>#40</a>)</p></li>
+<li><p><code><a href="../reference/initial_split.html">initial_time_split()</a></code> and <code><a href="../reference/rolling_origin.html">rolling_origin()</a></code> now have a <code>lag</code> parameter that ensures that previous data are available so that lagged variables can be calculated. (<a href='https://github.com/tidymodels/rsample/issues/135'>#135</a>, <a href='https://github.com/tidymodels/rsample/issues/136'>#136</a>)</p></li>
 </ul>
 </div>
     <div id="rsample-005" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.5">
 <a href="#rsample-005" class="anchor"></a><small> 2019-07-12 </small><code>rsample</code> 0.0.5</h1>
 <ul>
 <li>Added three functions to compute different bootstrap confidence intervals.</li>
@@ -164,7 +173,7 @@
 </ul>
 </div>
     <div id="rsample-004" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.4">
 <a href="#rsample-004" class="anchor"></a><small> 2019-01-07 </small><code>rsample</code> 0.0.4</h1>
 <p>Small maintenence release.</p>
 <div id="minor-improvements-and-fixes" class="section level2">
@@ -178,7 +187,7 @@
 </div>
 </div>
     <div id="rsample-003" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.3">
 <a href="#rsample-003" class="anchor"></a><small> 2018-11-20 </small><code>rsample</code> 0.0.3</h1>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
@@ -200,7 +209,7 @@
 </div>
 </div>
     <div id="rsample-002" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.2">
 <a href="#rsample-002" class="anchor"></a><small> 2017-11-12 </small><code>rsample</code> 0.0.2</h1>
 <ul>
 <li>
@@ -216,24 +225,16 @@
 </ul>
 </div>
     <div id="rsample-001-2017-07-08" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.1">
 <a href="#rsample-001-2017-07-08" class="anchor"></a><small> 2017-07-08 </small><code>rsample</code> 0.0.1 (2017-07-08)</h1>
 <p>Initial public version on CRAN</p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#rsample-0059000">0.0.5.9000</a></li>
-        <li><a href="#rsample-005">0.0.5</a></li>
-        <li><a href="#rsample-004">0.0.4</a></li>
-        <li><a href="#rsample-003">0.0.3</a></li>
-        <li><a href="#rsample-002">0.0.2</a></li>
-        <li><a href="#rsample-001-2017-07-08">0.0.1</a></li>
-      </ul>
-    </div>
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>

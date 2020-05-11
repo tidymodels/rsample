@@ -31,7 +31,7 @@ Suggests:
     broom,
     xml2,
     covr
-URL: https://tidymodels.github.io/rsample, https://github.com/tidymodels/rsample
+URL: https://rsample.tidymodels.org, https://github.com/tidymodels/rsample
 BugReports: https://github.com/tidymodels/rsample/issues
 License: GPL-2
 Encoding: UTF-8
