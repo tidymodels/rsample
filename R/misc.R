@@ -52,3 +52,8 @@ strata_check <- function(strata, vars) {
   }
   invisible(NULL)
 }
+
+split_unnamed <- function(x, f) {
+  out <- split(x, f)
+  unname(out)
+}
