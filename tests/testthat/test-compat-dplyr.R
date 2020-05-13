@@ -98,6 +98,19 @@ test_that("row slicing generally removes the rset subclass", {
   }
 })
 
+test_that("row slicing and duplicating any rows removes the rset subclass", {
+  # Remove rsets with only 1 row
+  subclasses <- rset_subclasses
+  subclasses$apparent <- NULL
+  subclasses$validation_split <- NULL
+
+  for (x in subclasses) {
+    loc <- seq_len(nrow(x))
+    loc[length(loc)] <- 1L
+    expect_s3_class_bare_tibble(dplyr_row_slice(x, loc))
+  }
+})
+
 test_that("row slicing and selecting everything keeps the rset subclass", {
   for (x in rset_subclasses) {
     loc <- seq_len(nrow(x))
@@ -105,15 +118,10 @@ test_that("row slicing and selecting everything keeps the rset subclass", {
   }
 })
 
-test_that("rset subclass is dropped if row order is changed", {
-  # These only have 1 row
-  subclasses <- rset_subclasses
-  subclasses$apparent <- NULL
-  subclasses$validation_split <- NULL
-
-  for (x in subclasses) {
+test_that("rset subclass is kept if row order is changed but all rows are present", {
+  for (x in rset_subclasses) {
     loc <- rev(seq_len(nrow(x)))
-    expect_s3_class_bare_tibble(dplyr_row_slice(x, loc))
+    expect_s3_class_rset(dplyr_row_slice(x, loc))
   }
 })
 

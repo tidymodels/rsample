@@ -158,13 +158,23 @@ rset_identical <- function(x, y) {
     return(FALSE)
   }
 
-  # Avoid all S3 dispatch and don't look at outer level attributes,
-  # just looking at underlying structure now
-  attributes(x) <- list(names = x_names)
-  attributes(y) <- list(names = y_names)
+  # Avoid all non-bare-data-frame S3 dispatch and
+  # don't compare outer data frame attributes.
+  # Only look at column names and actual column data.
+  x <- new_data_frame(x)
+  y <- new_data_frame(y)
+
+  # Early return if number of rows doesn't match
+  if (!identical(vec_size(x), vec_size(y))) {
+    return(FALSE)
+  }
 
   x_rset_cols <- x[x_rset_names]
   y_rset_cols <- y[y_rset_names]
+
+  # Row order doesn't matter
+  x_rset_cols <- vec_sort(x_rset_cols)
+  y_rset_cols <- vec_sort(y_rset_cols)
 
   # Check identical structures
   identical(x_rset_cols, y_rset_cols)

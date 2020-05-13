@@ -43,15 +43,10 @@ test_that("adding a column that looks like an `id` drops the class", {
 # ------------------------------------------------------------------------------
 # arrange()
 
-test_that("arrange() drops rset class when row order is modified", {
-  # These only have 1 row
-  subclasses <- rset_subclasses
-  subclasses$apparent <- NULL
-  subclasses$validation_split <- NULL
-
-  for (x in subclasses) {
+test_that("arrange() keeps rset class when row order is modified", {
+  for (x in rset_subclasses) {
     x <- mutate(x, rn = row_number())
-    expect_s3_class_bare_tibble(arrange(x, desc(rn)))
+    expect_s3_class_rset(arrange(x, desc(rn)))
   }
 })
 

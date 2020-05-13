@@ -245,16 +245,16 @@ test_that("no longer identical if rows are lost", {
   }
 })
 
-test_that("no longer identical if rows are reordered", {
-  # Apparent/Validation only have 1 row
-  subclasses <- rset_subclasses
-  subclasses$apparent <- NULL
-  subclasses$validation_split <- NULL
-
-  for (to in subclasses) {
+test_that("still considered identical if rows are simply reordered", {
+  for (to in rset_subclasses) {
     loc <- rev(seq_len(nrow(to)))
     x <- to[loc,]
-    expect_false(rset_identical(x, to))
+    expect_true(rset_identical(x, to))
+  }
+  for (to in rset_subclasses) {
+    loc <- sample(nrow(to))
+    x <- to[loc,]
+    expect_true(rset_identical(x, to))
   }
 })
 
