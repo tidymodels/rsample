@@ -17,3 +17,4 @@ rsample_hex_thumb.png
 ^\.github/workflows/pr-commands\.yaml$
 ^README\.Rmd$
 ^CODE_OF_CONDUCT\.md$
+^\.github$
