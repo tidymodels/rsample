@@ -1,3 +1,16 @@
+#' Compatibility with dplyr
+#'
+#' @description
+#' rsample should be fully compatible with dplyr 1.0.0.
+#'
+#' With older versions of dplyr, there is partial support for the following
+#' verbs: `mutate()`, `arrange()`, `filter()`, `rename()`, `select()`, and
+#' `slice()`. We strongly recommend updating to dplyr 1.0.0 if possible to
+#' get more complete integration with dplyr.
+#'
+#' @name rsample-dplyr
+NULL
+
 # `dplyr_reconstruct()`
 #
 # `dplyr_reconstruct()` is called:
@@ -18,8 +31,18 @@
 # (splits, id cols) are still exactly identical to how they were before the
 # dplyr operation (with the exception of column reordering).
 
-#' @importFrom dplyr dplyr_reconstruct
-#' @export
+dplyr_post_1.0.0 <- function() {
+  utils::packageVersion("dplyr") > "0.8.5"
+}
+
+
+if (dplyr_post_1.0.0()) {
+
+
+# Registered in `.onLoad()`
 dplyr_reconstruct.rset <- function(data, template) {
   vec_restore(data, template)
 }
+
+
+} # if (dplyr_post_1.0.0())

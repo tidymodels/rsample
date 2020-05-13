@@ -204,7 +204,8 @@ rset_attribute_dictionary <- list(
   nested_cv        = c("outside", "inside"),
   validation_split = c("prop", "strata"),
   rolling_origin   = c("initial", "assess", "cumulative", "skip", "lag"),
-  apparent         = character()
+  apparent         = character(),
+  tbl_df           = character()
 )
 
 rset_attributes <- function(x) {
