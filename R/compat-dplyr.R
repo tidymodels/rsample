@@ -31,18 +31,7 @@ NULL
 # (splits, id cols) are still exactly identical to how they were before the
 # dplyr operation (with the exception of column reordering).
 
-dplyr_post_1.0.0 <- function() {
-  utils::packageVersion("dplyr") > "0.8.5"
-}
-
-
-if (dplyr_post_1.0.0()) {
-
-
 # Registered in `.onLoad()`
-dplyr_reconstruct.rset <- function(data, template) {
+dplyr_reconstruct_rset <- function(data, template) {
   vec_restore(data, template)
 }
-
-
-} # if (dplyr_post_1.0.0())
