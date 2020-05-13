@@ -74,12 +74,7 @@ add_id <- function(split, id) {
 #' @export
 `[.rset` <- function(x, i, j, drop = FALSE, ...) {
   out <- NextMethod()
-
-  if (rset_identical(out, x)) {
-    rset_reconstruct(out, x)
-  } else {
-    rset_strip(out)
-  }
+  rset_maybe_reconstruct(out, x)
 }
 
 # ------------------------------------------------------------------------------
@@ -87,12 +82,7 @@ add_id <- function(split, id) {
 #' @export
 `names<-.rset` <- function(x, value) {
   out <- NextMethod()
-
-  if (rset_identical(out, x)) {
-    rset_reconstruct(out, x)
-  } else {
-    rset_strip(out)
-  }
+  rset_maybe_reconstruct(out, x)
 }
 
 # ------------------------------------------------------------------------------
@@ -247,6 +237,14 @@ rset_reconstruct <- function(data, template) {
   attrs$row.names <- .row_names_info(data, type = 0L)
   attributes(data) <- attrs
   data
+}
+
+rset_maybe_reconstruct <- function(data, template) {
+  if (rset_identical(data, template)) {
+    rset_reconstruct(data, template)
+  } else {
+    rset_strip(data)
+  }
 }
 
 # ------------------------------------------------------------------------------
