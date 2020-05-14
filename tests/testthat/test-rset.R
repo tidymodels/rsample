@@ -265,3 +265,29 @@ test_that("the `inner_resamples` column of `nested_cv` is handled specially", {
   expect_false(rset_identical(x, to))
 })
 
+# ------------------------------------------------------------------------------
+# col_starts_with_id()
+
+test_that("column can be just `id`", {
+  expect_true(col_starts_with_id("id"))
+})
+
+test_that("column can be `id1:9`", {
+  ids <- paste0("id", 1:9)
+  expect_true(all(col_starts_with_id(ids)))
+})
+
+test_that("column cannot be outside the range of 1-9", {
+  ids <- c("id0", "id10")
+  expect_false(any(col_starts_with_id(ids)))
+})
+
+test_that("column must start with `id`", {
+  ids <- c("xid", "xid1")
+  expect_false(any(col_starts_with_id(ids)))
+})
+
+test_that("column can't have anything after the id part", {
+  ids <- c("idx", "id1x")
+  expect_false(any(col_starts_with_id(ids)))
+})

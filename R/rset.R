@@ -265,7 +265,7 @@ col_equals_splits <- function(x) {
 }
 
 col_starts_with_id <- function(x) {
-  grepl("^id", x)
+  grepl("(^id$)|(^id[1-9]$)", x)
 }
 
 col_equals_inner_resamples <- function(x) {
