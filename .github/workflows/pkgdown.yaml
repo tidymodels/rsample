@@ -37,6 +37,16 @@ jobs:
           remotes::install_github("tidyverse/tidytemplate")
         shell: Rscript {0}
 
+      - name: Install article dependencies
+        run: |
+          remotes::install_cran("tidymodels")
+          remotes::install_cran("AmesHousing")
+          remotes::install_cran("keras")
+          remotes::install_cran("survival")
+          remotes::install_cran("tidyr")
+          remotes::install_cran("nlstools")
+          remotes::install_cran("GGally")
+
       - name: Install package
         run: R CMD INSTALL .
 
