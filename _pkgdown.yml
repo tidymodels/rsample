@@ -49,6 +49,9 @@ reference:
       - attrition
       - drinks
       - two_class_dat
+  - title: Compatibility
+    contents:
+      - rsample-dplyr
 
 navbar:
   left:

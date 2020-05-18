@@ -116,7 +116,7 @@ boot_splits <-
     stratas <- tibble::tibble(idx = 1:n,
                               strata = make_strata(getElement(data, strata),
                                                    breaks = breaks))
-    stratas <- split(stratas, stratas$strata)
+    stratas <- split_unnamed(stratas, stratas$strata)
     stratas <-
       purrr::map_df(
         stratas,
@@ -125,7 +125,7 @@ boot_splits <-
         times = times,
         replace = TRUE
       )
-    indices <- split(stratas$idx, stratas$rs_id)
+    indices <- split_unnamed(stratas$idx, stratas$rs_id)
   }
 
   indices <- lapply(indices, boot_complement, n = n)

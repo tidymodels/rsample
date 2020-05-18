@@ -92,7 +92,7 @@ test_that('printing', {
 })
 
 test_that('printing with ...', {
-  verify_output("test-print-groups.txt", {
+  verify_output(test_path("test-print-groups.txt"), {
     print(group_vfold_cv(iris, "Species"), n = 2)
   })
 })

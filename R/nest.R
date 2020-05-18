@@ -76,10 +76,11 @@ nested_cv <- function(data, outside, inside)  {
       call. = FALSE
     )
   inside <- map(outside$splits, inside_resample, cl = inner_cl)
-  inside <- tibble(inner_resamples = inside)
 
-  out <- dplyr::bind_cols(outside, inside)
+  out <- dplyr::mutate(outside, inner_resamples = inside)
+
   out <- add_class(out, cls = "nested_cv", at_end = FALSE)
+
   attr(out, "outside") <- cl$outside
   attr(out, "inside") <- cl$inside
 
