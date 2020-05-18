@@ -25,12 +25,12 @@ The table below attempts to capture most of these changes. These examples
 are not exhaustive and may not capture some edge-cases.
 \subsection{Joins}{
 
-Joins that reduce rows of the original rset object
-(i.e. \code{nrow(tbl) < nrow(rset)}):\tabular{lccc}{
+The following affect all of the dplyr joins, such as \code{left_join()},
+\code{right_join()}, \code{full_join()}, and \code{inner_join()}.
+
+Joins that alter the rows of the original rset object:\tabular{lccc}{
    operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
-   \code{anti_join(rset, tbl)} \tab rset \tab rset \tab tibble \cr
-   \code{full_join(rset, tbl)} \tab error \tab error \tab rset \cr
-   \code{inner_join(rset, tbl)} \tab error \tab error \tab tibble \cr
+   \code{join(rset, tbl)} \tab error \tab error \tab tibble \cr
 }
 
 
@@ -38,11 +38,9 @@ The idea here is that, if there are less rows in the result, the result should
 not be an rset object. For example, you can't have a 10-fold CV object
 without 10 rows.
 
-Joins that keep the rows of the original rset object
-(i.e. \code{nrow(tbl) == nrow(rset)}):\tabular{lccc}{
+Joins that keep the rows of the original rset object:\tabular{lccc}{
    operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
-   \code{full_join(rset, tbl)} \tab error \tab error \tab rset \cr
-   \code{left_join(rset, tbl)} \tab error \tab error \tab rset \cr
+   \code{join(rset, tbl)} \tab error \tab error \tab rset \cr
 }
 
 
@@ -54,11 +52,21 @@ column and the id column(s)) is left intact, the results should be an rset.
 
 As mentioned above, this should result in a tibble if any rows are removed
 or added. Simply reordering rows still results in a valid rset with new
-rsample.\tabular{lccc}{
+rsample.
+
+Cases where rows are removed or added:\tabular{lccc}{
    operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
    \code{rset[ind,]} \tab tibble \tab tibble \tab tibble \cr
    \code{slice(rset)} \tab rset \tab tibble \tab tibble \cr
    \code{filter(rset)} \tab rset \tab tibble \tab tibble \cr
+}
+
+
+Cases where all rows are kept, but are possibly reordered:\tabular{lccc}{
+   operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
+   \code{rset[ind,]} \tab tibble \tab rset \tab rset \cr
+   \code{slice(rset)} \tab rset \tab rset \tab rset \cr
+   \code{filter(rset)} \tab rset \tab rset \tab rset \cr
    \code{arrange(rset)} \tab rset \tab rset \tab rset \cr
 }
 
@@ -73,7 +81,7 @@ Cases when the required columns are removed or renamed:\tabular{lccc}{
    operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
    \code{rset[,ind]} \tab tibble \tab tibble \tab tibble \cr
    \code{select(rset)} \tab rset \tab tibble \tab tibble \cr
-   \code{rename(rset)} \tab rset \tab tibble \tab tibble \cr
+   \code{rename(rset)} \tab tibble \tab tibble \tab tibble \cr
 }
 
 
@@ -81,11 +89,18 @@ Cases when no required columns are affected:\tabular{lccc}{
    operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
    \code{rset[,ind]} \tab tibble \tab rset \tab rset \cr
    \code{select(rset)} \tab rset \tab rset \tab rset \cr
+   \code{rename(rset)} \tab rset \tab rset \tab rset \cr
 }
 
 }
 
 \subsection{Other Column Operations}{
+
+Cases when the required columns are altered:\tabular{lccc}{
+   operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
+   \code{mutate(rset)} \tab rset \tab tibble \tab tibble \cr
+}
+
 
 Cases when no required columns are affected:\tabular{lccc}{
    operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr

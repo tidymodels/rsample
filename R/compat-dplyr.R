@@ -22,26 +22,24 @@
 #'
 #' ## Joins
 #'
-#' Joins that reduce rows of the original rset object
-#' (i.e. `nrow(tbl) < nrow(rset)`):
+#' The following affect all of the dplyr joins, such as `left_join()`,
+#' `right_join()`, `full_join()`, and `inner_join()`.
+#'
+#' Joins that alter the rows of the original rset object:
 #'
 #' | operation                  | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
 #' | :------------------------- | :---------------------: | :---------------------: | :---------------------:
-#' | `anti_join(rset, tbl)`     | rset                    | rset                    | tibble
-#' | `full_join(rset, tbl)`     | error                   | error                   | rset
-#' | `inner_join(rset, tbl)`    | error                   | error                   | tibble
+#' | `join(rset, tbl)`          | error                   | error                   | tibble
 #'
 #' The idea here is that, if there are less rows in the result, the result should
 #' not be an rset object. For example, you can't have a 10-fold CV object
 #' without 10 rows.
 #'
-#' Joins that keep the rows of the original rset object
-#' (i.e. `nrow(tbl) == nrow(rset)`):
+#' Joins that keep the rows of the original rset object:
 #'
 #' | operation                  | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
 #' | :------------------------- | :---------------------: | :---------------------: | :---------------------:
-#' | `full_join(rset, tbl)`     | error                   | error                   | rset
-#' | `left_join(rset, tbl)`     | error                   | error                   | rset
+#' | `join(rset, tbl)`          | error                   | error                   | rset
 #'
 #' As with the logic above, if the original rset object (defined by the split
 #' column and the id column(s)) is left intact, the results should be an rset.
@@ -52,11 +50,21 @@
 #' or added. Simply reordering rows still results in a valid rset with new
 #' rsample.
 #'
+#' Cases where rows are removed or added:
+#'
 #' | operation       | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
 #' | :-------------- | :---------------------: | :---------------------: | :---------------------:
 #' | `rset[ind,]`    | tibble                  | tibble                  | tibble
 #' | `slice(rset)`   | rset                    | tibble                  | tibble
 #' | `filter(rset)`  | rset                    | tibble                  | tibble
+#'
+#' Cases where all rows are kept, but are possibly reordered:
+#'
+#' | operation       | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
+#' | :-------------- | :---------------------: | :---------------------: | :---------------------:
+#' | `rset[ind,]`    | tibble                  | rset                    | rset
+#' | `slice(rset)`   | rset                    | rset                    | rset
+#' | `filter(rset)`  | rset                    | rset                    | rset
 #' | `arrange(rset)` | rset                    | rset                    | rset
 #'
 #' ## Column Subsetting
@@ -70,8 +78,7 @@
 #' | :-------------- | :---------------------: | :---------------------: | :---------------------:
 #' | `rset[,ind]`    | tibble                  | tibble                  | tibble
 #' | `select(rset)`  | rset                    | tibble                  | tibble
-#' | `rename(rset)`  | rset                    | tibble                  | tibble
-#'
+#' | `rename(rset)`  | tibble                  | tibble                  | tibble
 #'
 #' Cases when no required columns are affected:
 #'
@@ -79,8 +86,15 @@
 #' | :-------------- | :---------------------: | :---------------------: | :---------------------:
 #' | `rset[,ind]`    | tibble                  | rset                    | rset
 #' | `select(rset)`  | rset                    | rset                    | rset
+#' | `rename(rset)`  | rset                    | rset                    | rset
 #'
 #' ## Other Column Operations
+#'
+#' Cases when the required columns are altered:
+#'
+#' | operation       | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
+#' | :-------------- | :---------------------: | :---------------------: | :---------------------:
+#' | `mutate(rset)`  | rset                    | tibble                  | tibble
 #'
 #' Cases when no required columns are affected:
 #'
