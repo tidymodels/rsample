@@ -35,7 +35,7 @@ added to the assessment set (to be used as the validation set).
 The \code{strata} argument causes the random sampling to be conducted
 \emph{within the stratification variable}. This can help ensure that the number of
 data points in the analysis data is equivalent to the proportions in the
-original data set.
+original data set. (Strata below 10\% of the total are pooled together.)
 }
 \examples{
 validation_split(iris, prop = .9)

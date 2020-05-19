@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# rsample
+# rsample <a href='https://tidymodels.github.io/rsample/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 [![R build status](https://github.com/tidymodels/rsample/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/rsample/actions)
@@ -23,7 +23,10 @@ knitr::opts_chunk$set(
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 <!-- badges: end -->
 
-`rsample` contains a set of functions that can create different types of resamples and corresponding classes for their analysis. 
+
+## Overview
+
+`rsample` contains a set of functions to create different types of resamples and corresponding classes for their analysis. 
 The goal is to have a modular set of methods that can be used across different R packages for:
  
  * traditional resampling techniques for estimating the sampling distribution of a statistic and
@@ -57,7 +60,10 @@ as.numeric(lobstr::obj_size(boots)/lobstr::obj_size(LetterRecognition))
 #> [1] 2.528326
 ```
 
+<sup>Created on 2020-05-07 by the [reprex package](https://reprex.tidyverse.org) (v0.3.0)</sup>
+
 The memory usage for 50 bootstrap samples is less than 3-fold more than the original data set. 
+
 
 ## Installation
 
@@ -84,7 +90,7 @@ We welcome contributions of all types!
 
 If you have never made a pull request to an R package before, `rsample` is an excellent place to start. Find an [issue](https://github.com/tidymodels/rsample/issues/) with the **Beginner Friendly** tag and comment that you'd like to take it on and we'll help you get started.
 
-We encourage typo corrections, bug reports, bug fixes and feature requests. Feedback on the clarity of the documentation is especially valuable.
+We encourage typo corrections, bug reports, bug fixes, and feature requests. Feedback on the clarity of the documentation is especially valuable.
 
 
 ## Code of Conduct

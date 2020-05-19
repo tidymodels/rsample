@@ -1,5 +1,7 @@
 # rsample (development version)
 
+* Lower threshold for pooling strata to 10% (from 15%) (#149).
+
 # `rsample` 0.0.6
 
 * Added `validation_set()` for making a single resample.

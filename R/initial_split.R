@@ -5,9 +5,9 @@
 #'  _first_ `prop` samples for training, instead of a random selection.
 #'  `training` and `testing` are used to extract the resulting data.
 #' @details The `strata` argument causes the random sampling to be conducted
-#'  *within the stratification variable*. The can help ensure that the number of
-#'  data points in the training data is equivalent to the proportions in the
-#'  original data set.
+#'  *within the stratification variable*. This can help ensure that the number
+#'  of data points in the training data is equivalent to the proportions in the
+#'  original data set. (Strata below 10% of the total are pooled together.)
 #' @inheritParams vfold_cv
 #' @param prop The proportion of data to be retained for modeling/analysis.
 #' @param strata A variable that is used to conduct stratified sampling to

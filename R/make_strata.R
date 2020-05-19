@@ -66,7 +66,7 @@
 #' quantile(x6, probs = (0:10)/10)
 #' table(make_strata(x6, breaks = 10))
 #' @export
-make_strata <- function(x, breaks = 4, nunique = 5, pool = .15, depth = 20) {
+make_strata <- function(x, breaks = 4, nunique = 5, pool = .1, depth = 20) {
   num_vals <- unique(x)
   n <- length(x)
   num_miss <- sum(is.na(x))

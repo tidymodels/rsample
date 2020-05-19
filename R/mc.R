@@ -4,9 +4,9 @@
 #'  replacement) of the original data set to be used for analysis. All other
 #'  data points are added to the assessment set.
 #' @details The `strata` argument causes the random sampling to be conducted
-#'  *within the stratification variable*. The can help ensure that the number of
+#'  *within the stratification variable*. This can help ensure that the number of
 #'  data points in the analysis data is equivalent to the proportions in the
-#'  original data set.
+#'  original data set. (Strata below 10% of the total are pooled together.)
 #' @inheritParams vfold_cv
 #' @param prop The proportion of data to be retained for modeling/analysis.
 #' @param times The number of times to repeat the sampling.
