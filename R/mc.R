@@ -99,10 +99,10 @@ mc_splits <- function(data, prop = 3/4, times = 25, strata = NULL, breaks = 4) {
     stratas <- tibble::tibble(idx = 1:n,
                               strata = make_strata(getElement(data, strata),
                                                    breaks = breaks))
-    stratas <- split(stratas, stratas$strata)
+    stratas <- split_unnamed(stratas, stratas$strata)
     stratas <-
       purrr::map_df(stratas, strat_sample, prop = prop, times = times)
-    indices <- split(stratas$idx, stratas$rs_id)
+    indices <- split_unnamed(stratas$idx, stratas$rs_id)
   }
   indices <- lapply(indices, mc_complement, n = n)
   split_objs <-

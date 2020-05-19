@@ -18,8 +18,8 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
 <script src="../../pkgdown.js"></script><link href="../../tidyverse-2.css" rel="stylesheet">
 <meta property="og:title" content="Grid Search Tuning of Keras Models">
-<meta property="og:description" content="">
-<meta property="og:image" content="https://tidymodels.github.io/rsample/logo.png">
+<meta property="og:description" content="rsample">
+<meta property="og:image" content="https://rsample.tidymodels.org/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -27,7 +27,7 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -42,8 +42,8 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../../index.html">rsample</a>
         <div class="info">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -89,7 +89,7 @@
   <a href="../../news/index.html">News</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rsample">
+  <a href="https://github.com/tidymodels/rsample/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -104,10 +104,10 @@
 
       
 
-      </header><script src="Keras_files/jquery-1.11.3/jquery.min.js"></script><script src="Keras_files/elevate-section-attrs-2.0/elevate-section-attrs.js"></script><div class="row">
+      </header><script src="Keras_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Grid Search Tuning of Keras Models</h1>
+      <h1 data-toc-skip>Grid Search Tuning of Keras Models</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/rsample/blob/master/vignettes/Applications/Keras.Rmd"><code>vignettes/Applications/Keras.Rmd</code></a></small>
@@ -119,159 +119,159 @@
     
 <p>Here we demonstrate a simple grid search to optimize a tuning parameter of a <a href="https://keras.rstudio.com/index.html"><code>keras</code></a> neural network.</p>
 <p>The Ames housing data is used to demonstrate. There are a number of predictors for these data but, for simplicity, we’ll see how far we can get by just using the geocodes for the properties as predictors of price. The outcome will be modeled on the log10 scale.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(AmesHousing)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>ames &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/AmesHousing/man/make_ames.html">make_ames</a></span>() <span class="op">%&gt;%</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(Sale_Price, Longitude, Latitude)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">AmesHousing</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="no">ames</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AmesHousing/man/make_ames.html">make_ames</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">Sale_Price</span>, <span class="no">Longitude</span>, <span class="no">Latitude</span>)</pre></body></html></div>
 <p>To be consistent with other analyses of these data, a training/test split is made. However, this article focuses on the training set.</p>
 <p>Normally, feature preprocessing should be estimated within the resampling process to get generalizable estimates of performance. Here, the two predictors are simply centered and scaled beforehand to avoid complexity in this analysis. However, this is generally a bad idea and the article on <a href="https://topepo.github.io/rsample/articles/Applications/Recipes_and_rsample.html"><code>recipes</code></a> describes a proper methodology for preprocessing the data.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rsample)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">4595</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a>data_split &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/initial_split.html">initial_split</a></span>(ames, <span class="dt">strata =</span> <span class="st">"Sale_Price"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>ames_train &lt;-<span class="st"> </span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="st">  </span><span class="kw"><a href="../../reference/initial_split.html">training</a></span>(data_split) <span class="op">%&gt;%</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">Sale_Price =</span> <span class="kw"><a href="https://rdrr.io/r/base/Log.html">log10</a></span>(Sale_Price),</span>
-<span id="cb2-8"><a href="#cb2-8"></a>         <span class="dt">Longitude  =</span> <span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(Longitude, <span class="dt">center =</span> <span class="ot">TRUE</span>),</span>
-<span id="cb2-9"><a href="#cb2-9"></a>         <span class="dt">Latitude   =</span> <span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(Latitude, <span class="dt">center =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rsample</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">4595</span>)
+<span class="no">data_split</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/initial_split.html">initial_split</a></span>(<span class="no">ames</span>, <span class="kw">strata</span> <span class="kw">=</span> <span class="st">"Sale_Price"</span>)
+
+<span class="no">ames_train</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="../../reference/initial_split.html">training</a></span>(<span class="no">data_split</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">Sale_Price</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span>(<span class="no">Sale_Price</span>),
+         <span class="kw">Longitude</span>  <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(<span class="no">Longitude</span>, <span class="kw">center</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
+         <span class="kw">Latitude</span>   <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(<span class="no">Latitude</span>, <span class="kw">center</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></body></html></div>
 <p>The resample the model, simple 10-fold cross-validation is done such that the splits use the outcome as a stratification variable. On average, there should be 219 properties in the assessment set and this should be enough to obtain good estimates of the model RMSE.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">2453</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>cv_splits &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vfold_cv.html">vfold_cv</a></span>(ames_train, <span class="dt">v =</span> <span class="dv">10</span>, <span class="dt">strata =</span> <span class="st">"Sale_Price"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">2453</span>)
+<span class="no">cv_splits</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/vfold_cv.html">vfold_cv</a></span>(<span class="no">ames_train</span>, <span class="kw">v</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">strata</span> <span class="kw">=</span> <span class="st">"Sale_Price"</span>)</pre></body></html></div>
 <p>A single layer feed-forward neural network with 10 hidden units will be used to model these data. There are a great many tuning parameters for these models including those for structural aspects (e.g. number of hidden units, activation type, number of layers), the optimization (momentum, dropout rate, etc.), and so on. For simplicity, this article will only optimize the number of training epochs (i.e. iterations); basically this is testing for early stopping.</p>
 <p>A function is needed to compute the model on the analysis set, predict the assessment set, and compute the holdout root mean squared error (in log10 units). The function below constructs the model sequentially and takes the number of epochs as a parameter. The argument <code>split</code> will be used to pass a single element of <code>cv_splits$splits</code>. This object will contain the two splits of the data for a single resample. The ellipses (<code>...</code>) will be used to pass arbitrary arguments to <code><a href="https://rdrr.io/pkg/keras/man/reexports.html">keras::fit</a></code>.</p>
 <p>In this function, the seed is set. A few of the model components, such as <code>initializer_glorot_uniform</code> and <code>layer_dropout</code>, use random numbers and their specific seeds are set from the session’s seed. This helps with reproducibility.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(keras)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(yardstick)</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(purrr)</span>
-<span id="cb4-4"><a href="#cb4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5"></a>mlp_rmse &lt;-<span class="st"> </span><span class="cf">function</span>(epoch, split, ...) {</span>
-<span id="cb4-6"><a href="#cb4-6"></a>  <span class="co"># Set the seed to get reproducible starting values and dropouts</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>  <span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">4109</span>)</span>
-<span id="cb4-8"><a href="#cb4-8"></a>  </span>
-<span id="cb4-9"><a href="#cb4-9"></a>  <span class="co"># Clearing the session after the computations have finished</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a>  <span class="co"># clears memory used by the last trial in preparation for </span></span>
-<span id="cb4-11"><a href="#cb4-11"></a>  <span class="co"># the next iteration. </span></span>
-<span id="cb4-12"><a href="#cb4-12"></a>  <span class="kw"><a href="https://rdrr.io/r/base/on.exit.html">on.exit</a></span>(keras<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/backend.html">backend</a></span>()<span class="op">$</span><span class="kw">clear_session</span>())</span>
-<span id="cb4-13"><a href="#cb4-13"></a>  </span>
-<span id="cb4-14"><a href="#cb4-14"></a>  <span class="co"># Define a single layer MLP with dropout and ReLUs</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a>  model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span>()</span>
-<span id="cb4-16"><a href="#cb4-16"></a>  model <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-17"><a href="#cb4-17"></a><span class="st">    </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(</span>
-<span id="cb4-18"><a href="#cb4-18"></a>      <span class="dt">units =</span> <span class="dv">10</span>, </span>
-<span id="cb4-19"><a href="#cb4-19"></a>      <span class="dt">activation =</span> <span class="st">'relu'</span>, </span>
-<span id="cb4-20"><a href="#cb4-20"></a>      <span class="dt">input_shape =</span> <span class="dv">2</span>,</span>
-<span id="cb4-21"><a href="#cb4-21"></a>      <span class="dt">kernel_initializer =</span> <span class="kw"><a href="https://rdrr.io/pkg/keras/man/initializer_glorot_uniform.html">initializer_glorot_uniform</a></span>()</span>
-<span id="cb4-22"><a href="#cb4-22"></a>    ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-23"><a href="#cb4-23"></a><span class="st">    </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/layer_dropout.html">layer_dropout</a></span>(<span class="dt">rate =</span> <span class="fl">0.4</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-24"><a href="#cb4-24"></a><span class="st">    </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="dt">units =</span> <span class="dv">1</span>, <span class="dt">activation =</span> <span class="st">"linear"</span>)</span>
-<span id="cb4-25"><a href="#cb4-25"></a></span>
-<span id="cb4-26"><a href="#cb4-26"></a>  model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/reexports.html">compile</a></span>(</span>
-<span id="cb4-27"><a href="#cb4-27"></a>    <span class="dt">loss =</span> <span class="st">'mean_squared_error'</span>,</span>
-<span id="cb4-28"><a href="#cb4-28"></a>    <span class="dt">optimizer =</span> <span class="kw"><a href="https://rdrr.io/pkg/keras/man/optimizer_rmsprop.html">optimizer_rmsprop</a></span>(),</span>
-<span id="cb4-29"><a href="#cb4-29"></a>    <span class="dt">metrics =</span> <span class="st">'mean_squared_error'</span></span>
-<span id="cb4-30"><a href="#cb4-30"></a>  )</span>
-<span id="cb4-31"><a href="#cb4-31"></a>  </span>
-<span id="cb4-32"><a href="#cb4-32"></a>  <span class="co"># The data used for modeling (aka the "analysis" set)</span></span>
-<span id="cb4-33"><a href="#cb4-33"></a>  geocode &lt;-<span class="st"> </span></span>
-<span id="cb4-34"><a href="#cb4-34"></a><span class="st">    </span><span class="kw"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(split) <span class="op">%&gt;%</span></span>
-<span id="cb4-35"><a href="#cb4-35"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>Sale_Price) <span class="op">%&gt;%</span></span>
-<span id="cb4-36"><a href="#cb4-36"></a><span class="st">    </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>()</span>
-<span id="cb4-37"><a href="#cb4-37"></a>  </span>
-<span id="cb4-38"><a href="#cb4-38"></a>  model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/reexports.html">fit</a></span>(</span>
-<span id="cb4-39"><a href="#cb4-39"></a>    <span class="dt">x =</span> geocode, </span>
-<span id="cb4-40"><a href="#cb4-40"></a>    <span class="dt">y =</span> <span class="kw"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(split)[[<span class="st">"Sale_Price"</span>]], </span>
-<span id="cb4-41"><a href="#cb4-41"></a>    <span class="dt">epochs =</span> epoch,</span>
-<span id="cb4-42"><a href="#cb4-42"></a>    ...</span>
-<span id="cb4-43"><a href="#cb4-43"></a>    )</span>
-<span id="cb4-44"><a href="#cb4-44"></a>  </span>
-<span id="cb4-45"><a href="#cb4-45"></a>  <span class="co"># Now obtain the holdout set for prediction</span></span>
-<span id="cb4-46"><a href="#cb4-46"></a>  holdout &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span>(split)</span>
-<span id="cb4-47"><a href="#cb4-47"></a>  pred_geocode &lt;-<span class="st"> </span></span>
-<span id="cb4-48"><a href="#cb4-48"></a><span class="st">    </span>holdout <span class="op">%&gt;%</span></span>
-<span id="cb4-49"><a href="#cb4-49"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>Sale_Price) <span class="op">%&gt;%</span></span>
-<span id="cb4-50"><a href="#cb4-50"></a><span class="st">    </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>()</span>
-<span id="cb4-51"><a href="#cb4-51"></a>  </span>
-<span id="cb4-52"><a href="#cb4-52"></a>  <span class="co"># Get predicted values and compute RMSE</span></span>
-<span id="cb4-53"><a href="#cb4-53"></a>  holdout <span class="op">%&gt;%</span></span>
-<span id="cb4-54"><a href="#cb4-54"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">predicted =</span> <span class="kw"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(model, pred_geocode)[,<span class="dv">1</span>]) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-55"><a href="#cb4-55"></a><span class="st">    </span><span class="kw"><a href="https://rdrr.io/pkg/yardstick/man/rmse.html">rmse</a></span>(<span class="dt">truth =</span> Sale_Price, <span class="dt">estimate =</span> predicted) <span class="op">%&gt;%</span></span>
-<span id="cb4-56"><a href="#cb4-56"></a><span class="st">    </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(.estimate)</span>
-<span id="cb4-57"><a href="#cb4-57"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">keras</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">yardstick</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">purrr</span>)
+
+<span class="no">mlp_rmse</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">epoch</span>, <span class="no">split</span>, <span class="no">...</span>) {
+  <span class="co"># Set the seed to get reproducible starting values and dropouts</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">4109</span>)
+
+  <span class="co"># Clearing the session after the computations have finished</span>
+  <span class="co"># clears memory used by the last trial in preparation for </span>
+  <span class="co"># the next iteration. </span>
+  <span class="fu"><a href="https://rdrr.io/r/base/on.exit.html">on.exit</a></span>(<span class="kw pkg">keras</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/keras/man/backend.html">backend</a></span>()$<span class="fu">clear_session</span>())
+
+  <span class="co"># Define a single layer MLP with dropout and ReLUs</span>
+  <span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span>()
+  <span class="no">model</span> <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(
+      <span class="kw">units</span> <span class="kw">=</span> <span class="fl">10</span>,
+      <span class="kw">activation</span> <span class="kw">=</span> <span class="st">'relu'</span>,
+      <span class="kw">input_shape</span> <span class="kw">=</span> <span class="fl">2</span>,
+      <span class="kw">kernel_initializer</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/initializer_glorot_uniform.html">initializer_glorot_uniform</a></span>()
+    ) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dropout.html">layer_dropout</a></span>(<span class="kw">rate</span> <span class="kw">=</span> <span class="fl">0.4</span>) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="kw">units</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">activation</span> <span class="kw">=</span> <span class="st">"linear"</span>)
+
+  <span class="no">model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/reexports.html">compile</a></span>(
+    <span class="kw">loss</span> <span class="kw">=</span> <span class="st">'mean_squared_error'</span>,
+    <span class="kw">optimizer</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/optimizer_rmsprop.html">optimizer_rmsprop</a></span>(),
+    <span class="kw">metrics</span> <span class="kw">=</span> <span class="st">'mean_squared_error'</span>
+  )
+
+  <span class="co"># The data used for modeling (aka the "analysis" set)</span>
+  <span class="no">geocode</span> <span class="kw">&lt;-</span>
+    <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(<span class="no">split</span>) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">Sale_Price</span>) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>()
+
+  <span class="no">model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/reexports.html">fit</a></span>(
+    <span class="kw">x</span> <span class="kw">=</span> <span class="no">geocode</span>,
+    <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span>(<span class="no">split</span>)<span class="kw">[[</span><span class="st">"Sale_Price"</span>]],
+    <span class="kw">epochs</span> <span class="kw">=</span> <span class="no">epoch</span>,
+    <span class="no">...</span>
+    )
+
+  <span class="co"># Now obtain the holdout set for prediction</span>
+  <span class="no">holdout</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span>(<span class="no">split</span>)
+  <span class="no">pred_geocode</span> <span class="kw">&lt;-</span>
+    <span class="no">holdout</span> <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">Sale_Price</span>) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>()
+
+  <span class="co"># Get predicted values and compute RMSE</span>
+  <span class="no">holdout</span> <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">predicted</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">model</span>, <span class="no">pred_geocode</span>)[,<span class="fl">1</span>]) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/yardstick/man/rmse.html">rmse</a></span>(<span class="kw">truth</span> <span class="kw">=</span> <span class="no">Sale_Price</span>, <span class="kw">estimate</span> <span class="kw">=</span> <span class="no">predicted</span>) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(<span class="no">.estimate</span>)
+}</pre></body></html></div>
 <p>Let’s execute the function on the first fold of the data using a batch size of 128 and disable the print/plotting of the optimization:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>cv_splits<span class="op">$</span>splits[[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">cv_splits</span>$<span class="no">splits</span><span class="kw">[[</span><span class="fl">1</span>]]</pre></body></html></div>
 <pre><code>## &lt;Training/Validation/Total&gt;
 ## &lt;1978/221/2199&gt;</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">mlp_rmse</span>(</span>
-<span id="cb7-2"><a href="#cb7-2"></a>  <span class="dt">epoch =</span> <span class="dv">100</span>,</span>
-<span id="cb7-3"><a href="#cb7-3"></a>  cv_splits<span class="op">$</span>splits[[<span class="dv">1</span>]],</span>
-<span id="cb7-4"><a href="#cb7-4"></a>  <span class="co"># now options to keras::fit</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>  <span class="dt">batch_size =</span> <span class="dv">128</span>, </span>
-<span id="cb7-6"><a href="#cb7-6"></a>  <span class="dt">verbose =</span> <span class="dv">0</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a>)</span></code></pre></div>
-<pre><code>## [1] 0.3916408</code></pre>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu">mlp_rmse</span>(
+  <span class="kw">epoch</span> <span class="kw">=</span> <span class="fl">100</span>,
+  <span class="no">cv_splits</span>$<span class="no">splits</span><span class="kw">[[</span><span class="fl">1</span>]],
+  <span class="co"># now options to keras::fit</span>
+  <span class="kw">batch_size</span> <span class="kw">=</span> <span class="fl">128</span>,
+  <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">0</span>
+)</pre></body></html></div>
+<pre><code>## [1] 0.3450811</code></pre>
 <p>This works for a single resample and a single epoch setting. To tune over epochs, another function uses <code>map</code> to work over the tuning parameter for a specific resample. This is more advantageous than fixing the tuning parameter and then iterating over the data. If there was a complex feature engineering process being used, it only needs to be called once if functions are configured so that the <em>inner</em> loop is over the tuning parameters.</p>
 <p>The result value is a tibble with the tuning parameter values, the performance estimates, and an indicator for the fold.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>across_grid &lt;-<span class="st"> </span><span class="cf">function</span>(split, ...) {</span>
-<span id="cb9-2"><a href="#cb9-2"></a>  <span class="co"># Create grid</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>  epoch_values &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">tibble</a></span>(<span class="dt">epoch =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">50</span>, <span class="dv">600</span>, <span class="dt">by =</span> <span class="dv">50</span>)) </span>
-<span id="cb9-4"><a href="#cb9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5"></a>  <span class="co"># Execute grid for this resample</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a>  epoch_values<span class="op">$</span>rmse &lt;-<span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span>(</span>
-<span id="cb9-7"><a href="#cb9-7"></a>    epoch_values<span class="op">$</span>epoch, </span>
-<span id="cb9-8"><a href="#cb9-8"></a>    mlp_rmse,</span>
-<span id="cb9-9"><a href="#cb9-9"></a>    <span class="dt">split =</span> split, </span>
-<span id="cb9-10"><a href="#cb9-10"></a>    <span class="co"># extra options for `fit`</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a>    ...</span>
-<span id="cb9-12"><a href="#cb9-12"></a>  )</span>
-<span id="cb9-13"><a href="#cb9-13"></a>  <span class="co"># Now attach the resample indicators using `labels`</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a>  <span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(epoch_values, <span class="kw"><a href="https://rdrr.io/r/base/labels.html">labels</a></span>(split))</span>
-<span id="cb9-15"><a href="#cb9-15"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">across_grid</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">split</span>, <span class="no">...</span>) {
+  <span class="co"># Create grid</span>
+  <span class="no">epoch_values</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">tibble</a></span>(<span class="kw">epoch</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">50</span>, <span class="fl">600</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="fl">50</span>))
+
+  <span class="co"># Execute grid for this resample</span>
+  <span class="no">epoch_values</span>$<span class="no">rmse</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span>(
+    <span class="no">epoch_values</span>$<span class="no">epoch</span>,
+    <span class="no">mlp_rmse</span>,
+    <span class="kw">split</span> <span class="kw">=</span> <span class="no">split</span>,
+    <span class="co"># extra options for `fit`</span>
+    <span class="no">...</span>
+  )
+  <span class="co"># Now attach the resample indicators using `labels`</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">epoch_values</span>, <span class="fu"><a href="https://rdrr.io/r/base/labels.html">labels</a></span>(<span class="no">split</span>))
+}</pre></body></html></div>
 <p>Note that the grid could easily have a been multidimensional so that many parameters could be optimized using a regular grid or via <a href="http://www.jmlr.org/papers/v13/bergstra12a.html">random search</a>. If that were the case, the candidate tuning parameter values could be in rows and the parameters in columns and <code>mlp_rmse</code> would then map the columns in the tibble to their respective arguments.</p>
 <p><code>map_df</code> is used to operate over the folds. This will row-bind the resulting data frames together so that a single data set is assembled with the individual resampling results.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>tune_results &lt;-<span class="st"> </span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map_df</a></span>(</span>
-<span id="cb10-3"><a href="#cb10-3"></a>    cv_splits<span class="op">$</span>splits,</span>
-<span id="cb10-4"><a href="#cb10-4"></a>    across_grid,</span>
-<span id="cb10-5"><a href="#cb10-5"></a>    <span class="dt">batch_size =</span> <span class="dv">128</span>, </span>
-<span id="cb10-6"><a href="#cb10-6"></a>    <span class="dt">verbose =</span> <span class="dv">0</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a>  )</span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(tune_results)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">tune_results</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_df</a></span>(
+    <span class="no">cv_splits</span>$<span class="no">splits</span>,
+    <span class="no">across_grid</span>,
+    <span class="kw">batch_size</span> <span class="kw">=</span> <span class="fl">128</span>,
+    <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">0</span>
+  )</pre></body></html></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">tune_results</span>)</pre></body></html></div>
 <pre><code>##   epoch      rmse     id
-## 1    50 1.1548266 Fold01
-## 2   100 0.3910104 Fold01
-## 3   150 0.3159080 Fold01
-## 4   200 0.2655544 Fold01
-## 5   250 0.2036983 Fold01
-## 6   300 0.1823711 Fold01</code></pre>
+## 1    50 0.5374825 Fold01
+## 2   100 0.3289563 Fold01
+## 3   150 0.2793750 Fold01
+## 4   200 0.2248216 Fold01
+## 5   250 0.2172887 Fold01
+## 6   300 0.1769814 Fold01</code></pre>
 <p>The mean RMSE per epoch is computed and plotted along with the individual curves for each resample.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>mean_values &lt;-<span class="st"> </span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="st">  </span>tune_results <span class="op">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(epoch) <span class="op">%&gt;%</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">rmse =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(rmse))</span>
-<span id="cb13-5"><a href="#cb13-5"></a>mean_values</span></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">mean_values</span> <span class="kw">&lt;-</span>
+  <span class="no">tune_results</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">epoch</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">rmse</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">rmse</span>))
+<span class="no">mean_values</span></pre></body></html></div>
 <pre><code>## # A tibble: 12 x 2
 ##    epoch  rmse
 ##    &lt;dbl&gt; &lt;dbl&gt;
-##  1    50 0.954
-##  2   100 0.375
-##  3   150 0.294
-##  4   200 0.267
-##  5   250 0.199
+##  1    50 0.776
+##  2   100 0.465
+##  3   150 0.293
+##  4   200 0.251
+##  5   250 0.204
 ##  6   300 0.172
 ##  7   350 0.156
-##  8   400 0.150
-##  9   450 0.150
-## 10   500 0.149
+##  8   400 0.151
+##  9   450 0.149
+## 10   500 0.150
 ## 11   550 0.149
-## 12   600 0.150</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</span>
-<span id="cb15-2"><a href="#cb15-2"></a></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(mean_values, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> epoch, <span class="dt">y =</span> rmse)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(<span class="dt">data =</span> tune_results, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">group =</span> id), <span class="dt">alpha =</span> <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb15-7"><a href="#cb15-7"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="dt">trans =</span> <span class="st">"log2"</span>) <span class="op">+</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>()</span></code></pre></div>
+## 12   600 0.149</code></pre>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">mean_values</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">epoch</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">rmse</span>)) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">tune_results</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">group</span> <span class="kw">=</span> <span class="no">id</span>), <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.1</span>) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="kw">trans</span> <span class="kw">=</span> <span class="st">"log2"</span>) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>()</pre></body></html></div>
 <p><img src="Keras_files/figure-html/resample-means-1.png" width="768"></p>
 <p>For this analysis, there doesn’t seem to be any overfitting issues with a large number of iterations (since the RMSE does not increase).</p>
 <p><code>caret</code> includes some <a href="https://topepo.github.io/caret/train-models-by-tag.html#Neural_Network">pre-defined <code>keras</code> models</a> for single layer networks that can be used to optimize the model across a number of parameters.</p>

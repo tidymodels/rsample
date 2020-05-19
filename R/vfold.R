@@ -114,15 +114,15 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4) {
   if (is.null(strata)) {
     folds <- sample(rep(1:v, length.out = n))
     idx <- seq_len(n)
-    indices <- split(idx, folds)
+    indices <- split_unnamed(idx, folds)
   } else {
     stratas <- tibble::tibble(idx = 1:n,
                               strata = make_strata(getElement(data, strata),
                                                    breaks = breaks))
-    stratas <- split(stratas, stratas$strata)
+    stratas <- split_unnamed(stratas, stratas$strata)
     stratas <- purrr::map(stratas, add_vfolds, v = v)
     stratas <- dplyr::bind_rows(stratas)
-    indices <- split(stratas$idx, stratas$folds)
+    indices <- split_unnamed(stratas$idx, stratas$folds)
   }
 
   indices <- lapply(indices, vfold_complement, n = n)

@@ -65,6 +65,11 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
 
   split_objs$splits <- map(split_objs$splits, rm_out)
 
+  # Update `v` if not supplied directly
+  if (is.null(v)) {
+    v <- length(split_objs$splits)
+  }
+
   ## Save some overall information
 
   cv_att <- list(v = v, group = group)
@@ -93,7 +98,7 @@ group_vfold_splits <- function(data, group, v = NULL) {
   data_ind <- data_ind %>%
     full_join(keys, by = "..group") %>%
     arrange(..index)
-  indices <- split(data_ind$..index, data_ind$..folds)
+  indices <- split_unnamed(data_ind$..index, data_ind$..folds)
   indices <- lapply(indices, vfold_complement, n = nrow(data))
   split_objs <-
     purrr::map(indices,

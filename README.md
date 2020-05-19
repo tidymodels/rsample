@@ -1,11 +1,9 @@
 
-
 # rsample <a href='https://tidymodels.github.io/rsample/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
-[![Travis-CI Build Status](https://travis-ci.org/tidymodels/rsample.svg?branch=master)](https://travis-ci.org/tidymodels/rsample)
 [![R build status](https://github.com/tidymodels/rsample/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/rsample/actions)
-[![Coverage Status](https://img.shields.io/codecov/c/github/tidymodels/rsample/master.svg)](https://codecov.io/github/tidymodels/rsample?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/tidymodels/rsample/branch/master/graph/badge.svg)](https://codecov.io/gh/tidymodels/rsample?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsample)](https://cran.r-project.org/package=rsample)
 [![Downloads](http://cranlogs.r-pkg.org/badges/rsample)](https://cran.r-project.org/package=rsample)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
@@ -50,14 +48,15 @@ as.numeric(lobstr::obj_size(boots)/lobstr::obj_size(LetterRecognition))
 
 <sup>Created on 2020-05-07 by the [reprex package](https://reprex.tidyverse.org) (v0.3.0)</sup>
 
-The memory usage for 50 boostrap samples is less than 3-fold more than the original data set. 
+The memory usage for 50 bootstrap samples is less than 3-fold more than
+the original data set.
+
 
 ## Installation
 
 To install it, use:
 
-
-```r
+``` r
 install.packages("rsample")
 
 ## For the devel version:
@@ -80,8 +79,6 @@ If you have never made a pull request to an R package before, `rsample` is an ex
 
 We encourage typo corrections, bug reports, bug fixes, and feature requests. Feedback on the clarity of the documentation is especially valuable.
 
-
 ## Code of Conduct
 
 Please note that the rsample project is released with a [Contributor Code of Conduct](https://tidymodels.github.io/rsample/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
-

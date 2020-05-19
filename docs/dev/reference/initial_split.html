@@ -46,7 +46,7 @@
 set and testing set. initial_time_split does the same, but takes the
 first prop samples for training, instead of a random selection.
 training and testing are used to extract the resulting data." />
-<meta property="og:image" content="https://tidymodels.github.io/rsample/logo.png" />
+<meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -65,7 +65,7 @@ training and testing are used to extract the resulting data." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,8 +81,8 @@ training and testing are used to extract the resulting data." />
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -128,7 +128,7 @@ training and testing are used to extract the resulting data." />
   <a href="../news/index.html">News</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rsample">
+  <a href="https://github.com/tidymodels/rsample/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -160,7 +160,7 @@ set and testing set. <code>initial_time_split</code> does the same, but takes th
 
     <pre class="usage"><span class='fu'>initial_split</span>(<span class='no'>data</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>3</span>/<span class='fl'>4</span>, <span class='kw'>strata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='no'>...</span>)
 
-<span class='fu'>initial_time_split</span>(<span class='no'>data</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>3</span>/<span class='fl'>4</span>, <span class='no'>...</span>)
+<span class='fu'>initial_time_split</span>(<span class='no'>data</span>, <span class='kw'>prop</span> <span class='kw'>=</span> <span class='fl'>3</span>/<span class='fl'>4</span>, <span class='kw'>lag</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)
 
 <span class='fu'>training</span>(<span class='no'>x</span>)
 
@@ -193,6 +193,12 @@ a numeric stratification variable.</p></td>
       <td><p>Not currently used.</p></td>
     </tr>
     <tr>
+      <th>lag</th>
+      <td><p>A value to include an lag between the assessment
+and analysis set. This is useful if lagged predictors will be used
+during training and testing.</p></td>
+    </tr>
+    <tr>
       <th>x</th>
       <td><p>An <code>rsplit</code> object produced by <code>initial_split</code></p></td>
     </tr>
@@ -200,7 +206,7 @@ a numeric stratification variable.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An <code>rset</code> object that can be used with the <code>training</code> and <code>testing</code>
+    <p>An <code>rsplit</code> object that can be used with the <code>training</code> and <code>testing</code>
 functions to extract the data in each split.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -217,18 +223,19 @@ original data set.</p>
 
 <span class='no'>drinks_split</span> <span class='kw'>&lt;-</span> <span class='fu'>initial_time_split</span>(<span class='no'>drinks</span>)
 <span class='no'>train_data</span> <span class='kw'>&lt;-</span> <span class='fu'>training</span>(<span class='no'>drinks_split</span>)
-<span class='no'>test_data</span> <span class='kw'>&lt;-</span> <span class='fu'>testing</span>(<span class='no'>car_split</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>train_data</span>$<span class='no'>date</span>), <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='no'>test_data</span>$<span class='no'>date</span>))  <span class='co'># no overlap</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; [1] "2011-03-01" NA          </div></pre>
+<span class='no'>test_data</span> <span class='kw'>&lt;-</span> <span class='fu'>testing</span>(<span class='no'>drinks_split</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>train_data</span>$<span class='no'>date</span>), <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='no'>test_data</span>$<span class='no'>date</span>))  <span class='co'># no lag</span></div><div class='output co'>#&gt; [1] "2011-03-01" "2011-04-01"</div><div class='input'>
+<span class='co'># With 12 period lag</span>
+<span class='no'>drinks_lag_split</span> <span class='kw'>&lt;-</span> <span class='fu'>initial_time_split</span>(<span class='no'>drinks</span>, <span class='kw'>lag</span> <span class='kw'>=</span> <span class='fl'>12</span>)
+<span class='no'>train_data</span> <span class='kw'>&lt;-</span> <span class='fu'>training</span>(<span class='no'>drinks_lag_split</span>)
+<span class='no'>test_data</span> <span class='kw'>&lt;-</span> <span class='fu'>testing</span>(<span class='no'>drinks_lag_split</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>train_data</span>$<span class='no'>date</span>), <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='no'>test_data</span>$<span class='no'>date</span>))  <span class='co'># 12 period lag</span></div><div class='output co'>#&gt; [1] "2011-03-01" "2010-04-01"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 

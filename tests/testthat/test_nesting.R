@@ -70,3 +70,70 @@ test_that('rsplit labels', {
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
 })
+
+# ------------------------------------------------------------------------------
+# `[`
+
+test_that("can keep the rset class", {
+  x <- rset_subclasses$nested_cv
+  loc <- seq_len(ncol(x))
+  expect_s3_class_rset(x[loc])
+})
+
+test_that("drops the rset class if missing `inner_resamples`", {
+  x <- rset_subclasses$nested_cv
+
+  names <- names(x)
+  names <- names[names != "inner_resamples"]
+
+  expect_s3_class_bare_tibble(x[names])
+})
+
+test_that("drops the rset class if duplicating `inner_resamples`", {
+  x <- rset_subclasses$nested_cv
+
+  names <- names(x)
+  names <- c(names, "inner_resamples")
+
+  expect_s3_class_bare_tibble(x[names])
+})
+
+# ------------------------------------------------------------------------------
+# `names<-`
+
+test_that("can keep the rset subclass when renaming doesn't touch rset columns", {
+  x <- rset_subclasses$nested_cv
+  x <- mutate(x, a = 1)
+
+  names <- names(x)
+  names[names == "a"] <- "b"
+
+  names(x) <- names
+
+  expect_s3_class_rset(x)
+})
+
+test_that("drops the rset class if `inner_resamples` is renamed", {
+  x <- rset_subclasses$nested_cv
+
+  names <- names(x)
+  names[names == "inner_resamples"] <- "inner_things"
+
+  names(x) <- names
+
+  expect_s3_class_bare_tibble(x)
+})
+
+test_that("drops the rset class if `inner_resamples` is moved", {
+  x <- rset_subclasses$nested_cv
+  x <- mutate(x, a = 1)
+
+  names <- names(x)
+  new_names <- names
+  new_names[names == "inner_resamples"] <- "a"
+  new_names[names == "a"] <- "inner_resamples"
+
+  names(x) <- new_names
+
+  expect_s3_class_bare_tibble(x)
+})

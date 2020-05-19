@@ -25,26 +25,6 @@ test_that('bad args', {
   )
 })
 
-test_that('simple rset', {
-  res1 <- new_rset(
-    cars_10fold$splits,
-    cars_10fold$id
-  )
-  expect_equal(names(res1), c("splits", "id"))
-  expect_equal(class(res1), c("tbl_df", "tbl", "data.frame"))
-  expect_equal(sort(names(attributes(res1))),
-               c("class", "names", "row.names"))
-
-  res2 <- new_rset(
-    cars_10fold[, "splits"],
-    cars_10fold[, "id"]
-  )
-  expect_equal(names(res2), c("splits", "id"))
-  expect_equal(class(res2), c("rset", "tbl_df", "tbl", "data.frame"))
-  expect_equal(sort(names(attributes(res2))),
-               sort(names(attributes(cars_10fold))))
-})
-
 test_that('rset with attributes', {
   args <- list(value = "potato")
   res3 <- new_rset(

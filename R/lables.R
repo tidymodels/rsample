@@ -156,7 +156,6 @@ pretty.validation_split <- function(x, ...) {
 #' @method pretty nested_cv
 #' @rdname pretty.vfold_cv
 pretty.nested_cv <- function(x, ...) {
-  print(class(x))
   details <- attributes(x)
 
   if (is_call(details$outside)) {
