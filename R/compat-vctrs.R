@@ -69,8 +69,7 @@ NULL
 
 #' @export
 vec_restore.bootstraps <- function(x, to, ...) {
-  out <- NextMethod()
-  rset_maybe_reconstruct(out, to)
+  rset_reconstruct(x, to)
 }
 
 
@@ -122,8 +121,7 @@ vec_cast.data.frame.bootstraps <- function(x, to, ..., x_arg = "", to_arg = "") 
 
 #' @export
 vec_restore.vfold_cv <- function(x, to, ...) {
-  out <- NextMethod()
-  rset_maybe_reconstruct(out, to)
+  rset_reconstruct(x, to)
 }
 
 
@@ -175,8 +173,7 @@ vec_cast.data.frame.vfold_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
 
 #' @export
 vec_restore.group_vfold_cv <- function(x, to, ...) {
-  out <- NextMethod()
-  rset_maybe_reconstruct(out, to)
+  rset_reconstruct(x, to)
 }
 
 
@@ -228,8 +225,7 @@ vec_cast.data.frame.group_vfold_cv <- function(x, to, ..., x_arg = "", to_arg = 
 
 #' @export
 vec_restore.loo_cv <- function(x, to, ...) {
-  out <- NextMethod()
-  rset_maybe_reconstruct(out, to)
+  rset_reconstruct(x, to)
 }
 
 
@@ -281,8 +277,7 @@ vec_cast.data.frame.loo_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
 
 #' @export
 vec_restore.mc_cv <- function(x, to, ...) {
-  out <- NextMethod()
-  rset_maybe_reconstruct(out, to)
+  rset_reconstruct(x, to)
 }
 
 
@@ -334,15 +329,7 @@ vec_cast.data.frame.mc_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
 
 #' @export
 vec_restore.nested_cv <- function(x, to, ...) {
-  out <- NextMethod()
-
-  # If underlying rset subclass restore method already dropped the
-  # subclass, then we return immediately.
-  if (!inherits(out, "nested_cv")) {
-    return(out)
-  }
-
-  rset_maybe_reconstruct(out, to)
+  rset_reconstruct(x, to)
 }
 
 
@@ -394,8 +381,7 @@ vec_cast.data.frame.nested_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
 
 #' @export
 vec_restore.validation_split <- function(x, to, ...) {
-  out <- NextMethod()
-  rset_maybe_reconstruct(out, to)
+  rset_reconstruct(x, to)
 }
 
 
@@ -447,8 +433,7 @@ vec_cast.data.frame.validation_split <- function(x, to, ..., x_arg = "", to_arg 
 
 #' @export
 vec_restore.rolling_origin <- function(x, to, ...) {
-  out <- NextMethod()
-  rset_maybe_reconstruct(out, to)
+  rset_reconstruct(x, to)
 }
 
 
@@ -500,8 +485,7 @@ vec_cast.data.frame.rolling_origin <- function(x, to, ..., x_arg = "", to_arg = 
 
 #' @export
 vec_restore.apparent <- function(x, to, ...) {
-  out <- NextMethod()
-  rset_maybe_reconstruct(out, to)
+  rset_reconstruct(x, to)
 }
 
 

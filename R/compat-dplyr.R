@@ -127,5 +127,5 @@ NULL
 
 # Registered in `.onLoad()`
 dplyr_reconstruct_rset <- function(data, template) {
-  vec_restore(data, template)
+  rset_reconstruct(data, template)
 }
