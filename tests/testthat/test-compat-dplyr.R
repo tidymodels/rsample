@@ -23,7 +23,7 @@ test_that("dplyr_reconstruct() returns bare tibble if `x` loses rset structure",
   }
 })
 
-test_that("dplyr_reconstruct() retains extra attributes of `to` no matter what", {
+test_that("dplyr_reconstruct() retains extra attributes of `to` when not falling back", {
   for (x in rset_subclasses) {
     to <- x
     attr(to, "foo") <- "bar"
@@ -31,7 +31,7 @@ test_that("dplyr_reconstruct() retains extra attributes of `to` no matter what",
     x_tbl <- x[1]
 
     expect_identical(attr(dplyr_reconstruct(x, to), "foo"), "bar")
-    expect_identical(attr(dplyr_reconstruct(x_tbl, to), "foo"), "bar")
+    expect_identical(attr(dplyr_reconstruct(x_tbl, to), "foo"), NULL)
 
     expect_s3_class_rset(dplyr_reconstruct(x, to))
     expect_s3_class_bare_tibble(dplyr_reconstruct(x_tbl, to))

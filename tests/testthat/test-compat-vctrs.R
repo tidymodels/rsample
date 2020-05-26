@@ -18,7 +18,7 @@ test_that("vec_restore() returns bare tibble if `x` loses rset structure", {
   }
 })
 
-test_that("vec_restore() retains extra attributes of `to` no matter what", {
+test_that("vec_restore() retains extra attributes of `to` when not falling back", {
   for (x in rset_subclasses) {
     to <- x
     attr(to, "foo") <- "bar"
@@ -26,7 +26,7 @@ test_that("vec_restore() retains extra attributes of `to` no matter what", {
     x_tbl <- x[1]
 
     expect_identical(attr(vec_restore(x, to), "foo"), "bar")
-    expect_identical(attr(vec_restore(x_tbl, to), "foo"), "bar")
+    expect_identical(attr(vec_restore(x_tbl, to), "foo"), NULL)
 
     expect_s3_class_rset(vec_restore(x, to))
     expect_s3_class_bare_tibble(vec_restore(x_tbl, to))
@@ -42,15 +42,15 @@ test_that("vec_ptype2() is working", {
     df <- data.frame(x = 1)
 
     # rset-rset
-    expect_identical(vec_ptype2(x, x), vec_ptype2(rset_strip(x), rset_strip(x)))
+    expect_identical(vec_ptype2(x, x), vec_ptype2(tib_upcast(x), tib_upcast(x)))
 
     # rset-tbl_df
-    expect_identical(vec_ptype2(x, tbl), vec_ptype2(rset_strip(x), tbl))
-    expect_identical(vec_ptype2(tbl, x), vec_ptype2(tbl, rset_strip(x)))
+    expect_identical(vec_ptype2(x, tbl), vec_ptype2(tib_upcast(x), tbl))
+    expect_identical(vec_ptype2(tbl, x), vec_ptype2(tbl, tib_upcast(x)))
 
     # rset-df
-    expect_identical(vec_ptype2(x, df), vec_ptype2(rset_strip(x), df))
-    expect_identical(vec_ptype2(df, x), vec_ptype2(df, rset_strip(x)))
+    expect_identical(vec_ptype2(x, df), vec_ptype2(tib_upcast(x), df))
+    expect_identical(vec_ptype2(df, x), vec_ptype2(df, tib_upcast(x)))
   }
 })
 
@@ -59,7 +59,7 @@ test_that("vec_ptype2() is working", {
 
 test_that("vec_cast() is working", {
   for (x in rset_subclasses) {
-    tbl <- rset_strip(x)
+    tbl <- tib_upcast(x)
     df <- as.data.frame(tbl)
 
     # rset-rset
@@ -80,14 +80,14 @@ test_that("vec_cast() is working", {
 
 test_that("vec_ptype() returns a bare tibble", {
   for (x in rset_subclasses) {
-    expect_identical(vec_ptype(x), vec_ptype(rset_strip(x)))
+    expect_identical(vec_ptype(x), vec_ptype(tib_upcast(x)))
     expect_s3_class_bare_tibble(vec_ptype(x))
   }
 })
 
 test_that("vec_slice() generally returns a bare tibble", {
   for (x in rset_subclasses) {
-    expect_identical(vec_slice(x, 0), vec_slice(rset_strip(x), 0))
+    expect_identical(vec_slice(x, 0), vec_slice(tib_upcast(x), 0))
     expect_s3_class_bare_tibble(vec_slice(x, 0))
   }
 })
@@ -101,7 +101,7 @@ test_that("vec_slice() can return an rset if all rows are selected", {
 
 test_that("vec_c() returns a bare tibble", {
   for (x in rset_subclasses) {
-    tbl <- rset_strip(x)
+    tbl <- tib_upcast(x)
 
     expect_identical(vec_c(x), vec_c(tbl))
     expect_identical(vec_c(x, x), vec_c(tbl, tbl))
@@ -114,7 +114,7 @@ test_that("vec_c() returns a bare tibble", {
 
 test_that("vec_rbind() returns a bare tibble", {
   for (x in rset_subclasses) {
-    tbl <- rset_strip(x)
+    tbl <- tib_upcast(x)
 
     expect_identical(vec_rbind(x), vec_rbind(tbl))
     expect_identical(vec_rbind(x, x), vec_rbind(tbl, tbl))
@@ -127,7 +127,7 @@ test_that("vec_rbind() returns a bare tibble", {
 
 test_that("vec_cbind() returns a bare tibble", {
   for (x in rset_subclasses) {
-    tbl <- rset_strip(x)
+    tbl <- tib_upcast(x)
 
     expect_identical(vec_cbind(x), vec_cbind(tbl))
     expect_identical(vec_cbind(x, x), vec_cbind(tbl, tbl))

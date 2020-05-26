@@ -87,45 +87,6 @@ add_id <- function(split, id) {
 
 # ------------------------------------------------------------------------------
 
-rset_strip <- function(x) {
-  attribs <- attributes(x)
-
-  # Strip attributes specific to this rset subclass,
-  # but keep any user-defined attributes.
-  rset_attrib_names <- rset_attributes(x)
-  attribs[rset_attrib_names] <- NULL
-
-  # Let `new_tibble()` add the class
-  attribs["class"] <- NULL
-
-  # Don't try and add row names
-  attribs["row.names"] <- NULL
-
-  size <- df_size(x)
-
-  # Strip all attributes except names to construct
-  # a bare list to build the tibble back up from.
-  attributes(x) <- list(names = attribs[["names"]])
-
-  tibble::new_tibble(x, !!!attribs, nrow = size)
-}
-
-df_size <- function(x) {
-  if (!is.list(x)) {
-    rlang::abort("Cannot get the df size of a non-list.")
-  }
-
-  if (length(x) == 0L) {
-    return(0L)
-  }
-
-  col <- x[[1L]]
-
-  vec_size(col)
-}
-
-# ------------------------------------------------------------------------------
-
 # Two data frames are considered identical by `rset_reconstructable()` if the rset
 # sub-data-frames are identical. This means that if we select out the rset
 # specific columns, they should be exactly the same (modulo reordering).
@@ -241,20 +202,11 @@ rset_attributes <- function(x) {
 
 # ------------------------------------------------------------------------------
 
-# This is `dplyr_reconstruct.data.frame()`
-rset_reconstruct <- function(data, template) {
-  attrs <- attributes(template)
-  attrs$names <- names(data)
-  attrs$row.names <- .row_names_info(data, type = 0L)
-  attributes(data) <- attrs
-  data
-}
-
 rset_maybe_reconstruct <- function(data, template) {
   if (rset_reconstructable(data, template)) {
-    rset_reconstruct(data, template)
+    df_reconstruct(data, template)
   } else {
-    rset_strip(data)
+    tib_upcast(data)
   }
 }
 
