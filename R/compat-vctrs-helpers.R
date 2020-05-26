@@ -1,9 +1,9 @@
 
-rset_reconstruct <- function(data, template) {
-  if (rset_reconstructable(data, template)) {
-    df_reconstruct(data, template)
+rset_reconstruct <- function(x, to) {
+  if (rset_reconstructable(x, to)) {
+    df_reconstruct(x, to)
   } else {
-    tib_upcast(data)
+    tib_upcast(x)
   }
 }
 
@@ -13,31 +13,31 @@ rset_reconstruct <- function(data, template) {
 # sub-data-frames are identical. This means that if we select out the rset
 # specific columns, they should be exactly the same (modulo reordering).
 
-# It is expected that `y` is an rset object already, but `x` can be a
+# It is expected that `to` is an rset object already, but `x` can be a
 # bare data frame, or even a named list.
 
-rset_reconstructable <- function(x, y) {
+rset_reconstructable <- function(x, to) {
   x_names <- names(x)
-  y_names <- names(y)
+  to_names <- names(to)
 
   x_rset_indicator <- col_equals_splits(x_names) | col_starts_with_id(x_names)
-  y_rset_indicator <- col_equals_splits(y_names) | col_starts_with_id(y_names)
+  to_rset_indicator <- col_equals_splits(to_names) | col_starts_with_id(to_names)
 
   # Special casing of `nested_cv` to also look for `inner_resamples`
-  if (inherits(y, "nested_cv")) {
+  if (inherits(to, "nested_cv")) {
     x_rset_indicator <- x_rset_indicator | col_equals_inner_resamples(x_names)
-    y_rset_indicator <- y_rset_indicator | col_equals_inner_resamples(y_names)
+    to_rset_indicator <- to_rset_indicator | col_equals_inner_resamples(to_names)
   }
 
   x_rset_names <- x_names[x_rset_indicator]
-  y_rset_names <- y_names[y_rset_indicator]
+  to_rset_names <- to_names[to_rset_indicator]
 
   # Ignore ordering
   x_rset_names <- sort(x_rset_names)
-  y_rset_names <- sort(y_rset_names)
+  to_rset_names <- sort(to_rset_names)
 
   # Early return if names aren't identical
-  if (!identical(x_rset_names, y_rset_names)) {
+  if (!identical(x_rset_names, to_rset_names)) {
     return(FALSE)
   }
 
@@ -45,22 +45,22 @@ rset_reconstructable <- function(x, y) {
   # don't compare outer data frame attributes.
   # Only look at column names and actual column data.
   x <- new_data_frame(x)
-  y <- new_data_frame(y)
+  to <- new_data_frame(to)
 
   # Early return if number of rows doesn't match
-  if (!identical(vec_size(x), vec_size(y))) {
+  if (!identical(vec_size(x), vec_size(to))) {
     return(FALSE)
   }
 
   x_rset_cols <- x[x_rset_names]
-  y_rset_cols <- y[y_rset_names]
+  to_rset_cols <- to[to_rset_names]
 
   # Row order doesn't matter
   x_rset_cols <- vec_sort(x_rset_cols)
-  y_rset_cols <- vec_sort(y_rset_cols)
+  to_rset_cols <- vec_sort(to_rset_cols)
 
   # Check identical structures
-  identical(x_rset_cols, y_rset_cols)
+  identical(x_rset_cols, to_rset_cols)
 }
 
 # ------------------------------------------------------------------------------
