@@ -1,5 +1,5 @@
 
-rset_maybe_reconstruct <- function(data, template) {
+rset_reconstruct <- function(data, template) {
   if (rset_reconstructable(data, template)) {
     df_reconstruct(data, template)
   } else {

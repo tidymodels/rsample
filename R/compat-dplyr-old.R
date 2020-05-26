@@ -21,35 +21,35 @@ dplyr_pre_1.0.0 <- function() {
 # Registered in `.onLoad()`
 mutate_rset <- function(.data, ...) {
   out <- NextMethod()
-  rset_maybe_reconstruct(out, .data)
+  rset_reconstruct(out, .data)
 }
 
 # Registered in `.onLoad()`
 arrange_rset <- function(.data, ...) {
   out <- NextMethod()
-  rset_maybe_reconstruct(out, .data)
+  rset_reconstruct(out, .data)
 }
 
 # Registered in `.onLoad()`
 filter_rset <- function(.data, ...) {
   out <- NextMethod()
-  rset_maybe_reconstruct(out, .data)
+  rset_reconstruct(out, .data)
 }
 
 # Registered in `.onLoad()`
 rename_rset <- function(.data, ...) {
   out <- NextMethod()
-  rset_maybe_reconstruct(out, .data)
+  rset_reconstruct(out, .data)
 }
 
 # Registered in `.onLoad()`
 select_rset <- function(.data, ...) {
   out <- NextMethod()
-  rset_maybe_reconstruct(out, .data)
+  rset_reconstruct(out, .data)
 }
 
 # Registered in `.onLoad()`
 slice_rset <- function(.data, ...) {
   out <- NextMethod()
-  rset_maybe_reconstruct(out, .data)
+  rset_reconstruct(out, .data)
 }

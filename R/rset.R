@@ -74,7 +74,7 @@ add_id <- function(split, id) {
 #' @export
 `[.rset` <- function(x, i, j, drop = FALSE, ...) {
   out <- NextMethod()
-  rset_maybe_reconstruct(out, x)
+  rset_reconstruct(out, x)
 }
 
 # ------------------------------------------------------------------------------
@@ -82,5 +82,5 @@ add_id <- function(split, id) {
 #' @export
 `names<-.rset` <- function(x, value) {
   out <- NextMethod()
-  rset_maybe_reconstruct(out, x)
+  rset_reconstruct(out, x)
 }
