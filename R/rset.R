@@ -126,14 +126,14 @@ df_size <- function(x) {
 
 # ------------------------------------------------------------------------------
 
-# Two data frames are considered identical by `rset_identical()` if the rset
+# Two data frames are considered identical by `rset_reconstructable()` if the rset
 # sub-data-frames are identical. This means that if we select out the rset
 # specific columns, they should be exactly the same (modulo reordering).
 
 # It is expected that `y` is an rset object already, but `x` can be a
 # bare data frame, or even a named list.
 
-rset_identical <- function(x, y) {
+rset_reconstructable <- function(x, y) {
   x_names <- names(x)
   y_names <- names(y)
 
@@ -251,7 +251,7 @@ rset_reconstruct <- function(data, template) {
 }
 
 rset_maybe_reconstruct <- function(data, template) {
-  if (rset_identical(data, template)) {
+  if (rset_reconstructable(data, template)) {
     rset_reconstruct(data, template)
   } else {
     rset_strip(data)
