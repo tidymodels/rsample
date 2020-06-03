@@ -71,7 +71,6 @@ labels.rsplit <- function(object, ...) {
 #' @param x An `rset` object
 #' @param ... Not currently used.
 #' @return A character vector.
-#' @exportMethod pretty.vfold_cv
 #' @export pretty.vfold_cv
 #' @export
 #' @method pretty vfold_cv
@@ -86,7 +85,6 @@ pretty.vfold_cv <- function(x, ...) {
   res
 }
 
-#' @exportMethod pretty.loo_cv
 #' @export pretty.loo_cv
 #' @export
 #' @method pretty loo_cv
@@ -94,7 +92,6 @@ pretty.vfold_cv <- function(x, ...) {
 pretty.loo_cv <- function(x, ...)
   "Leave-one-out cross-validation"
 
-#' @exportMethod pretty.apparent
 #' @export pretty.apparent
 #' @export
 #' @method pretty apparent
@@ -102,7 +99,6 @@ pretty.loo_cv <- function(x, ...)
 pretty.apparent <- function(x, ...)
   "Apparent sampling"
 
-#' @exportMethod pretty.rolling_origin
 #' @export pretty.rolling_origin
 #' @export
 #' @method pretty rolling_origin
@@ -110,7 +106,6 @@ pretty.apparent <- function(x, ...)
 pretty.rolling_origin <- function(x, ...)
   "Rolling origin forecast resampling"
 
-#' @exportMethod pretty.mc_cv
 #' @export pretty.mc_cv
 #' @export
 #' @method pretty mc_cv
@@ -131,7 +126,6 @@ pretty.mc_cv <- function(x, ...) {
   res
 }
 
-#' @exportMethod pretty.validation_split
 #' @export pretty.validation_split
 #' @export
 #' @method pretty validation_split
@@ -150,7 +144,6 @@ pretty.validation_split <- function(x, ...) {
   res
 }
 
-#' @exportMethod pretty.nested_cv
 #' @export pretty.nested_cv
 #' @export
 #' @method pretty nested_cv
@@ -176,8 +169,6 @@ pretty.nested_cv <- function(x, ...) {
   res
 }
 
-
-#' @exportMethod pretty.bootstraps
 #' @export pretty.bootstraps
 #' @export
 #' @method pretty bootstraps
@@ -193,7 +184,6 @@ pretty.bootstraps <- function(x, ...) {
 }
 
 
-#' @exportMethod pretty.group_vfold_cv
 #' @export pretty.group_vfold_cv
 #' @export
 #' @method pretty group_vfold_cv
