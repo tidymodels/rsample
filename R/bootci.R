@@ -404,7 +404,7 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
 #'  function should take an `rsplit` as the first argument and the `...` are
 #'  required.
 #' @param ... Arguments to pass to `.fn`.
-#' @references \url{https://tidymodels.github.io/rsample/articles/Applications/Intervals.html}
+#' @references \url{https://rsample.tidymodels.org/articles/Applications/Intervals.html}
 #' @export
 int_bca <- function(.data, statistics, alpha = 0.05, .fn, ...) {
 

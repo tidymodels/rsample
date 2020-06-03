@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# rsample <a href='https://tidymodels.github.io/rsample/'><img src='man/figures/logo.png' align="right" height="139" /></a>
+# rsample <a href='https://rsample.tidymodels.org/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 [![R build status](https://github.com/tidymodels/rsample/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/rsample/actions)
@@ -95,5 +95,5 @@ We encourage typo corrections, bug reports, bug fixes, and feature requests. Fee
 
 ## Code of Conduct
 
-Please note that the rsample project is released with a [Contributor Code of Conduct](https://tidymodels.github.io/rsample/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that the rsample project is released with a [Contributor Code of Conduct](https://rsample.tidymodels.org/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
 

@@ -10,7 +10,7 @@ articles:
   Time_Series: Applications/Time_Series.html
   Basics: Basics.html
   Working_with_rsets: Working_with_rsets.html
-last_built: 2020-05-11T17:26Z
+last_built: 2020-06-03T00:12Z
 urls:
   reference: https://rsample.tidymodels.org/reference
   article: https://rsample.tidymodels.org/articles

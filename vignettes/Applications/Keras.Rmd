@@ -46,7 +46,7 @@ ames_train <-
          Latitude   = scale(Latitude, center = TRUE))
 ```
 
-The resample the model, simple 10-fold cross-validation is done such that the splits use the outcome as a stratification variable. On average, there should be `r floor(nrow(ames_train)*.1)` properties in the assessment set and this should be enough to obtain good estimates of the model RMSE. 
+To resample the model, simple 10-fold cross-validation is done such that the splits use the outcome as a stratification variable. On average, there should be `r floor(nrow(ames_train)*.1)` properties in the assessment set and this should be enough to obtain good estimates of the model RMSE. 
 
 ```{r splits}
 set.seed(2453)
