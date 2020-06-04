@@ -1,10 +1,8 @@
 on:
   push:
-    branches:
-      - master
   pull_request:
-    branches:
-      - master
+    types: [opened, synchronize, reopened]
+
 
 name: R-CMD-check
 
@@ -18,9 +16,9 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'devel', dev_dplyr: false}
-          - {os: macOS-latest,   r: '4.0',   dev_dplyr: false}
-          - {os: macOS-latest,   r: '4.0',   dev_dplyr: true}
+          - {os: macOS-latest,   r: 'devel',  old_dplyr: false}
+          - {os: macOS-latest,   r: '4.0',  old_dplyr: false}
+          - {os: macOS-latest,   r: '4.0',  old_dplyr: true}
           - {os: windows-latest, r: '4.0'}
           - {os: ubuntu-16.04,   r: '4.0', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
           - {os: ubuntu-16.04,   r: '3.6', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
@@ -71,10 +69,10 @@ jobs:
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
-      - name: Install dev dependencies
-        if: runner.os == 'macOS' && matrix.config.dev_dplyr
+      - name: Install old dplyr
+        if: runner.os == 'macOS' && matrix.config.old_dplyr
         run: |
-          remotes::install_github("tidyverse/dplyr")
+          remotes::install_version("dplyr", "0.8.5")
         shell: Rscript {0}
 
       - name: Session info

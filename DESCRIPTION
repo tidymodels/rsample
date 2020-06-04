@@ -1,6 +1,6 @@
 Package: rsample
 Title: General Resampling Infrastructure
-Version: 0.0.6.9000
+Version: 0.0.7.9000
 Authors@R: c(
     person(given = "Max",    family = "Kuhn",    email = "max@rstudio.com",      role = c("aut", "cre")),
     person(given = "Fanny",  family = "Chow",    email = "fannybchow@gmail.com", role = c("aut")),
@@ -31,7 +31,8 @@ Suggests:
     recipes (>= 0.1.4),
     broom,
     xml2,
-    covr
+    covr,
+    modeldata
 URL: https://rsample.tidymodels.org, https://github.com/tidymodels/rsample
 BugReports: https://github.com/tidymodels/rsample/issues
 License: GPL-2

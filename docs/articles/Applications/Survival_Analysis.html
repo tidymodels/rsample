@@ -12,11 +12,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../../tidyverse.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../../bootstrap-toc.css">
+<script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
 <script src="../../pkgdown.js"></script><link href="../../tidyverse-2.css" rel="stylesheet">
+<!--optional theme--><link href="../../tidymodels.css" rel="stylesheet">
 <meta property="og:title" content="Survival Analysis Example">
 <meta property="og:description" content="rsample">
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png">
@@ -24,7 +26,13 @@
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115082821-1');
+</script>
 </head>
 <body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
@@ -40,9 +48,9 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../../index.html">rsample</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
         </div>
       </div>
     </div>
@@ -103,7 +111,7 @@
 
       
 
-      </header><script src="Survival_Analysis_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
+      </header><script src="Survival_Analysis_files/header-attrs-2.2/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Survival Analysis Example</h1>
@@ -209,12 +217,12 @@
 <p>It looks as though the model missing <code>ph.ecog</code> has larger concordance values than the other models. As one might expect, the full model and the model absent <code>sex</code> are very similar; the difference in these models should only be the scale parameters estimates.</p>
 <p>To more formally test this, the <code>tidyposterior</code> package is used to create a Bayesian model for the concordance statistics.</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyposterior</span>)
-<span class="no">concord_est</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidyposterior/man/perf_mod.html">perf_mod</a></span>(<span class="no">concord_est</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">6507</span>, <span class="kw">iter</span> <span class="kw">=</span> <span class="fl">5000</span>)</pre></body></html></div>
+<span class="no">concord_est</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tidyposterior.tidymodels.org/reference/perf_mod.html">perf_mod</a></span>(<span class="no">concord_est</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">6507</span>, <span class="kw">iter</span> <span class="kw">=</span> <span class="fl">5000</span>)</pre></body></html></div>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000106 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.06 seconds.
+## Chain 1: Gradient evaluation took 0.000125 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.25 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -231,15 +239,15 @@
 ## Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 5.32653 seconds (Warm-up)
-## Chain 1:                1.87197 seconds (Sampling)
-## Chain 1:                7.1985 seconds (Total)
+## Chain 1:  Elapsed Time: 5.25932 seconds (Warm-up)
+## Chain 1:                1.90229 seconds (Sampling)
+## Chain 1:                7.16162 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 3.2e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.32 seconds.
+## Chain 2: Gradient evaluation took 4.1e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.41 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -256,15 +264,15 @@
 ## Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 5.65508 seconds (Warm-up)
-## Chain 2:                1.39739 seconds (Sampling)
-## Chain 2:                7.05247 seconds (Total)
+## Chain 2:  Elapsed Time: 5.74887 seconds (Warm-up)
+## Chain 2:                1.40222 seconds (Sampling)
+## Chain 2:                7.15108 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 3.6e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.
+## Chain 3: Gradient evaluation took 3.4e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.34 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -281,15 +289,15 @@
 ## Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 5.43388 seconds (Warm-up)
-## Chain 3:                1.22294 seconds (Sampling)
-## Chain 3:                6.65682 seconds (Total)
+## Chain 3:  Elapsed Time: 5.48606 seconds (Warm-up)
+## Chain 3:                1.21586 seconds (Sampling)
+## Chain 3:                6.70192 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 3.8e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.38 seconds.
+## Chain 4: Gradient evaluation took 3.4e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.34 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -306,9 +314,9 @@
 ## Chain 4: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 6.01812 seconds (Warm-up)
-## Chain 4:                1.13999 seconds (Sampling)
-## Chain 4:                7.15811 seconds (Total)
+## Chain 4:  Elapsed Time: 5.91993 seconds (Warm-up)
+## Chain 4:                1.12366 seconds (Sampling)
+## Chain 4:                7.04359 seconds (Total)
 ## Chain 4:</code></pre>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">concord_est</span>$<span class="no">stan</span></pre></body></html></div>
 <pre><code>## stan_glmer
@@ -338,20 +346,26 @@
 <p>To summarize the posteriors for each model:</p>
 <div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(<span class="no">concord_est</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>()</pre></body></html></div>
+<pre><code>## Warning: `ggplot.posterior()` is deprecated as of tidyposterior 0.1.0.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
 <p><img src="Survival_Analysis_files/figure-html/post-1.png" width="768"></p>
 <p>While this seems clear-cut, let’s assume that a difference in the concordance statistic of 0.1 is a real effect. To compute the posteriors for the difference in models, the full model will be contrasted with the others:</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">comparisons</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidyposterior/man/contrast_models.html">contrast_models</a></span>(
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">comparisons</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tidyposterior.tidymodels.org/reference/contrast_models.html">contrast_models</a></span>(
   <span class="no">concord_est</span>,
   <span class="kw">list_1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"full"</span>, <span class="fl">3</span>),
   <span class="kw">list_2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"ph.ecog"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span>),
   <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">4654</span>
   )</pre></body></html></div>
 <p>The posterior distributions show that, statistically, <code>ph.ecog</code> has real importance ot the model. However, since these distributions are mostly with +/- 0.05, they are unlikely to be real differences.</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">comparisons</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">0.05</span>) +
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">comparisons</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">0.05</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>()</pre></body></html></div>
+<pre><code>## Warning: `ggplot.posterior_diff()` is deprecated as of tidyposterior 0.1.0.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
 <p><img src="Survival_Analysis_files/figure-html/diff-post-1.png" width="768"></p>
 <p>The ROPE statistics quantify the practical effects:</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">comparisons</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">0.05</span>) <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">comparisons</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">0.05</span>) <span class="kw">%&gt;%</span>
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">contrast</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"pract"</span>))</pre></body></html></div>
 <pre><code>## # A tibble: 3 x 4
 ##   contrast        pract_neg pract_equiv pract_pos
@@ -370,7 +384,7 @@
 
 
       <footer><div class="tidyverse">
-  <p><code>rsample</code> is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
+  <p>rsample is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
 </div>
 
 <div class="author">

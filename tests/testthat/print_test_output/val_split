@@ -1,0 +1,5 @@
+> set.seed(233)
+> print(validation_split(mtcars)$splits[[1]])
+<Training/Validation/Total>
+<24/8/32>
+

@@ -1,6 +1,14 @@
 # rsample (development version)
 
+# rsample 0.0.7
+
 * Lower threshold for pooling strata to 10% (from 15%) (#149).
+
+* The `print()` methods for `rsplit` and `val_split` objects were adjusted to show `"<Analysis/Assess/Total>"` and `<Training/Validation/Total>`, respectively. 
+
+* The `drinks`, `attrition`, and `two_class_dat` data sets were removed. They are in the `modeldata` package. 
+
+* Compatability with `dplyr` 1.0.0.
 
 # `rsample` 0.0.6
 

@@ -5,7 +5,7 @@ library(tibble)
 library(dplyr)
 library(broom)
 
-data("attrition")
+data("attrition", package = "modeldata")
 
 context("Bootstrap intervals")
 

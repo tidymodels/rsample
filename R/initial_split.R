@@ -24,6 +24,7 @@
 #' train_data <- training(car_split)
 #' test_data <- testing(car_split)
 #'
+#' data(drinks, package = "modeldata")
 #' drinks_split <- initial_time_split(drinks)
 #' train_data <- training(drinks_split)
 #' test_data <- testing(drinks_split)

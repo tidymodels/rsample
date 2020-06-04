@@ -32,7 +32,7 @@ print.rsplit <- function(x, ...) {
   else
     paste(length(x$out_id))
 
-  cat("<Training/Testing/Total>\n")
+  cat("<Analysis/Assess/Total>\n")
   cat("<",
       length(x$in_id), "/",
       out_char, "/",
