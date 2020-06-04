@@ -98,7 +98,7 @@ training and testing are used to extract the resulting data." />
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -237,6 +237,7 @@ original data set. (Strata below 10% of the total are pooled together.)</p>
 <span class='no'>train_data</span> <span class='kw'>&lt;-</span> <span class='fu'>training</span>(<span class='no'>car_split</span>)
 <span class='no'>test_data</span> <span class='kw'>&lt;-</span> <span class='fu'>testing</span>(<span class='no'>car_split</span>)
 
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>drinks</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"modeldata"</span>)
 <span class='no'>drinks_split</span> <span class='kw'>&lt;-</span> <span class='fu'>initial_time_split</span>(<span class='no'>drinks</span>)
 <span class='no'>train_data</span> <span class='kw'>&lt;-</span> <span class='fu'>training</span>(<span class='no'>drinks_split</span>)
 <span class='no'>test_data</span> <span class='kw'>&lt;-</span> <span class='fu'>testing</span>(<span class='no'>drinks_split</span>)
