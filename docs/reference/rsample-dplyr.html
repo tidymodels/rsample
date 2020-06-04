@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert Resampling Objects to Other Formats — rsample2caret • rsample</title>
+<title>Compatibility with dplyr — rsample-dplyr • rsample</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,9 +49,12 @@
 
 
 
-<meta property="og:title" content="Convert Resampling Objects to Other Formats — rsample2caret" />
-<meta property="og:description" content="These functions can convert resampling objects between
-rsample and caret." />
+<meta property="og:title" content="Compatibility with dplyr — rsample-dplyr" />
+<meta property="og:description" content="rsample should be fully compatible with dplyr 1.0.0.
+With older versions of dplyr, there is partial support for the following
+verbs: mutate(), arrange(), filter(), rename(), select(), and
+slice(). We strongly recommend updating to dplyr 1.0.0 if possible to
+get more complete integration with dplyr." />
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -160,48 +163,126 @@ rsample and caret." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert Resampling Objects to Other Formats</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rsample/blob/master/R/caret.R'><code>R/caret.R</code></a></small>
-    <div class="hidden name"><code>rsample2caret.Rd</code></div>
+    <h1>Compatibility with dplyr</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rsample/blob/master/R/compat-dplyr.R'><code>R/compat-dplyr.R</code></a></small>
+    <div class="hidden name"><code>rsample-dplyr.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>These functions can convert resampling objects between
-<span class="pkg">rsample</span> and <span class="pkg">caret</span>.</p>
+    <p>rsample should be fully compatible with dplyr 1.0.0.</p>
+<p>With older versions of dplyr, there is partial support for the following
+verbs: <code>mutate()</code>, <code>arrange()</code>, <code><a href='https://rdrr.io/r/stats/filter.html'>filter()</a></code>, <code>rename()</code>, <code>select()</code>, and
+<code>slice()</code>. We strongly recommend updating to dplyr 1.0.0 if possible to
+get more complete integration with dplyr.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rsample2caret</span>(<span class='no'>object</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"analysis"</span>, <span class='st'>"assessment"</span>))
 
-<span class='fu'>caret2rsample</span>(<span class='no'>ctrl</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>object</th>
-      <td><p>An <code>rset</code> object. Currently,
-<code>nested_cv</code> is not supported.</p></td>
-    </tr>
-    <tr>
-      <th>data</th>
-      <td><p>The data that was originally used to produce the
-<code>ctrl</code> object.</p></td>
-    </tr>
-    <tr>
-      <th>ctrl</th>
-      <td><p>An object produced by <code>trainControl</code> that has
-had the <code>index</code> and <code>indexOut</code> elements populated by
-integers. One method of getting this is to extract the
-<code>control</code> objects from an object produced by <code>train</code>.</p></td>
-    </tr>
-    </table>
+    <h2 class="hasAnchor" id="version-specific-behavior"><a class="anchor" href="#version-specific-behavior"></a>Version Specific Behavior</h2>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    
 
-    <p><code>rsample2caret</code> returns a list that mimics the
-<code>index</code> and <code>indexOut</code> elements of a
-<code>trainControl</code> object. <code>caret2rsample</code> returns an
-<code>rset</code> object of the appropriate class.</p>
+
+<p>rsample performs somewhat differently depending on whether you have
+dplyr &gt;= 1.0.0 (new) or dplyr &lt; 1.0.0 (old). Additionally, version
+0.0.7 of rsample (new) introduced some changes to how rsample objects
+work with dplyr, even on old dplyr. Most of these changes influence the
+return value of a dplyr verb and determine whether it will be a tibble
+or an rsample rset subclass.</p>
+<p>The table below attempts to capture most of these changes. These examples
+are not exhaustive and may not capture some edge-cases.</p><h3>Joins</h3>
+
+
+<p>The following affect all of the dplyr joins, such as <code>left_join()</code>,
+<code>right_join()</code>, <code>full_join()</code>, and <code>inner_join()</code>.</p>
+<p>Joins that alter the rows of the original rset object:</p><table class='table'>
+<tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
+<tr><td><code>join(rset, tbl)</code></td><td>error</td><td>error</td><td>tibble</td></tr>
+</table>
+
+
+
+<p>The idea here is that, if there are less rows in the result, the result should
+not be an rset object. For example, you can't have a 10-fold CV object
+without 10 rows.</p>
+<p>Joins that keep the rows of the original rset object:</p><table class='table'>
+<tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
+<tr><td><code>join(rset, tbl)</code></td><td>error</td><td>error</td><td>rset</td></tr>
+</table>
+
+
+
+<p>As with the logic above, if the original rset object (defined by the split
+column and the id column(s)) is left intact, the results should be an rset.</p>
+
+<h3>Row Subsetting</h3>
+
+
+<p>As mentioned above, this should result in a tibble if any rows are removed
+or added. Simply reordering rows still results in a valid rset with new
+rsample.</p>
+<p>Cases where rows are removed or added:</p><table class='table'>
+<tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
+<tr><td><code>rset[ind,]</code></td><td>tibble</td><td>tibble</td><td>tibble</td></tr>
+<tr><td><code>slice(rset)</code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
+<tr><td><code><a href='https://rdrr.io/r/stats/filter.html'>filter(rset)</a></code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
+</table>
+
+
+
+<p>Cases where all rows are kept, but are possibly reordered:</p><table class='table'>
+<tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
+<tr><td><code>rset[ind,]</code></td><td>tibble</td><td>rset</td><td>rset</td></tr>
+<tr><td><code>slice(rset)</code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+<tr><td><code><a href='https://rdrr.io/r/stats/filter.html'>filter(rset)</a></code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+<tr><td><code>arrange(rset)</code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+</table>
+
+
+
+
+<h3>Column Subsetting</h3>
+
+
+<p>When the <code>splits</code> column or any <code>id</code> columns are dropped or renamed,
+the result should no longer be considered a valid rset.</p>
+<p>Cases when the required columns are removed or renamed:</p><table class='table'>
+<tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
+<tr><td><code>rset[,ind]</code></td><td>tibble</td><td>tibble</td><td>tibble</td></tr>
+<tr><td><code>select(rset)</code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
+<tr><td><code>rename(rset)</code></td><td>tibble</td><td>tibble</td><td>tibble</td></tr>
+</table>
+
+
+
+<p>Cases when no required columns are affected:</p><table class='table'>
+<tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
+<tr><td><code>rset[,ind]</code></td><td>tibble</td><td>rset</td><td>rset</td></tr>
+<tr><td><code>select(rset)</code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+<tr><td><code>rename(rset)</code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+</table>
+
+
+
+
+<h3>Other Column Operations</h3>
+
+
+<p>Cases when the required columns are altered:</p><table class='table'>
+<tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
+<tr><td><code>mutate(rset)</code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
+</table>
+
+
+
+<p>Cases when no required columns are affected:</p><table class='table'>
+<tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
+<tr><td><code>mutate(rset)</code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+</table>
+
+
+
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
