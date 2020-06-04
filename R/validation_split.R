@@ -64,7 +64,7 @@ print.validation_split <- function(x, ...) {
 
 
 #' @export
-print.rsplit <- function(x, ...) {
+print.val_split<- function(x, ...) {
 
   if (all(is.na(x$out_id))) {
     out_char <- paste(length(complement(x)))

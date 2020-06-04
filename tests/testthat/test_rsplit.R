@@ -42,6 +42,18 @@ test_that('as.data.frame', {
 })
 
 
+test_that('print methods', {
+  verify_output(test_path("print_test_output", "rsplit"), {
+    set.seed(233)
+    print(vfold_cv(mtcars)$splits[[1]])
+  })
+  verify_output(test_path("print_test_output", "val_split"), {
+    set.seed(233)
+    print(validation_split(mtcars)$splits[[1]])
+  })
+})
+
+
 
 
 

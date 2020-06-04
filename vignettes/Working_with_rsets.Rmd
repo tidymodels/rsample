@@ -24,7 +24,7 @@ theme_set(theme_bw())
 
 `rsample` can be used to create objects containing resamples of the original data. This page contains examples of how those objects can be used for data analysis. 
 
-For illustration, the `attrition` data is used. From the help file:
+For illustration, the `attrition` data are used. From the help file:
 
 > These data are from the IBM Watson Analytics Lab. The website describes the data with "Uncover the factors that lead to employee attrition and explore important questions such as ‘show me a breakdown of distance from home by job role and attrition’ or 'compare average monthly income by education and attrition'. This is a fictional data set created by IBM data scientists." There are 1470 rows.
 
@@ -32,7 +32,7 @@ The data can be accessed using
 
 ```{r attrition, message=FALSE}
 library(rsample)
-data("attrition")
+data("attrition", package = "modeldata")
 names(attrition)
 table(attrition$Attrition)
 ```

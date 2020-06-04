@@ -43,7 +43,7 @@
 #' # is not useful. This example slides over 5 years at a time.
 #' library(dplyr)
 #' library(tidyr)
-#' data(drinks)
+#' data(drinks, package = "modeldata")
 #'
 #' drinks_annual <- drinks %>%
 #'   mutate(year = as.POSIXlt(date)$year + 1900) %>%
