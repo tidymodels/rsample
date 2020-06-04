@@ -1,3 +1,5 @@
+# rsample (development version)
+
 # rsample 0.0.7
 
 * Lower threshold for pooling strata to 10% (from 15%) (#149).
