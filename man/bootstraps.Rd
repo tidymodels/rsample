@@ -55,29 +55,29 @@ bootstraps(mtcars, times = 2)
 bootstraps(mtcars, times = 2, apparent = TRUE)
 
 library(purrr)
-iris2 <- iris[1:130, ]
+data(wa_churn, package = "modeldata")
 
 set.seed(13)
-resample1 <- bootstraps(iris2, times = 3)
+resample1 <- bootstraps(wa_churn, times = 3)
 map_dbl(resample1$splits,
         function(x) {
-          dat <- as.data.frame(x)$Species
-          mean(dat == "virginica")
+          dat <- as.data.frame(x)$churn
+          mean(dat == "Yes")
         })
 
 set.seed(13)
-resample2 <- bootstraps(iris2, strata = "Species", times = 3)
+resample2 <- bootstraps(wa_churn, strata = "churn", times = 3)
 map_dbl(resample2$splits,
         function(x) {
-          dat <- as.data.frame(x)$Species
-          mean(dat == "virginica")
+          dat <- as.data.frame(x)$churn
+          mean(dat == "Yes")
         })
 
 set.seed(13)
-resample3 <- bootstraps(iris2, strata = "Sepal.Length", breaks = 6, times = 3)
+resample3 <- bootstraps(wa_churn, strata = "tenure", breaks = 6, times = 3)
 map_dbl(resample3$splits,
         function(x) {
-          dat <- as.data.frame(x)$Species
-          mean(dat == "virginica")
+          dat <- as.data.frame(x)$churn
+          mean(dat == "Yes")
         })
 }

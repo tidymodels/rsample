@@ -38,5 +38,5 @@ data points in the analysis data is equivalent to the proportions in the
 original data set. (Strata below 10\% of the total are pooled together.)
 }
 \examples{
-validation_split(iris, prop = .9)
+validation_split(mtcars, prop = .9)
 }
