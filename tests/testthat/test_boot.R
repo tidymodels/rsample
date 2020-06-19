@@ -38,17 +38,16 @@ test_that('apparent', {
 
 
 test_that('strata', {
-  iris2 <- iris[1:130, ]
   set.seed(11)
-  rs4 <- bootstraps(iris2,  strata = "Species")
+  rs4 <- bootstraps(warpbreaks,  strata = "tension")
   sizes4 <- dim_rset(rs4)
 
-  expect_true(all(sizes4$analysis == nrow(iris2)))
+  expect_true(all(sizes4$analysis == nrow(warpbreaks)))
 
   rate <- map_dbl(rs4$splits,
                   function(x) {
-                    dat <- as.data.frame(x)$Species
-                    mean(dat == "virginica")
+                    dat <- as.data.frame(x)$tension
+                    mean(dat == "M")
                   })
   expect_true(length(unique(rate)) == 1)
 
@@ -58,32 +57,32 @@ test_that('strata', {
                           })
   expect_true(all(good_holdout))
 
-  rs5 <- bootstraps(iris2, apparent = TRUE, strata = "Species")
+  rs5 <- bootstraps(warpbreaks, apparent = TRUE, strata = "tension")
   sizes5 <- dim_rset(rs5)
 
-  expect_true(all(sizes5$analysis == nrow(iris2)))
-  expect_true(all(sizes5$assessment[nrow(sizes5)] == nrow(iris2)))
-  expect_equal(sizes5$assessment[sizes5$id == "Apparent"], nrow(iris2))
+  expect_true(all(sizes5$analysis == nrow(warpbreaks)))
+  expect_true(all(sizes5$assessment[nrow(sizes5)] == nrow(warpbreaks)))
+  expect_equal(sizes5$assessment[sizes5$id == "Apparent"], nrow(warpbreaks))
   res5 <-
     as.data.frame(rs5$splits[[nrow(sizes5)]], data = "assessment")
-  expect_equal(res5, iris2)
+  expect_equal(res5, warpbreaks)
 
 })
 
 
 test_that('bad args', {
-  expect_error(bootstraps(iris, strata = iris$Species))
-  expect_error(bootstraps(iris, strata = c("Species", "Sepal.Length")))
+  expect_error(bootstraps(warpbreaks, strata = warpbreaks$tension))
+  expect_error(bootstraps(warpbreaks, strata = c("tension", "wool")))
 })
 
 
 test_that('printing', {
-  expect_output(print(bootstraps(iris)))
+  expect_output(print(bootstraps(warpbreaks)))
 })
 
 
 test_that('rsplit labels', {
-  rs <- bootstraps(iris)
+  rs <- bootstraps(warpbreaks)
   all_labs <- map_df(rs$splits, labels)
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
