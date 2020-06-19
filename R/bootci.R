@@ -224,14 +224,15 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'   dat <- analysis(split)
 #'   tibble(
 #'     term = "corr",
-#'     estimate = cor(dat$Sepal.Length, dat$Sepal.Width, method = "spearman"),
+#'     estimate = cor(dat$sqft, dat$price, method = "spearman"),
 #'     # don't know the analytical std.err so no t-intervals
 #'     std.err = NA_real_
 #'   )
 #' }
 #'
 #' set.seed(69325)
-#' bootstraps(iris, 500, apparent = TRUE) %>%
+#' data(Sacramento, package = "modeldata")
+#' bootstraps(Sacramento, 1000, apparent = TRUE) %>%
 #'   mutate(correlations = map(splits, rank_corr)) %>%
 #'   int_pctl(correlations)
 #' @export
