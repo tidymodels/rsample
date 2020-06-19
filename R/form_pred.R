@@ -22,8 +22,8 @@
 #' # will fail:
 #' # form_pred(y ~ .)
 #'
-#' form_pred(terms(Species ~ (.)^2, data = iris))
-#' form_pred(terms( ~ (.)^2, data = iris))
+#' form_pred(terms(mpg ~ (.)^2, data = mtcars))
+#' form_pred(terms( ~ (.)^2, data = mtcars))
 #' @importFrom stats terms
 
 form_pred <- function(object, ...) {
