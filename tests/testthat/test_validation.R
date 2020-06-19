@@ -45,18 +45,17 @@ test_that('different percent', {
 })
 
 test_that('strata', {
-  iris2 <- iris[1:130, ]
   set.seed(11)
-  rs3 <- validation_split(iris2, strata = "Species")
+  rs3 <- validation_split(warpbreaks, strata = "tension")
   sizes3 <- dim_rset(rs3)
 
-  expect_true(all(sizes3$analysis == 99))
-  expect_true(all(sizes3$assessment == 31))
+  expect_true(all(sizes3$analysis == 42))
+  expect_true(all(sizes3$assessment == 12))
 
   rate <- map_dbl(rs3$splits,
                   function(x) {
-                    dat <- as.data.frame(x)$Species
-                    mean(dat == "virginica")
+                    dat <- as.data.frame(x)$tension
+                    mean(dat == "M")
                   })
   expect_true(length(unique(rate)) == 1)
 
@@ -69,18 +68,18 @@ test_that('strata', {
 
 
 test_that('bad args', {
-  expect_error(validation_split(iris, strata = iris$Species))
-  expect_error(validation_split(iris, strata = c("Species", "Sepal.Length")))
+  expect_error(validation_split(warpbreaks, strata = warpbreaks$tension))
+  expect_error(validation_split(warpbreaks, strata = c("tension", "wool")))
 })
 
 
 test_that('printing', {
-  expect_output(print(validation_split(iris)), "Validation Set Split")
+  expect_output(print(validation_split(warpbreaks)), "Validation Set Split")
 })
 
 
 test_that('printing', {
-  expect_output(print(validation_split(iris)$splits[[1]]), "Training/Validation/Total")
+  expect_output(print(validation_split(warpbreaks)$splits[[1]]), "Training/Validation/Total")
 })
 
 test_that('rsplit labels', {
