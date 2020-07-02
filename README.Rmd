@@ -71,10 +71,6 @@ To install it, use:
 
 ```{r install, eval = FALSE}
 install.packages("rsample")
-
-## For the devel version:
-require(devtools)
-install_github("tidymodels/rsample")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
@@ -86,14 +82,16 @@ install_dev("rsample")
 
 ## Contributing
 
-We welcome contributions of all types!
+This project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
 
-If you have never made a pull request to an R package before, `rsample` is an excellent place to start. Find an [issue](https://github.com/tidymodels/rsample/issues/) with the **Beginner Friendly** tag and comment that you'd like to take it on and we'll help you get started.
+- For questions and discussions about tidymodels packages, modeling, and machine learning, please [post on RStudio Community](https://rstd.io/tidymodels-community).
 
-We encourage typo corrections, bug reports, bug fixes, and feature requests. Feedback on the clarity of the documentation is especially valuable.
+- If you think you have encountered a bug, please [submit an issue](https://github.com/tidymodels/parsnip/issues).
 
+- Either way, learn how to create and share a [reprex](https://rstd.io/reprex) (a minimal, reproducible example), to clearly communicate about your code.
 
-## Code of Conduct
+- We welcome contributions, including typo corrections, bug fixes, and feature requests! If you have never made a pull request to an R package before, `rsample` is an excellent place to start. Find an [issue](https://github.com/tidymodels/rsample/issues/) with the **help wanted `r emo::ji("heart")`** tag, comment that you'd like to take it on, and we'll help you get started.
 
-Please note that the rsample project is released with a [Contributor Code of Conduct](https://rsample.tidymodels.org/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+- Check out further details on [contributing guidelines for tidymodels packages](https://www.tidymodels.org/contribute/) and [how to get help](https://www.tidymodels.org/help/).
+
 
