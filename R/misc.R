@@ -25,8 +25,8 @@ dim_rset <- function(x, ...) {
 }
 
 names0 <- function(num, prefix = "x") {
-  if (num < 1) {
-    rlang::abort("`num` should be > 0")
+  if (num == 0L) {
+    return(character())
   }
   ind <- format(1:num)
   ind <- gsub(" ", "0", ind)
