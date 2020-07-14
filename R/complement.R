@@ -45,12 +45,33 @@ complement.boot_split <- function(x, ...) {
 }
 #' @export
 complement.rof_split <- function(x, ...) {
-  if (!all(is.na(x$out_id))) {
-    return(x$out_id)
-  } else {
-    stop("Cannot derive the assessment set for this type of resampling.",
-         call. = FALSE)
+  get_stored_out_id(x)
+}
+#' @export
+complement.sliding_window_split <- function(x, ...) {
+  get_stored_out_id(x)
+}
+#' @export
+complement.sliding_index_split <- function(x, ...) {
+  get_stored_out_id(x)
+}
+#' @export
+complement.sliding_period_split <- function(x, ...) {
+  get_stored_out_id(x)
+}
+
+get_stored_out_id <- function(x) {
+  out_id <- x$out_id
+
+  if (length(out_id) == 0L) {
+    return(out_id)
   }
+
+  if (all(is.na(out_id))) {
+    rlang::abort("Cannot derive the assessment set for this type of resampling.")
+  }
+
+  out_id
 }
 
 #' @export
