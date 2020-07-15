@@ -1,5 +1,3 @@
-# TODO: Add "safe" attributes and vctrs glue
-
 #' Time-based Resampling
 #'
 #' @description
