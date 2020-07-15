@@ -217,12 +217,15 @@ sliding_index <- function(data,
                           ...,
                           lookback = 0L,
                           assess_start = 1L,
-                          assess_stop = 1L) {
+                          assess_stop = 1L,
+                          step = 1L) {
   ellipsis::check_dots_empty()
 
   if (!is.data.frame(data)) {
     rlang::abort("`data` must be a data frame.")
   }
+
+  step <- check_step(step)
 
   index <- rlang::enexpr(index)
   loc <- tidyselect::eval_select(index, data)
@@ -254,13 +257,19 @@ sliding_index <- function(data,
   )
 
   indices <- compute_complete_indices(id_in, id_out)
+  n_indices <- length(indices)
+
+  if (!identical(step, 1L)) {
+    slicer <- seq2_by(1L, n_indices, by = step)
+    indices <- vctrs::vec_slice(indices, slicer)
+    n_indices <- length(indices)
+  }
 
   splits <- purrr::map(
     indices,
     ~ make_splits(.x, data = data, class = "sliding_index_split")
   )
 
-  n_indices <- length(indices)
   ids <- names0(n_indices, prefix = "Slice")
 
   attrib <- list(
@@ -295,6 +304,7 @@ sliding_period <- function(data,
                            lookback = 0L,
                            assess_start = 1L,
                            assess_stop = 1L,
+                           step = 1L,
                            every = 1L,
                            origin = NULL) {
   ellipsis::check_dots_empty()
@@ -302,6 +312,8 @@ sliding_period <- function(data,
   if (!is.data.frame(data)) {
     rlang::abort("`data` must be a data frame.")
   }
+
+  step <- check_step(step)
 
   lookback <- check_lookback(lookback)
   assess_start <- check_assess(assess_start, "assess_start")
@@ -347,13 +359,19 @@ sliding_period <- function(data,
   )
 
   indices <- compute_complete_indices(id_in, id_out)
+  n_indices <- length(indices)
+
+  if (!identical(step, 1L)) {
+    slicer <- seq2_by(1L, n_indices, by = step)
+    indices <- vctrs::vec_slice(indices, slicer)
+    n_indices <- length(indices)
+  }
 
   splits <- purrr::map(
     indices,
     ~ make_splits(.x, data = data, class = "sliding_period_split")
   )
 
-  n_indices <- length(indices)
   ids <- names0(n_indices, prefix = "Slice")
 
   attrib <- list(
@@ -422,6 +440,22 @@ check_assess <- function(x, arg) {
   vctrs::vec_cast(x, integer(), x_arg = arg)
 }
 
+check_step <- function(x) {
+  if (vctrs::vec_size(x) != 1L) {
+    rlang::abort(paste0("`step` must have size 1."))
+  }
+
+  if (!rlang::is_integerish(x, finite = TRUE)) {
+    rlang::abort(paste0("`step` must be an integer of size 1."))
+  }
+
+  if (x <= 0L) {
+    rlang::abort(paste0("`step` must be positive."))
+  }
+
+  vctrs::vec_cast(x, integer(), x_arg = "step")
+}
+
 compute_complete_indices <- function(id_in, id_out) {
   # Remove where either list has a `NULL` element.
   # These are incomplete windows or skipped slices.
@@ -434,4 +468,28 @@ compute_complete_indices <- function(id_in, id_out) {
   id_out <- vctrs::vec_slice(id_out, !id_either_na)
 
   purrr::map2(id_in, id_out, merge_lists)
+}
+
+seq2_by <- function(from, to, by) {
+  if (length(from) != 1) {
+    rlang::abort("`from` must be length one")
+  }
+  if (length(to) != 1) {
+    rlang::abort("`to` must be length one")
+  }
+
+  by <- as.integer(by)
+
+  if (length(by) != 1) {
+    rlang::abort("`by` must be length one")
+  }
+  if (by <= 0L) {
+    rlang::abort("`by` must be positive")
+  }
+
+  if (from > to) {
+    integer()
+  } else {
+    seq.int(from, to, by = by)
+  }
 }

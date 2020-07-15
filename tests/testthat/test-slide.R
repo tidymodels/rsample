@@ -75,6 +75,26 @@ test_that("can add analysis / assessment gaps", {
   expect_identical(nrow(x), 2L)
 })
 
+test_that("can create an expanding window", {
+  df <- data.frame(x = 1:4)
+  x <- sliding_window(df, lookback = Inf)
+
+  split1 <- x[["splits"]][[1]]
+  split2 <- x[["splits"]][[2]]
+  split3 <- x[["splits"]][[3]]
+
+  expect_identical(split1[["in_id"]], 1L)
+  expect_identical(split1[["out_id"]], 2L)
+
+  expect_identical(split2[["in_id"]], 1:2)
+  expect_identical(split2[["out_id"]], 3L)
+
+  expect_identical(split3[["in_id"]], 1:3)
+  expect_identical(split3[["out_id"]], 4L)
+
+  expect_identical(nrow(x), 3L)
+})
+
 test_that("`data` is validated", {
   expect_error(sliding_window(1), "`data` must be a data frame")
 })
@@ -195,6 +215,22 @@ test_that("can add a gap between the analysis and assessment set", {
   expect_identical(nrow(x), 3L)
 })
 
+test_that("can use `step` to thin results after calling `slide_index()`", {
+  df <- data.frame(x = c(1, 3, 4, 6, 7, 10))
+  x <- sliding_index(df, x, lookback = 2, assess_stop = 2, step = 2)
+
+  split1 <- x$splits[[1]]
+  split2 <- x$splits[[2]]
+
+  expect_identical(split1$in_id, 1:2)
+  expect_identical(split1$out_id, 3L)
+
+  expect_identical(split2$in_id, 3:4)
+  expect_identical(split2$out_id, 5L)
+
+  expect_identical(nrow(x), 2L)
+})
+
 test_that("`data` is validated", {
   expect_error(sliding_index(1), "`data` must be a data frame")
 })
@@ -267,6 +303,22 @@ test_that("can look forward to assess over multiple periods", {
 
   expect_identical(split2$in_id, 2L)
   expect_identical(split2$out_id, 3:5)
+
+  expect_identical(nrow(x), 2L)
+})
+
+test_that("can use `step` to thin results after calling `slide_period()`", {
+  df <- data.frame(x = vctrs::new_date(c(1, 3, 4, 6, 7, 10)))
+  x <- sliding_period(df, x, "day", lookback = 2, assess_stop = 2, step = 2)
+
+  split1 <- x$splits[[1]]
+  split2 <- x$splits[[2]]
+
+  expect_identical(split1$in_id, 1:2)
+  expect_identical(split1$out_id, 3L)
+
+  expect_identical(split2$in_id, 3:4)
+  expect_identical(split2$out_id, 5L)
 
   expect_identical(nrow(x), 2L)
 })

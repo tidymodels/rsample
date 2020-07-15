@@ -22,7 +22,8 @@ sliding_index(
   ...,
   lookback = 0L,
   assess_start = 1L,
-  assess_stop = 1L
+  assess_stop = 1L,
+  step = 1L
 )
 
 sliding_period(
@@ -33,6 +34,7 @@ sliding_period(
   lookback = 0L,
   assess_start = 1L,
   assess_stop = 1L,
+  step = 1L,
   every = 1L,
   origin = NULL
 )
