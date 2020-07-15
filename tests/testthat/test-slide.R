@@ -15,23 +15,9 @@ test_that("defaults work", {
   expect_identical(split2[["out_id"]], 3L)
 })
 
-test_that("can lookback with partial up front size", {
+test_that("lookback always uses complete windows", {
   df <- data.frame(x = 1:4)
   x <- sliding_window(df, lookback = 1)
-
-  split1 <- x[["splits"]][[1]]
-  split3 <- x[["splits"]][[3]]
-
-  expect_identical(split1[["in_id"]], 1L)
-  expect_identical(split1[["out_id"]], 2L)
-
-  expect_identical(split3[["in_id"]], 2:3)
-  expect_identical(split3[["out_id"]], 4L)
-})
-
-test_that("can lookback with only complete windows", {
-  df <- data.frame(x = 1:4)
-  x <- sliding_window(df, lookback = 1, complete = TRUE)
 
   split1 <- x[["splits"]][[1]]
   split2 <- x[["splits"]][[2]]
@@ -44,17 +30,17 @@ test_that("can lookback with only complete windows", {
 })
 
 test_that("can step forward between slices", {
-  df <- data.frame(x = 1:4)
+  df <- data.frame(x = 1:6)
   x <- sliding_window(df, lookback = 1, step = 2)
 
   split1 <- x[["splits"]][[1]]
   split2 <- x[["splits"]][[2]]
 
-  expect_identical(split1[["in_id"]], 1L)
-  expect_identical(split1[["out_id"]], 2L)
+  expect_identical(split1[["in_id"]], 1:2)
+  expect_identical(split1[["out_id"]], 3L)
 
-  expect_identical(split2[["in_id"]], 2:3)
-  expect_identical(split2[["out_id"]], 4L)
+  expect_identical(split2[["in_id"]], 3:4)
+  expect_identical(split2[["out_id"]], 5L)
 })
 
 test_that("can generate assessment slices", {
@@ -75,7 +61,7 @@ test_that("can generate assessment slices", {
 
 test_that("can add analysis / assessment gaps", {
   df <- data.frame(x = 1:7)
-  x <- sliding_window(df, lookback = 1, assess_start = 3, assess_stop = 4, complete = TRUE)
+  x <- sliding_window(df, lookback = 1, assess_start = 3, assess_stop = 4)
 
   split1 <- x[["splits"]][[1]]
   split2 <- x[["splits"]][[2]]
