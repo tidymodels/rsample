@@ -1,5 +1,4 @@
 # TODO: Add "safe" attributes and vctrs glue
-# TODO: Add tests for index/period
 
 #' Time-based Resampling
 #'
