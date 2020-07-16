@@ -95,12 +95,13 @@ indices, \code{step} is used to thin out the results by selecting every
 Note that \code{step} is independent of any time \code{index} used.}
 
 \item{skip}{A single positive integer, or zero. After computing the
-resampling indices, the first \code{skip} results will be dropped. This
-can be especially useful when combined with \code{lookback = Inf}, which
-creates an expanding window starting from the first row. By skipping
-forward, you can drop windows at the beginning that have very few data
-points. \code{skip} is applied before \code{step}. Note that \code{skip} is independent
-of any time \code{index} used.}
+resampling indices, the first \code{skip} results will be dropped by subsetting
+the indices with \code{seq(skip + 1L, n_indices)}. This can be especially
+useful when combined with \code{lookback = Inf}, which creates an expanding
+window starting from the first row. By skipping forward, you can drop
+the first few windows that have very few data points. \code{skip} is
+applied before \code{step}. Note that \code{skip} is independent of any time
+\code{index} used.}
 
 \item{index}{The index to compute resampling indices relative to, specified
 as a bare column name. This must be an existing column in \code{data}.

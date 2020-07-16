@@ -90,12 +90,13 @@
 #'   Note that `step` is independent of any time `index` used.
 #'
 #' @param skip A single positive integer, or zero. After computing the
-#'   resampling indices, the first `skip` results will be dropped. This
-#'   can be especially useful when combined with `lookback = Inf`, which
-#'   creates an expanding window starting from the first row. By skipping
-#'   forward, you can drop windows at the beginning that have very few data
-#'   points. `skip` is applied before `step`. Note that `skip` is independent
-#'   of any time `index` used.
+#'   resampling indices, the first `skip` results will be dropped by subsetting
+#'   the indices with `seq(skip + 1L, n_indices)`. This can be especially
+#'   useful when combined with `lookback = Inf`, which creates an expanding
+#'   window starting from the first row. By skipping forward, you can drop
+#'   the first few windows that have very few data points. `skip` is
+#'   applied before `step`. Note that `skip` is independent of any time
+#'   `index` used.
 #'
 #' @param every A single positive integer. The number of periods to group
 #'   together.
