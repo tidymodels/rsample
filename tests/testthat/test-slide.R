@@ -123,6 +123,30 @@ test_that("`skip` is applied before `step`", {
   expect_identical(nrow(x), 2L)
 })
 
+test_that("can use incomplete windows at the beginning", {
+  df <- data.frame(x = 1:5)
+  x <- sliding_window(df, lookback = 2, complete = FALSE)
+
+  split1 <- x[["splits"]][[1]]
+  split2 <- x[["splits"]][[2]]
+  split3 <- x[["splits"]][[3]]
+  split4 <- x[["splits"]][[4]]
+
+  expect_identical(split1[["in_id"]], 1L)
+  expect_identical(split1[["out_id"]], 2L)
+
+  expect_identical(split2[["in_id"]], 1:2)
+  expect_identical(split2[["out_id"]], 3L)
+
+  expect_identical(split3[["in_id"]], 1:3)
+  expect_identical(split3[["out_id"]], 4L)
+
+  expect_identical(split4[["in_id"]], 2:4)
+  expect_identical(split4[["out_id"]], 5L)
+
+  expect_identical(nrow(x), 4L)
+})
+
 test_that("`data` is validated", {
   expect_error(sliding_window(1), "`data` must be a data frame")
 })
@@ -287,6 +311,30 @@ test_that("`skip` is applied before `step`", {
   expect_identical(nrow(x), 2L)
 })
 
+test_that("can use incomplete windows at the beginning", {
+  df <- data.frame(x = c(1, 3, 4, 5, 7))
+  x <- sliding_index(df, x, lookback = 2, complete = FALSE, assess_stop = 2)
+
+  split1 <- x[["splits"]][[1]]
+  split2 <- x[["splits"]][[2]]
+  split3 <- x[["splits"]][[3]]
+  split4 <- x[["splits"]][[4]]
+
+  expect_identical(split1[["in_id"]], 1L)
+  expect_identical(split1[["out_id"]], 2L)
+
+  expect_identical(split2[["in_id"]], 1:2)
+  expect_identical(split2[["out_id"]], 3:4)
+
+  expect_identical(split3[["in_id"]], 2:3)
+  expect_identical(split3[["out_id"]], 4L)
+
+  expect_identical(split4[["in_id"]], 2:4)
+  expect_identical(split4[["out_id"]], 5L)
+
+  expect_identical(nrow(x), 4L)
+})
+
 test_that("`data` is validated", {
   expect_error(sliding_index(1), "`data` must be a data frame")
 })
@@ -427,6 +475,32 @@ test_that("`skip` is applied before `step`", {
   expect_identical(split2[["out_id"]], 7L)
 
   expect_identical(nrow(x), 2L)
+})
+
+test_that("can use incomplete windows at the beginning", {
+  index <- vctrs::new_date(c(-32, -1, 0, 1, 59, 90))
+  df <- data.frame(index = index)
+
+  x <- sliding_period(df, index, "month", lookback = 2, complete = FALSE)
+
+  split1 <- x[["splits"]][[1]]
+  split2 <- x[["splits"]][[2]]
+  split3 <- x[["splits"]][[3]]
+  split4 <- x[["splits"]][[4]]
+
+  expect_identical(split1[["in_id"]], 1L)
+  expect_identical(split1[["out_id"]], 2L)
+
+  expect_identical(split2[["in_id"]], 1:2)
+  expect_identical(split2[["out_id"]], 3:4)
+
+  expect_identical(split3[["in_id"]], 1:4)
+  expect_identical(split3[["out_id"]], integer())
+
+  expect_identical(split4[["in_id"]], 3:5)
+  expect_identical(split4[["out_id"]], 6L)
+
+  expect_identical(nrow(x), 4L)
 })
 
 test_that("`data` is validated", {

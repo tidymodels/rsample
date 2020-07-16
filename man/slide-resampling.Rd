@@ -13,6 +13,7 @@ sliding_window(
   lookback = 0L,
   assess_start = 1L,
   assess_stop = 1L,
+  complete = TRUE,
   step = 1L,
   skip = 0L
 )
@@ -24,6 +25,7 @@ sliding_index(
   lookback = 0L,
   assess_start = 1L,
   assess_stop = 1L,
+  complete = TRUE,
   step = 1L,
   skip = 0L
 )
@@ -36,6 +38,7 @@ sliding_period(
   lookback = 0L,
   assess_start = 1L,
   assess_stop = 1L,
+  complete = TRUE,
   step = 1L,
   skip = 0L,
   every = 1L,
@@ -87,6 +90,13 @@ the number of days to look forward, or a lubridate Period object.
 number of groups to look forward from the current group, where the groups
 were defined from breaking up the \code{index} according to the \code{period}.
 }}
+
+\item{complete}{A single logical. When using \code{lookback} to compute the
+analysis sets, should only complete windows be considered? If set to
+\code{FALSE}, partial windows will be used until it is possible to create
+a complete window (based on \code{lookback}). This is a way to use an
+expanding window up to a certain point, and then switch to a sliding
+window.}
 
 \item{step}{A single positive integer. After computing the resampling
 indices, \code{step} is used to thin out the results by selecting every
@@ -187,10 +197,29 @@ sliding_index(df, index, lookback = 2, assess_stop = 2)
 # With `sliding_period()`, we can break up our date index into more granular
 # chunks, and slide over them instead of the index directly. Here we'll use
 # the Chicago data, which contains daily data spanning 16 years, and we'll
-# break it up into rolling yearly chunks. Two years worth of data will
+# break it up into rolling yearly chunks. Three years worth of data will
 # be used for the analysis set, and one years worth of data will be held out
 # for performance assessment.
-sliding_period(Chicago, date, "year", lookback = 1, assess_stop = 1)
+sliding_period(
+  Chicago,
+  date,
+  "year",
+  lookback = 2,
+  assess_stop = 1
+)
+
+# Because `lookback = 2`, three years are required to form a "complete"
+# window of data. To allow partial windows, set `complete = FALSE`.
+# Here that first constructs two expanding windows until a complete three
+# year window can be formed, at which point we switch to a sliding window.
+sliding_period(
+  Chicago,
+  date,
+  "year",
+  lookback = 2,
+  assess_stop = 1,
+  complete = FALSE
+)
 
 # Alternatively, you could break the resamples up by month. Here we'll
 # use an expanding monthly window by setting `lookback = Inf`, and each
