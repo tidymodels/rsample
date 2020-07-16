@@ -275,7 +275,8 @@ sliding_index <- function(data,
   attrib <- list(
     lookback = lookback,
     assess_start = assess_start,
-    assess_stop = assess_stop
+    assess_stop = assess_stop,
+    step = step
   )
 
   new_rset(
@@ -379,6 +380,7 @@ sliding_period <- function(data,
     lookback = lookback,
     assess_start = assess_start,
     assess_stop = assess_stop,
+    step = step,
     every = every,
     origin = origin
   )
