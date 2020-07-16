@@ -76,9 +76,9 @@ rset_attribute_dictionary <- list(
   nested_cv        = c("outside", "inside"),
   validation_split = c("prop", "strata"),
   rolling_origin   = c("initial", "assess", "cumulative", "skip", "lag"),
-  sliding_window   = c("lookback", "assess_start", "assess_stop", "step"),
-  sliding_index    = c("lookback", "assess_start", "assess_stop", "step"),
-  sliding_period   = c("period", "lookback", "assess_start", "assess_stop", "step", "every", "origin"),
+  sliding_window   = c("lookback", "assess_start", "assess_stop", "step", "skip"),
+  sliding_index    = c("lookback", "assess_start", "assess_stop", "step", "skip"),
+  sliding_period   = c("period", "lookback", "assess_start", "assess_stop", "step", "skip", "every", "origin"),
   apparent         = character(),
   tbl_df           = character()
 )

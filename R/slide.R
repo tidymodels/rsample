@@ -83,9 +83,33 @@
 #'     number of groups to look forward from the current group, where the groups
 #'     were defined from breaking up the `index` according to the `period`.
 #'
-#' @param step A single positive integer specifying the number of rows to shift
-#'   the entire window forward between resampling slices. This can be used
-#'   to thin out the total set of resampling slices.
+#' @param step A single positive integer. After computing the resampling
+#'   indices, `step` is used to thin out the results by selecting every
+#'   `step`-th result by subsetting the indices with
+#'   `seq(1L, n_indices, by = step)`. `step` is applied after `skip`.
+#'   Note that `step` is independent of any time `index` used.
+#'
+#' @param skip A single positive integer, or zero. After computing the
+#'   resampling indices, the first `skip` results will be dropped. This
+#'   can be especially useful when combined with `lookback = Inf`, which
+#'   creates an expanding window starting from the first row. By skipping
+#'   forward, you can drop windows at the beginning that have very few data
+#'   points. `skip` is applied before `step`. Note that `skip` is independent
+#'   of any time `index` used.
+#'
+#' @param every A single positive integer. The number of periods to group
+#'   together.
+#'
+#'   For example, if the `period` was set to `"year"` with an `every`
+#'   value of 2, then the years 1970 and 1971 would be placed in the same
+#'   group.
+#'
+#' @param origin The reference date time value. The default when left
+#'   as `NULL` is the epoch time of `1970-01-01 00:00:00`,
+#'   _in the time zone of the index_.
+#'
+#'   This is generally used to define the anchor time to count from,
+#'   which is relevant when the every value is `> 1`.
 #'
 #' @seealso
 #' [rolling_origin()]
@@ -103,6 +127,7 @@
 #'
 #' index <- new_date(c(1, 3, 4, 7, 8, 9, 13, 15, 16, 17))
 #' df <- tibble(x = 1:10, index = index)
+#' df
 #'
 #' # Look back two rows beyond the current row, for a total of three rows
 #' # in each analysis set. Each assessment set is composed of the two rows after
@@ -112,6 +137,7 @@
 #' # Same as before, but step forward by 3 rows between each resampling slice,
 #' # rather than just by 1.
 #' rset <- sliding_window(df, lookback = 2, assess_stop = 2, step = 3)
+#' rset
 #'
 #' analysis(rset$splits[[1]])
 #' analysis(rset$splits[[2]])
@@ -132,6 +158,22 @@
 #' # be used for the analysis set, and one years worth of data will be held out
 #' # for performance assessment.
 #' sliding_period(Chicago, date, "year", lookback = 1, assess_stop = 1)
+#'
+#' # Alternatively, you could break the resamples up by month. Here we'll
+#' # use an expanding monthly window by setting `lookback = Inf`, and each
+#' # assessment set will contain two months of data. To ensure that we have
+#' # enough data to fit our models, we'll `skip` the first 4 expanding windows.
+#' # Finally, to thin out the results, we'll `step` forward by 2 between
+#' # each resample.
+#' sliding_period(
+#'   Chicago,
+#'   date,
+#'   "month",
+#'   lookback = Inf,
+#'   assess_stop = 2,
+#'   skip = 4,
+#'   step = 2
+#' )
 NULL
 
 #' @export
@@ -141,7 +183,8 @@ sliding_window <- function(data,
                            lookback = 0L,
                            assess_start = 1L,
                            assess_stop = 1L,
-                           step = 1L) {
+                           step = 1L,
+                           skip = 0L) {
   ellipsis::check_dots_empty()
 
   if (!is.data.frame(data)) {
@@ -151,6 +194,8 @@ sliding_window <- function(data,
   lookback <- check_lookback(lookback)
   assess_start <- check_assess(assess_start, "assess_start")
   assess_stop <- check_assess(assess_stop, "assess_stop")
+  step <- check_step(step)
+  skip <- check_skip(skip)
 
   if (assess_start > assess_stop) {
     rlang::abort("`assess_start` must be less than or equal to `assess_stop`.")
@@ -163,7 +208,7 @@ sliding_window <- function(data,
     .f = identity,
     .before = lookback,
     .after = 0L,
-    .step = step,
+    .step = 1L,
     .complete = TRUE
   )
 
@@ -178,19 +223,27 @@ sliding_window <- function(data,
 
   indices <- compute_complete_indices(id_in, id_out)
 
+  if (!identical(skip, 0L)) {
+    indices <- slice_skip(indices, skip)
+  }
+
+  if (!identical(step, 1L)) {
+    indices <- slice_step(indices, step)
+  }
+
   splits <- purrr::map(
     indices,
     ~ make_splits(.x, data = data, class = "sliding_window_split")
   )
 
-  n_indices <- length(indices)
-  ids <- names0(n_indices, prefix = "Slice")
+  ids <- names0(length(indices), prefix = "Slice")
 
   attrib <- list(
     lookback = lookback,
     assess_start = assess_start,
     assess_stop = assess_stop,
-    step = step
+    step = step,
+    skip = skip
   )
 
   new_rset(
@@ -218,7 +271,8 @@ sliding_index <- function(data,
                           lookback = 0L,
                           assess_start = 1L,
                           assess_stop = 1L,
-                          step = 1L) {
+                          step = 1L,
+                          skip = 0L) {
   ellipsis::check_dots_empty()
 
   if (!is.data.frame(data)) {
@@ -226,6 +280,7 @@ sliding_index <- function(data,
   }
 
   step <- check_step(step)
+  skip <- check_skip(skip)
 
   index <- rlang::enexpr(index)
   loc <- tidyselect::eval_select(index, data)
@@ -257,12 +312,13 @@ sliding_index <- function(data,
   )
 
   indices <- compute_complete_indices(id_in, id_out)
-  n_indices <- length(indices)
+
+  if (!identical(skip, 0L)) {
+    indices <- slice_skip(indices, skip)
+  }
 
   if (!identical(step, 1L)) {
-    slicer <- seq2_by(1L, n_indices, by = step)
-    indices <- vctrs::vec_slice(indices, slicer)
-    n_indices <- length(indices)
+    indices <- slice_step(indices, step)
   }
 
   splits <- purrr::map(
@@ -270,13 +326,14 @@ sliding_index <- function(data,
     ~ make_splits(.x, data = data, class = "sliding_index_split")
   )
 
-  ids <- names0(n_indices, prefix = "Slice")
+  ids <- names0(length(indices), prefix = "Slice")
 
   attrib <- list(
     lookback = lookback,
     assess_start = assess_start,
     assess_stop = assess_stop,
-    step = step
+    step = step,
+    skip = skip
   )
 
   new_rset(
@@ -306,6 +363,7 @@ sliding_period <- function(data,
                            assess_start = 1L,
                            assess_stop = 1L,
                            step = 1L,
+                           skip = 0L,
                            every = 1L,
                            origin = NULL) {
   ellipsis::check_dots_empty()
@@ -314,11 +372,10 @@ sliding_period <- function(data,
     rlang::abort("`data` must be a data frame.")
   }
 
-  step <- check_step(step)
-
   lookback <- check_lookback(lookback)
   assess_start <- check_assess(assess_start, "assess_start")
   assess_stop <- check_assess(assess_stop, "assess_stop")
+  step <- check_step(step)
 
   if (assess_start > assess_stop) {
     rlang::abort("`assess_start` must be less than or equal to `assess_stop`.")
@@ -360,12 +417,13 @@ sliding_period <- function(data,
   )
 
   indices <- compute_complete_indices(id_in, id_out)
-  n_indices <- length(indices)
+
+  if (!identical(skip, 0L)) {
+    indices <- slice_skip(indices, skip)
+  }
 
   if (!identical(step, 1L)) {
-    slicer <- seq2_by(1L, n_indices, by = step)
-    indices <- vctrs::vec_slice(indices, slicer)
-    n_indices <- length(indices)
+    indices <- slice_step(indices, step)
   }
 
   splits <- purrr::map(
@@ -373,7 +431,7 @@ sliding_period <- function(data,
     ~ make_splits(.x, data = data, class = "sliding_period_split")
   )
 
-  ids <- names0(n_indices, prefix = "Slice")
+  ids <- names0(length(indices), prefix = "Slice")
 
   attrib <- list(
     period = period,
@@ -381,6 +439,7 @@ sliding_period <- function(data,
     assess_start = assess_start,
     assess_stop = assess_stop,
     step = step,
+    skip = skip,
     every = every,
     origin = origin
   )
@@ -458,9 +517,25 @@ check_step <- function(x) {
   vctrs::vec_cast(x, integer(), x_arg = "step")
 }
 
+check_skip <- function(x) {
+  if (vctrs::vec_size(x) != 1L) {
+    rlang::abort(paste0("`skip` must have size 1."))
+  }
+
+  if (!rlang::is_integerish(x, finite = TRUE)) {
+    rlang::abort(paste0("`skip` must be an integer of size 1."))
+  }
+
+  if (x < 0L) {
+    rlang::abort(paste0("`skip` must be positive, or zero."))
+  }
+
+  vctrs::vec_cast(x, integer(), x_arg = "skip")
+}
+
 compute_complete_indices <- function(id_in, id_out) {
   # Remove where either list has a `NULL` element.
-  # These are incomplete windows or skipped slices.
+  # These are incomplete windows.
   id_in_na <- vctrs::vec_equal_na(id_in)
   id_out_na <- vctrs::vec_equal_na(id_out)
 
@@ -470,6 +545,18 @@ compute_complete_indices <- function(id_in, id_out) {
   id_out <- vctrs::vec_slice(id_out, !id_either_na)
 
   purrr::map2(id_in, id_out, merge_lists)
+}
+
+slice_skip <- function(indices, skip) {
+  n_indices <- length(indices)
+  slicer <- rlang::seq2(skip + 1L, n_indices)
+  vctrs::vec_slice(indices, slicer)
+}
+
+slice_step <- function(indices, step) {
+  n_indices <- length(indices)
+  slicer <- seq2_by(1L, n_indices, by = step)
+  indices <- vctrs::vec_slice(indices, slicer)
 }
 
 seq2_by <- function(from, to, by) {

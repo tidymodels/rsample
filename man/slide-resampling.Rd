@@ -13,7 +13,8 @@ sliding_window(
   lookback = 0L,
   assess_start = 1L,
   assess_stop = 1L,
-  step = 1L
+  step = 1L,
+  skip = 0L
 )
 
 sliding_index(
@@ -23,7 +24,8 @@ sliding_index(
   lookback = 0L,
   assess_start = 1L,
   assess_stop = 1L,
-  step = 1L
+  step = 1L,
+  skip = 0L
 )
 
 sliding_period(
@@ -35,6 +37,7 @@ sliding_period(
   assess_start = 1L,
   assess_stop = 1L,
   step = 1L,
+  skip = 0L,
   every = 1L,
   origin = NULL
 )
@@ -85,9 +88,19 @@ number of groups to look forward from the current group, where the groups
 were defined from breaking up the \code{index} according to the \code{period}.
 }}
 
-\item{step}{A single positive integer specifying the number of rows to shift
-the entire window forward between resampling slices. This can be used
-to thin out the total set of resampling slices.}
+\item{step}{A single positive integer. After computing the resampling
+indices, \code{step} is used to thin out the results by selecting every
+\code{step}-th result by subsetting the indices with
+\code{seq(1L, n_indices, by = step)}. \code{step} is applied after \code{skip}.
+Note that \code{step} is independent of any time \code{index} used.}
+
+\item{skip}{A single positive integer, or zero. After computing the
+resampling indices, the first \code{skip} results will be dropped. This
+can be especially useful when combined with \code{lookback = Inf}, which
+creates an expanding window starting from the first row. By skipping
+forward, you can drop windows at the beginning that have very few data
+points. \code{skip} is applied before \code{step}. Note that \code{skip} is independent
+of any time \code{index} used.}
 
 \item{index}{The index to compute resampling indices relative to, specified
 as a bare column name. This must be an existing column in \code{data}.
@@ -105,6 +118,20 @@ allowed. Additionally, the index cannot contain any missing values.}
 single string, such as \code{"year"} or \code{"month"}. See the \code{.period} argument
 of \code{\link[slider:slide_index]{slider::slide_index()}} for the full list of options and further
 explanation.}
+
+\item{every}{A single positive integer. The number of periods to group
+together.
+
+For example, if the \code{period} was set to \code{"year"} with an \code{every}
+value of 2, then the years 1970 and 1971 would be placed in the same
+group.}
+
+\item{origin}{The reference date time value. The default when left
+as \code{NULL} is the epoch time of \verb{1970-01-01 00:00:00},
+\emph{in the time zone of the index}.
+
+This is generally used to define the anchor time to count from,
+which is relevant when the every value is \verb{> 1}.}
 }
 \description{
 These resampling functions are focused on various forms of \emph{time series}
@@ -132,6 +159,7 @@ data("Chicago")
 
 index <- new_date(c(1, 3, 4, 7, 8, 9, 13, 15, 16, 17))
 df <- tibble(x = 1:10, index = index)
+df
 
 # Look back two rows beyond the current row, for a total of three rows
 # in each analysis set. Each assessment set is composed of the two rows after
@@ -141,6 +169,7 @@ sliding_window(df, lookback = 2, assess_stop = 2)
 # Same as before, but step forward by 3 rows between each resampling slice,
 # rather than just by 1.
 rset <- sliding_window(df, lookback = 2, assess_stop = 2, step = 3)
+rset
 
 analysis(rset$splits[[1]])
 analysis(rset$splits[[2]])
@@ -161,6 +190,22 @@ sliding_index(df, index, lookback = 2, assess_stop = 2)
 # be used for the analysis set, and one years worth of data will be held out
 # for performance assessment.
 sliding_period(Chicago, date, "year", lookback = 1, assess_stop = 1)
+
+# Alternatively, you could break the resamples up by month. Here we'll
+# use an expanding monthly window by setting `lookback = Inf`, and each
+# assessment set will contain two months of data. To ensure that we have
+# enough data to fit our models, we'll `skip` the first 4 expanding windows.
+# Finally, to thin out the results, we'll `step` forward by 2 between
+# each resample.
+sliding_period(
+  Chicago,
+  date,
+  "month",
+  lookback = Inf,
+  assess_stop = 2,
+  skip = 4,
+  step = 2
+)
 }
 \seealso{
 \code{\link[=rolling_origin]{rolling_origin()}}

@@ -95,6 +95,34 @@ test_that("can create an expanding window", {
   expect_identical(nrow(x), 3L)
 })
 
+test_that("can skip first few resampling slices", {
+  df <- data.frame(x = 1:8)
+  x <- sliding_window(df, lookback = 1, skip = 3)
+
+  split1 <- x[["splits"]][[1]]
+
+  expect_identical(split1[["in_id"]], 4:5)
+  expect_identical(split1[["out_id"]], 6L)
+
+  expect_identical(nrow(x), 3L)
+})
+
+test_that("`skip` is applied before `step`", {
+  df <- data.frame(x = 1:8)
+  x <- sliding_window(df, lookback = 1, skip = 3, step = 2)
+
+  split1 <- x[["splits"]][[1]]
+  split2 <- x[["splits"]][[2]]
+
+  expect_identical(split1[["in_id"]], 4:5)
+  expect_identical(split1[["out_id"]], 6L)
+
+  expect_identical(split2[["in_id"]], 6:7)
+  expect_identical(split2[["out_id"]], 8L)
+
+  expect_identical(nrow(x), 2L)
+})
+
 test_that("`data` is validated", {
   expect_error(sliding_window(1), "`data` must be a data frame")
 })
@@ -231,6 +259,34 @@ test_that("can use `step` to thin results after calling `slide_index()`", {
   expect_identical(nrow(x), 2L)
 })
 
+test_that("can skip first few resampling slices", {
+  df <- data.frame(x = c(1, 3, 4, 6, 7, 10))
+  x <- sliding_index(df, x, lookback = 1, skip = 2)
+
+  split1 <- x[["splits"]][[1]]
+
+  expect_identical(split1[["in_id"]], 4L)
+  expect_identical(split1[["out_id"]], 5L)
+
+  expect_identical(nrow(x), 2L)
+})
+
+test_that("`skip` is applied before `step`", {
+  df <- data.frame(x = c(1, 3, 4, 6, 7, 9, 11, 13, 14))
+  x <- sliding_index(df, x, lookback = 1, skip = 3, step = 2, assess_stop = 2)
+
+  split1 <- x[["splits"]][[1]]
+  split2 <- x[["splits"]][[2]]
+
+  expect_identical(split1[["in_id"]], 4:5)
+  expect_identical(split1[["out_id"]], 6L)
+
+  expect_identical(split2[["in_id"]], 7L)
+  expect_identical(split2[["out_id"]], 8L)
+
+  expect_identical(nrow(x), 2L)
+})
+
 test_that("`data` is validated", {
   expect_error(sliding_index(1), "`data` must be a data frame")
 })
@@ -319,6 +375,56 @@ test_that("can use `step` to thin results after calling `slide_period()`", {
 
   expect_identical(split2$in_id, 3:4)
   expect_identical(split2$out_id, 5L)
+
+  expect_identical(nrow(x), 2L)
+})
+
+test_that("can skip first few resampling slices", {
+  index <- vctrs::new_date(c(-32, -1, 0, 1, 31, 59))
+  df <- data.frame(index = index)
+
+  x <- sliding_period(df, index, "month", lookback = 1, skip = 2)
+
+  split1 <- x[["splits"]][[1]]
+
+  expect_identical(split1[["in_id"]], 3:5)
+  expect_identical(split1[["out_id"]], 6L)
+
+  expect_identical(nrow(x), 1L)
+})
+
+test_that("can skip with expanding window", {
+  index <- vctrs::new_date(c(-32, -1, 0, 1, 31, 59))
+  df <- data.frame(index = index)
+
+  x <- sliding_period(df, index, "month", lookback = Inf, skip = 2)
+
+  split1 <- x[["splits"]][[1]]
+  split2 <- x[["splits"]][[2]]
+
+  expect_identical(split1[["in_id"]], 1:4)
+  expect_identical(split1[["out_id"]], 5L)
+
+  expect_identical(split2[["in_id"]], 1:5)
+  expect_identical(split2[["out_id"]], 6L)
+
+  expect_identical(nrow(x), 2L)
+})
+
+test_that("`skip` is applied before `step`", {
+  index <- vctrs::new_date(c(-32, -1, 0, 1, 31, 59, 90))
+  df <- data.frame(index = index)
+
+  x <- sliding_period(df, index, "month", lookback = Inf, skip = 2, step = 2)
+
+  split1 <- x[["splits"]][[1]]
+  split2 <- x[["splits"]][[2]]
+
+  expect_identical(split1[["in_id"]], 1:4)
+  expect_identical(split1[["out_id"]], 5L)
+
+  expect_identical(split2[["in_id"]], 1:6)
+  expect_identical(split2[["out_id"]], 7L)
 
   expect_identical(nrow(x), 2L)
 })
