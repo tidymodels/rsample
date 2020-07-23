@@ -1,5 +1,9 @@
 # rsample (development version)
 
+* Three new time based resampling functions have been added: `sliding_window()`,
+  `sliding_index()`, and `sliding_period()`, which have more flexibility than
+  the pre-existing `rolling_origin()`.
+
 # rsample 0.0.7
 
 * Lower threshold for pooling strata to 10% (from 15%) (#149).

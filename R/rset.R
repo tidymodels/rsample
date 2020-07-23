@@ -44,7 +44,11 @@ new_rset <-  function(splits, ids, attrib = NULL,
   # id can be known just based on the `rsplit` object. This can then be
   # accessed using the `labels` method for `rsplits`
 
-  splits$splits <- map2(splits$splits, split_unnamed(ids, 1:nrow(ids)), add_id)
+  splits$splits <- map2(
+    splits$splits,
+    split_unnamed(ids, rlang::seq2(1L, nrow(ids))),
+    add_id
+  )
 
   res <- bind_cols(splits, ids)
 

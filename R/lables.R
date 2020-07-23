@@ -106,6 +106,27 @@ pretty.apparent <- function(x, ...)
 pretty.rolling_origin <- function(x, ...)
   "Rolling origin forecast resampling"
 
+#' @export pretty.sliding_window
+#' @export
+#' @method pretty sliding_window
+#' @rdname pretty.vfold_cv
+pretty.sliding_window <- function(x, ...)
+  "Sliding window resampling"
+
+#' @export pretty.sliding_index
+#' @export
+#' @method pretty sliding_index
+#' @rdname pretty.vfold_cv
+pretty.sliding_index <- function(x, ...)
+  "Sliding index resampling"
+
+#' @export pretty.sliding_period
+#' @export
+#' @method pretty sliding_period
+#' @rdname pretty.vfold_cv
+pretty.sliding_period <- function(x, ...)
+  "Sliding period resampling"
+
 #' @export pretty.mc_cv
 #' @export
 #' @method pretty mc_cv

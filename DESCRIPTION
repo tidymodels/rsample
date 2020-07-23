@@ -9,17 +9,19 @@ Authors@R: c(
 Maintainer: Max Kuhn <max@rstudio.com>
 Description: Classes and functions to create and summarize different types of resampling objects (e.g. bootstrap, cross-validation). 
 Imports: 
-    dplyr (>= 0.8.5), 
-    purrr, 
-    tibble, 
-    rlang (>= 0.4.0), 
-    methods, 
+    dplyr (>= 0.8.5),
+    purrr,
+    tibble,
+    rlang (>= 0.4.0),
+    methods,
     generics,
     utils,
     tidyselect,
-    furrr, 
+    furrr,
     tidyr,
-    vctrs (>= 0.3.0)
+    vctrs (>= 0.3.0),
+    slider (>= 0.1.5),
+    ellipsis
 Depends: 
     R (>= 3.2)
 Suggests: 
@@ -39,5 +41,5 @@ License: GPL-2
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
-RoxygenNote: 7.1.0.9000
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)

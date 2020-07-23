@@ -5,6 +5,9 @@
 \alias{pretty.loo_cv}
 \alias{pretty.apparent}
 \alias{pretty.rolling_origin}
+\alias{pretty.sliding_window}
+\alias{pretty.sliding_index}
+\alias{pretty.sliding_period}
 \alias{pretty.mc_cv}
 \alias{pretty.validation_split}
 \alias{pretty.nested_cv}
@@ -19,6 +22,12 @@
 \method{pretty}{apparent}(x, ...)
 
 \method{pretty}{rolling_origin}(x, ...)
+
+\method{pretty}{sliding_window}(x, ...)
+
+\method{pretty}{sliding_index}(x, ...)
+
+\method{pretty}{sliding_period}(x, ...)
 
 \method{pretty}{mc_cv}(x, ...)
 

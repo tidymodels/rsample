@@ -14,6 +14,9 @@
 #'  Suppose that the rows of a data set are consecutive days. Using `skip = 6`
 #'  will make the analysis data set operate on *weeks* instead of days. The
 #'  assessment set size is not affected by this option.
+#' @seealso
+#' [sliding_window()], [sliding_index()], and [sliding_period()] for additional
+#' time based resampling functions.
 #' @inheritParams vfold_cv
 #' @param initial The number of samples used for analysis/modeling in the
 #'  initial resample.
