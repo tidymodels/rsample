@@ -19,7 +19,7 @@ in the group.}
 \item{...}{Not currently used.}
 }
 \value{
-An tibble with classes \code{group_vfold_cv},
+A tibble with classes \code{group_vfold_cv},
 \code{rset}, \code{tbl_df}, \code{tbl}, and \code{data.frame}.
 The results include a column for the data split objects and an
 identification variable.
