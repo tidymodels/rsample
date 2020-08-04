@@ -36,9 +36,9 @@ test_that('dots', {
   expect_error(form_pred(y ~ (.)^2))
   expect_error(form_pred(terms(y ~ (.)^2)))
 
-  expect_equal(form_pred(terms(Species ~ (.)^2, data = iris)),
-               names(iris)[1:4])
-  expect_equal(form_pred(terms(~ (.)^2, data = iris)),
-               names(iris))
+  expect_equal(form_pred(terms(mpg ~ (.)^2, data = mtcars)),
+               names(mtcars)[2:11])
+  expect_equal(form_pred(terms(~ (.)^2, data = mtcars)),
+               names(mtcars))
 })
 

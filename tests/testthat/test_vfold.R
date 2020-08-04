@@ -3,6 +3,7 @@ context("V-fold CV")
 library(testthat)
 library(rsample)
 library(purrr)
+library(modeldata)
 
 dat1 <- data.frame(a = 1:20, b = letters[1:20])
 
@@ -45,20 +46,20 @@ test_that('repeated', {
 })
 
 test_that('strata', {
-  iris2 <- iris[1:130, ]
   set.seed(11)
-  rs3 <- vfold_cv(iris2, repeats = 2, strata = "Species")
+  data("mlc_churn", package = "modeldata")
+  rs3 <- vfold_cv(mlc_churn, repeats = 2, strata = "voice_mail_plan")
   sizes3 <- dim_rset(rs3)
 
-  expect_true(all(sizes3$analysis == 117))
-  expect_true(all(sizes3$assessment == 13))
+  expect_true(all(sizes3$analysis %in% 4499:4501))
+  expect_true(all(sizes3$assessment %in% 499:501))
 
   rate <- map_dbl(rs3$splits,
                   function(x) {
-                    dat <- as.data.frame(x)$Species
-                    mean(dat == "virginica")
+                    dat <- as.data.frame(x)$voice_mail_plan
+                    mean(dat == "yes")
                   })
-  expect_true(length(unique(rate)) == 1)
+  expect_equal(mean(unique(rate)), 0.2645925848)
 
   good_holdout <- map_lgl(rs3$splits,
                           function(x) {

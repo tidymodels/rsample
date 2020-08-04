@@ -20,7 +20,7 @@
 #'  and a column called `id` that has a character string with the resample
 #'  identifier.
 #' @examples
-#' validation_split(iris, prop = .9)
+#' validation_split(mtcars, prop = .9)
 #' @export
 validation_split <- function(data, prop = 3/4, strata = NULL, breaks = 4, ...) {
 

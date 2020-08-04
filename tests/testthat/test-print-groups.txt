@@ -1,9 +1,9 @@
-> print(group_vfold_cv(iris, "Species"), n = 2)
+> print(group_vfold_cv(warpbreaks, "tension"), n = 2)
 # Group 3-fold cross-validation 
 # A tibble: 3 x 2
-  splits           id       
-  <list>           <chr>    
-1 <split [100/50]> Resample1
-2 <split [100/50]> Resample2
+  splits          id       
+  <list>          <chr>    
+1 <split [36/18]> Resample1
+2 <split [36/18]> Resample2
 # ... with 1 more row
 

@@ -45,18 +45,17 @@ test_that('different percent', {
 })
 
 test_that('strata', {
-  iris2 <- iris[1:130, ]
   set.seed(11)
-  rs3 <- mc_cv(iris2, strata = "Species")
+  rs3 <- mc_cv(warpbreaks, strata = "tension")
   sizes3 <- dim_rset(rs3)
 
-  expect_true(all(sizes3$analysis == 99))
-  expect_true(all(sizes3$assessment == 31))
+  expect_true(all(sizes3$analysis == 42))
+  expect_true(all(sizes3$assessment == 12))
 
   rate <- map_dbl(rs3$splits,
                   function(x) {
-                    dat <- as.data.frame(x)$Species
-                    mean(dat == "virginica")
+                    dat <- as.data.frame(x)$tension
+                    mean(dat == "M")
                   })
   expect_true(length(unique(rate)) == 1)
 
@@ -69,13 +68,13 @@ test_that('strata', {
 
 
 test_that('bad args', {
-  expect_error(mc_cv(iris, strata = iris$Species))
-  expect_error(mc_cv(iris, strata = c("Species", "Sepal.Length")))
+  expect_error(mc_cv(warpbreaks, strata = warpbreaks$tension))
+  expect_error(mc_cv(warpbreaks, strata = c("tension", "wool")))
 })
 
 
 test_that('printing', {
-  expect_output(print(mc_cv(iris)))
+  expect_output(print(mc_cv(warpbreaks)))
 })
 
 

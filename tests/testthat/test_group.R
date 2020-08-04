@@ -5,30 +5,30 @@ library(rsample)
 library(purrr)
 library(tibble)
 
-iris2 <- as_tibble(iris)
+warpbreaks2 <- as_tibble(warpbreaks)
 
 get_id_left_out <- function(x)
-     unique(as.character(assessment(x)$Species))
+     unique(as.character(assessment(x)$tension))
 
 test_that('bad args', {
-  expect_error(group_vfold_cv(iris, group = iris$Species))
-  expect_error(group_vfold_cv(iris, group = c("Species", "Sepal.Width")))
-  expect_error(group_vfold_cv(iris, group = "Specie"))
-  expect_error(group_vfold_cv(iris))
-  expect_error(group_vfold_cv(iris, group = "Species", v = 10))
+  expect_error(group_vfold_cv(warpbreaks, group = warpbreaks$tension))
+  expect_error(group_vfold_cv(warpbreaks, group = c("tension", "wool")))
+  expect_error(group_vfold_cv(warpbreaks, group = "tensio"))
+  expect_error(group_vfold_cv(warpbreaks))
+  expect_error(group_vfold_cv(warpbreaks, group = "tension", v = 10))
 })
 
 
 test_that('default param', {
   set.seed(11)
-  rs1 <- group_vfold_cv(iris, "Species")
+  rs1 <- group_vfold_cv(warpbreaks, "tension")
   sizes1 <- dim_rset(rs1)
 
-  expect_true(all(sizes1$analysis == 100))
-  expect_true(all(sizes1$assessment == 50))
+  expect_true(all(sizes1$analysis == 36))
+  expect_true(all(sizes1$assessment == 18))
   same_data <-
     map_lgl(rs1$splits, function(x)
-      all.equal(x$data, iris))
+      all.equal(x$data, warpbreaks))
   expect_true(all(same_data))
 
   good_holdout <- map_lgl(rs1$splits,
@@ -44,14 +44,14 @@ test_that('default param', {
 
 test_that('v < max v', {
   set.seed(11)
-  rs2 <- group_vfold_cv(iris, "Species", v = 2)
+  rs2 <- group_vfold_cv(warpbreaks, "tension", v = 2)
   sizes2 <- dim_rset(rs2)
 
-  expect_true(!all(sizes2$analysis == 100))
-  expect_true(!all(sizes2$assessment == 50))
+  expect_true(!all(sizes2$analysis == 36))
+  expect_true(!all(sizes2$assessment == 18))
   same_data <-
     map_lgl(rs2$splits, function(x)
-      all.equal(x$data, iris))
+      all.equal(x$data, warpbreaks))
   expect_true(all(same_data))
 
   good_holdout <- map_lgl(rs2$splits,
@@ -66,14 +66,14 @@ test_that('v < max v', {
 
 test_that('tibble input', {
   set.seed(11)
-  rs3 <- group_vfold_cv(iris2, "Species")
+  rs3 <- group_vfold_cv(warpbreaks2, "tension")
   sizes3 <- dim_rset(rs3)
 
-  expect_true(all(sizes3$analysis == 100))
-  expect_true(all(sizes3$assessment == 50))
+  expect_true(all(sizes3$analysis == 36))
+  expect_true(all(sizes3$assessment == 18))
   same_data <-
     map_lgl(rs3$splits, function(x)
-      all.equal(x$data, iris2))
+      all.equal(x$data, warpbreaks2))
   expect_true(all(same_data))
 
   good_holdout <- map_lgl(rs3$splits,
@@ -88,17 +88,17 @@ test_that('tibble input', {
 
 
 test_that('printing', {
-  expect_output(print(group_vfold_cv(iris, "Species")))
+  expect_output(print(group_vfold_cv(warpbreaks, "tension")))
 })
 
 test_that('printing with ...', {
   verify_output(test_path("test-print-groups.txt"), {
-    print(group_vfold_cv(iris, "Species"), n = 2)
+    print(group_vfold_cv(warpbreaks, "tension"), n = 2)
   })
 })
 
 test_that('rsplit labels', {
-  rs <- group_vfold_cv(iris, "Species")
+  rs <- group_vfold_cv(warpbreaks, "tension")
   all_labs <- map_df(rs$splits, labels)
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
