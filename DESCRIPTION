@@ -20,7 +20,7 @@ Imports:
     furrr,
     tidyr,
     vctrs (>= 0.3.0),
-    modeldata
+    modeldata,
     slider (>= 0.1.5),
     ellipsis
 Depends: 
