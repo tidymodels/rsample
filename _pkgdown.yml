@@ -28,6 +28,9 @@ reference:
       - validation_split
       - group_vfold_cv
       - rolling_origin
+      - sliding_window
+      - sliding_index
+      - sliding_period
       - nested_cv
       - apparent
   - title: Analysis

@@ -15,7 +15,7 @@
 #'  in the group.
 #' @param ... Not currently used.
 #' @export
-#' @return An tibble with classes `group_vfold_cv`,
+#' @return A tibble with classes `group_vfold_cv`,
 #'  `rset`, `tbl_df`, `tbl`, and `data.frame`.
 #'  The results include a column for the data split objects and an
 #'  identification variable.
