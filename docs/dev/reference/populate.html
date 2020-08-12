@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../tidymodels.css" rel="stylesheet">
-
-
 
 
 <meta property="og:title" content="Add Assessment Indicies — populate" />
@@ -168,11 +164,11 @@ for the appropriate indices." />
 
     <div class="ref-description">
     <p>Many <code>rsplit</code> and <code>rset</code> objects do not contain indicators for
-the assessment samples. <code>populate()</code> can be used to fill the slot
+the assessment samples. <code><a href='https://rsample.tidymodels.org/reference/populate.html'>populate()</a></code> can be used to fill the slot
 for the appropriate indices.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>populate</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rsample.tidymodels.org/reference/populate.html'>populate</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,12 +189,12 @@ for the appropriate indices.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>28432</span>)
-<span class='no'>fold_rs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>)
+<span class='kw'>fold_rs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>mtcars</span>)
 
-<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1] NA</div><div class='input'><span class='fu'><a href='complement.html'>complement</a></span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; [1]  1  9 25 27</div><div class='input'>
-<span class='fu'>populate</span>(<span class='no'>fold_rs</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  1  9 25 27</div><div class='input'>
-<span class='no'>fold_rs_all</span> <span class='kw'>&lt;-</span> <span class='fu'>populate</span>(<span class='no'>fold_rs</span>)
-<span class='no'>fold_rs_all</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>out_id</span></div><div class='output co'>#&gt; [1]  1  9 25 27</div></pre>
+<span class='kw'>fold_rs</span><span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]]<span class='op'>$</span><span class='kw'>out_id</span></div><div class='output co'>#&gt; [1] NA</div><div class='input'><span class='fu'><a href='https://rsample.tidymodels.org/reference/complement.html'>complement</a></span>(<span class='kw'>fold_rs</span><span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]])</div><div class='output co'>#&gt; [1]  1  9 25 27</div><div class='input'>
+<span class='fu'><a href='https://rsample.tidymodels.org/reference/populate.html'>populate</a></span>(<span class='kw'>fold_rs</span><span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]])<span class='op'>$</span><span class='kw'>out_id</span></div><div class='output co'>#&gt; [1]  1  9 25 27</div><div class='input'>
+<span class='kw'>fold_rs_all</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/populate.html'>populate</a></span>(<span class='kw'>fold_rs</span>)
+<span class='kw'>fold_rs_all</span><span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]]<span class='op'>$</span><span class='kw'>out_id</span></div><div class='output co'>#&gt; [1]  1  9 25 27</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

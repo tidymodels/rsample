@@ -43,10 +43,6 @@
 <script src="pkgdown.js"></script>
 <link href="tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="tidymodels.css" rel="stylesheet">
-
-
 
 
 <meta property="og:title" content="NA" />
@@ -187,26 +183,32 @@ run <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></
 <h4 class="hasAnchor">
 <a href="#minimal-reproducible-dataset" class="anchor"></a><em>Minimal</em> Reproducible Dataset:</h4>
 <p>If you are not using a data set in a package then use e.g. <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> to give us something that can be put in R immediately, e.g. </p>
-<div class="sourceCode" id="cb1"><html><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/dput.html">dput</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">iris</span>,<span class="fl">4</span>))</pre></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/dput.html">dput</a></span>(<span class="kw">your_data_frame_here</span>)
+</pre></div>
 <p>Without a dataset, there usually isn’t much that we can do to help.</p>
-<p>If your data frame has a factor with many levels, the <code>dput</code> output can be unwieldy because it will still list all the possible factor levels even if they aren’t present in the the subset of your data. To solve this issue, you can use the <code><a href="https://rdrr.io/r/base/droplevels.html">droplevels()</a></code> function. Notice below how species is a factor with only one level: <code><a href="https://rdrr.io/r/base/dput.html">dput(droplevels(head(iris, 4)))</a></code>.</p>
+<p>If your data frame has a factor with many levels, the <code>dput</code> output can be unwieldy because it will still list all the possible factor levels even if they aren’t present in the the subset of your data. To solve this issue, you can use the <code><a href="https://rdrr.io/r/base/droplevels.html">droplevels()</a></code> function. For example, in <code><a href="https://rdrr.io/r/utils/data.html">data(hpc_data, package = "modeldata")</a></code>, the <code>protocol</code> variable has many levels. Notice below how <code>protocol</code> is a factor with only one level here: <code><a href="https://rdrr.io/r/base/dput.html">dput(droplevels(head(hpc_data, 4)))</a></code>.</p>
 </div>
 <div id="minimal-runnable-code" class="section level4">
 <h4 class="hasAnchor">
 <a href="#minimal-runnable-code" class="anchor"></a>Minimal, runnable code:</h4>
-<div class="sourceCode" id="cb2"><html><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rsample</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rsample.tidymodels.org">rsample</a></span>)
 
 <span class="co"># Set the seed before using random numbers</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">4121</span>)
-<span class="no">cv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(<span class="fu"><a href="reference/vfold_cv.html">vfold_cv</a></span>(<span class="no">mtcars</span>, <span class="kw">v</span> <span class="kw">=</span> <span class="fl">5</span>))</pre></html></div>
+<span class="kw">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(<span class="fu"><a href="https://rsample.tidymodels.org/reference/vfold_cv.html">vfold_cv</a></span>(<span class="kw">mtcars</span>, v = <span class="fl">5</span>)) 
+</pre></div>
 </div>
 </div>
 <div id="session-info" class="section level3">
 <h3 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info:</h3>
-<div class="sourceCode" id="cb3"><html><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
 
-<span class="co"># or sessioninfo::session_info()</span></pre></html></div>
+<span class="co"># or sessioninfo::session_info()</span>
+</pre></div>
 <p>Be sure to test your chunks of code in an empty R session before submitting your issue!</p>
 </div>
 

@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../tidymodels.css" rel="stylesheet">
-
-
 
 
 <meta property="og:title" content="Rolling Origin Forecast Resampling — rolling_origin" />
@@ -174,14 +170,14 @@ consecutive values. The function assumes that the original data set are
 sorted in time order.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rolling_origin</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>initial</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>assess</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>cumulative</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>lag</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='no'>...</span>
+    <pre class="usage"><span class='fu'><a href='https://rsample.tidymodels.org/reference/rolling_origin.html'>rolling_origin</a></span>(
+  <span class='kw'>data</span>,
+  initial = <span class='fl'>5</span>,
+  assess = <span class='fl'>1</span>,
+  cumulative = <span class='fl'>TRUE</span>,
+  skip = <span class='fl'>0</span>,
+  lag = <span class='fl'>0</span>,
+  <span class='kw'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -241,36 +237,38 @@ When <code>skip = 0</code>, the resampling data sets will increment by one posit
 Suppose that the rows of a data set are consecutive days. Using <code>skip = 6</code>
 will make the analysis data set operate on <em>weeks</em> instead of days. The
 assessment set size is not affected by this option.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='https://rsample.tidymodels.org/reference/slide-resampling.html'>sliding_window()</a></code>, <code><a href='https://rsample.tidymodels.org/reference/slide-resampling.html'>sliding_index()</a></code>, and <code><a href='https://rsample.tidymodels.org/reference/slide-resampling.html'>sliding_period()</a></code> for additional
+time based resampling functions.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1131</span>)
-<span class='no'>ex_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>row</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>20</span>, <span class='kw'>some_var</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>20</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='fu'>rolling_origin</span>(<span class='no'>ex_data</span>))</div><div class='output co'>#&gt; [1] 15  2</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='fu'>rolling_origin</span>(<span class='no'>ex_data</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt; [1] 5 2</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='fu'>rolling_origin</span>(<span class='no'>ex_data</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>cumulative</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; [1] 5 2</div><div class='input'>
+<span class='kw'>ex_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(row = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>20</span>, some_var = <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>20</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='fu'><a href='https://rsample.tidymodels.org/reference/rolling_origin.html'>rolling_origin</a></span>(<span class='kw'>ex_data</span>))</div><div class='output co'>#&gt; [1] 15  2</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='fu'><a href='https://rsample.tidymodels.org/reference/rolling_origin.html'>rolling_origin</a></span>(<span class='kw'>ex_data</span>, skip = <span class='fl'>2</span>))</div><div class='output co'>#&gt; [1] 5 2</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='fu'><a href='https://rsample.tidymodels.org/reference/rolling_origin.html'>rolling_origin</a></span>(<span class='kw'>ex_data</span>, skip = <span class='fl'>2</span>, cumulative = <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; [1] 5 2</div><div class='input'>
 <span class='co'># You can also roll over calendar periods by first nesting by that period,</span>
 <span class='co'># which is especially useful for irregular series where a fixed window</span>
 <span class='co'># is not useful. This example slides over 5 years at a time.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>drinks</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"modeldata"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://tidyr.tidyverse.org'>tidyr</a></span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘tidyr’ was built under R version 4.0.2</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>drinks</span>, package = <span class='st'>"modeldata"</span>)
 
-<span class='no'>drinks_annual</span> <span class='kw'>&lt;-</span> <span class='no'>drinks</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.POSIXlt.html'>as.POSIXlt</a></span>(<span class='no'>date</span>)$<span class='no'>year</span> + <span class='fl'>1900</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/nest.html'>nest</a></span>(-<span class='no'>year</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: All elements of `...` must be named.</span>
+<span class='kw'>drinks_annual</span> <span class='op'>&lt;-</span> <span class='kw'>drinks</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(year = <span class='fu'><a href='https://rdrr.io/r/base/as.POSIXlt.html'>as.POSIXlt</a></span>(<span class='kw'>date</span>)<span class='op'>$</span><span class='kw'>year</span> <span class='op'>+</span> <span class='fl'>1900</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/nest.html'>nest</a></span>(<span class='op'>-</span><span class='kw'>year</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: All elements of `...` must be named.</span>
 #&gt; <span class='warning'>Did you want `data = c(date, S4248SM144NCEN)`?</span></div><div class='input'>
-<span class='no'>multi_year_roll</span> <span class='kw'>&lt;-</span> <span class='fu'>rolling_origin</span>(<span class='no'>drinks_annual</span>, <span class='kw'>cumulative</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='kw'>multi_year_roll</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/rolling_origin.html'>rolling_origin</a></span>(<span class='kw'>drinks_annual</span>, cumulative = <span class='fl'>FALSE</span>)
 
-<span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span>(<span class='no'>multi_year_roll</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 2</span><span>
+<span class='fu'><a href='https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html'>analysis</a></span>(<span class='kw'>multi_year_roll</span><span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]])</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 2</span><span>
 #&gt;    year data             
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>           
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>992 </span><span style='color: #949494;'>&lt;tibble [12 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span>  </span><span style='text-decoration: underline;'>1</span><span>993 </span><span style='color: #949494;'>&lt;tibble [12 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>3</span><span>  </span><span style='text-decoration: underline;'>1</span><span>994 </span><span style='color: #949494;'>&lt;tibble [12 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>4</span><span>  </span><span style='text-decoration: underline;'>1</span><span>995 </span><span style='color: #949494;'>&lt;tibble [12 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>996 </span><span style='color: #949494;'>&lt;tibble [12 × 2]&gt;</span><span></div><div class='input'><span class='fu'><a href='as.data.frame.rsplit.html'>assessment</a></span>(<span class='no'>multi_year_roll</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]])</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 2</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>  </span><span style='text-decoration: underline;'>1</span><span>996 </span><span style='color: #949494;'>&lt;tibble [12 × 2]&gt;</span><span></div><div class='input'><span class='fu'><a href='https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html'>assessment</a></span>(<span class='kw'>multi_year_roll</span><span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]])</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 2</span><span>
 #&gt;    year data             
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>           
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>997 </span><span style='color: #949494;'>&lt;tibble [12 × 2]&gt;</span><span></div><div class='input'>
-</div></span></pre>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>997 </span><span style='color: #949494;'>&lt;tibble [12 × 2]&gt;</span><span></div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

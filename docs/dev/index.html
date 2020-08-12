@@ -18,7 +18,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="tidyverse-2.css" rel="stylesheet">
-<!--optional theme--><link href="tidymodels.css" rel="stylesheet">
 <meta property="og:title" content="General Resampling Infrastructure">
 <meta property="og:description" content="Classes and functions to create and summarize different types of resampling objects (e.g. bootstrap, cross-validation). ">
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png">
@@ -129,25 +128,27 @@
 <p>The scope of <code>rsample</code> is to provide the basic building blocks for creating and analyzing resamples of a data set but does not include code for modeling or calculating statistics. The “Working with Resample Sets” vignette gives demonstrations of how <code>rsample</code> tools can be used.</p>
 <p>Note that resampled data sets created by <code>rsample</code> are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
 <p>For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rsample</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">mlbench</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rsample.tidymodels.org">rsample</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">mlbench</span>)
 
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">LetterRecognition</span>)
-<span class="kw pkg">lobstr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/lobstr/man/obj_size.html">obj_size</a></span>(<span class="no">LetterRecognition</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">LetterRecognition</span>)
+<span class="kw">lobstr</span>::<span class="fu"><a href="https://rdrr.io/pkg/lobstr/man/obj_size.html">obj_size</a></span>(<span class="kw">LetterRecognition</span>)
 <span class="co">#&gt; 2,644,640 B</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">35222</span>)
-<span class="no">boots</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/bootstraps.html">bootstraps</a></span>(<span class="no">LetterRecognition</span>, <span class="kw">times</span> <span class="kw">=</span> <span class="fl">50</span>)
-<span class="kw pkg">lobstr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/lobstr/man/obj_size.html">obj_size</a></span>(<span class="no">boots</span>)
+<span class="kw">boots</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bootstraps.html">bootstraps</a></span>(<span class="kw">LetterRecognition</span>, times = <span class="fl">50</span>)
+<span class="kw">lobstr</span>::<span class="fu"><a href="https://rdrr.io/pkg/lobstr/man/obj_size.html">obj_size</a></span>(<span class="kw">boots</span>)
 <span class="co">#&gt; 6,686,512 B</span>
 
 <span class="co"># Object size per resample</span>
-<span class="kw pkg">lobstr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/lobstr/man/obj_size.html">obj_size</a></span>(<span class="no">boots</span>)/<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">boots</span>)
+<span class="kw">lobstr</span>::<span class="fu"><a href="https://rdrr.io/pkg/lobstr/man/obj_size.html">obj_size</a></span>(<span class="kw">boots</span>)<span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">boots</span>)
 <span class="co">#&gt; 133,730.2 B</span>
 
 <span class="co"># Fold increase is &lt;&lt;&lt; 50</span>
-<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw pkg">lobstr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/lobstr/man/obj_size.html">obj_size</a></span>(<span class="no">boots</span>)/<span class="kw pkg">lobstr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/lobstr/man/obj_size.html">obj_size</a></span>(<span class="no">LetterRecognition</span>))
-<span class="co">#&gt; [1] 2.528326</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw">lobstr</span>::<span class="fu"><a href="https://rdrr.io/pkg/lobstr/man/obj_size.html">obj_size</a></span>(<span class="kw">boots</span>)<span class="op">/</span><span class="kw">lobstr</span>::<span class="fu"><a href="https://rdrr.io/pkg/lobstr/man/obj_size.html">obj_size</a></span>(<span class="kw">LetterRecognition</span>))
+<span class="co">#&gt; [1] 2.528326</span>
+</pre></div>
 <p><sup>Created on 2020-05-07 by the <a href="https://reprex.tidyverse.org">reprex package</a> (v0.3.0)</sup></p>
 <p>The memory usage for 50 bootstrap samples is less than 3-fold more than the original data set.</p>
 </div>
@@ -155,26 +156,26 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>To install it, use:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"rsample"</span>)
-
-<span class="co">## For the devel version:</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">devtools</span>)
-<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"tidymodels/rsample"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"rsample"</span>)
+</pre></div>
 <p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="co"># install.packages("devtools")</span>
-<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_dev</a></span>(<span class="st">"rsample"</span>)</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="co"># install.packages("devtools")</span>
+<span class="fu">install_dev</span>(<span class="st">"rsample"</span>)
+</pre></div>
 </div>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
-<p>We welcome contributions of all types!</p>
-<p>If you have never made a pull request to an R package before, <code>rsample</code> is an excellent place to start. Find an <a href="https://github.com/tidymodels/rsample/issues/">issue</a> with the <strong>Beginner Friendly</strong> tag and comment that you’d like to take it on and we’ll help you get started.</p>
-<p>We encourage typo corrections, bug reports, bug fixes, and feature requests. Feedback on the clarity of the documentation is especially valuable.</p>
-</div>
-<div id="code-of-conduct" class="section level2">
-<h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
-<p>Please note that the rsample project is released with a <a href="https://rsample.tidymodels.org/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>This project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<ul>
+<li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://rstd.io/tidymodels-community">post on RStudio Community</a>.</p></li>
+<li><p>If you think you have encountered a bug, please <a href="https://github.com/tidymodels/parsnip/issues">submit an issue</a>.</p></li>
+<li><p>Either way, learn how to create and share a <a href="https://rstd.io/reprex">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
+<li><p>We welcome contributions, including typo corrections, bug fixes, and feature requests! If you have never made a pull request to an R package before, <code>rsample</code> is an excellent place to start. Find an <a href="https://github.com/tidymodels/rsample/issues/">issue</a> with the <strong>help wanted ❤️</strong> tag, comment that you’d like to take it on, and we’ll help you get started.</p></li>
+<li><p>Check out further details on <a href="https://www.tidymodels.org/contribute/">contributing guidelines for tidymodels packages</a> and <a href="https://www.tidymodels.org/help/">how to get help</a>.</p></li>
+</ul>
 </div>
 </div>
   </div>
