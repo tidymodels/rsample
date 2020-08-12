@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../tidymodels.css" rel="stylesheet">
-
-
 
 
 <meta property="og:title" content="Bootstrap confidence intervals — int_pctl" />
@@ -168,11 +164,11 @@
     <p>Calculate bootstrap confidence intervals using various methods.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>int_pctl</span>(<span class='no'>.data</span>, <span class='no'>statistics</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)
+    <pre class="usage"><span class='fu'><a href='https://rsample.tidymodels.org/reference/int_pctl.html'>int_pctl</a></span>(<span class='kw'>.data</span>, <span class='kw'>statistics</span>, alpha = <span class='fl'>0.05</span>)
 
-<span class='fu'>int_t</span>(<span class='no'>.data</span>, <span class='no'>statistics</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)
+<span class='fu'><a href='https://rsample.tidymodels.org/reference/int_pctl.html'>int_t</a></span>(<span class='kw'>.data</span>, <span class='kw'>statistics</span>, alpha = <span class='fl'>0.05</span>)
 
-<span class='fu'>int_bca</span>(<span class='no'>.data</span>, <span class='no'>statistics</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='no'>.fn</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rsample.tidymodels.org/reference/int_pctl.html'>int_bca</a></span>(<span class='kw'>.data</span>, <span class='kw'>statistics</span>, alpha = <span class='fl'>0.05</span>, <span class='kw'>.fn</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,7 +176,7 @@
     <tr>
       <th>.data</th>
       <td><p>A data frame containing the bootstrap resamples created using
-<code><a href='bootstraps.html'>bootstraps()</a></code>. For t- and BCa-intervals, the <code>apparent</code> argument
+<code><a href='https://rsample.tidymodels.org/reference/bootstraps.html'>bootstraps()</a></code>. For t- and BCa-intervals, the <code>apparent</code> argument
 should be set to <code>TRUE</code>. Even if the <code>apparent</code> argument is set to
 <code>TRUE</code> for the percentile method, the apparent data is never used in calculating
 the percentile confidence interval.</p></td>
@@ -216,7 +212,7 @@ required.</p></td>
 <code>.estimate</code>, <code>.upper</code>, <code>.alpha</code>, <code>.method</code>, and <code>term</code>.
 <code>.method</code> is the type of interval (eg. "percentile",
 "student-t", or "BCa"). <code>term</code> is the name of the estimate. Note
-the <code>.estimate</code> returned from <code>int_pctl()</code>
+the <code>.estimate</code> returned from <code><a href='https://rsample.tidymodels.org/reference/int_pctl.html'>int_pctl()</a></code>
 is the mean of the estimates from the bootstrap resamples
 and not the estimate from the apparent model.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -236,55 +232,56 @@ doi:10.1017/CBO9780511802843</p>
 <p><a href='https://rsample.tidymodels.org/articles/Applications/Intervals.html'>https://rsample.tidymodels.org/articles/Applications/Intervals.html</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>broom</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>purrr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tibble</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://broom.tidymodels.org'>broom</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://purrr.tidyverse.org'>purrr</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://tibble.tidyverse.org'>tibble</a></span>)
 
-<span class='no'>lm_est</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>split</span>, <span class='no'>...</span>) {
-  <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span>(<span class='no'>split</span>)) <span class='kw'>%&gt;%</span>
+<span class='kw'>lm_est</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>split</span>, <span class='kw'>...</span>) {
+  <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>mpg</span> <span class='op'>~</span> <span class='kw'>disp</span> <span class='op'>+</span> <span class='kw'>hp</span>, data = <span class='fu'><a href='https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html'>analysis</a></span>(<span class='kw'>split</span>)) <span class='op'>%&gt;%</span>
     <span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span>()
 }
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>52156</span>)
-<span class='no'>car_rs</span> <span class='kw'>&lt;-</span>
-  <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='no'>mtcars</span>, <span class='fl'>500</span>, <span class='kw'>apparent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>results</span> <span class='kw'>=</span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='no'>splits</span>, <span class='no'>lm_est</span>))
+<span class='kw'>car_rs</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rsample.tidymodels.org/reference/bootstraps.html'>bootstraps</a></span>(<span class='kw'>mtcars</span>, <span class='fl'>500</span>, apparent = <span class='fl'>TRUE</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(results = <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='kw'>splits</span>, <span class='kw'>lm_est</span>))
 
-<span class='fu'>int_pctl</span>(<span class='no'>car_rs</span>, <span class='no'>results</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Recommend at least 1000 non-missing bootstrap resamples for terms: `(Intercept)`, `disp`, `hp`.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 6</span><span>
+<span class='fu'><a href='https://rsample.tidymodels.org/reference/int_pctl.html'>int_pctl</a></span>(<span class='kw'>car_rs</span>, <span class='kw'>results</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Recommend at least 1000 non-missing bootstrap resamples for terms: `(Intercept)`, `disp`, `hp`.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 6</span><span>
 #&gt;   term         .lower .estimate   .upper .alpha .method   
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> (Intercept) 27.5      30.7    33.6       0.05 percentile
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span> disp        -</span><span style='color: #BB0000;'>0.044</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span>   -</span><span style='color: #BB0000;'>0.030</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>0.016</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span>    0.05 percentile
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> hp          -</span><span style='color: #BB0000;'>0.057</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span>   -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>0.008</span><span style='color: #BB0000;text-decoration: underline;'>40</span><span>   0.05 percentile</div><div class='input'><span class='fu'>int_t</span>(<span class='no'>car_rs</span>, <span class='no'>results</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 6</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> hp          -</span><span style='color: #BB0000;'>0.057</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span>   -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>0.008</span><span style='color: #BB0000;text-decoration: underline;'>40</span><span>   0.05 percentile</div><div class='input'><span class='fu'><a href='https://rsample.tidymodels.org/reference/int_pctl.html'>int_t</a></span>(<span class='kw'>car_rs</span>, <span class='kw'>results</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 6</span><span>
 #&gt;   term         .lower .estimate   .upper .alpha .method  
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> (Intercept) 28.1      30.7    34.6       0.05 student-t
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span> disp        -</span><span style='color: #BB0000;'>0.044</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>   -</span><span style='color: #BB0000;'>0.030</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>0.017</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span>    0.05 student-t
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> hp          -</span><span style='color: #BB0000;'>0.044</span><span style='color: #BB0000;text-decoration: underline;'>9</span><span>   -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>0.003</span><span style='color: #BB0000;text-decoration: underline;'>37</span><span>   0.05 student-t</div><div class='input'><span class='fu'>int_bca</span>(<span class='no'>car_rs</span>, <span class='no'>results</span>, <span class='kw'>.fn</span> <span class='kw'>=</span> <span class='no'>lm_est</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Recommend at least 1000 non-missing bootstrap resamples for terms: `(Intercept)`, `disp`, `hp`.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 6</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> hp          -</span><span style='color: #BB0000;'>0.044</span><span style='color: #BB0000;text-decoration: underline;'>9</span><span>   -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>0.003</span><span style='color: #BB0000;text-decoration: underline;'>37</span><span>   0.05 student-t</div><div class='input'><span class='fu'><a href='https://rsample.tidymodels.org/reference/int_pctl.html'>int_bca</a></span>(<span class='kw'>car_rs</span>, <span class='kw'>results</span>, .fn = <span class='kw'>lm_est</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Recommend at least 1000 non-missing bootstrap resamples for terms: `(Intercept)`, `disp`, `hp`.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 6</span><span>
 #&gt;   term         .lower .estimate   .upper .alpha .method
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> (Intercept) 27.7      30.7    33.7       0.05 BCa    
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span> disp        -</span><span style='color: #BB0000;'>0.044</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>   -</span><span style='color: #BB0000;'>0.030</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>0.017</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span>    0.05 BCa    
 #&gt; </span><span style='color: #BCBCBC;'>3</span><span> hp          -</span><span style='color: #BB0000;'>0.057</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>   -</span><span style='color: #BB0000;'>0.026</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>0.008</span><span style='color: #BB0000;text-decoration: underline;'>43</span><span>   0.05 BCa    </div><div class='input'>
 <span class='co'># putting results into a tidy format</span>
-<span class='no'>rank_corr</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>split</span>) {
-  <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span>(<span class='no'>split</span>)
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>tibble</a></span>(
-    <span class='kw'>term</span> <span class='kw'>=</span> <span class='st'>"corr"</span>,
-    <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span>(<span class='no'>dat</span>$<span class='no'>Sepal.Length</span>, <span class='no'>dat</span>$<span class='no'>Sepal.Width</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spearman"</span>),
+<span class='kw'>rank_corr</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>split</span>) {
+  <span class='kw'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html'>analysis</a></span>(<span class='kw'>split</span>)
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
+    term = <span class='st'>"corr"</span>,
+    estimate = <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span>(<span class='kw'>dat</span><span class='op'>$</span><span class='kw'>sqft</span>, <span class='kw'>dat</span><span class='op'>$</span><span class='kw'>price</span>, method = <span class='st'>"spearman"</span>),
     <span class='co'># don't know the analytical std.err so no t-intervals</span>
-    <span class='kw'>std.err</span> <span class='kw'>=</span> <span class='fl'>NA_real_</span>
+    std.err = <span class='fl'>NA_real_</span>
   )
 }
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>69325</span>)
-<span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='no'>iris</span>, <span class='fl'>500</span>, <span class='kw'>apparent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>correlations</span> <span class='kw'>=</span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='no'>splits</span>, <span class='no'>rank_corr</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>int_pctl</span>(<span class='no'>correlations</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Recommend at least 1000 non-missing bootstrap resamples for term `corr`.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 6</span><span>
-#&gt;   term  .lower .estimate  .upper .alpha .method   
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> corr  -</span><span style='color: #BB0000;'>0.309</span><span>    -</span><span style='color: #BB0000;'>0.166</span><span> -</span><span style='color: #BB0000;'>0.020</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span>   0.05 percentile</div></span></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Sacramento</span>, package = <span class='st'>"modeldata"</span>)
+<span class='fu'><a href='https://rsample.tidymodels.org/reference/bootstraps.html'>bootstraps</a></span>(<span class='kw'>Sacramento</span>, <span class='fl'>1000</span>, apparent = <span class='fl'>TRUE</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(correlations = <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='kw'>splits</span>, <span class='kw'>rank_corr</span>)) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rsample.tidymodels.org/reference/int_pctl.html'>int_pctl</a></span>(<span class='kw'>correlations</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 6</span><span>
+#&gt;   term  .lower .estimate .upper .alpha .method   
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> corr   0.737     0.768  0.796   0.05 percentile</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

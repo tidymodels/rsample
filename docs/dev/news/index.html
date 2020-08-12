@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../tidymodels.css" rel="stylesheet">
-
-
 
 
 <meta property="og:title" content="Changelog" />
@@ -166,6 +162,9 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#rsample-development-version" class="anchor"></a>rsample (development version)<small> Unreleased </small>
 </h1>
+<ul>
+<li>Three new time based resampling functions have been added: <code><a href="https://rsample.tidymodels.org/reference/slide-resampling.html">sliding_window()</a></code>, <code><a href="https://rsample.tidymodels.org/reference/slide-resampling.html">sliding_index()</a></code>, and <code><a href="https://rsample.tidymodels.org/reference/slide-resampling.html">sliding_period()</a></code>, which have more flexibility than the pre-existing <code><a href="https://rsample.tidymodels.org/reference/rolling_origin.html">rolling_origin()</a></code>.</li>
+</ul>
 </div>
     <div id="rsample-007" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.7">
@@ -186,7 +185,7 @@
 <li><p>Correct the tidy method for bootstraps (<a href='https://github.com/tidymodels/rsample/issues/115'>#115</a>).</p></li>
 <li><p>Changes for upcoming `tibble release.</p></li>
 <li><p>Exported constructors for <code>rset</code> and <code>split</code> objects (<a href='https://github.com/tidymodels/rsample/issues/40'>#40</a>)</p></li>
-<li><p><code><a href="../reference/initial_split.html">initial_time_split()</a></code> and <code><a href="../reference/rolling_origin.html">rolling_origin()</a></code> now have a <code>lag</code> parameter that ensures that previous data are available so that lagged variables can be calculated. (<a href='https://github.com/tidymodels/rsample/issues/135'>#135</a>, <a href='https://github.com/tidymodels/rsample/issues/136'>#136</a>)</p></li>
+<li><p><code><a href="https://rsample.tidymodels.org/reference/initial_split.html">initial_time_split()</a></code> and <code><a href="https://rsample.tidymodels.org/reference/rolling_origin.html">rolling_origin()</a></code> now have a <code>lag</code> parameter that ensures that previous data are available so that lagged variables can be calculated. (<a href='https://github.com/tidymodels/rsample/issues/135'>#135</a>, <a href='https://github.com/tidymodels/rsample/issues/136'>#136</a>)</p></li>
 </ul>
 </div>
     <div id="rsample-005" class="section level1">
@@ -194,9 +193,9 @@
 <a href="#rsample-005" class="anchor"></a><small> 2019-07-12 </small><code>rsample</code> 0.0.5</h1>
 <ul>
 <li>Added three functions to compute different bootstrap confidence intervals.</li>
-<li>A new function (<code><a href="../reference/add_resample_id.html">add_resample_id()</a></code>) augments a data frame with columns for the resampling identifier.</li>
-<li>Updated <code><a href="../reference/initial_split.html">initial_split()</a></code>, <code><a href="../reference/mc_cv.html">mc_cv()</a></code>, <code><a href="../reference/vfold_cv.html">vfold_cv()</a></code>, <code><a href="../reference/bootstraps.html">bootstraps()</a></code>, and <code><a href="../reference/group_vfold_cv.html">group_vfold_cv()</a></code> to use tidyselect on the stratification variable.</li>
-<li>Updated <code><a href="../reference/initial_split.html">initial_split()</a></code>, <code><a href="../reference/mc_cv.html">mc_cv()</a></code>, <code><a href="../reference/vfold_cv.html">vfold_cv()</a></code>, <code><a href="../reference/bootstraps.html">bootstraps()</a></code> with new <code>breaks</code> parameter that specifies the number of bins to stratify by for a numeric stratification variable.</li>
+<li>A new function (<code><a href="https://rsample.tidymodels.org/reference/add_resample_id.html">add_resample_id()</a></code>) augments a data frame with columns for the resampling identifier.</li>
+<li>Updated <code><a href="https://rsample.tidymodels.org/reference/initial_split.html">initial_split()</a></code>, <code><a href="https://rsample.tidymodels.org/reference/mc_cv.html">mc_cv()</a></code>, <code><a href="https://rsample.tidymodels.org/reference/vfold_cv.html">vfold_cv()</a></code>, <code><a href="https://rsample.tidymodels.org/reference/bootstraps.html">bootstraps()</a></code>, and <code><a href="https://rsample.tidymodels.org/reference/group_vfold_cv.html">group_vfold_cv()</a></code> to use tidyselect on the stratification variable.</li>
+<li>Updated <code><a href="https://rsample.tidymodels.org/reference/initial_split.html">initial_split()</a></code>, <code><a href="https://rsample.tidymodels.org/reference/mc_cv.html">mc_cv()</a></code>, <code><a href="https://rsample.tidymodels.org/reference/vfold_cv.html">vfold_cv()</a></code>, <code><a href="https://rsample.tidymodels.org/reference/bootstraps.html">bootstraps()</a></code> with new <code>breaks</code> parameter that specifies the number of bins to stratify by for a numeric stratification variable.</li>
 </ul>
 </div>
     <div id="rsample-004" class="section level1">
@@ -208,7 +207,7 @@
 <a href="#minor-improvements-and-fixes" class="anchor"></a>Minor improvements and fixes</h2>
 <ul>
 <li>
-<code>fill()</code> was removed per the deprecation warning.</li>
+<code><a href="https://tidyr.tidyverse.org/reference/fill.html">fill()</a></code> was removed per the deprecation warning.</li>
 <li>Small changes were made for the new version of <code>tibble</code>.</li>
 </ul>
 </div>
@@ -220,14 +219,14 @@
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New features</h2>
 <ul>
-<li>Added function <code><a href="../reference/initial_split.html">initial_time_split()</a></code> for ordered initial sampling appropriate for time series data.</li>
+<li>Added function <code><a href="https://rsample.tidymodels.org/reference/initial_split.html">initial_time_split()</a></code> for ordered initial sampling appropriate for time series data.</li>
 </ul>
 </div>
 <div id="minor-improvements-and-fixes-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#minor-improvements-and-fixes-1" class="anchor"></a>Minor improvements and fixes</h2>
 <ul>
-<li><p><code>fill()</code> has been renamed <code><a href="../reference/populate.html">populate()</a></code> to avoid a conflict with <code><a href="https://tidyr.tidyverse.org/reference/fill.html">tidyr::fill()</a></code>.</p></li>
+<li><p><code><a href="https://tidyr.tidyverse.org/reference/fill.html">fill()</a></code> has been renamed <code><a href="https://rsample.tidymodels.org/reference/populate.html">populate()</a></code> to avoid a conflict with <code><a href="https://tidyr.tidyverse.org/reference/fill.html">tidyr::fill()</a></code>.</p></li>
 <li><p>Changed the R version requirement to be R &gt;= 3.1 instead of 3.3.3.</p></li>
 <li><p>The <code>recipes</code>-related <code>prepper</code> function was <a href="https://github.com/tidymodels/rsample/issues/48">moved to the <code>recipes</code> package</a>. This makes the <code>rsample</code> install footprint much smaller.</p></li>
 <li><p><code>rsplit</code> objects are shown differently inside of a tibble.</p></li>

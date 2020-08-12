@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../tidymodels.css" rel="stylesheet">
-
-
 
 
 <meta property="og:title" content="Compatibility with dplyr — rsample-dplyr" />
@@ -171,8 +167,8 @@ get more complete integration with dplyr." />
     <div class="ref-description">
     <p>rsample should be fully compatible with dplyr 1.0.0.</p>
 <p>With older versions of dplyr, there is partial support for the following
-verbs: <code>mutate()</code>, <code>arrange()</code>, <code><a href='https://rdrr.io/r/stats/filter.html'>filter()</a></code>, <code>rename()</code>, <code>select()</code>, and
-<code>slice()</code>. We strongly recommend updating to dplyr 1.0.0 if possible to
+verbs: <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select()</a></code>, and
+<code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice()</a></code>. We strongly recommend updating to dplyr 1.0.0 if possible to
 get more complete integration with dplyr.</p>
     </div>
 
@@ -193,11 +189,11 @@ or an rsample rset subclass.</p>
 are not exhaustive and may not capture some edge-cases.</p><h3>Joins</h3>
 
 
-<p>The following affect all of the dplyr joins, such as <code>left_join()</code>,
-<code>right_join()</code>, <code>full_join()</code>, and <code>inner_join()</code>.</p>
+<p>The following affect all of the dplyr joins, such as <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join()</a></code>,
+<code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>right_join()</a></code>, <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>full_join()</a></code>, and <code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join()</a></code>.</p>
 <p>Joins that alter the rows of the original rset object:</p><table class='table'>
 <tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
-<tr><td><code>join(rset, tbl)</code></td><td>error</td><td>error</td><td>tibble</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>join(rset, tbl)</a></code></td><td>error</td><td>error</td><td>tibble</td></tr>
 </table>
 
 
@@ -207,7 +203,7 @@ not be an rset object. For example, you can't have a 10-fold CV object
 without 10 rows.</p>
 <p>Joins that keep the rows of the original rset object:</p><table class='table'>
 <tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
-<tr><td><code>join(rset, tbl)</code></td><td>error</td><td>error</td><td>rset</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>join(rset, tbl)</a></code></td><td>error</td><td>error</td><td>rset</td></tr>
 </table>
 
 
@@ -224,8 +220,8 @@ rsample.</p>
 <p>Cases where rows are removed or added:</p><table class='table'>
 <tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
 <tr><td><code>rset[ind,]</code></td><td>tibble</td><td>tibble</td><td>tibble</td></tr>
-<tr><td><code>slice(rset)</code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
-<tr><td><code><a href='https://rdrr.io/r/stats/filter.html'>filter(rset)</a></code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice(rset)</a></code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter(rset)</a></code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
 </table>
 
 
@@ -233,9 +229,9 @@ rsample.</p>
 <p>Cases where all rows are kept, but are possibly reordered:</p><table class='table'>
 <tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
 <tr><td><code>rset[ind,]</code></td><td>tibble</td><td>rset</td><td>rset</td></tr>
-<tr><td><code>slice(rset)</code></td><td>rset</td><td>rset</td><td>rset</td></tr>
-<tr><td><code><a href='https://rdrr.io/r/stats/filter.html'>filter(rset)</a></code></td><td>rset</td><td>rset</td><td>rset</td></tr>
-<tr><td><code>arrange(rset)</code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice(rset)</a></code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter(rset)</a></code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange(rset)</a></code></td><td>rset</td><td>rset</td><td>rset</td></tr>
 </table>
 
 
@@ -249,8 +245,8 @@ the result should no longer be considered a valid rset.</p>
 <p>Cases when the required columns are removed or renamed:</p><table class='table'>
 <tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
 <tr><td><code>rset[,ind]</code></td><td>tibble</td><td>tibble</td><td>tibble</td></tr>
-<tr><td><code>select(rset)</code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
-<tr><td><code>rename(rset)</code></td><td>tibble</td><td>tibble</td><td>tibble</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/select.html'>select(rset)</a></code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename(rset)</a></code></td><td>tibble</td><td>tibble</td><td>tibble</td></tr>
 </table>
 
 
@@ -258,8 +254,8 @@ the result should no longer be considered a valid rset.</p>
 <p>Cases when no required columns are affected:</p><table class='table'>
 <tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
 <tr><td><code>rset[,ind]</code></td><td>tibble</td><td>rset</td><td>rset</td></tr>
-<tr><td><code>select(rset)</code></td><td>rset</td><td>rset</td><td>rset</td></tr>
-<tr><td><code>rename(rset)</code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/select.html'>select(rset)</a></code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename(rset)</a></code></td><td>rset</td><td>rset</td><td>rset</td></tr>
 </table>
 
 
@@ -270,14 +266,14 @@ the result should no longer be considered a valid rset.</p>
 
 <p>Cases when the required columns are altered:</p><table class='table'>
 <tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
-<tr><td><code>mutate(rset)</code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate(rset)</a></code></td><td>rset</td><td>tibble</td><td>tibble</td></tr>
 </table>
 
 
 
 <p>Cases when no required columns are affected:</p><table class='table'>
 <tr><td>operation</td><td>old rsample + old dplyr</td><td>new rsample + old dplyr</td><td>new rsample + new dplyr</td></tr>
-<tr><td><code>mutate(rset)</code></td><td>rset</td><td>rset</td><td>rset</td></tr>
+<tr><td><code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate(rset)</a></code></td><td>rset</td><td>rset</td><td>rset</td></tr>
 </table>
 
 

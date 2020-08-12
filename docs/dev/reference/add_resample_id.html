@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../tidymodels.css" rel="stylesheet">
-
-
 
 
 <meta property="og:title" content="Augment a data set with resampling identifiers — add_resample_id" />
@@ -167,12 +163,12 @@ column is added but for some resampling methods two or more are added." />
     </div>
 
     <div class="ref-description">
-    <p>For a data set, <code>add_resample_id()</code> will add at least one new column that
+    <p>For a data set, <code><a href='https://rsample.tidymodels.org/reference/add_resample_id.html'>add_resample_id()</a></code> will add at least one new column that
 identifies which resample that the data came from. In most cases, a single
 column is added but for some resampling methods two or more are added.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>add_resample_id</span>(<span class='no'>.data</span>, <span class='no'>split</span>, <span class='kw'>dots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rsample.tidymodels.org/reference/add_resample_id.html'>add_resample_id</a></span>(<span class='kw'>.data</span>, <span class='kw'>split</span>, dots = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,17 +196,17 @@ to avoid name conflicts with <code>.data</code>?</p></td>
     <div class='dont-index'><p>labels.rsplit</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>363</span>)
-<span class='no'>car_folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='kw'>car_folds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>mtcars</span>, repeats = <span class='fl'>3</span>)
 
-<span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span>(<span class='no'>car_folds</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='kw'>%&gt;%</span>
-  <span class='fu'>add_resample_id</span>(<span class='no'>car_folds</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='kw'>%&gt;%</span>
+<span class='fu'><a href='https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html'>analysis</a></span>(<span class='kw'>car_folds</span><span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]]) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rsample.tidymodels.org/reference/add_resample_id.html'>add_resample_id</a></span>(<span class='kw'>car_folds</span><span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]]) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()</div><div class='output co'>#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb      id
 #&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4 Repeat1
 #&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4 Repeat1
@@ -225,10 +221,10 @@ to avoid name conflicts with <code>.data</code>?</p></td>
 #&gt; Hornet 4 Drive    Fold01
 #&gt; Hornet Sportabout Fold01
 #&gt; Valiant           Fold01</div><div class='input'>
-<span class='no'>car_bt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='no'>mtcars</span>)
+<span class='kw'>car_bt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/bootstraps.html'>bootstraps</a></span>(<span class='kw'>mtcars</span>)
 
-<span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span>(<span class='no'>car_bt</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='kw'>%&gt;%</span>
-  <span class='fu'>add_resample_id</span>(<span class='no'>car_bt</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]) <span class='kw'>%&gt;%</span>
+<span class='fu'><a href='https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html'>analysis</a></span>(<span class='kw'>car_bt</span><span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]]) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rsample.tidymodels.org/reference/add_resample_id.html'>add_resample_id</a></span>(<span class='kw'>car_bt</span><span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]]) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4

@@ -43,10 +43,6 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<!--optional theme-->
-<link href="../tidymodels.css" rel="stylesheet">
-
-
 
 
 <meta property="og:title" content="Nested or Double Resampling — nested_cv" />
@@ -172,7 +168,7 @@ and conduct further resamples within each split. Any type of resampling
 used in <code>rsample</code> can be used.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nested_cv</span>(<span class='no'>data</span>, <span class='no'>outside</span>, <span class='no'>inside</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rsample.tidymodels.org/reference/nested_cv.html'>nested_cv</a></span>(<span class='kw'>data</span>, <span class='kw'>outside</span>, <span class='kw'>inside</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,7 +205,7 @@ the example below)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Using expressions for the resampling procedures:</span>
-<span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>, <span class='kw'>outside</span> <span class='kw'>=</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>3</span>), <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; # Nested resampling:
+<span class='fu'><a href='https://rsample.tidymodels.org/reference/nested_cv.html'>nested_cv</a></span>(<span class='kw'>mtcars</span>, outside = <span class='fu'><a href='https://rsample.tidymodels.org/reference/vfold_cv.html'>vfold_cv</a></span>(v = <span class='fl'>3</span>), inside = <span class='fu'><a href='https://rsample.tidymodels.org/reference/bootstraps.html'>bootstraps</a></span>(times = <span class='fl'>5</span>))</div><div class='output co'>#&gt; # Nested resampling:
 #&gt; #  outer: 3-fold cross-validation
 #&gt; #  inner: Bootstrap sampling
 #&gt; <span style='color: #949494;'># A tibble: 3 x 3</span><span>
@@ -219,8 +215,8 @@ the example below)</p>
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span> </span><span style='color: #949494;'>&lt;split [21/11]&gt;</span><span> Fold2 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>3</span><span> </span><span style='color: #949494;'>&lt;split [22/10]&gt;</span><span> Fold3 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span></div><div class='input'>
 <span class='co'>## Using an existing object:</span>
-<span class='no'>folds</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='no'>mtcars</span>)
-<span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>, <span class='no'>folds</span>, <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; # Nested resampling:
+<span class='kw'>folds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>mtcars</span>)
+<span class='fu'><a href='https://rsample.tidymodels.org/reference/nested_cv.html'>nested_cv</a></span>(<span class='kw'>mtcars</span>, <span class='kw'>folds</span>, inside = <span class='fu'><a href='https://rsample.tidymodels.org/reference/bootstraps.html'>bootstraps</a></span>(times = <span class='fl'>5</span>))</div><div class='output co'>#&gt; # Nested resampling:
 #&gt; #  outer: `folds`
 #&gt; #  inner: Bootstrap sampling
 #&gt; </span><span style='color: #949494;'># A tibble: 10 x 3</span><span>
@@ -238,19 +234,19 @@ the example below)</p>
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold10 </span><span style='color: #949494;'>&lt;tibble [5 × 2]&gt;</span><span></div><div class='input'>
 <span class='co'>## The dangers of outer bootstraps:</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>2222</span>)
-<span class='no'>bad_idea</span> <span class='kw'>&lt;-</span> <span class='fu'>nested_cv</span>(<span class='no'>mtcars</span>,
-                      <span class='kw'>outside</span> <span class='kw'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span>(<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>5</span>),
-                      <span class='kw'>inside</span> <span class='kw'>=</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Using bootstrapping as the outer resample is dangerous since the inner resample might have the same data point in both the analysis and assessment set.</span></div><div class='input'>
-<span class='no'>first_outer_split</span> <span class='kw'>&lt;-</span> <span class='no'>bad_idea</span>$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-<span class='no'>outer_analysis</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>first_outer_split</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"Volvo 142E"</span>, <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>outer_analysis</span>)))</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
+<span class='kw'>bad_idea</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rsample.tidymodels.org/reference/nested_cv.html'>nested_cv</a></span>(<span class='kw'>mtcars</span>,
+                      outside = <span class='fu'><a href='https://rsample.tidymodels.org/reference/bootstraps.html'>bootstraps</a></span>(times = <span class='fl'>5</span>),
+                      inside = <span class='fu'><a href='https://rsample.tidymodels.org/reference/vfold_cv.html'>vfold_cv</a></span>(v = <span class='fl'>3</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Using bootstrapping as the outer resample is dangerous since the inner resample might have the same data point in both the analysis and assessment set.</span></div><div class='input'>
+<span class='kw'>first_outer_split</span> <span class='op'>&lt;-</span> <span class='kw'>bad_idea</span><span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]]
+<span class='kw'>outer_analysis</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='kw'>first_outer_split</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"Volvo 142E"</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/rownames.html'>rownames</a></span>(<span class='kw'>outer_analysis</span>)))</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
 <span class='co'>## For the 3-fold CV used inside of each bootstrap, how are the replicated</span>
 <span class='co'>## `Volvo 142E` data partitioned?</span>
-<span class='no'>first_inner_split</span> <span class='kw'>&lt;-</span> <span class='no'>bad_idea</span>$<span class='no'>inner_resamples</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>splits</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-<span class='no'>inner_analysis</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>first_inner_split</span>)
-<span class='no'>inner_assess</span>   <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>first_inner_split</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='st'>"assessment"</span>)
+<span class='kw'>first_inner_split</span> <span class='op'>&lt;-</span> <span class='kw'>bad_idea</span><span class='op'>$</span><span class='kw'>inner_resamples</span>[[<span class='fl'>1</span>]]<span class='op'>$</span><span class='kw'>splits</span>[[<span class='fl'>1</span>]]
+<span class='kw'>inner_analysis</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='kw'>first_inner_split</span>)
+<span class='kw'>inner_assess</span>   <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='kw'>first_inner_split</span>, data = <span class='st'>"assessment"</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"Volvo 142E"</span>, <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>inner_analysis</span>)))</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"Volvo 142E"</span>, <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>inner_assess</span>)))</div><div class='output co'>#&gt; [1] 0</div></span></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"Volvo 142E"</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/rownames.html'>rownames</a></span>(<span class='kw'>inner_analysis</span>)))</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"Volvo 142E"</span>, <span class='fu'><a href='https://tibble.tidyverse.org/reference/rownames.html'>rownames</a></span>(<span class='kw'>inner_assess</span>)))</div><div class='output co'>#&gt; [1] 0</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

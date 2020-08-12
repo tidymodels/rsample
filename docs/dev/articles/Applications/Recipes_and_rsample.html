@@ -18,7 +18,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
 <script src="../../pkgdown.js"></script><link href="../../tidyverse-2.css" rel="stylesheet">
-<!--optional theme--><link href="../../tidymodels.css" rel="stylesheet">
 <meta property="og:title" content="Recipes with rsample">
 <meta property="og:description" content="rsample">
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png">
@@ -112,7 +111,7 @@
 
       
 
-      </header><script src="Recipes_and_rsample_files/header-attrs-2.2/header-attrs.js"></script><div class="row">
+      </header><script src="Recipes_and_rsample_files/header-attrs-2.3/header-attrs.js"></script><script src="Recipes_and_rsample_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Recipes with rsample</h1>
@@ -125,7 +124,7 @@
 
     
     
-<p>The <a href="https://topepo.github.io/recipes/"><code>recipes</code></a> package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide. This document uses version 0.1.12 of <code>recipes</code>.</p>
+<p>The <a href="https://topepo.github.io/recipes/"><code>recipes</code></a> package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide. This document uses version 0.1.13 of <code>recipes</code>.</p>
 <p>In many cases, the preprocessing steps might contain quantities that require statistical estimation of parameters, such as</p>
 <ul>
 <li><p>signal extraction using principal component analysis</p></li>
@@ -138,22 +137,11 @@
 <h2 class="hasAnchor">
 <a href="#an-example-recipe" class="anchor"></a>An Example Recipe</h2>
 <p>For illustration, the Ames housing data will be used. There are sale prices of homes along with various other descriptors for the property:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">AmesHousing</span>)
-<span class="no">ames</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AmesHousing/man/make_ames.html">make_ames</a></span>()</pre></body></html></div>
-<pre><code>## Warning: `funs()` is deprecated as of dplyr 0.8.0.
-## Please use a list of either functions or lambdas: 
-## 
-##   # Simple named list: 
-##   list(mean = mean, median = median)
-## 
-##   # Auto named with `tibble::lst()`: 
-##   tibble::lst(mean, median)
-## 
-##   # Using lambdas
-##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">ames</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/topepo/AmesHousing">AmesHousing</a></span>)
+<span class="kw">ames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AmesHousing/man/make_ames.html">make_ames</a></span>()
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">ames</span>)
+</pre></div>
 <pre><code>##  [1] "MS_SubClass"        "MS_Zoning"          "Lot_Frontage"      
 ##  [4] "Lot_Area"           "Street"             "Alley"             
 ##  [7] "Lot_Shape"          "Land_Contour"       "Utilities"         
@@ -182,36 +170,44 @@
 ## [76] "Year_Sold"          "Sale_Type"          "Sale_Condition"    
 ## [79] "Sale_Price"         "Longitude"          "Latitude"</code></pre>
 <p>Suppose that we will again fit a simple regression model with the formula:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span>(<span class="no">Sale_Price</span>) ~ <span class="no">Neighborhood</span> + <span class="no">House_Style</span> + <span class="no">Year_Sold</span> + <span class="no">Lot_Area</span></pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span>(<span class="kw">Sale_Price</span>) <span class="op">~</span> <span class="kw">Neighborhood</span> <span class="op">+</span> <span class="kw">House_Style</span> <span class="op">+</span> <span class="kw">Year_Sold</span> <span class="op">+</span> <span class="kw">Lot_Area</span>
+</pre></div>
 <p>The distribution of the lot size is right-skewed:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>())
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">ames</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">Lot_Area</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span>(<span class="kw">binwidth</span> <span class="kw">=</span> <span class="fl">5000</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"red"</span>, <span class="kw">fill</span> <span class="kw">=</span><span class="st">"red"</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">.5</span>)</pre></body></html></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">ames</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x = <span class="kw">Lot_Area</span>)) <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span>(binwidth = <span class="fl">5000</span>, col = <span class="st">"red"</span>, fill =<span class="st">"red"</span>, alpha = <span class="fl">.5</span>)
+</pre></div>
 <p><img src="Recipes_and_rsample_files/figure-html/build-1.png" width="768"></p>
 <p>It might benefit the model if we estimate a transformation of the data using the Box-Cox procedure.</p>
 <p>Also, note that the frequencies of the neighborhoods can vary:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="no">ames</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">Neighborhood</span>)) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">""</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">ames</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x = <span class="kw">Neighborhood</span>)) <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>() <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">""</span>)
+</pre></div>
 <p><img src="Recipes_and_rsample_files/figure-html/hood-1.png" width="768"></p>
 <p>When these are resampled, some neighborhoods will not be included in the test set and this will result in a column of dummy variables with zero entires. The same is true for the <code>House_Style</code> variable. We might want to collapse rarely occurring values into “other” categories.</p>
 <p>To define the design matrix, an initial recipe is created:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">recipes</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/tidymodels/recipes">recipes</a></span>)
 
-<span class="no">rec</span> <span class="kw">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/recipe.html">recipe</a></span>(<span class="no">Sale_Price</span> ~ <span class="no">Neighborhood</span> + <span class="no">House_Style</span> + <span class="no">Year_Sold</span> + <span class="no">Lot_Area</span>,
-         <span class="kw">data</span> <span class="kw">=</span> <span class="no">ames</span>) <span class="kw">%&gt;%</span>
+<span class="kw">rec</span> <span class="op">&lt;-</span> 
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span>(<span class="kw">Sale_Price</span> <span class="op">~</span> <span class="kw">Neighborhood</span> <span class="op">+</span> <span class="kw">House_Style</span> <span class="op">+</span> <span class="kw">Year_Sold</span> <span class="op">+</span> <span class="kw">Lot_Area</span>, 
+         data = <span class="kw">ames</span>) <span class="op">%&gt;%</span>
   <span class="co"># Log the outcome</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/step_log.html">step_log</a></span>(<span class="no">Sale_Price</span>, <span class="kw">base</span> <span class="kw">=</span> <span class="fl">10</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_log.html">step_log</a></span>(<span class="kw">Sale_Price</span>, base = <span class="fl">10</span>) <span class="op">%&gt;%</span>
   <span class="co"># Collapse rarely occurring jobs into "other"</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/step_other.html">step_other</a></span>(<span class="no">Neighborhood</span>, <span class="no">House_Style</span>, <span class="kw">threshold</span> <span class="kw">=</span> <span class="fl">0.05</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_other.html">step_other</a></span>(<span class="kw">Neighborhood</span>, <span class="kw">House_Style</span>, threshold = <span class="fl">0.05</span>) <span class="op">%&gt;%</span>
   <span class="co"># Dummy variables on the qualitative predictors</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/step_dummy.html">step_dummy</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/recipes/man/has_role.html">all_nominal</a></span>()) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_dummy.html">step_dummy</a></span>(<span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_nominal</a></span>()) <span class="op">%&gt;%</span>
   <span class="co"># Unskew a predictor</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/step_BoxCox.html">step_BoxCox</a></span>(<span class="no">Lot_Area</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_BoxCox.html">step_BoxCox</a></span>(<span class="kw">Lot_Area</span>) <span class="op">%&gt;%</span>
   <span class="co"># Normalize</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/step_center.html">step_center</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/recipes/man/has_role.html">all_predictors</a></span>()) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/step_scale.html">step_scale</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/recipes/man/has_role.html">all_predictors</a></span>())
-<span class="no">rec</span></pre></body></html></div>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_center.html">step_center</a></span>(<span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span>()) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_scale.html">step_scale</a></span>(<span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span>()) 
+<span class="kw">rec</span>
+</pre></div>
 <pre><code>## Data Recipe
 ## 
 ## Inputs:
@@ -224,15 +220,17 @@
 ## 
 ## Log transformation on Sale_Price
 ## Collapsing factor levels for Neighborhood, House_Style
-## Dummy variables from all_nominal
+## Dummy variables from all_nominal()
 ## Box-Cox transformation on Lot_Area
-## Centering for all_predictors
-## Scaling for all_predictors</code></pre>
+## Centering for all_predictors()
+## Scaling for all_predictors()</code></pre>
 <p>This recreates the work that the formula method traditionally uses with the additional steps.</p>
 <p>While the original data object <code>ames</code> is used in the call, it is only used to define the variables and their characteristics so a single recipe is valid across all resampled versions of the data. The recipe can be estimated on the analysis component of the resample.</p>
 <p>If we execute the recipe on the entire data set:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">rec_training_set</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/prep.html">prep</a></span>(<span class="no">rec</span>, <span class="kw">training</span> <span class="kw">=</span> <span class="no">ames</span>)
-<span class="no">rec_training_set</span></pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">rec_training_set</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html">prep</a></span>(<span class="kw">rec</span>, training = <span class="kw">ames</span>)
+<span class="kw">rec_training_set</span>
+</pre></div>
 <pre><code>## Data Recipe
 ## 
 ## Inputs:
@@ -252,9 +250,11 @@
 ## Centering for Year_Sold, Lot_Area, ... [trained]
 ## Scaling for Year_Sold, Lot_Area, ... [trained]</code></pre>
 <p>To get the values of the data, the <code>bake</code> function can be used:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># By default, the selector `everything()` is used to </span>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="co"># By default, the selector `everything()` is used to </span>
 <span class="co"># return all the variables. Other selectors can be used too. </span>
-<span class="fu"><a href="https://rdrr.io/pkg/recipes/man/bake.html">bake</a></span>(<span class="no">rec_training_set</span>, <span class="kw">new_data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">ames</span>))</pre></body></html></div>
+<span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html">bake</a></span>(<span class="kw">rec_training_set</span>, new_data = <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">ames</span>))
+</pre></div>
 <pre><code>## # A tibble: 6 x 14
 ##   Year_Sold Lot_Area Sale_Price Neighborhood_Co… Neighborhood_Ol…
 ##       &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
@@ -271,7 +271,9 @@
 ## #   House_Style_Two_Story &lt;dbl&gt;, House_Style_other &lt;dbl&gt;</code></pre>
 <p>Note that there are fewer dummy variables for <code>Neighborhood</code> and <code>House_Style</code> than in the data.</p>
 <p>Also, the above code using <code>prep</code> benefits from the default argument of <code>retain = TRUE</code>, which keeps the processed version of the data set so that we don’t have to reapply the steps to extract the processed values. For the data used to train the recipe, we would have used:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/recipes/man/juice.html">juice</a></span>(<span class="no">rec_training_set</span>) <span class="kw">%&gt;%</span> <span class="no">head</span></pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="fu"><a href="https://recipes.tidymodels.org/reference/juice.html">juice</a></span>(<span class="kw">rec_training_set</span>) <span class="op">%&gt;%</span> <span class="kw">head</span>
+</pre></div>
 <pre><code>## # A tibble: 6 x 14
 ##   Year_Sold Lot_Area Sale_Price Neighborhood_Co… Neighborhood_Ol…
 ##       &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
@@ -287,10 +289,12 @@
 ## #   Neighborhood_other &lt;dbl&gt;, House_Style_One_Story &lt;dbl&gt;,
 ## #   House_Style_Two_Story &lt;dbl&gt;, House_Style_other &lt;dbl&gt;</code></pre>
 <p>The next section will explore recipes and bootstrap resampling for modeling:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rsample</span>)
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rsample.tidymodels.org">rsample</a></span>)
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">7712</span>)
-<span class="no">bt_samples</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/bootstraps.html">bootstraps</a></span>(<span class="no">ames</span>)
-<span class="no">bt_samples</span></pre></body></html></div>
+<span class="kw">bt_samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bootstraps.html">bootstraps</a></span>(<span class="kw">ames</span>)
+<span class="kw">bt_samples</span>
+</pre></div>
 <pre><code>## # Bootstrap sampling 
 ## # A tibble: 25 x 2
 ##    splits              id         
@@ -306,7 +310,9 @@
 ##  9 &lt;split [2.9K/1.1K]&gt; Bootstrap09
 ## 10 &lt;split [2.9K/1.1K]&gt; Bootstrap10
 ## # … with 15 more rows</code></pre>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">bt_samples</span>$<span class="no">splits</span><span class="kw">[[</span><span class="fl">1</span>]]</pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="kw">bt_samples</span><span class="op">$</span><span class="kw">splits</span>[[<span class="fl">1</span>]]
+</pre></div>
 <pre><code>## &lt;Analysis/Assess/Total&gt;
 ## &lt;2930/1095/2930&gt;</code></pre>
 </div>
@@ -314,10 +320,12 @@
 <h2 class="hasAnchor">
 <a href="#working-with-resamples" class="anchor"></a>Working with Resamples</h2>
 <p>We can add a recipe column to the tibble. <code>recipes</code> has a convenience function called <code>prepper</code> that can be used to call <code>prep</code> but has the split object as the first argument (for easier purrring):</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">purrr</span>)
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://purrr.tidyverse.org">purrr</a></span>)
 
-<span class="no">bt_samples</span>$<span class="no">recipes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">bt_samples</span>$<span class="no">splits</span>, <span class="no">prepper</span>, <span class="kw">recipe</span> <span class="kw">=</span> <span class="no">rec</span>)
-<span class="no">bt_samples</span></pre></body></html></div>
+<span class="kw">bt_samples</span><span class="op">$</span><span class="kw">recipes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="kw">bt_samples</span><span class="op">$</span><span class="kw">splits</span>, <span class="kw">prepper</span>, recipe = <span class="kw">rec</span>)
+<span class="kw">bt_samples</span>
+</pre></div>
 <pre><code>## # Bootstrap sampling 
 ## # A tibble: 25 x 3
 ##    splits              id          recipes 
@@ -333,7 +341,9 @@
 ##  9 &lt;split [2.9K/1.1K]&gt; Bootstrap09 &lt;recipe&gt;
 ## 10 &lt;split [2.9K/1.1K]&gt; Bootstrap10 &lt;recipe&gt;
 ## # … with 15 more rows</code></pre>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">bt_samples</span>$<span class="no">recipes</span><span class="kw">[[</span><span class="fl">1</span>]]</pre></body></html></div>
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="kw">bt_samples</span><span class="op">$</span><span class="kw">recipes</span>[[<span class="fl">1</span>]]
+</pre></div>
 <pre><code>## Data Recipe
 ## 
 ## Inputs:
@@ -353,16 +363,18 @@
 ## Centering for Year_Sold, Lot_Area, ... [trained]
 ## Scaling for Year_Sold, Lot_Area, ... [trained]</code></pre>
 <p>Now, to fit the model, the fit function only needs the recipe as input. This is because the above code implicitly used the <code>retain = TRUE</code> option in <code>prep</code>. Otherwise, the split objects would also be needed to <code>bake</code> the recipe (as it will in the prediction function below).</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">fit_lm</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">rec_obj</span>, <span class="no">...</span>)
-  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">...</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/juice.html">juice</a></span>(<span class="no">rec_obj</span>, <span class="fu">everything</span>()))
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="kw">fit_lm</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">rec_obj</span>, <span class="kw">...</span>) 
+  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="kw">...</span>, data = <span class="fu"><a href="https://recipes.tidymodels.org/reference/juice.html">juice</a></span>(<span class="kw">rec_obj</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span>()))
 
-<span class="no">bt_samples</span>$<span class="no">lm_mod</span> <span class="kw">&lt;-</span>
+<span class="kw">bt_samples</span><span class="op">$</span><span class="kw">lm_mod</span> <span class="op">&lt;-</span> 
   <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(
-    <span class="no">bt_samples</span>$<span class="no">recipes</span>,
-    <span class="no">fit_lm</span>,
-    <span class="no">Sale_Price</span> ~ <span class="no">.</span>
+    <span class="kw">bt_samples</span><span class="op">$</span><span class="kw">recipes</span>, 
+    <span class="kw">fit_lm</span>, 
+    <span class="kw">Sale_Price</span> <span class="op">~</span> <span class="kw">.</span>
   )
-<span class="no">bt_samples</span></pre></body></html></div>
+<span class="kw">bt_samples</span>
+</pre></div>
 <pre><code>## # Bootstrap sampling 
 ## # A tibble: 25 x 4
 ##    splits              id          recipes  lm_mod
@@ -379,29 +391,31 @@
 ## 10 &lt;split [2.9K/1.1K]&gt; Bootstrap10 &lt;recipe&gt; &lt;lm&gt;  
 ## # … with 15 more rows</code></pre>
 <p>To get predictions, the function needs three arguments: the splits (to get the assessment data), the recipe (to process them), and the model. To iterate over these, the function <code><a href="https://purrr.tidyverse.org/reference/map2.html">purrr::pmap</a></code> is used:</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">pred_lm</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">split_obj</span>, <span class="no">rec_obj</span>, <span class="no">model_obj</span>, <span class="no">...</span>) {
-  <span class="no">mod_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/bake.html">bake</a></span>(
-    <span class="no">rec_obj</span>,
-    <span class="kw">new_data</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span>(<span class="no">split_obj</span>),
-    <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/has_role.html">all_predictors</a></span>(),
-    <span class="fu"><a href="https://rdrr.io/pkg/recipes/man/has_role.html">all_outcomes</a></span>()
-  )
-
-  <span class="no">out</span> <span class="kw">&lt;-</span> <span class="no">mod_data</span> <span class="kw">%&gt;%</span> <span class="fu">select</span>(<span class="no">Sale_Price</span>)
-  <span class="no">out</span>$<span class="no">predicted</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">model_obj</span>, <span class="kw">newdata</span> <span class="kw">=</span> <span class="no">mod_data</span> <span class="kw">%&gt;%</span> <span class="fu">select</span>(-<span class="no">Sale_Price</span>))
-  <span class="no">out</span>
+<div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="kw">pred_lm</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">split_obj</span>, <span class="kw">rec_obj</span>, <span class="kw">model_obj</span>, <span class="kw">...</span>) {
+  <span class="kw">mod_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html">bake</a></span>(
+    <span class="kw">rec_obj</span>, 
+    new_data = <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span>(<span class="kw">split_obj</span>),
+    <span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span>(),
+    <span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_outcomes</a></span>()
+  ) 
+  
+  <span class="kw">out</span> <span class="op">&lt;-</span> <span class="kw">mod_data</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">Sale_Price</span>)
+  <span class="kw">out</span><span class="op">$</span><span class="kw">predicted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="kw">model_obj</span>, newdata = <span class="kw">mod_data</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span><span class="kw">Sale_Price</span>))
+  <span class="kw">out</span>
 }
 
-<span class="no">bt_samples</span>$<span class="no">pred</span> <span class="kw">&lt;-</span>
+<span class="kw">bt_samples</span><span class="op">$</span><span class="kw">pred</span> <span class="op">&lt;-</span> 
   <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">pmap</a></span>(
-    <span class="fu">lst</span>(
-      <span class="kw">split_obj</span> <span class="kw">=</span> <span class="no">bt_samples</span>$<span class="no">splits</span>,
-      <span class="kw">rec_obj</span> <span class="kw">=</span> <span class="no">bt_samples</span>$<span class="no">recipes</span>,
-      <span class="kw">model_obj</span> <span class="kw">=</span> <span class="no">bt_samples</span>$<span class="no">lm_mod</span>
+    <span class="fu"><a href="https://tibble.tidyverse.org/reference/lst.html">lst</a></span>(
+      split_obj = <span class="kw">bt_samples</span><span class="op">$</span><span class="kw">splits</span>, 
+      rec_obj = <span class="kw">bt_samples</span><span class="op">$</span><span class="kw">recipes</span>, 
+      model_obj = <span class="kw">bt_samples</span><span class="op">$</span><span class="kw">lm_mod</span>
     ),
-    <span class="no">pred_lm</span>
+    <span class="kw">pred_lm</span> 
   )
-<span class="no">bt_samples</span></pre></body></html></div>
+<span class="kw">bt_samples</span>
+</pre></div>
 <pre><code>## # Bootstrap sampling 
 ## # A tibble: 25 x 5
 ##    splits              id          recipes  lm_mod pred                
@@ -418,11 +432,15 @@
 ## 10 &lt;split [2.9K/1.1K]&gt; Bootstrap10 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,064 × 2]&gt;
 ## # … with 15 more rows</code></pre>
 <p>Calculating the RMSE:</p>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">yardstick</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb26"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/tidymodels/yardstick">yardstick</a></span>)
+</pre></div>
 <pre><code>## For binary classification, the first factor level is assumed to be the event.
-## Set the global option `yardstick.event_first` to `FALSE` to change this.</code></pre>
-<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span>(<span class="no">bt_samples</span>$<span class="no">pred</span>, <span class="no">rmse</span>, <span class="no">Sale_Price</span>, <span class="no">predicted</span>)
-<span class="no">results</span></pre></body></html></div>
+## Use the argument `event_level = "second"` to alter this as needed.</code></pre>
+<div class="sourceCode" id="cb28"><pre class="downlit">
+<span class="kw">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span>(<span class="kw">bt_samples</span><span class="op">$</span><span class="kw">pred</span>, <span class="kw">rmse</span>, <span class="kw">Sale_Price</span>, <span class="kw">predicted</span>)
+<span class="kw">results</span>
+</pre></div>
 <pre><code>## # A tibble: 25 x 3
 ##    .metric .estimator .estimate
 ##    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
@@ -437,7 +455,9 @@
 ##  9 rmse    standard       0.122
 ## 10 rmse    standard       0.127
 ## # … with 15 more rows</code></pre>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">results</span>$<span class="no">.estimate</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb30"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw">results</span><span class="op">$</span><span class="kw">.estimate</span>)
+</pre></div>
 <pre><code>## [1] 0.129</code></pre>
 </div>
   </div>
