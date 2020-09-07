@@ -30,6 +30,7 @@ sigma <- 1
 set.seed(888)
 rand_nums <- rnorm(n, mu, sigma)
 ttest <- tidy(t.test(rand_nums))
+ttest_lower_conf <- tidy(t.test(rand_nums, conf.level = 0.8))
 dat <- data.frame(x = rand_nums)
 
 set.seed(456765)
@@ -46,6 +47,8 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
   single_t_res <- int_t(bt_norm, stats)
 
   single_bca_res <- int_bca(bt_norm, stats, .fn = get_stats)
+
+  single_bca_res_lower_conf <- int_bca(bt_norm, stats, .fn = get_stats, alpha = 0.2)
 
   expect_equal(ttest$conf.low,
                single_pct_res$.lower,
@@ -75,6 +78,16 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
                tolerance = 0.01)
   expect_equal(ttest$conf.high,
                single_bca_res$.upper,
+               tolerance = 0.01)
+
+  expect_equal(ttest_lower_conf$conf.low,
+               single_bca_res_lower_conf$.lower,
+               tolerance = 0.01)
+  expect_equal(unname(ttest_lower_conf$estimate),
+               single_bca_res_lower_conf$.estimate,
+               tolerance = 0.01)
+  expect_equal(ttest_lower_conf$conf.high,
+               single_bca_res_lower_conf$.upper,
                tolerance = 0.01)
 })
 
