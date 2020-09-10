@@ -341,7 +341,7 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
   }
 
   ### Estimating Z0 bias-correction
-  bias_corr_stats <- get_p0(stats)
+  bias_corr_stats <- get_p0(stats, alpha = alpha)
 
   # need the original data frame here
   loo_rs <- loo_cv(orig_data)
