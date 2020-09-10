@@ -13,6 +13,7 @@
 \alias{pretty.nested_cv}
 \alias{pretty.bootstraps}
 \alias{pretty.group_vfold_cv}
+\alias{pretty.manual_rset}
 \title{Short Descriptions of rsets}
 \usage{
 \method{pretty}{vfold_cv}(x, ...)
@@ -38,6 +39,8 @@
 \method{pretty}{bootstraps}(x, ...)
 
 \method{pretty}{group_vfold_cv}(x, ...)
+
+\method{pretty}{manual_rset}(x, ...)
 }
 \arguments{
 \item{x}{An \code{rset} object}
