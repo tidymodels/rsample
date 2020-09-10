@@ -35,6 +35,12 @@ new_rset <-  function(splits, ids, attrib = NULL,
     }
   }
 
+  where_rsplits <- vapply(splits[["splits"]], is_rsplit, logical(1))
+
+  if (!all(where_rsplits)) {
+    rlang::abort("Each element of `splits` must be an `rsplit` object.")
+  }
+
   if (nrow(ids) != nrow(splits)) {
     rlang::abort("Split and ID vectors have different lengths.")
   }
