@@ -142,7 +142,7 @@ as \code{NULL} is the epoch time of \verb{1970-01-01 00:00:00},
 \emph{in the time zone of the index}.
 
 This is generally used to define the anchor time to count from,
-which is relevant when every value is \verb{> 1}.}
+which is relevant when the \code{every} value is \verb{> 1}.}
 }
 \description{
 These resampling functions are focused on various forms of \emph{time series}
