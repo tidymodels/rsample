@@ -18,7 +18,7 @@ resample is a sample with replacement of the original data.
 The other part of the split contains the instances that were
 not contained in the bootstrap sample. The data structure
 \code{rsplit} is used to store a single resample.
-\item When the data are split in two, the portion that are
+\item When the data are split in two, the portion that is
 used to estimate the model or calculate the statistic is
 called the \strong{analysis} set here. In machine learning this
 is sometimes called the "training set" but this would be

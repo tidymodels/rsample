@@ -14,7 +14,7 @@
 #'   specified and, if it is given, will be ignored.
 #' @param inside An expression for the type of resampling to be conducted
 #'   within the initial procedure.
-#' @return  An tibble with classe `nested_cv` and any other classes that
+#' @return  An tibble with `nested_cv` class and any other classes that
 #'   outer resampling process normally contains. The results include a
 #'  column for the outer data split objects, one or more `id` columns,
 #'  and a column of nested tibbles called `inner_resamples` with the

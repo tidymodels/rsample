@@ -19,7 +19,7 @@ called \code{id} that has a character string with the resample identifier.
 }
 \description{
 When building a model on a data set and re-predicting the same data, the
-performance estimate from those predictions is often call the
+performance estimate from those predictions is often called the
 "apparent" performance of the model. This estimate can be wildly
 optimistic. "Apparent sampling" here means that the analysis and
 assessment samples are the same. These resamples are sometimes used in

@@ -2,7 +2,7 @@
 % Please edit documentation in R/complement.R
 \name{populate}
 \alias{populate}
-\title{Add Assessment Indicies}
+\title{Add Assessment Indices}
 \usage{
 populate(x, ...)
 }
@@ -12,7 +12,7 @@ populate(x, ...)
 \item{...}{Not currently used}
 }
 \value{
-An object of the same kind with the integer indicies.
+An object of the same kind with the integer indices.
 }
 \description{
 Many \code{rsplit} and \code{rset} objects do not contain indicators for

@@ -117,7 +117,7 @@
 #'   _in the time zone of the index_.
 #'
 #'   This is generally used to define the anchor time to count from,
-#'   which is relevant when the every value is `> 1`.
+#'   which is relevant when every value is `> 1`.
 #'
 #' @seealso
 #' [rolling_origin()]

@@ -17,7 +17,7 @@ A integer vector.
 \description{
 Given an \code{rsplit} object, \code{complement} will determine which
 of the data rows are contained in the assessment set. To save space,
-many of the \code{rset} objects will not contain indicies for the
+many of the \code{rset} objects will not contain indices for the
 assessment split.
 }
 \examples{

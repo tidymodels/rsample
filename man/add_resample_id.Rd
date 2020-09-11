@@ -20,7 +20,7 @@ An updated data frame.
 \description{
 For a data set, \code{add_resample_id()} will add at least one new column that
 identifies which resample that the data came from. In most cases, a single
-column is added but for some resampling methods two or more are added.
+column is added but for some resampling methods, two or more are added.
 }
 \examples{
 library(dplyr)

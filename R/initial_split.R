@@ -60,7 +60,7 @@ initial_split <- function(data, prop = 3/4, strata = NULL, breaks = 4, ...) {
 }
 
 #' @rdname initial_split
-#' @param lag A value to include an lag between the assessment
+#' @param lag A value to include a lag between the assessment
 #'  and analysis set. This is useful if lagged predictors will be used
 #'  during training and testing.
 #' @export

@@ -12,7 +12,7 @@
 #' `skip` enables the function to not use every data point in the resamples.
 #'  When `skip = 0`, the resampling data sets will increment by one position.
 #'  Suppose that the rows of a data set are consecutive days. Using `skip = 6`
-#'  will make the analysis data set operate on *weeks* instead of days. The
+#'  will make the analysis data set to operate on *weeks* instead of days. The
 #'  assessment set size is not affected by this option.
 #' @seealso
 #' [sliding_window()], [sliding_index()], and [sliding_period()] for additional
@@ -26,7 +26,7 @@
 #' @param skip A integer indicating how many (if any) _additional_ resamples
 #'  to skip to thin the total amount of data points in the analysis resample.
 #' See the example below.
-#' @param lag A value to include an lag between the assessment
+#' @param lag A value to include a lag between the assessment
 #'  and analysis set. This is useful if lagged predictors will be used
 #'  during training and testing.
 #' @export

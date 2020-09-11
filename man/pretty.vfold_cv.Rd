@@ -13,7 +13,7 @@
 \alias{pretty.nested_cv}
 \alias{pretty.bootstraps}
 \alias{pretty.group_vfold_cv}
-\title{Short Decriptions of rsets}
+\title{Short Descriptions of rsets}
 \usage{
 \method{pretty}{vfold_cv}(x, ...)
 
@@ -48,6 +48,6 @@
 A character vector.
 }
 \description{
-Produce a chracter vector of describing the resampling method.
+Produce a character vector describing the resampling method.
 }
 \keyword{internal}

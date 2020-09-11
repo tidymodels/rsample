@@ -60,7 +60,7 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
 
   split_objs <- group_vfold_splits(data = data, group = group, v = v)
 
-  ## We remove the holdout indicies since it will save space and we can
+  ## We remove the holdout indices since it will save space and we can
   ## derive them later when they are needed.
 
   split_objs$splits <- map(split_objs$splits, rm_out)
