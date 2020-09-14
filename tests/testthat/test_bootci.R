@@ -206,6 +206,10 @@ context("boot_ci() Input Validation")
 test_that("bad input", {
   expect_error(int_pctl(bt_small, id))
   expect_error(int_pctl(bt_small, junk))
+  expect_error(int_pctl(bt_small, stats, alpha = c(0.05, 0.2)))
+  expect_error(int_t(bt_small, stats, alpha = "potato"))
+  expect_error(int_bca(bt_small, stats, alpha = 1:2, .fn = get_stats))
+
 
   bad_bt_norm <-
     bt_norm %>%

@@ -239,6 +239,9 @@ pctl_single <- function(stats, alpha = 0.05) {
 int_pctl <- function(.data, statistics, alpha = 0.05) {
 
   check_rset(.data, app = FALSE)
+  if (length(alpha) != 1 || !is.numeric(alpha)) {
+    abort("`alpha` must be a single numeric value.")
+  }
 
   .data <- .data %>% dplyr::filter(id != "Apparent")
 
@@ -312,6 +315,9 @@ t_single <- function(stats, std_err, is_orig, alpha = 0.05) {
 int_t <- function(.data, statistics, alpha = 0.05) {
 
   check_rset(.data)
+  if (length(alpha) != 1 || !is.numeric(alpha)) {
+    abort("`alpha` must be a single numeric value.")
+  }
 
   column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
   if (length(column_name) != 1) {
@@ -410,6 +416,9 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
 int_bca <- function(.data, statistics, alpha = 0.05, .fn, ...) {
 
   check_rset(.data)
+  if (length(alpha) != 1 || !is.numeric(alpha)) {
+    abort("`alpha` must be a single numeric value.")
+  }
 
   has_dots(.fn)
 
