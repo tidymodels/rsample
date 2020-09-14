@@ -6,7 +6,7 @@
 #'
 #' @param object An `rset` object
 #' @param make_factor A logical for whether the results should be
-#'  character or a factor.
+#'  a character or a factor.
 #' @param ... Not currently used.
 #' @return A single character or factor vector.
 #' @export
@@ -64,9 +64,9 @@ labels.rsplit <- function(object, ...) {
 ## can have more than one element (in the case of nesting)
 
 
-#' Short Decriptions of rsets
+#' Short Descriptions of rsets
 #'
-#' Produce a chracter vector of describing the resampling method.
+#' Produce a character vector describing the resampling method.
 #'
 #' @param x An `rset` object
 #' @param ... Not currently used.
@@ -219,7 +219,7 @@ pretty.group_vfold_cv  <- function(x, ...) {
 #'
 #' For a data set, `add_resample_id()` will add at least one new column that
 #'  identifies which resample that the data came from. In most cases, a single
-#'  column is added but for some resampling methods two or more are added.
+#'  column is added but for some resampling methods, two or more are added.
 #' @param .data A data frame
 #' @param split A single `rset` object.
 #' @param dots A single logical: should the id columns be prefixed with a "."

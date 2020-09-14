@@ -17,7 +17,7 @@ NULL
 
 #' Two Class Data
 #'
-#' @details There are artifical data with two predictors (`A` and `B`) and
+#' @details There are artificial data with two predictors (`A` and `B`) and
 #'  a factor outcome variable (`Class`).
 #'
 #' These data are now in the `modeldata` package.

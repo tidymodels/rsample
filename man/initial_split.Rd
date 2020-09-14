@@ -29,7 +29,7 @@ a numeric stratification variable.}
 
 \item{...}{Not currently used.}
 
-\item{lag}{A value to include an lag between the assessment
+\item{lag}{A value to include a lag between the assessment
 and analysis set. This is useful if lagged predictors will be used
 during training and testing.}
 

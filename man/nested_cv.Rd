@@ -18,7 +18,7 @@ specified and, if it is given, will be ignored.}
 within the initial procedure.}
 }
 \value{
-An tibble with classe \code{nested_cv} and any other classes that
+An tibble with \code{nested_cv} class and any other classes that
 outer resampling process normally contains. The results include a
 column for the outer data split objects, one or more \code{id} columns,
 and a column of nested tibbles called \code{inner_resamples} with the

@@ -62,7 +62,7 @@ Also, note that the frequencies of the neighborhoods can vary:
 ggplot(ames, aes(x = Neighborhood)) + geom_bar() + coord_flip() + xlab("")
 ```
 
-When these are resampled, some neighborhoods will not be included in the test set and this will result in a column of dummy variables with zero entires. The same is true for the `House_Style` variable. We might want to collapse rarely occurring values into "other" categories. 
+When these are resampled, some neighborhoods will not be included in the test set and this will result in a column of dummy variables with zero entries. The same is true for the `House_Style` variable. We might want to collapse rarely occurring values into "other" categories. 
 
 To define the design matrix, an initial recipe is created: 
 

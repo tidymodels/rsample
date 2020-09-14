@@ -13,7 +13,7 @@
 \item{object}{An \code{rset} object}
 
 \item{make_factor}{A logical for whether the results should be
-character or a factor.}
+a character or a factor.}
 
 \item{...}{Not currently used.}
 }

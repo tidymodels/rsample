@@ -20,7 +20,7 @@ should be set to \code{TRUE}. Even if the \code{apparent} argument is set to
 the percentile confidence interval.}
 
 \item{statistics}{An unquoted column name or \code{dplyr} selector that identifies
-a single column in the data set that contains the indiviual bootstrap
+a single column in the data set that contains the individual bootstrap
 estimates. This can be a list column of tidy tibbles (that contains columns
 \code{term} and \code{estimate}) or a simple numeric column. For t-intervals, a
 standard tidy column (usually called \code{std.err}) is required.

@@ -174,7 +174,7 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'  `TRUE` for the percentile method, the apparent data is never used in calculating
 #'  the percentile confidence interval.
 #' @param statistics An unquoted column name or `dplyr` selector that identifies
-#'  a single column in the data set that contains the indiviual bootstrap
+#'  a single column in the data set that contains the individual bootstrap
 #'  estimates. This can be a list column of tidy tibbles (that contains columns
 #'  `term` and `estimate`) or a simple numeric column. For t-intervals, a
 #'  standard tidy column (usually called `std.err`) is required.

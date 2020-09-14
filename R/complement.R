@@ -2,7 +2,7 @@
 #'
 #' Given an `rsplit` object, `complement` will determine which
 #'   of the data rows are contained in the assessment set. To save space,
-#'   many of the `rset` objects will not contain indicies for the
+#'   many of the `rset` objects will not contain indices for the
 #'   assessment split.
 #'
 #' @param x An `rsplit` object
@@ -84,14 +84,14 @@ complement.apparent_split <- function(x, ...) {
 }
 
 
-#' Add Assessment Indicies
+#' Add Assessment Indices
 #'
 #' Many `rsplit` and `rset` objects do not contain indicators for
 #'   the assessment samples. `populate()` can be used to fill the slot
 #'   for the appropriate indices.
 #' @param x A `rsplit` and `rset` object.
 #' @param ... Not currently used
-#' @return An object of the same kind with the integer indicies.
+#' @return An object of the same kind with the integer indices.
 #' @examples
 #' set.seed(28432)
 #' fold_rs <- vfold_cv(mtcars)

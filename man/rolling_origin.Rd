@@ -29,7 +29,7 @@ size specified by \code{initial} at each resample?.}
 to skip to thin the total amount of data points in the analysis resample.
 See the example below.}
 
-\item{lag}{A value to include an lag between the assessment
+\item{lag}{A value to include a lag between the assessment
 and analysis set. This is useful if lagged predictors will be used
 during training and testing.}
 
@@ -56,7 +56,7 @@ static.
 \code{skip} enables the function to not use every data point in the resamples.
 When \code{skip = 0}, the resampling data sets will increment by one position.
 Suppose that the rows of a data set are consecutive days. Using \code{skip = 6}
-will make the analysis data set operate on \emph{weeks} instead of days. The
+will make the analysis data set to operate on \emph{weeks} instead of days. The
 assessment set size is not affected by this option.
 }
 \examples{

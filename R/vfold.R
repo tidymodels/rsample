@@ -26,7 +26,7 @@
 #' @export
 #' @return A tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and
 #'  `data.frame`. The results include a column for the data split objects and
-#'  one or more identification variables. For a single repeats, there will be
+#'  one or more identification variables. For a single repeat, there will be
 #'  one column called `id` that has a character string with the fold identifier.
 #'  For repeats, `id` is the repeat number and an additional column called `id2`
 #'  that contains the fold information (within repeat).
@@ -85,7 +85,7 @@ vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, breaks = 4, ...) 
     }
   }
 
-  ## We remove the holdout indicies since it will save space and we can
+  ## We remove the holdout indices since it will save space and we can
   ## derive them later when they are needed.
 
   split_objs$splits <- map(split_objs$splits, rm_out)
