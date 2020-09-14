@@ -637,6 +637,58 @@ vec_cast.data.frame.sliding_period <- function(x, to, ..., x_arg = "", to_arg = 
 }
 
 # ------------------------------------------------------------------------------
+# manual_rset
+
+#' @export
+vec_restore.manual_rset <- function(x, to, ...) {
+  rset_reconstruct(x, to)
+}
+
+
+#' @export
+vec_ptype2.manual_rset.manual_rset <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.manual_rset.manual_rset")
+}
+#' @export
+vec_ptype2.manual_rset.tbl_df <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.manual_rset.tbl_df")
+}
+#' @export
+vec_ptype2.tbl_df.manual_rset <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.tbl_df.manual_rset")
+}
+#' @export
+vec_ptype2.manual_rset.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.manual_rset.data.frame")
+}
+#' @export
+vec_ptype2.data.frame.manual_rset <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.data.frame.manual_rset")
+}
+
+
+#' @export
+vec_cast.manual_rset.manual_rset <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.manual_rset.tbl_df <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.tbl_df.manual_rset <- function(x, to, ..., x_arg = "", to_arg = "") {
+  tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.manual_rset.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.data.frame.manual_rset <- function(x, to, ..., x_arg = "", to_arg = "") {
+  df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+
+# ------------------------------------------------------------------------------
 # apparent
 
 #' @export

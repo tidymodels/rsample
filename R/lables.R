@@ -214,6 +214,14 @@ pretty.group_vfold_cv  <- function(x, ...) {
   paste0("Group ", details$v, "-fold cross-validation")
 }
 
+#' @export pretty.manual_rset
+#' @export
+#' @method pretty manual_rset
+#' @rdname pretty.vfold_cv
+pretty.manual_rset <- function(x, ...) {
+  "Manual resampling"
+}
+
 
 #' Augment a data set with resampling identifiers
 #'

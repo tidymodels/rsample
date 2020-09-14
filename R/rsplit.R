@@ -157,3 +157,7 @@ format_n <- function(x, digits = 1) {
     TRUE ~ paste0(round(x/1000000, digits = digits), "M"),
   )
 }
+
+is_rsplit <- function(x) {
+  inherits(x, "rsplit")
+}

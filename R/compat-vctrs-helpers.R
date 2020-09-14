@@ -79,6 +79,7 @@ rset_attribute_dictionary <- list(
   sliding_window   = c("lookback", "assess_start", "assess_stop", "complete", "step", "skip"),
   sliding_index    = c("lookback", "assess_start", "assess_stop", "complete", "step", "skip"),
   sliding_period   = c("period", "lookback", "assess_start", "assess_stop", "complete", "step", "skip", "every", "origin"),
+  manual_rset      = character(),
   apparent         = character(),
   tbl_df           = character()
 )
@@ -130,6 +131,7 @@ delayedAssign("rset_subclasses", {
     sliding_window   = sliding_window(test_data()),
     sliding_index    = sliding_index(test_data(), index),
     sliding_period   = sliding_period(test_data(), index, "week"),
+    manual_rset      = manual_rset(bootstraps(test_data())$splits[1:2], c("ID1", "ID2")),
     apparent         = apparent(test_data())
   )
 })
