@@ -7,7 +7,7 @@
   `sliding_index()`, and `sliding_period()`, which have more flexibility than
   the pre-existing `rolling_origin()`.
   
-* Correct passing `alpha` parameter for `int_bca()` (#179).
+* Correct `alpha` parameter handling for bootstrap CI functions (#179, #184).
 
 # rsample 0.0.7
 
