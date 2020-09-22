@@ -20,9 +20,9 @@
 #' @param data A data frame.
 #' @param v The number of partitions of the data set.
 #' @param repeats The number of times to repeat the V-fold partitioning.
-#' @param coords A character vector of variables, typically spatial coordinates,
+#' @param coords A vector of variable names, typically spatial coordinates,
 #'  to partition the data into disjointed sets via k-means clustering.
-#' @param ... Not currently used.
+#' @param ... Extra arguments passed on to [stats::kmeans()].
 #' @export
 #' @return A tibble with classes `spatial_cv`, `rset`, `tbl_df`, `tbl`, and
 #'  `data.frame`. The results include a column for the data split objects and
@@ -40,18 +40,20 @@
 #'
 #' @examples
 #' data(ames, package = "modeldata")
-#' spatial_cv(ames, v = 5, coords = c("Latitude", "Longitude"))
-#' spatial_cv(ames, v = 5, repeats = 2, coords = c("Latitude", "Longitude"))
+#' spatial_cv(ames, v = 5, coords = c(Latitude, Longitude))
+#' spatial_cv(ames, v = 5, repeats = 2, coords = c(Latitude, Longitude))
 #'
 #' @export
-spatial_cv <- function(data, v = 10, repeats = 1, coords = NULL, ...) {
+spatial_cv <- function(data, v = 10, repeats = 1, coords, ...) {
 
-  if(missing(coords) | !all(coords %in% names(data))) {
-    rlang::abort("`coords` must be variables in `data`.")
+  coords <- tidyselect::eval_select(rlang::enquo(coords), data = data)
+
+  if(is_empty(coords)) {
+    rlang::abort("`coords` are required and must be variables in `data`.")
   }
 
   if (repeats == 1) {
-    split_objs <- spatial_splits(data = data, v = v, coords = coords)
+    split_objs <- spatial_splits(data = data, v = v, coords = coords, ...)
   } else {
     for (i in 1:repeats) {
       tmp <- spatial_splits(data = data, v = v, coords = coords)
@@ -79,12 +81,13 @@ spatial_cv <- function(data, v = 10, repeats = 1, coords = NULL, ...) {
            subclass = c("spatial_cv", "rset"))
 }
 
-spatial_splits <- function(data, v = 10, coords = NULL) {
+spatial_splits <- function(data, v = 10, coords, ...) {
+
   if (!is.numeric(v) || length(v) != 1)
-    stop("`v` must be a single integer.", call. = FALSE)
+    rlang::abort("`v` must be a single integer.")
 
   n <- nrow(data)
-  clusters <- kmeans(data[coords], centers = v)
+  clusters <- kmeans(data[coords], centers = v, ...)
   folds <- clusters$cluster
   idx <- seq_len(n)
   indices <- split_unnamed(idx, folds)

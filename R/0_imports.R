@@ -4,7 +4,7 @@
 #' @importFrom tidyr gather unnest
 #' @importFrom dplyr select %>% bind_cols bind_rows arrange_ arrange full_join
 #' @importFrom dplyr mutate last ungroup group_by inner_join summarize do case_when
-#' @importFrom rlang !! is_call is_string enquo quos exec is_list abort warn
+#' @importFrom rlang !! is_call is_string enquo quos exec is_list abort warn is_empty
 #' @importFrom methods formalArgs
 #' @importFrom stats quantile setNames qnorm pnorm kmeans
 #' @importFrom tidyselect vars_select one_of

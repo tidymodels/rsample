@@ -10,7 +10,7 @@ data("Smithsonian")
 
 test_that('default param', {
   set.seed(11)
-  rs1 <- spatial_cv(Smithsonian, v = 2, coords = c("latitude", "longitude"))
+  rs1 <- spatial_cv(Smithsonian, v = 2, coords = c(latitude, longitude))
   sizes1 <- dim_rset(rs1)
 
   expect_true(all(sizes1$analysis + sizes1$assessment == 20))
@@ -28,7 +28,7 @@ test_that('default param', {
 
 test_that('repeated', {
   set.seed(11)
-  rs2 <- spatial_cv(Smithsonian, v = 2, repeats = 4, coords = c("latitude", "longitude"))
+  rs2 <- spatial_cv(Smithsonian, v = 2, repeats = 4, coords = c(latitude, longitude))
   sizes2 <- dim_rset(rs2)
 
   expect_true(all(sizes2$analysis + sizes2$assessment == 20))
@@ -46,15 +46,21 @@ test_that('repeated', {
 
 test_that('bad args', {
   expect_error(spatial_cv(Smithsonian, coords = NULL))
-  expect_error(spatial_cv(Smithsonian, coords = c("Species", "Sepal.Width")))
+  expect_error(spatial_cv(Smithsonian, coords = c(Species, Sepal.Width)))
+})
+
+test_that('can pass the dots to kmeans', {
+  expect_error(spatial_cv(Smithsonian, v = 2,
+                          coords = c(latitude, longitude), algorithm = "MacQueen"),
+               NA)
 })
 
 test_that('printing', {
-  expect_output(print(spatial_cv(Smithsonian, v = 2, coords = c("latitude", "longitude"))))
+  expect_output(print(spatial_cv(Smithsonian, v = 2, coords = c(latitude, longitude))))
 })
 
 test_that('rsplit labels', {
-  rs <- spatial_cv(Smithsonian, v = 2, coords = c("latitude", "longitude"))
+  rs <- spatial_cv(Smithsonian, v = 2, coords = c(latitude, longitude))
   all_labs <- map_df(rs$splits, labels)
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)

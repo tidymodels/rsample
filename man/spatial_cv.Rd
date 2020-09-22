@@ -4,7 +4,7 @@
 \alias{spatial_cv}
 \title{Spatial or Cluster Cross-Validation}
 \usage{
-spatial_cv(data, v = 10, repeats = 1, coords = NULL, ...)
+spatial_cv(data, v = 10, repeats = 1, coords, ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -13,10 +13,10 @@ spatial_cv(data, v = 10, repeats = 1, coords = NULL, ...)
 
 \item{repeats}{The number of times to repeat the V-fold partitioning.}
 
-\item{coords}{A character vector of variables, typically spatial coordinates,
+\item{coords}{A vector of variable names, typically spatial coordinates,
 to partition the data into disjointed sets via k-means clustering.}
 
-\item{...}{Not currently used.}
+\item{...}{Extra arguments passed on to \code{\link[stats:kmeans]{stats::kmeans()}}.}
 }
 \value{
 A tibble with classes \code{spatial_cv}, \code{rset}, \code{tbl_df}, \code{tbl}, and
@@ -47,8 +47,8 @@ generated separately.
 }
 \examples{
 data(ames, package = "modeldata")
-spatial_cv(ames, v = 5, coords = c("Latitude", "Longitude"))
-spatial_cv(ames, v = 5, repeats = 2, coords = c("Latitude", "Longitude"))
+spatial_cv(ames, v = 5, coords = c(Latitude, Longitude))
+spatial_cv(ames, v = 5, repeats = 2, coords = c(Latitude, Longitude))
 
 }
 \references{
