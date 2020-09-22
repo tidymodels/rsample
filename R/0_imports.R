@@ -6,7 +6,7 @@
 #' @importFrom dplyr mutate last ungroup group_by inner_join summarize do case_when
 #' @importFrom rlang !! is_call is_string enquo quos exec is_list abort warn
 #' @importFrom methods formalArgs
-#' @importFrom stats quantile setNames qnorm pnorm
+#' @importFrom stats quantile setNames qnorm pnorm kmeans
 #' @importFrom tidyselect vars_select one_of
 #' @importFrom furrr future_map_dfr
 #' @importFrom tidyr gather

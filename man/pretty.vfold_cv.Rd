@@ -8,6 +8,7 @@
 \alias{pretty.sliding_window}
 \alias{pretty.sliding_index}
 \alias{pretty.sliding_period}
+\alias{pretty.spatial_cv}
 \alias{pretty.mc_cv}
 \alias{pretty.validation_split}
 \alias{pretty.nested_cv}
@@ -29,6 +30,8 @@
 \method{pretty}{sliding_index}(x, ...)
 
 \method{pretty}{sliding_period}(x, ...)
+
+\method{pretty}{spatial_cv}(x, ...)
 
 \method{pretty}{mc_cv}(x, ...)
 
