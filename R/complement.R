@@ -34,7 +34,7 @@ complement.val_split <- complement.vfold_split
 #' @export
 complement.loo_split <- complement.vfold_split
 #' @export
-complement.spatial_split <- complement.vfold_split
+complement.spatial_clustering_split <- complement.vfold_split
 #' @export
 complement.group_vfold_split <- complement.vfold_split
 #' @export

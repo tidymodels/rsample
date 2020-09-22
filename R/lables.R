@@ -127,11 +127,11 @@ pretty.sliding_index <- function(x, ...)
 pretty.sliding_period <- function(x, ...)
   "Sliding period resampling"
 
-#' @export pretty.spatial_cv
+#' @export pretty.spatial_clustering_cv
 #' @export
-#' @method pretty spatial_cv
+#' @method pretty spatial_clustering_cv
 #' @rdname pretty.vfold_cv
-pretty.spatial_cv <- function(x, ...) {
+pretty.spatial_clustering_cv <- function(x, ...) {
   details <- attributes(x)
   res <- paste0(details$v, "-fold spatial cross-validation")
   if (details$repeats > 1)
