@@ -1,11 +1,8 @@
-# rsample (development version)
+# rsample 0.0.8
 
-* New `manual_rset()` for constructing rset objects manually from custom
-  rsplits (tidymodels/tune#273).
+* New `manual_rset()` for constructing rset objects manually from custom rsplits (tidymodels/tune#273).
 
-* Three new time based resampling functions have been added: `sliding_window()`,
-  `sliding_index()`, and `sliding_period()`, which have more flexibility than
-  the pre-existing `rolling_origin()`.
+* Three new time based resampling functions have been added: `sliding_window()`, `sliding_index()`, and `sliding_period()`, which have more flexibility than the pre-existing `rolling_origin()`.
   
 * Correct `alpha` parameter handling for bootstrap CI functions (#179, #184).
 

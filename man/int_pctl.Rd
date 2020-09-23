@@ -56,6 +56,7 @@ that was used to create the statistics of interest and are
 computationally taxing.
 }
 \examples{
+\donttest{
 library(broom)
 library(dplyr)
 library(purrr)
@@ -91,6 +92,7 @@ data(Sacramento, package = "modeldata")
 bootstraps(Sacramento, 1000, apparent = TRUE) \%>\%
   mutate(correlations = map(splits, rank_corr)) \%>\%
   int_pctl(correlations)
+}
 }
 \references{
 Davison, A., & Hinkley, D. (1997). \emph{Bootstrap Methods and their
