@@ -200,6 +200,7 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'  doi:10.1017/CBO9780511802843
 #'
 #' @examples
+#' \donttest{
 #' library(broom)
 #' library(dplyr)
 #' library(purrr)
@@ -235,6 +236,7 @@ pctl_single <- function(stats, alpha = 0.05) {
 #' bootstraps(Sacramento, 1000, apparent = TRUE) %>%
 #'   mutate(correlations = map(splits, rank_corr)) %>%
 #'   int_pctl(correlations)
+#' }
 #' @export
 int_pctl <- function(.data, statistics, alpha = 0.05) {
 
