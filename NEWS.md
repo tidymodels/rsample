@@ -1,3 +1,5 @@
+# rsample (development version)
+
 # rsample 0.0.8
 
 * New `manual_rset()` for constructing rset objects manually from custom rsplits (tidymodels/tune#273).
