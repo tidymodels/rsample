@@ -27,7 +27,7 @@ rsplit <- function(data, in_id, out_id) {
 #' @export
 print.rsplit <- function(x, ...) {
   out_char <-
-    if (all(is.na(x$out_id)))
+    if (is_missing_out_id(x))
       paste(length(complement(x)))
   else
     paste(length(x$out_id))
@@ -47,7 +47,7 @@ as.integer.rsplit <-
     if (data == "analysis")
       out <- x$in_id
     else {
-      out <- if (all(is.na(x$out_id)))
+      out <- if (is_missing_out_id(x))
         complement(x)
       else
         x$out_id
@@ -122,7 +122,7 @@ dim.rsplit <- function(x, ...) {
 #' @export
 obj_sum.rsplit <- function(x, ...) {
   out_char <-
-    if (all(is.na(x$out_id)))
+    if (is_missing_out_id(x))
       paste(length(complement(x)))
   else
     paste(length(x$out_id))
@@ -137,7 +137,7 @@ obj_sum.rsplit <- function(x, ...) {
 #' @export
 type_sum.rsplit <- function(x, ...) {
   out_char <-
-    if (all(is.na(x$out_id)))
+    if (is_missing_out_id(x))
       format_n(length(complement(x)))
   else
     format_n(length(x$out_id))
