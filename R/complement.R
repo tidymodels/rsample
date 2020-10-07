@@ -21,7 +21,7 @@ complement <- function(x, ...)
 
 #' @export
 complement.vfold_split <- function(x, ...) {
-  if (!all(is.na(x$out_id))) {
+  if (!is_missing_out_id(x)) {
     return(x$out_id)
   } else {
     setdiff(1:nrow(x$data), x$in_id)
@@ -37,7 +37,7 @@ complement.loo_split <- complement.vfold_split
 complement.group_vfold_split <- complement.vfold_split
 #' @export
 complement.boot_split <- function(x, ...) {
-  if (!all(is.na(x$out_id))) {
+  if (!is_missing_out_id(x)) {
     return(x$out_id)
   } else {
     (1:nrow(x$data))[-unique(x$in_id)]
@@ -76,7 +76,7 @@ get_stored_out_id <- function(x) {
 
 #' @export
 complement.apparent_split <- function(x, ...) {
-  if (!all(is.na(x$out_id))) {
+  if (!is_missing_out_id(x)) {
     return(x$out_id)
   } else {
     1:nrow(x$data)
@@ -122,5 +122,9 @@ populate.rset <- function(x, ...) {
 rm_out <- function(x) {
   x$out_id <- NA
   x
+}
+
+is_missing_out_id <- function(x) {
+  identical(x$out_id, NA)
 }
 

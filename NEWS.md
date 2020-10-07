@@ -1,5 +1,7 @@
 # rsample (development version)
 
+* Fixed an issue where empty assessment sets couldn't be created by `make_splits()` (#188).
+
 # rsample 0.0.8
 
 * New `manual_rset()` for constructing rset objects manually from custom rsplits (tidymodels/tune#273).
