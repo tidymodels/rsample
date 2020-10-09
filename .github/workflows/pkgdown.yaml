@@ -38,16 +38,16 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE)
-          install.packages("pkgdown")
-          remotes::install_github("tidyverse/tidytemplate")
+          remotes::install_deps(dependencies = TRUE, type = "binary")
+          install.packages("pkgdown", type = "binary")
+          remotes::install_github("tidyverse/tidytemplate", type = "binary")
         shell: Rscript {0}
 
       - name: Install article dependencies
         run: |
-          remotes::install_cran("tidymodels")
-          remotes::install_cran("nlstools")
-          remotes::install_cran("GGally")
+          remotes::install_cran("tidymodels", type = "binary")
+          remotes::install_cran("nlstools", type = "binary")
+          remotes::install_cran("GGally", type = "binary")
         shell: Rscript {0}
 
       - name: Install package
