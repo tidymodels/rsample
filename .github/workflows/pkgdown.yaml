@@ -34,6 +34,14 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           install.packages("pkgdown")
+          remotes::install_github("tidyverse/tidytemplate")
+        shell: Rscript {0}
+
+      - name: Install article dependencies
+        run: |
+          remotes::install_cran("tidymodels")
+          remotes::install_cran("nlstools")
+          remotes::install_cran("GGally")
         shell: Rscript {0}
 
       - name: Install package
