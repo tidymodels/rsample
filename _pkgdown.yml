@@ -8,7 +8,7 @@ template:
     footer: rsample is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
 
 development:
-  mode: auto
+  mode: release
 
 home:
   strip_header: true
