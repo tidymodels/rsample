@@ -1,9 +1,0 @@
-pandoc: 2.9.2.1
-pkgdown: 1.5.1.9000
-pkgdown_sha: caf7cc74e008e8d0d6e53eeda93cd3cad3545bf2
-articles: []
-last_built: 2020-08-12T20:21Z
-urls:
-  reference: https://rsample.tidymodels.org/reference
-  article: https://rsample.tidymodels.org/articles
-

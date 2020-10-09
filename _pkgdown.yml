@@ -8,7 +8,7 @@ template:
     footer: rsample is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
 
 development:
-  mode: auto
+  mode: release
 
 home:
   strip_header: true
@@ -33,6 +33,7 @@ reference:
       - sliding_period
       - nested_cv
       - apparent
+      - manual_rset
   - title: Analysis
     contents:
       - int_pctl
@@ -56,6 +57,9 @@ reference:
   - title: Compatibility
     contents:
       - rsample-dplyr
+  - title: Package
+    contents:
+      - rsample
 
 navbar:
   left:
