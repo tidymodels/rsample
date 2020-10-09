@@ -58,35 +58,32 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="../../articles/Basics.html">Basic Usage</a>
-</li>
-<li>
-  <a href="../../articles/Working_with_rsets.html">Working with Resample Sets</a>
+  <a href="../../articles/rsample.html">Get started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Application Examples
+    Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../../articles/Applications/Recipes_and_rsample.html">Recipes and rsample</a>
+      <a href="../../articles/Working_with_rsets.html">Working with Resample Sets</a>
     </li>
     <li>
-      <a href="../../articles/Applications/Time_Series.html">Time Series Analysis</a>
+      <a href="../../articles/Applications/Recipes_and_rsample.html">Recipes and rsample</a>
     </li>
     <li>
       <a href="../../articles/Applications/Survival_Analysis.html">Survival Analysis</a>
     </li>
     <li>
-      <a href="../../articles/Applications/Nested_Resampling.html">Tuning Models using Nested Resampling</a>
-    </li>
-    <li>
-      <a href="../../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
-    </li>
-    <li>
       <a href="../../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
+    </li>
+    <li>
+      <a href="https://www.tidymodels.org/learn/models/time-series/">Time Series Analysis</a>
+    </li>
+    <li>
+      <a href="https://www.tidymodels.org/learn/work/nested-resampling/">Nested Resampling</a>
     </li>
   </ul>
 </li>
@@ -233,8 +230,8 @@
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.00016 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.6 seconds.
+## Chain 1: Gradient evaluation took 0.000247 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 2.47 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -251,15 +248,15 @@
 ## Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 6.70677 seconds (Warm-up)
-## Chain 1:                2.0402 seconds (Sampling)
-## Chain 1:                8.74697 seconds (Total)
+## Chain 1:  Elapsed Time: 7.89271 seconds (Warm-up)
+## Chain 1:                2.32695 seconds (Sampling)
+## Chain 1:                10.2197 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 5e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.5 seconds.
+## Chain 2: Gradient evaluation took 5.9e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.59 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -276,9 +273,9 @@
 ## Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 7.07327 seconds (Warm-up)
-## Chain 2:                1.67818 seconds (Sampling)
-## Chain 2:                8.75145 seconds (Total)
+## Chain 2:  Elapsed Time: 8.11755 seconds (Warm-up)
+## Chain 2:                1.9407 seconds (Sampling)
+## Chain 2:                10.0583 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
@@ -301,15 +298,15 @@
 ## Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 7.53027 seconds (Warm-up)
-## Chain 3:                2.57163 seconds (Sampling)
-## Chain 3:                10.1019 seconds (Total)
+## Chain 3:  Elapsed Time: 8.81289 seconds (Warm-up)
+## Chain 3:                3.07294 seconds (Sampling)
+## Chain 3:                11.8858 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 5.9e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.59 seconds.
+## Chain 4: Gradient evaluation took 6.3e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.63 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -326,9 +323,9 @@
 ## Chain 4: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 7.09441 seconds (Warm-up)
-## Chain 4:                1.76962 seconds (Sampling)
-## Chain 4:                8.86403 seconds (Total)
+## Chain 4:  Elapsed Time: 8.81254 seconds (Warm-up)
+## Chain 4:                2.25369 seconds (Sampling)
+## Chain 4:                11.0662 seconds (Total)
 ## Chain 4:</code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit">
 <span class="va">concord_est</span><span class="op">$</span><span class="va">stan</span></pre></div>

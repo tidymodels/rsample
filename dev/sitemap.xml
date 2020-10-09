@@ -106,9 +106,6 @@
     <loc>https://rsample.tidymodels.org/articles/Applications/Intervals.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/articles/Applications/Keras.html</loc>
-  </url>
-  <url>
     <loc>https://rsample.tidymodels.org/articles/Applications/Nested_Resampling.html</loc>
   </url>
   <url>
@@ -118,12 +115,9 @@
     <loc>https://rsample.tidymodels.org/articles/Applications/Survival_Analysis.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/articles/Applications/Time_Series.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/articles/Basics.html</loc>
-  </url>
-  <url>
     <loc>https://rsample.tidymodels.org/articles/Working_with_rsets.html</loc>
+  </url>
+  <url>
+    <loc>https://rsample.tidymodels.org/articles/rsample.html</loc>
   </url>
 </urlset>
