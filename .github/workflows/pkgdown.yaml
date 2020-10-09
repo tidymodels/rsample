@@ -48,6 +48,8 @@ jobs:
           remotes::install_cran("tidymodels", type = "binary")
           remotes::install_cran("nlstools", type = "binary")
           remotes::install_cran("GGally", type = "binary")
+          remotes::install_cran("survival", type = "binary")
+          remotes::install_cran("tidyposterior", type = "binary")
         shell: Rscript {0}
 
       - name: Install package
