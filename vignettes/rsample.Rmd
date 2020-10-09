@@ -1,8 +1,8 @@
 ---
-title: "Basics"
+title: "Introduction to rsample"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Basics}
+  %\VignetteIndexEntry{Introduction to rsample}
 output:
   knitr:::html_vignette:
     toc: yes
