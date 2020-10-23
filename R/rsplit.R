@@ -90,6 +90,15 @@ as.data.frame.rsplit <-
     warning( "`optional` is kept for consistency with the ",
              "underlying class but TRUE values will be ",
              "ignored.", call. = FALSE)
+  if (!is.null(x$col_id)) {
+    if (identical(data, "assessment"))
+      stop("There is no assessment data set for an `rsplit` object with ",
+           "class `perm_split`.")
+    permuted_col <-
+      x$data[as.integer(x, data = data, ...), x$col_id, drop = FALSE]
+    x$data[, x$col_id] <- permuted_col
+    return(x$data)
+  }
   x$data[as.integer(x, data = data, ...), , drop = FALSE]
 }
 
