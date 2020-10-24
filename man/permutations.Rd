@@ -23,17 +23,18 @@ analysis is the standard data set.}
 \item{...}{Not currently used.}
 }
 \value{
-A tibble with classes permutations, rset, tbl_df, tbl, and
-data.frame. The results include a column for the data split objects and a
-column called id that has a character string with the resample identifier.
+A \code{tibble} with classes \code{permutations}, \code{rset}, \code{tbl_df}, \code{tbl}, and
+\code{data.frame}. The results include a column for the data split objects and a
+column called \code{id} that has a character string with the resample
+identifier.
 }
 \description{
-A permutation sample is the same size as the original data set that is made
+A permutation sample is the same size as the original data set and is made
 by permuting/shuffling one or more columns. This results in analysis
-samples that have some columns in their original order and some columns
-permuted to a random order. Unlike other sampling functions in \code{rsample},
-there is no assessment set and calling \code{assessment()} on a permutation
-split will throw an error.
+samples where some columns are in their original order and some columns
+are permuted to a random order. Unlike other sampling functions in
+\code{rsample}, there is no assessment set and calling \code{assessment()} on a
+permutation split will throw an error.
 }
 \details{
 The argument \code{apparent} enables the option of an additional

@@ -1,5 +1,7 @@
 # rsample (development version)
 
+* Added `permutations()`, a function for creating permutation resamples by performing column-wise shuffling (@mattwarkentin, #198).
+
 * Fixed an issue where empty assessment sets couldn't be created by `make_splits()` (#188).
 
 # rsample 0.0.8

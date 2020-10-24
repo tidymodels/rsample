@@ -1,12 +1,12 @@
 #' Permutation sampling
 #'
 #' @description
-#' A permutation sample is the same size as the original data set that is made
+#' A permutation sample is the same size as the original data set and is made
 #'   by permuting/shuffling one or more columns. This results in analysis
-#'   samples that have some columns in their original order and some columns
-#'   permuted to a random order. Unlike other sampling functions in `rsample`,
-#'   there is no assessment set and calling `assessment()` on a permutation
-#'   split will throw an error.
+#'   samples where some columns are in their original order and some columns
+#'   are permuted to a random order. Unlike other sampling functions in
+#'   `rsample`, there is no assessment set and calling `assessment()` on a
+#'   permutation split will throw an error.
 #'
 #' @param data A data frame.
 #' @param permute <`tidy-select`> One or more unquoted
@@ -26,9 +26,10 @@
 #'   of a permutation test, which computes a test statistic under all possible
 #'   permutations of the data.
 #'
-#' @return A tibble with classes permutations, rset, tbl_df, tbl, and
-#'   data.frame. The results include a column for the data split objects and a
-#'   column called id that has a character string with the resample identifier.
+#' @return A `tibble` with classes `permutations`, `rset`, `tbl_df`, `tbl`, and
+#'   `data.frame`. The results include a column for the data split objects and a
+#'   column called `id` that has a character string with the resample
+#'   identifier.
 #'
 #' @examples
 #' permutations(mtcars, mpg, times = 2)
@@ -60,7 +61,7 @@ permutations <- function(
   if (identical(length(col_id), 0L)) {
     stop("You must specify at least one column to permute!")
   } else if (identical(length(col_id), ncol(data))) {
-    stop("You have selected all columns to shuffle. This effectively reorders",
+    stop("You have selected all columns to permute. This effectively reorders",
          "the rows in the original data without changing the data structure.",
          "Please select fewer columns to permute.")
   }
