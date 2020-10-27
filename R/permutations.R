@@ -9,11 +9,11 @@
 #'   permutation split will throw an error.
 #'
 #' @param data A data frame.
-#' @param permute <`tidy-select`> One or more unquoted
-#'   expressions combined with `c()`. Variable names can be used as if they were
-#'   positions in the data frame, so expressions like `x:y` can be used to
-#'   select a range of variables. See \code{\link[tidyselect]{language}} for
-#'   more details.
+#' @param permute One or more columns to shuffle. This argument supports
+#'   `tidyselect` selectors. Multiple expressions can be combined with `c()`.
+#'   Variable names can be used as if they were positions in the data frame, so
+#'   expressions like `x:y` can be used to select a range of variables.
+#'   See \code{\link[tidyselect]{language}} for more details.
 #' @param times The number of permutation samples.
 #' @param apparent A logical. Should an extra resample be added where the
 #'   analysis is the standard data set.
@@ -22,9 +22,9 @@
 #' @details The argument `apparent` enables the option of an additional
 #'   "resample" where the analysis data set is the same as the original data
 #'   set. Permutation-based resampling can be especially helpful for computing
-#'   a statistic under the null hypothesis (e.g. p-value). This forms the basis
-#'   of a permutation test, which computes a test statistic under all possible
-#'   permutations of the data.
+#'   a statistic under the null hypothesis (e.g. t-statistic). This forms the
+#'   basis of a permutation test, which computes a test statistic under all
+#'   possible permutations of the data.
 #'
 #' @return A `tibble` with classes `permutations`, `rset`, `tbl_df`, `tbl`, and
 #'   `data.frame`. The results include a column for the data split objects and a
@@ -41,7 +41,7 @@
 #'
 #' resample2 <- permutations(mtcars, hp, times = 10, apparent = TRUE)
 #' map_dbl(resample2$splits, function(x) {
-#'   t.test(hp ~ vs, data = analysis(x))$p.value
+#'   t.test(hp ~ vs, data = analysis(x))$statistic
 #' })
 #'
 #' @export
@@ -54,16 +54,14 @@ permutations <- function(
 ) {
   permute <- rlang::enquo(permute)
   if (is.null(permute)) {
-    stop("You must specify at least one column to permute!")
+    rlang::abort("You must specify at least one column to permute!")
   }
   col_id <- tidyselect::eval_select(permute, data)
 
   if (identical(length(col_id), 0L)) {
-    stop("You must specify at least one column to permute!")
+    rlang::abort("You must specify at least one column to permute!")
   } else if (identical(length(col_id), ncol(data))) {
-    stop("You have selected all columns to permute. This effectively reorders",
-         "the rows in the original data without changing the data structure.",
-         "Please select fewer columns to permute.")
+    rlang::abort("You have selected all columns to permute. This effectively reorders the rows in the original data without changing the data structure. Please select fewer columns to permute.")
   }
 
   split_objs <- perm_splits(data, times)
@@ -78,7 +76,8 @@ permutations <- function(
 
   perm_att <- list(
     times = times,
-    apparent = apparent
+    apparent = apparent,
+    col_id = col_id
   )
 
   new_rset(

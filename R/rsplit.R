@@ -91,9 +91,12 @@ as.data.frame.rsplit <-
              "underlying class but TRUE values will be ",
              "ignored.", call. = FALSE)
   if (!is.null(x$col_id)) {
-    if (identical(data, "assessment"))
-      stop("There is no assessment data set for an `rsplit` object with ",
-           "class `perm_split`.")
+    if (identical(data, "assessment")) {
+      rsplit_class <- class(x)[[2]]
+      msg <- paste0("There is no assessment data set for an `rsplit` object",
+                    " with class `", rsplit_class, "`.")
+      rlang::abort(msg)
+    }
     permuted_col <-
       x$data[as.integer(x, data = data, ...), x$col_id, drop = FALSE]
     x$data[, x$col_id] <- permuted_col

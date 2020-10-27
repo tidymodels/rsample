@@ -9,11 +9,11 @@ permutations(data, permute = NULL, times = 25, apparent = FALSE, ...)
 \arguments{
 \item{data}{A data frame.}
 
-\item{permute}{<\code{tidy-select}> One or more unquoted
-expressions combined with \code{c()}. Variable names can be used as if they were
-positions in the data frame, so expressions like \code{x:y} can be used to
-select a range of variables. See \code{\link[tidyselect]{language}} for
-more details.}
+\item{permute}{One or more columns to shuffle. This argument supports
+\code{tidyselect} selectors. Multiple expressions can be combined with \code{c()}.
+Variable names can be used as if they were positions in the data frame, so
+expressions like \code{x:y} can be used to select a range of variables.
+See \code{\link[tidyselect]{language}} for more details.}
 
 \item{times}{The number of permutation samples.}
 
@@ -40,9 +40,9 @@ permutation split will throw an error.
 The argument \code{apparent} enables the option of an additional
 "resample" where the analysis data set is the same as the original data
 set. Permutation-based resampling can be especially helpful for computing
-a statistic under the null hypothesis (e.g. p-value). This forms the basis
-of a permutation test, which computes a test statistic under all possible
-permutations of the data.
+a statistic under the null hypothesis (e.g. t-statistic). This forms the
+basis of a permutation test, which computes a test statistic under all
+possible permutations of the data.
 }
 \examples{
 permutations(mtcars, mpg, times = 2)
@@ -54,7 +54,7 @@ resample1$splits[[1]] \%>\% analysis()
 
 resample2 <- permutations(mtcars, hp, times = 10, apparent = TRUE)
 map_dbl(resample2$splits, function(x) {
-  t.test(hp ~ vs, data = analysis(x))$p.value
+  t.test(hp ~ vs, data = analysis(x))$statistic
 })
 
 }
