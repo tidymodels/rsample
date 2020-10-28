@@ -3,6 +3,7 @@ context("Permutations")
 library(testthat)
 library(rsample)
 library(purrr)
+library(dplyr)
 
 test_that('default param', {
   set.seed(11)
@@ -52,4 +53,22 @@ test_that('rsplit labels', {
   all_labs <- map_df(rs$splits, labels)
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
+})
+
+test_that('filtering/slicing rows', {
+  x <- permutations(mtcars, 1:3)
+  xf <- filter(x, id=="Permutations01")
+  xs <- slice(x, 1)
+  expect_identical(class(xf), c("tbl_df", "tbl", "data.frame"))
+  expect_identical(class(xs), c("tbl_df", "tbl", "data.frame"))
+})
+
+test_that('column binding', {
+  x <- permutations(mtcars, 1:3)
+  xcb1 <- bind_cols(x, y = LETTERS[1:nrow(x)])
+  xcb2 <- bind_cols(x, mtcars = tidyr::nest(mtcars, data = everything()))
+  xcb3 <- bind_cols(y = LETTERS[1:nrow(x)], x)
+  expect_identical(class(xcb1), class(x))
+  expect_identical(class(xcb2), class(x))
+  expect_false(identical(class(xcb3), class(x)))
 })
