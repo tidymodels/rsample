@@ -44,6 +44,14 @@ complement.boot_split <- function(x, ...) {
   }
 }
 #' @export
+complement.perm_split <- function(x, ...) {
+  if (!is_missing_out_id(x)) {
+    return(x$out_id)
+  } else {
+    (1:nrow(x$data))[-unique(x$in_id)]
+  }
+}
+#' @export
 complement.rof_split <- function(x, ...) {
   get_stored_out_id(x)
 }
