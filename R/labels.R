@@ -204,6 +204,17 @@ pretty.bootstraps <- function(x, ...) {
   res
 }
 
+#' @export pretty.permutations
+#' @export
+#' @method pretty permutations
+#' @rdname pretty.vfold_cv
+pretty.permutations <- function(x, ...) {
+  details <- attributes(x)
+  res <- "Permutation sampling"
+  if (details$apparent)
+    res <- paste(res, "with apparent sample")
+  res
+}
 
 #' @export pretty.group_vfold_cv
 #' @export
