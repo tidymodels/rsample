@@ -19,6 +19,10 @@ This function uses the distinct rows in the data set and the column(s) for the
 resample identifier and the splits to produce a character string that can be
 used to determine if another object shares the same splits.
 }
+\details{
+The comparison is based on the unique contents of the \code{id} and \code{splits}
+columns. Attributes are not used in the comparison.
+}
 \examples{
 set.seed(1)
 fingerprint(vfold_cv(mtcars))

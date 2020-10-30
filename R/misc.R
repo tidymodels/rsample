@@ -66,6 +66,9 @@ split_unnamed <- function(x, f) {
 #' This function uses the distinct rows in the data set and the column(s) for the
 #' resample identifier and the splits to produce a character string that can be
 #' used to determine if another object shares the same splits.
+#'
+#' The comparison is based on the unique contents of the `id` and `splits`
+#' columns. Attributes are not used in the comparison.
 #' @param x An `rset` object.
 #' @param ... Options to pass to [digest::digest()].
 #' @return A character string.
