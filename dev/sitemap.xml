@@ -67,6 +67,9 @@
     <loc>https://rsample.tidymodels.org/reference/new_rset.html</loc>
   </url>
   <url>
+    <loc>https://rsample.tidymodels.org/reference/permutations.html</loc>
+  </url>
+  <url>
     <loc>https://rsample.tidymodels.org/reference/populate.html</loc>
   </url>
   <url>
