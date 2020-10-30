@@ -20,9 +20,9 @@ Imports:
     furrr,
     tidyr,
     vctrs (>= 0.3.0),
-    modeldata,
     slider (>= 0.1.5),
-    ellipsis
+    ellipsis,
+    digest
 Depends: 
     R (>= 3.2)
 Suggests: 
@@ -34,7 +34,8 @@ Suggests:
     recipes (>= 0.1.4),
     broom,
     xml2,
-    covr
+    covr,
+    modeldata
 URL: https://rsample.tidymodels.org, https://github.com/tidymodels/rsample
 BugReports: https://github.com/tidymodels/rsample/issues
 License: GPL-2

@@ -57,3 +57,44 @@ split_unnamed <- function(x, f) {
   out <- split(x, f)
   unname(out)
 }
+
+
+## -----------------------------------------------------------------------------
+
+#' Create a cryptographical hash value for `rset` objects.
+#'
+#' This function uses the distinct rows in the data set and the column(s) for the
+#' resample identifier and the splits to produce a character string that can be
+#' used to determine if another object shares the same splits.
+#' @param x An `rset` object.
+#' @param ... Options to pass to [digest::digest()].
+#' @return A character string.
+#' @examples
+#' set.seed(1)
+#' fingerprint(vfold_cv(mtcars))
+#'
+#' set.seed(1)
+#' fingerprint(vfold_cv(mtcars))
+#'
+#' set.seed(1)
+#' fingerprint(vfold_cv(mtcars, repeats = 2))
+#'
+#' set.seed(1)
+#' fingerprint(vfold_cv(mtcars, repeats = 2), algo = "murmur32")
+#' @export
+fingerprint <- function(x, ...) {
+  # For iterative models, the splits are replicated multiple times. Get the
+  # unique id values and has those rows
+  id_vars <- grep("^id", names(x), value = TRUE)
+  if (length(id_vars) == 0) {
+    rlang::abort("No ID columns were found.")
+  }
+  if (!any(names(x) == "splits")) {
+    rlang::abort("The 'split' column was not found.")
+  }
+
+  dplyr::select(x, splits, dplyr::matches("^id")) %>%
+    dplyr::distinct() %>%
+    dplyr::arrange(!!!id_vars) %>%
+    digest::digest(...)
+}
