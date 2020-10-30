@@ -93,8 +93,16 @@ fingerprint <- function(x, ...) {
     rlang::abort("The 'split' column was not found.")
   }
 
-  dplyr::select(x, splits, dplyr::matches("^id")) %>%
+  x <-
+    dplyr::select(x, splits, dplyr::matches("^id")) %>%
     dplyr::distinct() %>%
     dplyr::arrange(!!!id_vars) %>%
-    digest::digest(...)
+    tibble::as_tibble()
+  attr_x <- names(attributes(x))
+  attr_rm <- attr_x[!(attr_x %in% c("row.names", "names", "class"))]
+  for (i in attr_rm) {
+    attr(x, i) <- NULL
+  }
+  digest::digest(x, ...)
 }
+
