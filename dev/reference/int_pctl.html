@@ -241,7 +241,7 @@ doi:10.1017/CBO9780511802843</p>
 
 <span class='va'>lm_est</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>split</span>, <span class='va'>...</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>disp</span> <span class='op'>+</span> <span class='va'>hp</span>, data <span class='op'>=</span> <span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span><span class='op'>(</span><span class='va'>split</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
+    <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>52156</span><span class='op'>)</span>

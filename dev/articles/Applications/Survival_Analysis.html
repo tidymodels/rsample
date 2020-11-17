@@ -124,9 +124,9 @@
     
     
 <p>In this article, a parametric analysis of censored data is conducted and <code>rsample</code> is used to measure the importance of predictors in the model. The data that will be used is the NCCTG lung cancer data contained in the <code>survival</code> package:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></code></pre></div>
 <pre><code>## 'data.frame':    228 obs. of  10 variables:
 ##  $ inst     : num  3 3 3 5 1 12 7 11 1 7 ...
 ##  $ time     : num  306 455 1010 210 883 ...
@@ -139,9 +139,9 @@
 ##  $ meal.cal : num  1175 1225 NA 1150 NA ...
 ##  $ wt.loss  : num  NA 15 15 11 0 0 10 1 16 34 ...</code></pre>
 <p><code>status</code> is an indicator for which patients are censored (<code>status = 1</code>) or an actual event (<code>status = 2</code>). The help file <code><a href="https://rdrr.io/pkg/survival/man/survreg.html">?survreg</a></code> has the following model fit:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">lung_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">ph.ecog</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">lung</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lung_mod</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">lung_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">ph.ecog</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">lung</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lung_mod</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## survreg(formula = Surv(time, status) ~ ph.ecog + age + strata(sex), 
@@ -163,54 +163,54 @@
 ## Number of Newton-Raphson Iterations: 5 
 ## n=227 (1 observation deleted due to missingness)</code></pre>
 <p>Note that the stratification on gender only affects the scale parameter; the estimates above are from a log-linear model for the scale parameter even though they are listed with the regression variables for the other parameter. <code>coef</code> gives results that are more clear:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">lung_mod</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">lung_mod</span><span class="op">)</span></code></pre></div>
 <pre><code>## (Intercept)     ph.ecog         age 
 ##     6.73235    -0.32443    -0.00581</code></pre>
 <p>To resample these data, it would be a good idea to try to maintain the same censoring rate across the splits. To do this, stratified resampling can be used where each analysis/assessment split is conducted within each value of the status indicator. To demonstrate, Monte Carlo resampling is used where 75% of the data are in the analysis set. A total of 100 splits are created.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org">rsample</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org">rsample</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">9666</span><span class="op">)</span>
 <span class="va">mc_samp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/mc_cv.html">mc_cv</a></span><span class="op">(</span><span class="va">lung</span>, strata <span class="op">=</span> <span class="st">"status"</span>, times <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
 <span class="va">cens_rate</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">$</span><span class="va">status</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">cens_rate</span><span class="op">)</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">cens_rate</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   0.279   0.279   0.279   0.279   0.279   0.279</code></pre>
 <p>To demonstrate the use of resampling with censored data, the parametric model shown above will be fit with different variable sets to characterize how important each predictor is to the outcome.</p>
 <p>To do this, a set of formulas are created for the different variable sets:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="va">three_fact</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">ph.ecog</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span><span class="op">)</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">three_fact</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">ph.ecog</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span><span class="op">)</span>
 <span class="va">rm_ph.ecog</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span>           <span class="va">age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span><span class="op">)</span>
 <span class="va">rm_age</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">ph.ecog</span> <span class="op">+</span>       <span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span><span class="op">)</span>
-<span class="va">rm_sex</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">ph.ecog</span> <span class="op">+</span> <span class="va">age</span>              <span class="op">)</span></pre></div>
+<span class="va">rm_sex</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">ph.ecog</span> <span class="op">+</span> <span class="va">age</span>              <span class="op">)</span></code></pre></div>
 <p>The model fitting function will take the formula as an argument:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="va">mod_fit</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">form</span>, <span class="va">...</span><span class="op">)</span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html">survreg</a></span><span class="op">(</span><span class="va">form</span>, data <span class="op">=</span> <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mod_fit</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">form</span>, <span class="va">...</span><span class="op">)</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html">survreg</a></span><span class="op">(</span><span class="va">form</span>, data <span class="op">=</span> <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
 <p>To calculate the efficacy of the model, the concordance statistic is used (see <code><a href="https://rdrr.io/pkg/survival/man/survConcordance-deprecated.html">?survConcordance</a></code>):</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="va">get_concord</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">split</span>, <span class="va">mod</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">get_concord</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">split</span>, <span class="va">mod</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">pred_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span><span class="op">(</span><span class="va">split</span><span class="op">)</span>
   <span class="va">pred_dat</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">mod</span>, newdata <span class="op">=</span> <span class="va">pred_dat</span><span class="op">)</span>
   <span class="fu"><a href="https://rdrr.io/pkg/survival/man/concordance.html">concordance</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">pred</span>, <span class="va">pred_dat</span>, <span class="va">...</span><span class="op">)</span><span class="op">$</span><span class="va">concordance</span>
-<span class="op">}</span></pre></div>
+<span class="op">}</span></code></pre></div>
 <p>With these functions, a series of models are created for each variable set.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_full</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mod_fit</span>, form <span class="op">=</span> <span class="va">three_fact</span><span class="op">)</span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_full</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mod_fit</span>, form <span class="op">=</span> <span class="va">three_fact</span><span class="op">)</span>
 <span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_ph.ecog</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mod_fit</span>, form <span class="op">=</span> <span class="va">rm_ph.ecog</span><span class="op">)</span>
 <span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_age</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mod_fit</span>, form <span class="op">=</span> <span class="va">rm_age</span><span class="op">)</span>
-<span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_sex</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mod_fit</span>, form <span class="op">=</span> <span class="va">rm_sex</span><span class="op">)</span></pre></div>
+<span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_sex</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mod_fit</span>, form <span class="op">=</span> <span class="va">rm_sex</span><span class="op">)</span></code></pre></div>
 <p>Similarly, the concordance values are computed for each model:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="va">mc_samp</span><span class="op">$</span><span class="va">full</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">map2_dbl</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_full</span>, <span class="va">get_concord</span><span class="op">)</span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mc_samp</span><span class="op">$</span><span class="va">full</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">map2_dbl</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_full</span>, <span class="va">get_concord</span><span class="op">)</span>
 <span class="va">mc_samp</span><span class="op">$</span><span class="va">ph.ecog</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">map2_dbl</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_ph.ecog</span>, <span class="va">get_concord</span><span class="op">)</span>
 <span class="va">mc_samp</span><span class="op">$</span><span class="va">age</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">map2_dbl</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_age</span>, <span class="va">get_concord</span><span class="op">)</span>
-<span class="va">mc_samp</span><span class="op">$</span><span class="va">sex</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">map2_dbl</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_sex</span>, <span class="va">get_concord</span><span class="op">)</span></pre></div>
+<span class="va">mc_samp</span><span class="op">$</span><span class="va">sex</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">map2_dbl</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">mc_samp</span><span class="op">$</span><span class="va">mod_sex</span>, <span class="va">get_concord</span><span class="op">)</span></code></pre></div>
 <p>The distributions of the resampling estimates</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="va">concord_est</span> <span class="op">&lt;-</span> <span class="va">mc_samp</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">matches</a></span><span class="op">(</span><span class="st">"^mod"</span><span class="op">)</span><span class="op">)</span>
 
@@ -221,18 +221,18 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">statistic</span>, col <span class="op">=</span> <span class="va">model</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></code></pre></div>
 <p><img src="Survival_Analysis_files/figure-html/concord-df-1.png" width="768"></p>
 <p>It looks as though the model missing <code>ph.ecog</code> has larger concordance values than the other models. As one might expect, the full model and the model absent <code>sex</code> are very similar; the difference in these models should only be the scale parameters estimates.</p>
 <p>To more formally test this, the <code>tidyposterior</code> package is used to create a Bayesian model for the concordance statistics.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyposterior.tidymodels.org">tidyposterior</a></span><span class="op">)</span>
-<span class="va">concord_est</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyposterior.tidymodels.org/reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">concord_est</span>, seed <span class="op">=</span> <span class="fl">6507</span>, iter <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyposterior.tidymodels.org">tidyposterior</a></span><span class="op">)</span>
+<span class="va">concord_est</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyposterior.tidymodels.org/reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">concord_est</span>, seed <span class="op">=</span> <span class="fl">6507</span>, iter <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000162 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.62 seconds.
+## Chain 1: Gradient evaluation took 0.000166 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.66 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -249,15 +249,15 @@
 ## Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 6.9683 seconds (Warm-up)
-## Chain 1:                2.08225 seconds (Sampling)
-## Chain 1:                9.05054 seconds (Total)
+## Chain 1:  Elapsed Time: 6.88263 seconds (Warm-up)
+## Chain 1:                2.03987 seconds (Sampling)
+## Chain 1:                8.9225 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 5.2e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.52 seconds.
+## Chain 2: Gradient evaluation took 5.1e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.51 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -274,15 +274,15 @@
 ## Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 7.18739 seconds (Warm-up)
-## Chain 2:                1.71699 seconds (Sampling)
-## Chain 2:                8.90438 seconds (Total)
+## Chain 2:  Elapsed Time: 7.13584 seconds (Warm-up)
+## Chain 2:                1.68452 seconds (Sampling)
+## Chain 2:                8.82036 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 4.4e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.44 seconds.
+## Chain 3: Gradient evaluation took 5.3e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.53 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -299,15 +299,15 @@
 ## Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 7.64961 seconds (Warm-up)
-## Chain 3:                2.60344 seconds (Sampling)
-## Chain 3:                10.253 seconds (Total)
+## Chain 3:  Elapsed Time: 7.48573 seconds (Warm-up)
+## Chain 3:                2.5528 seconds (Sampling)
+## Chain 3:                10.0385 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 5.8e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.58 seconds.
+## Chain 4: Gradient evaluation took 6e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.6 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -324,12 +324,12 @@
 ## Chain 4: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 7.16755 seconds (Warm-up)
-## Chain 4:                1.79829 seconds (Sampling)
-## Chain 4:                8.96584 seconds (Total)
+## Chain 4:  Elapsed Time: 7.11942 seconds (Warm-up)
+## Chain 4:                1.77613 seconds (Sampling)
+## Chain 4:                8.89555 seconds (Total)
 ## Chain 4:</code></pre>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="va">concord_est</span><span class="op">$</span><span class="va">stan</span></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">concord_est</span><span class="op">$</span><span class="va">stan</span></code></pre></div>
 <pre><code>## stan_glmer
 ##  family:       gaussian [identity]
 ##  formula:      statistic ~ model + (1 | id)
@@ -355,22 +355,22 @@
 ## * For help interpreting the printed output see ?print.stanreg
 ## * For info on the priors used see ?prior_summary.stanreg</code></pre>
 <p>To summarize the posteriors for each model:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span><span class="op">(</span><span class="va">concord_est</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">concord_est</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.</code></pre>
 <pre><code>## Warning: `ggplot.posterior()` is deprecated as of tidyposterior 0.1.0.
 ## This warning is displayed once every 8 hours.
 ## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
 <p><img src="Survival_Analysis_files/figure-html/post-1.png" width="768"></p>
 <p>While this seems clear-cut, let’s assume that a difference in the concordance statistic of 0.1 is a real effect. To compute the posteriors for the difference in models, the full model will be contrasted with the others:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="va">comparisons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyposterior.tidymodels.org/reference/contrast_models.html">contrast_models</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">comparisons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyposterior.tidymodels.org/reference/contrast_models.html">contrast_models</a></span><span class="op">(</span>
   <span class="va">concord_est</span>, 
   list_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"full"</span>, <span class="fl">3</span><span class="op">)</span>,
   list_2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ph.ecog"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span><span class="op">)</span>,
   seed <span class="op">=</span> <span class="fl">4654</span>
-  <span class="op">)</span></pre></div>
+  <span class="op">)</span></code></pre></div>
 <pre><code>## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
 ## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
 ## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
@@ -378,17 +378,17 @@
 ## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
 ## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.</code></pre>
 <p>The posterior distributions show that, statistically, <code>ph.ecog</code> has real importance ot the model. However, since these distributions are mostly with +/- 0.05, they are unlikely to be real differences.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">comparisons</span>, size <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">comparisons</span>, size <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: `ggplot.posterior_diff()` is deprecated as of tidyposterior 0.1.0.
 ## This warning is displayed once every 8 hours.
 ## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
 <p><img src="Survival_Analysis_files/figure-html/diff-post-1.png" width="768"></p>
 <p>The ROPE statistics quantify the practical effects:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">comparisons</span>, size <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">contrast</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"pract"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">comparisons</span>, size <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">contrast</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"pract"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ##   contrast        pract_neg pract_equiv pract_pos
 ##   &lt;chr&gt;               &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
