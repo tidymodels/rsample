@@ -14,7 +14,7 @@ on:
       - main
       - master
 
-name: R-CMD-check
+name: R-CMD-check-with-pak
 
 jobs:
   R-CMD-check:
