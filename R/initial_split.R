@@ -80,7 +80,13 @@ initial_time_split <- function(data, prop = 3/4, lag = 0, ...) {
     stop("`lag` must be less than or equal to the number of training observations.", call. = FALSE)
   }
 
-  rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
+  res <- manual_rset(
+    splits = list(rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))),
+    ids = "Resample1"
+  )
+
+  res$splits[[1]]
+
 }
 
 #' @rdname initial_split
