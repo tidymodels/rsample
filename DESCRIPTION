@@ -12,7 +12,7 @@ Imports:
     dplyr (>= 0.8.5),
     purrr,
     tibble,
-    rlang (>= 0.4.0),
+    rlang (>= 0.4.10),
     methods,
     generics,
     utils,
@@ -21,8 +21,7 @@ Imports:
     tidyr,
     vctrs (>= 0.3.0),
     slider (>= 0.1.5),
-    ellipsis,
-    digest
+    ellipsis
 Depends: 
     R (>= 3.2)
 Suggests: 

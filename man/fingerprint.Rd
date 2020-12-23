@@ -9,7 +9,7 @@ fingerprint(x, ...)
 \arguments{
 \item{x}{An \code{rset} object.}
 
-\item{...}{Options to pass to \code{\link[digest:digest]{digest::digest()}}.}
+\item{...}{Not currently used.}
 }
 \value{
 A character string.
@@ -30,9 +30,9 @@ fingerprint(vfold_cv(mtcars))
 set.seed(1)
 fingerprint(vfold_cv(mtcars))
 
-set.seed(1)
-fingerprint(vfold_cv(mtcars, repeats = 2))
+set.seed(2)
+fingerprint(vfold_cv(mtcars))
 
 set.seed(1)
-fingerprint(vfold_cv(mtcars, repeats = 2), algo = "murmur32")
+fingerprint(vfold_cv(mtcars, repeats = 2))
 }

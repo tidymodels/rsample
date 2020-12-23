@@ -70,7 +70,7 @@ split_unnamed <- function(x, f) {
 #' The comparison is based on the unique contents of the `id` and `splits`
 #' columns. Attributes are not used in the comparison.
 #' @param x An `rset` object.
-#' @param ... Options to pass to [digest::digest()].
+#' @param ... Not currently used.
 #' @return A character string.
 #' @examples
 #' set.seed(1)
@@ -79,11 +79,11 @@ split_unnamed <- function(x, f) {
 #' set.seed(1)
 #' fingerprint(vfold_cv(mtcars))
 #'
-#' set.seed(1)
-#' fingerprint(vfold_cv(mtcars, repeats = 2))
+#' set.seed(2)
+#' fingerprint(vfold_cv(mtcars))
 #'
 #' set.seed(1)
-#' fingerprint(vfold_cv(mtcars, repeats = 2), algo = "murmur32")
+#' fingerprint(vfold_cv(mtcars, repeats = 2))
 #' @export
 fingerprint <- function(x, ...) {
   # For iterative models, the splits are replicated multiple times. Get the
@@ -106,6 +106,6 @@ fingerprint <- function(x, ...) {
   for (i in attr_rm) {
     attr(x, i) <- NULL
   }
-  digest::digest(x, ...)
+  rlang::hash(x)
 }
 
