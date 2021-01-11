@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sample Time Series Data — drinks • rsample</title>
+<title>Create a cryptographical hash value for rset objects. — fingerprint • rsample</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,10 @@
 
 
 
-<meta property="og:title" content="Sample Time Series Data — drinks" />
-<meta property="og:description" content="Sample Time Series Data" />
+<meta property="og:title" content="Create a cryptographical hash value for rset objects. — fingerprint" />
+<meta property="og:description" content="This function uses the distinct rows in the data set and the column(s) for the
+resample identifier and the splits to produce a character string that can be
+used to determine if another object shares the same splits." />
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -156,24 +158,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sample Time Series Data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rsample/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>drinks.Rd</code></div>
+    <h1>Create a cryptographical hash value for <code>rset</code> objects.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rsample/blob/master/R/misc.R'><code>R/misc.R</code></a></small>
+    <div class="hidden name"><code>fingerprint.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Sample Time Series Data</p>
+    <p>This function uses the distinct rows in the data set and the column(s) for the
+resample identifier and the splits to produce a character string that can be
+used to determine if another object shares the same splits.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>fingerprint</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>An <code>rset</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Not currently used.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A character string.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Drink sales. The exact name of the series from FRED is:
-"Merchant Wholesalers, Except Manufacturers' Sales Branches and Offices
-Sales: Nondurable Goods: Beer, Wine, and Distilled Alcoholic Beverages Sales"</p>
-<p>These data are now in the <code>modeldata</code> package.</p>
+    <p>The comparison is based on the unique contents of the <code>id</code> and <code>splits</code>
+columns. Attributes are not used in the comparison.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "5aa166d5f0a4928dd00ae8d7397dec37"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "5aa166d5f0a4928dd00ae8d7397dec37"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'>fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "c3207abca93040861ef6e66e5372e5f8"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span>, repeats <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "c1754f07384bb4477325a8d837798c33"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

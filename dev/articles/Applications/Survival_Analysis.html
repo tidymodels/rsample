@@ -95,7 +95,7 @@
 </li>
         <li>
   <a href="https://github.com/tidymodels/rsample/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -109,8 +109,7 @@
 
       
 
-      </header><script src="Survival_Analysis_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="Survival_Analysis_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="Survival_Analysis_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="Survival_Analysis_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Survival Analysis Example</h1>
@@ -215,7 +214,7 @@
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">matches</a></span><span class="op">(</span><span class="st">"^mod"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="va">concord_est</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">statistic</span>, col <span class="op">=</span> <span class="va">model</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
@@ -227,12 +226,12 @@
 <p>To more formally test this, the <code>tidyposterior</code> package is used to create a Bayesian model for the concordance statistics.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyposterior.tidymodels.org">tidyposterior</a></span><span class="op">)</span>
-<span class="va">concord_est</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyposterior.tidymodels.org/reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">concord_est</span>, seed <span class="op">=</span> <span class="fl">6507</span>, iter <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></code></pre></div>
+<span class="va">concord_est</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidyposterior/man/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">concord_est</span>, seed <span class="op">=</span> <span class="fl">6507</span>, iter <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000159 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.59 seconds.
+## Chain 1: Gradient evaluation took 0.000171 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.71 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -249,15 +248,15 @@
 ## Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 6.78483 seconds (Warm-up)
-## Chain 1:                2.04439 seconds (Sampling)
-## Chain 1:                8.82922 seconds (Total)
+## Chain 1:  Elapsed Time: 6.75636 seconds (Warm-up)
+## Chain 1:                2.04748 seconds (Sampling)
+## Chain 1:                8.80384 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 4.9e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.49 seconds.
+## Chain 2: Gradient evaluation took 4.7e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.47 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -274,15 +273,15 @@
 ## Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 7.10421 seconds (Warm-up)
-## Chain 2:                1.6865 seconds (Sampling)
-## Chain 2:                8.79071 seconds (Total)
+## Chain 2:  Elapsed Time: 7.03916 seconds (Warm-up)
+## Chain 2:                1.67085 seconds (Sampling)
+## Chain 2:                8.71001 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 5.3e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.53 seconds.
+## Chain 3: Gradient evaluation took 4.7e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.47 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -299,15 +298,15 @@
 ## Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 7.57067 seconds (Warm-up)
-## Chain 3:                2.60587 seconds (Sampling)
-## Chain 3:                10.1765 seconds (Total)
+## Chain 3:  Elapsed Time: 7.46701 seconds (Warm-up)
+## Chain 3:                2.57535 seconds (Sampling)
+## Chain 3:                10.0424 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 5.6e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.56 seconds.
+## Chain 4: Gradient evaluation took 4.6e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.46 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -324,9 +323,9 @@
 ## Chain 4: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 7.15945 seconds (Warm-up)
-## Chain 4:                1.80761 seconds (Sampling)
-## Chain 4:                8.96705 seconds (Total)
+## Chain 4:  Elapsed Time: 7.06233 seconds (Warm-up)
+## Chain 4:                1.77252 seconds (Sampling)
+## Chain 4:                8.83484 seconds (Total)
 ## Chain 4:</code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">concord_est</span><span class="op">$</span><span class="va">stan</span></code></pre></div>
@@ -365,7 +364,7 @@
 <p><img src="Survival_Analysis_files/figure-html/post-1.png" width="768"></p>
 <p>While this seems clear-cut, let’s assume that a difference in the concordance statistic of 0.1 is a real effect. To compute the posteriors for the difference in models, the full model will be contrasted with the others:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">comparisons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyposterior.tidymodels.org/reference/contrast_models.html">contrast_models</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">comparisons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidyposterior/man/contrast_models.html">contrast_models</a></span><span class="op">(</span>
   <span class="va">concord_est</span>, 
   list_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"full"</span>, <span class="fl">3</span><span class="op">)</span>,
   list_2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ph.ecog"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span><span class="op">)</span>,
