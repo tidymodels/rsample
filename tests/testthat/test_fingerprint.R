@@ -10,15 +10,11 @@ test_that("fingerprinting", {
   set.seed(1)
   fp_3 <- fingerprint(vfold_cv(mtcars, repeats = 2))
 
-  set.seed(1)
-  fp_4 <- fingerprint(vfold_cv(mtcars, repeats = 2), algo = "murmur32")
-
   expect_true(class(fp_1) == "character")
   expect_true(class(fp_2) == "character")
   expect_true(class(fp_3) == "character")
   expect_equal(fp_1, fp_2)
   expect_false(fp_1 == fp_3)
-  expect_false(fp_3 == fp_4)
 
   expect_error(
     fingerprint(vfold_cv(mtcars) %>% dplyr::select(-id)),
@@ -33,7 +29,7 @@ test_that("fingerprinting", {
   set.seed(1)
   rs_2 <- vfold_cv(mtcars)
   rs_3 <- rs_2[rep(1:10, 3), ]
-  fp_5 <- fingerprint(rs_3)
-  expect_equal(fp_1, fp_5)
+  fp_4 <- fingerprint(rs_3)
+  expect_equal(fp_1, fp_4)
 
 })
