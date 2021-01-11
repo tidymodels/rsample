@@ -88,7 +88,8 @@ split_unnamed <- function(x, f) {
 fingerprint <- function(x, ...) {
   # For iterative models, the splits are replicated multiple times. Get the
   # unique id values and has those rows
-  id_vars <- grep("^id", names(x), value = TRUE)
+  is_id_var <- col_starts_with_id(names(x))
+  id_vars <- names(x)[is_id_var]
   if (length(id_vars) == 0) {
     rlang::abort("No ID columns were found.")
   }
@@ -97,15 +98,13 @@ fingerprint <- function(x, ...) {
   }
 
   x <-
-    dplyr::select(x, splits, dplyr::matches("^id")) %>%
+    dplyr::select(x, splits, dplyr::all_of(id_vars)) %>%
     dplyr::distinct() %>%
     dplyr::arrange(!!!id_vars) %>%
     tibble::as_tibble()
-  attr_x <- names(attributes(x))
-  attr_rm <- attr_x[!(attr_x %in% c("row.names", "names", "class"))]
-  for (i in attr_rm) {
-    attr(x, i) <- NULL
-  }
+  attrib <- attributes(x)
+  attrib <- attrib[names(attrib) %in% c("row.names", "names", "class")]
+  attributes(x) <- attrib
   rlang::hash(x)
 }
 

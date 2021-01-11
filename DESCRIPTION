@@ -9,7 +9,7 @@ Authors@R: c(
 Maintainer: Max Kuhn <max@rstudio.com>
 Description: Classes and functions to create and summarize different types of resampling objects (e.g. bootstrap, cross-validation). 
 Imports: 
-    dplyr (>= 0.8.5),
+    dplyr (>= 1.0.0),
     purrr,
     tibble,
     rlang (>= 0.4.10),
