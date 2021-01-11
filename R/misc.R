@@ -57,3 +57,54 @@ split_unnamed <- function(x, f) {
   out <- split(x, f)
   unname(out)
 }
+
+
+## -----------------------------------------------------------------------------
+
+#' Create a cryptographical hash value for `rset` objects.
+#'
+#' This function uses the distinct rows in the data set and the column(s) for the
+#' resample identifier and the splits to produce a character string that can be
+#' used to determine if another object shares the same splits.
+#'
+#' The comparison is based on the unique contents of the `id` and `splits`
+#' columns. Attributes are not used in the comparison.
+#' @param x An `rset` object.
+#' @param ... Not currently used.
+#' @return A character string.
+#' @examples
+#' set.seed(1)
+#' fingerprint(vfold_cv(mtcars))
+#'
+#' set.seed(1)
+#' fingerprint(vfold_cv(mtcars))
+#'
+#' set.seed(2)
+#' fingerprint(vfold_cv(mtcars))
+#'
+#' set.seed(1)
+#' fingerprint(vfold_cv(mtcars, repeats = 2))
+#' @export
+fingerprint <- function(x, ...) {
+  # For iterative models, the splits are replicated multiple times. Get the
+  # unique id values and has those rows
+  is_id_var <- col_starts_with_id(names(x))
+  id_vars <- names(x)[is_id_var]
+  if (length(id_vars) == 0) {
+    rlang::abort("No ID columns were found.")
+  }
+  if (!any(names(x) == "splits")) {
+    rlang::abort("The 'split' column was not found.")
+  }
+
+  x <-
+    dplyr::select(x, splits, dplyr::all_of(id_vars)) %>%
+    dplyr::distinct() %>%
+    dplyr::arrange(!!!id_vars) %>%
+    tibble::as_tibble()
+  attrib <- attributes(x)
+  attrib <- attrib[names(attrib) %in% c("row.names", "names", "class")]
+  attributes(x) <- attrib
+  rlang::hash(x)
+}
+

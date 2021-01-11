@@ -9,10 +9,10 @@ Authors@R: c(
 Maintainer: Max Kuhn <max@rstudio.com>
 Description: Classes and functions to create and summarize different types of resampling objects (e.g. bootstrap, cross-validation). 
 Imports: 
-    dplyr (>= 0.8.5),
+    dplyr (>= 1.0.0),
     purrr,
     tibble,
-    rlang (>= 0.4.0),
+    rlang (>= 0.4.10),
     methods,
     generics,
     utils,
@@ -20,7 +20,6 @@ Imports:
     furrr,
     tidyr,
     vctrs (>= 0.3.0),
-    modeldata,
     slider (>= 0.1.5),
     ellipsis
 Depends: 
@@ -34,7 +33,8 @@ Suggests:
     recipes (>= 0.1.4),
     broom,
     xml2,
-    covr
+    covr,
+    modeldata
 URL: https://rsample.tidymodels.org, https://github.com/tidymodels/rsample
 BugReports: https://github.com/tidymodels/rsample/issues
 License: GPL-2
