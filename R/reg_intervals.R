@@ -29,12 +29,12 @@
 #' @examples
 #' \donttest{
 #' set.seed(1)
-#' parametric_intervals(mpg ~ I(1/sqrt(disp)), data = mtcars)
+#' reg_intervals(mpg ~ I(1/sqrt(disp)), data = mtcars)
 #'
 #' set.seed(1)
-#' parametric_intervals(mpg ~ I(1/sqrt(disp)), data = mtcars, keep_reps = TRUE)
+#' reg_intervals(mpg ~ I(1/sqrt(disp)), data = mtcars, keep_reps = TRUE)
 #' }
-parametric_intervals <-
+reg_intervals <-
   function(formula, data, model_fn = "lm", type = "student-t", times = NULL,
            alpha = 0.05, filter = term != "(Intercept)", keep_reps = FALSE, ...) {
     model_fn <- match.arg(model_fn, c("lm", "glm", "survreg", "coxph"))
@@ -55,6 +55,10 @@ parametric_intervals <-
       }
     }
 
+    if (length(alpha) != 1 || !is.numeric(alpha)) {
+      abort("`alpha` must be a single numeric value.")
+    }
+
     if (model_fn %in% c("survreg", "coxph")) {
       pkg <- "survival"
       rlang::check_installed("survival")
@@ -73,9 +77,9 @@ parametric_intervals <-
                       )
       )
     if (type == "student-t") {
-      res <- int_t(bt, models)
+      res <- int_t(bt, models, alpha = alpha)
     } else {
-      res <- int_pctl(bt, models)
+      res <- int_pctl(bt, models, alpha = alpha)
     }
 
     if (keep_reps) {

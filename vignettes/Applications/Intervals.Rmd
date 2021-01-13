@@ -259,10 +259,10 @@ Let's use this model with student-t intervals:
 ```{r ad-t-int}
 set.seed(29832)
 lr_int <- 
-  parametric_intervals(Class ~ male + age + Ab_42 + tau, 
-                       data = ad_data,
-                       model_fn = "glm",
-                       family = binomial)
+  reg_intervals(Class ~ male + age + Ab_42 + tau, 
+                data = ad_data,
+                model_fn = "glm",
+                family = binomial)
 lr_int
 ```
 
@@ -271,11 +271,11 @@ We can also save the resamples for plotting:
 ```{r ad-t-int-plot}
 set.seed(29832)
 lr_int <- 
-  parametric_intervals(Class ~ male + age + Ab_42 + tau, 
-                       data = ad_data,
-                       keep_reps = TRUE,
-                       model_fn = "glm",
-                       family = binomial)
+  reg_intervals(Class ~ male + age + Ab_42 + tau, 
+                data = ad_data,
+                keep_reps = TRUE,
+                model_fn = "glm",
+                family = binomial)
 lr_int
 ```
 
@@ -289,5 +289,6 @@ lr_int %>%
   geom_histogram(bins = 30) + 
   facet_wrap(~ term, scales = "free_x") + 
   geom_vline(data = lr_int, aes(xintercept = .lower), col = "red") + 
-  geom_vline(data = lr_int, aes(xintercept = .upper), col = "red") 
+  geom_vline(data = lr_int, aes(xintercept = .upper), col = "red") + 
+  geom_vline(xintercept = 0, col = "green")
 ```

@@ -6,6 +6,8 @@
 
 * A `fingerprint()` function was added to create a hash value that can be used to compare `rset` objects.
 
+* The `reg_intervals()` function is a convenience function for `lm()`, `glm()`, `survreg()`, and `coxph()` models. 
+
 # rsample 0.0.8
 
 * New `manual_rset()` for constructing rset objects manually from custom rsplits (tidymodels/tune#273).
