@@ -102,5 +102,5 @@ doi:10.1017/CBO9780511802843
 \url{https://rsample.tidymodels.org/articles/Applications/Intervals.html}
 }
 \seealso{
-\code{\link[=parametric_intervals]{parametric_intervals()}}
+\code{\link[=reg_intervals]{reg_intervals()}}
 }
