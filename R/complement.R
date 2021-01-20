@@ -21,11 +21,7 @@ complement <- function(x, ...)
 
 #' @export
 complement.vfold_split <- function(x, ...) {
-  if (!is_missing_out_id(x)) {
-    return(x$out_id)
-  } else {
-    setdiff(1:nrow(x$data), x$in_id)
-  }
+  complement_default(x)
 }
 #' @export
 complement.mc_split  <- complement.vfold_split
@@ -37,19 +33,11 @@ complement.loo_split <- complement.vfold_split
 complement.group_vfold_split <- complement.vfold_split
 #' @export
 complement.boot_split <- function(x, ...) {
-  if (!is_missing_out_id(x)) {
-    return(x$out_id)
-  } else {
-    (1:nrow(x$data))[-unique(x$in_id)]
-  }
+  complement_default(x)
 }
 #' @export
 complement.perm_split <- function(x, ...) {
-  if (!is_missing_out_id(x)) {
-    return(x$out_id)
-  } else {
-    (1:nrow(x$data))[-unique(x$in_id)]
-  }
+  complement_default(x)
 }
 #' @export
 complement.rof_split <- function(x, ...) {
@@ -91,6 +79,21 @@ complement.apparent_split <- function(x, ...) {
   }
 }
 
+#' Determine the Default Assessment Samples
+#'
+#' Given many types of `rsplit` objects, `complement_default` will determine
+#'   which of the data rows are contained in the assessment set.
+#' @param x An `rsplit` object
+#' @return A integer vector.
+#' @keywords internal
+#' @export
+complement_default <- function(x) {
+  if (!is_missing_out_id(x)) {
+    return(x$out_id)
+  } else {
+    setdiff(1:nrow(x$data), unique(x$in_id))
+  }
+}
 
 #' Add Assessment Indices
 #'
