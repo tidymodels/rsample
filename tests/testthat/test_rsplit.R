@@ -13,6 +13,7 @@ test_that('simple rsplit', {
   expect_equal(rs1$data, dat1)
   expect_equal(rs1$in_id, 1:2)
   expect_equal(rs1$out_id, 4:5)
+  expect_equal(complement_default(rs1), rs1$out_id)
 })
 
 test_that('simple rsplit with matrices', {
