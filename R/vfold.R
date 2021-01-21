@@ -100,11 +100,6 @@ vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, breaks = 4, ...) 
            subclass = c("vfold_cv", "rset"))
 }
 
-# Get the indices of the analysis set from the assessment set
-vfold_complement <- function(ind, n) {
-  list(analysis = setdiff(1:n, ind),
-       assessment = ind)
-}
 
 vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4) {
   if (!is.numeric(v) || length(v) != 1)
@@ -125,7 +120,7 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4) {
     indices <- split_unnamed(stratas$idx, stratas$folds)
   }
 
-  indices <- lapply(indices, vfold_complement, n = n)
+  indices <- lapply(indices, default_complement, n = n)
 
   split_objs <- purrr::map(indices, make_splits, data = data, class = "vfold_split")
   tibble::tibble(splits = split_objs,
