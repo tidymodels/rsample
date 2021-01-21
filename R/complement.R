@@ -1,9 +1,17 @@
 #' Determine the Assessment Samples
 #'
-#' Given an `rsplit` object, `complement` will determine which
+#' This method and function help find which data belong in the analysis and
+#' assessment sets.
+#'
+#' Given an `rsplit` object, `complement()` will determine which
 #'   of the data rows are contained in the assessment set. To save space,
 #'   many of the `rset` objects will not contain indices for the
 #'   assessment split.
+#'
+#' `rsplit_complement()` handles the determination for sets for most resampling
+#' methods. Unless the row indices for the assessment set are already
+#' determined, this function selects all of the rows that are not in the
+#' analysis set and returns those as the assessment set.
 #'
 #' @param x An `rsplit` object
 #' @param ... Not currently used
@@ -20,37 +28,29 @@ complement <- function(x, ...)
   UseMethod("complement")
 
 #' @export
-complement.vfold_split <- function(x, ...) {
-  if (!is_missing_out_id(x)) {
-    return(x$out_id)
-  } else {
-    setdiff(1:nrow(x$data), x$in_id)
-  }
-}
-#' @export
-complement.mc_split  <- complement.vfold_split
-#' @export
-complement.val_split <- complement.vfold_split
-#' @export
-complement.loo_split <- complement.vfold_split
-#' @export
-complement.group_vfold_split <- complement.vfold_split
-#' @export
-complement.boot_split <- function(x, ...) {
+#' @rdname complement
+rsplit_complement <- function(x, ...) {
   if (!is_missing_out_id(x)) {
     return(x$out_id)
   } else {
     (1:nrow(x$data))[-unique(x$in_id)]
   }
 }
+
 #' @export
-complement.perm_split <- function(x, ...) {
-  if (!is_missing_out_id(x)) {
-    return(x$out_id)
-  } else {
-    (1:nrow(x$data))[-unique(x$in_id)]
-  }
-}
+complement.vfold_split <- rsplit_complement
+#' @export
+complement.mc_split  <- rsplit_complement
+#' @export
+complement.val_split <- rsplit_complement
+#' @export
+complement.loo_split <- rsplit_complement
+#' @export
+complement.group_vfold_split <- rsplit_complement
+#' @export
+complement.boot_split <- rsplit_complement
+#' @export
+complement.perm_split <- rsplit_complement
 #' @export
 complement.rof_split <- function(x, ...) {
   get_stored_out_id(x)
@@ -89,6 +89,18 @@ complement.apparent_split <- function(x, ...) {
   } else {
     1:nrow(x$data)
   }
+}
+
+#' Get the indices of the analysis set from the assessment set
+#' @param ind A vector of integers for which rows of data belong in the
+#' assessment set.
+#' @param n A single integer for the total number of rows in the data set.
+#' @return A named list of integer vectors.
+#' @export
+#' @keywords internal
+default_complement <- function(ind, n) {
+  list(analysis = setdiff(1:n, ind),
+       assessment = unique(ind))
 }
 
 

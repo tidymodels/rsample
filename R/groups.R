@@ -99,7 +99,7 @@ group_vfold_splits <- function(data, group, v = NULL) {
     full_join(keys, by = "..group") %>%
     arrange(..index)
   indices <- split_unnamed(data_ind$..index, data_ind$..folds)
-  indices <- lapply(indices, vfold_complement, n = nrow(data))
+  indices <- lapply(indices, default_complement, n = nrow(data))
   split_objs <-
     purrr::map(indices,
                make_splits,

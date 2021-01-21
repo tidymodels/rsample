@@ -6,6 +6,8 @@
 
 * A `fingerprint()` function was added to create a hash value that can be used to compare `rset` objects.
 
+* A few internal functions were exported so that `rsample`-adjacent packages can use the same underlying code. 
+
 # rsample 0.0.8
 
 * New `manual_rset()` for constructing rset objects manually from custom rsplits (tidymodels/tune#273).
