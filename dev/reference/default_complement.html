@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Determine the Assessment Samples — complement • rsample</title>
+<title>Get the indices of the analysis set from the assessment set — default_complement • rsample</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,9 +49,8 @@
 
 
 
-<meta property="og:title" content="Determine the Assessment Samples — complement" />
-<meta property="og:description" content="This method and function help find which data belong in the analysis and
-assessment sets." />
+<meta property="og:title" content="Get the indices of the analysis set from the assessment set — default_complement" />
+<meta property="og:description" content="Get the indices of the analysis set from the assessment set" />
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -157,57 +156,35 @@ assessment sets." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Determine the Assessment Samples</h1>
+    <h1>Get the indices of the analysis set from the assessment set</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidymodels/rsample/blob/master/R/complement.R'><code>R/complement.R</code></a></small>
-    <div class="hidden name"><code>complement.Rd</code></div>
+    <div class="hidden name"><code>default_complement.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This method and function help find which data belong in the analysis and
-assessment sets.</p>
+    <p>Get the indices of the analysis set from the assessment set</p>
     </div>
 
-    <pre class="usage"><span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>rsplit_complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>default_complement</span><span class='op'>(</span><span class='va'>ind</span>, <span class='va'>n</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>An <code>rsplit</code> object</p></td>
+      <th>ind</th>
+      <td><p>A vector of integers for which rows of data belong in the
+assessment set.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Not currently used</p></td>
+      <th>n</th>
+      <td><p>A single integer for the total number of rows in the data set.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A integer vector.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>A named list of integer vectors.</p>
 
-    <p>Given an <code>rsplit</code> object, <code>complement()</code> will determine which
-of the data rows are contained in the assessment set. To save space,
-many of the <code>rset</code> objects will not contain indices for the
-assessment split.</p>
-<p><code>rsplit_complement()</code> handles the determination for sets for most resampling
-methods. Unless the row indices for the assessment set are already
-determined, this function selects all of the rows that are not in the
-analysis set and returns those as the assessment set.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='populate.html'>populate()</a></code></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>28432</span><span class='op'>)</span>
-<span class='va'>fold_rs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>fold_rs</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>in_id</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2 3 4 5 6 7</div><div class='input'><span class='va'>fold_rs</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>out_id</span>
-</div><div class='output co'>#&gt; [1] NA</div><div class='input'><span class='fu'>complement</span><span class='op'>(</span><span class='va'>fold_rs</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]  1  9 25 27</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
