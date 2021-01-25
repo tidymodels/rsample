@@ -65,48 +65,6 @@ rset_reconstructable <- function(x, to) {
 
 # ------------------------------------------------------------------------------
 
-# Keep this dictionary up to date with any changes to the rset subclasses.
-# These are the attributes that this specific subclass knows about.
-rset_attribute_dictionary <- list(
-  bootstraps       = c("times", "apparent", "strata"),
-  vfold_cv         = c("v", "repeats", "strata"),
-  group_vfold_cv   = c("v", "group"),
-  loo_cv           = character(),
-  mc_cv            = c("prop", "times", "strata"),
-  nested_cv        = c("outside", "inside"),
-  validation_split = c("prop", "strata"),
-  rolling_origin   = c("initial", "assess", "cumulative", "skip", "lag"),
-  sliding_window   = c("lookback", "assess_start", "assess_stop", "complete", "step", "skip"),
-  sliding_index    = c("lookback", "assess_start", "assess_stop", "complete", "step", "skip"),
-  sliding_period   = c("period", "lookback", "assess_start", "assess_stop", "complete", "step", "skip", "every", "origin"),
-  manual_rset      = character(),
-  apparent         = character(),
-  tbl_df           = character()
-)
-
-rset_attributes <- function(x) {
-  cls <- class(x)[[1]]
-
-  attributes <- rset_attribute_dictionary[[cls]]
-
-  if (is.null(attributes)) {
-    rlang::abort("Unrecognized class in `rset_attributes()`.")
-  }
-
-  # Special case `nested_cv`, which appends a class onto an existing
-  # rset subclass. We need to strip the `nested_cv` specific attributes
-  # and the ones for the existing subclass.
-  if (identical(cls, "nested_cv")) {
-    class(x) <- class(x)[-1]
-    extra_attributes <- rset_attributes(x)
-    attributes <- c(attributes, extra_attributes)
-  }
-
-  attributes
-}
-
-# ------------------------------------------------------------------------------
-
 test_data <- function() {
   data.frame(
     x = 1:50,
