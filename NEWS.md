@@ -1,5 +1,7 @@
 # rsample (development version)
 
+* New `rset_reconstruct()`, a developer tool to ease creation of new rset subclasses (#210).
+
 * Added `permutations()`, a function for creating permutation resamples by performing column-wise shuffling (@mattwarkentin, #198).
 
 * Fixed an issue where empty assessment sets couldn't be created by `make_splits()` (#188).
