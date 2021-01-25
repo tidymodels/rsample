@@ -1,4 +1,45 @@
 
+#' Extending rsample with new rset subclasses
+#'
+#' `rset_reconstruct()` encapsulates the logic for allowing new rset
+#' subclasses to work properly with vctrs (through `vctrs::vec_restore()`) and
+#' dplyr (through `dplyr::dplyr_reconstruct()`). It is intended to be a
+#' developer tool, and is not required for normal usage of rsample.
+#'
+#' rset objects are considered "reconstructable" after a vctrs/dplyr operation
+#' if:
+#'
+#' - `x` and `to` both have an identical column named `"splits"` (column
+#'   and row order do not matter).
+#'
+#' - `x` and `to` both have identical columns prefixed with `"id"` (column
+#'   and row order do not matter).
+#'
+#' @param x A data frame to restore to an rset subclass.
+#' @param to An rset subclass to restore to.
+#'
+#' @return `x` restored to the rset subclass of `to`.
+#'
+#' @export
+#' @examples
+#' to <- bootstraps(mtcars, times = 25)
+#'
+#' # Imitate a vctrs/dplyr operation,
+#' # where the class might be lost along the way
+#' x <- tibble::as_tibble(to)
+#'
+#' # Say we added a new column to `x`. Here we mock a `mutate()`.
+#' x$foo <- "bar"
+#'
+#' # This is still reconstructable to `to`
+#' rset_reconstruct(x, to)
+#'
+#' # Say we lose the first row
+#' x <- x[-1,]
+#'
+#' # This is no longer reconstructable to `to`, as `x` is no longer an rset
+#' # bootstraps object with 25 bootstraps if one is lost!
+#' rset_reconstruct(x, to)
 rset_reconstruct <- function(x, to) {
   if (rset_reconstructable(x, to)) {
     df_reconstruct(x, to)
