@@ -8,7 +8,10 @@
 
 * A `fingerprint()` function was added to create a hash value that can be used to compare `rset` objects.
 
+* The `reg_intervals()` function is a convenience function for `lm()`, `glm()`, `survreg()`, and `coxph()` models. 
+
 * A few internal functions were exported so that `rsample`-adjacent packages can use the same underlying code. 
+
 
 # rsample 0.0.8
 

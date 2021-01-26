@@ -261,3 +261,52 @@ test_that("bad input", {
   expect_error(int_pctl(badder_bt_norm, bad_num))
 
 })
+
+
+# ------------------------------------------------------------------------------
+
+context("regression intervals")
+
+test_that("regression intervals", {
+  skip_on_cran()
+
+  expect_error({
+    set.seed(1)
+    int_1 <- reg_intervals(mpg ~ disp + wt, data = mtcars)
+  },
+  regex = NA)
+
+  expect_equal(
+    names(int_1),
+    c("term", ".lower", ".estimate", ".upper", ".alpha", ".method")
+  )
+
+  expect_error({
+    set.seed(1)
+    int_2 <- reg_intervals(mpg ~ disp + wt, data = mtcars,
+                           filter = term == "wt",
+                           model_fn = "glm", keep_reps = TRUE)
+  },
+  regex = NA)
+
+  expect_equal(
+    names(int_2),
+    c("term", ".lower", ".estimate", ".upper", ".alpha", ".method", ".replicates")
+  )
+  expect_true(nrow(int_2) == 1)
+  expect_true(all(int_2$term == "wt"))
+
+
+  expect_error(
+    reg_intervals(mpg ~ disp + wt, data = mtcars, model_fn = "potato"),
+    "`model_fn` must be one of"
+  )
+  expect_error(
+    reg_intervals(mpg ~ disp + wt, data = mtcars, type = "random"),
+    "`type` must be one of"
+  )
+  expect_error(
+    reg_intervals(mpg ~ disp + wt, data = mtcars, alpha = "a"),
+    "must be a single numeric value"
+  )
+})

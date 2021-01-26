@@ -194,7 +194,7 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'  Bias-corrected and accelerated intervals require the original function
 #'  that was used to create the statistics of interest and are
 #'  computationally taxing.
-#'
+#' @seealso [reg_intervals()]
 #' @references Davison, A., & Hinkley, D. (1997). _Bootstrap Methods and their
 #'  Application_. Cambridge: Cambridge University Press.
 #'  doi:10.1017/CBO9780511802843

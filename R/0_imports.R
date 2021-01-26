@@ -18,6 +18,6 @@
 utils::globalVariables(
   c("model", "splits", "statistic", "Data", "Row", "id", ".", ".estimate",
     ".lower", ".upper", "Z0", "Za", "Zl", "Zu", "a", "cubed", "estimate",
-    "orig", "p0", "squared", "term", "theta_0", "loo", "n", "..index"
+    "orig", "p0", "squared", "term", "theta_0", "loo", "n", "..index", "models"
     )
   )
