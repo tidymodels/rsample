@@ -13,7 +13,7 @@
 #' @param filter A logical expression used to remove rows from the final result, or `NULL` to keep all rows.
 #' @param keep_reps Should the individual parameter estimates for each bootstrap
 #' sample be retained?
-#' @param ... Options to pass to the model function (such as `family` for `glm`).
+#' @param ... Options to pass to the model function (such as `family` for `glm()`).
 #' @return A tibble with columns "term", ".lower", ".estimate", ".upper",
 #' ".alpha", and ".method". If `keep_reps = TRUE`, an additional list column
 #' called ".replicates" is also returned.
