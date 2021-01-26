@@ -299,11 +299,11 @@ test_that("regression intervals", {
 
   expect_error(
     reg_intervals(mpg ~ disp + wt, data = mtcars, model_fn = "potato"),
-    "'arg' should be one of"
+    "`model_fn` must be one of"
   )
   expect_error(
     reg_intervals(mpg ~ disp + wt, data = mtcars, type = "random"),
-    "'arg' should be one of"
+    "`type` must be one of"
   )
   expect_error(
     reg_intervals(mpg ~ disp + wt, data = mtcars, alpha = "a"),

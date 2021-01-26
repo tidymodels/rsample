@@ -37,8 +37,8 @@
 reg_intervals <-
   function(formula, data, model_fn = "lm", type = "student-t", times = NULL,
            alpha = 0.05, filter = term != "(Intercept)", keep_reps = FALSE, ...) {
-    model_fn <- match.arg(model_fn, c("lm", "glm", "survreg", "coxph"))
-    type <- match.arg(type, c("student-t", "percentile"))
+    model_fn <- rlang::arg_match(model_fn, c("lm", "glm", "survreg", "coxph"))
+    type <- rlang::arg_match(type, c("student-t", "percentile"))
 
     filter <- rlang::enexpr(filter)
 

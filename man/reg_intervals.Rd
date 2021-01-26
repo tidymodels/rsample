@@ -33,12 +33,12 @@ NULL, 1,001 are used for t-intervals and 2,001 for percentile intervals.}
 
 \item{alpha}{Level of significance.}
 
-\item{filter}{A logical statement to filter the model terms (or NULL).}
+\item{filter}{A logical expression used to remove rows from the final result, or \code{NULL} to keep all rows.}
 
 \item{keep_reps}{Should the individual parameter estimates for each bootstrap
 sample be retained?}
 
-\item{...}{Options to pass to the model function (such as \code{family} for \code{glm}).}
+\item{...}{Options to pass to the model function (such as \code{family} for \code{glm()}).}
 }
 \value{
 A tibble with columns "term", ".lower", ".estimate", ".upper",
