@@ -123,6 +123,9 @@
     
     
 <p>The bootstrap was originally intended for estimating confidence intervals for complex statistics whose variance properties are difficult to analytically derive. Davison and Hinkley’s <a href="https://www.cambridge.org/core/books/bootstrap-methods-and-their-application/ED2FD043579F27952363566DC09CBD6A"><em>Bootstrap Methods and Their Application</em></a> is a great resource for these methods. <code>rsample</code> contains a few function to compute the most common types of intervals.</p>
+<div id="a-nonlinear-regression-example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#a-nonlinear-regression-example" class="anchor"></a>A nonlinear regression example</h2>
 <p>To demonstrate the computations for the different types of intervals, we’ll use a nonlinear regression example from <a href="https://www.jstatsoft.org/article/view/v066i05">Baty <em>et al</em> (2015)</a>. They showed data that monitored oxygen uptake in a patient with rest and exercise phases (in the data frame <code>O2K</code>).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span>
@@ -235,9 +238,9 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">20</span>, col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">term</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span></code></pre></div>
 <p><img src="Intervals_files/figure-html/hists-1.png" width="768"></p>
-<div id="percentile-intervals" class="section level2">
-<h2 class="hasAnchor">
-<a href="#percentile-intervals" class="anchor"></a>Percentile intervals</h2>
+<div id="percentile-intervals" class="section level3">
+<h3 class="hasAnchor">
+<a href="#percentile-intervals" class="anchor"></a>Percentile intervals</h3>
 <p>The most basic type of interval uses <em>percentiles</em> of the resampling distribution. To get the percentile intervals, the <code>rset</code> object is passed as the first argument and the second argument is the list column of tidy results:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p_ints</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/int_pctl.html">int_pctl</a></span><span class="op">(</span><span class="va">nlin_bt</span>, <span class="va">models</span><span class="op">)</span>
@@ -305,9 +308,9 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">term</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> </code></pre></div>
 <p><img src="Intervals_files/figure-html/qqplot-1.png" width="768"></p>
 </div>
-<div id="t-intervals" class="section level2">
-<h2 class="hasAnchor">
-<a href="#t-intervals" class="anchor"></a>t-intervals</h2>
+<div id="t-intervals" class="section level3">
+<h3 class="hasAnchor">
+<a href="#t-intervals" class="anchor"></a>t-intervals</h3>
 <p>Bootstrap <em>t</em>-intervals are estimated by computing intermediate statistics that are <em>t</em>-like in structure. To use these, we require the estimated variance <em>for each individual resampled estimate</em>. In our example, this comes along with the fitted model object. We can extract the standard errors of the parameters. Luckily, most <code><a href="https://generics.r-lib.org/reference/tidy.html">tidy()</a></code> provide this in a column named <code>std.error</code>.</p>
 <p>The arguments for these intervals are the same:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
@@ -340,9 +343,9 @@
 ## 2 VO2rest   344.      357.   370.   0.05 percentile
 ## 3 VO2rest   342.      357.   370.   0.05 student-t</code></pre>
 </div>
-<div id="bias-corrected-and-accelerated-intervals" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bias-corrected-and-accelerated-intervals" class="anchor"></a>Bias-corrected and accelerated intervals</h2>
+<div id="bias-corrected-and-accelerated-intervals" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bias-corrected-and-accelerated-intervals" class="anchor"></a>Bias-corrected and accelerated intervals</h3>
 <p>For bias-corrected and accelerated (BCa) intervals, an additional argument is required. The <code>.fn</code> argument is a function that computes the statistic of interest. The first argument should be for the <code>rsplit</code> object and other arguments can be passed in using the ellipses.</p>
 <p>These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for <em>every bootstrap resample</em>. If the statistic is expensive to compute, this may take some time. For those calculations, we use the <code>furrr</code> package so these can be computed in parallel if you have set up a parallel processing plan (see <code><a href="https://rdrr.io/pkg/future/man/plan.html">?future::plan</a></code>).</p>
 <p>The user-facing function takes an argument for the function and the ellipses.</p>
@@ -378,6 +381,7 @@
 ## 2 VO2rest   334.      357.   380.   0.05 parametric
 ## 3 VO2rest   344.      357.   370.   0.05 percentile
 ## 4 VO2rest   342.      357.   370.   0.05 student-t</code></pre>
+</div>
 </div>
 <div id="no-existing-tidy-method" class="section level2">
 <h2 class="hasAnchor">
@@ -418,6 +422,78 @@
 ##   term          .lower .estimate .upper .alpha .method
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  
 ## 1 fold increase   4.53      4.76   5.36   0.05 BCa</code></pre>
+</div>
+<div id="intervals-for-linearish-parametric-intervals" class="section level2">
+<h2 class="hasAnchor">
+<a href="#intervals-for-linearish-parametric-intervals" class="anchor"></a>Intervals for linear(ish) parametric intervals</h2>
+<p><code>rsample</code> also contains the <code>parametric_intervals()</code> function that can be used for linear regression (via <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>), generalized linear models (<code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>), or log-linear survival models (<code><a href="https://rdrr.io/pkg/survival/man/survreg.html">survival::survreg()</a></code> or <code><a href="https://rdrr.io/pkg/survival/man/coxph.html">survival::coxph()</a></code>). This function makes it easier to get intervals for these models.</p>
+<p>A simple example is a logistic regression using the dementia data from the <code>modeldata</code> package:</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">ad_data</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></code></pre></div>
+<p>Let’s fit a model with a few predictors:</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">lr_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">male</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">Ab_42</span> <span class="op">+</span> <span class="va">tau</span>, data <span class="op">=</span> <span class="va">ad_data</span>,
+              family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span>
+<span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">lr_mod</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 8
+##   null.deviance df.null logLik   AIC   BIC deviance df.residual  nobs
+##           &lt;dbl&gt;   &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt; &lt;int&gt;
+## 1          391.     332  -140.  289.  308.     279.         328   333</code></pre>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">lr_mod</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 5
+##   term        estimate std.error statistic       p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
+## 1 (Intercept)  129.      112.         1.15 0.250        
+## 2 male          -0.744     0.307     -2.43 0.0152       
+## 3 age         -125.      114.        -1.10 0.272        
+## 4 Ab_42          0.534     0.104      5.14 0.000000282  
+## 5 tau           -1.78      0.309     -5.77 0.00000000807</code></pre>
+<p>Let’s use this model with student-t intervals:</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">29832</span><span class="op">)</span>
+<span class="va">lr_int</span> <span class="op">&lt;-</span> 
+  <span class="fu"><a href="../../reference/reg_intervals.html">reg_intervals</a></span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">male</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">Ab_42</span> <span class="op">+</span> <span class="va">tau</span>, 
+                data <span class="op">=</span> <span class="va">ad_data</span>,
+                model_fn <span class="op">=</span> <span class="st">"glm"</span>,
+                family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span>
+<span class="va">lr_int</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 6
+##   term    .lower .estimate .upper .alpha .method  
+##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;    
+## 1 Ab_42    0.316     0.548  0.765   0.05 student-t
+## 2 age   -332.     -133.    85.7     0.05 student-t
+## 3 male    -1.35     -0.755 -0.133   0.05 student-t
+## 4 tau     -2.38     -1.83  -1.17    0.05 student-t</code></pre>
+<p>We can also save the resamples for plotting:</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">29832</span><span class="op">)</span>
+<span class="va">lr_int</span> <span class="op">&lt;-</span> 
+  <span class="fu"><a href="../../reference/reg_intervals.html">reg_intervals</a></span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">male</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">Ab_42</span> <span class="op">+</span> <span class="va">tau</span>, 
+                data <span class="op">=</span> <span class="va">ad_data</span>,
+                keep_reps <span class="op">=</span> <span class="cn">TRUE</span>,
+                model_fn <span class="op">=</span> <span class="st">"glm"</span>,
+                family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span>
+<span class="va">lr_int</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 7
+##   term    .lower .estimate .upper .alpha .method          .replicates
+##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;list&lt;tbl_df[,2]&gt;&gt;
+## 1 Ab_42    0.316     0.548  0.765   0.05 student-t        [1,001 × 2]
+## 2 age   -332.     -133.    85.7     0.05 student-t        [1,001 × 2]
+## 3 male    -1.35     -0.755 -0.133   0.05 student-t        [1,001 × 2]
+## 4 tau     -2.38     -1.83  -1.17    0.05 student-t        [1,001 × 2]</code></pre>
+<p>Now we can unnest the data to use in a ggplot:</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">lr_int</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">term</span>, <span class="va">.replicates</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">.replicates</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">estimate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">term</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">lr_int</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">.lower</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">lr_int</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">.upper</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span>, col <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span></code></pre></div>
+<p><img src="Intervals_files/figure-html/ad-plot-1.png" width="768"></p>
 </div>
   </div>
 
