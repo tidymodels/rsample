@@ -1,5 +1,7 @@
 # rsample (development version)
 
+* New `rset_reconstruct()`, a developer tool to ease creation of new rset subclasses (#210).
+
 * Added `permutations()`, a function for creating permutation resamples by performing column-wise shuffling (@mattwarkentin, #198).
 
 * Fixed an issue where empty assessment sets couldn't be created by `make_splits()` (#188).
@@ -7,6 +9,9 @@
 * A `fingerprint()` function was added to create a hash value that can be used to compare `rset` objects.
 
 * The `reg_intervals()` function is a convenience function for `lm()`, `glm()`, `survreg()`, and `coxph()` models. 
+
+* A few internal functions were exported so that `rsample`-adjacent packages can use the same underlying code. 
+
 
 # rsample 0.0.8
 

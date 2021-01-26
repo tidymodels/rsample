@@ -1,4 +1,45 @@
 
+#' Extending rsample with new rset subclasses
+#'
+#' `rset_reconstruct()` encapsulates the logic for allowing new rset
+#' subclasses to work properly with vctrs (through `vctrs::vec_restore()`) and
+#' dplyr (through `dplyr::dplyr_reconstruct()`). It is intended to be a
+#' developer tool, and is not required for normal usage of rsample.
+#'
+#' rset objects are considered "reconstructable" after a vctrs/dplyr operation
+#' if:
+#'
+#' - `x` and `to` both have an identical column named `"splits"` (column
+#'   and row order do not matter).
+#'
+#' - `x` and `to` both have identical columns prefixed with `"id"` (column
+#'   and row order do not matter).
+#'
+#' @param x A data frame to restore to an rset subclass.
+#' @param to An rset subclass to restore to.
+#'
+#' @return `x` restored to the rset subclass of `to`.
+#'
+#' @export
+#' @examples
+#' to <- bootstraps(mtcars, times = 25)
+#'
+#' # Imitate a vctrs/dplyr operation,
+#' # where the class might be lost along the way
+#' x <- tibble::as_tibble(to)
+#'
+#' # Say we added a new column to `x`. Here we mock a `mutate()`.
+#' x$foo <- "bar"
+#'
+#' # This is still reconstructable to `to`
+#' rset_reconstruct(x, to)
+#'
+#' # Say we lose the first row
+#' x <- x[-1,]
+#'
+#' # This is no longer reconstructable to `to`, as `x` is no longer an rset
+#' # bootstraps object with 25 bootstraps if one is lost!
+#' rset_reconstruct(x, to)
 rset_reconstruct <- function(x, to) {
   if (rset_reconstructable(x, to)) {
     df_reconstruct(x, to)
@@ -61,48 +102,6 @@ rset_reconstructable <- function(x, to) {
 
   # Check identical structures
   identical(x_rset_cols, to_rset_cols)
-}
-
-# ------------------------------------------------------------------------------
-
-# Keep this dictionary up to date with any changes to the rset subclasses.
-# These are the attributes that this specific subclass knows about.
-rset_attribute_dictionary <- list(
-  bootstraps       = c("times", "apparent", "strata"),
-  vfold_cv         = c("v", "repeats", "strata"),
-  group_vfold_cv   = c("v", "group"),
-  loo_cv           = character(),
-  mc_cv            = c("prop", "times", "strata"),
-  nested_cv        = c("outside", "inside"),
-  validation_split = c("prop", "strata"),
-  rolling_origin   = c("initial", "assess", "cumulative", "skip", "lag"),
-  sliding_window   = c("lookback", "assess_start", "assess_stop", "complete", "step", "skip"),
-  sliding_index    = c("lookback", "assess_start", "assess_stop", "complete", "step", "skip"),
-  sliding_period   = c("period", "lookback", "assess_start", "assess_stop", "complete", "step", "skip", "every", "origin"),
-  manual_rset      = character(),
-  apparent         = character(),
-  tbl_df           = character()
-)
-
-rset_attributes <- function(x) {
-  cls <- class(x)[[1]]
-
-  attributes <- rset_attribute_dictionary[[cls]]
-
-  if (is.null(attributes)) {
-    rlang::abort("Unrecognized class in `rset_attributes()`.")
-  }
-
-  # Special case `nested_cv`, which appends a class onto an existing
-  # rset subclass. We need to strip the `nested_cv` specific attributes
-  # and the ones for the existing subclass.
-  if (identical(cls, "nested_cv")) {
-    class(x) <- class(x)[-1]
-    extra_attributes <- rset_attributes(x)
-    attributes <- c(attributes, extra_attributes)
-  }
-
-  attributes
 }
 
 # ------------------------------------------------------------------------------
