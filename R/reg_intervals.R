@@ -10,7 +10,7 @@
 #' @param times A single integer for the number of bootstrap samples. If left
 #' NULL, 1,001 are used for t-intervals and 2,001 for percentile intervals.
 #' @param alpha Level of significance.
-#' @param filter A logical statement to filter the model terms (or NULL).
+#' @param filter A logical expression used to remove rows from the final result, or `NULL` to keep all rows.
 #' @param keep_reps Should the individual parameter estimates for each bootstrap
 #' sample be retained?
 #' @param ... Options to pass to the model function (such as `family` for `glm`).
@@ -102,4 +102,3 @@ model_results <- function(data, cl, flt) {
   }
   mod
 }
-
