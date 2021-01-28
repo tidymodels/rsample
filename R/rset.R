@@ -6,6 +6,9 @@
 #' @param attrib An optional named list of attributes to add to the object.
 #' @param subclass A character vector of subclasses to add.
 #' @return An `rset` object.
+#' @details Once the new `rset` is constructed, an additional attribute called
+#' "fingerprint" is added that is a hash of the `rset`. This can be used to
+#' make sure other objects have the exact same resamples.
 #' @keywords internal
 #' @export
 new_rset <-  function(splits, ids, attrib = NULL,
@@ -70,6 +73,9 @@ new_rset <-  function(splits, ids, attrib = NULL,
   if (length(subclass) > 0) {
     res <- add_class(res, cls = subclass, at_end = FALSE)
   }
+
+  fingerprint <- rlang::hash(res)
+  attr(res, "fingerprint") <- fingerprint
 
   res
 }

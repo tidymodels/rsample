@@ -23,4 +23,9 @@ An \code{rset} object.
 \description{
 Constructor for new rset objects
 }
+\details{
+Once the new \code{rset} is constructed, an additional attribute called
+"fingerprint" is added that is a hash of the \code{rset}. This can be used to
+make sure other objects have the exact same resamples.
+}
 \keyword{internal}
