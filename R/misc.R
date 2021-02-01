@@ -106,15 +106,3 @@ split_unnamed <- function(x, f) {
   }
   res
 }
-
-#' @export
-#' @rdname get_fingerprint
-.get_fingerprint.tune_results <- function(x, ...) {
-  att <- attributes(x)$rset_info$att
-  if (any(names(att) == "fingerprint")) {
-    res <- att$fingerprint
-  } else {
-    res <- NA_character_
-  }
-  res
-}

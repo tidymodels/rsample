@@ -4,7 +4,6 @@
 \alias{.get_fingerprint}
 \alias{.get_fingerprint.default}
 \alias{.get_fingerprint.rset}
-\alias{.get_fingerprint.tune_results}
 \title{Obtain a identifier for the resamples}
 \usage{
 .get_fingerprint(x, ...)
@@ -12,8 +11,6 @@
 \method{.get_fingerprint}{default}(x, ...)
 
 \method{.get_fingerprint}{rset}(x, ...)
-
-\method{.get_fingerprint}{tune_results}(x, ...)
 }
 \arguments{
 \item{x}{An \code{rset} or \code{tune_results} object.}
