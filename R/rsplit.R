@@ -139,7 +139,7 @@ obj_sum.rsplit <- function(x, ...) {
   else
     paste(length(x$out_id))
 
-  paste0("rsplit [",
+  paste0("split [",
          length(x$in_id), "/",
          out_char, "]")
 }
