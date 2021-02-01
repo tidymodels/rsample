@@ -6,7 +6,7 @@
 
 * Fixed an issue where empty assessment sets couldn't be created by `make_splits()` (#188).
 
-* A `fingerprint()` function was added to create a hash value that can be used to compare `rset` objects.
+* `rset` objects now contain a "fingerprint" attribute that can be used to check to see if the same object uses the same resamples. 
 
 * The `reg_intervals()` function is a convenience function for `lm()`, `glm()`, `survreg()`, and `coxph()` models. 
 

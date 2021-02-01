@@ -1,4 +1,4 @@
-context("Rset constructor")
+context("rset constructor")
 
 library(testthat)
 library(rsample)
@@ -37,7 +37,7 @@ test_that('rset with attributes', {
     attrib = args
   )
   expect_equal(sort(names(attributes(res3))),
-               c("class", "names", "row.names", "value"))
+               c("class", "fingerprint", "names", "row.names", "value"))
   expect_equal(attr(res3, "value"), "potato")
 })
 

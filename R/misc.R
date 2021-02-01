@@ -58,53 +58,51 @@ split_unnamed <- function(x, f) {
   unname(out)
 }
 
-
-## -----------------------------------------------------------------------------
-
-#' Create a cryptographical hash value for `rset` objects.
+#' Obtain a identifier for the resamples
 #'
-#' This function uses the distinct rows in the data set and the column(s) for the
-#' resample identifier and the splits to produce a character string that can be
-#' used to determine if another object shares the same splits.
-#'
-#' The comparison is based on the unique contents of the `id` and `splits`
-#' columns. Attributes are not used in the comparison.
-#' @param x An `rset` object.
+#' This function returns a hash (or NA) for an attribute that is created when
+#' the `rset` was initially constructed. This can be used to compare with other
+#' resampling objects to see if they are the same.
+#' @param x An `rset` or `tune_results` object.
 #' @param ... Not currently used.
-#' @return A character string.
+#' @return A character value or `NA_character_` if the object was created prior
+#' to `rsample` version 0.1.0.
+#' @rdname get_fingerprint
+#' @aliases .get_fingerprint
 #' @examples
 #' set.seed(1)
-#' fingerprint(vfold_cv(mtcars))
+#' .get_fingerprint(vfold_cv(mtcars))
 #'
 #' set.seed(1)
-#' fingerprint(vfold_cv(mtcars))
+#' .get_fingerprint(vfold_cv(mtcars))
 #'
 #' set.seed(2)
-#' fingerprint(vfold_cv(mtcars))
+#' .get_fingerprint(vfold_cv(mtcars))
 #'
 #' set.seed(1)
-#' fingerprint(vfold_cv(mtcars, repeats = 2))
+#' .get_fingerprint(vfold_cv(mtcars, repeats = 2))
 #' @export
-fingerprint <- function(x, ...) {
-  # For iterative models, the splits are replicated multiple times. Get the
-  # unique id values and has those rows
-  is_id_var <- col_starts_with_id(names(x))
-  id_vars <- names(x)[is_id_var]
-  if (length(id_vars) == 0) {
-    rlang::abort("No ID columns were found.")
-  }
-  if (!any(names(x) == "splits")) {
-    rlang::abort("The 'split' column was not found.")
-  }
-
-  x <-
-    dplyr::select(x, splits, dplyr::all_of(id_vars)) %>%
-    dplyr::distinct() %>%
-    dplyr::arrange(!!!id_vars) %>%
-    tibble::as_tibble()
-  attrib <- attributes(x)
-  attrib <- attrib[names(attrib) %in% c("row.names", "names", "class")]
-  attributes(x) <- attrib
-  rlang::hash(x)
+.get_fingerprint <- function(x, ...) {
+  UseMethod(".get_fingerprint")
 }
 
+#' @export
+#' @rdname get_fingerprint
+.get_fingerprint.default <- function(x, ...) {
+  cls <- paste("'", class(x), "'", sep = ", ")
+  rlang::abort(
+    paste("No `.get_fingerprint()` method for this class(es)", cls)
+  )
+}
+
+#' @export
+#' @rdname get_fingerprint
+.get_fingerprint.rset <- function(x, ...) {
+  att <- attributes(x)
+  if (any(names(att) == "fingerprint")) {
+    res <- att$fingerprint
+  } else {
+    res <- NA_character_
+  }
+  res
+}
