@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A convenience function for confidence intervals with linear-ish parametric models — reg_intervals • rsample</title>
+<title>Obtain a identifier for the resamples — .get_fingerprint • rsample</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,10 @@
 
 
 
-<meta property="og:title" content="A convenience function for confidence intervals with linear-ish parametric models — reg_intervals" />
-<meta property="og:description" content="A convenience function for confidence intervals with linear-ish parametric models" />
+<meta property="og:title" content="Obtain a identifier for the resamples — .get_fingerprint" />
+<meta property="og:description" content="This function returns a hash (or NA) for an attribute that is created when
+the rset was initially constructed. This can be used to compare with other
+resampling objects to see if they are the same." />
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -156,104 +158,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A convenience function for confidence intervals with linear-ish parametric models</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rsample/blob/master/R/reg_intervals.R'><code>R/reg_intervals.R</code></a></small>
-    <div class="hidden name"><code>reg_intervals.Rd</code></div>
+    <h1>Obtain a identifier for the resamples</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rsample/blob/master/R/misc.R'><code>R/misc.R</code></a></small>
+    <div class="hidden name"><code>get_fingerprint.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A convenience function for confidence intervals with linear-ish parametric models</p>
+    <p>This function returns a hash (or NA) for an attribute that is created when
+the <code>rset</code> was initially constructed. This can be used to compare with other
+resampling objects to see if they are the same.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>reg_intervals</span><span class='op'>(</span>
-  <span class='va'>formula</span>,
-  <span class='va'>data</span>,
-  model_fn <span class='op'>=</span> <span class='st'>"lm"</span>,
-  type <span class='op'>=</span> <span class='st'>"student-t"</span>,
-  times <span class='op'>=</span> <span class='cn'>NULL</span>,
-  alpha <span class='op'>=</span> <span class='fl'>0.05</span>,
-  filter <span class='op'>=</span> <span class='va'>term</span> <span class='op'>!=</span> <span class='st'>"(Intercept)"</span>,
-  keep_reps <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for rset</span>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>formula</th>
-      <td><p>An R model formula with one outcome and at least one predictor.</p></td>
-    </tr>
-    <tr>
-      <th>data</th>
-      <td><p>A data frame.</p></td>
-    </tr>
-    <tr>
-      <th>model_fn</th>
-      <td><p>The model to fit. Allowable values are "lm", "glm",
-"survreg", and "coxph". The latter two require that the <code>survival</code> package
-be installed.</p></td>
-    </tr>
-    <tr>
-      <th>type</th>
-      <td><p>The type of bootstrap confidence interval. Values of "student-t" and
-"percentile" are allowed.</p></td>
-    </tr>
-    <tr>
-      <th>times</th>
-      <td><p>A single integer for the number of bootstrap samples. If left
-NULL, 1,001 are used for t-intervals and 2,001 for percentile intervals.</p></td>
-    </tr>
-    <tr>
-      <th>alpha</th>
-      <td><p>Level of significance.</p></td>
-    </tr>
-    <tr>
-      <th>filter</th>
-      <td><p>A logical expression used to remove rows from the final result, or <code>NULL</code> to keep all rows.</p></td>
-    </tr>
-    <tr>
-      <th>keep_reps</th>
-      <td><p>Should the individual parameter estimates for each bootstrap
-sample be retained?</p></td>
+      <th>x</th>
+      <td><p>An <code>rset</code> or <code>tune_results</code> object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Options to pass to the model function (such as <code>family</code> for <code><a href='https://rdrr.io/r/stats/glm.html'>glm()</a></code>).</p></td>
+      <td><p>Not currently used.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with columns "term", ".lower", ".estimate", ".upper",
-".alpha", and ".method". If <code>keep_reps = TRUE</code>, an additional list column
-called ".replicates" is also returned.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Davison, A., &amp; Hinkley, D. (1997). <em>Bootstrap Methods and their
-Application</em>. Cambridge: Cambridge University Press.
-doi:10.1017/CBO9780511802843</p>
-<p><em>Bootstrap Confidence Intervals</em>,
-<a href='https://rsample.tidymodels.org/articles/Applications/Intervals.html'>https://rsample.tidymodels.org/articles/Applications/Intervals.html</a></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='int_pctl.html'>int_pctl()</a></code>, <code><a href='int_pctl.html'>int_t()</a></code></p></div>
+    <p>A character value or <code>NA_character_</code> if the object was created prior
+to <code>rsample</code> version 0.1.0.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "151ee0d5f7c52201e06d658e7bdcd128"</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='fu'>reg_intervals</span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>disp</span><span class='op'>)</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>mtcars</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
-#&gt;   term            .lower .estimate .upper .alpha .method  
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> I(1/sqrt(disp))   207.      249.   290.   0.05 student-t</div><div class='input'>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "151ee0d5f7c52201e06d658e7bdcd128"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "ead325afebd9e807c1ff48a49d49e4b6"</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='fu'>reg_intervals</span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>disp</span><span class='op'>)</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>mtcars</span>, keep_reps <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 7</span><span>
-#&gt;   term            .lower .estimate .upper .alpha .method      .replicates
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;tibble&gt;&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> I(1/sqrt(disp))   207.      249.   290.   0.05 student-t    </span><span style='color: #555555;'>[1,001 × 2]</span><span></div><div class='input'><span class='co'># }</span>
-</div></span></pre>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span>, repeats <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "124433180b49fcc33072ea3bff3322c0"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

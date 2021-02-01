@@ -28,13 +28,13 @@
     <loc>https://rsample.tidymodels.org/reference/drinks.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/reference/fingerprint.html</loc>
-  </url>
-  <url>
     <loc>https://rsample.tidymodels.org/reference/form_pred.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/gather.rset.html</loc>
+  </url>
+  <url>
+    <loc>https://rsample.tidymodels.org/reference/get_fingerprint.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/group_vfold_cv.html</loc>

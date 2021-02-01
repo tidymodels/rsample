@@ -94,7 +94,7 @@
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.8.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.8.9001</span>
         </div>
       </div>
     </div>
@@ -167,7 +167,7 @@
 <li><p>New <code><a href="../reference/rset_reconstruct.html">rset_reconstruct()</a></code>, a developer tool to ease creation of new rset subclasses (<a href='https://github.com/tidymodels/rsample/issues/210'>#210</a>).</p></li>
 <li><p>Added <code><a href="../reference/permutations.html">permutations()</a></code>, a function for creating permutation resamples by performing column-wise shuffling (<a href='https://github.com/mattwarkentin'>@mattwarkentin</a>, <a href='https://github.com/tidymodels/rsample/issues/198'>#198</a>).</p></li>
 <li><p>Fixed an issue where empty assessment sets couldn’t be created by <code><a href="../reference/make_splits.html">make_splits()</a></code> (<a href='https://github.com/tidymodels/rsample/issues/188'>#188</a>).</p></li>
-<li><p>A <code><a href="../reference/fingerprint.html">fingerprint()</a></code> function was added to create a hash value that can be used to compare <code>rset</code> objects.</p></li>
+<li><p><code>rset</code> objects now contain a “fingerprint” attribute that can be used to check to see if the same object uses the same resamples.</p></li>
 <li><p>The <code><a href="../reference/reg_intervals.html">reg_intervals()</a></code> function is a convenience function for <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>, <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>, <code><a href="https://rdrr.io/pkg/survival/man/survreg.html">survreg()</a></code>, and <code><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph()</a></code> models.</p></li>
 <li><p>A few internal functions were exported so that <code>rsample</code>-adjacent packages can use the same underlying code.</p></li>
 </ul>

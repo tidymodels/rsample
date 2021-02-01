@@ -51,7 +51,7 @@
         <a class="navbar-brand" href="../../index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.8.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.8.9001</span>
         </div>
       </div>
     </div>
@@ -476,12 +476,12 @@
                 family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span>
 <span class="va">lr_int</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 7
-##   term    .lower .estimate .upper .alpha .method          .replicates
-##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;list&lt;tbl_df[,2]&gt;&gt;
-## 1 Ab_42    0.316     0.548  0.765   0.05 student-t        [1,001 × 2]
-## 2 age   -332.     -133.    85.7     0.05 student-t        [1,001 × 2]
-## 3 male    -1.35     -0.755 -0.133   0.05 student-t        [1,001 × 2]
-## 4 tau     -2.38     -1.83  -1.17    0.05 student-t        [1,001 × 2]</code></pre>
+##   term    .lower .estimate .upper .alpha .method      .replicates
+##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;list&lt;tibble&gt;&gt;
+## 1 Ab_42    0.316     0.548  0.765   0.05 student-t    [1,001 × 2]
+## 2 age   -332.     -133.    85.7     0.05 student-t    [1,001 × 2]
+## 3 male    -1.35     -0.755 -0.133   0.05 student-t    [1,001 × 2]
+## 4 tau     -2.38     -1.83  -1.17    0.05 student-t    [1,001 × 2]</code></pre>
 <p>Now we can unnest the data to use in a ggplot:</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lr_int</span> <span class="op">%&gt;%</span> 
