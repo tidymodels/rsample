@@ -12,6 +12,7 @@
 
 * A few internal functions were exported so that `rsample`-adjacent packages can use the same underlying code. 
 
+* The `obj_sum()` method for `rsplit` objects was updated.
 
 # rsample 0.0.8
 
