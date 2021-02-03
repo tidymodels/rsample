@@ -89,7 +89,7 @@ split_unnamed <- function(x, f) {
 #' @export
 #' @rdname get_fingerprint
 .get_fingerprint.default <- function(x, ...) {
-  cls <- paste("'", class(x), "'", sep = ", ")
+  cls <- paste0("'", class(x), "'", collapse = ", ")
   rlang::abort(
     paste("No `.get_fingerprint()` method for this class(es)", cls)
   )
