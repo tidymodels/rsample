@@ -79,7 +79,7 @@ nested_cv <- function(data, outside, inside)  {
 
   out <- dplyr::mutate(outside, inner_resamples = inside)
 
-  out <- add_class(out, cls = "nested_cv", at_end = FALSE)
+  out <- add_class(out, cls = "nested_cv")
 
   attr(out, "outside") <- cl$outside
   attr(out, "inside") <- cl$inside

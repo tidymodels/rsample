@@ -24,8 +24,7 @@ apparent <- function(data, ...) {
 
   split_objs <-
     add_class(split_objs,
-              cls = c("apparent", "rset"),
-              at_end = FALSE)
+              cls = c("apparent", "rset"))
 
   split_objs
 }

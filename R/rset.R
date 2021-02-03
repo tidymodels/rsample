@@ -71,7 +71,7 @@ new_rset <-  function(splits, ids, attrib = NULL,
   }
 
   if (length(subclass) > 0) {
-    res <- add_class(res, cls = subclass, at_end = FALSE)
+    res <- add_class(res, cls = subclass)
   }
 
   fingerprint <- rlang::hash(res)
