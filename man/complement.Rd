@@ -2,12 +2,27 @@
 % Please edit documentation in R/complement.R
 \name{complement}
 \alias{complement}
-\alias{rsplit_complement}
+\alias{complement.rsplit}
+\alias{complement.rof_split}
+\alias{complement.sliding_window_split}
+\alias{complement.sliding_index_split}
+\alias{complement.sliding_period_split}
+\alias{complement.apparent_split}
 \title{Determine the Assessment Samples}
 \usage{
 complement(x, ...)
 
-rsplit_complement(x, ...)
+\method{complement}{rsplit}(x, ...)
+
+\method{complement}{rof_split}(x, ...)
+
+\method{complement}{sliding_window_split}(x, ...)
+
+\method{complement}{sliding_index_split}(x, ...)
+
+\method{complement}{sliding_period_split}(x, ...)
+
+\method{complement}{apparent_split}(x, ...)
 }
 \arguments{
 \item{x}{An \code{rsplit} object}
@@ -20,6 +35,21 @@ A integer vector.
 \description{
 This method and function help find which data belong in the analysis and
 assessment sets.
+
+#' @export
+complement.vfold_split <- rsplit_complement
+#' @export
+complement.mc_split  <- rsplit_complement
+#' @export
+complement.val_split <- rsplit_complement
+#' @export
+complement.loo_split <- rsplit_complement
+#' @export
+complement.group_vfold_split <- rsplit_complement
+#' @export
+complement.boot_split <- rsplit_complement
+#' @export
+complement.perm_split <- rsplit_complement
 }
 \details{
 Given an \code{rsplit} object, \code{complement()} will determine which
