@@ -35,32 +35,12 @@ A integer vector.
 \description{
 This method and function help find which data belong in the analysis and
 assessment sets.
-
-#' @export
-complement.vfold_split <- rsplit_complement
-#' @export
-complement.mc_split  <- rsplit_complement
-#' @export
-complement.val_split <- rsplit_complement
-#' @export
-complement.loo_split <- rsplit_complement
-#' @export
-complement.group_vfold_split <- rsplit_complement
-#' @export
-complement.boot_split <- rsplit_complement
-#' @export
-complement.perm_split <- rsplit_complement
 }
 \details{
 Given an \code{rsplit} object, \code{complement()} will determine which
 of the data rows are contained in the assessment set. To save space,
-many of the \code{rset} objects will not contain indices for the
+many of the \code{rsplit} objects will not contain indices for the
 assessment split.
-
-\code{rsplit_complement()} handles the determination for sets for most resampling
-methods. Unless the row indices for the assessment set are already
-determined, this function selects all of the rows that are not in the
-analysis set and returns those as the assessment set.
 }
 \examples{
 set.seed(28432)
