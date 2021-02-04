@@ -84,13 +84,7 @@ complement.default <- function(x, ...) {
   )
 }
 
-#' Get the indices of the analysis set from the assessment set
-#' @param ind A vector of integers for which rows of data belong in the
-#' assessment set.
-#' @param n A single integer for the total number of rows in the data set.
-#' @return A named list of integer vectors.
-#' @export
-#' @keywords internal
+# Get the indices of the analysis set from the assessment set
 default_complement <- function(ind, n) {
   list(analysis = setdiff(1:n, ind),
        assessment = unique(ind))
