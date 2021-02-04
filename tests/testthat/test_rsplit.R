@@ -51,6 +51,10 @@ test_that('print methods', {
     set.seed(233)
     print(validation_split(mtcars)$splits[[1]])
   })
+  verify_output(test_path("print_test_output", "obj_sum"), {
+    set.seed(233)
+    print(validation_split(mtcars))
+  })
 })
 
 test_that("default complement method errors", {

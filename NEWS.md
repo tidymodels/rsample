@@ -12,6 +12,8 @@
 
 * A few internal functions were exported so that `rsample`-adjacent packages can use the same underlying code. 
 
+* The `obj_sum()` method for `rsplit` objects was updated.
+
 * Changed the inheritance structure for `rsplit` objects from specific to general and simplified the methods for the `complement()` generic.
 
 
