@@ -169,7 +169,23 @@ assessment sets.</p>
 
     <pre class="usage"><span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>rsplit_complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='co'># S3 method for rsplit</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for rof_split</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for sliding_window_split</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for sliding_index_split</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for sliding_period_split</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for apparent_split</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,12 +207,8 @@ assessment sets.</p>
 
     <p>Given an <code>rsplit</code> object, <code>complement()</code> will determine which
 of the data rows are contained in the assessment set. To save space,
-many of the <code>rset</code> objects will not contain indices for the
+many of the <code>rsplit</code> objects will not contain indices for the
 assessment split.</p>
-<p><code>rsplit_complement()</code> handles the determination for sets for most resampling
-methods. Unless the row indices for the assessment set are already
-determined, this function selects all of the rows that are not in the
-analysis set and returns those as the assessment set.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='populate.html'>populate()</a></code></p></div>
