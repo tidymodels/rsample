@@ -33,7 +33,7 @@ names0 <- function(num, prefix = "x") {
   paste0(prefix, ind)
 }
 
-add_class <- function(x, cls, at_end = TRUE) {
+add_class <- function(x, cls, at_end = FALSE) {
   class(x) <- if (at_end)
     c(class(x), cls)
   else
@@ -89,7 +89,7 @@ split_unnamed <- function(x, f) {
 #' @export
 #' @rdname get_fingerprint
 .get_fingerprint.default <- function(x, ...) {
-  cls <- paste("'", class(x), "'", sep = ", ")
+  cls <- paste0("'", class(x), "'", collapse = ", ")
   rlang::abort(
     paste("No `.get_fingerprint()` method for this class(es)", cls)
   )

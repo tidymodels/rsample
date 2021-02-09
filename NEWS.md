@@ -14,6 +14,9 @@
 
 * The `obj_sum()` method for `rsplit` objects was updated.
 
+* Changed the inheritance structure for `rsplit` objects from specific to general and simplified the methods for the `complement()` generic.
+
+
 # rsample 0.0.8
 
 * New `manual_rset()` for constructing rset objects manually from custom rsplits (tidymodels/tune#273).

@@ -5,13 +5,8 @@
 #'
 #' Given an `rsplit` object, `complement()` will determine which
 #'   of the data rows are contained in the assessment set. To save space,
-#'   many of the `rset` objects will not contain indices for the
+#'   many of the `rsplit` objects will not contain indices for the
 #'   assessment split.
-#'
-#' `rsplit_complement()` handles the determination for sets for most resampling
-#' methods. Unless the row indices for the assessment set are already
-#' determined, this function selects all of the rows that are not in the
-#' analysis set and returns those as the assessment set.
 #'
 #' @param x An `rsplit` object
 #' @param ... Not currently used
@@ -29,41 +24,30 @@ complement <- function(x, ...)
 
 #' @export
 #' @rdname complement
-rsplit_complement <- function(x, ...) {
+complement.rsplit <- function(x, ...) {
   if (!is_missing_out_id(x)) {
     return(x$out_id)
   } else {
     (1:nrow(x$data))[-unique(x$in_id)]
   }
 }
-
 #' @export
-complement.vfold_split <- rsplit_complement
-#' @export
-complement.mc_split  <- rsplit_complement
-#' @export
-complement.val_split <- rsplit_complement
-#' @export
-complement.loo_split <- rsplit_complement
-#' @export
-complement.group_vfold_split <- rsplit_complement
-#' @export
-complement.boot_split <- rsplit_complement
-#' @export
-complement.perm_split <- rsplit_complement
-#' @export
+#' @rdname complement
 complement.rof_split <- function(x, ...) {
   get_stored_out_id(x)
 }
 #' @export
+#' @rdname complement
 complement.sliding_window_split <- function(x, ...) {
   get_stored_out_id(x)
 }
 #' @export
+#' @rdname complement
 complement.sliding_index_split <- function(x, ...) {
   get_stored_out_id(x)
 }
 #' @export
+#' @rdname complement
 complement.sliding_period_split <- function(x, ...) {
   get_stored_out_id(x)
 }
@@ -83,6 +67,7 @@ get_stored_out_id <- function(x) {
 }
 
 #' @export
+#' @rdname complement
 complement.apparent_split <- function(x, ...) {
   if (!is_missing_out_id(x)) {
     return(x$out_id)
@@ -91,13 +76,15 @@ complement.apparent_split <- function(x, ...) {
   }
 }
 
-#' Get the indices of the analysis set from the assessment set
-#' @param ind A vector of integers for which rows of data belong in the
-#' assessment set.
-#' @param n A single integer for the total number of rows in the data set.
-#' @return A named list of integer vectors.
 #' @export
-#' @keywords internal
+complement.default <- function(x, ...) {
+  cls <- paste0("'", class(x), "'", collapse = ", ")
+  rlang::abort(
+    paste("No `complement()` method for this class(es)", cls)
+  )
+}
+
+# Get the indices of the analysis set from the assessment set
 default_complement <- function(ind, n) {
   list(analysis = setdiff(1:n, ind),
        assessment = unique(ind))

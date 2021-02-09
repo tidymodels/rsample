@@ -57,7 +57,12 @@ test_that('print methods', {
   })
 })
 
-
+test_that("default complement method errors", {
+  expect_error(
+    complement("a string"),
+    "No `complement[(][)]` method for this class[(]es[)]"
+  )
+})
 
 
 
