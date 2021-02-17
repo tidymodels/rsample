@@ -3,14 +3,12 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   Applications/Intervals: Intervals.html
-  Applications/Keras: Keras.html
   Applications/Nested_Resampling: Nested_Resampling.html
   Applications/Recipes_and_rsample: Recipes_and_rsample.html
   Applications/Survival_Analysis: Survival_Analysis.html
-  Applications/Time_Series: Time_Series.html
-  Basics: Basics.html
   Working_with_rsets: Working_with_rsets.html
-last_built: 2020-10-09T15:52Z
+  rsample: rsample.html
+last_built: 2021-02-17T18:27Z
 urls:
   reference: https://rsample.tidymodels.org/reference
   article: https://rsample.tidymodels.org/articles

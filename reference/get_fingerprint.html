@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gather an rset Object — gather.rset • rsample</title>
+<title>Obtain a identifier for the resamples — .get_fingerprint • rsample</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,12 +49,10 @@
 
 
 
-<meta property="og:title" content="Gather an rset Object — gather.rset" />
-<meta property="og:description" content="This method uses gather on an rset object to stack all of
-the non-ID or split columns in the data and is useful for
-stacking model evaluation statistics. The resulting data frame
-has a column based on the column names of data and another for
-the values." />
+<meta property="og:title" content="Obtain a identifier for the resamples — .get_fingerprint" />
+<meta property="og:description" content="This function returns a hash (or NA) for an attribute that is created when
+the rset was initially constructed. This can be used to compare with other
+resampling objects to see if they are the same." />
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -160,95 +158,56 @@ the values." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Gather an <code>rset</code> Object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rsample/blob/master/R/gather.R'><code>R/gather.R</code></a></small>
-    <div class="hidden name"><code>gather.rset.Rd</code></div>
+    <h1>Obtain a identifier for the resamples</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rsample/blob/master/R/misc.R'><code>R/misc.R</code></a></small>
+    <div class="hidden name"><code>get_fingerprint.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This method uses <code>gather</code> on an <code>rset</code> object to stack all of
-the non-ID or split columns in the data and is useful for
-stacking model evaluation statistics. The resulting data frame
-has a column based on the column names of <code>data</code> and another for
-the values.</p>
+    <p>This function returns a hash (or NA) for an attribute that is created when
+the <code>rset</code> was initially constructed. This can be used to compare with other
+resampling objects to see if they are the same.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for rset</span>
-<span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span><span class='op'>(</span>
-  <span class='va'>data</span>,
-  key <span class='op'>=</span> <span class='cn'>NULL</span>,
-  value <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>,
-  na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  convert <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  factor_key <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for rset</span>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>An <code>rset</code> object.</p></td>
+      <th>x</th>
+      <td><p>An <code>rset</code> or <code>tune_results</code> object.</p></td>
     </tr>
     <tr>
-      <th>key, value, ...</th>
-      <td><p>Not specified in this method and will be
-ignored. Note that this means that selectors are ignored if
-they are passed to the function.</p></td>
-    </tr>
-    <tr>
-      <th>na.rm</th>
-      <td><p>If <code>TRUE</code>, will remove rows from output where the
-value column in <code>NA</code>.</p></td>
-    </tr>
-    <tr>
-      <th>convert</th>
-      <td><p>If <code>TRUE</code> will automatically run
-<code><a href='https://rdrr.io/r/utils/type.convert.html'>type.convert()</a></code> on the key column. This is useful if the column
-names are actually numeric, integer, or logical.</p></td>
-    </tr>
-    <tr>
-      <th>factor_key</th>
-      <td><p>If FALSE, the default, the key values will be
-stored as a character vector. If <code>TRUE</code>, will be stored as a
-factor, which preserves the original ordering of the columns.</p></td>
+      <th>...</th>
+      <td><p>Not currently used.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with the ID columns, a column called
-<code>model</code> (with the previous column names), and a column called
-<code>statistic</code> (with the values).</p>
+    <p>A character value or <code>NA_character_</code> if the object was created prior
+to <code>rsample</code> version 0.1.0.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rsample.tidymodels.org'>rsample</a></span><span class='op'>)</span>
-<span class='va'>cv_obj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span>, v <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
-<span class='va'>cv_obj</span><span class='op'>$</span><span class='va'>lm_rmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10</span>, mean <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='va'>cv_obj</span><span class='op'>$</span><span class='va'>nnet_rmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10</span>, mean <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-<span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span><span class='op'>(</span><span class='va'>cv_obj</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        id     model  statistic
-#&gt; 1  Fold01   lm_rmse  0.2057106
-#&gt; 2  Fold02   lm_rmse  1.6133574
-#&gt; 3  Fold03   lm_rmse  0.6221739
-#&gt; 4  Fold04   lm_rmse  1.9626400
-#&gt; 5  Fold05   lm_rmse  1.9196722
-#&gt; 6  Fold06   lm_rmse  1.2689681
-#&gt; 7  Fold07   lm_rmse  2.4054513
-#&gt; 8  Fold08   lm_rmse  1.9371069
-#&gt; 9  Fold09   lm_rmse  2.8798132
-#&gt; 10 Fold10   lm_rmse  1.9696502
-#&gt; 11 Fold01 nnet_rmse -0.3537264
-#&gt; 12 Fold02 nnet_rmse  3.3714905
-#&gt; 13 Fold03 nnet_rmse  0.4639264
-#&gt; 14 Fold04 nnet_rmse  0.6281649
-#&gt; 15 Fold05 nnet_rmse  1.5481473
-#&gt; 16 Fold06 nnet_rmse  1.2450459
-#&gt; 17 Fold07 nnet_rmse  0.1624949
-#&gt; 18 Fold08 nnet_rmse  2.8361670
-#&gt; 19 Fold09 nnet_rmse  1.0331194
-#&gt; 20 Fold10 nnet_rmse  0.3114896</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "07cbecb64d2cb81754bec72883f752f9"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "07cbecb64d2cb81754bec72883f752f9"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "1a882b99451cb9dca9655ac01adcf23a"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>.get_fingerprint</span><span class='op'>(</span><span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span>, repeats <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "2db13a880a04fd3c170115f64b9b68d0"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

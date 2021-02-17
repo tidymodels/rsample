@@ -50,42 +50,39 @@
         <a class="navbar-brand" href="index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="articles/Basics.html">Basic Usage</a>
-</li>
-<li>
-  <a href="articles/Working_with_rsets.html">Working with Resample Sets</a>
+  <a href="articles/rsample.html">Get started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Application Examples
+    Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/Applications/Recipes_and_rsample.html">Recipes and rsample</a>
+      <a href="articles/Working_with_rsets.html">Working with Resample Sets</a>
     </li>
     <li>
-      <a href="articles/Applications/Time_Series.html">Time Series Analysis</a>
+      <a href="articles/Applications/Recipes_and_rsample.html">Recipes and rsample</a>
     </li>
     <li>
       <a href="articles/Applications/Survival_Analysis.html">Survival Analysis</a>
     </li>
     <li>
-      <a href="articles/Applications/Nested_Resampling.html">Tuning Models using Nested Resampling</a>
-    </li>
-    <li>
-      <a href="articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
-    </li>
-    <li>
       <a href="articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
+    </li>
+    <li>
+      <a href="https://www.tidymodels.org/learn/models/time-series/">Time Series Analysis</a>
+    </li>
+    <li>
+      <a href="https://www.tidymodels.org/learn/work/nested-resampling/">Nested Resampling</a>
     </li>
   </ul>
 </li>
@@ -97,7 +94,7 @@
 </li>
         <li>
   <a href="https://github.com/tidymodels/rsample/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -128,8 +125,8 @@
 <p>The scope of <code>rsample</code> is to provide the basic building blocks for creating and analyzing resamples of a data set but does not include code for modeling or calculating statistics. The “Working with Resample Sets” vignette gives demonstrations of how <code>rsample</code> tools can be used.</p>
 <p>Note that resampled data sets created by <code>rsample</code> are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
 <p>For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org">rsample</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org">rsample</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">mlbench</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">LetterRecognition</span><span class="op">)</span>
@@ -147,7 +144,7 @@
 
 <span class="co"># Fold increase is &lt;&lt;&lt; 50</span>
 <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">boots</span><span class="op">)</span><span class="op">/</span><span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">LetterRecognition</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 2.528326</span></pre></div>
+<span class="co">#&gt; [1] 2.528326</span></code></pre></div>
 <p><sup>Created on 2020-05-07 by the <a href="https://reprex.tidyverse.org">reprex package</a> (v0.3.0)</sup></p>
 <p>The memory usage for 50 bootstrap samples is less than 3-fold more than the original data set.</p>
 </div>
@@ -155,21 +152,21 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>To install it, use:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rsample"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rsample"</span><span class="op">)</span></code></pre></div>
 <p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="co"># install.packages("devtools")</span>
-<span class="fu">install_dev</span><span class="op">(</span><span class="st">"rsample"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
+<span class="fu">install_dev</span><span class="op">(</span><span class="st">"rsample"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
 <p>This project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <ul>
-<li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://rstd.io/tidymodels-community">post on RStudio Community</a>.</p></li>
+<li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://community.rstudio.com/new-topic?category_id=15&amp;tags=tidymodels,question">post on RStudio Community</a>.</p></li>
 <li><p>If you think you have encountered a bug, please <a href="https://github.com/tidymodels/parsnip/issues">submit an issue</a>.</p></li>
-<li><p>Either way, learn how to create and share a <a href="https://rstd.io/reprex">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
+<li><p>Either way, learn how to create and share a <a href="https://reprex.tidyverse.org/articles/articles/learn-reprex.html">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
 <li><p>We welcome contributions, including typo corrections, bug fixes, and feature requests! If you have never made a pull request to an R package before, <code>rsample</code> is an excellent place to start. Find an <a href="https://github.com/tidymodels/rsample/issues/">issue</a> with the <strong>help wanted ❤️</strong> tag, comment that you’d like to take it on, and we’ll help you get started.</p></li>
 <li><p>Check out further details on <a href="https://www.tidymodels.org/contribute/">contributing guidelines for tidymodels packages</a> and <a href="https://www.tidymodels.org/help/">how to get help</a>.</p></li>
 </ul>
@@ -198,14 +195,16 @@
 <div class="community">
 <h2>Community</h2>
 <ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Max Kuhn <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Julia Silge <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-3671-836X" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Fanny Chow <br><small class="roles"> Author </small>  </li>
+<li>Max Kuhn <br><small class="roles"> Author </small>  </li>
 <li>
 <a href="http://hadley.nz">Hadley Wickham</a> <br><small class="roles"> Author </small>  </li>
 <li><a href="authors.html">All authors...</a></li>
@@ -217,8 +216,8 @@
 <ul class="list-unstyled">
 <li><a href="https://github.com/tidymodels/rsample/actions"><img src="https://github.com/tidymodels/rsample/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 <li><a href="https://codecov.io/gh/tidymodels/rsample?branch=master"><img src="https://codecov.io/gh/tidymodels/rsample/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://cran.r-project.org/package=rsample"><img src="http://www.r-pkg.org/badges/version/rsample" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://cran.r-project.org/package=rsample"><img src="http://cranlogs.r-pkg.org/badges/rsample" alt="Downloads"></a></li>
+<li><a href="https://cran.r-project.org/package=rsample"><img src="https://www.r-pkg.org/badges/version/rsample" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://cran.r-project.org/package=rsample"><img src="https://cranlogs.r-pkg.org/badges/rsample" alt="Downloads"></a></li>
 </ul>
 </div>
 </div>
@@ -231,7 +230,7 @@
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, Fanny Chow, <a href="http://hadley.nz">Hadley Wickham</a>.
+    Developed by Julia Silge, Fanny Chow, Max Kuhn, <a href="http://hadley.nz">Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

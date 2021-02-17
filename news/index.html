@@ -94,42 +94,39 @@
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/Basics.html">Basic Usage</a>
-</li>
-<li>
-  <a href="../articles/Working_with_rsets.html">Working with Resample Sets</a>
+  <a href="../articles/rsample.html">Get started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Application Examples
+    Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Applications/Recipes_and_rsample.html">Recipes and rsample</a>
+      <a href="../articles/Working_with_rsets.html">Working with Resample Sets</a>
     </li>
     <li>
-      <a href="../articles/Applications/Time_Series.html">Time Series Analysis</a>
+      <a href="../articles/Applications/Recipes_and_rsample.html">Recipes and rsample</a>
     </li>
     <li>
       <a href="../articles/Applications/Survival_Analysis.html">Survival Analysis</a>
     </li>
     <li>
-      <a href="../articles/Applications/Nested_Resampling.html">Tuning Models using Nested Resampling</a>
-    </li>
-    <li>
-      <a href="../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
-    </li>
-    <li>
       <a href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
+    </li>
+    <li>
+      <a href="https://www.tidymodels.org/learn/models/time-series/">Time Series Analysis</a>
+    </li>
+    <li>
+      <a href="https://www.tidymodels.org/learn/work/nested-resampling/">Nested Resampling</a>
     </li>
   </ul>
 </li>
@@ -141,7 +138,7 @@
 </li>
         <li>
   <a href="https://github.com/tidymodels/rsample/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -162,12 +159,19 @@
       <small>Source: <a href='https://github.com/tidymodels/rsample/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="rsample-development-version" class="section level1">
-<h1 class="page-header" data-toc-text="development version">
-<a href="#rsample-development-version" class="anchor"></a>rsample (development version)<small> Unreleased </small>
+    <div id="rsample-009" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.9">
+<a href="#rsample-009" class="anchor"></a>rsample 0.0.9<small> Unreleased </small>
 </h1>
 <ul>
-<li>Fixed an issue where empty assessment sets couldn’t be created by <code><a href="../reference/make_splits.html">make_splits()</a></code> (<a href='https://github.com/tidymodels/rsample/issues/188'>#188</a>).</li>
+<li><p>New <code><a href="../reference/rset_reconstruct.html">rset_reconstruct()</a></code>, a developer tool to ease creation of new rset subclasses (<a href='https://github.com/tidymodels/rsample/issues/210'>#210</a>).</p></li>
+<li><p>Added <code><a href="../reference/permutations.html">permutations()</a></code>, a function for creating permutation resamples by performing column-wise shuffling (<a href='https://github.com/mattwarkentin'>@mattwarkentin</a>, <a href='https://github.com/tidymodels/rsample/issues/198'>#198</a>).</p></li>
+<li><p>Fixed an issue where empty assessment sets couldn’t be created by <code><a href="../reference/make_splits.html">make_splits()</a></code> (<a href='https://github.com/tidymodels/rsample/issues/188'>#188</a>).</p></li>
+<li><p><code>rset</code> objects now contain a “fingerprint” attribute that can be used to check to see if the same object uses the same resamples.</p></li>
+<li><p>The <code><a href="../reference/reg_intervals.html">reg_intervals()</a></code> function is a convenience function for <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>, <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>, <code><a href="https://rdrr.io/pkg/survival/man/survreg.html">survreg()</a></code>, and <code><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph()</a></code> models (<a href='https://github.com/tidymodels/rsample/issues/206'>#206</a>).</p></li>
+<li><p>A few internal functions were exported so that <code>rsample</code>-adjacent packages can use the same underlying code.</p></li>
+<li><p>The <code><a href="https://rdrr.io/pkg/pillar/man/type_sum.html">obj_sum()</a></code> method for <code>rsplit</code> objects was updated (<a href='https://github.com/tidymodels/rsample/issues/215'>#215</a>).</p></li>
+<li><p>Changed the inheritance structure for <code>rsplit</code> objects from specific to general and simplified the methods for the <code><a href="../reference/complement.html">complement()</a></code> generic (<a href='https://github.com/tidymodels/rsample/issues/216'>#216</a>).</p></li>
 </ul>
 </div>
     <div id="rsample-008" class="section level1">
@@ -287,7 +291,7 @@
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, Fanny Chow, <a href='http://hadley.nz'>Hadley Wickham</a>.
+    Developed by Julia Silge, Fanny Chow, Max Kuhn, <a href='http://hadley.nz'>Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

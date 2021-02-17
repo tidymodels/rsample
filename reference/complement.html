@@ -50,10 +50,8 @@
 
 
 <meta property="og:title" content="Determine the Assessment Samples — complement" />
-<meta property="og:description" content="Given an rsplit object, complement will determine which
-of the data rows are contained in the assessment set. To save space,
-many of the rset objects will not contain indices for the
-assessment split." />
+<meta property="og:description" content="This method and function help find which data belong in the analysis and
+assessment sets." />
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -98,42 +96,39 @@ assessment split." />
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../articles/Basics.html">Basic Usage</a>
-</li>
-<li>
-  <a href="../articles/Working_with_rsets.html">Working with Resample Sets</a>
+  <a href="../articles/rsample.html">Get started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Application Examples
+    Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Applications/Recipes_and_rsample.html">Recipes and rsample</a>
+      <a href="../articles/Working_with_rsets.html">Working with Resample Sets</a>
     </li>
     <li>
-      <a href="../articles/Applications/Time_Series.html">Time Series Analysis</a>
+      <a href="../articles/Applications/Recipes_and_rsample.html">Recipes and rsample</a>
     </li>
     <li>
       <a href="../articles/Applications/Survival_Analysis.html">Survival Analysis</a>
     </li>
     <li>
-      <a href="../articles/Applications/Nested_Resampling.html">Tuning Models using Nested Resampling</a>
-    </li>
-    <li>
-      <a href="../articles/Applications/Keras.html">Grid Search Tuning of Keras Models</a>
-    </li>
-    <li>
       <a href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
+    </li>
+    <li>
+      <a href="https://www.tidymodels.org/learn/models/time-series/">Time Series Analysis</a>
+    </li>
+    <li>
+      <a href="https://www.tidymodels.org/learn/work/nested-resampling/">Nested Resampling</a>
     </li>
   </ul>
 </li>
@@ -145,7 +140,7 @@ assessment split." />
 </li>
         <li>
   <a href="https://github.com/tidymodels/rsample/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -168,13 +163,29 @@ assessment split." />
     </div>
 
     <div class="ref-description">
-    <p>Given an <code>rsplit</code> object, <code>complement</code> will determine which
-of the data rows are contained in the assessment set. To save space,
-many of the <code>rset</code> objects will not contain indices for the
-assessment split.</p>
+    <p>This method and function help find which data belong in the analysis and
+assessment sets.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for rsplit</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for rof_split</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for sliding_window_split</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for sliding_index_split</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for sliding_period_split</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for apparent_split</span>
+<span class='fu'>complement</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,6 +203,12 @@ assessment split.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A integer vector.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Given an <code>rsplit</code> object, <code>complement()</code> will determine which
+of the data rows are contained in the assessment set. To save space,
+many of the <code>rsplit</code> objects will not contain indices for the
+assessment split.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='populate.html'>populate()</a></code></p></div>
@@ -219,7 +236,7 @@ assessment split.</p>
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, Fanny Chow, <a href='http://hadley.nz'>Hadley Wickham</a>.
+    Developed by Julia Silge, Fanny Chow, Max Kuhn, <a href='http://hadley.nz'>Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
