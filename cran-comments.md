@@ -1,6 +1,6 @@
 ## Release Summary
 
-This is the 8th CRAN release of rsample. This release fixes bugs, updates the inheritance structure for rsample objects, and adds developer-friendly tools for package developers or analysts depending on rsample. This release also marks a **change in maintainer** from Max Kuhn, to Julia Silge <julia.silge@rstudio.com>.
+This is the 8th CRAN release of rsample. This release fixes bugs, updates the inheritance structure for rsample objects, and adds developer-friendly tools for package developers or analysts depending on rsample. This release also marks a **change in maintainer** from Max Kuhn <max@rstudio.com>, to Julia Silge <julia.silge@rstudio.com>.
 
 ## Test environments
 
