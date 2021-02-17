@@ -8,7 +8,7 @@ articles:
   Applications/Survival_Analysis: Survival_Analysis.html
   Working_with_rsets: Working_with_rsets.html
   rsample: rsample.html
-last_built: 2021-02-11T01:41Z
+last_built: 2021-02-17T18:43Z
 urls:
   reference: https://rsample.tidymodels.org/reference
   article: https://rsample.tidymodels.org/articles

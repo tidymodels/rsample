@@ -100,7 +100,7 @@ included in the bootstrap sample. This is often referred to as the
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.8.9001</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.9.9000</span>
         </div>
       </div>
     </div>
@@ -246,7 +246,8 @@ bootstrap sample is equivalent to the proportions in the original data set.
 #&gt; </span><span style='color: #555555;'>2</span><span> </span><span style='color: #555555;'>&lt;split [32/13]&gt;</span><span> Bootstrap2
 #&gt; </span><span style='color: #555555;'>3</span><span> </span><span style='color: #555555;'>&lt;split [32/32]&gt;</span><span> Apparent  </div><div class='input'>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://purrr.tidyverse.org'>purrr</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>wa_churn</span>, package <span class='op'>=</span> <span class='st'>"modeldata"</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modeldata.tidymodels.org'>modeldata</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>wa_churn</span><span class='op'>)</span>
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>13</span><span class='op'>)</span>
 <span class='va'>resample1</span> <span class='op'>&lt;-</span> <span class='fu'>bootstraps</span><span class='op'>(</span><span class='va'>wa_churn</span>, times <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
@@ -288,7 +289,7 @@ bootstrap sample is equivalent to the proportions in the original data set.
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, Fanny Chow, <a href='http://hadley.nz'>Hadley Wickham</a>.
+    Developed by Julia Silge, Fanny Chow, Max Kuhn, <a href='http://hadley.nz'>Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

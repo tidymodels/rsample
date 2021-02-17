@@ -51,7 +51,7 @@
         <a class="navbar-brand" href="../../index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.8.9001</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.9.9000</span>
         </div>
       </div>
     </div>
@@ -230,8 +230,8 @@
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000169 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.69 seconds.
+## Chain 1: Gradient evaluation took 0.000195 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.95 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -248,15 +248,15 @@
 ## Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 6.85021 seconds (Warm-up)
-## Chain 1:                2.05399 seconds (Sampling)
-## Chain 1:                8.9042 seconds (Total)
+## Chain 1:  Elapsed Time: 7.54363 seconds (Warm-up)
+## Chain 1:                2.36406 seconds (Sampling)
+## Chain 1:                9.90768 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 4.6e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.46 seconds.
+## Chain 2: Gradient evaluation took 9.9e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.99 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -273,15 +273,15 @@
 ## Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 7.18098 seconds (Warm-up)
-## Chain 2:                1.69508 seconds (Sampling)
-## Chain 2:                8.87606 seconds (Total)
+## Chain 2:  Elapsed Time: 8.12646 seconds (Warm-up)
+## Chain 2:                1.83605 seconds (Sampling)
+## Chain 2:                9.96251 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 4.8e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.48 seconds.
+## Chain 3: Gradient evaluation took 6.3e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.63 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -298,9 +298,9 @@
 ## Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 7.53912 seconds (Warm-up)
-## Chain 3:                2.59152 seconds (Sampling)
-## Chain 3:                10.1306 seconds (Total)
+## Chain 3:  Elapsed Time: 8.85857 seconds (Warm-up)
+## Chain 3:                3.27404 seconds (Sampling)
+## Chain 3:                12.1326 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
@@ -323,9 +323,9 @@
 ## Chain 4: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 7.2383 seconds (Warm-up)
-## Chain 4:                1.80749 seconds (Sampling)
-## Chain 4:                9.0458 seconds (Total)
+## Chain 4:  Elapsed Time: 8.00195 seconds (Warm-up)
+## Chain 4:                1.96453 seconds (Sampling)
+## Chain 4:                9.96648 seconds (Total)
 ## Chain 4:</code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">concord_est</span><span class="op">$</span><span class="va">stan</span></code></pre></div>
@@ -358,9 +358,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">concord_est</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.</code></pre>
-<pre><code>## Warning: `ggplot.posterior()` is deprecated as of tidyposterior 0.1.0.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<pre><code>## Warning: `ggplot.posterior()` was deprecated in tidyposterior 0.1.0.</code></pre>
 <p><img src="Survival_Analysis_files/figure-html/post-1.png" width="768"></p>
 <p>While this seems clear-cut, let’s assume that a difference in the concordance statistic of 0.1 is a real effect. To compute the posteriors for the difference in models, the full model will be contrasted with the others:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
@@ -380,9 +378,7 @@
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">comparisons</span>, size <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning: `ggplot.posterior_diff()` is deprecated as of tidyposterior 0.1.0.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<pre><code>## Warning: `ggplot.posterior_diff()` was deprecated in tidyposterior 0.1.0.</code></pre>
 <p><img src="Survival_Analysis_files/figure-html/diff-post-1.png" width="768"></p>
 <p>The ROPE statistics quantify the practical effects:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
@@ -410,7 +406,7 @@
 
 <div class="author">
   <p>
-    Developed by Max Kuhn, Fanny Chow, <a href="http://hadley.nz">Hadley Wickham</a>.
+    Developed by Julia Silge, Fanny Chow, Max Kuhn, <a href="http://hadley.nz">Hadley Wickham</a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
