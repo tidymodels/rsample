@@ -19,9 +19,9 @@ resamples and corresponding classes for their analysis. The goal is to
 have a modular set of methods that can be used across different R
 packages for:
 
-  - traditional resampling techniques for estimating the sampling
+-   traditional resampling techniques for estimating the sampling
     distribution of a statistic and
-  - estimating model performance using a holdout set
+-   estimating model performance using a holdout set
 
 The scope of `rsample` is to provide the basic building blocks for
 creating and analyzing resamples of a data set but does not include code
@@ -85,24 +85,25 @@ This project is released with a [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
-  - For questions and discussions about tidymodels packages, modeling,
+-   For questions and discussions about tidymodels packages, modeling,
     and machine learning, please [post on RStudio
-    Community](https://rstd.io/tidymodels-community).
+    Community](https://community.rstudio.com/new-topic?category_id=15&tags=tidymodels,question).
 
-  - If you think you have encountered a bug, please [submit an
+-   If you think you have encountered a bug, please [submit an
     issue](https://github.com/tidymodels/parsnip/issues).
 
-  - Either way, learn how to create and share a
-    [reprex](https://rstd.io/reprex) (a minimal, reproducible example),
-    to clearly communicate about your code.
+-   Either way, learn how to create and share a
+    [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
+    (a minimal, reproducible example), to clearly communicate about your
+    code.
 
-  - We welcome contributions, including typo corrections, bug fixes, and
-    feature requests\! If you have never made a pull request to an R
+-   We welcome contributions, including typo corrections, bug fixes, and
+    feature requests! If you have never made a pull request to an R
     package before, `rsample` is an excellent place to start. Find an
     [issue](https://github.com/tidymodels/rsample/issues/) with the
     **help wanted ❤️** tag, comment that you’d like to take it on, and
     we’ll help you get started.
 
-  - Check out further details on [contributing guidelines for tidymodels
+-   Check out further details on [contributing guidelines for tidymodels
     packages](https://www.tidymodels.org/contribute/) and [how to get
     help](https://www.tidymodels.org/help/).
