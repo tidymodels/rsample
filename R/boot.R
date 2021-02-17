@@ -36,7 +36,8 @@
 #' bootstraps(mtcars, times = 2, apparent = TRUE)
 #'
 #' library(purrr)
-#' data(wa_churn, package = "modeldata")
+#' library(modeldata)
+#' data(wa_churn)
 #'
 #' set.seed(13)
 #' resample1 <- bootstraps(wa_churn, times = 3)
