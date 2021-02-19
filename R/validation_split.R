@@ -35,7 +35,7 @@ validation_split <- function(data, prop = 3/4, strata = NULL, breaks = 4, ...) {
 
   split_objs <-
     mc_splits(data = data,
-              prop = prop, # prop for analysis
+              prop = prop,
               times = 1,
               strata = strata,
               breaks = breaks)

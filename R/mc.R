@@ -61,7 +61,7 @@ mc_cv <- function(data, prop = 3/4, times = 25, strata = NULL, breaks = 4, ...) 
 
   split_objs <-
     mc_splits(data = data,
-              prop = prop, # prop for train set
+              prop = prop,
               times = times,
               strata = strata,
               breaks = breaks)
@@ -81,9 +81,9 @@ mc_cv <- function(data, prop = 3/4, times = 25, strata = NULL, breaks = 4, ...) 
            subclass = c("mc_cv", "rset"))
 }
 
-# Get the indices of the analysis set from the assessment set
+# Get the indices of the assessment set from the analysis set
 mc_complement <- function(ind, n) {
-  list(analysis = ind, # ind for analysis
+  list(analysis = ind,
        assessment = setdiff(1:n, ind))
 }
 
