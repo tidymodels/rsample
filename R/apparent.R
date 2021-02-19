@@ -22,11 +22,10 @@ apparent <- function(data, ...) {
   class(splits) <- c("rsplit", "apparent_split")
   split_objs <- tibble::tibble(splits = list(splits), id = "Apparent")
 
-  split_objs <-
-    add_class(split_objs,
-              cls = c("apparent", "rset"))
-
-  split_objs
+  new_rset(splits = split_objs$splits,
+           ids = split_objs$id,
+           attrib = NULL,
+           subclass = c("apparent", "rset"))
 }
 
 #' @export
