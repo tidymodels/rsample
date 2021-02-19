@@ -1,6 +1,6 @@
 # rsample (development version)
 
-* Fixed problem with creation of `apparent()` samples.
+* Fixed problem with creation of `apparent()` samples (#223).
 
 # rsample 0.0.9
 
