@@ -40,3 +40,25 @@ test_that('default time param with lag', {
   expect_error(initial_time_split(drinks, lag = 500))  # Lag must be less than number of training observations
 
 })
+
+test_that("`prop` computes the proportion for analysis (#217)", {
+  set.seed(11)
+
+  props <- c(.1, .9)
+
+  for (prop in props) {
+    # Not stratified
+    split <- initial_split(airquality, prop = prop)
+    actual <- nrow(analysis(split))
+    expect <- as.integer(floor(nrow(airquality) * prop))
+
+    expect_identical(actual, expect)
+
+    # Stratified
+    split <- initial_split(airquality, prop = prop, strata = Month)
+    actual <- nrow(analysis(split))
+    expect <- as.integer(sum(floor(table(airquality$Month) * prop)) )
+
+    expect_identical(actual, expect)
+  }
+})

@@ -46,11 +46,13 @@ test_that('different percent', {
 
 test_that('strata', {
   set.seed(11)
+
   rs3 <- mc_cv(warpbreaks, strata = "tension")
   sizes3 <- dim_rset(rs3)
 
-  expect_true(all(sizes3$analysis == 42))
-  expect_true(all(sizes3$assessment == 12))
+  # sum(floor(table(warpbreaks$tension) * prop)) = 39
+  expect_true(all(sizes3$analysis == 39))
+  expect_true(all(sizes3$assessment == 15))
 
   rate <- map_dbl(rs3$splits,
                   function(x) {
