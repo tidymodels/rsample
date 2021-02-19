@@ -1,5 +1,7 @@
 # rsample (development version)
 
+* Fixed an issue with `mc_cv()`, `initial_split()`, and `validation_split()` where the `prop` argument was being used to first compute the assessment indices rather than the analysis indices. This could cause a minor inconsistency in the sizes of the generated analysis and assessment sets when compared against how `prop` is documented to function (#217, @issactoast).
+
 # rsample 0.0.9
 
 * New `rset_reconstruct()`, a developer tool to ease creation of new rset subclasses (#210).
