@@ -176,7 +176,7 @@
 <span class="va">cens_rate</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">$</span><span class="va">status</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span><span class="va">mc_samp</span><span class="op">$</span><span class="va">splits</span>, <span class="va">cens_rate</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.279   0.279   0.279   0.279   0.279   0.279</code></pre>
+##   0.277   0.277   0.277   0.277   0.277   0.277</code></pre>
 <p>To demonstrate the use of resampling with censored data, the parametric model shown above will be fit with different variable sets to characterize how important each predictor is to the outcome.</p>
 <p>To do this, a set of formulas are created for the different variable sets:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -230,8 +230,8 @@
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000195 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.95 seconds.
+## Chain 1: Gradient evaluation took 0.000242 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 2.42 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -248,15 +248,15 @@
 ## Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 7.54363 seconds (Warm-up)
-## Chain 1:                2.36406 seconds (Sampling)
-## Chain 1:                9.90768 seconds (Total)
+## Chain 1:  Elapsed Time: 8.7507 seconds (Warm-up)
+## Chain 1:                3.12507 seconds (Sampling)
+## Chain 1:                11.8758 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 9.9e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.99 seconds.
+## Chain 2: Gradient evaluation took 6.1e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.61 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -273,15 +273,15 @@
 ## Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 8.12646 seconds (Warm-up)
-## Chain 2:                1.83605 seconds (Sampling)
-## Chain 2:                9.96251 seconds (Total)
+## Chain 2:  Elapsed Time: 9.29647 seconds (Warm-up)
+## Chain 2:                3.32348 seconds (Sampling)
+## Chain 2:                12.62 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 6.3e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.63 seconds.
+## Chain 3: Gradient evaluation took 8.6e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.86 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -298,15 +298,15 @@
 ## Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 8.85857 seconds (Warm-up)
-## Chain 3:                3.27404 seconds (Sampling)
-## Chain 3:                12.1326 seconds (Total)
+## Chain 3:  Elapsed Time: 7.73631 seconds (Warm-up)
+## Chain 3:                1.65764 seconds (Sampling)
+## Chain 3:                9.39395 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 6.2e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.62 seconds.
+## Chain 4: Gradient evaluation took 6.5e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.65 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -323,9 +323,9 @@
 ## Chain 4: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 8.00195 seconds (Warm-up)
-## Chain 4:                1.96453 seconds (Sampling)
-## Chain 4:                9.96648 seconds (Total)
+## Chain 4:  Elapsed Time: 8.66834 seconds (Warm-up)
+## Chain 4:                2.74017 seconds (Sampling)
+## Chain 4:                11.4085 seconds (Total)
 ## Chain 4:</code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">concord_est</span><span class="op">$</span><span class="va">stan</span></code></pre></div>
@@ -335,10 +335,10 @@
 ##  observations: 400
 ## ------
 ##              Median MAD_SD
-## (Intercept)   0.6    0.0  
-## modelph.ecog -0.1    0.0  
-## modelage      0.0    0.0  
-## modelsex      0.0    0.0  
+## (Intercept)  0.6    0.0   
+## modelph.ecog 0.0    0.0   
+## modelage     0.0    0.0   
+## modelsex     0.0    0.0   
 ## 
 ## Auxiliary parameter(s):
 ##       Median MAD_SD
@@ -388,7 +388,7 @@
 ##   contrast        pract_neg pract_equiv pract_pos
 ##   &lt;chr&gt;               &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
 ## 1 full vs age             0       1         0    
-## 2 full vs ph.ecog         0       0.283     0.717
+## 2 full vs ph.ecog         0       0.712     0.288
 ## 3 full vs sex             0       1         0</code></pre>
   </div>
 
