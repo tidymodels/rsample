@@ -1,6 +1,6 @@
 # rsample (development version)
 
-* Fixed an issue with `mc_cv()`, `initial_split()`, and `validation_split()` where the `prop` argument was being used to first compute the assessment indices rather than the analysis indices. This could cause a minor inconsistency in the sizes of the generated analysis and assessment sets when compared against how `prop` is documented to function (#217, @issactoast).
+* Fixed how `mc_cv()`, `initial_split()`, and `validation_split()` use the `prop` argument to first compute the assessment indices, rather than the analysis indices. This is a minor but **breaking change** in some situations; the previous implementation could cause an inconsistency in the sizes of the generated analysis and assessment sets when compared to how `prop` is documented to function (#217, @issactoast).
 
 # rsample 0.0.9
 
