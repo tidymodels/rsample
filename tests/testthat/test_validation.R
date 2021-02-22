@@ -49,8 +49,8 @@ test_that('strata', {
   rs3 <- validation_split(warpbreaks, strata = "tension")
   sizes3 <- dim_rset(rs3)
 
-  expect_true(all(sizes3$analysis == 42))
-  expect_true(all(sizes3$assessment == 12))
+  expect_true(all(sizes3$analysis == 39))
+  expect_true(all(sizes3$assessment == 15))
 
   rate <- map_dbl(rs3$splits,
                   function(x) {
