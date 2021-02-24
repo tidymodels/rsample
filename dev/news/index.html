@@ -164,7 +164,8 @@
 <a href="#rsample-development-version" class="anchor"></a>rsample (development version)<small> Unreleased </small>
 </h1>
 <ul>
-<li>Fixed how <code><a href="../reference/mc_cv.html">mc_cv()</a></code>, <code><a href="../reference/initial_split.html">initial_split()</a></code>, and <code><a href="../reference/validation_split.html">validation_split()</a></code> use the <code>prop</code> argument to first compute the assessment indices, rather than the analysis indices. This is a minor but <strong>breaking change</strong> in some situations; the previous implementation could cause an inconsistency in the sizes of the generated analysis and assessment sets when compared to how <code>prop</code> is documented to function (<a href='https://github.com/tidymodels/rsample/issues/217'>#217</a>, <a href='https://github.com/issactoast'>@issactoast</a>).</li>
+<li><p>Fixed how <code><a href="../reference/mc_cv.html">mc_cv()</a></code>, <code><a href="../reference/initial_split.html">initial_split()</a></code>, and <code><a href="../reference/validation_split.html">validation_split()</a></code> use the <code>prop</code> argument to first compute the assessment indices, rather than the analysis indices. This is a minor but <strong>breaking change</strong> in some situations; the previous implementation could cause an inconsistency in the sizes of the generated analysis and assessment sets when compared to how <code>prop</code> is documented to function (<a href='https://github.com/tidymodels/rsample/issues/217'>#217</a>, <a href='https://github.com/issactoast'>@issactoast</a>).</p></li>
+<li><p>Fixed problem with creation of <code><a href="../reference/apparent.html">apparent()</a></code> samples (<a href='https://github.com/tidymodels/rsample/issues/223'>#223</a>).</p></li>
 </ul>
 </div>
     <div id="rsample-009" class="section level1">
@@ -178,7 +179,7 @@
 <li><p><code>rset</code> objects now contain a “fingerprint” attribute that can be used to check to see if the same object uses the same resamples.</p></li>
 <li><p>The <code><a href="../reference/reg_intervals.html">reg_intervals()</a></code> function is a convenience function for <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>, <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>, <code><a href="https://rdrr.io/pkg/survival/man/survreg.html">survreg()</a></code>, and <code><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph()</a></code> models (<a href='https://github.com/tidymodels/rsample/issues/206'>#206</a>).</p></li>
 <li><p>A few internal functions were exported so that <code>rsample</code>-adjacent packages can use the same underlying code.</p></li>
-<li><p>The <code><a href="https://rdrr.io/pkg/pillar/man/type_sum.html">obj_sum()</a></code> method for <code>rsplit</code> objects was updated (<a href='https://github.com/tidymodels/rsample/issues/215'>#215</a>).</p></li>
+<li><p>The <code><a href="https://pillar.r-lib.org/reference/type_sum.html">obj_sum()</a></code> method for <code>rsplit</code> objects was updated (<a href='https://github.com/tidymodels/rsample/issues/215'>#215</a>).</p></li>
 <li><p>Changed the inheritance structure for <code>rsplit</code> objects from specific to general and simplified the methods for the <code><a href="../reference/complement.html">complement()</a></code> generic (<a href='https://github.com/tidymodels/rsample/issues/216'>#216</a>).</p></li>
 </ul>
 </div>

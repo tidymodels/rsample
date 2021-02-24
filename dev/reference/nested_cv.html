@@ -210,31 +210,31 @@ the example below)</p>
 </div><div class='output co'>#&gt; # Nested resampling:
 #&gt; #  outer: 3-fold cross-validation
 #&gt; #  inner: Bootstrap sampling
-#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span><span>
 #&gt;   splits          id    inner_resamples     
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>              
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #555555;'>&lt;split [21/11]&gt;</span><span> Fold1 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> </span><span style='color: #555555;'>&lt;split [21/11]&gt;</span><span> Fold2 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> </span><span style='color: #555555;'>&lt;split [22/10]&gt;</span><span> Fold3 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span></div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>              
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> </span><span style='color: #949494;'>&lt;split [21/11]&gt;</span><span> Fold1 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> </span><span style='color: #949494;'>&lt;split [21/11]&gt;</span><span> Fold2 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> </span><span style='color: #949494;'>&lt;split [22/10]&gt;</span><span> Fold3 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span></div><div class='input'>
 <span class='co'>## Using an existing object:</span>
 <span class='va'>folds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>
 <span class='fu'>nested_cv</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>folds</span>, inside <span class='op'>=</span> <span class='fu'><a href='bootstraps.html'>bootstraps</a></span><span class='op'>(</span>times <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; # Nested resampling:
 #&gt; #  outer: `folds`
 #&gt; #  inner: Bootstrap sampling
-#&gt; </span><span style='color: #555555;'># A tibble: 10 x 3</span><span>
+#&gt; </span><span style='color: #949494;'># A tibble: 10 x 3</span><span>
 #&gt;    splits         id     inner_resamples     
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>              
-#&gt; </span><span style='color: #555555;'> 1</span><span> </span><span style='color: #555555;'>&lt;split [28/4]&gt;</span><span> Fold01 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #555555;'>&lt;split [28/4]&gt;</span><span> Fold02 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold03 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold04 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold05 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold06 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold07 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold08 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 9</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold09 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>10</span><span> </span><span style='color: #555555;'>&lt;split [29/3]&gt;</span><span> Fold10 </span><span style='color: #555555;'>&lt;bootstraps [5 × 2]&gt;</span><span></div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>              
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Fold01 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Fold02 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold03 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold04 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold05 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold06 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold07 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold08 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold09 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold10 </span><span style='color: #949494;'>&lt;bootstraps [5 × 2]&gt;</span><span></div><div class='input'>
 <span class='co'>## The dangers of outer bootstraps:</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>2222</span><span class='op'>)</span>
 <span class='va'>bad_idea</span> <span class='op'>&lt;-</span> <span class='fu'>nested_cv</span><span class='op'>(</span><span class='va'>mtcars</span>,
