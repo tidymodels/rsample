@@ -38,6 +38,7 @@ reference:
   - title: Analysis
     contents:
       - int_pctl
+      - reg_intervals
   - title: Utilities
     contents:
       - as.data.frame.rsplit
