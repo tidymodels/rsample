@@ -4,6 +4,8 @@
 
 * Fixed problem with creation of `apparent()` samples (#223).
 
+* Re-licensed package from GPL-2 to MIT. See [consent from copyright holders here](https://github.com/tidymodels/rsample/issues/226).
+
 
 # rsample 0.0.9
 

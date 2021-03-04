@@ -38,7 +38,7 @@ Suggests:
     modeldata
 URL: https://rsample.tidymodels.org, https://github.com/tidymodels/rsample
 BugReports: https://github.com/tidymodels/rsample/issues
-License: GPL-2
+License: MIT + file LICENSE
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
