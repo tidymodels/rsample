@@ -237,7 +237,7 @@ int_bca(nlin_bt, folds, .fn = fold_incr)
 
 ## Intervals for linear(ish) parametric intervals
 
-`rsample` also contains the `parametric_intervals()` function that can be used for linear regression (via `lm()`), generalized linear models (`glm()`), or log-linear survival models (`survival::survreg()` or `survival::coxph()`). This function makes it easier to get intervals for these models. 
+`rsample` also contains the `reg_intervals()` function that can be used for linear regression (via `lm()`), generalized linear models (`glm()`), or log-linear survival models (`survival::survreg()` or `survival::coxph()`). This function makes it easier to get intervals for these models. 
 
 A simple example is a logistic regression using the dementia data from the `modeldata` package: 
 
