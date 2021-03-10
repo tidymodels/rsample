@@ -9,19 +9,18 @@
 #' The `strata` argument causes the random sampling to be conducted *within
 #'  the stratification variable*. This can help ensure that the number of data
 #'  points in the analysis data is equivalent to the proportions in the original
-#'  data set. (Strata below 10% of the total are pooled together.)
+#'  data set. (Strata below 10% of the total are pooled together by default.)
 #' When more than one repeat is requested, the basic V-fold cross-validation
 #'  is conducted each time. For example, if three repeats are used with `v =
 #'  10`, there are a total of 30 splits which as three groups of 10 that are
 #'  generated separately.
+#' @inheritParams make_strata
 #' @param data A data frame.
 #' @param v The number of partitions of the data set.
 #' @param repeats The number of times to repeat the V-fold partitioning.
 #' @param strata A variable that is used to conduct stratified sampling to
 #'  create the folds. This could be a single character value or a variable name
 #'  that corresponds to a variable that exists in the data frame.
-#' @param breaks A single number giving the number of bins desired to stratify
-#'  a numeric stratification variable.
 #' @param ... Not currently used.
 #' @export
 #' @return A tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and
@@ -47,7 +46,7 @@
 #'         })
 #'
 #' set.seed(13)
-#' folds2 <- vfold_cv(wa_churn, strata = "churn", v = 5)
+#' folds2 <- vfold_cv(wa_churn, strata = churn, v = 5)
 #' map_dbl(folds2$splits,
 #'         function(x) {
 #'           dat <- as.data.frame(x)$churn
@@ -55,14 +54,15 @@
 #'         })
 #'
 #' set.seed(13)
-#' folds3 <- vfold_cv(wa_churn, strata = "tenure", breaks = 6, v = 5)
+#' folds3 <- vfold_cv(wa_churn, strata = tenure, breaks = 6, v = 5)
 #' map_dbl(folds3$splits,
 #'         function(x) {
 #'           dat <- as.data.frame(x)$churn
 #'           mean(dat == "Yes")
 #'         })
 #' @export
-vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, breaks = 4, ...) {
+vfold_cv <- function(data, v = 10, repeats = 1,
+                     strata = NULL, breaks = 4, pool = 0.1, ...) {
 
   if(!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
@@ -72,10 +72,11 @@ vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, breaks = 4, ...) 
   strata_check(strata, names(data))
 
   if (repeats == 1) {
-    split_objs <- vfold_splits(data = data, v = v, strata = strata, breaks = breaks)
+    split_objs <- vfold_splits(data = data, v = v,
+                               strata = strata, breaks = breaks, pool = pool)
   } else {
     for (i in 1:repeats) {
-      tmp <- vfold_splits(data = data, v = v, strata = strata)
+      tmp <- vfold_splits(data = data, v = v, strata = strata, pool = pool)
       tmp$id2 <- tmp$id
       tmp$id <- names0(repeats, "Repeat")[i]
       split_objs <- if (i == 1)
@@ -101,7 +102,7 @@ vfold_cv <- function(data, v = 10, repeats = 1, strata = NULL, breaks = 4, ...) 
 }
 
 
-vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4) {
+vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
   if (!is.numeric(v) || length(v) != 1)
     stop("`v` must be a single integer.", call. = FALSE)
 
@@ -113,7 +114,8 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4) {
   } else {
     stratas <- tibble::tibble(idx = 1:n,
                               strata = make_strata(getElement(data, strata),
-                                                   breaks = breaks))
+                                                   breaks = breaks,
+                                                   pool = pool))
     stratas <- split_unnamed(stratas, stratas$strata)
     stratas <- purrr::map(stratas, add_vfolds, v = v)
     stratas <- dplyr::bind_rows(stratas)
