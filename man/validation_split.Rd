@@ -4,7 +4,7 @@
 \alias{validation_split}
 \title{Create a Validation Set}
 \usage{
-validation_split(data, prop = 3/4, strata = NULL, breaks = 4, ...)
+validation_split(data, prop = 3/4, strata = NULL, breaks = 4, pool = 0.1, ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -15,8 +15,13 @@ validation_split(data, prop = 3/4, strata = NULL, breaks = 4, ...)
 create the resamples. This could be a single character value or a variable
 name that corresponds to a variable that exists in the data frame.}
 
-\item{breaks}{A single number giving the number of bins desired to stratify
-a numeric stratification variable.}
+\item{breaks}{A single number giving the number of bins desired to stratify a
+numeric stratification variable.}
+
+\item{pool}{A proportion of data used to determine if a particular group is
+too small and should be pooled into another group. We do not recommend
+decreasing this argument below its default of 0.1 because of the dangers
+of stratifying groups that are too small.}
 
 \item{...}{Not currently used.}
 }
