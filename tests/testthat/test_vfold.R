@@ -66,6 +66,12 @@ test_that('strata', {
                             length(intersect(x$in_ind, x$out_id)) == 0
                           })
   expect_true(all(good_holdout))
+
+  expect_warning(
+    rs4 <- vfold_cv(mlc_churn, strata = state, pool = 0.01),
+    "Stratifying groups that make up 1%"
+  )
+
 })
 
 

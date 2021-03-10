@@ -4,7 +4,15 @@
 \alias{bootstraps}
 \title{Bootstrap Sampling}
 \usage{
-bootstraps(data, times = 25, strata = NULL, breaks = 4, apparent = FALSE, ...)
+bootstraps(
+  data,
+  times = 25,
+  strata = NULL,
+  breaks = 4,
+  pool = 0.1,
+  apparent = FALSE,
+  ...
+)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -16,8 +24,13 @@ not \code{NULL}, each bootstrap sample is created within the stratification
 variable. This could be a single character value or a variable name that
 corresponds to a variable that exists in the data frame.}
 
-\item{breaks}{A single number giving the number of bins desired to stratify
-a numeric stratification variable.}
+\item{breaks}{A single number giving the number of bins desired to stratify a
+numeric stratification variable.}
+
+\item{pool}{A proportion of data used to determine if a particular group is
+too small and should be pooled into another group. We do not recommend
+decreasing this argument below its default of 0.1 because of the dangers
+of stratifying groups that are too small.}
 
 \item{apparent}{A logical. Should an extra resample be added where the
 analysis and holdout subset are the entire data set. This is required for
@@ -48,7 +61,7 @@ The \code{strata} argument is based on a similar argument in the random forest
 package were the bootstrap samples are conducted \emph{within the stratification
 variable}. This can help ensure that the number of data points in the
 bootstrap sample is equivalent to the proportions in the original data set.
-(Strata below 10\% of the total are pooled together.)
+(Strata below 10\% of the total are pooled together by default.)
 }
 \examples{
 bootstraps(mtcars, times = 2)
@@ -67,7 +80,7 @@ map_dbl(resample1$splits,
         })
 
 set.seed(13)
-resample2 <- bootstraps(wa_churn, strata = "churn", times = 3)
+resample2 <- bootstraps(wa_churn, strata = churn, times = 3)
 map_dbl(resample2$splits,
         function(x) {
           dat <- as.data.frame(x)$churn
@@ -75,7 +88,7 @@ map_dbl(resample2$splits,
         })
 
 set.seed(13)
-resample3 <- bootstraps(wa_churn, strata = "tenure", breaks = 6, times = 3)
+resample3 <- bootstraps(wa_churn, strata = tenure, breaks = 6, times = 3)
 map_dbl(resample3$splits,
         function(x) {
           dat <- as.data.frame(x)$churn

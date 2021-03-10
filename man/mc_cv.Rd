@@ -4,7 +4,7 @@
 \alias{mc_cv}
 \title{Monte Carlo Cross-Validation}
 \usage{
-mc_cv(data, prop = 3/4, times = 25, strata = NULL, breaks = 4, ...)
+mc_cv(data, prop = 3/4, times = 25, strata = NULL, breaks = 4, pool = 0.1, ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -17,8 +17,13 @@ mc_cv(data, prop = 3/4, times = 25, strata = NULL, breaks = 4, ...)
 create the resamples. This could be a single character value or a variable
 name that corresponds to a variable that exists in the data frame.}
 
-\item{breaks}{A single number giving the number of bins desired to stratify
-a numeric stratification variable.}
+\item{breaks}{A single number giving the number of bins desired to stratify a
+numeric stratification variable.}
+
+\item{pool}{A proportion of data used to determine if a particular group is
+too small and should be pooled into another group. We do not recommend
+decreasing this argument below its default of 0.1 because of the dangers
+of stratifying groups that are too small.}
 
 \item{...}{Not currently used.}
 }
@@ -36,7 +41,8 @@ data points are added to the assessment set.
 The \code{strata} argument causes the random sampling to be conducted
 \emph{within the stratification variable}. This can help ensure that the number of
 data points in the analysis data is equivalent to the proportions in the
-original data set. (Strata below 10\% of the total are pooled together.)
+original data set. (Strata below 10\% of the total are pooled together
+by default.)
 }
 \examples{
 mc_cv(mtcars, times = 2)
@@ -54,7 +60,7 @@ map_dbl(resample1$splits,
         })
 
 set.seed(13)
-resample2 <- mc_cv(wa_churn, strata = "churn", times = 3, prop = .5)
+resample2 <- mc_cv(wa_churn, strata = churn, times = 3, prop = .5)
 map_dbl(resample2$splits,
         function(x) {
           dat <- as.data.frame(x)$churn
@@ -62,7 +68,7 @@ map_dbl(resample2$splits,
         })
 
 set.seed(13)
-resample3 <- mc_cv(wa_churn, strata = "tenure", breaks = 6, times = 3, prop = .5)
+resample3 <- mc_cv(wa_churn, strata = tenure, breaks = 6, times = 3, prop = .5)
 map_dbl(resample3$splits,
         function(x) {
           dat <- as.data.frame(x)$churn
