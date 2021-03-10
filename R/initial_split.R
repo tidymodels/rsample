@@ -9,12 +9,11 @@
 #'  of data points in the training data is equivalent to the proportions in the
 #'  original data set. (Strata below 10% of the total are pooled together.)
 #' @inheritParams vfold_cv
+#' @inheritParams make_strata
 #' @param prop The proportion of data to be retained for modeling/analysis.
 #' @param strata A variable that is used to conduct stratified sampling to
 #'  create the resamples. This could be a single character value or a variable
 #'  name that corresponds to a variable that exists in the data frame.
-#' @param breaks A single number giving the number of bins desired to stratify
-#'  a numeric stratification variable.
 #' @export
 #' @return An `rsplit` object that can be used with the `training` and `testing`
 #'  functions to extract the data in each split.
@@ -38,7 +37,8 @@
 #'
 #' @export
 #'
-initial_split <- function(data, prop = 3/4, strata = NULL, breaks = 4, ...) {
+initial_split <- function(data, prop = 3/4,
+                          strata = NULL, breaks = 4, pool = 0.1, ...) {
 
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
@@ -53,6 +53,7 @@ initial_split <- function(data, prop = 3/4, strata = NULL, breaks = 4, ...) {
       prop = prop,
       strata = strata,
       breaks = breaks,
+      pool = pool,
       times = 1,
       ...
     )
