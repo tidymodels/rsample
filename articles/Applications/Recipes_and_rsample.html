@@ -246,14 +246,14 @@
 <span class="co"># return all the variables. Other selectors can be used too. </span>
 <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html">bake</a></span><span class="op">(</span><span class="va">rec_training_set</span>, new_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ames</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 14
-##   Year_Sold Lot_Area Sale_Price Neighborhood_Co… Neighborhood_Ol…
-##       &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
-## 1      1.68    2.70        5.33           -0.317           -0.298
-## 2      1.68    0.506       5.02           -0.317           -0.298
-## 3      1.68    0.930       5.24           -0.317           -0.298
-## 4      1.68    0.423       5.39           -0.317           -0.298
-## 5      1.68    0.865       5.28           -0.317           -0.298
-## 6      1.68    0.197       5.29           -0.317           -0.298
+##   Year_Sold Lot_Area Sale_Price Neighborhood_College_Creek Neighborhood_Old_Town
+##       &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;                      &lt;dbl&gt;                 &lt;dbl&gt;
+## 1      1.68    2.70        5.33                     -0.317                -0.298
+## 2      1.68    0.506       5.02                     -0.317                -0.298
+## 3      1.68    0.930       5.24                     -0.317                -0.298
+## 4      1.68    0.423       5.39                     -0.317                -0.298
+## 5      1.68    0.865       5.28                     -0.317                -0.298
+## 6      1.68    0.197       5.29                     -0.317                -0.298
 ## # … with 9 more variables: Neighborhood_Edwards &lt;dbl&gt;,
 ## #   Neighborhood_Somerset &lt;dbl&gt;, Neighborhood_Northridge_Heights &lt;dbl&gt;,
 ## #   Neighborhood_Gilbert &lt;dbl&gt;, Neighborhood_Sawyer &lt;dbl&gt;,
@@ -264,14 +264,14 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://recipes.tidymodels.org/reference/juice.html">juice</a></span><span class="op">(</span><span class="va">rec_training_set</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="va">head</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 14
-##   Year_Sold Lot_Area Sale_Price Neighborhood_Co… Neighborhood_Ol…
-##       &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
-## 1      1.68    2.70        5.33           -0.317           -0.298
-## 2      1.68    0.506       5.02           -0.317           -0.298
-## 3      1.68    0.930       5.24           -0.317           -0.298
-## 4      1.68    0.423       5.39           -0.317           -0.298
-## 5      1.68    0.865       5.28           -0.317           -0.298
-## 6      1.68    0.197       5.29           -0.317           -0.298
+##   Year_Sold Lot_Area Sale_Price Neighborhood_College_Creek Neighborhood_Old_Town
+##       &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;                      &lt;dbl&gt;                 &lt;dbl&gt;
+## 1      1.68    2.70        5.33                     -0.317                -0.298
+## 2      1.68    0.506       5.02                     -0.317                -0.298
+## 3      1.68    0.930       5.24                     -0.317                -0.298
+## 4      1.68    0.423       5.39                     -0.317                -0.298
+## 5      1.68    0.865       5.28                     -0.317                -0.298
+## 6      1.68    0.197       5.29                     -0.317                -0.298
 ## # … with 9 more variables: Neighborhood_Edwards &lt;dbl&gt;,
 ## #   Neighborhood_Somerset &lt;dbl&gt;, Neighborhood_Northridge_Heights &lt;dbl&gt;,
 ## #   Neighborhood_Gilbert &lt;dbl&gt;, Neighborhood_Sawyer &lt;dbl&gt;,
@@ -287,16 +287,16 @@
 ## # A tibble: 25 x 2
 ##    splits              id         
 ##    &lt;list&gt;              &lt;chr&gt;      
-##  1 &lt;split [2.9K/1.1K]&gt; Bootstrap01
-##  2 &lt;split [2.9K/1.1K]&gt; Bootstrap02
-##  3 &lt;split [2.9K/1.1K]&gt; Bootstrap03
-##  4 &lt;split [2.9K/1.1K]&gt; Bootstrap04
-##  5 &lt;split [2.9K/1.1K]&gt; Bootstrap05
-##  6 &lt;split [2.9K/1.1K]&gt; Bootstrap06
-##  7 &lt;split [2.9K/1.1K]&gt; Bootstrap07
-##  8 &lt;split [2.9K/1.1K]&gt; Bootstrap08
-##  9 &lt;split [2.9K/1.1K]&gt; Bootstrap09
-## 10 &lt;split [2.9K/1.1K]&gt; Bootstrap10
+##  1 &lt;split [2930/1095]&gt; Bootstrap01
+##  2 &lt;split [2930/1082]&gt; Bootstrap02
+##  3 &lt;split [2930/1072]&gt; Bootstrap03
+##  4 &lt;split [2930/1077]&gt; Bootstrap04
+##  5 &lt;split [2930/1074]&gt; Bootstrap05
+##  6 &lt;split [2930/1088]&gt; Bootstrap06
+##  7 &lt;split [2930/1076]&gt; Bootstrap07
+##  8 &lt;split [2930/1068]&gt; Bootstrap08
+##  9 &lt;split [2930/1062]&gt; Bootstrap09
+## 10 &lt;split [2930/1064]&gt; Bootstrap10
 ## # … with 15 more rows</code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bt_samples</span><span class="op">$</span><span class="va">splits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
@@ -316,16 +316,16 @@
 ## # A tibble: 25 x 3
 ##    splits              id          recipes 
 ##    &lt;list&gt;              &lt;chr&gt;       &lt;list&gt;  
-##  1 &lt;split [2.9K/1.1K]&gt; Bootstrap01 &lt;recipe&gt;
-##  2 &lt;split [2.9K/1.1K]&gt; Bootstrap02 &lt;recipe&gt;
-##  3 &lt;split [2.9K/1.1K]&gt; Bootstrap03 &lt;recipe&gt;
-##  4 &lt;split [2.9K/1.1K]&gt; Bootstrap04 &lt;recipe&gt;
-##  5 &lt;split [2.9K/1.1K]&gt; Bootstrap05 &lt;recipe&gt;
-##  6 &lt;split [2.9K/1.1K]&gt; Bootstrap06 &lt;recipe&gt;
-##  7 &lt;split [2.9K/1.1K]&gt; Bootstrap07 &lt;recipe&gt;
-##  8 &lt;split [2.9K/1.1K]&gt; Bootstrap08 &lt;recipe&gt;
-##  9 &lt;split [2.9K/1.1K]&gt; Bootstrap09 &lt;recipe&gt;
-## 10 &lt;split [2.9K/1.1K]&gt; Bootstrap10 &lt;recipe&gt;
+##  1 &lt;split [2930/1095]&gt; Bootstrap01 &lt;recipe&gt;
+##  2 &lt;split [2930/1082]&gt; Bootstrap02 &lt;recipe&gt;
+##  3 &lt;split [2930/1072]&gt; Bootstrap03 &lt;recipe&gt;
+##  4 &lt;split [2930/1077]&gt; Bootstrap04 &lt;recipe&gt;
+##  5 &lt;split [2930/1074]&gt; Bootstrap05 &lt;recipe&gt;
+##  6 &lt;split [2930/1088]&gt; Bootstrap06 &lt;recipe&gt;
+##  7 &lt;split [2930/1076]&gt; Bootstrap07 &lt;recipe&gt;
+##  8 &lt;split [2930/1068]&gt; Bootstrap08 &lt;recipe&gt;
+##  9 &lt;split [2930/1062]&gt; Bootstrap09 &lt;recipe&gt;
+## 10 &lt;split [2930/1064]&gt; Bootstrap10 &lt;recipe&gt;
 ## # … with 15 more rows</code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bt_samples</span><span class="op">$</span><span class="va">recipes</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
@@ -363,16 +363,16 @@
 ## # A tibble: 25 x 4
 ##    splits              id          recipes  lm_mod
 ##    &lt;list&gt;              &lt;chr&gt;       &lt;list&gt;   &lt;list&gt;
-##  1 &lt;split [2.9K/1.1K]&gt; Bootstrap01 &lt;recipe&gt; &lt;lm&gt;  
-##  2 &lt;split [2.9K/1.1K]&gt; Bootstrap02 &lt;recipe&gt; &lt;lm&gt;  
-##  3 &lt;split [2.9K/1.1K]&gt; Bootstrap03 &lt;recipe&gt; &lt;lm&gt;  
-##  4 &lt;split [2.9K/1.1K]&gt; Bootstrap04 &lt;recipe&gt; &lt;lm&gt;  
-##  5 &lt;split [2.9K/1.1K]&gt; Bootstrap05 &lt;recipe&gt; &lt;lm&gt;  
-##  6 &lt;split [2.9K/1.1K]&gt; Bootstrap06 &lt;recipe&gt; &lt;lm&gt;  
-##  7 &lt;split [2.9K/1.1K]&gt; Bootstrap07 &lt;recipe&gt; &lt;lm&gt;  
-##  8 &lt;split [2.9K/1.1K]&gt; Bootstrap08 &lt;recipe&gt; &lt;lm&gt;  
-##  9 &lt;split [2.9K/1.1K]&gt; Bootstrap09 &lt;recipe&gt; &lt;lm&gt;  
-## 10 &lt;split [2.9K/1.1K]&gt; Bootstrap10 &lt;recipe&gt; &lt;lm&gt;  
+##  1 &lt;split [2930/1095]&gt; Bootstrap01 &lt;recipe&gt; &lt;lm&gt;  
+##  2 &lt;split [2930/1082]&gt; Bootstrap02 &lt;recipe&gt; &lt;lm&gt;  
+##  3 &lt;split [2930/1072]&gt; Bootstrap03 &lt;recipe&gt; &lt;lm&gt;  
+##  4 &lt;split [2930/1077]&gt; Bootstrap04 &lt;recipe&gt; &lt;lm&gt;  
+##  5 &lt;split [2930/1074]&gt; Bootstrap05 &lt;recipe&gt; &lt;lm&gt;  
+##  6 &lt;split [2930/1088]&gt; Bootstrap06 &lt;recipe&gt; &lt;lm&gt;  
+##  7 &lt;split [2930/1076]&gt; Bootstrap07 &lt;recipe&gt; &lt;lm&gt;  
+##  8 &lt;split [2930/1068]&gt; Bootstrap08 &lt;recipe&gt; &lt;lm&gt;  
+##  9 &lt;split [2930/1062]&gt; Bootstrap09 &lt;recipe&gt; &lt;lm&gt;  
+## 10 &lt;split [2930/1064]&gt; Bootstrap10 &lt;recipe&gt; &lt;lm&gt;  
 ## # … with 15 more rows</code></pre>
 <p>To get predictions, the function needs three arguments: the splits (to get the assessment data), the recipe (to process them), and the model. To iterate over these, the function <code><a href="https://purrr.tidyverse.org/reference/map2.html">purrr::pmap</a></code> is used:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
@@ -403,16 +403,16 @@
 ## # A tibble: 25 x 5
 ##    splits              id          recipes  lm_mod pred                
 ##    &lt;list&gt;              &lt;chr&gt;       &lt;list&gt;   &lt;list&gt; &lt;list&gt;              
-##  1 &lt;split [2.9K/1.1K]&gt; Bootstrap01 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,095 × 2]&gt;
-##  2 &lt;split [2.9K/1.1K]&gt; Bootstrap02 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,082 × 2]&gt;
-##  3 &lt;split [2.9K/1.1K]&gt; Bootstrap03 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,072 × 2]&gt;
-##  4 &lt;split [2.9K/1.1K]&gt; Bootstrap04 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,077 × 2]&gt;
-##  5 &lt;split [2.9K/1.1K]&gt; Bootstrap05 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,074 × 2]&gt;
-##  6 &lt;split [2.9K/1.1K]&gt; Bootstrap06 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,088 × 2]&gt;
-##  7 &lt;split [2.9K/1.1K]&gt; Bootstrap07 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,076 × 2]&gt;
-##  8 &lt;split [2.9K/1.1K]&gt; Bootstrap08 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,068 × 2]&gt;
-##  9 &lt;split [2.9K/1.1K]&gt; Bootstrap09 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,062 × 2]&gt;
-## 10 &lt;split [2.9K/1.1K]&gt; Bootstrap10 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,064 × 2]&gt;
+##  1 &lt;split [2930/1095]&gt; Bootstrap01 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,095 × 2]&gt;
+##  2 &lt;split [2930/1082]&gt; Bootstrap02 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,082 × 2]&gt;
+##  3 &lt;split [2930/1072]&gt; Bootstrap03 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,072 × 2]&gt;
+##  4 &lt;split [2930/1077]&gt; Bootstrap04 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,077 × 2]&gt;
+##  5 &lt;split [2930/1074]&gt; Bootstrap05 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,074 × 2]&gt;
+##  6 &lt;split [2930/1088]&gt; Bootstrap06 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,088 × 2]&gt;
+##  7 &lt;split [2930/1076]&gt; Bootstrap07 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,076 × 2]&gt;
+##  8 &lt;split [2930/1068]&gt; Bootstrap08 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,068 × 2]&gt;
+##  9 &lt;split [2930/1062]&gt; Bootstrap09 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,062 × 2]&gt;
+## 10 &lt;split [2930/1064]&gt; Bootstrap10 &lt;recipe&gt; &lt;lm&gt;   &lt;tibble [1,064 × 2]&gt;
 ## # … with 15 more rows</code></pre>
 <p>Calculating the RMSE:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">

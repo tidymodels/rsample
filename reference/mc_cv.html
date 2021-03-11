@@ -218,17 +218,17 @@ original data set. (Strata below 10% of the total are pooled together.)</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>mc_cv</span><span class='op'>(</span><span class='va'>mtcars</span>, times <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; # Monte Carlo cross-validation (0.75/0.25) with 2 resamples  
-#&gt; <span style='color: #555555;'># A tibble: 2 x 2</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 2 x 2</span><span>
 #&gt;   splits         id       
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #555555;'>&lt;split [24/8]&gt;</span><span> Resample1
-#&gt; </span><span style='color: #555555;'>2</span><span> </span><span style='color: #555555;'>&lt;split [24/8]&gt;</span><span> Resample2</div><div class='input'><span class='fu'>mc_cv</span><span class='op'>(</span><span class='va'>mtcars</span>, prop <span class='op'>=</span> <span class='fl'>.5</span>, times <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> </span><span style='color: #949494;'>&lt;split [24/8]&gt;</span><span> Resample1
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> </span><span style='color: #949494;'>&lt;split [24/8]&gt;</span><span> Resample2</div><div class='input'><span class='fu'>mc_cv</span><span class='op'>(</span><span class='va'>mtcars</span>, prop <span class='op'>=</span> <span class='fl'>.5</span>, times <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; # Monte Carlo cross-validation (0.5/0.5) with 2 resamples  
-#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
+#&gt; </span><span style='color: #949494;'># A tibble: 2 x 2</span><span>
 #&gt;   splits          id       
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #555555;'>&lt;split [16/16]&gt;</span><span> Resample1
-#&gt; </span><span style='color: #555555;'>2</span><span> </span><span style='color: #555555;'>&lt;split [16/16]&gt;</span><span> Resample2</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> </span><span style='color: #949494;'>&lt;split [16/16]&gt;</span><span> Resample1
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> </span><span style='color: #949494;'>&lt;split [16/16]&gt;</span><span> Resample2</div><div class='input'>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://purrr.tidyverse.org'>purrr</a></span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>wa_churn</span>, package <span class='op'>=</span> <span class='st'>"modeldata"</span><span class='op'>)</span>
 
@@ -239,7 +239,7 @@ original data set. (Strata below 10% of the total are pooled together.)</p>
           <span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>$</span><span class='va'>churn</span>
           <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>dat</span> <span class='op'>==</span> <span class='st'>"Yes"</span><span class='op'>)</span>
         <span class='op'>}</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.2597956 0.2685974 0.2674617</div><div class='input'>
+</div><div class='output co'>#&gt; [1] 0.2709458 0.2621414 0.2632775</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>13</span><span class='op'>)</span>
 <span class='va'>resample2</span> <span class='op'>&lt;-</span> <span class='fu'>mc_cv</span><span class='op'>(</span><span class='va'>wa_churn</span>, strata <span class='op'>=</span> <span class='st'>"churn"</span>, times <span class='op'>=</span> <span class='fl'>3</span>, prop <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span>
 <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dbl</a></span><span class='op'>(</span><span class='va'>resample2</span><span class='op'>$</span><span class='va'>splits</span>,
@@ -247,7 +247,7 @@ original data set. (Strata below 10% of the total are pooled together.)</p>
           <span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>$</span><span class='va'>churn</span>
           <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>dat</span> <span class='op'>==</span> <span class='st'>"Yes"</span><span class='op'>)</span>
         <span class='op'>}</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.2654742 0.2654742 0.2654742</div><div class='input'>
+</div><div class='output co'>#&gt; [1] 0.2652655 0.2652655 0.2652655</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>13</span><span class='op'>)</span>
 <span class='va'>resample3</span> <span class='op'>&lt;-</span> <span class='fu'>mc_cv</span><span class='op'>(</span><span class='va'>wa_churn</span>, strata <span class='op'>=</span> <span class='st'>"tenure"</span>, breaks <span class='op'>=</span> <span class='fl'>6</span>, times <span class='op'>=</span> <span class='fl'>3</span>, prop <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span>
 <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dbl</a></span><span class='op'>(</span><span class='va'>resample3</span><span class='op'>$</span><span class='va'>splits</span>,
@@ -255,7 +255,7 @@ original data set. (Strata below 10% of the total are pooled together.)</p>
           <span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>$</span><span class='va'>churn</span>
           <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>dat</span> <span class='op'>==</span> <span class='st'>"Yes"</span><span class='op'>)</span>
         <span class='op'>}</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.2671019 0.2707919 0.2730627</div></span></pre>
+</div><div class='output co'>#&gt; [1] 0.2636364 0.2599432 0.2576705</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
