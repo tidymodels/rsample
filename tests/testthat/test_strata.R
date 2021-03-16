@@ -30,3 +30,20 @@ test_that('bad data', {
 
 
 
+# strata_check() ----------------------------------------------------------
+
+test_that("don't stratify on Surv objects", {
+  df <- data.frame(
+    time = c(85, 79, 70, 6, 32, 8, 17, 93, 81, 76),
+    event = c(0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+  )
+  df$surv <- structure(
+    c(85, 79, 70, 6, 32, 8, 17, 93, 81, 76,
+      0, 0, 1, 0, 0, 0, 1, 1, 1, 1),
+    .Dim = c(10L, 2L),
+    .Dimnames = list(NULL, c("time", "status")),
+    type = "right",
+    class = "Surv")
+
+  expect_error(strata_check("surv", df))
+})
