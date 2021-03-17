@@ -76,7 +76,7 @@ bootstraps <-
     if(length(strata) == 0) strata <- NULL
   }
 
-  strata_check(strata, names(data))
+  strata_check(strata, data)
 
   split_objs <-
     boot_splits(
