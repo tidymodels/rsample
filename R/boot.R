@@ -14,15 +14,14 @@
 #'  package were the bootstrap samples are conducted *within the stratification
 #'  variable*. This can help ensure that the number of data points in the
 #'  bootstrap sample is equivalent to the proportions in the original data set.
-#'  (Strata below 10% of the total are pooled together.)
+#'  (Strata below 10% of the total are pooled together by default.)
 #' @inheritParams vfold_cv
+#' @inheritParams make_strata
 #' @param times The number of bootstrap samples.
 #' @param strata A variable that is used to conduct stratified sampling. When
 #'  not `NULL`, each bootstrap sample is created within the stratification
 #'  variable. This could be a single character value or a variable name that
 #'  corresponds to a variable that exists in the data frame.
-#' @param breaks A single number giving the number of bins desired to stratify
-#'  a numeric stratification variable.
 #' @param apparent A logical. Should an extra resample be added where the
 #'  analysis and holdout subset are the entire data set. This is required for
 #'  some estimators used by the `summary` function that require the apparent
@@ -48,7 +47,7 @@
 #'         })
 #'
 #' set.seed(13)
-#' resample2 <- bootstraps(wa_churn, strata = "churn", times = 3)
+#' resample2 <- bootstraps(wa_churn, strata = churn, times = 3)
 #' map_dbl(resample2$splits,
 #'         function(x) {
 #'           dat <- as.data.frame(x)$churn
@@ -56,7 +55,7 @@
 #'         })
 #'
 #' set.seed(13)
-#' resample3 <- bootstraps(wa_churn, strata = "tenure", breaks = 6, times = 3)
+#' resample3 <- bootstraps(wa_churn, strata = tenure, breaks = 6, times = 3)
 #' map_dbl(resample3$splits,
 #'         function(x) {
 #'           dat <- as.data.frame(x)$churn
@@ -68,6 +67,7 @@ bootstraps <-
            times = 25,
            strata = NULL,
            breaks = 4,
+           pool = 0.1,
            apparent = FALSE,
            ...) {
 
@@ -83,7 +83,8 @@ bootstraps <-
       data = data,
       times = times,
       strata = strata,
-      breaks = breaks
+      breaks = breaks,
+      pool = pool
     )
   if(apparent)
     split_objs <- bind_rows(split_objs, apparent(data))
@@ -108,7 +109,8 @@ boot_splits <-
   function(data,
            times = 25,
            strata = NULL,
-           breaks = 4) {
+           breaks = 4,
+           pool = 0.1) {
 
   n <- nrow(data)
 
@@ -117,7 +119,8 @@ boot_splits <-
   } else {
     stratas <- tibble::tibble(idx = 1:n,
                               strata = make_strata(getElement(data, strata),
-                                                   breaks = breaks))
+                                                   breaks = breaks,
+                                                   pool = pool))
     stratas <- split_unnamed(stratas, stratas$strata)
     stratas <-
       purrr::map_df(

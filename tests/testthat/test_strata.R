@@ -17,14 +17,20 @@ test_that('simple numerics', {
 })
 
 test_that('simple character', {
-  x2 <- factor(rep(LETTERS[1:5], each = 50))
-  str2a <- make_strata(x2)
+  x2 <- factor(rep(LETTERS[1:12], each = 20))
+  expect_warning(
+    str2a <- make_strata(x2, pool = 0.05),
+    "Stratifying groups that make up 5%"
+  )
   expect_equal(table(str2a, dnn = ""), table(x2, dnn = ""))
+
 })
 
 test_that('bad data', {
   x3 <- factor(rep(LETTERS[1:15], each = 50))
-  expect_warning(make_strata(x3))
+  expect_warning(make_strata(x3), "Too little data")
+  expect_warning(make_strata(x3, pool = 0.06),
+                 "Stratifying groups that make up 6%")
   expect_warning(make_strata(mtcars$mpg))
 })
 

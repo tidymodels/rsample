@@ -8,12 +8,11 @@
 #'  data points in the analysis data is equivalent to the proportions in the
 #'  original data set. (Strata below 10% of the total are pooled together.)
 #' @inheritParams vfold_cv
+#' @inheritParams make_strata
 #' @param prop The proportion of data to be retained for modeling/analysis.
 #' @param strata A variable that is used to conduct stratified sampling to
 #'  create the resamples. This could be a single character value or a variable
 #'  name that corresponds to a variable that exists in the data frame.
-#' @param breaks A single number giving the number of bins desired to stratify
-#'  a numeric stratification variable.
 #' @export
 #' @return An tibble with classes `validation_split`, `rset`, `tbl_df`, `tbl`,
 #'  and `data.frame`. The results include a column for the data split objects
@@ -22,7 +21,8 @@
 #' @examples
 #' validation_split(mtcars, prop = .9)
 #' @export
-validation_split <- function(data, prop = 3/4, strata = NULL, breaks = 4, ...) {
+validation_split <- function(data, prop = 3/4,
+                             strata = NULL, breaks = 4, pool = 0.1, ...) {
 
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
@@ -38,7 +38,8 @@ validation_split <- function(data, prop = 3/4, strata = NULL, breaks = 4, ...) {
               prop = prop,
               times = 1,
               strata = strata,
-              breaks = breaks)
+              breaks = breaks,
+              pool = pool)
 
   ## We remove the holdout indices since it will save space and we can
   ## derive them later when they are needed.

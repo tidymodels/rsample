@@ -4,7 +4,7 @@
 \alias{vfold_cv}
 \title{V-Fold Cross-Validation}
 \usage{
-vfold_cv(data, v = 10, repeats = 1, strata = NULL, breaks = 4, ...)
+vfold_cv(data, v = 10, repeats = 1, strata = NULL, breaks = 4, pool = 0.1, ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -17,8 +17,13 @@ vfold_cv(data, v = 10, repeats = 1, strata = NULL, breaks = 4, ...)
 create the folds. This could be a single character value or a variable name
 that corresponds to a variable that exists in the data frame.}
 
-\item{breaks}{A single number giving the number of bins desired to stratify
-a numeric stratification variable.}
+\item{breaks}{A single number giving the number of bins desired to stratify a
+numeric stratification variable.}
+
+\item{pool}{A proportion of data used to determine if a particular group is
+too small and should be pooled into another group. We do not recommend
+decreasing this argument below its default of 0.1 because of the dangers
+of stratifying groups that are too small.}
 
 \item{...}{Not currently used.}
 }
@@ -41,7 +46,7 @@ to V.
 The \code{strata} argument causes the random sampling to be conducted \emph{within
 the stratification variable}. This can help ensure that the number of data
 points in the analysis data is equivalent to the proportions in the original
-data set. (Strata below 10\% of the total are pooled together.)
+data set. (Strata below 10\% of the total are pooled together by default.)
 When more than one repeat is requested, the basic V-fold cross-validation
 is conducted each time. For example, if three repeats are used with \code{v = 10}, there are a total of 30 splits which as three groups of 10 that are
 generated separately.
@@ -62,7 +67,7 @@ map_dbl(folds1$splits,
         })
 
 set.seed(13)
-folds2 <- vfold_cv(wa_churn, strata = "churn", v = 5)
+folds2 <- vfold_cv(wa_churn, strata = churn, v = 5)
 map_dbl(folds2$splits,
         function(x) {
           dat <- as.data.frame(x)$churn
@@ -70,7 +75,7 @@ map_dbl(folds2$splits,
         })
 
 set.seed(13)
-folds3 <- vfold_cv(wa_churn, strata = "tenure", breaks = 6, v = 5)
+folds3 <- vfold_cv(wa_churn, strata = tenure, breaks = 6, v = 5)
 map_dbl(folds3$splits,
         function(x) {
           dat <- as.data.frame(x)$churn

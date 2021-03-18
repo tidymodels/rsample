@@ -16,7 +16,9 @@ numeric stratification variable.}
 algorithm.}
 
 \item{pool}{A proportion of data used to determine if a particular group is
-too small and should be pooled into another group.}
+too small and should be pooled into another group. We do not recommend
+decreasing this argument below its default of 0.1 because of the dangers
+of stratifying groups that are too small.}
 
 \item{depth}{An integer that is used to determine the best number of
 percentiles that should be used. The number of bins are based on
