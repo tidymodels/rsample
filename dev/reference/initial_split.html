@@ -171,7 +171,7 @@ set and testing set. <code>initial_time_split</code> does the same, but takes th
 <code>training</code> and <code>testing</code> are used to extract the resulting data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>initial_split</span><span class='op'>(</span><span class='va'>data</span>, prop <span class='op'>=</span> <span class='fl'>3</span><span class='op'>/</span><span class='fl'>4</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, breaks <span class='op'>=</span> <span class='fl'>4</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>initial_split</span><span class='op'>(</span><span class='va'>data</span>, prop <span class='op'>=</span> <span class='fl'>3</span><span class='op'>/</span><span class='fl'>4</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, breaks <span class='op'>=</span> <span class='fl'>4</span>, pool <span class='op'>=</span> <span class='fl'>0.1</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>initial_time_split</span><span class='op'>(</span><span class='va'>data</span>, prop <span class='op'>=</span> <span class='fl'>3</span><span class='op'>/</span><span class='fl'>4</span>, lag <span class='op'>=</span> <span class='fl'>0</span>, <span class='va'>...</span><span class='op'>)</span>
 
@@ -198,8 +198,15 @@ name that corresponds to a variable that exists in the data frame.</p></td>
     </tr>
     <tr>
       <th>breaks</th>
-      <td><p>A single number giving the number of bins desired to stratify
-a numeric stratification variable.</p></td>
+      <td><p>A single number giving the number of bins desired to stratify a
+numeric stratification variable.</p></td>
+    </tr>
+    <tr>
+      <th>pool</th>
+      <td><p>A proportion of data used to determine if a particular group is
+too small and should be pooled into another group. We do not recommend
+decreasing this argument below its default of 0.1 because of the dangers
+of stratifying groups that are too small.</p></td>
     </tr>
     <tr>
       <th>...</th>

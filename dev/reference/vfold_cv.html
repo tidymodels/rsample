@@ -173,7 +173,7 @@ V-fold cross-validation (i.e. no repeats), the number of resamples is equal
 to V.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>data</span>, v <span class='op'>=</span> <span class='fl'>10</span>, repeats <span class='op'>=</span> <span class='fl'>1</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, breaks <span class='op'>=</span> <span class='fl'>4</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>data</span>, v <span class='op'>=</span> <span class='fl'>10</span>, repeats <span class='op'>=</span> <span class='fl'>1</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, breaks <span class='op'>=</span> <span class='fl'>4</span>, pool <span class='op'>=</span> <span class='fl'>0.1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,8 +198,15 @@ that corresponds to a variable that exists in the data frame.</p></td>
     </tr>
     <tr>
       <th>breaks</th>
-      <td><p>A single number giving the number of bins desired to stratify
-a numeric stratification variable.</p></td>
+      <td><p>A single number giving the number of bins desired to stratify a
+numeric stratification variable.</p></td>
+    </tr>
+    <tr>
+      <th>pool</th>
+      <td><p>A proportion of data used to determine if a particular group is
+too small and should be pooled into another group. We do not recommend
+decreasing this argument below its default of 0.1 because of the dangers
+of stratifying groups that are too small.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -220,7 +227,7 @@ that contains the fold information (within repeat).</p>
     <p>The <code>strata</code> argument causes the random sampling to be conducted <em>within
 the stratification variable</em>. This can help ensure that the number of data
 points in the analysis data is equivalent to the proportions in the original
-data set. (Strata below 10% of the total are pooled together.)
+data set. (Strata below 10% of the total are pooled together by default.)
 When more than one repeat is requested, the basic V-fold cross-validation
 is conducted each time. For example, if three repeats are used with <code>v = 10</code>, there are a total of 30 splits which as three groups of 10 that are
 generated separately.</p>
@@ -277,7 +284,7 @@ generated separately.</p>
         <span class='op'>}</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 0.2649982 0.2660632 0.2609159 0.2679681 0.2669033</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>13</span><span class='op'>)</span>
-<span class='va'>folds2</span> <span class='op'>&lt;-</span> <span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>wa_churn</span>, strata <span class='op'>=</span> <span class='st'>"churn"</span>, v <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>folds2</span> <span class='op'>&lt;-</span> <span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>wa_churn</span>, strata <span class='op'>=</span> <span class='va'>churn</span>, v <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dbl</a></span><span class='op'>(</span><span class='va'>folds2</span><span class='op'>$</span><span class='va'>splits</span>,
         <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
           <span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>$</span><span class='va'>churn</span>
@@ -285,7 +292,7 @@ generated separately.</p>
         <span class='op'>}</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 0.2653532 0.2653532 0.2653532 0.2653532 0.2654365</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>13</span><span class='op'>)</span>
-<span class='va'>folds3</span> <span class='op'>&lt;-</span> <span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>wa_churn</span>, strata <span class='op'>=</span> <span class='st'>"tenure"</span>, breaks <span class='op'>=</span> <span class='fl'>6</span>, v <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>folds3</span> <span class='op'>&lt;-</span> <span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>wa_churn</span>, strata <span class='op'>=</span> <span class='va'>tenure</span>, breaks <span class='op'>=</span> <span class='fl'>6</span>, v <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dbl</a></span><span class='op'>(</span><span class='va'>folds3</span><span class='op'>$</span><span class='va'>splits</span>,
         <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
           <span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>$</span><span class='va'>churn</span>
