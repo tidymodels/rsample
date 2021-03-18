@@ -6,7 +6,10 @@
 
 * Re-licensed package from GPL-2 to MIT. See [consent from copyright holders here](https://github.com/tidymodels/rsample/issues/226).
 
+* Attempts to stratify on a `Surv` object now error more informatively (#230). 
+
 * Exposed `pool` argument from `make_strata()` in user-facing resampling functions (#229).
+
 
 # rsample 0.0.9
 

@@ -31,7 +31,7 @@ validation_split <- function(data, prop = 3/4,
     }
   }
 
-  strata_check(strata, names(data))
+  strata_check(strata, data)
 
   split_objs <-
     mc_splits(data = data,
