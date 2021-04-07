@@ -13,7 +13,7 @@
 rsample2caret <- function(object, data = c("analysis", "assessment")) {
   if(!inherits(object, "rset"))
     stop("`object` must be an `rset`", call. = FALSE)
-  data <- match.arg(data)
+  data <- rlang::arg_match(data)
   in_ind <- purrr::map(object$splits, as.integer, data = "analysis")
   names(in_ind) <- labels(object)
   out_ind <- purrr::map(object$splits, as.integer, data = "assessment")
@@ -59,12 +59,12 @@ caret2rsample <- function(ctrl, data = NULL) {
   } else {
     id_data <- tibble::tibble(id = id_data)
   }
-  out <- dplyr::bind_cols(indices, id_data)
-  attrib <- map_attr(ctrl)
-  for (i in names(attrib))
-    attr(out, i) <- attrib[[i]]
-  out <- add_rset_class(out, map_rset_method(ctrl$method))
-  out
+
+  new_rset(splits = indices$splits,
+           ids = id_data[, grepl("^id", names(id_data))],
+           attrib = map_attr(ctrl),
+           subclass = c(map_rset_method(ctrl$method), "rset"))
+
 }
 
 extract_int <- function(x, y)
