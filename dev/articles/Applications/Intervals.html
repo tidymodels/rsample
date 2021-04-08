@@ -177,18 +177,18 @@
 <span class="va">nlin_bt</span></code></pre></div>
 <pre><code>## # Bootstrap sampling with apparent sample 
 ## # A tibble: 2,001 x 3
-##    splits          id            models          
-##    &lt;list&gt;          &lt;chr&gt;         &lt;list&gt;          
-##  1 &lt;split [36/14]&gt; Bootstrap0001 &lt;tibble [3 × 5]&gt;
-##  2 &lt;split [36/13]&gt; Bootstrap0002 &lt;tibble [3 × 5]&gt;
-##  3 &lt;split [36/16]&gt; Bootstrap0003 &lt;tibble [3 × 5]&gt;
-##  4 &lt;split [36/12]&gt; Bootstrap0004 &lt;tibble [3 × 5]&gt;
-##  5 &lt;split [36/16]&gt; Bootstrap0005 &lt;tibble [3 × 5]&gt;
-##  6 &lt;split [36/13]&gt; Bootstrap0006 &lt;tibble [3 × 5]&gt;
-##  7 &lt;split [36/15]&gt; Bootstrap0007 &lt;tibble [3 × 5]&gt;
-##  8 &lt;split [36/16]&gt; Bootstrap0008 &lt;tibble [3 × 5]&gt;
-##  9 &lt;split [36/11]&gt; Bootstrap0009 &lt;tibble [3 × 5]&gt;
-## 10 &lt;split [36/13]&gt; Bootstrap0010 &lt;tibble [3 × 5]&gt;
+##    splits          id            models              
+##    &lt;list&gt;          &lt;chr&gt;         &lt;list&gt;              
+##  1 &lt;split [36/14]&gt; Bootstrap0001 &lt;tibble[,5] [3 × 5]&gt;
+##  2 &lt;split [36/13]&gt; Bootstrap0002 &lt;tibble[,5] [3 × 5]&gt;
+##  3 &lt;split [36/16]&gt; Bootstrap0003 &lt;tibble[,5] [3 × 5]&gt;
+##  4 &lt;split [36/12]&gt; Bootstrap0004 &lt;tibble[,5] [3 × 5]&gt;
+##  5 &lt;split [36/16]&gt; Bootstrap0005 &lt;tibble[,5] [3 × 5]&gt;
+##  6 &lt;split [36/13]&gt; Bootstrap0006 &lt;tibble[,5] [3 × 5]&gt;
+##  7 &lt;split [36/15]&gt; Bootstrap0007 &lt;tibble[,5] [3 × 5]&gt;
+##  8 &lt;split [36/16]&gt; Bootstrap0008 &lt;tibble[,5] [3 × 5]&gt;
+##  9 &lt;split [36/11]&gt; Bootstrap0009 &lt;tibble[,5] [3 × 5]&gt;
+## 10 &lt;split [36/13]&gt; Bootstrap0010 &lt;tibble[,5] [3 × 5]&gt;
 ## # … with 1,991 more rows</code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nlin_bt</span><span class="op">$</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
@@ -476,12 +476,12 @@
                 family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span>
 <span class="va">lr_int</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 7
-##   term    .lower .estimate .upper .alpha .method      .replicates
-##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;list&lt;tibble&gt;&gt;
-## 1 Ab_42    0.316     0.548  0.765   0.05 student-t    [1,001 × 2]
-## 2 age   -332.     -133.    85.7     0.05 student-t    [1,001 × 2]
-## 3 male    -1.35     -0.755 -0.133   0.05 student-t    [1,001 × 2]
-## 4 tau     -2.38     -1.83  -1.17    0.05 student-t    [1,001 × 2]</code></pre>
+##   term    .lower .estimate .upper .alpha .method          .replicates
+##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;list&lt;tibble[,2]&gt;&gt;
+## 1 Ab_42    0.316     0.548  0.765   0.05 student-t        [1,001 × 2]
+## 2 age   -332.     -133.    85.7     0.05 student-t        [1,001 × 2]
+## 3 male    -1.35     -0.755 -0.133   0.05 student-t        [1,001 × 2]
+## 4 tau     -2.38     -1.83  -1.17    0.05 student-t        [1,001 × 2]</code></pre>
 <p>Now we can unnest the data to use in a ggplot:</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lr_int</span> <span class="op">%&gt;%</span> 
