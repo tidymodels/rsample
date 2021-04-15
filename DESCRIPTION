@@ -22,7 +22,8 @@ Imports:
     tidyr,
     vctrs (>= 0.3.0),
     slider (>= 0.1.5),
-    ellipsis
+    ellipsis,
+    lifecycle
 Depends: 
     R (>= 3.2)
 Suggests: 
