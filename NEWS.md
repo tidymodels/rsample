@@ -10,6 +10,7 @@
 
 * Exposed `pool` argument from `make_strata()` in user-facing resampling functions (#229).
 
+* Deprecated the `gather()` method for `rset` objects in favor of `tidyr::pivot_longer()`.
 
 # rsample 0.0.9
 

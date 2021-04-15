@@ -38,11 +38,14 @@ A data frame with the ID columns, a column called
 \code{statistic} (with the values).
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 This method uses \code{gather} on an \code{rset} object to stack all of
 the non-ID or split columns in the data and is useful for
 stacking model evaluation statistics. The resulting data frame
 has a column based on the column names of \code{data} and another for
-the values.
+the values. This method is now deprecated in favor of using
+\code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}} directly.
 }
 \examples{
 library(rsample)
@@ -51,3 +54,4 @@ cv_obj$lm_rmse <- rnorm(10, mean = 2)
 cv_obj$nnet_rmse <- rnorm(10, mean = 1)
 gather(cv_obj)
 }
+\keyword{internal}

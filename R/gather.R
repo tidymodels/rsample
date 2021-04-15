@@ -1,10 +1,14 @@
 #' Gather an `rset` Object
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
 #' This method uses `gather` on an `rset` object to stack all of
 #'  the non-ID or split columns in the data and is useful for
 #'  stacking model evaluation statistics. The resulting data frame
 #'  has a column based on the column names of `data` and another for
-#'  the values.
+#'  the values. This method is now deprecated in favor of using
+#'  [tidyr::pivot_longer()] directly.
 #'
 #' @param data An `rset` object.
 #' @param key,value,... Not specified in this method and will be
@@ -29,9 +33,13 @@
 #' gather(cv_obj)
 #' @export gather.rset
 #' @export
+#' @keywords internal
 #' @method gather rset
 gather.rset <- function(data, key = NULL, value = NULL, ..., na.rm = TRUE,
                         convert = FALSE, factor_key = TRUE) {
+
+  lifecycle::deprecate_warn("0.1.0", "gather.rset()", "tidyr::pivot_longer()")
+
   if (any(names(data) == "splits")) {
     data <- data %>% dplyr::select(-splits)
   }
