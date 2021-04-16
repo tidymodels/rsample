@@ -47,7 +47,6 @@ reference:
       - complement
       - populate
       - form_pred
-      - gather.rset
       - rsample2caret
       - starts_with("labels")
       - add_resample_id
