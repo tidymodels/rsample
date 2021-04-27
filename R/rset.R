@@ -11,8 +11,8 @@
 #' make sure other objects have the exact same resamples.
 #' @keywords internal
 #' @export
-new_rset <-  function(splits, ids, attrib = NULL,
-                      subclass = character()) {
+new_rset <- function(splits, ids, attrib = NULL,
+                     subclass = character()) {
   stopifnot(is.list(splits))
   if (!is_tibble(ids)) {
     ids <- tibble(id = ids)
@@ -21,8 +21,9 @@ new_rset <-  function(splits, ids, attrib = NULL,
       rlang::abort("The `ids` tibble column names should start with 'id'.")
     }
   }
-  either_type <- function(x)
+  either_type <- function(x) {
     is.character(x) | is.factor(x)
+  }
   ch_check <- vapply(ids, either_type, c(logical = TRUE))
   if (!all(ch_check)) {
     rlang::abort("All ID columns should be character or factor vectors.")

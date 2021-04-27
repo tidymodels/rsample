@@ -17,7 +17,7 @@ get_stats <- function(split, ...) {
   tibble(
     term = "mean",
     estimate = mean(x, na.rm = TRUE),
-    std.error = sqrt(var(x, na.rm = TRUE)/sum(!is.na(x)))
+    std.error = sqrt(var(x, na.rm = TRUE) / sum(!is.na(x)))
   )
 }
 
@@ -37,10 +37,10 @@ set.seed(456765)
 bt_norm <-
   bootstraps(dat, times = 1000, apparent = TRUE) %>%
   dplyr::mutate(
-    stats = map(splits,  ~ get_stats(.x))
+    stats = map(splits, ~ get_stats(.x))
   )
 
-test_that('Bootstrap estimate of mean is close to estimate of mean from normal distribution',{
+test_that("Bootstrap estimate of mean is close to estimate of mean from normal distribution", {
   skip_on_cran()
   single_pct_res <- int_pctl(bt_norm, stats)
 
@@ -51,44 +51,56 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
   single_bca_res_lower_conf <- int_bca(bt_norm, stats, .fn = get_stats, alpha = 0.2)
 
   expect_equal(ttest$conf.low,
-               single_pct_res$.lower,
-               tolerance = 0.001)
+    single_pct_res$.lower,
+    tolerance = 0.001
+  )
   expect_equal(unname(ttest$estimate),
-               single_pct_res$.estimate,
-               tolerance = 0.001)
+    single_pct_res$.estimate,
+    tolerance = 0.001
+  )
   expect_equal(ttest$conf.high,
-               single_pct_res$.upper,
-               tolerance = 0.001)
+    single_pct_res$.upper,
+    tolerance = 0.001
+  )
 
   expect_equal(ttest$conf.low,
-               single_t_res$.lower,
-               tolerance = 0.001)
+    single_t_res$.lower,
+    tolerance = 0.001
+  )
   expect_equal(unname(ttest$estimate),
-               single_t_res$.estimate,
-               tolerance = 0.001)
+    single_t_res$.estimate,
+    tolerance = 0.001
+  )
   expect_equal(ttest$conf.high,
-               single_pct_res$.upper,
-               tolerance = 0.001)
+    single_pct_res$.upper,
+    tolerance = 0.001
+  )
 
   expect_equal(ttest$conf.low,
-               single_bca_res$.lower,
-               tolerance = 0.001)
+    single_bca_res$.lower,
+    tolerance = 0.001
+  )
   expect_equal(unname(ttest$estimate),
-               single_bca_res$.estimate,
-               tolerance = 0.001)
+    single_bca_res$.estimate,
+    tolerance = 0.001
+  )
   expect_equal(ttest$conf.high,
-               single_bca_res$.upper,
-               tolerance = 0.001)
+    single_bca_res$.upper,
+    tolerance = 0.001
+  )
 
   expect_equal(ttest_lower_conf$conf.low,
-               single_bca_res_lower_conf$.lower,
-               tolerance = 0.001)
+    single_bca_res_lower_conf$.lower,
+    tolerance = 0.001
+  )
   expect_equal(unname(ttest_lower_conf$estimate),
-               single_bca_res_lower_conf$.estimate,
-               tolerance = 0.001)
+    single_bca_res_lower_conf$.estimate,
+    tolerance = 0.001
+  )
   expect_equal(ttest_lower_conf$conf.high,
-               single_bca_res_lower_conf$.upper,
-               tolerance = 0.001)
+    single_bca_res_lower_conf$.upper,
+    tolerance = 0.001
+  )
 })
 
 # ------------------------------------------------------------------------------
@@ -96,7 +108,6 @@ test_that('Bootstrap estimate of mean is close to estimate of mean from normal d
 context("Wrapper Functions")
 
 test_that("Wrappers -- selection of multiple variables works", {
-
   func <- function(split, ...) {
     lm(Age ~ HourlyRate + DistanceFromHome, data = analysis(split)) %>% tidy()
   }
@@ -114,31 +125,29 @@ test_that("Wrappers -- selection of multiple variables works", {
   pct_res <-
     int_pctl(bt_resamples, res) %>%
     inner_join(attrit_tidy, by = "term")
-  expect_equal(pct_res$conf.low,  pct_res$.lower, tolerance = .01)
+  expect_equal(pct_res$conf.low, pct_res$.lower, tolerance = .01)
   expect_equal(pct_res$conf.high, pct_res$.upper, tolerance = .01)
 
 
   t_res <-
     int_t(bt_resamples, res) %>%
     inner_join(attrit_tidy, by = "term")
-  expect_equal(t_res$conf.low,  t_res$.lower, tolerance = .01)
+  expect_equal(t_res$conf.low, t_res$.lower, tolerance = .01)
   expect_equal(t_res$conf.high, t_res$.upper, tolerance = .01)
 
 
   bca_res <-
     int_bca(bt_resamples, res, .fn = func) %>%
     inner_join(attrit_tidy, by = "term")
-  expect_equal(bca_res$conf.low,  bca_res$.lower, tolerance = .01)
+  expect_equal(bca_res$conf.low, bca_res$.lower, tolerance = .01)
   expect_equal(bca_res$conf.high, bca_res$.upper, tolerance = .01)
-
 })
 
 # ------------------------------------------------------------------------------
 
 context("boot_ci() Prompt Errors: Too Many NAs")
 
-test_that('Upper & lower confidence interval does not contain NA', {
-
+test_that("Upper & lower confidence interval does not contain NA", {
   bad_stats <- function(split, ...) {
     tibble(
       term = "mean",
@@ -174,7 +183,6 @@ test_that('Upper & lower confidence interval does not contain NA', {
     ),
     "missing values"
   )
-
 })
 
 # ------------------------------------------------------------------------------
@@ -185,17 +193,16 @@ set.seed(456765)
 bt_small <-
   bootstraps(dat, times = 10, apparent = TRUE) %>%
   dplyr::mutate(
-    stats = map(splits,  ~ get_stats(.x)),
+    stats = map(splits, ~ get_stats(.x)),
     junk = 1:11
   )
 
 test_that(
-  "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method", {
-
+  "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
+  {
     expect_warning(int_pctl(bt_small, stats))
     expect_warning(int_t(bt_small, stats))
     expect_warning(int_bca(bt_small, stats, .fn = get_stats))
-
   }
 )
 
@@ -224,7 +231,7 @@ test_that("bad input", {
     tibble(
       term = "mean",
       estimate = mean(x, na.rm = TRUE),
-      std.error = sqrt(var(x, na.rm = TRUE)/sum(!is.na(x)))
+      std.error = sqrt(var(x, na.rm = TRUE) / sum(!is.na(x)))
     )
   }
   expect_error(
@@ -238,7 +245,7 @@ test_that("bad input", {
 
   expect_error(
     int_t(bt_norm %>% dplyr::filter(id != "Apparent"), stats)
-    )
+  )
   expect_error(
     int_bca(bt_norm %>% dplyr::filter(id != "Apparent"), stats, .fn = get_stats)
   )
@@ -254,12 +261,11 @@ test_that("bad input", {
       bad_est = map(stats, ~ .x %>% setNames(c("term", "b", "std.err"))),
       bad_err = map(stats, ~ .x %>% setNames(c("term", "estimate", "c"))),
       bad_num = map(stats, ~ poo(.x))
-      )
+    )
   expect_error(int_pctl(badder_bt_norm, bad_term))
   expect_error(int_t(badder_bt_norm, bad_err))
   expect_error(int_bca(badder_bt_norm, bad_est, .fn = get_stats))
   expect_error(int_pctl(badder_bt_norm, bad_num))
-
 })
 
 
@@ -270,24 +276,30 @@ context("regression intervals")
 test_that("regression intervals", {
   skip_on_cran()
 
-  expect_error({
-    set.seed(1)
-    int_1 <- reg_intervals(mpg ~ disp + wt, data = mtcars)
-  },
-  regex = NA)
+  expect_error(
+    {
+      set.seed(1)
+      int_1 <- reg_intervals(mpg ~ disp + wt, data = mtcars)
+    },
+    regex = NA
+  )
 
   expect_equal(
     names(int_1),
     c("term", ".lower", ".estimate", ".upper", ".alpha", ".method")
   )
 
-  expect_error({
-    set.seed(1)
-    int_2 <- reg_intervals(mpg ~ disp + wt, data = mtcars,
-                           filter = term == "wt",
-                           model_fn = "glm", keep_reps = TRUE)
-  },
-  regex = NA)
+  expect_error(
+    {
+      set.seed(1)
+      int_2 <- reg_intervals(mpg ~ disp + wt,
+        data = mtcars,
+        filter = term == "wt",
+        model_fn = "glm", keep_reps = TRUE
+      )
+    },
+    regex = NA
+  )
 
   expect_equal(
     names(int_2),
