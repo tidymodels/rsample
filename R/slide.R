@@ -14,7 +14,7 @@
 #'   lookback periods such as `lookback = lubridate::years(1)` with daily
 #'   data (where the number of days in a year may vary).
 #'
-#' - `sliding_period()` first breaks up the `index` into more coarse groups
+#' - `sliding_period()` first breaks up the `index` into less granular groups
 #'   based on `period`, and then uses that to construct the resampling indices.
 #'   This is extremely useful for constructing rolling monthly or yearly
 #'   windows from daily data.
@@ -159,7 +159,7 @@
 #' # date range where no data points actually exist!
 #' sliding_index(df, index, lookback = 2, assess_stop = 2)
 #'
-#' # With `sliding_period()`, we can break up our date index into more coarse
+#' # With `sliding_period()`, we can break up our date index into less granular
 #' # chunks, and slide over them instead of the index directly. Here we'll use
 #' # the Chicago data, which contains daily data spanning 16 years, and we'll
 #' # break it up into rolling yearly chunks. Three years worth of data will
