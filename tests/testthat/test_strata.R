@@ -14,6 +14,11 @@ test_that('simple numerics', {
   str1b <- expect_warning(make_strata(x1, depth = 500), "2 breaks instead")
   tab1b <- table(str1b)
   expect_equal(as.vector(tab1b), rep(500, 2))
+
+  str1c <- make_strata(c(NA, x1[1:999]))
+  tab1c <- table(str1c)
+  expect_true(all(as.vector(tab1c) %in% 249:251))
+
 })
 
 test_that('simple character', {
@@ -23,6 +28,14 @@ test_that('simple character', {
     "Stratifying groups that make up 5%"
   )
   expect_equal(table(str2a, dnn = ""), table(x2, dnn = ""))
+
+
+  x2[5] <- NA
+  expect_warning(
+    str2b <- make_strata(x2, pool = 0.05),
+    "Stratifying groups that make up 5%"
+  )
+  expect_true(all(as.vector(table(str2b, dnn = "")) %in% 19:21))
 
 })
 

@@ -71,9 +71,8 @@
 make_strata <- function(x, breaks = 4, nunique = 5, pool = .1, depth = 20) {
 
   default_pool <- 0.1
-  num_vals <- unique(x)
+  num_vals <- unique(na.omit(x))
   n <- length(x)
-  num_miss <- sum(is.na(x))
   if (length(num_vals) <= nunique | is.character(x) | is.factor(x)) {
     x <- factor(x)
     xtab <- sort(table(x))
@@ -113,7 +112,7 @@ make_strata <- function(x, breaks = 4, nunique = 5, pool = .1, depth = 20) {
                   "will be used.")
       return(factor(rep("strata1", n)))
     }
-    pctls <- quantile(x, probs = (0:breaks) / breaks)
+    pctls <- quantile(x, probs = (0:breaks) / breaks, na.rm = TRUE)
     pctls <- unique(pctls)
     out <- cut(x, breaks = pctls, include.lowest = TRUE)
   }
