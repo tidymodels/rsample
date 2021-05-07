@@ -16,7 +16,6 @@ Imports:
     rlang (>= 0.4.10),
     methods,
     generics,
-    utils,
     tidyselect,
     furrr,
     tidyr,
@@ -27,6 +26,8 @@ Imports:
 Depends: 
     R (>= 3.2)
 Suggests: 
+    utils,
+    stats,
     ggplot2,
     testthat,
     rmarkdown,
@@ -42,6 +43,5 @@ BugReports: https://github.com/tidymodels/rsample/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 VignetteBuilder: knitr
-LazyData: true
 RoxygenNote: 7.1.1.9001
 Roxygen: list(markdown = TRUE)
