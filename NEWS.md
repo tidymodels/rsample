@@ -12,6 +12,8 @@
 
 * Deprecated the `gather()` method for `rset` objects in favor of `tidyr::pivot_longer()` (#233).
 
+* Fixed bug in `make_strata()` for numeric variables with `NA` values (@brian-j-smith, #236).
+
 # rsample 0.0.9
 
 * New `rset_reconstruct()`, a developer tool to ease creation of new rset subclasses (#210).
