@@ -32,7 +32,6 @@ Suggests:
     testthat,
     rmarkdown,
     knitr,
-    AmesHousing,
     recipes (>= 0.1.4),
     broom,
     xml2,
