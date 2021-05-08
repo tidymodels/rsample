@@ -71,7 +71,7 @@
 make_strata <- function(x, breaks = 4, nunique = 5, pool = .1, depth = 20) {
 
   default_pool <- 0.1
-  num_vals <- unique(na.omit(x))
+  num_vals <- unique(stats::na.omit(x))
   n <- length(x)
   if (length(num_vals) <= nunique | is.character(x) | is.factor(x)) {
     x <- factor(x)

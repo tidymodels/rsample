@@ -34,9 +34,7 @@ Before discussing how `rsample` can use recipes, let's look at an example recipe
 For illustration, the Ames housing data will be used. There are sale prices of homes along with various other descriptors for the property:
 
 ```{r ames-data, message=FALSE}
-library(AmesHousing)
-ames <- make_ames()
-names(ames)
+data(ames, package = "modeldata")
 ```
 
 Suppose that we will again fit a simple regression model with the formula:

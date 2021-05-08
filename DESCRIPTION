@@ -1,6 +1,6 @@
 Package: rsample
 Title: General Resampling Infrastructure
-Version: 0.0.9.9000
+Version: 0.1.0
 Authors@R: c(
     person(given = "Julia", family = "Silge",    email = "julia.silge@rstudio.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3671-836X")),
     person(given = "Fanny",  family = "Chow",    email = "fannybchow@gmail.com",    role = c("aut")),
@@ -16,7 +16,6 @@ Imports:
     rlang (>= 0.4.10),
     methods,
     generics,
-    utils,
     tidyselect,
     furrr,
     tidyr,
@@ -27,11 +26,12 @@ Imports:
 Depends: 
     R (>= 3.2)
 Suggests: 
+    utils,
+    stats,
     ggplot2,
     testthat,
     rmarkdown,
     knitr,
-    AmesHousing,
     recipes (>= 0.1.4),
     broom,
     xml2,
@@ -42,6 +42,5 @@ BugReports: https://github.com/tidymodels/rsample/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 VignetteBuilder: knitr
-LazyData: true
 RoxygenNote: 7.1.1.9001
 Roxygen: list(markdown = TRUE)
