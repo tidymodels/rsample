@@ -50,7 +50,7 @@
         <a class="navbar-brand" href="../../index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
         </div>
       </div>
     </div>
@@ -187,7 +187,7 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mod_fit</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">form</span>, <span class="va">...</span><span class="op">)</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html">survreg</a></span><span class="op">(</span><span class="va">form</span>, data <span class="op">=</span> <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
-<p>To calculate the efficacy of the model, the concordance statistic is used (see <code><a href="https://rdrr.io/pkg/survival/man/survConcordance-deprecated.html">?survConcordance</a></code>):</p>
+<p>To calculate the efficacy of the model, the concordance statistic is used (see <code><a href="https://rdrr.io/pkg/survival/man/survival-deprecated.html">?survConcordance</a></code>):</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">get_concord</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">split</span>, <span class="va">mod</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">pred_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">assessment</a></span><span class="op">(</span><span class="va">split</span><span class="op">)</span>
@@ -220,17 +220,19 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"density"</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning: `gather.rset()` was deprecated in rsample 0.1.0.
+## Please use `tidyr::pivot_longer()` instead.</code></pre>
 <p><img src="Survival_Analysis_files/figure-html/concord-df-1.png" width="768"></p>
 <p>It looks as though the model missing <code>ph.ecog</code> has larger concordance values than the other models. As one might expect, the full model and the model absent <code>sex</code> are very similar; the difference in these models should only be the scale parameters estimates.</p>
 <p>To more formally test this, the <code>tidyposterior</code> package is used to create a Bayesian model for the concordance statistics.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyposterior.tidymodels.org">tidyposterior</a></span><span class="op">)</span>
-<span class="va">concord_est</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidyposterior/man/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">concord_est</span>, seed <span class="op">=</span> <span class="fl">6507</span>, iter <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></code></pre></div>
+<span class="va">concord_est</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyposterior.tidymodels.org/reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">concord_est</span>, seed <span class="op">=</span> <span class="fl">6507</span>, iter <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000164 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.64 seconds.
+## Chain 1: Gradient evaluation took 0.000185 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.85 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -247,15 +249,15 @@
 ## Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 7.63854 seconds (Warm-up)
-## Chain 1:                2.84424 seconds (Sampling)
-## Chain 1:                10.4828 seconds (Total)
+## Chain 1:  Elapsed Time: 6.16254 seconds (Warm-up)
+## Chain 1:                1.76629 seconds (Sampling)
+## Chain 1:                7.92883 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 6.1e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.61 seconds.
+## Chain 2: Gradient evaluation took 4.2e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.42 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -272,15 +274,15 @@
 ## Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 8.11001 seconds (Warm-up)
-## Chain 2:                2.86532 seconds (Sampling)
-## Chain 2:                10.9753 seconds (Total)
+## Chain 2:  Elapsed Time: 6.96984 seconds (Warm-up)
+## Chain 2:                2.53678 seconds (Sampling)
+## Chain 2:                9.50662 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 4.4e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.44 seconds.
+## Chain 3: Gradient evaluation took 6.2e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.62 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -297,15 +299,15 @@
 ## Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 7.17018 seconds (Warm-up)
-## Chain 3:                1.56692 seconds (Sampling)
-## Chain 3:                8.7371 seconds (Total)
+## Chain 3:  Elapsed Time: 6.90435 seconds (Warm-up)
+## Chain 3:                2.19432 seconds (Sampling)
+## Chain 3:                9.09867 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 6.1e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.61 seconds.
+## Chain 4: Gradient evaluation took 4.4e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.44 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -322,11 +324,11 @@
 ## Chain 4: Iteration: 4500 / 5000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 5000 / 5000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 7.6588 seconds (Warm-up)
-## Chain 4:                2.40555 seconds (Sampling)
-## Chain 4:                10.0643 seconds (Total)
+## Chain 4:  Elapsed Time: 7.17855 seconds (Warm-up)
+## Chain 4:                1.78189 seconds (Sampling)
+## Chain 4:                8.96044 seconds (Total)
 ## Chain 4:</code></pre>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">concord_est</span><span class="op">$</span><span class="va">stan</span></code></pre></div>
 <pre><code>## stan_glmer
 ##  family:       gaussian [identity]
@@ -334,10 +336,10 @@
 ##  observations: 400
 ## ------
 ##              Median MAD_SD
-## (Intercept)  0.6    0.0   
-## modelph.ecog 0.0    0.0   
-## modelage     0.0    0.0   
-## modelsex     0.0    0.0   
+## (Intercept)   0.6    0.0  
+## modelfull     0.0    0.0  
+## modelph.ecog -0.1    0.0  
+## modelsex      0.0    0.0  
 ## 
 ## Auxiliary parameter(s):
 ##       Median MAD_SD
@@ -353,41 +355,32 @@
 ## * For help interpreting the printed output see ?print.stanreg
 ## * For info on the priors used see ?prior_summary.stanreg</code></pre>
 <p>To summarize the posteriors for each model:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">concord_est</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.</code></pre>
-<pre><code>## Warning: `ggplot.posterior()` was deprecated in tidyposterior 0.1.0.</code></pre>
 <p><img src="Survival_Analysis_files/figure-html/post-1.png" width="768"></p>
 <p>While this seems clear-cut, let’s assume that a difference in the concordance statistic of 0.1 is a real effect. To compute the posteriors for the difference in models, the full model will be contrasted with the others:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">comparisons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidyposterior/man/contrast_models.html">contrast_models</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">comparisons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyposterior.tidymodels.org/reference/contrast_models.html">contrast_models</a></span><span class="op">(</span>
   <span class="va">concord_est</span>, 
   list_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"full"</span>, <span class="fl">3</span><span class="op">)</span>,
   list_2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ph.ecog"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span><span class="op">)</span>,
   seed <span class="op">=</span> <span class="fl">4654</span>
   <span class="op">)</span></code></pre></div>
-<pre><code>## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
-## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
-## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
-## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
-## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.
-## Instead of posterior_linpred(..., transform=TRUE) please call posterior_epred(), which provides equivalent functionality.</code></pre>
 <p>The posterior distributions show that, statistically, <code>ph.ecog</code> has real importance ot the model. However, since these distributions are mostly with +/- 0.05, they are unlikely to be real differences.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">comparisons</span>, size <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning: `ggplot.posterior_diff()` was deprecated in tidyposterior 0.1.0.</code></pre>
 <p><img src="Survival_Analysis_files/figure-html/diff-post-1.png" width="768"></p>
 <p>The ROPE statistics quantify the practical effects:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">comparisons</span>, size <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">contrast</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"pract"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ##   contrast        pract_neg pract_equiv pract_pos
 ##   &lt;chr&gt;               &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
 ## 1 full vs age             0       1         0    
-## 2 full vs ph.ecog         0       0.712     0.288
+## 2 full vs ph.ecog         0       0.717     0.283
 ## 3 full vs sex             0       1         0</code></pre>
   </div>
 

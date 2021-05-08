@@ -50,11 +50,13 @@
 
 
 <meta property="og:title" content="Gather an rset Object — gather.rset" />
-<meta property="og:description" content="This method uses gather on an rset object to stack all of
+<meta property="og:description" content="
+This method uses gather on an rset object to stack all of
 the non-ID or split columns in the data and is useful for
 stacking model evaluation statistics. The resulting data frame
 has a column based on the column names of data and another for
-the values." />
+the values. This method is now deprecated in favor of using
+tidyr::pivot_longer() directly." />
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -99,7 +101,7 @@ the values." />
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
         </div>
       </div>
     </div>
@@ -166,11 +168,13 @@ the values." />
     </div>
 
     <div class="ref-description">
-    <p>This method uses <code>gather</code> on an <code>rset</code> object to stack all of
+    <p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a></p>
+<p>This method uses <code>gather</code> on an <code>rset</code> object to stack all of
 the non-ID or split columns in the data and is useful for
 stacking model evaluation statistics. The resulting data frame
 has a column based on the column names of <code>data</code> and another for
-the values.</p>
+the values. This method is now deprecated in favor of using
+<code><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>tidyr::pivot_longer()</a></code> directly.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for rset</span>
@@ -227,8 +231,11 @@ factor, which preserves the original ordering of the columns.</p></td>
 <span class='va'>cv_obj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='vfold_cv.html'>vfold_cv</a></span><span class='op'>(</span><span class='va'>mtcars</span>, v <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
 <span class='va'>cv_obj</span><span class='op'>$</span><span class='va'>lm_rmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10</span>, mean <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 <span class='va'>cv_obj</span><span class='op'>$</span><span class='va'>nnet_rmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10</span>, mean <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+
+<span class='co'>## now deprecated for rset objects:</span>
 <span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span><span class='op'>(</span><span class='va'>cv_obj</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        id     model  statistic
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `gather.rset()` was deprecated in rsample 0.1.0.</span>
+#&gt; <span class='warning'>Please use `tidyr::pivot_longer()` instead.</span></div><div class='output co'>#&gt;        id     model  statistic
 #&gt; 1  Fold01   lm_rmse  0.2057106
 #&gt; 2  Fold02   lm_rmse  1.6133574
 #&gt; 3  Fold03   lm_rmse  0.6221739
@@ -248,7 +255,37 @@ factor, which preserves the original ordering of the columns.</p></td>
 #&gt; 17 Fold07 nnet_rmse  0.1624949
 #&gt; 18 Fold08 nnet_rmse  2.8361670
 #&gt; 19 Fold09 nnet_rmse  1.0331194
-#&gt; 20 Fold10 nnet_rmse  0.3114896</div></pre>
+#&gt; 20 Fold10 nnet_rmse  0.3114896</div><div class='input'>
+<span class='co'>## instead of gather, use tidyr::pivot_longer:</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='va'>cv_obj</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>splits</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>id</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span><span>
+#&gt;    id     name       value
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01 lm_rmse    0.206
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold01 nnet_rmse -</span><span style='color: #BB0000;'>0.354</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold02 lm_rmse    1.61 
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold02 nnet_rmse  3.37 
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold03 lm_rmse    0.622
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold03 nnet_rmse  0.464
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold04 lm_rmse    1.96 
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold04 nnet_rmse  0.628
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold05 lm_rmse    1.92 
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold05 nnet_rmse  1.55 
+#&gt; </span><span style='color: #BCBCBC;'>11</span><span> Fold06 lm_rmse    1.27 
+#&gt; </span><span style='color: #BCBCBC;'>12</span><span> Fold06 nnet_rmse  1.25 
+#&gt; </span><span style='color: #BCBCBC;'>13</span><span> Fold07 lm_rmse    2.41 
+#&gt; </span><span style='color: #BCBCBC;'>14</span><span> Fold07 nnet_rmse  0.162
+#&gt; </span><span style='color: #BCBCBC;'>15</span><span> Fold08 lm_rmse    1.94 
+#&gt; </span><span style='color: #BCBCBC;'>16</span><span> Fold08 nnet_rmse  2.84 
+#&gt; </span><span style='color: #BCBCBC;'>17</span><span> Fold09 lm_rmse    2.88 
+#&gt; </span><span style='color: #BCBCBC;'>18</span><span> Fold09 nnet_rmse  1.03 
+#&gt; </span><span style='color: #BCBCBC;'>19</span><span> Fold10 lm_rmse    1.97 
+#&gt; </span><span style='color: #BCBCBC;'>20</span><span> Fold10 nnet_rmse  0.311</div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

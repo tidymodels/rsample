@@ -94,7 +94,7 @@
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
         </div>
       </div>
     </div>
@@ -159,14 +159,18 @@
       <small>Source: <a href='https://github.com/tidymodels/rsample/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="rsample-development-version" class="section level1">
-<h1 class="page-header" data-toc-text="development version">
-<a href="#rsample-development-version" class="anchor"></a>rsample (development version)<small> Unreleased </small>
+    <div id="rsample-010" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.0">
+<a href="#rsample-010" class="anchor"></a>rsample 0.1.0<small> 2021-05-08 </small>
 </h1>
 <ul>
 <li><p>Fixed how <code><a href="../reference/mc_cv.html">mc_cv()</a></code>, <code><a href="../reference/initial_split.html">initial_split()</a></code>, and <code><a href="../reference/validation_split.html">validation_split()</a></code> use the <code>prop</code> argument to first compute the assessment indices, rather than the analysis indices. This is a minor but <strong>breaking change</strong> in some situations; the previous implementation could cause an inconsistency in the sizes of the generated analysis and assessment sets when compared to how <code>prop</code> is documented to function (<a href='https://github.com/tidymodels/rsample/issues/217'>#217</a>, <a href='https://github.com/issactoast'>@issactoast</a>).</p></li>
-<li><p>Fixed problem with creation of <code><a href="../reference/apparent.html">apparent()</a></code> samples (<a href='https://github.com/tidymodels/rsample/issues/223'>#223</a>).</p></li>
+<li><p>Fixed problem with creation of <code><a href="../reference/apparent.html">apparent()</a></code> (<a href='https://github.com/tidymodels/rsample/issues/223'>#223</a>) and <code><a href="../reference/rsample2caret.html">caret2rsample()</a></code> (<a href='https://github.com/tidymodels/rsample/issues/232'>#232</a>) resamples.</p></li>
 <li><p>Re-licensed package from GPL-2 to MIT. See <a href="https://github.com/tidymodels/rsample/issues/226">consent from copyright holders here</a>.</p></li>
+<li><p>Attempts to stratify on a <code>Surv</code> object now error more informatively (<a href='https://github.com/tidymodels/rsample/issues/230'>#230</a>).</p></li>
+<li><p>Exposed <code>pool</code> argument from <code><a href="../reference/make_strata.html">make_strata()</a></code> in user-facing resampling functions (<a href='https://github.com/tidymodels/rsample/issues/229'>#229</a>).</p></li>
+<li><p>Deprecated the <code><a href="https://tidyr.tidyverse.org/reference/gather.html">gather()</a></code> method for <code>rset</code> objects in favor of <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">tidyr::pivot_longer()</a></code> (<a href='https://github.com/tidymodels/rsample/issues/233'>#233</a>).</p></li>
+<li><p>Fixed bug in <code><a href="../reference/make_strata.html">make_strata()</a></code> for numeric variables with <code>NA</code> values (<a href='https://github.com/brian-j-smith'>@brian-j-smith</a>, <a href='https://github.com/tidymodels/rsample/issues/236'>#236</a>).</p></li>
 </ul>
 </div>
     <div id="rsample-009" class="section level1">

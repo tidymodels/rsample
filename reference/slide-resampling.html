@@ -60,7 +60,7 @@ column. This is often a Date or POSIXct column, but doesn't have to be.
 This is useful when resampling irregular series, or for using irregular
 lookback periods such as lookback = lubridate::years(1) with daily
 data (where the number of days in a year may vary).
-sliding_period() first breaks up the index into more granular groups
+sliding_period() first breaks up the index into less granular groups
 based on period, and then uses that to construct the resampling indices.
 This is extremely useful for constructing rolling monthly or yearly
 windows from daily data.
@@ -110,7 +110,7 @@ windows from daily data.
         <a class="navbar-brand" href="../index.html">rsample</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
         </div>
       </div>
     </div>
@@ -187,7 +187,7 @@ column. This is often a Date or POSIXct column, but doesn't have to be.
 This is useful when resampling irregular series, or for using irregular
 lookback periods such as <code>lookback = lubridate::years(1)</code> with daily
 data (where the number of days in a year may vary).</p></li>
-<li><p><code>sliding_period()</code> first breaks up the <code>index</code> into more granular groups
+<li><p><code>sliding_period()</code> first breaks up the <code>index</code> into less granular groups
 based on <code>period</code>, and then uses that to construct the resampling indices.
 This is extremely useful for constructing rolling monthly or yearly
 windows from daily data.</p></li>
@@ -441,7 +441,7 @@ which power these resamplers.</p></div>
 #&gt; </span><span style='color: #BCBCBC;'>5</span><span> </span><span style='color: #949494;'>&lt;split [3/0]&gt;</span><span> Slice5
 #&gt; </span><span style='color: #BCBCBC;'>6</span><span> </span><span style='color: #949494;'>&lt;split [1/1]&gt;</span><span> Slice6
 #&gt; </span><span style='color: #BCBCBC;'>7</span><span> </span><span style='color: #949494;'>&lt;split [2/2]&gt;</span><span> Slice7</div><div class='input'>
-<span class='co'># With `sliding_period()`, we can break up our date index into more granular</span>
+<span class='co'># With `sliding_period()`, we can break up our date index into less granular</span>
 <span class='co'># chunks, and slide over them instead of the index directly. Here we'll use</span>
 <span class='co'># the Chicago data, which contains daily data spanning 16 years, and we'll</span>
 <span class='co'># break it up into rolling yearly chunks. Three years worth of data will</span>
