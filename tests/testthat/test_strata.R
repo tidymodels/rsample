@@ -45,6 +45,7 @@ test_that('bad data', {
   expect_warning(make_strata(x3, pool = 0.06),
                  "Stratifying groups that make up 6%")
   expect_warning(make_strata(mtcars$mpg))
+  expect_warning(make_strata(seq_len(50), breaks = -1))
 })
 
 
