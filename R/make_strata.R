@@ -89,8 +89,8 @@ make_strata <- function(x, breaks = 4, nunique = 5, pool = .1, depth = 20) {
       rlang::warn(c(
         paste0("Stratifying groups that make up ",
                round(100 * pool), "% of the data may be ",
-               "statistically risky.",
-               "Consider increasing `pool` to at least 0.1")
+               "statistically risky."),
+        "Consider increasing `pool` to at least 0.1"
       ))
 
     ## Small groups will be randomly allocated to stratas at end
