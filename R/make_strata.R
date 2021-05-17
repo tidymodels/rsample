@@ -80,17 +80,18 @@ make_strata <- function(x, breaks = 4, nunique = 5, pool = .1, depth = 20) {
 
     ## This should really be based on some combo of rate and number.
     if (all(pcts < pool)) {
-      rlang::warn("Too little data to stratify. Unstratified resampling ",
-                  "will be used.")
+      rlang::warn(c("Too little data to stratify.",
+                    "Resampling will be unstratified."))
       return(factor(rep("strata1", n)))
     }
 
     if (pool < default_pool & any(pcts < default_pool))
-      rlang::warn(
+      rlang::warn(c(
         paste0("Stratifying groups that make up ",
                round(100 * pool), "% of the data may be ",
-               "statistically risky.\nConsider increasing `pool` to at least 0.1")
-      )
+               "statistically risky."),
+        "Consider increasing `pool` to at least 0.1"
+      ))
 
     ## Small groups will be randomly allocated to stratas at end
     ## These should probably go into adjacent groups but this works for now
@@ -99,17 +100,21 @@ make_strata <- function(x, breaks = 4, nunique = 5, pool = .1, depth = 20) {
     ## The next line will also relevel the data if `x` was a factor
     out <- factor(as.character(x))
   } else {
-    if (floor(n / breaks) < depth) {
-      rlang::warn(
+    if (breaks < 2) {
+      rlang::warn(c("The bins specified by `breaks` must be >=2.",
+                    "Resampling will be unstratified."))
+      return(factor(rep("strata1", n)))
+    } else if (floor(n / breaks) < depth) {
+      rlang::warn(c(
         paste0("The number of observations in each quantile is ",
-               "below the recommended threshold of ", depth, ". Stratification ",
-               "will be done with ", floor(n/depth), " breaks instead.")
-      )
+               "below the recommended threshold of ", depth, "."),
+        paste0("Stratification will use ", floor(n/depth), " breaks instead.")
+      ))
     }
     breaks <- min(breaks, floor(n/depth))
     if (breaks < 2) {
-      rlang::warn("Too little data to stratify. Unstratified resampling ",
-                  "will be used.")
+      rlang::warn(c("Too little data to stratify.",
+                    "Resampling will be unstratified."))
       return(factor(rep("strata1", n)))
     }
     pctls <- quantile(x, probs = (0:breaks) / breaks, na.rm = TRUE)
