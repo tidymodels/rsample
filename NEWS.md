@@ -1,5 +1,7 @@
 # rsample (development version)
 
+* Updated documentation on stratified sampling (#245).
+
 # rsample 0.1.0
 
 * Fixed how `mc_cv()`, `initial_split()`, and `validation_split()` use the `prop` argument to first compute the assessment indices, rather than the analysis indices. This is a minor but **breaking change** in some situations; the previous implementation could cause an inconsistency in the sizes of the generated analysis and assessment sets when compared to how `prop` is documented to function (#217, @issactoast).
