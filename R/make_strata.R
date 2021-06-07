@@ -1,9 +1,8 @@
 #' Create or Modify Stratification Variables
 #'
-#' For stratified resampling, this function can create strata from numeric data
-#'   and also make non-numeric data more conducive to be used for
-#'   stratification.
-
+#' This function can create strata from numeric data and make non-numeric data
+#'  more conducive for stratification.
+#'
 #' @details
 #' For numeric data, if the number of unique levels is less than
 #' `nunique`, the data are treated as categorical data.

@@ -10,18 +10,11 @@
 #'  "resample" where the analysis and assessment data sets are the same as the
 #'  original data set. This can be required for some types of analysis of the
 #'  bootstrap results.
-#' The `strata` argument is based on a similar argument in the random forest
-#'  package were the bootstrap samples are conducted *within the stratification
-#'  variable*. This can help ensure that the number of data points in the
-#'  bootstrap sample is equivalent to the proportions in the original data set.
-#'  (Strata below 10% of the total are pooled together by default.)
+#'
+#' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
 #' @param times The number of bootstrap samples.
-#' @param strata A variable that is used to conduct stratified sampling. When
-#'  not `NULL`, each bootstrap sample is created within the stratification
-#'  variable. This could be a single character value or a variable name that
-#'  corresponds to a variable that exists in the data frame.
 #' @param apparent A logical. Should an extra resample be added where the
 #'  analysis and holdout subset are the entire data set. This is required for
 #'  some estimators used by the `summary` function that require the apparent

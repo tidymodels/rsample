@@ -3,18 +3,11 @@
 #' One resample of Monte Carlo cross-validation takes a random sample (without
 #'  replacement) of the original data set to be used for analysis. All other
 #'  data points are added to the assessment set.
-#' @details The `strata` argument causes the random sampling to be conducted
-#'  *within the stratification variable*. This can help ensure that the number of
-#'  data points in the analysis data is equivalent to the proportions in the
-#'  original data set. (Strata below 10% of the total are pooled together
-#'  by default.)
+#' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
 #' @param prop The proportion of data to be retained for modeling/analysis.
 #' @param times The number of times to repeat the sampling.
-#' @param strata A variable that is used to conduct stratified sampling to
-#'  create the resamples. This could be a single character value or a variable
-#'  name that corresponds to a variable that exists in the data frame.
 #' @export
 #' @return An tibble with classes `mc_cv`, `rset`, `tbl_df`, `tbl`, and
 #'  `data.frame`. The results include a column for the data split objects and a
