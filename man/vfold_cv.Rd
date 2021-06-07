@@ -13,9 +13,9 @@ vfold_cv(data, v = 10, repeats = 1, strata = NULL, breaks = 4, pool = 0.1, ...)
 
 \item{repeats}{The number of times to repeat the V-fold partitioning.}
 
-\item{strata}{A variable that is used to conduct stratified sampling to
-create the folds. This could be a single character value or a variable name
-that corresponds to a variable that exists in the data frame.}
+\item{strata}{A variable in \code{data} (single character or name) used to conduct
+stratified sampling. When not \code{NULL}, each resample is created within the
+stratification variable. Numeric \code{strata} are binned into quartiles.}
 
 \item{breaks}{A single number giving the number of bins desired to stratify a
 numeric stratification variable.}
@@ -43,13 +43,18 @@ V-fold cross-validation (i.e. no repeats), the number of resamples is equal
 to V.
 }
 \details{
-The \code{strata} argument causes the random sampling to be conducted \emph{within
-the stratification variable}. This can help ensure that the number of data
-points in the analysis data is equivalent to the proportions in the original
-data set. (Strata below 10\% of the total are pooled together by default.)
-When more than one repeat is requested, the basic V-fold cross-validation
-is conducted each time. For example, if three repeats are used with \code{v = 10}, there are a total of 30 splits which as three groups of 10 that are
-generated separately.
+With more than one repeat, the basic V-fold cross-validation is
+conducted each time. For example, if three repeats are used with \code{v = 10},
+there are a total of 30 splits: three groups of 10 that are generated
+separately.
+
+With a \code{strata} argument, the random sampling is conducted
+\emph{within the stratification variable}. This can help ensure that the
+resamples have equivalent proportions as the original data set. For
+a categorical variable, sampling is conducted separately within each class.
+For a numeric stratification variable, \code{strata} is binned into quartiles,
+which are then used to stratify. Strata below 10\% of the total are
+pooled together; see \code{\link[=make_strata]{make_strata()}} for more details.
 }
 \examples{
 vfold_cv(mtcars, v = 10)
