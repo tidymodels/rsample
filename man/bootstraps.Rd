@@ -19,10 +19,9 @@ bootstraps(
 
 \item{times}{The number of bootstrap samples.}
 
-\item{strata}{A variable that is used to conduct stratified sampling. When
-not \code{NULL}, each bootstrap sample is created within the stratification
-variable. This could be a single character value or a variable name that
-corresponds to a variable that exists in the data frame.}
+\item{strata}{A variable in \code{data} (single character or name) used to conduct
+stratified sampling. When not \code{NULL}, each resample is created within the
+stratification variable. Numeric \code{strata} are binned into quartiles.}
 
 \item{breaks}{A single number giving the number of bins desired to stratify a
 numeric stratification variable.}
@@ -57,11 +56,14 @@ The argument \code{apparent} enables the option of an additional
 "resample" where the analysis and assessment data sets are the same as the
 original data set. This can be required for some types of analysis of the
 bootstrap results.
-The \code{strata} argument is based on a similar argument in the random forest
-package were the bootstrap samples are conducted \emph{within the stratification
-variable}. This can help ensure that the number of data points in the
-bootstrap sample is equivalent to the proportions in the original data set.
-(Strata below 10\% of the total are pooled together by default.)
+
+With a \code{strata} argument, the random sampling is conducted
+\emph{within the stratification variable}. This can help ensure that the
+resamples have equivalent proportions as the original data set. For
+a categorical variable, sampling is conducted separately within each class.
+For a numeric stratification variable, \code{strata} is binned into quartiles,
+which are then used to stratify. Strata below 10\% of the total are
+pooled together; see \code{\link[=make_strata]{make_strata()}} for more details.
 }
 \examples{
 bootstraps(mtcars, times = 2)

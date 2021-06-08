@@ -5,22 +5,18 @@
 #'  V-1 of the folds while the assessment set contains the final fold. In basic
 #'  V-fold cross-validation (i.e. no repeats), the number of resamples is equal
 #'  to V.
-#' @details
-#' The `strata` argument causes the random sampling to be conducted *within
-#'  the stratification variable*. This can help ensure that the number of data
-#'  points in the analysis data is equivalent to the proportions in the original
-#'  data set. (Strata below 10% of the total are pooled together by default.)
-#' When more than one repeat is requested, the basic V-fold cross-validation
-#'  is conducted each time. For example, if three repeats are used with `v =
-#'  10`, there are a total of 30 splits which as three groups of 10 that are
-#'  generated separately.
+#' @details With more than one repeat, the basic V-fold cross-validation is
+#'  conducted each time. For example, if three repeats are used with `v = 10`,
+#'  there are a total of 30 splits: three groups of 10 that are generated
+#'  separately.
+#' @template strata_details
 #' @inheritParams make_strata
 #' @param data A data frame.
 #' @param v The number of partitions of the data set.
 #' @param repeats The number of times to repeat the V-fold partitioning.
-#' @param strata A variable that is used to conduct stratified sampling to
-#'  create the folds. This could be a single character value or a variable name
-#'  that corresponds to a variable that exists in the data frame.
+#' @param strata A variable in `data` (single character or name) used to conduct
+#'  stratified sampling. When not `NULL`, each resample is created within the
+#'  stratification variable. Numeric `strata` are binned into quartiles.
 #' @param ... Not currently used.
 #' @export
 #' @return A tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and

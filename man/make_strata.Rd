@@ -30,9 +30,8 @@ If \code{x} is numeric, there must be at least 40 rows in the data set
 A factor vector.
 }
 \description{
-For stratified resampling, this function can create strata from numeric data
-and also make non-numeric data more conducive to be used for
-stratification.
+This function can create strata from numeric data and make non-numeric data
+more conducive for stratification.
 }
 \details{
 For numeric data, if the number of unique levels is less than

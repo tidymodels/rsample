@@ -4,16 +4,10 @@
 #'  set and testing set. `initial_time_split` does the same, but takes the
 #'  _first_ `prop` samples for training, instead of a random selection.
 #'  `training` and `testing` are used to extract the resulting data.
-#' @details The `strata` argument causes the random sampling to be conducted
-#'  *within the stratification variable*. This can help ensure that the number
-#'  of data points in the training data is equivalent to the proportions in the
-#'  original data set. (Strata below 10% of the total are pooled together.)
+#' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
 #' @param prop The proportion of data to be retained for modeling/analysis.
-#' @param strata A variable that is used to conduct stratified sampling to
-#'  create the resamples. This could be a single character value or a variable
-#'  name that corresponds to a variable that exists in the data frame.
 #' @export
 #' @return An `rsplit` object that can be used with the `training` and `testing`
 #'  functions to extract the data in each split.
