@@ -192,9 +192,9 @@ to V.</p>
     </tr>
     <tr>
       <th>strata</th>
-      <td><p>A variable that is used to conduct stratified sampling to
-create the folds. This could be a single character value or a variable name
-that corresponds to a variable that exists in the data frame.</p></td>
+      <td><p>A variable in <code>data</code> (single character or name) used to conduct
+stratified sampling. When not <code>NULL</code>, each resample is created within the
+stratification variable. Numeric <code>strata</code> are binned into quartiles.</p></td>
     </tr>
     <tr>
       <th>breaks</th>
@@ -224,54 +224,58 @@ For repeats, <code>id</code> is the repeat number and an additional column calle
 that contains the fold information (within repeat).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>strata</code> argument causes the random sampling to be conducted <em>within
-the stratification variable</em>. This can help ensure that the number of data
-points in the analysis data is equivalent to the proportions in the original
-data set. (Strata below 10% of the total are pooled together by default.)
-When more than one repeat is requested, the basic V-fold cross-validation
-is conducted each time. For example, if three repeats are used with <code>v = 10</code>, there are a total of 30 splits which as three groups of 10 that are
-generated separately.</p>
+    <p>With more than one repeat, the basic V-fold cross-validation is
+conducted each time. For example, if three repeats are used with <code>v = 10</code>,
+there are a total of 30 splits: three groups of 10 that are generated
+separately.</p>
+<p>With a <code>strata</code> argument, the random sampling is conducted
+<em>within the stratification variable</em>. This can help ensure that the
+resamples have equivalent proportions as the original data set. For
+a categorical variable, sampling is conducted separately within each class.
+For a numeric stratification variable, <code>strata</code> is binned into quartiles,
+which are then used to stratify. Strata below 10% of the total are
+pooled together; see <code><a href='make_strata.html'>make_strata()</a></code> for more details.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>mtcars</span>, v <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; #  10-fold cross-validation 
-#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span>
 #&gt;    splits         id    
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Fold01
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Fold02
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold03
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold04
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold05
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold06
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold07
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold08
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold09
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Fold10</div><div class='input'><span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>mtcars</span>, v <span class='op'>=</span> <span class='fl'>10</span>, repeats <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> 
+#&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>&lt;split [28/4]&gt;</span> Fold01
+#&gt; <span style='color: #BCBCBC;'> 2</span> <span style='color: #949494;'>&lt;split [28/4]&gt;</span> Fold02
+#&gt; <span style='color: #BCBCBC;'> 3</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Fold03
+#&gt; <span style='color: #BCBCBC;'> 4</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Fold04
+#&gt; <span style='color: #BCBCBC;'> 5</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Fold05
+#&gt; <span style='color: #BCBCBC;'> 6</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Fold06
+#&gt; <span style='color: #BCBCBC;'> 7</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Fold07
+#&gt; <span style='color: #BCBCBC;'> 8</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Fold08
+#&gt; <span style='color: #BCBCBC;'> 9</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Fold09
+#&gt; <span style='color: #BCBCBC;'>10</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Fold10</div><div class='input'><span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>mtcars</span>, v <span class='op'>=</span> <span class='fl'>10</span>, repeats <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; #  10-fold cross-validation repeated 2 times 
-#&gt; </span><span style='color: #949494;'># A tibble: 20 x 3</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
 #&gt;    splits         id      id2   
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Repeat1 Fold01
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Repeat1 Fold02
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold03
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold04
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold05
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold06
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold07
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold08
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold09
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat1 Fold10
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Repeat2 Fold01
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span> </span><span style='color: #949494;'>&lt;split [28/4]&gt;</span><span> Repeat2 Fold02
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold03
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold04
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold05
-#&gt; </span><span style='color: #BCBCBC;'>16</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold06
-#&gt; </span><span style='color: #BCBCBC;'>17</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold07
-#&gt; </span><span style='color: #BCBCBC;'>18</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold08
-#&gt; </span><span style='color: #BCBCBC;'>19</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold09
-#&gt; </span><span style='color: #BCBCBC;'>20</span><span> </span><span style='color: #949494;'>&lt;split [29/3]&gt;</span><span> Repeat2 Fold10</div><div class='input'>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> 
+#&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>&lt;split [28/4]&gt;</span> Repeat1 Fold01
+#&gt; <span style='color: #BCBCBC;'> 2</span> <span style='color: #949494;'>&lt;split [28/4]&gt;</span> Repeat1 Fold02
+#&gt; <span style='color: #BCBCBC;'> 3</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat1 Fold03
+#&gt; <span style='color: #BCBCBC;'> 4</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat1 Fold04
+#&gt; <span style='color: #BCBCBC;'> 5</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat1 Fold05
+#&gt; <span style='color: #BCBCBC;'> 6</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat1 Fold06
+#&gt; <span style='color: #BCBCBC;'> 7</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat1 Fold07
+#&gt; <span style='color: #BCBCBC;'> 8</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat1 Fold08
+#&gt; <span style='color: #BCBCBC;'> 9</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat1 Fold09
+#&gt; <span style='color: #BCBCBC;'>10</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat1 Fold10
+#&gt; <span style='color: #BCBCBC;'>11</span> <span style='color: #949494;'>&lt;split [28/4]&gt;</span> Repeat2 Fold01
+#&gt; <span style='color: #BCBCBC;'>12</span> <span style='color: #949494;'>&lt;split [28/4]&gt;</span> Repeat2 Fold02
+#&gt; <span style='color: #BCBCBC;'>13</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat2 Fold03
+#&gt; <span style='color: #BCBCBC;'>14</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat2 Fold04
+#&gt; <span style='color: #BCBCBC;'>15</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat2 Fold05
+#&gt; <span style='color: #BCBCBC;'>16</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat2 Fold06
+#&gt; <span style='color: #BCBCBC;'>17</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat2 Fold07
+#&gt; <span style='color: #BCBCBC;'>18</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat2 Fold08
+#&gt; <span style='color: #BCBCBC;'>19</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat2 Fold09
+#&gt; <span style='color: #BCBCBC;'>20</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Repeat2 Fold10</div><div class='input'>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://purrr.tidyverse.org'>purrr</a></span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>wa_churn</span>, package <span class='op'>=</span> <span class='st'>"modeldata"</span><span class='op'>)</span>
 
@@ -298,7 +302,7 @@ generated separately.</p>
           <span class='va'>dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>$</span><span class='va'>churn</span>
           <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>dat</span> <span class='op'>==</span> <span class='st'>"Yes"</span><span class='op'>)</span>
         <span class='op'>}</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.2656250 0.2661104 0.2652228 0.2638396 0.2660518</div></span></pre>
+</div><div class='output co'>#&gt; [1] 0.2656250 0.2661104 0.2652228 0.2638396 0.2660518</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

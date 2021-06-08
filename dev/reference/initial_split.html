@@ -192,9 +192,9 @@ set and testing set. <code>initial_time_split</code> does the same, but takes th
     </tr>
     <tr>
       <th>strata</th>
-      <td><p>A variable that is used to conduct stratified sampling to
-create the resamples. This could be a single character value or a variable
-name that corresponds to a variable that exists in the data frame.</p></td>
+      <td><p>A variable in <code>data</code> (single character or name) used to conduct
+stratified sampling. When not <code>NULL</code>, each resample is created within the
+stratification variable. Numeric <code>strata</code> are binned into quartiles.</p></td>
     </tr>
     <tr>
       <th>breaks</th>
@@ -230,10 +230,13 @@ during training and testing.</p></td>
 functions to extract the data in each split.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>strata</code> argument causes the random sampling to be conducted
-<em>within the stratification variable</em>. This can help ensure that the number
-of data points in the training data is equivalent to the proportions in the
-original data set. (Strata below 10% of the total are pooled together.)</p>
+    <p>With a <code>strata</code> argument, the random sampling is conducted
+<em>within the stratification variable</em>. This can help ensure that the
+resamples have equivalent proportions as the original data set. For
+a categorical variable, sampling is conducted separately within each class.
+For a numeric stratification variable, <code>strata</code> is binned into quartiles,
+which are then used to stratify. Strata below 10% of the total are
+pooled together; see <code><a href='make_strata.html'>make_strata()</a></code> for more details.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1353</span><span class='op'>)</span>

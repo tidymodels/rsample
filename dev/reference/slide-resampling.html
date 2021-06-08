@@ -372,56 +372,56 @@ which power these resamplers.</p></div>
 <span class='va'>index</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://vctrs.r-lib.org/reference/new_date.html'>new_date</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span>, <span class='fl'>13</span>, <span class='fl'>15</span>, <span class='fl'>16</span>, <span class='fl'>17</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, index <span class='op'>=</span> <span class='va'>index</span><span class='op'>)</span>
 <span class='va'>df</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span>
 #&gt;        x index     
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;date&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1 1970-01-02
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     2 1970-01-04
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3 1970-01-05
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4 1970-01-08
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5 1970-01-09
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6 1970-01-10
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7 1970-01-14
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8 1970-01-16
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9 1970-01-17
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10 1970-01-18</div><div class='input'>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>    
+#&gt; <span style='color: #BCBCBC;'> 1</span>     1 1970-01-02
+#&gt; <span style='color: #BCBCBC;'> 2</span>     2 1970-01-04
+#&gt; <span style='color: #BCBCBC;'> 3</span>     3 1970-01-05
+#&gt; <span style='color: #BCBCBC;'> 4</span>     4 1970-01-08
+#&gt; <span style='color: #BCBCBC;'> 5</span>     5 1970-01-09
+#&gt; <span style='color: #BCBCBC;'> 6</span>     6 1970-01-10
+#&gt; <span style='color: #BCBCBC;'> 7</span>     7 1970-01-14
+#&gt; <span style='color: #BCBCBC;'> 8</span>     8 1970-01-16
+#&gt; <span style='color: #BCBCBC;'> 9</span>     9 1970-01-17
+#&gt; <span style='color: #BCBCBC;'>10</span>    10 1970-01-18</div><div class='input'>
 <span class='co'># Look back two rows beyond the current row, for a total of three rows</span>
 <span class='co'># in each analysis set. Each assessment set is composed of the two rows after</span>
 <span class='co'># the current row.</span>
 <span class='fu'>sliding_window</span><span class='op'>(</span><span class='va'>df</span>, lookback <span class='op'>=</span> <span class='fl'>2</span>, assess_stop <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; # Sliding window resampling 
-#&gt; </span><span style='color: #949494;'># A tibble: 6 x 2</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 6 x 2</span>
 #&gt;   splits        id    
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> </span><span style='color: #949494;'>&lt;split [3/2]&gt;</span><span> Slice1
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> </span><span style='color: #949494;'>&lt;split [3/2]&gt;</span><span> Slice2
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> </span><span style='color: #949494;'>&lt;split [3/2]&gt;</span><span> Slice3
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> </span><span style='color: #949494;'>&lt;split [3/2]&gt;</span><span> Slice4
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> </span><span style='color: #949494;'>&lt;split [3/2]&gt;</span><span> Slice5
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> </span><span style='color: #949494;'>&lt;split [3/2]&gt;</span><span> Slice6</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> 
+#&gt; <span style='color: #BCBCBC;'>1</span> <span style='color: #949494;'>&lt;split [3/2]&gt;</span> Slice1
+#&gt; <span style='color: #BCBCBC;'>2</span> <span style='color: #949494;'>&lt;split [3/2]&gt;</span> Slice2
+#&gt; <span style='color: #BCBCBC;'>3</span> <span style='color: #949494;'>&lt;split [3/2]&gt;</span> Slice3
+#&gt; <span style='color: #BCBCBC;'>4</span> <span style='color: #949494;'>&lt;split [3/2]&gt;</span> Slice4
+#&gt; <span style='color: #BCBCBC;'>5</span> <span style='color: #949494;'>&lt;split [3/2]&gt;</span> Slice5
+#&gt; <span style='color: #BCBCBC;'>6</span> <span style='color: #949494;'>&lt;split [3/2]&gt;</span> Slice6</div><div class='input'>
 <span class='co'># Same as before, but step forward by 3 rows between each resampling slice,</span>
 <span class='co'># rather than just by 1.</span>
 <span class='va'>rset</span> <span class='op'>&lt;-</span> <span class='fu'>sliding_window</span><span class='op'>(</span><span class='va'>df</span>, lookback <span class='op'>=</span> <span class='fl'>2</span>, assess_stop <span class='op'>=</span> <span class='fl'>2</span>, step <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 <span class='va'>rset</span>
 </div><div class='output co'>#&gt; # Sliding window resampling 
-#&gt; </span><span style='color: #949494;'># A tibble: 2 x 2</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 2 x 2</span>
 #&gt;   splits        id    
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> </span><span style='color: #949494;'>&lt;split [3/2]&gt;</span><span> Slice1
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> </span><span style='color: #949494;'>&lt;split [3/2]&gt;</span><span> Slice2</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> 
+#&gt; <span style='color: #BCBCBC;'>1</span> <span style='color: #949494;'>&lt;split [3/2]&gt;</span> Slice1
+#&gt; <span style='color: #BCBCBC;'>2</span> <span style='color: #949494;'>&lt;split [3/2]&gt;</span> Slice2</div><div class='input'>
 <span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span><span class='op'>(</span><span class='va'>rset</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
 #&gt;       x index     
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;date&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 1970-01-02
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2 1970-01-04
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     3 1970-01-05</div><div class='input'><span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span><span class='op'>(</span><span class='va'>rset</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>    
+#&gt; <span style='color: #BCBCBC;'>1</span>     1 1970-01-02
+#&gt; <span style='color: #BCBCBC;'>2</span>     2 1970-01-04
+#&gt; <span style='color: #BCBCBC;'>3</span>     3 1970-01-05</div><div class='input'><span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span><span class='op'>(</span><span class='va'>rset</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
 #&gt;       x index     
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;date&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4 1970-01-08
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     5 1970-01-09
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     6 1970-01-10</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>    
+#&gt; <span style='color: #BCBCBC;'>1</span>     4 1970-01-08
+#&gt; <span style='color: #BCBCBC;'>2</span>     5 1970-01-09
+#&gt; <span style='color: #BCBCBC;'>3</span>     6 1970-01-10</div><div class='input'>
 <span class='co'># Now slide relative to the `index` column in `df`. This time we look back</span>
 <span class='co'># 2 days from the current row's `index` value, and 2 days forward from</span>
 <span class='co'># it to construct the assessment set. Note that this series is irregular,</span>
@@ -431,16 +431,16 @@ which power these resamplers.</p></div>
 <span class='co'># date range where no data points actually exist!</span>
 <span class='fu'>sliding_index</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>index</span>, lookback <span class='op'>=</span> <span class='fl'>2</span>, assess_stop <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; # Sliding index resampling 
-#&gt; </span><span style='color: #949494;'># A tibble: 7 x 2</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 7 x 2</span>
 #&gt;   splits        id    
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> </span><span style='color: #949494;'>&lt;split [2/1]&gt;</span><span> Slice1
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> </span><span style='color: #949494;'>&lt;split [2/0]&gt;</span><span> Slice2
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> </span><span style='color: #949494;'>&lt;split [1/2]&gt;</span><span> Slice3
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> </span><span style='color: #949494;'>&lt;split [2/1]&gt;</span><span> Slice4
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> </span><span style='color: #949494;'>&lt;split [3/0]&gt;</span><span> Slice5
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> </span><span style='color: #949494;'>&lt;split [1/1]&gt;</span><span> Slice6
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span> </span><span style='color: #949494;'>&lt;split [2/2]&gt;</span><span> Slice7</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> 
+#&gt; <span style='color: #BCBCBC;'>1</span> <span style='color: #949494;'>&lt;split [2/1]&gt;</span> Slice1
+#&gt; <span style='color: #BCBCBC;'>2</span> <span style='color: #949494;'>&lt;split [2/0]&gt;</span> Slice2
+#&gt; <span style='color: #BCBCBC;'>3</span> <span style='color: #949494;'>&lt;split [1/2]&gt;</span> Slice3
+#&gt; <span style='color: #BCBCBC;'>4</span> <span style='color: #949494;'>&lt;split [2/1]&gt;</span> Slice4
+#&gt; <span style='color: #BCBCBC;'>5</span> <span style='color: #949494;'>&lt;split [3/0]&gt;</span> Slice5
+#&gt; <span style='color: #BCBCBC;'>6</span> <span style='color: #949494;'>&lt;split [1/1]&gt;</span> Slice6
+#&gt; <span style='color: #BCBCBC;'>7</span> <span style='color: #949494;'>&lt;split [2/2]&gt;</span> Slice7</div><div class='input'>
 <span class='co'># With `sliding_period()`, we can break up our date index into less granular</span>
 <span class='co'># chunks, and slide over them instead of the index directly. Here we'll use</span>
 <span class='co'># the Chicago data, which contains daily data spanning 16 years, and we'll</span>
@@ -455,22 +455,22 @@ which power these resamplers.</p></div>
   assess_stop <span class='op'>=</span> <span class='fl'>1</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; # Sliding period resampling 
-#&gt; </span><span style='color: #949494;'># A tibble: 13 x 2</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 13 x 2</span>
 #&gt;    splits             id     
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #949494;'>&lt;split [1074/366]&gt;</span><span> Slice01
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice02
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice03
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice04
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #949494;'>&lt;split [1095/366]&gt;</span><span> Slice05
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice06
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice07
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice08
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #949494;'>&lt;split [1095/366]&gt;</span><span> Slice09
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice10
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice11
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice12
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span> </span><span style='color: #949494;'>&lt;split [1095/241]&gt;</span><span> Slice13</div><div class='input'>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>&lt;split [1074/366]&gt;</span> Slice01
+#&gt; <span style='color: #BCBCBC;'> 2</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice02
+#&gt; <span style='color: #BCBCBC;'> 3</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice03
+#&gt; <span style='color: #BCBCBC;'> 4</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice04
+#&gt; <span style='color: #BCBCBC;'> 5</span> <span style='color: #949494;'>&lt;split [1095/366]&gt;</span> Slice05
+#&gt; <span style='color: #BCBCBC;'> 6</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice06
+#&gt; <span style='color: #BCBCBC;'> 7</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice07
+#&gt; <span style='color: #BCBCBC;'> 8</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice08
+#&gt; <span style='color: #BCBCBC;'> 9</span> <span style='color: #949494;'>&lt;split [1095/366]&gt;</span> Slice09
+#&gt; <span style='color: #BCBCBC;'>10</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice10
+#&gt; <span style='color: #BCBCBC;'>11</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice11
+#&gt; <span style='color: #BCBCBC;'>12</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice12
+#&gt; <span style='color: #BCBCBC;'>13</span> <span style='color: #949494;'>&lt;split [1095/241]&gt;</span> Slice13</div><div class='input'>
 <span class='co'># Because `lookback = 2`, three years are required to form a "complete"</span>
 <span class='co'># window of data. To allow partial windows, set `complete = FALSE`.</span>
 <span class='co'># Here that first constructs two expanding windows until a complete three</span>
@@ -484,24 +484,24 @@ which power these resamplers.</p></div>
   complete <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; # Sliding period resampling 
-#&gt; </span><span style='color: #949494;'># A tibble: 15 x 2</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 15 x 2</span>
 #&gt;    splits             id     
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #949494;'>&lt;split [344/365]&gt;</span><span>  Slice01
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #949494;'>&lt;split [709/365]&gt;</span><span>  Slice02
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #949494;'>&lt;split [1074/366]&gt;</span><span> Slice03
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice04
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice05
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice06
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #949494;'>&lt;split [1095/366]&gt;</span><span> Slice07
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice08
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice09
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice10
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span> </span><span style='color: #949494;'>&lt;split [1095/366]&gt;</span><span> Slice11
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice12
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice13
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span> </span><span style='color: #949494;'>&lt;split [1096/365]&gt;</span><span> Slice14
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span> </span><span style='color: #949494;'>&lt;split [1095/241]&gt;</span><span> Slice15</div><div class='input'>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>&lt;split [344/365]&gt;</span>  Slice01
+#&gt; <span style='color: #BCBCBC;'> 2</span> <span style='color: #949494;'>&lt;split [709/365]&gt;</span>  Slice02
+#&gt; <span style='color: #BCBCBC;'> 3</span> <span style='color: #949494;'>&lt;split [1074/366]&gt;</span> Slice03
+#&gt; <span style='color: #BCBCBC;'> 4</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice04
+#&gt; <span style='color: #BCBCBC;'> 5</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice05
+#&gt; <span style='color: #BCBCBC;'> 6</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice06
+#&gt; <span style='color: #BCBCBC;'> 7</span> <span style='color: #949494;'>&lt;split [1095/366]&gt;</span> Slice07
+#&gt; <span style='color: #BCBCBC;'> 8</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice08
+#&gt; <span style='color: #BCBCBC;'> 9</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice09
+#&gt; <span style='color: #BCBCBC;'>10</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice10
+#&gt; <span style='color: #BCBCBC;'>11</span> <span style='color: #949494;'>&lt;split [1095/366]&gt;</span> Slice11
+#&gt; <span style='color: #BCBCBC;'>12</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice12
+#&gt; <span style='color: #BCBCBC;'>13</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice13
+#&gt; <span style='color: #BCBCBC;'>14</span> <span style='color: #949494;'>&lt;split [1096/365]&gt;</span> Slice14
+#&gt; <span style='color: #BCBCBC;'>15</span> <span style='color: #949494;'>&lt;split [1095/241]&gt;</span> Slice15</div><div class='input'>
 <span class='co'># Alternatively, you could break the resamples up by month. Here we'll</span>
 <span class='co'># use an expanding monthly window by setting `lookback = Inf`, and each</span>
 <span class='co'># assessment set will contain two months of data. To ensure that we have</span>
@@ -518,20 +518,20 @@ which power these resamplers.</p></div>
   step <span class='op'>=</span> <span class='fl'>2</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; # Sliding period resampling 
-#&gt; </span><span style='color: #949494;'># A tibble: 91 x 2</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 91 x 2</span>
 #&gt;    splits           id     
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #949494;'>&lt;split [130/61]&gt;</span><span> Slice01
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #949494;'>&lt;split [191/61]&gt;</span><span> Slice02
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #949494;'>&lt;split [252/61]&gt;</span><span> Slice03
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #949494;'>&lt;split [313/62]&gt;</span><span> Slice04
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #949494;'>&lt;split [375/59]&gt;</span><span> Slice05
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #949494;'>&lt;split [434/61]&gt;</span><span> Slice06
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #949494;'>&lt;split [495/61]&gt;</span><span> Slice07
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #949494;'>&lt;split [556/61]&gt;</span><span> Slice08
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #949494;'>&lt;split [617/61]&gt;</span><span> Slice09
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #949494;'>&lt;split [678/62]&gt;</span><span> Slice10
-#&gt; </span><span style='color: #949494;'># … with 81 more rows</span><span></div></span></pre>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>&lt;split [130/61]&gt;</span> Slice01
+#&gt; <span style='color: #BCBCBC;'> 2</span> <span style='color: #949494;'>&lt;split [191/61]&gt;</span> Slice02
+#&gt; <span style='color: #BCBCBC;'> 3</span> <span style='color: #949494;'>&lt;split [252/61]&gt;</span> Slice03
+#&gt; <span style='color: #BCBCBC;'> 4</span> <span style='color: #949494;'>&lt;split [313/62]&gt;</span> Slice04
+#&gt; <span style='color: #BCBCBC;'> 5</span> <span style='color: #949494;'>&lt;split [375/59]&gt;</span> Slice05
+#&gt; <span style='color: #BCBCBC;'> 6</span> <span style='color: #949494;'>&lt;split [434/61]&gt;</span> Slice06
+#&gt; <span style='color: #BCBCBC;'> 7</span> <span style='color: #949494;'>&lt;split [495/61]&gt;</span> Slice07
+#&gt; <span style='color: #BCBCBC;'> 8</span> <span style='color: #949494;'>&lt;split [556/61]&gt;</span> Slice08
+#&gt; <span style='color: #BCBCBC;'> 9</span> <span style='color: #949494;'>&lt;split [617/61]&gt;</span> Slice09
+#&gt; <span style='color: #BCBCBC;'>10</span> <span style='color: #949494;'>&lt;split [678/62]&gt;</span> Slice10
+#&gt; <span style='color: #949494;'># … with 81 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

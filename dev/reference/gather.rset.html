@@ -262,30 +262,30 @@ factor, which preserves the original ordering of the columns.</p></td>
 <span class='va'>cv_obj</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>splits</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>id</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
 #&gt;    id     name       value
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01 lm_rmse    0.206
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold01 nnet_rmse -</span><span style='color: #BB0000;'>0.354</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold02 lm_rmse    1.61 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold02 nnet_rmse  3.37 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold03 lm_rmse    0.622
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold03 nnet_rmse  0.464
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold04 lm_rmse    1.96 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold04 nnet_rmse  0.628
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold05 lm_rmse    1.92 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold05 nnet_rmse  1.55 
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span> Fold06 lm_rmse    1.27 
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span> Fold06 nnet_rmse  1.25 
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span> Fold07 lm_rmse    2.41 
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span> Fold07 nnet_rmse  0.162
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span> Fold08 lm_rmse    1.94 
-#&gt; </span><span style='color: #BCBCBC;'>16</span><span> Fold08 nnet_rmse  2.84 
-#&gt; </span><span style='color: #BCBCBC;'>17</span><span> Fold09 lm_rmse    2.88 
-#&gt; </span><span style='color: #BCBCBC;'>18</span><span> Fold09 nnet_rmse  1.03 
-#&gt; </span><span style='color: #BCBCBC;'>19</span><span> Fold10 lm_rmse    1.97 
-#&gt; </span><span style='color: #BCBCBC;'>20</span><span> Fold10 nnet_rmse  0.311</div><div class='input'>
-</div></span></pre>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> Fold01 lm_rmse    0.206
+#&gt; <span style='color: #BCBCBC;'> 2</span> Fold01 nnet_rmse -<span style='color: #BB0000;'>0.354</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span> Fold02 lm_rmse    1.61 
+#&gt; <span style='color: #BCBCBC;'> 4</span> Fold02 nnet_rmse  3.37 
+#&gt; <span style='color: #BCBCBC;'> 5</span> Fold03 lm_rmse    0.622
+#&gt; <span style='color: #BCBCBC;'> 6</span> Fold03 nnet_rmse  0.464
+#&gt; <span style='color: #BCBCBC;'> 7</span> Fold04 lm_rmse    1.96 
+#&gt; <span style='color: #BCBCBC;'> 8</span> Fold04 nnet_rmse  0.628
+#&gt; <span style='color: #BCBCBC;'> 9</span> Fold05 lm_rmse    1.92 
+#&gt; <span style='color: #BCBCBC;'>10</span> Fold05 nnet_rmse  1.55 
+#&gt; <span style='color: #BCBCBC;'>11</span> Fold06 lm_rmse    1.27 
+#&gt; <span style='color: #BCBCBC;'>12</span> Fold06 nnet_rmse  1.25 
+#&gt; <span style='color: #BCBCBC;'>13</span> Fold07 lm_rmse    2.41 
+#&gt; <span style='color: #BCBCBC;'>14</span> Fold07 nnet_rmse  0.162
+#&gt; <span style='color: #BCBCBC;'>15</span> Fold08 lm_rmse    1.94 
+#&gt; <span style='color: #BCBCBC;'>16</span> Fold08 nnet_rmse  2.84 
+#&gt; <span style='color: #BCBCBC;'>17</span> Fold09 lm_rmse    2.88 
+#&gt; <span style='color: #BCBCBC;'>18</span> Fold09 nnet_rmse  1.03 
+#&gt; <span style='color: #BCBCBC;'>19</span> Fold10 lm_rmse    1.97 
+#&gt; <span style='color: #BCBCBC;'>20</span> Fold10 nnet_rmse  0.311</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
