@@ -5,9 +5,10 @@
 #' @keywords internal
 #' @export
 make_splits <- function(ind, data, class = NULL) {
-  res <- rsplit(data, ind$analysis,  ind$assessment)
-  if (!is.null(class))
+  res <- rsplit(data, ind$analysis, ind$assessment)
+  if (!is.null(class)) {
     res <- add_class(res, class)
+  }
   res
 }
 
@@ -111,14 +112,31 @@ split_unnamed <- function(x, f) {
 #' Create an rsplit object from dataframes
 #'
 #' @param training A dataframe containing the training set.
-#' @param testing A dataframe containing the testing set.
+#' @param testing A dataframe containing the testing set, which can be empty.
 #'
 #' @return An rsplit object created from the specified dataframes.
 #' @export
-split_from_dataframe <- function(training, testing) {
+split_from_dataframes <- function(training, testing) {
+  if (nrow(training) == 0) {
+    stop("`training` must contain at least one row.",
+      call. = FALSE
+    )
+  }
+
+  # Construct indices for make_splits
+  ind_analysis <- 1:nrow(training)
+  if (nrow(testing) == 0) {
+    ind_assessment <- integer()
+  } else {
+    ind_assessment <- nrow(training) + 1:nrow(testing)
+  }
+
   # Full dataframe
   data <- rbind(training, testing)
-  ind <- list(analysis = 1:nrow(training),
-              assessment = nrow(training)+1:nrow(testing))
+  ind <- list(
+    analysis = ind_analysis,
+    assessment = ind_assessment
+  )
+
   split <- make_splits(ind, data)
 }
