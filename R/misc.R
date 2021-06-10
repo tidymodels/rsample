@@ -106,3 +106,15 @@ split_unnamed <- function(x, f) {
   }
   res
 }
+
+
+#' Create an rsplit object from dataframes
+#'
+#' @param training A dataframe containing the training set.
+#' @param testing A dataframe containing the testing set.
+#'
+#' @return An rsplit object created from the specified dataframes.
+#' @export
+split_from_dataframe <- function(training, testing) {
+
+}
