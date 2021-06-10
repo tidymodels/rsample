@@ -116,5 +116,9 @@ split_unnamed <- function(x, f) {
 #' @return An rsplit object created from the specified dataframes.
 #' @export
 split_from_dataframe <- function(training, testing) {
-
+  # Full dataframe
+  data <- rbind(training, testing)
+  ind <- list(analysis = 1:nrow(training),
+              assessment = nrow(training)+1:nrow(testing))
+  split <- make_splits(ind, data)
 }
