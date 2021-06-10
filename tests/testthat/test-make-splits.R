@@ -47,5 +47,5 @@ test_that("cannot create a split from dataframes with different columns", {
   training <- data.frame(x = c(1, 2, 3, 4))
   testing <- data.frame(y = c(5, 6))
 
-  except_error(split_from_dataframes(training, testing), "names do not match previous names")
+  expect_error(split_from_dataframes(training, testing), "names do not match previous names")
 })
