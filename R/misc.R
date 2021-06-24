@@ -1,16 +1,59 @@
-#' Constructor for split objects
-#' @param ind A list of integers with names "analysis" and "assessment".
+#' Constructors for split objects
+#' @export
+make_splits <- function(x, ...)
+  UseMethod("make_splits")
+
+#' @rdname make_splits
+#' @export
+make_splits.default <- function(x, ...)
+  rlang::abort("There is no method available to make an rsplit from `x`.")
+
+#' @rdname make_splits
+#' @param x A list of integers with names "analysis" and "assessment".
 #' @param data A data frame.
 #' @param class An optional class to give the object.
-#' @keywords internal
+#' @param ... Further arguments passed to or from other methods (not currently
+#' used).
 #' @export
-make_splits <- function(ind, data, class = NULL) {
-  res <- rsplit(data, ind$analysis, ind$assessment)
+make_splits.list <- function(x, data, class = NULL, ...) {
+  ellipsis::check_dots_empty()
+  res <- rsplit(data, x$analysis, x$assessment)
   if (!is.null(class)) {
     res <- add_class(res, class)
   }
   res
 }
+
+#' @rdname make_splits
+#' @param x A data frame of analysis or training data.
+#' @param assessment A data frame of assessment or testing data, which can be empty.
+#' @export
+make_splits.data.frame <- function(x, assessment, ...) {
+  ellipsis::check_dots_empty()
+  if (nrow(x) == 0) {
+    rlang::abort("The analysis set must contain at least one row.")
+  }
+
+  ind_analysis <- 1:nrow(x)
+  if (nrow(assessment) == 0) {
+    ind_assessment <- integer()
+  } else {
+    if (colnames(x) != colnames(assessment)) {
+      rlang::abort("The analysis and assessment sets must have the same columns.")
+    }
+    ind_assessment <- nrow(x) + 1:nrow(assessment)
+  }
+
+  data <- bind_rows(x, assessment)
+  ind <- list(
+    analysis = ind_analysis,
+    assessment = ind_assessment
+  )
+
+  make_splits(ind, data)
+}
+
+
 
 merge_lists <- function(a, b) list(analysis = a, assessment = b)
 
@@ -109,34 +152,3 @@ split_unnamed <- function(x, f) {
 }
 
 
-#' Create an rsplit object from dataframes
-#'
-#' @param training A dataframe containing the training set.
-#' @param testing A dataframe containing the testing set, which can be empty.
-#'
-#' @return An rsplit object created from the specified dataframes.
-#' @export
-split_from_dataframes <- function(training, testing) {
-  if (nrow(training) == 0) {
-    stop("`training` must contain at least one row.",
-      call. = FALSE
-    )
-  }
-
-  # Construct indices for make_splits
-  ind_analysis <- 1:nrow(training)
-  if (nrow(testing) == 0) {
-    ind_assessment <- integer()
-  } else {
-    ind_assessment <- nrow(training) + 1:nrow(testing)
-  }
-
-  # Full dataframe
-  data <- rbind(training, testing)
-  ind <- list(
-    analysis = ind_analysis,
-    assessment = ind_assessment
-  )
-
-  split <- make_splits(ind, data)
-}
