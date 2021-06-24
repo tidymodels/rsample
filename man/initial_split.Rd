@@ -20,9 +20,9 @@ testing(x)
 
 \item{prop}{The proportion of data to be retained for modeling/analysis.}
 
-\item{strata}{A variable that is used to conduct stratified sampling to
-create the resamples. This could be a single character value or a variable
-name that corresponds to a variable that exists in the data frame.}
+\item{strata}{A variable in \code{data} (single character or name) used to conduct
+stratified sampling. When not \code{NULL}, each resample is created within the
+stratification variable. Numeric \code{strata} are binned into quartiles.}
 
 \item{breaks}{A single number giving the number of bins desired to stratify a
 numeric stratification variable.}
@@ -51,10 +51,13 @@ set and testing set. \code{initial_time_split} does the same, but takes the
 \code{training} and \code{testing} are used to extract the resulting data.
 }
 \details{
-The \code{strata} argument causes the random sampling to be conducted
-\emph{within the stratification variable}. This can help ensure that the number
-of data points in the training data is equivalent to the proportions in the
-original data set. (Strata below 10\% of the total are pooled together.)
+With a \code{strata} argument, the random sampling is conducted
+\emph{within the stratification variable}. This can help ensure that the
+resamples have equivalent proportions as the original data set. For
+a categorical variable, sampling is conducted separately within each class.
+For a numeric stratification variable, \code{strata} is binned into quartiles,
+which are then used to stratify. Strata below 10\% of the total are
+pooled together; see \code{\link[=make_strata]{make_strata()}} for more details.
 }
 \examples{
 set.seed(1353)
