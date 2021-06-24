@@ -16,36 +16,39 @@ test_that("cannot create a split with an empty analysis set", {
 })
 
 test_that("create a split from training and testing dataframes", {
-  training <- data.frame(x = c(1, 2, 3, 4))
-  testing <- data.frame(x = c(5, 6))
+  training <- tibble(x = c(1, 2, 3, 4))
+  testing <- tibble(x = c(5, 6))
 
-  split <- split_from_dataframes(training, testing)
+  split <- make_splits(training, testing)
   expect_identical(analysis(split), training)
   expect_identical(assessment(split), testing)
 })
 
 test_that("can create a split from empty testing dataframe", {
-  training <- data.frame(x = c(1, 2, 3, 4))
-  testing <- data.frame()
+  training <- tibble(x = c(1, 2, 3, 4))
+  testing <- tibble()
 
-  split <- split_from_dataframes(training, testing)
+  split <- make_splits(training, testing)
   expect_identical(split$out_id, integer())
-  expect_identical(assessment(split), training)
+  expect_identical(analysis(split), training)
 })
 
 test_that("cannot create a split from empty training dataframe", {
-  training <- data.frame(x = c(1, 2, 3, 4))
-  testing <- data.frame()
+  training <- tibble()
+  testing <- tibble(x = c(5, 6))
 
   expect_error(
-    split_from_dataframes(training, testing),
-    "`training` must contain at least one row."
+    make_splits(training, testing),
+    "The analysis set must contain at least one row."
   )
 })
 
 test_that("cannot create a split from dataframes with different columns", {
-  training <- data.frame(x = c(1, 2, 3, 4))
-  testing <- data.frame(y = c(5, 6))
+  training <- tibble(x = c(1, 2, 3, 4))
+  testing <- tibble(y = c(5, 6))
 
-  expect_error(split_from_dataframes(training, testing), "names do not match previous names")
+  expect_error(
+    make_splits(training, testing),
+    "The analysis and assessment sets must have"
+    )
 })
