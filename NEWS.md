@@ -1,5 +1,7 @@
 # rsample (development version)
 
+* Change `make_splits()` to an S3 generic, with the original functionality a method for `list` and a new method for dataframes that allows users to create a split from existing analysis & assessment sets (@LiamBlake, #246).
+
 # rsample 0.1.0
 
 * Fixed how `mc_cv()`, `initial_split()`, and `validation_split()` use the `prop` argument to first compute the assessment indices, rather than the analysis indices. This is a minor but **breaking change** in some situations; the previous implementation could cause an inconsistency in the sizes of the generated analysis and assessment sets when compared to how `prop` is documented to function (#217, @issactoast).
