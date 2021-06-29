@@ -2,18 +2,31 @@
 % Please edit documentation in R/misc.R
 \name{make_splits}
 \alias{make_splits}
-\title{Constructor for split objects}
+\alias{make_splits.default}
+\alias{make_splits.list}
+\alias{make_splits.data.frame}
+\title{Constructors for split objects}
 \usage{
-make_splits(ind, data, class = NULL)
+make_splits(x, ...)
+
+\method{make_splits}{default}(x, ...)
+
+\method{make_splits}{list}(x, data, class = NULL, ...)
+
+\method{make_splits}{data.frame}(x, assessment, ...)
 }
 \arguments{
-\item{ind}{A list of integers with names "analysis" and "assessment".}
+\item{x}{A data frame of analysis or training data.}
+
+\item{...}{Further arguments passed to or from other methods (not currently
+used).}
 
 \item{data}{A data frame.}
 
 \item{class}{An optional class to give the object.}
+
+\item{assessment}{A data frame of assessment or testing data, which can be empty.}
 }
 \description{
-Constructor for split objects
+Constructors for split objects
 }
-\keyword{internal}

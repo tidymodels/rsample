@@ -1,14 +1,57 @@
-#' Constructor for split objects
-#' @param ind A list of integers with names "analysis" and "assessment".
+#' Constructors for split objects
+#' @export
+make_splits <- function(x, ...)
+  UseMethod("make_splits")
+
+#' @rdname make_splits
+#' @export
+make_splits.default <- function(x, ...) {
+  rlang::abort("There is no method available to make an rsplit from `x`.")
+}
+
+#' @rdname make_splits
+#' @param x A list of integers with names "analysis" and "assessment".
 #' @param data A data frame.
 #' @param class An optional class to give the object.
-#' @keywords internal
+#' @param ... Further arguments passed to or from other methods (not currently
+#' used).
 #' @export
-make_splits <- function(ind, data, class = NULL) {
-  res <- rsplit(data, ind$analysis,  ind$assessment)
-  if (!is.null(class))
+make_splits.list <- function(x, data, class = NULL, ...) {
+  ellipsis::check_dots_empty()
+  res <- rsplit(data, x$analysis, x$assessment)
+  if (!is.null(class)) {
     res <- add_class(res, class)
+  }
   res
+}
+
+#' @rdname make_splits
+#' @param x A data frame of analysis or training data.
+#' @param assessment A data frame of assessment or testing data, which can be empty.
+#' @export
+make_splits.data.frame <- function(x, assessment, ...) {
+  ellipsis::check_dots_empty()
+  if (nrow(x) == 0) {
+    rlang::abort("The analysis set must contain at least one row.")
+  }
+
+  ind_analysis <- 1:nrow(x)
+  if (nrow(assessment) == 0) {
+    ind_assessment <- integer()
+  } else {
+    if (!identical(colnames(x), colnames(assessment))) {
+      rlang::abort("The analysis and assessment sets must have the same columns.")
+    }
+    ind_assessment <- nrow(x) + 1:nrow(assessment)
+  }
+
+  data <- bind_rows(x, assessment)
+  ind <- list(
+    analysis = ind_analysis,
+    assessment = ind_assessment
+  )
+
+  make_splits(ind, data)
 }
 
 merge_lists <- function(a, b) list(analysis = a, assessment = b)
@@ -17,7 +60,7 @@ dim_rset <- function(x, ...) {
   dims <- purrr::map(x$splits, dim)
   dims <- do.call("rbind", dims)
   dims <- tibble::as_tibble(dims)
-  id_cols <- grep("^id", colnames(x), value = TRUE)
+  id_cols <- grep("(^id$)|(^id[1-9]$)", colnames(x), value = TRUE)
   for (i in seq_along(id_cols)) {
     dims[id_cols[i]] <- getElement(x, id_cols[i])
   }
@@ -106,3 +149,5 @@ split_unnamed <- function(x, f) {
   }
   res
 }
+
+

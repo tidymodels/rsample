@@ -1,46 +1,62 @@
 Package: rsample
 Title: General Resampling Infrastructure
 Version: 0.1.0.9000
-Authors@R: c(
-    person(given = "Julia", family = "Silge",    email = "julia.silge@rstudio.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3671-836X")),
-    person(given = "Fanny",  family = "Chow",    email = "fannybchow@gmail.com",    role = c("aut")),
-    person(given = "Max",    family = "Kuhn",    email = "max@rstudio.com",         role = c("aut")),
-    person(given = "Hadley", family = "Wickham", email = "hadley@rstudio.com",      role = c("aut")),
-    person("RStudio", role = "cph"))
+Authors@R: 
+    c(person(given = "Julia",
+             family = "Silge",
+             role = c("aut", "cre"),
+             email = "julia.silge@rstudio.com",
+             comment = c(ORCID = "0000-0002-3671-836X")),
+      person(given = "Fanny",
+             family = "Chow",
+             role = "aut",
+             email = "fannybchow@gmail.com"),
+      person(given = "Max",
+             family = "Kuhn",
+             role = "aut",
+             email = "max@rstudio.com"),
+      person(given = "Hadley",
+             family = "Wickham",
+             role = "aut",
+             email = "hadley@rstudio.com"),
+      person(given = "RStudio",
+             role = "cph"))
 Maintainer: Julia Silge <julia.silge@rstudio.com>
-Description: Classes and functions to create and summarize different types of resampling objects (e.g. bootstrap, cross-validation). 
-Imports: 
-    dplyr (>= 1.0.0),
-    purrr,
-    tibble,
-    rlang (>= 0.4.10),
-    methods,
-    generics,
-    tidyselect,
-    furrr,
-    tidyr,
-    vctrs (>= 0.3.0),
-    slider (>= 0.1.5),
-    ellipsis,
-    lifecycle
-Depends: 
-    R (>= 3.2)
-Suggests: 
-    utils,
-    stats,
-    ggplot2,
-    testthat,
-    rmarkdown,
-    knitr,
-    recipes (>= 0.1.4),
-    broom,
-    xml2,
-    covr,
-    modeldata
+Description: Classes and functions to create and summarize different types
+    of resampling objects (e.g. bootstrap, cross-validation).
+License: MIT + file LICENSE
 URL: https://rsample.tidymodels.org, https://github.com/tidymodels/rsample
 BugReports: https://github.com/tidymodels/rsample/issues
-License: MIT + file LICENSE
+Depends: 
+    R (>= 3.2)
+Imports: 
+    dplyr (>= 1.0.0),
+    ellipsis,
+    furrr,
+    generics,
+    lifecycle,
+    methods,
+    purrr,
+    rlang (>= 0.4.10),
+    slider (>= 0.1.5),
+    tibble,
+    tidyr,
+    tidyselect,
+    vctrs (>= 0.3.0)
+Suggests: 
+    broom,
+    covr,
+    ggplot2,
+    knitr,
+    modeldata,
+    recipes (>= 0.1.4),
+    rmarkdown,
+    stats,
+    testthat,
+    utils,
+    xml2
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
-VignetteBuilder: knitr
-RoxygenNote: 7.1.1.9001
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1.9001
