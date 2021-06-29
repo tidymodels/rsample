@@ -52,3 +52,7 @@ test_that("cannot create a split from dataframes with different columns", {
     "The analysis and assessment sets must have"
     )
 })
+
+test_that("improper argument", {
+  expect_error(make_splits("potato"), "There is no method available to")
+})

@@ -5,8 +5,9 @@ make_splits <- function(x, ...)
 
 #' @rdname make_splits
 #' @export
-make_splits.default <- function(x, ...)
+make_splits.default <- function(x, ...) {
   rlang::abort("There is no method available to make an rsplit from `x`.")
+}
 
 #' @rdname make_splits
 #' @param x A list of integers with names "analysis" and "assessment".
@@ -38,7 +39,7 @@ make_splits.data.frame <- function(x, assessment, ...) {
   if (nrow(assessment) == 0) {
     ind_assessment <- integer()
   } else {
-    if (colnames(x) != colnames(assessment)) {
+    if (!identical(colnames(x), colnames(assessment))) {
       rlang::abort("The analysis and assessment sets must have the same columns.")
     }
     ind_assessment <- nrow(x) + 1:nrow(assessment)
@@ -53,15 +54,13 @@ make_splits.data.frame <- function(x, assessment, ...) {
   make_splits(ind, data)
 }
 
-
-
 merge_lists <- function(a, b) list(analysis = a, assessment = b)
 
 dim_rset <- function(x, ...) {
   dims <- purrr::map(x$splits, dim)
   dims <- do.call("rbind", dims)
   dims <- tibble::as_tibble(dims)
-  id_cols <- grep("^id", colnames(x), value = TRUE)
+  id_cols <- grep("(^id$)|(^id[1-9]$)", colnames(x), value = TRUE)
   for (i in seq_along(id_cols)) {
     dims[id_cols[i]] <- getElement(x, id_cols[i])
   }
