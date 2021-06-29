@@ -16,7 +16,8 @@ make_splits(x, ...)
 \method{make_splits}{data.frame}(x, assessment, ...)
 }
 \arguments{
-\item{x}{A data frame of analysis or training data.}
+\item{x}{A list of integers with names "analysis" and "assessment", or a
+data frame of analysis or training data.}
 
 \item{...}{Further arguments passed to or from other methods (not currently
 used).}

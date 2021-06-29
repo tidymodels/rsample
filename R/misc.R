@@ -4,13 +4,14 @@ make_splits <- function(x, ...)
   UseMethod("make_splits")
 
 #' @rdname make_splits
+#' @param x A list of integers with names "analysis" and "assessment", or a
+#' data frame of analysis or training data.
 #' @export
 make_splits.default <- function(x, ...) {
   rlang::abort("There is no method available to make an rsplit from `x`.")
 }
 
 #' @rdname make_splits
-#' @param x A list of integers with names "analysis" and "assessment".
 #' @param data A data frame.
 #' @param class An optional class to give the object.
 #' @param ... Further arguments passed to or from other methods (not currently
@@ -26,7 +27,6 @@ make_splits.list <- function(x, data, class = NULL, ...) {
 }
 
 #' @rdname make_splits
-#' @param x A data frame of analysis or training data.
 #' @param assessment A data frame of assessment or testing data, which can be empty.
 #' @export
 make_splits.data.frame <- function(x, assessment, ...) {
