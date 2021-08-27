@@ -152,7 +152,7 @@
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/nls.html">nls</a></span><span class="op">(</span><span class="va">nonlin_form</span>, start <span class="op">=</span> <span class="va">start_vals</span>, data <span class="op">=</span> <span class="va">O2K</span><span class="op">)</span> 
 
 <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 5
+<pre><code>## # A tibble: 3 × 5
 ##   term    estimate std.error statistic  p.value
 ##   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 VO2rest   357.     11.4         31.3 4.27e-26
@@ -176,7 +176,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>models <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">splits</span>, <span class="op">~</span> <span class="fu">fit_fun</span><span class="op">(</span><span class="va">.x</span>, start <span class="op">=</span> <span class="va">start_vals</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">nlin_bt</span></code></pre></div>
 <pre><code>## # Bootstrap sampling with apparent sample 
-## # A tibble: 2,001 x 3
+## # A tibble: 2,001 × 3
 ##    splits          id            models          
 ##    &lt;list&gt;          &lt;chr&gt;         &lt;list&gt;          
 ##  1 &lt;split [36/14]&gt; Bootstrap0001 &lt;tibble [3 × 5]&gt;
@@ -192,7 +192,7 @@
 ## # … with 1,991 more rows</code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nlin_bt</span><span class="op">$</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 5
+<pre><code>## # A tibble: 3 × 5
 ##   term    estimate std.error statistic  p.value
 ##   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 VO2rest   359.      10.7        33.5 4.59e-27
@@ -212,7 +212,7 @@
 ## Please use `cols = c(models)`</code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">nls_coef</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 3
+<pre><code>## # A tibble: 6 × 3
 ##   id            term    estimate
 ##   &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt;
 ## 1 Bootstrap0001 VO2rest   359.  
@@ -245,7 +245,7 @@
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p_ints</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/int_pctl.html">int_pctl</a></span><span class="op">(</span><span class="va">nlin_bt</span>, <span class="va">models</span><span class="op">)</span>
 <span class="va">p_ints</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 6
+<pre><code>## # A tibble: 3 × 6
 ##   term     .lower .estimate  .upper .alpha .method   
 ##   &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 mu         1.00      1.18    1.35   0.05 percentile
@@ -280,21 +280,21 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">term</span>, <span class="va">.method</span><span class="op">)</span>
 <span class="va">intervals</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">intervals</span><span class="op">$</span><span class="va">term</span><span class="op">)</span></code></pre></div>
 <pre><code>## $mu
-## # A tibble: 2 x 6
+## # A tibble: 2 × 6
 ##   term  .lower .estimate .upper .alpha .method   
 ##   &lt;chr&gt;  &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 mu      1.05      1.19   1.34   0.05 parametric
 ## 2 mu      1.00      1.18   1.35   0.05 percentile
 ## 
 ## $VO2peak
-## # A tibble: 2 x 6
+## # A tibble: 2 × 6
 ##   term    .lower .estimate .upper .alpha .method   
 ##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 VO2peak  1590.     1631.  1675.   0.05 parametric
 ## 2 VO2peak  1576.     1632.  1694.   0.05 percentile
 ## 
 ## $VO2rest
-## # A tibble: 2 x 6
+## # A tibble: 2 × 6
 ##   term    .lower .estimate .upper .alpha .method   
 ##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 VO2rest   334.      357.   380.   0.05 parametric
@@ -320,7 +320,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">term</span>, <span class="va">.method</span><span class="op">)</span>
 <span class="va">intervals</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">intervals</span><span class="op">$</span><span class="va">term</span><span class="op">)</span></code></pre></div>
 <pre><code>## $mu
-## # A tibble: 3 x 6
+## # A tibble: 3 × 6
 ##   term  .lower .estimate .upper .alpha .method   
 ##   &lt;chr&gt;  &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 mu      1.05      1.19   1.34   0.05 parametric
@@ -328,7 +328,7 @@
 ## 3 mu      1.00      1.18   1.35   0.05 student-t 
 ## 
 ## $VO2peak
-## # A tibble: 3 x 6
+## # A tibble: 3 × 6
 ##   term    .lower .estimate .upper .alpha .method   
 ##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 VO2peak  1590.     1631.  1675.   0.05 parametric
@@ -336,7 +336,7 @@
 ## 3 VO2peak  1568.     1632.  1691.   0.05 student-t 
 ## 
 ## $VO2rest
-## # A tibble: 3 x 6
+## # A tibble: 3 × 6
 ##   term    .lower .estimate .upper .alpha .method   
 ##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 VO2rest   334.      357.   380.   0.05 parametric
@@ -347,7 +347,7 @@
 <h3 class="hasAnchor">
 <a href="#bias-corrected-and-accelerated-intervals" class="anchor"></a>Bias-corrected and accelerated intervals</h3>
 <p>For bias-corrected and accelerated (BCa) intervals, an additional argument is required. The <code>.fn</code> argument is a function that computes the statistic of interest. The first argument should be for the <code>rsplit</code> object and other arguments can be passed in using the ellipses.</p>
-<p>These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for <em>every bootstrap resample</em>. If the statistic is expensive to compute, this may take some time. For those calculations, we use the <code>furrr</code> package so these can be computed in parallel if you have set up a parallel processing plan (see <code><a href="https://rdrr.io/pkg/future/man/plan.html">?future::plan</a></code>).</p>
+<p>These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for <em>every bootstrap resample</em>. If the statistic is expensive to compute, this may take some time. For those calculations, we use the <code>furrr</code> package so these can be computed in parallel if you have set up a parallel processing plan (see <code><a href="https://future.futureverse.org/reference/plan.html">?future::plan</a></code>).</p>
 <p>The user-facing function takes an argument for the function and the ellipses.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bias_corr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/int_pctl.html">int_bca</a></span><span class="op">(</span><span class="va">nlin_bt</span>, <span class="va">models</span>, .fn <span class="op">=</span> <span class="va">fit_fun</span>, start <span class="op">=</span> <span class="va">start_vals</span><span class="op">)</span>
@@ -356,7 +356,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">term</span>, <span class="va">.method</span><span class="op">)</span>
 <span class="va">intervals</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">intervals</span><span class="op">$</span><span class="va">term</span><span class="op">)</span></code></pre></div>
 <pre><code>## $mu
-## # A tibble: 4 x 6
+## # A tibble: 4 × 6
 ##   term  .lower .estimate .upper .alpha .method   
 ##   &lt;chr&gt;  &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 mu     0.996      1.18   1.34   0.05 BCa       
@@ -365,7 +365,7 @@
 ## 4 mu     1.00       1.18   1.35   0.05 student-t 
 ## 
 ## $VO2peak
-## # A tibble: 4 x 6
+## # A tibble: 4 × 6
 ##   term    .lower .estimate .upper .alpha .method   
 ##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 VO2peak  1561.     1632.  1680.   0.05 BCa       
@@ -374,7 +374,7 @@
 ## 4 VO2peak  1568.     1632.  1691.   0.05 student-t 
 ## 
 ## $VO2rest
-## # A tibble: 4 x 6
+## # A tibble: 4 × 6
 ##   term    .lower .estimate .upper .alpha .method   
 ##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 VO2rest   343.      357.   368.   0.05 BCa       
@@ -412,13 +412,13 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>folds <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">splits</span>, <span class="va">fold_incr</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu"><a href="../../reference/int_pctl.html">int_pctl</a></span><span class="op">(</span><span class="va">nlin_bt</span>, <span class="va">folds</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 6
+<pre><code>## # A tibble: 1 × 6
 ##   term          .lower .estimate .upper .alpha .method   
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     
 ## 1 fold increase   4.42      4.76   5.05   0.05 percentile</code></pre>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/int_pctl.html">int_bca</a></span><span class="op">(</span><span class="va">nlin_bt</span>, <span class="va">folds</span>, .fn <span class="op">=</span> <span class="va">fold_incr</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 6
+<pre><code>## # A tibble: 1 × 6
 ##   term          .lower .estimate .upper .alpha .method
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  
 ## 1 fold increase   4.53      4.76   5.36   0.05 BCa</code></pre>
@@ -435,13 +435,13 @@
 <code class="sourceCode R"><span class="va">lr_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">male</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">Ab_42</span> <span class="op">+</span> <span class="va">tau</span>, data <span class="op">=</span> <span class="va">ad_data</span>,
               family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span>
 <span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">lr_mod</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 8
+<pre><code>## # A tibble: 1 × 8
 ##   null.deviance df.null logLik   AIC   BIC deviance df.residual  nobs
 ##           &lt;dbl&gt;   &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt; &lt;int&gt;
 ## 1          391.     332  -140.  289.  308.     279.         328   333</code></pre>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">lr_mod</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 5 x 5
+<pre><code>## # A tibble: 5 × 5
 ##   term        estimate std.error statistic       p.value
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
 ## 1 (Intercept)  129.      112.         1.15 0.250        
@@ -458,7 +458,7 @@
                 model_fn <span class="op">=</span> <span class="st">"glm"</span>,
                 family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span>
 <span class="va">lr_int</span></code></pre></div>
-<pre><code>## # A tibble: 4 x 6
+<pre><code>## # A tibble: 4 × 6
 ##   term    .lower .estimate .upper .alpha .method  
 ##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;    
 ## 1 Ab_42    0.316     0.548  0.765   0.05 student-t
@@ -475,7 +475,7 @@
                 model_fn <span class="op">=</span> <span class="st">"glm"</span>,
                 family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span>
 <span class="va">lr_int</span></code></pre></div>
-<pre><code>## # A tibble: 4 x 7
+<pre><code>## # A tibble: 4 × 7
 ##   term    .lower .estimate .upper .alpha .method          .replicates
 ##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;list&lt;tibble[,2]&gt;&gt;
 ## 1 Ab_42    0.316     0.548  0.765   0.05 student-t        [1,001 × 2]

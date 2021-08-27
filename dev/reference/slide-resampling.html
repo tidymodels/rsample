@@ -372,7 +372,7 @@ which power these resamplers.</p></div>
 <span class='va'>index</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://vctrs.r-lib.org/reference/new_date.html'>new_date</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span>, <span class='fl'>13</span>, <span class='fl'>15</span>, <span class='fl'>16</span>, <span class='fl'>17</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, index <span class='op'>=</span> <span class='va'>index</span><span class='op'>)</span>
 <span class='va'>df</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 × 2</span>
 #&gt;        x index     
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>    
 #&gt; <span style='color: #BCBCBC;'> 1</span>     1 1970-01-02
@@ -390,7 +390,7 @@ which power these resamplers.</p></div>
 <span class='co'># the current row.</span>
 <span class='fu'>sliding_window</span><span class='op'>(</span><span class='va'>df</span>, lookback <span class='op'>=</span> <span class='fl'>2</span>, assess_stop <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; # Sliding window resampling 
-#&gt; <span style='color: #949494;'># A tibble: 6 x 2</span>
+#&gt; <span style='color: #949494;'># A tibble: 6 × 2</span>
 #&gt;   splits        id    
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> 
 #&gt; <span style='color: #BCBCBC;'>1</span> <span style='color: #949494;'>&lt;split [3/2]&gt;</span> Slice1
@@ -404,19 +404,19 @@ which power these resamplers.</p></div>
 <span class='va'>rset</span> <span class='op'>&lt;-</span> <span class='fu'>sliding_window</span><span class='op'>(</span><span class='va'>df</span>, lookback <span class='op'>=</span> <span class='fl'>2</span>, assess_stop <span class='op'>=</span> <span class='fl'>2</span>, step <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 <span class='va'>rset</span>
 </div><div class='output co'>#&gt; # Sliding window resampling 
-#&gt; <span style='color: #949494;'># A tibble: 2 x 2</span>
+#&gt; <span style='color: #949494;'># A tibble: 2 × 2</span>
 #&gt;   splits        id    
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> 
 #&gt; <span style='color: #BCBCBC;'>1</span> <span style='color: #949494;'>&lt;split [3/2]&gt;</span> Slice1
 #&gt; <span style='color: #BCBCBC;'>2</span> <span style='color: #949494;'>&lt;split [3/2]&gt;</span> Slice2</div><div class='input'>
 <span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span><span class='op'>(</span><span class='va'>rset</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 2</span>
 #&gt;       x index     
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>    
 #&gt; <span style='color: #BCBCBC;'>1</span>     1 1970-01-02
 #&gt; <span style='color: #BCBCBC;'>2</span>     2 1970-01-04
 #&gt; <span style='color: #BCBCBC;'>3</span>     3 1970-01-05</div><div class='input'><span class='fu'><a href='as.data.frame.rsplit.html'>analysis</a></span><span class='op'>(</span><span class='va'>rset</span><span class='op'>$</span><span class='va'>splits</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 × 2</span>
 #&gt;       x index     
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>    
 #&gt; <span style='color: #BCBCBC;'>1</span>     4 1970-01-08
@@ -431,7 +431,7 @@ which power these resamplers.</p></div>
 <span class='co'># date range where no data points actually exist!</span>
 <span class='fu'>sliding_index</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>index</span>, lookback <span class='op'>=</span> <span class='fl'>2</span>, assess_stop <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; # Sliding index resampling 
-#&gt; <span style='color: #949494;'># A tibble: 7 x 2</span>
+#&gt; <span style='color: #949494;'># A tibble: 7 × 2</span>
 #&gt;   splits        id    
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> 
 #&gt; <span style='color: #BCBCBC;'>1</span> <span style='color: #949494;'>&lt;split [2/1]&gt;</span> Slice1
@@ -455,7 +455,7 @@ which power these resamplers.</p></div>
   assess_stop <span class='op'>=</span> <span class='fl'>1</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; # Sliding period resampling 
-#&gt; <span style='color: #949494;'># A tibble: 13 x 2</span>
+#&gt; <span style='color: #949494;'># A tibble: 13 × 2</span>
 #&gt;    splits             id     
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
 #&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>&lt;split [1074/366]&gt;</span> Slice01
@@ -484,7 +484,7 @@ which power these resamplers.</p></div>
   complete <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; # Sliding period resampling 
-#&gt; <span style='color: #949494;'># A tibble: 15 x 2</span>
+#&gt; <span style='color: #949494;'># A tibble: 15 × 2</span>
 #&gt;    splits             id     
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
 #&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>&lt;split [344/365]&gt;</span>  Slice01
@@ -518,7 +518,7 @@ which power these resamplers.</p></div>
   step <span class='op'>=</span> <span class='fl'>2</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; # Sliding period resampling 
-#&gt; <span style='color: #949494;'># A tibble: 91 x 2</span>
+#&gt; <span style='color: #949494;'># A tibble: 91 × 2</span>
 #&gt;    splits           id     
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
 #&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>&lt;split [130/61]&gt;</span> Slice01

@@ -169,7 +169,7 @@
 <span class="va">rs_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vfold_cv.html">vfold_cv</a></span><span class="op">(</span><span class="va">attrition</span>, v <span class="op">=</span> <span class="fl">10</span>, repeats <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
 <span class="va">rs_obj</span>
 <span class="co">#&gt; #  10-fold cross-validation repeated 10 times </span>
-<span class="co">#&gt; # A tibble: 100 x 3</span>
+<span class="co">#&gt; # A tibble: 100 × 3</span>
 <span class="co">#&gt;    splits             id       id2   </span>
 <span class="co">#&gt;    &lt;list&gt;             &lt;chr&gt;    &lt;chr&gt; </span>
 <span class="co">#&gt;  1 &lt;split [1323/147]&gt; Repeat01 Fold01</span>
@@ -218,7 +218,7 @@
 <span class="co">#&gt; [1] 147  31</span>
 <span class="co">## newly added columns:</span>
 <span class="va">example</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">example</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">attrition</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
-<span class="co">#&gt; # A tibble: 10 x 3</span>
+<span class="co">#&gt; # A tibble: 10 × 3</span>
 <span class="co">#&gt;    .rownames .fitted correct</span>
 <span class="co">#&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;lgl&gt;  </span>
 <span class="co">#&gt;  1 11          -1.20 TRUE   </span>
@@ -240,7 +240,7 @@
                       <span class="va">mod_form</span><span class="op">)</span>
 <span class="va">rs_obj</span>
 <span class="co">#&gt; #  10-fold cross-validation repeated 10 times </span>
-<span class="co">#&gt; # A tibble: 100 x 4</span>
+<span class="co">#&gt; # A tibble: 100 × 4</span>
 <span class="co">#&gt;    splits             id       id2    results            </span>
 <span class="co">#&gt;    &lt;list&gt;             &lt;chr&gt;    &lt;chr&gt;  &lt;list&gt;             </span>
 <span class="co">#&gt;  1 &lt;split [1323/147]&gt; Repeat01 Fold01 &lt;tibble [147 × 34]&gt;</span>
@@ -315,7 +315,7 @@
                           <span class="va">mod_form</span><span class="op">)</span>
 <span class="va">bt_resamples</span>
 <span class="co">#&gt; # Bootstrap sampling </span>
-<span class="co">#&gt; # A tibble: 500 x 4</span>
+<span class="co">#&gt; # A tibble: 500 × 4</span>
 <span class="co">#&gt;    splits             id           wage_diff betas       </span>
 <span class="co">#&gt;    &lt;list&gt;             &lt;chr&gt;            &lt;dbl&gt; &lt;list&gt;      </span>
 <span class="co">#&gt;  1 &lt;split [1470/558]&gt; Bootstrap001      136  &lt;df [1 × 6]&gt;</span>
@@ -344,7 +344,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">first_resample</span><span class="op">)</span>
 <span class="co">#&gt; [1] "boot_split" "rsplit"</span>
 <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">first_resample</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1,470 x 2</span>
+<span class="co">#&gt; # A tibble: 1,470 × 2</span>
 <span class="co">#&gt;      Row Data    </span>
 <span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;   </span>
 <span class="co">#&gt;  1     2 Analysis</span>
@@ -363,7 +363,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">bt_resamples</span><span class="op">)</span>
 <span class="co">#&gt; [1] "bootstraps" "rset"       "tbl_df"     "tbl"        "data.frame"</span>
 <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">bt_resamples</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 735,000 x 3</span>
+<span class="co">#&gt; # A tibble: 735,000 × 3</span>
 <span class="co">#&gt;      Row Data     Resample    </span>
 <span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;       </span>
 <span class="co">#&gt;  1     1 Analysis Bootstrap002</span>

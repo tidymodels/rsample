@@ -239,7 +239,7 @@ pooled together; see <code><a href='make_strata.html'>make_strata()</a></code> f
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>mtcars</span>, v <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; #  10-fold cross-validation 
-#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span>
+#&gt; <span style='color: #949494;'># A tibble: 10 × 2</span>
 #&gt;    splits         id    
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> 
 #&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>&lt;split [28/4]&gt;</span> Fold01
@@ -253,7 +253,7 @@ pooled together; see <code><a href='make_strata.html'>make_strata()</a></code> f
 #&gt; <span style='color: #BCBCBC;'> 9</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Fold09
 #&gt; <span style='color: #BCBCBC;'>10</span> <span style='color: #949494;'>&lt;split [29/3]&gt;</span> Fold10</div><div class='input'><span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>mtcars</span>, v <span class='op'>=</span> <span class='fl'>10</span>, repeats <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; #  10-fold cross-validation repeated 2 times 
-#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
+#&gt; <span style='color: #949494;'># A tibble: 20 × 3</span>
 #&gt;    splits         id      id2   
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> 
 #&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #949494;'>&lt;split [28/4]&gt;</span> Repeat1 Fold01
