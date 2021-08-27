@@ -9,7 +9,7 @@ status](https://github.com/tidymodels/rsample/workflows/R-CMD-check/badge.svg)](
 coverage](https://codecov.io/gh/tidymodels/rsample/branch/master/graph/badge.svg)](https://codecov.io/gh/tidymodels/rsample?branch=master)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/rsample)](https://cran.r-project.org/package=rsample)
 [![Downloads](https://cranlogs.r-pkg.org/badges/rsample)](https://cran.r-project.org/package=rsample)
-![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
 ## Overview
@@ -90,7 +90,7 @@ By contributing to this project, you agree to abide by its terms.
     Community](https://community.rstudio.com/new-topic?category_id=15&tags=tidymodels,question).
 
 -   If you think you have encountered a bug, please [submit an
-    issue](https://github.com/tidymodels/parsnip/issues).
+    issue](https://github.com/tidymodels/rsample/issues).
 
 -   Either way, learn how to create and share a
     [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
