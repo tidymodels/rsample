@@ -50,6 +50,11 @@ validation_split <- function(data, prop = 3/4,
            subclass = c("validation_split", "rset"))
 }
 
+validation_time_split <- function(data, prop = 3/4, lag = 0, ...) {
+
+}
+
+
 #' @export
 print.validation_split <- function(x, ...) {
   cat("#", pretty(x), "\n")
