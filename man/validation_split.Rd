@@ -56,4 +56,7 @@ pooled together; see \code{\link[=make_strata]{make_strata()}} for more details.
 }
 \examples{
 validation_split(mtcars, prop = .9)
+
+data(drinks, package = "modeldata")
+validation_time_split(drinks)
 }

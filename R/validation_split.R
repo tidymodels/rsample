@@ -16,6 +16,9 @@
 #'  identifier.
 #' @examples
 #' validation_split(mtcars, prop = .9)
+#'
+#' data(drinks, package = "modeldata")
+#' validation_time_split(drinks)
 #' @export
 validation_split <- function(data, prop = 3/4,
                              strata = NULL, breaks = 4, pool = 0.1, ...) {
@@ -62,7 +65,7 @@ validation_time_split <- function(data, prop = 3/4, lag = 0, ...) {
     rlang::abort("`prop` must be a number on (0, 1).")
   }
 
-  if (!is.numeric(lag) | !(lag%%1==0)) {
+  if (!is.numeric(lag) | !(lag%%1 == 0)) {
     stop("`lag` must be a whole number.", call. = FALSE)
   }
 
@@ -73,16 +76,16 @@ validation_time_split <- function(data, prop = 3/4, lag = 0, ...) {
   }
 
   split  <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
+  split <- rm_out(split)
+  class(split) <- c("val_split", "rsplit")
   splits <- list(split)
 
-  # TO DO: Make sure split attribute is val_split
-
-  val_att <- list(prop = prop)
+  val_att <- list(prop = prop, strata = FALSE)
 
   new_rset(splits = splits,
            ids = "validation",
            attrib = val_att,
-           subclass = c("rset"))
+           subclass = c("validation_split", "rset"))
 
 }
 
