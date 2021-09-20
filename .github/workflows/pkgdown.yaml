@@ -27,7 +27,7 @@ jobs:
         with:
           extra-packages:
             pkgdown
-            tidytemplate
+            tidyverse/tidytemplate
             tidymodels
             GGally
             survival
