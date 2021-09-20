@@ -5,6 +5,7 @@ library(rsample)
 library(purrr)
 
 dat1 <- data.frame(a = 1:20, b = letters[1:20])
+data(drinks, package = "modeldata")
 
 test_that('default param', {
   set.seed(11)
@@ -24,6 +25,41 @@ test_that('default param', {
                           })
   expect_true(all(good_holdout))
 })
+
+test_that('default time param', {
+  set.seed(11)
+  rs1 <- validation_time_split(dat1)
+  sizes1 <- dim_rset(rs1)
+
+  expect_true(all(sizes1$analysis == 15))
+  expect_true(all(sizes1$assessment == 5))
+  same_data <-
+    map_lgl(rs1$splits, function(x)
+      all.equal(x$data, dat1))
+  expect_true(all(same_data))
+
+  good_holdout <- map_lgl(rs1$splits,
+                          function(x) {
+                            length(intersect(x$in_ind, x$out_id)) == 0
+                          })
+  expect_true(all(good_holdout))
+  tr1 <- training(rs1$splits[[1]])
+  expect_equal(nrow(tr1), floor(nrow(dat1) * 3/4))
+  expect_equal(tr1, dplyr::slice(dat1, 1:floor(nrow(dat1) * 3/4)))
+})
+
+test_that('default time param with lag', {
+  rs1 <- validation_time_split(dat1, lag = 5)
+  expect_s3_class(rs1, "validation_split")
+  tr1 <- training(rs1$splits[[1]])
+  expect_equal(nrow(tr1), floor(nrow(dat1) * 3/4))
+  expect_equal(tr1, dplyr::slice(dat1, 1:floor(nrow(dat1) * 3/4)) )
+
+  expect_error(validation_time_split(drinks, lag = 12.5)) # Whole numbers only
+  expect_error(validation_time_split(drinks, lag = 500))  # Lag must be less than number of training observations
+
+})
+
 
 test_that('different percent', {
   set.seed(11)
@@ -75,6 +111,7 @@ test_that('bad args', {
 
 test_that('printing', {
   expect_output(print(validation_split(warpbreaks)), "Validation Set Split")
+  expect_output(print(validation_time_split(drinks)), "Validation Set Split")
 })
 
 
