@@ -2,7 +2,9 @@
 
 * Updated documentation on stratified sampling (#245).
 
-* Change `make_splits()` to an S3 generic, with the original functionality a method for `list` and a new method for dataframes that allows users to create a split from existing analysis & assessment sets (@LiamBlake, #246).
+* Changed `make_splits()` to an S3 generic, with the original functionality a method for `list` and a new method for dataframes that allows users to create a split from existing analysis & assessment sets (@LiamBlake, #246).
+
+* Added `validation_time_split()` for a single validation sample taking the first samples for training (@mine-cetinkaya-rundel, #256).
 
 # rsample 0.1.0
 
