@@ -2,9 +2,12 @@
 % Please edit documentation in R/validation_split.R
 \name{validation_split}
 \alias{validation_split}
+\alias{validation_time_split}
 \title{Create a Validation Set}
 \usage{
 validation_split(data, prop = 3/4, strata = NULL, breaks = 4, pool = 0.1, ...)
+
+validation_time_split(data, prop = 3/4, lag = 0, ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -24,6 +27,10 @@ decreasing this argument below its default of 0.1 because of the dangers
 of stratifying groups that are too small.}
 
 \item{...}{Not currently used.}
+
+\item{lag}{A value to include a lag between the assessment
+and analysis set. This is useful if lagged predictors will be used
+during training and testing.}
 }
 \value{
 An tibble with classes \code{validation_split}, \code{rset}, \code{tbl_df}, \code{tbl},
@@ -35,6 +42,8 @@ identifier.
 \code{validation_split()} takes a single random sample (without replacement) of
 the original data set to be used for analysis. All other data points are
 added to the assessment set (to be used as the validation set).
+\code{validation_time_split} does the same, but takes the \emph{first} \code{prop} samples
+for training, instead of a random selection.
 }
 \details{
 With a \code{strata} argument, the random sampling is conducted

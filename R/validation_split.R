@@ -3,6 +3,8 @@
 #' `validation_split()` takes a single random sample (without replacement) of
 #'  the original data set to be used for analysis. All other data points are
 #'  added to the assessment set (to be used as the validation set).
+#'  `validation_time_split` does the same, but takes the _first_ `prop` samples
+#'  for training, instead of a random selection.
 #' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
@@ -50,7 +52,37 @@ validation_split <- function(data, prop = 3/4,
            subclass = c("validation_split", "rset"))
 }
 
+#' @rdname validation_split
+#' @inheritParams vfold_cv
+#' @inheritParams initial_time_split
+#' @export
 validation_time_split <- function(data, prop = 3/4, lag = 0, ...) {
+
+  if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
+    rlang::abort("`prop` must be a number on (0, 1).")
+  }
+
+  if (!is.numeric(lag) | !(lag%%1==0)) {
+    stop("`lag` must be a whole number.", call. = FALSE)
+  }
+
+  n_train <- floor(nrow(data) * prop)
+
+  if (lag > n_train) {
+    stop("`lag` must be less than or equal to the number of training observations.", call. = FALSE)
+  }
+
+  split  <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
+  splits <- list(split)
+
+  # TO DO: Make sure split attribute is val_split
+
+  val_att <- list(prop = prop)
+
+  new_rset(splits = splits,
+           ids = "validation",
+           attrib = val_att,
+           subclass = c("rset"))
 
 }
 
