@@ -31,6 +31,7 @@ jobs:
             tidymodels
             GGally
             survival
+            nlstools
             tidyposterior
           needs: website
 
