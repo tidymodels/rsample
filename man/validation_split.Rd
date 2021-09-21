@@ -42,7 +42,7 @@ identifier.
 \code{validation_split()} takes a single random sample (without replacement) of
 the original data set to be used for analysis. All other data points are
 added to the assessment set (to be used as the validation set).
-\code{validation_time_split} does the same, but takes the \emph{first} \code{prop} samples
+\code{validation_time_split()} does the same, but takes the \emph{first} \code{prop} samples
 for training, instead of a random selection.
 }
 \details{
