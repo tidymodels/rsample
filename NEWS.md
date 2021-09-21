@@ -6,6 +6,8 @@
 
 * Added `validation_time_split()` for a single validation sample taking the first samples for training (@mine-cetinkaya-rundel, #256).
 
+* Escalated the deprecation of the `gather()` method for `rset` objects to a hard deprecation. Use `tidyr::pivot_longer()` instead (#257).
+
 # rsample 0.1.0
 
 * Fixed how `mc_cv()`, `initial_split()`, and `validation_split()` use the `prop` argument to first compute the assessment indices, rather than the analysis indices. This is a minor but **breaking change** in some situations; the previous implementation could cause an inconsistency in the sizes of the generated analysis and assessment sets when compared to how `prop` is documented to function (#217, @issactoast).

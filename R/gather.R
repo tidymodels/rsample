@@ -48,7 +48,7 @@
 gather.rset <- function(data, key = NULL, value = NULL, ..., na.rm = TRUE,
                         convert = FALSE, factor_key = TRUE) {
 
-  lifecycle::deprecate_warn("0.1.0", "gather.rset()", "tidyr::pivot_longer()")
+  lifecycle::deprecate_stop("0.1.0", "gather.rset()", "tidyr::pivot_longer()")
 
   if (any(names(data) == "splits")) {
     data <- data %>% dplyr::select(-splits)
