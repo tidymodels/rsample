@@ -54,7 +54,7 @@ cv_obj$lm_rmse <- rnorm(10, mean = 2)
 cv_obj$nnet_rmse <- rnorm(10, mean = 1)
 
 ## now deprecated for rset objects:
-gather(cv_obj)
+## gather(cv_obj)
 
 ## instead of gather, use tidyr::pivot_longer:
 library(tidyr)
