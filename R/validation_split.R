@@ -3,7 +3,7 @@
 #' `validation_split()` takes a single random sample (without replacement) of
 #'  the original data set to be used for analysis. All other data points are
 #'  added to the assessment set (to be used as the validation set).
-#'  `validation_time_split` does the same, but takes the _first_ `prop` samples
+#'  `validation_time_split()` does the same, but takes the _first_ `prop` samples
 #'  for training, instead of a random selection.
 #' @template strata_details
 #' @inheritParams vfold_cv
