@@ -107,8 +107,9 @@ concord_est <- mc_samp %>%
 library(tidyr)
 library(ggplot2)
 concord_est %>%
-  gather() %>%
-  ggplot(aes(x = statistic, col = model)) + 
+  select(-splits) %>%
+  pivot_longer(-id) %>%
+  ggplot(aes(x = value, color = name)) + 
   geom_line(stat = "density") + 
   theme_bw() + 
   theme(legend.position = "top")
