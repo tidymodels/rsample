@@ -233,29 +233,8 @@ factor, which preserves the original ordering of the columns.</p></td>
 <span class='va'>cv_obj</span><span class='op'>$</span><span class='va'>nnet_rmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10</span>, mean <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
 <span class='co'>## now deprecated for rset objects:</span>
-<span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span><span class='op'>(</span><span class='va'>cv_obj</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: `gather.rset()` was deprecated in rsample 0.1.0.</span>
-#&gt; <span class='warning'>Please use `tidyr::pivot_longer()` instead.</span></div><div class='output co'>#&gt;        id     model  statistic
-#&gt; 1  Fold01   lm_rmse  0.2057106
-#&gt; 2  Fold02   lm_rmse  1.6133574
-#&gt; 3  Fold03   lm_rmse  0.6221739
-#&gt; 4  Fold04   lm_rmse  1.9626400
-#&gt; 5  Fold05   lm_rmse  1.9196722
-#&gt; 6  Fold06   lm_rmse  1.2689681
-#&gt; 7  Fold07   lm_rmse  2.4054513
-#&gt; 8  Fold08   lm_rmse  1.9371069
-#&gt; 9  Fold09   lm_rmse  2.8798132
-#&gt; 10 Fold10   lm_rmse  1.9696502
-#&gt; 11 Fold01 nnet_rmse -0.3537264
-#&gt; 12 Fold02 nnet_rmse  3.3714905
-#&gt; 13 Fold03 nnet_rmse  0.4639264
-#&gt; 14 Fold04 nnet_rmse  0.6281649
-#&gt; 15 Fold05 nnet_rmse  1.5481473
-#&gt; 16 Fold06 nnet_rmse  1.2450459
-#&gt; 17 Fold07 nnet_rmse  0.1624949
-#&gt; 18 Fold08 nnet_rmse  2.8361670
-#&gt; 19 Fold09 nnet_rmse  1.0331194
-#&gt; 20 Fold10 nnet_rmse  0.3114896</div><div class='input'>
+<span class='co'>## gather(cv_obj)</span>
+
 <span class='co'>## instead of gather, use tidyr::pivot_longer:</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
