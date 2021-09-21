@@ -52,7 +52,9 @@
 <meta property="og:title" content="Create a Validation Set — validation_split" />
 <meta property="og:description" content="validation_split() takes a single random sample (without replacement) of
 the original data set to be used for analysis. All other data points are
-added to the assessment set (to be used as the validation set)." />
+added to the assessment set (to be used as the validation set).
+validation_time_split() does the same, but takes the first prop samples
+for training, instead of a random selection." />
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -166,10 +168,14 @@ added to the assessment set (to be used as the validation set)." />
     <div class="ref-description">
     <p><code>validation_split()</code> takes a single random sample (without replacement) of
 the original data set to be used for analysis. All other data points are
-added to the assessment set (to be used as the validation set).</p>
+added to the assessment set (to be used as the validation set).
+<code>validation_time_split()</code> does the same, but takes the <em>first</em> <code>prop</code> samples
+for training, instead of a random selection.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>validation_split</span><span class='op'>(</span><span class='va'>data</span>, prop <span class='op'>=</span> <span class='fl'>3</span><span class='op'>/</span><span class='fl'>4</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, breaks <span class='op'>=</span> <span class='fl'>4</span>, pool <span class='op'>=</span> <span class='fl'>0.1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>validation_split</span><span class='op'>(</span><span class='va'>data</span>, prop <span class='op'>=</span> <span class='fl'>3</span><span class='op'>/</span><span class='fl'>4</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, breaks <span class='op'>=</span> <span class='fl'>4</span>, pool <span class='op'>=</span> <span class='fl'>0.1</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>validation_time_split</span><span class='op'>(</span><span class='va'>data</span>, prop <span class='op'>=</span> <span class='fl'>3</span><span class='op'>/</span><span class='fl'>4</span>, lag <span class='op'>=</span> <span class='fl'>0</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,6 +210,12 @@ of stratifying groups that are too small.</p></td>
       <th>...</th>
       <td><p>Not currently used.</p></td>
     </tr>
+    <tr>
+      <th>lag</th>
+      <td><p>A value to include a lag between the assessment
+and analysis set. This is useful if lagged predictors will be used
+during training and testing.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -228,7 +240,14 @@ pooled together; see <code><a href='make_strata.html'>make_strata()</a></code> f
 #&gt; <span style='color: #949494;'># A tibble: 1 × 2</span>
 #&gt;   splits         id        
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     
-#&gt; <span style='color: #BCBCBC;'>1</span> <span style='color: #949494;'>&lt;split [28/4]&gt;</span> validation</div></pre>
+#&gt; <span style='color: #BCBCBC;'>1</span> <span style='color: #949494;'>&lt;split [28/4]&gt;</span> validation</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>drinks</span>, package <span class='op'>=</span> <span class='st'>"modeldata"</span><span class='op'>)</span>
+<span class='fu'>validation_time_split</span><span class='op'>(</span><span class='va'>drinks</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; # Validation Set Split (0.75/0.25)  
+#&gt; <span style='color: #949494;'># A tibble: 1 × 2</span>
+#&gt;   splits           id        
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     
+#&gt; <span style='color: #BCBCBC;'>1</span> <span style='color: #949494;'>&lt;split [231/78]&gt;</span> validation</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
