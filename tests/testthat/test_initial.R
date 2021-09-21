@@ -5,6 +5,7 @@ library(rsample)
 library(purrr)
 
 dat1 <- data.frame(a = 1:20, b = letters[1:20])
+data(drinks, package = "modeldata")
 
 test_that('default param', {
   set.seed(11)
@@ -36,8 +37,12 @@ test_that('default time param with lag', {
   expect_equal(tr1, dplyr::slice(dat1, 1:floor(nrow(dat1) * 3/4)) )
   expect_equal(ts1, dat1[(floor(nrow(dat1) * 3/4) + 1 - 5):nrow(dat1),] )
 
-  expect_error(initial_time_split(drinks, lag = 12.5)) # Whole numbers only
-  expect_error(initial_time_split(drinks, lag = 500))  # Lag must be less than number of training observations
+  # Whole numbers only
+  expect_error(initial_time_split(drinks, lag = 12.5),
+               "must be a whole number")
+  # Lag must be less than number of training observations
+  expect_error(initial_time_split(drinks, lag = 500),
+               "must be less than or equal to the number")
 
 })
 

@@ -20,3 +20,4 @@ rsample_hex_thumb.png
 ^\.github$
 ^cran-comments\.md$
 ^LICENSE\.md$
+^man-roxygen$
