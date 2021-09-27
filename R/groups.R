@@ -5,11 +5,13 @@
 #'  associated with it). The function can create as many splits as
 #'  there are unique values of the grouping variable or it can
 #'  create a smaller set of splits where more than one value is left
-#'  out at a time.
+#'  out at a time. A common use of this kind of resampling is when you have
+#'  repeated measures of the same subject.
 #'
 #' @param data A data frame.
-#' @param group This could be a single character value or a variable
-#'  name that corresponds to a variable that exists in the data frame.
+#' @param group A variable in `data` (single character or name) used for
+#'  grouping observations with the same value to either the analysis or
+#'  assessment set within a fold.
 #' @param v The number of partitions of the data set. If let
 #'  `NULL`, `v` will be set to the number of unique values
 #'  in the group.
