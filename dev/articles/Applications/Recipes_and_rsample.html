@@ -122,7 +122,7 @@
 
     
     
-<p>The <a href="https://topepo.github.io/recipes/"><code>recipes</code></a> package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide. This document uses version 0.1.16 of <code>recipes</code>.</p>
+<p>The <a href="https://topepo.github.io/recipes/"><code>recipes</code></a> package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide. This document uses version 0.1.17 of <code>recipes</code>.</p>
 <p>In many cases, the preprocessing steps might contain quantities that require statistical estimation of parameters, such as</p>
 <ul>
 <li><p>signal extraction using principal component analysis</p></li>
@@ -172,7 +172,7 @@
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_center.html">step_center</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_scale.html">step_scale</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> 
 <span class="va">rec</span></code></pre></div>
-<pre><code>## Data Recipe
+<pre><code>## Recipe
 ## 
 ## Inputs:
 ## 
@@ -194,7 +194,7 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rec_training_set</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html">prep</a></span><span class="op">(</span><span class="va">rec</span>, training <span class="op">=</span> <span class="va">ames</span><span class="op">)</span>
 <span class="va">rec_training_set</span></code></pre></div>
-<pre><code>## Data Recipe
+<pre><code>## Recipe
 ## 
 ## Inputs:
 ## 
@@ -210,8 +210,8 @@
 ## Collapsing factor levels for Neighborhood, House_Style [trained]
 ## Dummy variables from Neighborhood, House_Style [trained]
 ## Box-Cox transformation on Lot_Area [trained]
-## Centering for Year_Sold, Lot_Area, ... [trained]
-## Scaling for Year_Sold, Lot_Area, ... [trained]</code></pre>
+## Centering for Year_Sold, Lot_Area, Neighborhood_College_Creek... [trained]
+## Scaling for Year_Sold, Lot_Area, Neighborhood_College_Creek... [trained]</code></pre>
 <p>To get the values of the data, the <code>bake</code> function can be used:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># By default, the selector `everything()` is used to </span>
@@ -301,7 +301,7 @@
 ## # … with 15 more rows</code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bt_samples</span><span class="op">$</span><span class="va">recipes</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>## Data Recipe
+<pre><code>## Recipe
 ## 
 ## Inputs:
 ## 
@@ -317,8 +317,8 @@
 ## Collapsing factor levels for Neighborhood, House_Style [trained]
 ## Dummy variables from Neighborhood, House_Style [trained]
 ## Box-Cox transformation on Lot_Area [trained]
-## Centering for Year_Sold, Lot_Area, ... [trained]
-## Scaling for Year_Sold, Lot_Area, ... [trained]</code></pre>
+## Centering for Year_Sold, Lot_Area, Neighborhood_College_Creek... [trained]
+## Scaling for Year_Sold, Lot_Area, Neighborhood_College_Creek... [trained]</code></pre>
 <p>Now, to fit the model, the fit function only needs the recipe as input. This is because the above code implicitly used the <code>retain = TRUE</code> option in <code>prep</code>. Otherwise, the split objects would also be needed to <code>bake</code> the recipe (as it will in the prediction function below).</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_lm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">rec_obj</span>, <span class="va">...</span><span class="op">)</span> 
