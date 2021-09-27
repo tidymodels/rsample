@@ -74,7 +74,8 @@ new_rset <-  function(splits, ids, attrib = NULL,
     res <- add_class(res, cls = subclass)
   }
 
-  fingerprint <- rlang::hash(res)
+  fingerprint <- map(res$splits, function(x) list(x$in_id, x$out_id))
+  fingerprint <- rlang::hash(fingerprint)
   attr(res, "fingerprint") <- fingerprint
 
   res
