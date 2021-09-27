@@ -55,7 +55,8 @@ on some grouping variable (which may have more than a single row
 associated with it). The function can create as many splits as
 there are unique values of the grouping variable or it can
 create a smaller set of splits where more than one value is left
-out at a time." />
+out at a time. A common use of this kind of resampling is when you have
+repeated measures of the same subject." />
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -172,7 +173,8 @@ on some grouping variable (which may have more than a single row
 associated with it). The function can create as many splits as
 there are unique values of the grouping variable or it can
 create a smaller set of splits where more than one value is left
-out at a time.</p>
+out at a time. A common use of this kind of resampling is when you have
+repeated measures of the same subject.</p>
     </div>
 
     <pre class="usage"><span class='fu'>group_vfold_cv</span><span class='op'>(</span><span class='va'>data</span>, group <span class='op'>=</span> <span class='cn'>NULL</span>, v <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
@@ -186,8 +188,9 @@ out at a time.</p>
     </tr>
     <tr>
       <th>group</th>
-      <td><p>This could be a single character value or a variable
-name that corresponds to a variable that exists in the data frame.</p></td>
+      <td><p>A variable in <code>data</code> (single character or name) used for
+grouping observations with the same value to either the analysis or
+assessment set within a fold.</p></td>
     </tr>
     <tr>
       <th>v</th>
