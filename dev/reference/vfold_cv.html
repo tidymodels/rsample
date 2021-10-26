@@ -50,11 +50,11 @@
 
 
 <meta property="og:title" content="V-Fold Cross-Validation — vfold_cv" />
-<meta property="og:description" content="V-fold cross-validation randomly splits the data into V groups of roughly
-equal size (called &quot;folds&quot;). A resample of the analysis data consisted of
-V-1 of the folds while the assessment set contains the final fold. In basic
-V-fold cross-validation (i.e. no repeats), the number of resamples is equal
-to V." />
+<meta property="og:description" content="V-fold cross-validation (also known as k-fold cross-validation) randomly
+splits the data into V groups of roughly equal size (called &quot;folds&quot;). A
+resample of the analysis data consisted of V-1 of the folds while the
+assessment set contains the final fold. In basic V-fold cross-validation
+(i.e. no repeats), the number of resamples is equal to V." />
 <meta property="og:image" content="https://rsample.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -166,11 +166,11 @@ to V." />
     </div>
 
     <div class="ref-description">
-    <p>V-fold cross-validation randomly splits the data into V groups of roughly
-equal size (called "folds"). A resample of the analysis data consisted of
-V-1 of the folds while the assessment set contains the final fold. In basic
-V-fold cross-validation (i.e. no repeats), the number of resamples is equal
-to V.</p>
+    <p>V-fold cross-validation (also known as k-fold cross-validation) randomly
+splits the data into V groups of roughly equal size (called "folds"). A
+resample of the analysis data consisted of V-1 of the folds while the
+assessment set contains the final fold. In basic V-fold cross-validation
+(i.e. no repeats), the number of resamples is equal to V.</p>
     </div>
 
     <pre class="usage"><span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>data</span>, v <span class='op'>=</span> <span class='fl'>10</span>, repeats <span class='op'>=</span> <span class='fl'>1</span>, strata <span class='op'>=</span> <span class='cn'>NULL</span>, breaks <span class='op'>=</span> <span class='fl'>4</span>, pool <span class='op'>=</span> <span class='fl'>0.1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
