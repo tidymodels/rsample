@@ -22,9 +22,9 @@ theme_set(theme_bw())
 
 ## Introduction  
 
-`rsample` can be used to create objects containing resamples of the original data. This page contains examples of how those objects can be used for data analysis. 
+The rsample package can be used to create objects containing resamples of your original data. This vignette contains a demonstration of how those objects can be used for data analysis. 
 
-For illustration, the `attrition` data are used. From the help file:
+Let's use the `attrition` data set. From its documentation:
 
 > These data are from the IBM Watson Analytics Lab. The website describes the data with "Uncover the factors that lead to employee attrition and explore important questions such as ‘show me a breakdown of distance from home by job role and attrition’ or 'compare average monthly income by education and attrition'. This is a fictional data set created by IBM data scientists." There are 1470 rows.
 
@@ -42,8 +42,10 @@ table(attrition$Attrition)
 Let's fit a logistic regression model to the data with model terms for the job satisfaction, gender, and monthly income. 
 
 If we were fitting the model to the entire data set, we might model attrition using
+
 ```r
-glm(Attrition ~ JobSatisfaction + Gender + MonthlyIncome, data = attrition, family = binomial)
+glm(Attrition ~ JobSatisfaction + Gender + MonthlyIncome, 
+    data = attrition, family = binomial)
 ```
 
 For convenience, we'll create a formula object that will be used later:
@@ -193,7 +195,7 @@ bt_resamples$betas[[1]]
 
 ## Keeping Tidy
 
-As previously mentioned, the [`broom` package](https://cran.r-project.org/package=broom) contains a class called `tidy` that created representations of objects that can be easily used for analysis, plotting, etc. `rsample` contains `tidy` methods for `rset` and `rsplit` objects. For example: 
+As previously mentioned, the [`broom` package](https://cran.r-project.org/package=broom) contains a class called `tidy` that created representations of objects that can be easily used for analysis, plotting, etc. rsample contains `tidy` methods for `rset` and `rsplit` objects. For example: 
 
 ```{r tidy_rsplit}
 first_resample <- bt_resamples$splits[[1]]

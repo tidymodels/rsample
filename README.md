@@ -13,24 +13,24 @@ coverage](https://codecov.io/gh/tidymodels/rsample/branch/main/graph/badge.svg)]
 
 ## Overview
 
-`rsample` contains a set of functions to create different types of
+The rsample package provides functions to create different types of
 resamples and corresponding classes for their analysis. The goal is to
-have a modular set of methods that can be used across different R
-packages for:
+have a modular set of methods that can be used for:
 
--   traditional resampling techniques for estimating the sampling
-    distribution of a statistic and
+-   resampling for estimating the sampling distribution of a statistic
 -   estimating model performance using a holdout set
 
-The scope of `rsample` is to provide the basic building blocks for
-creating and analyzing resamples of a data set but does not include code
-for modeling or calculating statistics. The “Working with Resample Sets”
-vignette gives demonstrations of how `rsample` tools can be used.
+The scope of rsample is to provide the basic building blocks for
+creating and analyzing resamples of a data set, but this package does
+not include code for modeling or calculating statistics. The [Working
+with Resample
+Sets](https://rsample.tidymodels.org/articles/Working_with_rsets.html)
+vignette gives a demonstration of how rsample tools can be used when
+building models.
 
-Note that resampled data sets created by `rsample` are directly
-accessible in a resampling object but do not contain much overhead in
-memory. Since the original data is not modified, R does not make an
-automatic copy.
+Note that resampled data sets created by rsample are directly accessible
+in a resampling object but do not contain much overhead in memory. Since
+the original data is not modified, R does not make an automatic copy.
 
 For example, creating 50 bootstraps of a data set does not create an
 object that is 50-fold larger in memory:
@@ -98,7 +98,7 @@ By contributing to this project, you agree to abide by its terms.
 
 -   We welcome contributions, including typo corrections, bug fixes, and
     feature requests! If you have never made a pull request to an R
-    package before, `rsample` is an excellent place to start. Find an
+    package before, rsample is an excellent place to start. Find an
     [issue](https://github.com/tidymodels/rsample/issues/) with the
     **help wanted ❤️** tag, comment that you’d like to take it on, and
     we’ll help you get started.

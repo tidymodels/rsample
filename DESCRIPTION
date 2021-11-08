@@ -7,7 +7,7 @@ Authors@R: c(
     person("Fanny", "Chow", , "fannybchow@gmail.com", role = "aut"),
     person("Max", "Kuhn", , "max@rstudio.com", role = "aut"),
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut"),
-    person("RStudio", role = "cph")
+    person("RStudio", role = c("cph", "fnd"))
   )
 Maintainer: Julia Silge <julia.silge@rstudio.com>
 Description: Classes and functions to create and summarize different types
