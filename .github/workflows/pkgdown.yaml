@@ -25,14 +25,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          extra-packages:
-            pkgdown
-            tidyverse/tidytemplate
-            tidymodels
-            GGally
-            survival
-            nlstools
-            tidyposterior
+          extra-packages: r-lib/pkgdown
           needs: website
 
       - name: Install package
