@@ -1,4 +1,4 @@
-# rsample (development version)
+# rsample 0.1.1
 
 * Updated documentation on stratified sampling (#245).
 

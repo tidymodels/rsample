@@ -1,17 +1,14 @@
 url: https://rsample.tidymodels.org
 
 template:
+  bootstrap: 5
+  bslib:
+    danger: "#CA225E"
+    primary: "#CA225E"
   package: tidytemplate
-  params:
-    theme: tidymodels
-    part_of: <a href="https://tidymodels.org">tidymodels</a>
-    footer: rsample is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
 
 development:
   mode: auto
-
-home:
-  strip_header: true
 
 figures:
   fig.width: 8
@@ -66,10 +63,9 @@ reference:
       - rsample
 
 navbar:
-  left:
-  - text: Get started
-    href: articles/rsample.html
-  - text: Articles
+ components:
+   articles:
+    text: Articles
     menu:
     - text: Working with Resample Sets
       href: articles/Working_with_rsets.html
@@ -83,9 +79,3 @@ navbar:
       href: https://www.tidymodels.org/learn/models/time-series/
     - text: Nested Resampling
       href: https://www.tidymodels.org/learn/work/nested-resampling/
-  - text: Reference
-    href: reference/index.html
-  - text: News
-    href: news/index.html
-
-
