@@ -93,13 +93,13 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p><code>rsample</code> contains a set of functions to create different types of resamples and corresponding classes for their analysis. The goal is to have a modular set of methods that can be used across different R packages for:</p>
+<p>The rsample package provides functions to create different types of resamples and corresponding classes for their analysis. The goal is to have a modular set of methods that can be used for:</p>
 <ul>
-<li>traditional resampling techniques for estimating the sampling distribution of a statistic and</li>
+<li>resampling for estimating the sampling distribution of a statistic</li>
 <li>estimating model performance using a holdout set</li>
 </ul>
-<p>The scope of <code>rsample</code> is to provide the basic building blocks for creating and analyzing resamples of a data set but does not include code for modeling or calculating statistics. The “Working with Resample Sets” vignette gives demonstrations of how <code>rsample</code> tools can be used.</p>
-<p>Note that resampled data sets created by <code>rsample</code> are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
+<p>The scope of rsample is to provide the basic building blocks for creating and analyzing resamples of a data set, but this package does not include code for modeling or calculating statistics. The <a href="https://rsample.tidymodels.org/articles/Working_with_rsets.html">Working with Resample Sets</a> vignette gives a demonstration of how rsample tools can be used when building models.</p>
+<p>Note that resampled data sets created by rsample are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
 <p>For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org">rsample</a></span><span class="op">)</span>
@@ -143,7 +143,7 @@
 <li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://community.rstudio.com/new-topic?category_id=15&amp;tags=tidymodels,question" class="external-link">post on RStudio Community</a>.</p></li>
 <li><p>If you think you have encountered a bug, please <a href="https://github.com/tidymodels/rsample/issues" class="external-link">submit an issue</a>.</p></li>
 <li><p>Either way, learn how to create and share a <a href="https://reprex.tidyverse.org/articles/articles/learn-reprex.html" class="external-link">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
-<li><p>We welcome contributions, including typo corrections, bug fixes, and feature requests! If you have never made a pull request to an R package before, <code>rsample</code> is an excellent place to start. Find an <a href="https://github.com/tidymodels/rsample/issues/" class="external-link">issue</a> with the <strong>help wanted ❤️</strong> tag, comment that you’d like to take it on, and we’ll help you get started.</p></li>
+<li><p>We welcome contributions, including typo corrections, bug fixes, and feature requests! If you have never made a pull request to an R package before, rsample is an excellent place to start. Find an <a href="https://github.com/tidymodels/rsample/issues/" class="external-link">issue</a> with the <strong>help wanted ❤️</strong> tag, comment that you’d like to take it on, and we’ll help you get started.</p></li>
 <li><p>Check out further details on <a href="https://www.tidymodels.org/contribute/" class="external-link">contributing guidelines for tidymodels packages</a> and <a href="https://www.tidymodels.org/help/" class="external-link">how to get help</a>.</p></li>
 </ul>
 </div>
@@ -186,7 +186,8 @@
 <a href="http://github.com/topepo" class="external-link">Max Kuhn</a> <br><small class="roles"> Author </small>  </li>
 <li>
 <a href="http://hadley.nz" class="external-link">Hadley Wickham</a> <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">More about authors...</a></li>
+<li>
+<a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" width="72"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
 </div>
 
@@ -209,7 +210,7 @@
   <footer><div class="container">
   <div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by <a href="https://juliasilge.com/" class="external-link">Julia Silge</a>, Fanny Chow, <a href="http://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>.</p>
+<p>Developed by <a href="https://juliasilge.com/" class="external-link">Julia Silge</a>, Fanny Chow, <a href="http://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" width="72"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -93,8 +93,8 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p><code>rsample</code> can be used to create objects containing resamples of the original data. This page contains examples of how those objects can be used for data analysis.</p>
-<p>For illustration, the <code>attrition</code> data are used. From the help file:</p>
+<p>The rsample package can be used to create objects containing resamples of your original data. This vignette contains a demonstration of how those objects can be used for data analysis.</p>
+<p>Let’s use the <code>attrition</code> data set. From its documentation:</p>
 <blockquote>
 <p>These data are from the IBM Watson Analytics Lab. The website describes the data with “Uncover the factors that lead to employee attrition and explore important questions such as ‘show me a breakdown of distance from home by job role and attrition’ or ‘compare average monthly income by education and attrition’. This is a fictional data set created by IBM data scientists.” There are 1470 rows.</p>
 </blockquote>
@@ -125,7 +125,8 @@
 <p>Let’s fit a logistic regression model to the data with model terms for the job satisfaction, gender, and monthly income.</p>
 <p>If we were fitting the model to the entire data set, we might model attrition using</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">Attrition</span> <span class="op">~</span> <span class="va">JobSatisfaction</span> <span class="op">+</span> <span class="va">Gender</span> <span class="op">+</span> <span class="va">MonthlyIncome</span>, data <span class="op">=</span> <span class="va">attrition</span>, family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">Attrition</span> <span class="op">~</span> <span class="va">JobSatisfaction</span> <span class="op">+</span> <span class="va">Gender</span> <span class="op">+</span> <span class="va">MonthlyIncome</span>, 
+    data <span class="op">=</span> <span class="va">attrition</span>, family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span></code></pre></div>
 <p>For convenience, we’ll create a formula object that will be used later:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mod_form</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">as.formula</a></span><span class="op">(</span><span class="va">Attrition</span> <span class="op">~</span> <span class="va">JobSatisfaction</span> <span class="op">+</span> <span class="va">Gender</span> <span class="op">+</span> <span class="va">MonthlyIncome</span><span class="op">)</span></code></pre></div>
@@ -306,7 +307,7 @@
 <div class="section level2">
 <h2 id="keeping-tidy">Keeping Tidy<a class="anchor" aria-label="anchor" href="#keeping-tidy"></a>
 </h2>
-<p>As previously mentioned, the <a href="https://cran.r-project.org/package=broom" class="external-link"><code>broom</code> package</a> contains a class called <code>tidy</code> that created representations of objects that can be easily used for analysis, plotting, etc. <code>rsample</code> contains <code>tidy</code> methods for <code>rset</code> and <code>rsplit</code> objects. For example:</p>
+<p>As previously mentioned, the <a href="https://cran.r-project.org/package=broom" class="external-link"><code>broom</code> package</a> contains a class called <code>tidy</code> that created representations of objects that can be easily used for analysis, plotting, etc. rsample contains <code>tidy</code> methods for <code>rset</code> and <code>rsplit</code> objects. For example:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">first_resample</span> <span class="op">&lt;-</span> <span class="va">bt_resamples</span><span class="op">$</span><span class="va">splits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">first_resample</span><span class="op">)</span>
@@ -360,7 +361,7 @@
   <footer><div class="container">
   <div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by <a href="https://juliasilge.com/" class="external-link">Julia Silge</a>, Fanny Chow, <a href="http://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>.</p>
+<p>Developed by <a href="https://juliasilge.com/" class="external-link">Julia Silge</a>, Fanny Chow, <a href="http://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" width="72"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
