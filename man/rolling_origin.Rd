@@ -75,7 +75,7 @@ data(drinks, package = "modeldata")
 
 drinks_annual <- drinks \%>\%
   mutate(year = as.POSIXlt(date)$year + 1900) \%>\%
-  nest(-year)
+  nest(data = c(-year))
 
 multi_year_roll <- rolling_origin(drinks_annual, cumulative = FALSE)
 
