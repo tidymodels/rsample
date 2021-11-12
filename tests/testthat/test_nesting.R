@@ -55,6 +55,23 @@ test_that('bad args', {
   )
 })
 
+test_that('can pass in variables', {
+
+  make_folds <- function(df) {
+    outer_cv <- 5
+    inner_cv <- 4
+    nested_cv(df,
+              outside = vfold_cv(v = outer_cv),
+              inside = vfold_cv(v = inner_cv))
+  }
+
+  rs1 <- make_folds(mtcars[1:30,])
+  sizes1 <- dim_rset(rs1)
+  expect_true(all(sizes1$analysis == 24))
+  expect_true(all(sizes1$assessment == 6))
+
+})
+
 test_that('printing', {
   rs1 <- nested_cv(mtcars[1:30,],
                    outside = vfold_cv(v = 10),
