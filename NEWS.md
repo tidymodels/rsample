@@ -2,6 +2,8 @@
 
 * Fixed how `nested_cv()` handles call objects so variables in the environment can be used when specifying resampling schemes (#81).
 
+* For repeats > 1, `vfold_cv()` returns an additional class of `repeated_vfold_cv` (on top of other existing classes) for better downstream handling (#82).
+
 # rsample 0.1.1
 
 * Updated documentation on stratified sampling (#245).
