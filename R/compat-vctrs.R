@@ -169,6 +169,59 @@ vec_cast.data.frame.vfold_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
 }
 
 # ------------------------------------------------------------------------------
+# repeated_vfold_cv
+
+#' @export
+vec_restore.repeated_vfold_cv <- function(x, to, ...) {
+  rset_reconstruct(x, to)
+}
+
+
+#' @export
+vec_ptype2.repeated_vfold_cv.repeated_vfold_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.repeated_vfold_cv.repeated_vfold_cv")
+}
+#' @export
+vec_ptype2.repeated_vfold_cv.tbl_df <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.repeated_vfold_cv.tbl_df")
+}
+#' @export
+vec_ptype2.tbl_df.repeated_vfold_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.tbl_df.repeated_vfold_cv")
+}
+#' @export
+vec_ptype2.repeated_vfold_cv.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.repeated_vfold_cv.data.frame")
+}
+#' @export
+vec_ptype2.data.frame.repeated_vfold_cv <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.data.frame.repeated_vfold_cv")
+}
+
+
+#' @export
+vec_cast.repeated_vfold_cv.repeated_vfold_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.repeated_vfold_cv.tbl_df <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.tbl_df.repeated_vfold_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.repeated_vfold_cv.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.data.frame.repeated_vfold_cv <- function(x, to, ..., x_arg = "", to_arg = "") {
+  df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+
+
+# ------------------------------------------------------------------------------
 # group_vfold_cv
 
 #' @export

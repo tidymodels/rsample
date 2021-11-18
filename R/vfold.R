@@ -23,8 +23,9 @@
 #'  `data.frame`. The results include a column for the data split objects and
 #'  one or more identification variables. For a single repeat, there will be
 #'  one column called `id` that has a character string with the fold identifier.
-#'  For repeats, `id` is the repeat number and an additional column called `id2`
-#'  that contains the fold information (within repeat).
+#'  For repeats, the tibble also has the class `repeated_vfold_cv`, and `id`
+#'  is the repeat number while an additional column called `id2` contains the
+#'  within-repeat fold information.
 
 #' @examples
 #' vfold_cv(mtcars, v = 10)
@@ -68,9 +69,11 @@ vfold_cv <- function(data, v = 10, repeats = 1,
   strata_check(strata, data)
 
   if (repeats == 1) {
+    cv_subclass <- c("vfold_cv", "rset")
     split_objs <- vfold_splits(data = data, v = v,
                                strata = strata, breaks = breaks, pool = pool)
   } else {
+    cv_subclass <- c("repeated_vfold_cv", "vfold_cv", "rset")
     for (i in 1:repeats) {
       tmp <- vfold_splits(data = data, v = v, strata = strata, pool = pool)
       tmp$id2 <- tmp$id
@@ -94,7 +97,7 @@ vfold_cv <- function(data, v = 10, repeats = 1,
   new_rset(splits = split_objs$splits,
            ids = split_objs[, grepl("^id", names(split_objs))],
            attrib = cv_att,
-           subclass = c("vfold_cv", "rset"))
+           subclass = cv_subclass)
 }
 
 
