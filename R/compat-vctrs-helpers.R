@@ -126,6 +126,7 @@ delayedAssign("rset_subclasses", {
     mc_cv            = mc_cv(test_data()),
     nested_cv        = nested_cv(test_data(), outside = vfold_cv(v = 3), inside = bootstraps(times = 5)),
     validation_split = validation_split(test_data()),
+    validation_time  = validation_time_split(test_data()),
     rolling_origin   = rolling_origin(test_data()),
     sliding_window   = sliding_window(test_data()),
     sliding_index    = sliding_index(test_data(), index),

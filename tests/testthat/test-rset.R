@@ -238,6 +238,7 @@ test_that("no longer identical if rows are lost", {
   subclasses <- rset_subclasses
   subclasses$apparent <- NULL
   subclasses$validation_split <- NULL
+  subclasses$validation_time <- NULL
 
   for (to in subclasses) {
     x <- to[1,]
