@@ -103,6 +103,7 @@ test_that("row slicing and duplicating any rows removes the rset subclass", {
   subclasses <- rset_subclasses
   subclasses$apparent <- NULL
   subclasses$validation_split <- NULL
+  subclasses$validation_time <- NULL
 
   for (x in subclasses) {
     loc <- seq_len(nrow(x))
