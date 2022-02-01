@@ -23,6 +23,7 @@ Imports:
     furrr,
     generics,
     lifecycle,
+    MASS,    
     methods,
     purrr,
     rlang (>= 0.4.10),
