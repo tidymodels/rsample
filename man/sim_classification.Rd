@@ -32,6 +32,11 @@ sim_noise(
 \arguments{
 \item{num_samples}{Number of data points to simulate.}
 
+\item{method}{A character string for the simulation method. For
+classification, the current value is "caret". For classification, values can
+be "sapp_2014_1", "sapp_2014_2", "van_der_laan_2007_1", or
+"van_der_laan_2007_2". See Details below.}
+
 \item{intercept}{The intercept for the linear predictor.}
 
 \item{num_linear}{Number of diminishing linear effects.}
@@ -110,7 +115,7 @@ equation is:
 
 \preformatted{
 predictor_01 + sin(predictor_02) + log(abs(predictor_03)) +
- predictor_04 ^ 2 + predictor_05 * predictor_06 +
+ predictor_04^2 + predictor_05 * predictor_06 +
  ifelse(predictor_07 * predictor_08 * predictor_09 < 0, 1, 0) +
  ifelse(predictor_10 > 0, 1, 0) + predictor_11 * ifelse(predictor_11 > 0, 1, 0) +
  sqrt(abs(predictor_12)) + cos(predictor_13) + 2 * predictor_14 + abs(predictor_15) +
@@ -154,9 +159,9 @@ Another regression simulation from van der Laan et al. (2007)  with twenty
 Gaussians with mean zero and variance 16. The prediction equation is
 
 \preformatted{
-predictor_01 * predictor_02 + predictor_10 ^ 2 - predictor_03 * predictor_17 -
+predictor_01 * predictor_02 + predictor_10^2 - predictor_03 * predictor_17 -
  predictor_15 * predictor_04 + predictor_09 * predictor_05 + predictor_19 -
- predictor_20 ^ 2 + predictor_09 * predictor_08
+ predictor_20^2 + predictor_09 * predictor_08
 }
 
 The error term is also Gaussian with mean zero and variance 16.

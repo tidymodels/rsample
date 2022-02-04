@@ -4,6 +4,10 @@
 #' equations.
 #'
 #' @param num_samples Number of data points to simulate.
+#' @param method A character string for the simulation method. For
+#' classification, the current value is "caret". For classification, values can
+#' be "sapp_2014_1", "sapp_2014_2", "van_der_laan_2007_1", or
+#' "van_der_laan_2007_2". See Details below.
 #' @param intercept The intercept for the linear predictor.
 #' @param num_linear Number of diminishing linear effects.
 #' @param std_dev Gaussian distribution standard deviation for residuals.
@@ -255,7 +259,7 @@ sapp_2014_2 <- function(num_samples = 100, std_dev = 4) {
   if (is.null(std_dev)) {
     std_dev <- 5
   }
-  dat <- matrix(rnorm(num_samples * 200, sd = 4), ncol = 200)
+  dat <- matrix(stats::rnorm(num_samples * 200, sd = 4), ncol = 200)
   colnames(dat) <- names0(200, "predictor_")
 
   slc_14 <- function(x) sum(log(abs(x)))
