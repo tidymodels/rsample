@@ -225,7 +225,7 @@ sapp_2014_1 <- function(num_samples = 100, std_dev = NULL) {
   if (is.null(std_dev)) {
     std_dev <- 3
   }
-  dat <- matrix(stats::rnorm(num_samples * 20, sd = std_dev), ncol = 20)
+  dat <- matrix(stats::rnorm(num_samples * 20, sd = 3), ncol = 20)
   colnames(dat) <- names0(20, "predictor_")
   dat <- tibble::as_tibble(dat)
 
@@ -255,7 +255,7 @@ sapp_2014_2 <- function(num_samples = 100, std_dev = 4) {
   if (is.null(std_dev)) {
     std_dev <- 5
   }
-  dat <- matrix(rnorm(num_samples * 200, sd = std_dev), ncol = 200)
+  dat <- matrix(rnorm(num_samples * 200, sd = 4), ncol = 200)
   colnames(dat) <- names0(200, "predictor_")
 
   slc_14 <- function(x) sum(log(abs(x)))
