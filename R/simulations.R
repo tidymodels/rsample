@@ -70,7 +70,7 @@
 #'
 #' \preformatted{
 #' predictor_01 + sin(predictor_02) + log(abs(predictor_03)) +
-#'  predictor_04 ^ 2 + predictor_05 * predictor_06 +
+#'  predictor_04^2 + predictor_05 * predictor_06 +
 #'  ifelse(predictor_07 * predictor_08 * predictor_09 < 0, 1, 0) +
 #'  ifelse(predictor_10 > 0, 1, 0) + predictor_11 * ifelse(predictor_11 > 0, 1, 0) +
 #'  sqrt(abs(predictor_12)) + cos(predictor_13) + 2 * predictor_14 + abs(predictor_15) +
@@ -111,9 +111,9 @@
 #' Gaussians with mean zero and variance 16. The prediction equation is
 #'
 #' \preformatted{
-#' predictor_01 * predictor_02 + predictor_10 ^ 2 - predictor_03 * predictor_17 -
+#' predictor_01 * predictor_02 + predictor_10^2 - predictor_03 * predictor_17 -
 #'  predictor_15 * predictor_04 + predictor_09 * predictor_05 + predictor_19 -
-#'  predictor_20 ^ 2 + predictor_09 * predictor_08
+#'  predictor_20^2 + predictor_09 * predictor_08
 #' }
 #'
 #' The error term is also Gaussian with mean zero and variance 16.
@@ -168,7 +168,7 @@ sim_classification <- function(num_samples = 100, method = "caret",
       rlang::expr(
         !!intercept - 4 * two_factor_1 + 4 * two_factor_2 +
           2 * two_factor_1 * two_factor_2 +
-          (non_linear_1 ^ 3) + 2 * exp(-6 * (non_linear_1 - 0.3) ^ 2) +
+          (non_linear_1 ^ 3) + 2 * exp(-6 * (non_linear_1 - 0.3)^2) +
           2 * sin(pi * non_linear_2 * non_linear_3)
       )
 
@@ -231,7 +231,7 @@ sapp_2014_1 <- function(num_samples = 100, std_dev = NULL) {
 
   slc_14 <- rlang::expr(
     predictor_01 + sin(predictor_02) + log(abs(predictor_03)) +
-      predictor_04 ^ 2 + predictor_05 * predictor_06 +
+      predictor_04^2 + predictor_05 * predictor_06 +
       ifelse(predictor_07 * predictor_08 * predictor_09 < 0, 1, 0) +
       ifelse(predictor_10 > 0, 1, 0) + predictor_11 * ifelse(predictor_11 > 0, 1, 0) +
       sqrt(abs(predictor_12)) + cos(predictor_13) + 2 * predictor_14 + abs(predictor_15) +
@@ -307,14 +307,14 @@ van_der_laan_2007_2 <- function(num_samples = 100, std_dev = NULL) {
   if (is.null(std_dev)) {
     std_dev <- 4
   }
-  dat <- matrix(stats::rnorm(num_samples * 20, sd = std_dev), ncol = 20)
+  dat <- matrix(stats::rnorm(num_samples * 20, sd = 4), ncol = 20)
   colnames(dat) <- names0(20, "predictor_")
   dat <- tibble::as_tibble(dat)
 
   lph_07 <- rlang::expr(
-    predictor_01 * predictor_02 + predictor_10 ^ 2 - predictor_03 * predictor_17 -
+    predictor_01 * predictor_02 + predictor_10^2 - predictor_03 * predictor_17 -
       predictor_15 * predictor_04 + predictor_09 * predictor_05 + predictor_19 -
-      predictor_20 ^ 2 + predictor_09 * predictor_08
+      predictor_20^2 + predictor_09 * predictor_08
   )
 
   dat <-
