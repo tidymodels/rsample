@@ -2,7 +2,7 @@
 
 * Fixed how `nested_cv()` handles call objects so variables in the environment can be used when specifying resampling schemes (#81).
 
-* Added a set of regression and classification simulation functions.
+* Added a set of regression and classification simulation functions (#273).
 
 # rsample 0.1.1
 
