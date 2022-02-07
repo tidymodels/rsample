@@ -1,12 +1,12 @@
-#' Various simulations functions
+#' Simulate datasets
 #'
-#' These functions can be used to simulate classification and regression
-#' equations.
+#' These functions can be used to generate simulated data for supervised
+#' (classification and regression) and unsupervised modeling applications.
 #'
 #' @param num_samples Number of data points to simulate.
 #' @param method A character string for the simulation method. For
-#' classification, the current value is "caret". For classification, values can
-#' be "sapp_2014_1", "sapp_2014_2", "van_der_laan_2007_1", or
+#' classification, the single current option is "caret". For classification,
+#' values can be "sapp_2014_1", "sapp_2014_2", "van_der_laan_2007_1", or
 #' "van_der_laan_2007_2". See Details below.
 #' @param intercept The intercept for the linear predictor.
 #' @param num_linear Number of diminishing linear effects.
@@ -16,29 +16,29 @@
 #' @param cov_type The multivariate normal correlation structure of the
 #' predictors. Possible values are "exchangeable" and "toeplitz".
 #' @param cov_param A single numeric value for the exchangeable correlation
-#' value or the base of the toeplitz structure. See Details below.
+#' value or the base of the Toeplitz structure. See Details below.
 #' @param factors A single logical for whether the binary indicators should be
 #' encoded as factors or not.
-#' @param outcome A single character string for what type of independent outcome should be
-#' simulated (if any). The default value of "none" produces no extra columns.
-#' Using "classification" will generate a `class` column with `num_classes`
-#' values, equally distributed. A value of "regression" results in a `outcome`
-#' column that contains independent standard normal values.
+#' @param outcome A single character string for what type of independent outcome
+#' should be simulated (if any). The default value of "none" produces no extra
+#' columns. Using "classification" will generate a `class` column with
+#' `num_classes` values, equally distributed. A value of "regression" results
+#' in an `outcome` column that contains independent standard normal values.
 #' @param num_classes When `outcome = "classification"`, the number of classes
 #' to simulate.
 #'
 #' @details
-#' There are several supervised simulation methods (and one unsupervised). The
-#' details are shown below by value of `method`.
+#' These functions provide several supervised simulation methods (and one
+#' unsupervised). Learn more by `method`:
 #'
-#' ## `caret`
+#' ## `method = "caret"`
 #'
-#' This is a simulated two-class problem, originally implemented in
-#'  [caret::twoClassSim()] with all numeric predictors. The predictors are
-#'  simulated in different sets. First, two multivariate normal predictors
-#'  (denoted here as `two_factor_1` and `two_factor_2`) are created with a
-#'  correlation of about 0.65. They change the log-odds using main effects and
-#'  an interaction:
+#' This is a simulated classification problem with two classes, originally
+#'  implemented in [caret::twoClassSim()] with all numeric predictors. The
+#'  predictors are simulated in different sets. First, two multivariate normal
+#'  predictors (denoted here as `two_factor_1` and `two_factor_2`) are created
+#'  with a correlation of about 0.65. They change the log-odds using main
+#'  effects and an interaction:
 #'
 #' \preformatted{ intercept - 4 * two_factor_1 + 4 * two_factor_2 + 2 * two_factor_1 * two_factor_2 }
 #'
@@ -66,11 +66,11 @@
 #'
 #' All of these effects are added up to model the log-odds.
 #'
-#' ## `sapp_2014_1`
+#' ## `method = "sapp_2014_1"`
 #'
-#' This regression simulation from Sapp et al. (2014). There are 20 independent
-#' Gaussian random predictors with mean zero and a variance of 9. The prediction
-#' equation is:
+#' This regression simulation is from Sapp et al. (2014). There are 20
+#' independent Gaussian random predictors with mean zero and a variance of 9.
+#' The prediction equation is:
 #'
 #' \preformatted{
 #' predictor_01 + sin(predictor_02) + log(abs(predictor_03)) +
@@ -84,7 +84,7 @@
 #'
 #' The error is Gaussian with mean zero and variance 9.
 #'
-#' ## `sapp_2014_2`
+#' ## `method = "sapp_2014_2"`
 #'
 #' This regression simulation is also from Sapp et al. (2014). There are 200
 #' independent Gaussian predictors with mean zero and variance 16. The
@@ -93,7 +93,7 @@
 #'
 #' The error is Gaussian with mean zero and variance 25.
 #'
-#' ## `van_der_laan_2007_1`
+#' ## `method = "van_der_laan_2007_1"`
 #'
 #' This is a regression simulation from van der Laan et al. (2007) with ten
 #' random Bernoulli variables that have a 40% probability of being a value of
@@ -109,10 +109,10 @@
 #'
 #' The error term is standard normal.
 #'
-#' ## `van_der_laan_2007_2`
+#' ## `method = "van_der_laan_2007_2"`
 #'
-#' Another regression simulation from van der Laan et al. (2007)  with twenty
-#' Gaussians with mean zero and variance 16. The prediction equation is
+#' This is another regression simulation from van der Laan et al. (2007)  with
+#' twenty Gaussians with mean zero and variance 16. The prediction equation is:
 #'
 #' \preformatted{
 #' predictor_01 * predictor_02 + predictor_10^2 - predictor_03 * predictor_17 -
@@ -122,14 +122,15 @@
 #'
 #' The error term is also Gaussian with mean zero and variance 16.
 #'
-#' ## `sim_noise`
+#' ## `sim_noise()`
 #'
-#' This simulates a number of random normal variables with mean zero. The
-#' values can be independent if `cov_param = 0`. Otherwise the values are
+#' This function simulates a number of random normal variables with mean zero.
+#' The values can be independent if `cov_param = 0`. Otherwise the values are
 #' multivariate normal with non-diagonal covariance matrices. For
 #' `cov_type = "exchangeable"`, the structure has unit variances and covariances
-#' of `cov_param`. `cov_type = "toeplitz"`, the covariances are an exponential
-#' pattern (see example below).
+#' of `cov_param`. With `cov_type = "toeplitz"`, the covariances have an
+#' exponential pattern (see example below).
+#'
 #' @references
 #' van der Laan, Mark J., Polley, Eric C and Hubbard, Alan E.. "Super Learner"
 #' _Statistical Applications in Genetics and Molecular Biology_, vol. 6, no. 1,
@@ -138,9 +139,15 @@
 #' Stephanie Sapp, Mark J. van der Laan & John Canny (2014) Subsemble: an
 #' ensemble method for combining subset-specific algorithm fits, _Journal of
 #' Applied Statistics_, 41:6, 1247-1259, DOI: 10.1080/02664763.2013.864263
+#'
 #' @examples
 #' set.seed(1)
-#' classfication_data <- sim_classification(100)
+#' sim_regression(100)
+#'
+#' # pipe any of these functions to resampling
+#' library(dplyr)
+#' sim_classification(100) %>%
+#'     bootstraps(strata = class)
 #'
 #' # toeplitz covariance structure for four variables
 #'
