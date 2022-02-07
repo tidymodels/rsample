@@ -7,15 +7,17 @@
     
 
     <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none"><div class="container">
+    
     <a class="navbar-brand me-2" href="../index.html">rsample</a>
 
     <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.1.9000</small>
 
+    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/rsample.html">Get started</a>
 </li>
@@ -46,18 +48,20 @@
   </a>
 </li>
       </ul></div>
+
+    
   </div>
 </nav><div class="container template-news" id="container">
 <div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
       <small>Source: <a href="https://github.com/tidymodels/rsample/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="rsample-development-version">rsample (development version)<a class="anchor" aria-label="anchor" href="#rsample-development-version"></a></h2>
-<ul><li>Fixed how <code><a href="../reference/nested_cv.html">nested_cv()</a></code> handles call objects so variables in the environment can be used when specifying resampling schemes (<a href="https://github.com/tidymodels/rsample/issues/81" class="external-link">#81</a>).</li>
+<ul><li><p>Fixed how <code><a href="../reference/nested_cv.html">nested_cv()</a></code> handles call objects so variables in the environment can be used when specifying resampling schemes (<a href="https://github.com/tidymodels/rsample/issues/81" class="external-link">#81</a>).</p></li>
+<li><p>Added a set of regression and classification simulation functions (<a href="https://github.com/tidymodels/rsample/issues/273" class="external-link">#273</a>).</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="rsample-011">rsample 0.1.1<a class="anchor" aria-label="anchor" href="#rsample-011"></a></h2><p class="text-muted">CRAN release: 2021-11-08</p>
@@ -164,23 +168,18 @@
 <code>rsample</code> 0.0.1 (2017-07-08)<a class="anchor" aria-label="anchor" href="#rsample-001-2017-07-08"></a></h2><p class="text-muted">CRAN release: 2017-07-08</p>
 <p>Initial public version on CRAN</p>
 </div>
-  </div>
-
-  <div class="col-md-3" id="pkgdown-sidebar">
-    <nav id="toc"><h2>On this page</h2>
-    </nav></div>
-
-</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="https://juliasilge.com/" class="external-link">Julia Silge</a>, Fanny Chow, <a href="http://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" width="72"></a>.</p>
+  <p></p><p>Developed by <a href="https://juliasilge.com/" class="external-link">Julia Silge</a>, Fanny Chow, <a href="https://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" width="72"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
   </div></footer></body></html>

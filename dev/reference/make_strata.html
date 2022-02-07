@@ -9,15 +9,17 @@ more conducive for stratification."><meta property="og:image" content="https://r
     
 
     <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none"><div class="container">
+    
     <a class="navbar-brand me-2" href="../index.html">rsample</a>
 
     <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.1.9000</small>
 
+    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/rsample.html">Get started</a>
 </li>
@@ -48,11 +50,12 @@ more conducive for stratification."><meta property="og:image" content="https://r
   </a>
 </li>
       </ul></div>
+
+    
   </div>
 </nav><div class="container template-reference-topic" id="container">
 <div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Create or Modify Stratification Variables</h1>
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/rsample/blob/HEAD/R/make_strata.R" class="external-link"><code>R/make_strata.R</code></a></small>
       <div class="d-none name"><code>make_strata.Rd</code></div>
@@ -63,12 +66,11 @@ more conducive for stratification."><meta property="og:image" content="https://r
 more conducive for stratification.</p>
     </div>
 
-    <div class="ref-usage section level2 sourceCode">
-    <h2>Usage</h2>
-    <pre class="sourceCode r"><code><span class="fu">make_strata</span><span class="op">(</span><span class="va">x</span>, breaks <span class="op">=</span> <span class="fl">4</span>, nunique <span class="op">=</span> <span class="fl">5</span>, pool <span class="op">=</span> <span class="fl">0.1</span>, depth <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></code></pre>
+    <div class="section level2">
+    <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">make_strata</span><span class="op">(</span><span class="va">x</span>, breaks <span class="op">=</span> <span class="fl">4</span>, nunique <span class="op">=</span> <span class="fl">5</span>, pool <span class="op">=</span> <span class="fl">0.1</span>, depth <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></code></pre></div>
     </div>
 
-    <div id="ref-sections">
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
@@ -109,11 +111,10 @@ The percentile groups will have no more than 20 percent of the data in
 each group. Again, missing values in <code>x</code> are randomly assigned
 to groups.</p>
     </div>
-    </div>
 
-    <div id="examples">
-    <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">61</span><span class="op">)</span></span>
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">61</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="fl">100</span>, lambda <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> x1</span>
@@ -162,7 +163,7 @@ to groups.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 38 29 12 17 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu">make_strata</span><span class="op">(</span><span class="va">x4</span>, pool <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Stratifying groups that make up 0% of the data may be statistically risky.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> * Consider increasing `pool` to at least 0.1</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Consider increasing `pool` to at least 0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  A  B  C  D  E  F  G </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 37 26  3  7 11 10  2 </span>
@@ -171,9 +172,9 @@ to groups.</p>
 <span class="r-in"><span class="va">x5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu">make_strata</span><span class="op">(</span><span class="va">x5</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The number of observations in each quantile is below the recommended threshold of 20.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> * Stratification will use 1 breaks instead.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Stratification will use 1 breaks instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Too little data to stratify.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> * Resampling will be unstratified.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Resampling will be unstratified.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> strata1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      20 </span>
@@ -195,21 +196,18 @@ to groups.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               20               20 </span>
 </code></pre></div>
     </div>
-  </div>
-  <div class="col-md-3" id="pkgdown-sidebar">
-    <nav id="toc"><h2>On this page</h2>
-    </nav></div>
-</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="https://juliasilge.com/" class="external-link">Julia Silge</a>, Fanny Chow, <a href="http://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" width="72"></a>.</p>
+  <p></p><p>Developed by <a href="https://juliasilge.com/" class="external-link">Julia Silge</a>, Fanny Chow, <a href="https://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" width="72"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
   </div></footer></body></html>

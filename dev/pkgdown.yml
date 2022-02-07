@@ -1,13 +1,13 @@
 pandoc: 2.7.3
-pkgdown: 1.9000.9000.9000
-pkgdown_sha: e72fc30f333dc4f50f3f9d1f274fc29d67e34974
+pkgdown: 2.0.2.9000
+pkgdown_sha: ae7363faac9040a473a54fb3d770decdfb8dfec1
 articles:
   Intervals: Applications/Intervals.html
   Recipes_and_rsample: Applications/Recipes_and_rsample.html
   Survival_Analysis: Applications/Survival_Analysis.html
   Working_with_rsets: Working_with_rsets.html
   rsample: rsample.html
-last_built: 2021-11-18T20:00Z
+last_built: 2022-02-07T22:14Z
 urls:
   reference: https://rsample.tidymodels.org/reference
   article: https://rsample.tidymodels.org/articles
