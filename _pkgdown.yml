@@ -48,6 +48,7 @@ reference:
       - rsample2caret
       - rset_reconstruct
       - starts_with("tidy")
+      - sim_classification
   - title: Data
     contents:
       - attrition
