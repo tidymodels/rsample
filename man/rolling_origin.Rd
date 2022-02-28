@@ -81,7 +81,6 @@ multi_year_roll <- rolling_origin(drinks_annual, cumulative = FALSE)
 
 analysis(multi_year_roll$splits[[1]])
 assessment(multi_year_roll$splits[[1]])
-
 }
 \seealso{
 \code{\link[=sliding_window]{sliding_window()}}, \code{\link[=sliding_index]{sliding_index()}}, and \code{\link[=sliding_period]{sliding_period()}} for additional

@@ -184,15 +184,15 @@ sim_regression(100)
 # pipe any of these functions to resampling
 library(dplyr)
 sim_classification(100) \%>\%
-    bootstraps(strata = class)
+  bootstraps(strata = class)
 
 # toeplitz covariance structure for four variables
 
-cov_value <- 1/2
+cov_value <- 1 / 2
 toeplitz(cov_value^(seq(0, 3, by = 1)))
 
 set.seed(2)
-dat <- sim_noise(1000, num_vars = 4, cov_type = "toeplitz", cov_param = 1/2)
+dat <- sim_noise(1000, num_vars = 4, cov_type = "toeplitz", cov_param = 1 / 2)
 round(cor(dat), 2)
 }
 \references{

@@ -62,6 +62,5 @@ library(dplyr)
 cv_obj \%>\%
   select(-splits) \%>\%
   pivot_longer(-id)
-
 }
 \keyword{internal}

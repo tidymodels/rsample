@@ -1,3 +1,12 @@
+#' @keywords internal
+"_PACKAGE"
+
+## usethis namespace: start
+## usethis namespace: end
+NULL
+
+#------------------------------------------------------------------------------#
+
 #' @importFrom utils globalVariables
 #' @importFrom purrr map map_df map2 map_dfr map_dbl pluck map_lgl
 #' @importFrom tibble tibble is_tibble as_tibble obj_sum type_sum
@@ -11,9 +20,7 @@
 #' @importFrom furrr future_map_dfr
 #' @importFrom tidyr gather
 
-
-
-# ------------------------------------------------------------------------------
+#------------------------------------------------------------------------------#
 
 utils::globalVariables(
   c(

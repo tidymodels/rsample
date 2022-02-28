@@ -51,10 +51,10 @@ A convenience function for confidence intervals with linear-ish parametric model
 \examples{
 \donttest{
 set.seed(1)
-reg_intervals(mpg ~ I(1/sqrt(disp)), data = mtcars)
+reg_intervals(mpg ~ I(1 / sqrt(disp)), data = mtcars)
 
 set.seed(1)
-reg_intervals(mpg ~ I(1/sqrt(disp)), data = mtcars, keep_reps = TRUE)
+reg_intervals(mpg ~ I(1 / sqrt(disp)), data = mtcars, keep_reps = TRUE)
 }
 }
 \references{

@@ -65,25 +65,31 @@ data(wa_churn, package = "modeldata")
 
 set.seed(13)
 folds1 <- vfold_cv(wa_churn, v = 5)
-map_dbl(folds1$splits,
-        function(x) {
-          dat <- as.data.frame(x)$churn
-          mean(dat == "Yes")
-        })
+map_dbl(
+  folds1$splits,
+  function(x) {
+    dat <- as.data.frame(x)$churn
+    mean(dat == "Yes")
+  }
+)
 
 set.seed(13)
 folds2 <- vfold_cv(wa_churn, strata = churn, v = 5)
-map_dbl(folds2$splits,
-        function(x) {
-          dat <- as.data.frame(x)$churn
-          mean(dat == "Yes")
-        })
+map_dbl(
+  folds2$splits,
+  function(x) {
+    dat <- as.data.frame(x)$churn
+    mean(dat == "Yes")
+  }
+)
 
 set.seed(13)
 folds3 <- vfold_cv(wa_churn, strata = tenure, breaks = 6, v = 5)
-map_dbl(folds3$splits,
-        function(x) {
-          dat <- as.data.frame(x)$churn
-          mean(dat == "Yes")
-        })
+map_dbl(
+  folds3$splits,
+  function(x) {
+    dat <- as.data.frame(x)$churn
+    mean(dat == "Yes")
+  }
+)
 }
