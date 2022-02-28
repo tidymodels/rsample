@@ -246,12 +246,13 @@ test_that("regression intervals", {
   )
 
   expect_snapshot({
-    set.seed(1)
+    set.seed(123)
     int_2 <- reg_intervals(
       mpg ~ disp + wt,
       data = mtcars,
       filter = term == "wt",
-      model_fn = "glm", keep_reps = TRUE
+      model_fn = "glm",
+      keep_reps = TRUE
     )
     int_2
   })
