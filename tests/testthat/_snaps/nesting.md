@@ -1,6 +1,7 @@
 # bad args
 
     Code
+      set.seed(123)
       nested_cv(mtcars, outside = bootstraps(times = 5), inside = vfold_cv(V = 3))
     Warning <rlang_warning>
       Using bootstrapping as the outer resample is dangerous since the inner resample might have the same data point in both the analysis and assessment set.
@@ -11,10 +12,10 @@
       # A tibble: 5 x 3
         splits          id         inner_resamples    
         <list>          <chr>      <list>             
-      1 <split [32/6]>  Bootstrap1 <vfold_cv [10 x 2]>
-      2 <split [32/10]> Bootstrap2 <vfold_cv [10 x 2]>
+      1 <split [32/11]> Bootstrap1 <vfold_cv [10 x 2]>
+      2 <split [32/9]>  Bootstrap2 <vfold_cv [10 x 2]>
       3 <split [32/10]> Bootstrap3 <vfold_cv [10 x 2]>
-      4 <split [32/9]>  Bootstrap4 <vfold_cv [10 x 2]>
+      4 <split [32/14]> Bootstrap4 <vfold_cv [10 x 2]>
       5 <split [32/11]> Bootstrap5 <vfold_cv [10 x 2]>
 
 ---

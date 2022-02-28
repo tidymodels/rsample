@@ -39,12 +39,13 @@ test_that("default param", {
 })
 
 test_that("bad args", {
-  expect_snapshot(
+  expect_snapshot({
+    set.seed(123)
     nested_cv(mtcars,
       outside = bootstraps(times = 5),
       inside = vfold_cv(V = 3)
     )
-  )
+  })
   folds <- vfold_cv(mtcars)
   expect_snapshot(
     nested_cv(mtcars,
