@@ -1,8 +1,8 @@
 ---
-title: "Survival Analysis Example"
+title: "Survival analysis and resampling"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Survival Analysis Example}
+  %\VignetteIndexEntry{Survival analysis and resampling}
 output:
   knitr:::html_vignette:
     toc: yes

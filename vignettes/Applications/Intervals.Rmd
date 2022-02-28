@@ -1,8 +1,8 @@
 ---
-title: "Bootstrap Confidence Intervals"
+title: "Bootstrap confidence intervals"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Bootstrap Confidence Intervals}
+  %\VignetteIndexEntry{Bootstrap confidence intervals}
 output:
   knitr:::html_vignette:
     toc: yes
