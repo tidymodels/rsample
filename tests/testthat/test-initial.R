@@ -1,12 +1,3 @@
-context("Initial splitting")
-
-library(testthat)
-library(rsample)
-library(purrr)
-
-dat1 <- data.frame(a = 1:20, b = letters[1:20])
-data(drinks, package = "modeldata")
-
 test_that("default param", {
   set.seed(11)
   rs1 <- initial_split(dat1)
@@ -37,15 +28,17 @@ test_that("default time param with lag", {
   expect_equal(tr1, dplyr::slice(dat1, 1:floor(nrow(dat1) * 3 / 4)))
   expect_equal(ts1, dat1[(floor(nrow(dat1) * 3 / 4) + 1 - 5):nrow(dat1), ])
 
+  data(drinks, package = "modeldata")
+
   # Whole numbers only
-  expect_error(
+  expect_snapshot(
     initial_time_split(drinks, lag = 12.5),
-    "must be a whole number"
+    error = TRUE
   )
   # Lag must be less than number of training observations
-  expect_error(
+  expect_snapshot(
     initial_time_split(drinks, lag = 500),
-    "must be less than or equal to the number"
+    error = TRUE
   )
 })
 

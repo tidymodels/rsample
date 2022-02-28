@@ -1,8 +1,3 @@
-context("Conversions for caret")
-
-library(testthat)
-library(rsample)
-
 ###################################################################
 ## Test cases for caret -> rsample that mimic `trainControl`
 
@@ -242,7 +237,6 @@ check_indices <- function(newer, orig) {
 }
 
 ###################################################################
-## Tests
 
 test_that("basic v-fold", {
   vfold_obj_1 <- caret2rsample(cv_1, data = dat)

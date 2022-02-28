@@ -1,12 +1,3 @@
-context("V-fold CV")
-
-library(testthat)
-library(rsample)
-library(purrr)
-library(modeldata)
-
-dat1 <- data.frame(a = 1:20, b = letters[1:20])
-
 test_that("default param", {
   set.seed(11)
   rs1 <- vfold_cv(dat1)
@@ -15,12 +6,12 @@ test_that("default param", {
   expect_true(all(sizes1$analysis == 18))
   expect_true(all(sizes1$assessment == 2))
   same_data <-
-    map_lgl(rs1$splits, function(x) {
+    purrr::map_lgl(rs1$splits, function(x) {
       all.equal(x$data, dat1)
     })
   expect_true(all(same_data))
 
-  good_holdout <- map_lgl(
+  good_holdout <- purrr::map_lgl(
     rs1$splits,
     function(x) {
       length(intersect(x$in_ind, x$out_id)) == 0
@@ -37,12 +28,12 @@ test_that("repeated", {
   expect_true(all(sizes2$analysis == 18))
   expect_true(all(sizes2$assessment == 2))
   same_data <-
-    map_lgl(rs2$splits, function(x) {
+    purrr::map_lgl(rs2$splits, function(x) {
       all.equal(x$data, dat1)
     })
   expect_true(all(same_data))
 
-  good_holdout <- map_lgl(
+  good_holdout <- purrr::map_lgl(
     rs2$splits,
     function(x) {
       length(intersect(x$in_ind, x$out_id)) == 0
@@ -60,7 +51,7 @@ test_that("strata", {
   expect_true(all(sizes3$analysis %in% 4499:4501))
   expect_true(all(sizes3$assessment %in% 499:501))
 
-  rate <- map_dbl(
+  rate <- purrr::map_dbl(
     rs3$splits,
     function(x) {
       dat <- as.data.frame(x)$voice_mail_plan
@@ -69,7 +60,7 @@ test_that("strata", {
   )
   expect_equal(mean(unique(rate)), 0.2645925848)
 
-  good_holdout <- map_lgl(
+  good_holdout <- purrr::map_lgl(
     rs3$splits,
     function(x) {
       length(intersect(x$in_ind, x$out_id)) == 0
@@ -77,9 +68,8 @@ test_that("strata", {
   )
   expect_true(all(good_holdout))
 
-  expect_warning(
-    rs4 <- vfold_cv(mlc_churn, strata = state, pool = 0.01),
-    "Stratifying groups that make up 1%"
+  expect_snapshot(
+    rs4 <- vfold_cv(mlc_churn, strata = state, pool = 0.01)
   )
 })
 
@@ -90,18 +80,18 @@ test_that("bad args", {
 })
 
 test_that("printing", {
-  expect_output(print(vfold_cv(mtcars)))
+  expect_snapshot(vfold_cv(mtcars))
 })
 
 
 test_that("rsplit labels", {
   rs <- vfold_cv(mtcars)
-  all_labs <- map_df(rs$splits, labels)
+  all_labs <- purrr::map_df(rs$splits, labels)
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
 
   rs2 <- vfold_cv(mtcars, repeats = 4)
-  all_labs2 <- map_df(rs2$splits, labels)
+  all_labs2 <- purrr::map_df(rs2$splits, labels)
   original_id2 <- rs2[, grepl("^id", names(rs2))]
   expect_equal(all_labs2, original_id2)
 })

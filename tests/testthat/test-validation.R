@@ -1,12 +1,3 @@
-context("Validation sets")
-
-library(testthat)
-library(rsample)
-library(purrr)
-
-dat1 <- data.frame(a = 1:20, b = letters[1:20])
-data(drinks, package = "modeldata")
-
 test_that("default param", {
   set.seed(11)
   rs1 <- validation_split(dat1)
@@ -15,12 +6,12 @@ test_that("default param", {
   expect_true(all(sizes1$analysis == 15))
   expect_true(all(sizes1$assessment == 5))
   same_data <-
-    map_lgl(rs1$splits, function(x) {
+    purrr::map_lgl(rs1$splits, function(x) {
       all.equal(x$data, dat1)
     })
   expect_true(all(same_data))
 
-  good_holdout <- map_lgl(
+  good_holdout <- purrr::map_lgl(
     rs1$splits,
     function(x) {
       length(intersect(x$in_ind, x$out_id)) == 0
@@ -37,12 +28,12 @@ test_that("default time param", {
   expect_true(all(sizes1$analysis == 15))
   expect_true(all(sizes1$assessment == 5))
   same_data <-
-    map_lgl(rs1$splits, function(x) {
+    purrr::map_lgl(rs1$splits, function(x) {
       all.equal(x$data, dat1)
     })
   expect_true(all(same_data))
 
-  good_holdout <- map_lgl(
+  good_holdout <- purrr::map_lgl(
     rs1$splits,
     function(x) {
       length(intersect(x$in_ind, x$out_id)) == 0
@@ -55,14 +46,17 @@ test_that("default time param", {
 })
 
 test_that("default time param with lag", {
+  data(drinks, package = "modeldata")
+
   rs1 <- validation_time_split(dat1, lag = 5)
   expect_s3_class(rs1, "validation_split")
   tr1 <- training(rs1$splits[[1]])
   expect_equal(nrow(tr1), floor(nrow(dat1) * 3 / 4))
   expect_equal(tr1, dplyr::slice(dat1, 1:floor(nrow(dat1) * 3 / 4)))
 
-  expect_error(validation_time_split(drinks, lag = 12.5)) # Whole numbers only
-  expect_error(validation_time_split(drinks, lag = 500)) # Lag must be less than number of training observations
+  expect_snapshot(validation_time_split(drinks))
+  expect_snapshot(validation_time_split(drinks, lag = 12.5), error = TRUE)
+  expect_snapshot(validation_time_split(drinks, lag = 500), error = TRUE)
 })
 
 
@@ -74,12 +68,12 @@ test_that("different percent", {
   expect_true(all(sizes2$analysis == 10))
   expect_true(all(sizes2$assessment == 10))
   same_data <-
-    map_lgl(rs2$splits, function(x) {
+    purrr::map_lgl(rs2$splits, function(x) {
       all.equal(x$data, dat1)
     })
   expect_true(all(same_data))
 
-  good_holdout <- map_lgl(
+  good_holdout <- purrr::map_lgl(
     rs2$splits,
     function(x) {
       length(intersect(x$in_ind, x$out_id)) == 0
@@ -96,7 +90,7 @@ test_that("strata", {
   expect_true(all(sizes3$analysis == 39))
   expect_true(all(sizes3$assessment == 15))
 
-  rate <- map_dbl(
+  rate <- purrr::map_dbl(
     rs3$splits,
     function(x) {
       dat <- as.data.frame(x)$tension
@@ -105,7 +99,7 @@ test_that("strata", {
   )
   expect_true(length(unique(rate)) == 1)
 
-  good_holdout <- map_lgl(
+  good_holdout <- purrr::map_lgl(
     rs3$splits,
     function(x) {
       length(intersect(x$in_ind, x$out_id)) == 0
@@ -122,18 +116,13 @@ test_that("bad args", {
 
 
 test_that("printing", {
-  expect_output(print(validation_split(warpbreaks)), "Validation Set Split")
-  expect_output(print(validation_time_split(drinks)), "Validation Set Split")
-})
-
-
-test_that("printing", {
-  expect_output(print(validation_split(warpbreaks)$splits[[1]]), "Training/Validation/Total")
+  expect_snapshot(validation_split(warpbreaks))
+  expect_snapshot(validation_split(warpbreaks)$splits[[1]])
 })
 
 test_that("rsplit labels", {
   rs <- validation_split(mtcars)
-  all_labs <- map_df(rs$splits, labels)
+  all_labs <- purrr::map_df(rs$splits, labels)
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
 })

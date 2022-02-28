@@ -1,9 +1,3 @@
-context("Strata constructor")
-
-library(testthat)
-library(rsample)
-library(purrr)
-
 test_that("simple numerics", {
   set.seed(13333)
   x1 <- rnorm(1000)
@@ -11,7 +5,7 @@ test_that("simple numerics", {
   tab1a <- table(str1a)
   expect_equal(as.vector(tab1a), rep(250, 4))
 
-  str1b <- expect_warning(make_strata(x1, depth = 500), "2 breaks instead")
+  expect_warning(str1b <- make_strata(x1, depth = 500), "2 breaks instead")
   tab1b <- table(str1b)
   expect_equal(as.vector(tab1b), rep(500, 2))
 
@@ -40,12 +34,9 @@ test_that("simple character", {
 test_that("bad data", {
   x3 <- factor(rep(LETTERS[1:15], each = 50))
   expect_warning(make_strata(x3), "Too little data")
-  expect_warning(
-    make_strata(x3, pool = 0.06),
-    "Stratifying groups that make up 6%"
-  )
-  expect_warning(make_strata(mtcars$mpg))
-  expect_warning(make_strata(seq_len(50), breaks = -1))
+  expect_snapshot(s1 <- make_strata(x3, pool = 0.06))
+  expect_snapshot(s2 <- make_strata(mtcars$mpg))
+  expect_snapshot(s3 <- make_strata(seq_len(50), breaks = -1))
 })
 
 

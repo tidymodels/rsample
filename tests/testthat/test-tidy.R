@@ -1,19 +1,3 @@
-context("Tidy methods")
-
-library(testthat)
-library(rsample)
-library(purrr)
-
-check_ind <- function(x, tdat) {
-  in_dat <- subset(tdat, Data == "Analysis")
-  in_check <- all(sort(in_dat$Row) == x$in_ind)
-  out_dat <- subset(tdat, Data == "Analysis")
-  out_check <- all(sort(out_dat$Row) == x$out_ind)
-  in_check & out_check
-}
-
-dat1 <- data.frame(a = 1:20, b = letters[1:20])
-
 test_that("simple boot", {
   set.seed(11)
   rs1 <- bootstraps(dat1)

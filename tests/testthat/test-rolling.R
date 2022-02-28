@@ -1,11 +1,3 @@
-context("Rolling window resampling")
-
-library(testthat)
-library(rsample)
-library(purrr)
-
-dat1 <- data.frame(a = 1:20, b = letters[1:20])
-
 test_that("default param", {
   rs1 <- rolling_origin(dat1)
   sizes1 <- dim_rset(rs1)
@@ -13,7 +5,7 @@ test_that("default param", {
   expect_true(all(sizes1$assessment == 1))
   expect_true(all(sizes1$analysis == 5:19))
   same_data <-
-    map_lgl(rs1$splits, function(x) {
+    purrr::map_lgl(rs1$splits, function(x) {
       all.equal(x$data, dat1)
     })
   expect_true(all(same_data))
@@ -114,7 +106,7 @@ test_that("lag", {
 
 test_that("rsplit labels", {
   rs <- rolling_origin(dat1)
-  all_labs <- map_df(rs$splits, labels)
+  all_labs <- purrr::map_df(rs$splits, labels)
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
 })

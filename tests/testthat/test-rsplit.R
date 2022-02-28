@@ -1,13 +1,3 @@
-context("Rsplit constructor")
-
-library(testthat)
-library(rsample)
-
-dat1 <- data.frame(a = 1:100, b = 101:200)
-size1 <- object.size(dat1)
-
-dat2 <- as.matrix(dat1)
-
 test_that("simple rsplit", {
   rs1 <- rsplit(dat1, 1:2, 4:5)
   expect_equal(rs1$data, dat1)
@@ -16,6 +6,7 @@ test_that("simple rsplit", {
 })
 
 test_that("simple rsplit with matrices", {
+  dat2 <- as.matrix(dat1)
   rs2 <- rsplit(dat2, 1:2, 4:5)
   expect_equal(rs2$data, dat2)
   expect_equal(rs2$in_id, 1:2)
@@ -43,23 +34,23 @@ test_that("as.data.frame", {
 
 
 test_that("print methods", {
-  verify_output(test_path("print_test_output", "rsplit"), {
+  expect_snapshot({
     set.seed(233)
-    print(vfold_cv(mtcars)$splits[[1]])
+    vfold_cv(mtcars)$splits[[1]]
   })
-  verify_output(test_path("print_test_output", "val_split"), {
+  expect_snapshot({
     set.seed(233)
-    print(validation_split(mtcars)$splits[[1]])
+    validation_split(mtcars)$splits[[1]]
   })
-  verify_output(test_path("print_test_output", "obj_sum"), {
+  expect_snapshot({
     set.seed(233)
-    print(validation_split(mtcars))
+    validation_split(mtcars)
   })
 })
 
 test_that("default complement method errors", {
-  expect_error(
+  expect_snapshot(
     complement("a string"),
-    "No `complement[(][)]` method for this class[(]es[)]"
+    error = TRUE
   )
 })

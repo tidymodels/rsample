@@ -1,7 +1,3 @@
-context("Predictor extraction")
-
-library(testthat)
-
 test_that("no dots", {
   expect_equal(form_pred(y ~ x + z), c("x", "z"))
   expect_equal(form_pred(terms(y ~ x + z)), c("x", "z"))

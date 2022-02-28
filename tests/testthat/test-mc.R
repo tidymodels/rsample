@@ -1,11 +1,3 @@
-context("Monte Carlo CV")
-
-library(testthat)
-library(rsample)
-library(purrr)
-
-dat1 <- data.frame(a = 1:20, b = letters[1:20])
-
 test_that("default param", {
   set.seed(11)
   rs1 <- mc_cv(dat1)
@@ -14,12 +6,12 @@ test_that("default param", {
   expect_true(all(sizes1$analysis == 15))
   expect_true(all(sizes1$assessment == 5))
   same_data <-
-    map_lgl(rs1$splits, function(x) {
+    purrr::map_lgl(rs1$splits, function(x) {
       all.equal(x$data, dat1)
     })
   expect_true(all(same_data))
 
-  good_holdout <- map_lgl(
+  good_holdout <- purrr::map_lgl(
     rs1$splits,
     function(x) {
       length(intersect(x$in_ind, x$out_id)) == 0
@@ -36,12 +28,12 @@ test_that("different percent", {
   expect_true(all(sizes2$analysis == 10))
   expect_true(all(sizes2$assessment == 10))
   same_data <-
-    map_lgl(rs2$splits, function(x) {
+    purrr::map_lgl(rs2$splits, function(x) {
       all.equal(x$data, dat1)
     })
   expect_true(all(same_data))
 
-  good_holdout <- map_lgl(
+  good_holdout <- purrr::map_lgl(
     rs2$splits,
     function(x) {
       length(intersect(x$in_ind, x$out_id)) == 0
@@ -60,7 +52,7 @@ test_that("strata", {
   expect_true(all(sizes3$analysis == 39))
   expect_true(all(sizes3$assessment == 15))
 
-  rate <- map_dbl(
+  rate <- purrr::map_dbl(
     rs3$splits,
     function(x) {
       dat <- as.data.frame(x)$tension
@@ -69,7 +61,7 @@ test_that("strata", {
   )
   expect_true(length(unique(rate)) == 1)
 
-  good_holdout <- map_lgl(
+  good_holdout <- purrr::map_lgl(
     rs3$splits,
     function(x) {
       length(intersect(x$in_ind, x$out_id)) == 0
@@ -86,13 +78,13 @@ test_that("bad args", {
 
 
 test_that("printing", {
-  expect_output(print(mc_cv(warpbreaks)))
+  expect_snapshot(mc_cv(warpbreaks))
 })
 
 
 test_that("rsplit labels", {
   rs <- mc_cv(mtcars)
-  all_labs <- map_df(rs$splits, labels)
+  all_labs <- purrr::map_df(rs$splits, labels)
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
 })

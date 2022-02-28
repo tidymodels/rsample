@@ -1,4 +1,3 @@
-
 test_that("fingerprinting", {
   set.seed(1)
   rs_1 <- vfold_cv(mtcars)
