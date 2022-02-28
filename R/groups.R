@@ -29,8 +29,9 @@
 #' set.seed(5144)
 #' split_by_id <- group_vfold_cv(test_data, group = "id")
 #'
-#' get_id_left_out <- function(x)
+#' get_id_left_out <- function(x) {
 #'   unique(assessment(x)$id)
+#' }
 #'
 #' library(purrr)
 #' table(map_int(split_by_id$splits, get_id_left_out))
@@ -43,22 +44,23 @@
 #' map_int(held_out, length)
 #' @export
 group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
-
-  if(!missing(group)) {
+  if (!missing(group)) {
     group <- tidyselect::vars_select(names(data), !!enquo(group))
-    if(length(group) == 0) {
+    if (length(group) == 0) {
       group <- NULL
     }
   }
 
-  if (is.null(group) || !is.character(group) || length(group) != 1)
+  if (is.null(group) || !is.character(group) || length(group) != 1) {
     stop(
       "`group` should be a single character value for the column ",
       "that will be used for splitting.",
       call. = FALSE
     )
-  if (!any(names(data) == group))
+  }
+  if (!any(names(data) == group)) {
     stop("`group` should be a column in `data`.", call. = FALSE)
+  }
 
   split_objs <- group_vfold_splits(data = data, group = group, v = v)
 
@@ -76,10 +78,12 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
 
   cv_att <- list(v = v, group = group)
 
-  new_rset(splits = split_objs$splits,
-           ids = split_objs[, grepl("^id", names(split_objs))],
-           attrib = cv_att,
-           subclass = c("group_vfold_cv", "rset"))
+  new_rset(
+    splits = split_objs$splits,
+    ids = split_objs[, grepl("^id", names(split_objs))],
+    attrib = cv_att,
+    subclass = c("group_vfold_cv", "rset")
+  )
 }
 
 group_vfold_splits <- function(data, group, v = NULL) {
@@ -89,8 +93,9 @@ group_vfold_splits <- function(data, group, v = NULL) {
   if (is.null(v)) {
     v <- max_v
   } else {
-    if (v > max_v)
+    if (v > max_v) {
       stop("`v` should be less than ", max_v, call. = FALSE)
+    }
   }
   data_ind <- data.frame(..index = 1:nrow(data), ..group = getElement(data, group))
   keys <- data.frame(..group = uni_groups)
@@ -104,11 +109,14 @@ group_vfold_splits <- function(data, group, v = NULL) {
   indices <- lapply(indices, default_complement, n = nrow(data))
   split_objs <-
     purrr::map(indices,
-               make_splits,
-               data = data,
-               class = "group_vfold_split")
-  tibble::tibble(splits = split_objs,
-                 id = names0(length(split_objs), "Resample"))
+      make_splits,
+      data = data,
+      class = "group_vfold_split"
+    )
+  tibble::tibble(
+    splits = split_objs,
+    id = names0(length(split_objs), "Resample")
+  )
 }
 
 #' @export

@@ -5,25 +5,28 @@ library(rsample)
 library(purrr)
 library(dplyr)
 
-test_that('default param', {
+test_that("default param", {
   set.seed(11)
   rs1 <- permutations(mtcars, 1)
   sizes1 <- dim_rset(rs1)
 
   expect_true(all(sizes1$analysis == nrow(mtcars)))
   same_data <-
-    map_lgl(rs1$splits, function(x)
-      all.equal(x$data, mtcars))
+    map_lgl(rs1$splits, function(x) {
+      all.equal(x$data, mtcars)
+    })
   expect_true(all(same_data))
 
-  good_holdout <- map_lgl(rs1$splits,
-                          function(x) {
-                            length(intersect(x$in_ind, x$out_id)) == 0
-                          })
+  good_holdout <- map_lgl(
+    rs1$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
   expect_true(all(good_holdout))
 })
 
-test_that('apparent', {
+test_that("apparent", {
   rs2 <- permutations(mtcars, 1, apparent = TRUE)
   sizes2 <- dim_rset(rs2)
 
@@ -32,38 +35,38 @@ test_that('apparent', {
   expect_equal(sizes2$assessment[sizes2$id == "Apparent"], nrow(mtcars))
 })
 
-test_that('no assessment set', {
+test_that("no assessment set", {
   xx <- permutations(mtcars, 1)
   expect_error(assessment(xx$splits[[1]]))
 })
 
-test_that('bad args', {
+test_that("bad args", {
   expect_error(permutations(mtcars)) # no columns specified
   expect_error(permutations(mtcars, foo)) # column doesn't exist
   expect_error(permutations(mtcars, start_with("z"))) # column doesn't exist
   expect_error(permutations(mtcars, everything())) # all columns
 })
 
-test_that('printing', {
+test_that("printing", {
   expect_output(print(permutations(mtcars, 1)))
 })
 
-test_that('rsplit labels', {
+test_that("rsplit labels", {
   rs <- permutations(mtcars, 1)
   all_labs <- map_df(rs$splits, labels)
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
 })
 
-test_that('filtering/slicing rows', {
+test_that("filtering/slicing rows", {
   x <- permutations(mtcars, 1:3)
-  xf <- filter(x, id=="Permutations01")
+  xf <- filter(x, id == "Permutations01")
   xs <- slice(x, 1)
   expect_identical(class(xf), c("tbl_df", "tbl", "data.frame"))
   expect_identical(class(xs), c("tbl_df", "tbl", "data.frame"))
 })
 
-test_that('column binding', {
+test_that("column binding", {
   x <- permutations(mtcars, 1:3)
   xcb1 <- bind_cols(x, y = LETTERS[1:nrow(x)])
   xcb2 <- bind_cols(x, mtcars = tidyr::nest(mtcars, data = everything()))

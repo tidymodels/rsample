@@ -33,27 +33,33 @@
 #'
 #' set.seed(13)
 #' resample1 <- bootstraps(wa_churn, times = 3)
-#' map_dbl(resample1$splits,
-#'         function(x) {
-#'           dat <- as.data.frame(x)$churn
-#'           mean(dat == "Yes")
-#'         })
+#' map_dbl(
+#'   resample1$splits,
+#'   function(x) {
+#'     dat <- as.data.frame(x)$churn
+#'     mean(dat == "Yes")
+#'   }
+#' )
 #'
 #' set.seed(13)
 #' resample2 <- bootstraps(wa_churn, strata = churn, times = 3)
-#' map_dbl(resample2$splits,
-#'         function(x) {
-#'           dat <- as.data.frame(x)$churn
-#'           mean(dat == "Yes")
-#'         })
+#' map_dbl(
+#'   resample2$splits,
+#'   function(x) {
+#'     dat <- as.data.frame(x)$churn
+#'     mean(dat == "Yes")
+#'   }
+#' )
 #'
 #' set.seed(13)
 #' resample3 <- bootstraps(wa_churn, strata = tenure, breaks = 6, times = 3)
-#' map_dbl(resample3$splits,
-#'         function(x) {
-#'           dat <- as.data.frame(x)$churn
-#'           mean(dat == "Yes")
-#'         })
+#' map_dbl(
+#'   resample3$splits,
+#'   function(x) {
+#'     dat <- as.data.frame(x)$churn
+#'     mean(dat == "Yes")
+#'   }
+#' )
 #' @export
 bootstraps <-
   function(data,
@@ -63,35 +69,38 @@ bootstraps <-
            pool = 0.1,
            apparent = FALSE,
            ...) {
+    if (!missing(strata)) {
+      strata <- tidyselect::vars_select(names(data), !!enquo(strata))
+      if (length(strata) == 0) strata <- NULL
+    }
 
-  if(!missing(strata)) {
-    strata <- tidyselect::vars_select(names(data), !!enquo(strata))
-    if(length(strata) == 0) strata <- NULL
-  }
+    strata_check(strata, data)
 
-  strata_check(strata, data)
+    split_objs <-
+      boot_splits(
+        data = data,
+        times = times,
+        strata = strata,
+        breaks = breaks,
+        pool = pool
+      )
+    if (apparent) {
+      split_objs <- bind_rows(split_objs, apparent(data))
+    }
 
-  split_objs <-
-    boot_splits(
-      data = data,
+    boot_att <- list(
       times = times,
-      strata = strata,
-      breaks = breaks,
-      pool = pool
+      apparent = apparent,
+      strata = !is.null(strata)
     )
-  if(apparent)
-    split_objs <- bind_rows(split_objs, apparent(data))
 
-  boot_att <- list(times = times,
-                   apparent = apparent,
-                   strata = !is.null(strata))
-
-  new_rset(splits = split_objs$splits,
-           ids = split_objs$id,
-           attrib = boot_att,
-           subclass = c("bootstraps", "rset"))
-
-}
+    new_rset(
+      splits = split_objs$splits,
+      ids = split_objs$id,
+      attrib = boot_att,
+      subclass = c("bootstraps", "rset")
+    )
+  }
 
 # Get the indices of the analysis set from the analysis set (= bootstrap sample)
 boot_complement <- function(ind, n) {
@@ -104,35 +113,39 @@ boot_splits <-
            strata = NULL,
            breaks = 4,
            pool = 0.1) {
+    n <- nrow(data)
 
-  n <- nrow(data)
-
-  if (is.null(strata)) {
-    indices <- purrr::map(rep(n, times), sample, replace = TRUE)
-  } else {
-    stratas <- tibble::tibble(idx = 1:n,
-                              strata = make_strata(getElement(data, strata),
-                                                   breaks = breaks,
-                                                   pool = pool))
-    stratas <- split_unnamed(stratas, stratas$strata)
-    stratas <-
-      purrr::map_df(
-        stratas,
-        strat_sample,
-        prop = 1,
-        times = times,
-        replace = TRUE
+    if (is.null(strata)) {
+      indices <- purrr::map(rep(n, times), sample, replace = TRUE)
+    } else {
+      stratas <- tibble::tibble(
+        idx = 1:n,
+        strata = make_strata(getElement(data, strata),
+          breaks = breaks,
+          pool = pool
+        )
       )
-    indices <- split_unnamed(stratas$idx, stratas$rs_id)
+      stratas <- split_unnamed(stratas, stratas$strata)
+      stratas <-
+        purrr::map_df(
+          stratas,
+          strat_sample,
+          prop = 1,
+          times = times,
+          replace = TRUE
+        )
+      indices <- split_unnamed(stratas$idx, stratas$rs_id)
+    }
+
+    indices <- lapply(indices, boot_complement, n = n)
+
+    split_objs <-
+      purrr::map(indices, make_splits, data = data, class = "boot_split")
+    list(
+      splits = split_objs,
+      id = names0(length(split_objs), "Bootstrap")
+    )
   }
-
-  indices <- lapply(indices, boot_complement, n = n)
-
-  split_objs <-
-    purrr::map(indices, make_splits, data = data, class = "boot_split")
-  list(splits = split_objs,
-       id = names0(length(split_objs), "Bootstrap"))
-}
 
 #' @export
 print.bootstraps <- function(x, ...) {

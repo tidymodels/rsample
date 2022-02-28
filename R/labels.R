@@ -13,28 +13,35 @@
 #' @examples
 #' labels(vfold_cv(mtcars))
 labels.rset <- function(object, make_factor = FALSE, ...) {
-  if (inherits(object, "nested_cv"))
+  if (inherits(object, "nested_cv")) {
     stop("`labels` not implemented for nested resampling",
-         call. = FALSE)
-  if (make_factor)
+      call. = FALSE
+    )
+  }
+  if (make_factor) {
     as.factor(object$id)
-  else
+  } else {
     as.character(object$id)
+  }
 }
 
 #' @rdname labels.rset
 #' @export
 labels.vfold_cv <- function(object, make_factor = FALSE, ...) {
-  if (inherits(object, "nested_cv"))
+  if (inherits(object, "nested_cv")) {
     stop("`labels` not implemented for nested resampling",
-         call. = FALSE)
+      call. = FALSE
+    )
+  }
   is_repeated <- attr(object, "repeats") > 1
   if (is_repeated) {
     out <- as.character(paste(object$id, object$id2, sep = "."))
-  } else
+  } else {
     out <- as.character(object$id)
-  if (make_factor)
+  }
+  if (make_factor) {
     out <- as.factor(out)
+  }
   out
 }
 
@@ -52,10 +59,11 @@ labels.vfold_cv <- function(object, make_factor = FALSE, ...) {
 #' cv_splits <- vfold_cv(mtcars)
 #' labels(cv_splits$splits[[1]])
 labels.rsplit <- function(object, ...) {
-  out <- if ("id" %in% names(object))
+  out <- if ("id" %in% names(object)) {
     object$id
-  else
+  } else {
     tibble()
+  }
   out
 }
 
@@ -78,10 +86,12 @@ labels.rsplit <- function(object, ...) {
 pretty.vfold_cv <- function(x, ...) {
   details <- attributes(x)
   res <- paste0(details$v, "-fold cross-validation")
-  if (details$repeats > 1)
+  if (details$repeats > 1) {
     res <- paste(res, "repeated", details$repeats, "times")
-  if (details$strata)
+  }
+  if (details$strata) {
     res <- paste(res, "using stratification")
+  }
   res
 }
 
@@ -89,43 +99,49 @@ pretty.vfold_cv <- function(x, ...) {
 #' @export
 #' @method pretty loo_cv
 #' @rdname pretty.vfold_cv
-pretty.loo_cv <- function(x, ...)
+pretty.loo_cv <- function(x, ...) {
   "Leave-one-out cross-validation"
+}
 
 #' @export pretty.apparent
 #' @export
 #' @method pretty apparent
 #' @rdname pretty.vfold_cv
-pretty.apparent <- function(x, ...)
+pretty.apparent <- function(x, ...) {
   "Apparent sampling"
+}
 
 #' @export pretty.rolling_origin
 #' @export
 #' @method pretty rolling_origin
 #' @rdname pretty.vfold_cv
-pretty.rolling_origin <- function(x, ...)
+pretty.rolling_origin <- function(x, ...) {
   "Rolling origin forecast resampling"
+}
 
 #' @export pretty.sliding_window
 #' @export
 #' @method pretty sliding_window
 #' @rdname pretty.vfold_cv
-pretty.sliding_window <- function(x, ...)
+pretty.sliding_window <- function(x, ...) {
   "Sliding window resampling"
+}
 
 #' @export pretty.sliding_index
 #' @export
 #' @method pretty sliding_index
 #' @rdname pretty.vfold_cv
-pretty.sliding_index <- function(x, ...)
+pretty.sliding_index <- function(x, ...) {
   "Sliding index resampling"
+}
 
 #' @export pretty.sliding_period
 #' @export
 #' @method pretty sliding_period
 #' @rdname pretty.vfold_cv
-pretty.sliding_period <- function(x, ...)
+pretty.sliding_period <- function(x, ...) {
   "Sliding period resampling"
+}
 
 #' @export pretty.mc_cv
 #' @export
@@ -142,8 +158,9 @@ pretty.mc_cv <- function(x, ...) {
     details$times,
     " resamples "
   )
-  if (details$strata)
+  if (details$strata) {
     res <- paste(res, "using stratification")
+  }
   res
 }
 
@@ -160,8 +177,9 @@ pretty.validation_split <- function(x, ...) {
     signif(1 - details$prop, 2),
     ") "
   )
-  if (details$strata)
+  if (details$strata) {
     res <- paste(res, "using stratification")
+  }
   res
 }
 
@@ -179,14 +197,17 @@ pretty.nested_cv <- function(x, ...) {
     outer_label <- paste0("`", deparse(details$outside), "`")
   }
 
-  inner_label <- if (is_call(details$inside))
+  inner_label <- if (is_call(details$inside)) {
     pretty(x$inner_resamples[[1]])
-  else
+  } else {
     paste0("`", deparse(details$inside), "`")
+  }
 
-  res <- c("Nested resampling:",
-           paste(" outer:", outer_label),
-           paste(" inner:", inner_label))
+  res <- c(
+    "Nested resampling:",
+    paste(" outer:", outer_label),
+    paste(" inner:", inner_label)
+  )
   res
 }
 
@@ -197,10 +218,12 @@ pretty.nested_cv <- function(x, ...) {
 pretty.bootstraps <- function(x, ...) {
   details <- attributes(x)
   res <- "Bootstrap sampling"
-  if (details$strata)
+  if (details$strata) {
     res <- paste(res, "using stratification")
-  if (details$apparent)
+  }
+  if (details$apparent) {
     res <- paste(res, "with apparent sample")
+  }
   res
 }
 
@@ -211,8 +234,9 @@ pretty.bootstraps <- function(x, ...) {
 pretty.permutations <- function(x, ...) {
   details <- attributes(x)
   res <- "Permutation sampling"
-  if (details$apparent)
+  if (details$apparent) {
     res <- paste(res, "with apparent sample")
+  }
   res
 }
 
@@ -220,7 +244,7 @@ pretty.permutations <- function(x, ...) {
 #' @export
 #' @method pretty group_vfold_cv
 #' @rdname pretty.vfold_cv
-pretty.group_vfold_cv  <- function(x, ...) {
+pretty.group_vfold_cv <- function(x, ...) {
   details <- attributes(x)
   paste0("Group ", details$v, "-fold cross-validation")
 }
@@ -283,4 +307,3 @@ add_resample_id <- function(.data, split, dots = FALSE) {
 
   cbind(.data, labs)
 }
-

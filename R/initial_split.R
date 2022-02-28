@@ -21,19 +21,17 @@
 #' drinks_split <- initial_time_split(drinks)
 #' train_data <- training(drinks_split)
 #' test_data <- testing(drinks_split)
-#' c(max(train_data$date), min(test_data$date))  # no lag
+#' c(max(train_data$date), min(test_data$date)) # no lag
 #'
 #' # With 12 period lag
 #' drinks_lag_split <- initial_time_split(drinks, lag = 12)
 #' train_data <- training(drinks_lag_split)
 #' test_data <- testing(drinks_lag_split)
-#' c(max(train_data$date), min(test_data$date))  # 12 period lag
-#'
+#' c(max(train_data$date), min(test_data$date)) # 12 period lag
 #' @export
 #'
-initial_split <- function(data, prop = 3/4,
+initial_split <- function(data, prop = 3 / 4,
                           strata = NULL, breaks = 4, pool = 0.1, ...) {
-
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
     if (length(strata) == 0) {
@@ -59,13 +57,12 @@ initial_split <- function(data, prop = 3/4,
 #'  and analysis set. This is useful if lagged predictors will be used
 #'  during training and testing.
 #' @export
-initial_time_split <- function(data, prop = 3/4, lag = 0, ...) {
-
+initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
     rlang::abort("`prop` must be a number on (0, 1).")
   }
 
-  if (!is.numeric(lag) | !(lag%%1 == 0)) {
+  if (!is.numeric(lag) | !(lag %% 1 == 0)) {
     stop("`lag` must be a whole number.", call. = FALSE)
   }
 
@@ -75,13 +72,12 @@ initial_time_split <- function(data, prop = 3/4, lag = 0, ...) {
     stop("`lag` must be less than or equal to the number of training observations.", call. = FALSE)
   }
 
-  split  <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
+  split <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
   splits <- list(split)
-  ids    <- "Resample1"
-  rset   <- new_rset(splits, ids)
+  ids <- "Resample1"
+  rset <- new_rset(splits, ids)
 
   rset$splits[[1]]
-
 }
 
 #' @rdname initial_split

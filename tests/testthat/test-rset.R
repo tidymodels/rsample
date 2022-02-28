@@ -42,14 +42,14 @@ test_that("can reorder columns and keep rset class", {
 
 test_that("can row subset and drop to a tibble", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(x[0,])
+    expect_s3_class_bare_tibble(x[0, ])
   }
 })
 
 test_that("can row subset and keep rset class", {
   for (x in rset_subclasses) {
     loc <- seq_len(nrow(x))
-    expect_s3_class_rset(x[loc,])
+    expect_s3_class_rset(x[loc, ])
   }
 })
 
@@ -61,13 +61,13 @@ test_that("can row subset and keep rset class", {
 test_that("can subset with just `j` and keep rset class", {
   for (x in rset_subclasses) {
     loc <- seq_len(ncol(x))
-    expect_s3_class_rset(x[,loc])
+    expect_s3_class_rset(x[, loc])
   }
 })
 
 test_that("removing an rset specific class drops the rset class", {
   for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(x[,1])
+    expect_s3_class_bare_tibble(x[, 1])
   }
 })
 
@@ -240,7 +240,7 @@ test_that("no longer identical if rows are lost", {
   subclasses$validation_split <- NULL
 
   for (to in subclasses) {
-    x <- to[1,]
+    x <- to[1, ]
     expect_false(rset_reconstructable(x, to))
   }
 })
@@ -248,12 +248,12 @@ test_that("no longer identical if rows are lost", {
 test_that("still considered identical if rows are simply reordered", {
   for (to in rset_subclasses) {
     loc <- rev(seq_len(nrow(to)))
-    x <- to[loc,]
+    x <- to[loc, ]
     expect_true(rset_reconstructable(x, to))
   }
   for (to in rset_subclasses) {
     loc <- sample(nrow(to))
-    x <- to[loc,]
+    x <- to[loc, ]
     expect_true(rset_reconstructable(x, to))
   }
 })

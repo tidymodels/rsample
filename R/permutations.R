@@ -43,15 +43,12 @@
 #' map_dbl(resample2$splits, function(x) {
 #'   t.test(hp ~ vs, data = analysis(x))$statistic
 #' })
-#'
 #' @export
-permutations <- function(
-  data,
-  permute = NULL,
-  times = 25,
-  apparent = FALSE,
-  ...
-) {
+permutations <- function(data,
+                         permute = NULL,
+                         times = 25,
+                         apparent = FALSE,
+                         ...) {
   permute <- rlang::enquo(permute)
   if (is.null(permute)) {
     rlang::abort("You must specify at least one column to permute!")
@@ -66,13 +63,15 @@ permutations <- function(
 
   split_objs <- perm_splits(data, times)
 
-  if (apparent)
+  if (apparent) {
     split_objs <- dplyr::bind_rows(split_objs, apparent(data))
+  }
 
   split_objs$splits <-
     purrr::map(split_objs$splits, function(x) {
-      x$col_id <- col_id; x
-      })
+      x$col_id <- col_id
+      x
+    })
 
   perm_att <- list(
     times = times,

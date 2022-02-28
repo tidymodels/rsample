@@ -19,8 +19,9 @@
 #' fold_rs$splits[[1]]$out_id
 #' complement(fold_rs$splits[[1]])
 #' @export
-complement <- function(x, ...)
+complement <- function(x, ...) {
   UseMethod("complement")
+}
 
 #' @export
 #' @rdname complement
@@ -86,8 +87,10 @@ complement.default <- function(x, ...) {
 
 # Get the indices of the analysis set from the assessment set
 default_complement <- function(ind, n) {
-  list(analysis = setdiff(1:n, ind),
-       assessment = unique(ind))
+  list(
+    analysis = setdiff(1:n, ind),
+    assessment = unique(ind)
+  )
 }
 
 
@@ -111,7 +114,7 @@ default_complement <- function(ind, n) {
 #' fold_rs_all <- populate(fold_rs)
 #' fold_rs_all$splits[[1]]$out_id
 #' @export
-populate <- function (x, ...) UseMethod("populate")
+populate <- function(x, ...) UseMethod("populate")
 
 #' @export
 populate.rsplit <- function(x, ...) {
@@ -134,4 +137,3 @@ rm_out <- function(x) {
 is_missing_out_id <- function(x) {
   identical(x$out_id, NA)
 }
-

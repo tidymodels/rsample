@@ -147,15 +147,15 @@
 #' # pipe any of these functions to resampling
 #' library(dplyr)
 #' sim_classification(100) %>%
-#'     bootstraps(strata = class)
+#'   bootstraps(strata = class)
 #'
 #' # toeplitz covariance structure for four variables
 #'
-#' cov_value <- 1/2
+#' cov_value <- 1 / 2
 #' toeplitz(cov_value^(seq(0, 3, by = 1)))
 #'
 #' set.seed(2)
-#' dat <- sim_noise(1000, num_vars = 4, cov_type = "toeplitz", cov_param = 1/2)
+#' dat <- sim_noise(1000, num_vars = 4, cov_type = "toeplitz", cov_param = 1 / 2)
 #' round(cor(dat), 2)
 #' @export
 sim_classification <- function(num_samples = 100, method = "caret",
@@ -179,19 +179,19 @@ sim_classification <- function(num_samples = 100, method = "caret",
       rlang::expr(
         !!intercept - 4 * two_factor_1 + 4 * two_factor_2 +
           2 * two_factor_1 * two_factor_2 +
-          (non_linear_1 ^ 3) + 2 * exp(-6 * (non_linear_1 - 0.3)^2) +
+          (non_linear_1^3) + 2 * exp(-6 * (non_linear_1 - 0.3)^2) +
           2 * sin(pi * non_linear_2 * non_linear_3)
       )
 
     # Simulate a series of linear coefficients
-    if(num_linear > 0) {
+    if (num_linear > 0) {
       dat_linear <- matrix(stats::rnorm(num_samples * num_linear), ncol = num_linear)
       lin_names <- names0(num_linear, "linear_")
       colnames(dat_linear) <- lin_names
       lin_symbols <- rlang::syms(lin_names)
       lin_coefs <-
-        seq(10, 1, length = num_linear)/4 *
-        rep_len(c(-1, 1), length.out = num_linear)
+        seq(10, 1, length = num_linear) / 4 *
+          rep_len(c(-1, 1), length.out = num_linear)
       lin_expr <-
         purrr::map2(lin_coefs, lin_symbols, ~ rlang::expr(!!.x * !!.y)) %>%
         purrr::reduce(function(l, r) rlang::expr(!!l + !!r))
@@ -222,8 +222,7 @@ sim_regression <-
     reg_methods <- c("sapp_2014_1", "sapp_2014_2", "van_der_laan_2007_1", "van_der_laan_2007_2")
     method <- rlang::arg_match0(method, reg_methods, arg_nm = "method")
 
-    switch(
-      method,
+    switch(method,
       sapp_2014_1 = sapp_2014_1(num_samples, std_dev),
       sapp_2014_2 = sapp_2014_2(num_samples, std_dev),
       van_der_laan_2007_1 = van_der_laan_2007_1(num_samples, std_dev, factors = factors),
@@ -271,7 +270,7 @@ sapp_2014_2 <- function(num_samples = 100, std_dev = 4) {
 
   slc_14 <- function(x) sum(log(abs(x)))
 
-  y <- apply(dat, 1, slc_14) + stats::rnorm(num_samples, sd = std_dev)  - 1
+  y <- apply(dat, 1, slc_14) + stats::rnorm(num_samples, sd = std_dev) - 1
   dat <- tibble::as_tibble(dat)
   dat$outcome <- y
   dplyr::relocate(dat, outcome)
@@ -288,9 +287,9 @@ van_der_laan_2007_1 <- function(num_samples = 100, std_dev = NULL, factors = FAL
   lph_07 <- rlang::expr(
     2 * predictor_01 * predictor_10 + 4 * predictor_02 * predictor_07 + 3 * predictor_04 *
       predictor_05 - 5 * predictor_06 * predictor_10 + 3 * predictor_08 * predictor_09 +
-      predictor_01 *predictor_02 * predictor_04 -
+      predictor_01 * predictor_02 * predictor_04 -
       2 * predictor_07 * (1 - predictor_06) * predictor_02 *
-      predictor_09 - 4 * (1 - predictor_10) * predictor_01 * (1 - predictor_04)
+        predictor_09 - 4 * (1 - predictor_10) * predictor_01 * (1 - predictor_04)
   )
 
   dat <-
@@ -345,11 +344,13 @@ van_der_laan_2007_2 <- function(num_samples = 100, std_dev = NULL) {
 sim_noise <- function(num_samples, num_vars, cov_type = "exchangeable",
                       outcome = "none", num_classes = 2, cov_param = 0) {
   cov_type <- rlang::arg_match0(cov_type, c("exchangeable", "toeplitz"),
-                                arg_nm = "cov_type")
+    arg_nm = "cov_type"
+  )
   outcome <- rlang::arg_match0(outcome, c("none", "classification", "regression"),
-                               arg_nm = "outcome")
-  if(cov_type == "exchangeable") {
-    var_cov <- matrix(cov_param, ncol = num_vars,  nrow = num_vars)
+    arg_nm = "outcome"
+  )
+  if (cov_type == "exchangeable") {
+    var_cov <- matrix(cov_param, ncol = num_vars, nrow = num_vars)
     diag(var_cov) <- 1
   } else {
     var_cov_values <- cov_param^(seq(0, num_vars - 1, by = 1))
@@ -369,13 +370,12 @@ sim_noise <- function(num_samples, num_vars, cov_type = "exchangeable",
       dplyr::mutate(
         class = sample(cls, num_samples, replace = TRUE),
         class = factor(class, levels = cls)
-        ) %>%
+      ) %>%
       dplyr::relocate(class)
   } else if (outcome == "regression") {
     dat <-
       dat %>%
-      dplyr::mutate(outcome = stats::rnorm(num_samples)
-      ) %>%
+      dplyr::mutate(outcome = stats::rnorm(num_samples)) %>%
       dplyr::relocate(outcome)
   }
   dat

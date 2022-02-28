@@ -5,22 +5,28 @@
 
 
 check_rset <- function(x, app = TRUE) {
-  if (!inherits(x, "bootstraps"))
+  if (!inherits(x, "bootstraps")) {
     stop("`.data` should be an `rset` object generated from `bootstraps()`",
-         call. = FALSE)
+      call. = FALSE
+    )
+  }
 
   if (app) {
-    if(x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1)
+    if (x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1) {
       stop("Please set `apparent = TRUE` in `bootstraps()` function",
-           call. = FALSE)
+        call. = FALSE
+      )
+    }
   }
   invisible(NULL)
 }
 
 
 stat_fmt_err <- paste("`statistics` should select a list column of tidy results.")
-stat_nm_err <- paste("The tibble in `statistics` should have columns for",
-                     "'estimate' and 'term`")
+stat_nm_err <- paste(
+  "The tibble in `statistics` should have columns for",
+  "'estimate' and 'term`"
+)
 std_exp <- c("std.error", "robust.se")
 
 check_tidy_names <- function(x, std_col) {
@@ -35,7 +41,9 @@ check_tidy_names <- function(x, std_col) {
     std_candidates <- colnames(x) %in% std_exp
     if (sum(std_candidates) != 1) {
       stop("`statistics` should select a single column for the standard ",
-           "error.", call. = FALSE)
+        "error.",
+        call. = FALSE
+      )
     }
   }
   invisible(TRUE)
@@ -52,7 +60,7 @@ check_tidy <- function(x, std_col = FALSE) {
     list_cols <- names(x)[map_lgl(x, is_list)]
     x <- try(tidyr::unnest(x, cols = list_cols), silent = TRUE)
   } else {
-    x <- try(map_dfr(x, ~ .x), silent = TRUE)
+    x <- try(map_dfr(x, ~.x), silent = TRUE)
   }
 
   if (inherits(x, "try-error")) {
@@ -74,7 +82,6 @@ check_tidy <- function(x, std_col = FALSE) {
         dplyr::select(x, term, estimate, tidyselect::one_of(std_candidates)) %>%
         setNames(c("term", "estimate", "std_err"))
     }
-
   } else {
     if (has_id) {
       x <-
@@ -101,8 +108,10 @@ get_p0 <- function(x, alpha = 0.05) {
     inner_join(orig, by = "term") %>%
     group_by(term) %>%
     summarize(p0 = mean(estimate <= theta_0, na.rm = TRUE)) %>%
-    mutate(Z0 = stats::qnorm(p0),
-           Za = stats::qnorm(1 - alpha / 2))
+    mutate(
+      Z0 = stats::qnorm(p0),
+      Za = stats::qnorm(1 - alpha / 2)
+    )
 }
 
 new_stats <- function(x, lo, hi) {
@@ -144,12 +153,13 @@ check_num_resamples <- function(x, B = 1000) {
 
 
 pctl_single <- function(stats, alpha = 0.05) {
-
-  if (all(is.na(stats)))
+  if (all(is.na(stats))) {
     stop("All statistics have missing values..", call. = FALSE)
+  }
 
-  if (!is.numeric(stats))
+  if (!is.numeric(stats)) {
     stop("`stats` must be a numeric vector.", call. = FALSE)
+  }
 
   # stats is a numeric vector of values
   ci <- stats %>% quantile(probs = c(alpha / 2, 1 - alpha / 2), na.rm = TRUE)
@@ -239,7 +249,6 @@ pctl_single <- function(stats, alpha = 0.05) {
 #' }
 #' @export
 int_pctl <- function(.data, statistics, alpha = 0.05) {
-
   check_rset(.data, app = FALSE)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
     abort("`alpha` must be a single numeric value.")
@@ -261,7 +270,6 @@ int_pctl <- function(.data, statistics, alpha = 0.05) {
     dplyr::do(pctl_single(.$estimate, alpha = alpha)) %>%
     dplyr::ungroup()
   vals
-
 }
 
 # ------------------------------------------------------------------------------
@@ -273,25 +281,29 @@ t_single <- function(stats, std_err, is_orig, alpha = 0.05) {
   # return a tibble with .lower, .estimate, .upper
   # which_orig is the index of stats and std_err that has the original result
 
-  if (all(is.na(stats)))
+  if (all(is.na(stats))) {
     stop("All statistics have missing values.", call. = FALSE)
+  }
 
   if (!is.logical(is_orig) || any(is.na(is_orig))) {
     stop("`is_orig` should be a logical column the same length as `stats` ",
-         "with no missing values.", call. = FALSE)
+      "with no missing values.",
+      call. = FALSE
+    )
   }
   if (length(stats) != length(std_err) && length(stats) != length(is_orig)) {
     stop("`stats`, `std_err`, and `is_orig` should have the same length.",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
   if (sum(is_orig) != 1) {
     stop("The original statistic must be in a single row.", call. = FALSE)
   }
 
-  theta_obs   <- stats[is_orig]
+  theta_obs <- stats[is_orig]
   std_err_obs <- std_err[is_orig]
 
-  stats   <- stats[!is_orig]
+  stats <- stats[!is_orig]
   std_err <- std_err[!is_orig]
 
   z_dist <-
@@ -315,7 +327,6 @@ t_single <- function(stats, std_err, is_orig, alpha = 0.05) {
 #' @rdname int_pctl
 #' @export
 int_t <- function(.data, statistics, alpha = 0.05) {
-
   check_rset(.data)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
     abort("`alpha` must be a single numeric value.")
@@ -369,7 +380,7 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
     loo_res %>%
     dplyr::group_by(term) %>%
     dplyr::summarize(loo = mean(estimate, na.rm = TRUE)) %>%
-    dplyr::inner_join(loo_res, by = "term")  %>%
+    dplyr::inner_join(loo_res, by = "term") %>%
     dplyr::group_by(term) %>%
     dplyr::summarize(
       cubed = sum((loo - estimate)^3),
@@ -378,8 +389,8 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
     dplyr::ungroup() %>%
     dplyr::inner_join(bias_corr_stats, by = "term") %>%
     dplyr::mutate(
-      a = cubed/(6 * (squared^(3 / 2))),
-      Zu = (Z0 + Za) / ( 1 - a * (Z0 + Za)) + Z0,
+      a = cubed / (6 * (squared^(3 / 2))),
+      Zu = (Z0 + Za) / (1 - a * (Z0 + Za)) + Z0,
       Zl = (Z0 - Za) / (1 - a * (Z0 - Za)) + Z0,
       lo = stats::pnorm(Zl, lower.tail = TRUE),
       hi = stats::pnorm(Zu, lower.tail = TRUE)
@@ -388,9 +399,10 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
   terms <- loo_estimate$term
   stats <- stats %>% dplyr::filter(!orig)
   for (i in seq_along(terms)) {
-    tmp <- new_stats(stats$estimate[ stats$term == terms[i] ],
-                     lo = loo_estimate$lo[i],
-                     hi = loo_estimate$hi[i])
+    tmp <- new_stats(stats$estimate[stats$term == terms[i]],
+      lo = loo_estimate$lo[i],
+      hi = loo_estimate$hi[i]
+    )
     tmp$term <- terms[i]
     if (i == 1) {
       ci_bca <- tmp
@@ -416,7 +428,6 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
 #' @references \url{https://rsample.tidymodels.org/articles/Applications/Intervals.html}
 #' @export
 int_bca <- function(.data, statistics, alpha = 0.05, .fn, ...) {
-
   check_rset(.data)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
     abort("`alpha` must be a single numeric value.")

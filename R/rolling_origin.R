@@ -56,19 +56,20 @@
 #'
 #' analysis(multi_year_roll$splits[[1]])
 #' assessment(multi_year_roll$splits[[1]])
-#'
 #' @export
 rolling_origin <- function(data, initial = 5, assess = 1,
                            cumulative = TRUE, skip = 0, lag = 0, ...) {
   n <- nrow(data)
 
-  if (n < initial + assess)
+  if (n < initial + assess) {
     stop("There should be at least ",
-         initial + assess,
-         " nrows in `data`",
-         call. = FALSE)
+      initial + assess,
+      " nrows in `data`",
+      call. = FALSE
+    )
+  }
 
-  if (!is.numeric(lag) | !(lag%%1==0)) {
+  if (!is.numeric(lag) | !(lag %% 1 == 0)) {
     stop("`lag` must be a whole number.", call. = FALSE)
   }
 
@@ -89,19 +90,25 @@ rolling_origin <- function(data, initial = 5, assess = 1,
   indices <- mapply(merge_lists, in_ind, out_ind, SIMPLIFY = FALSE)
   split_objs <-
     purrr::map(indices, make_splits, data = data, class = "rof_split")
-  split_objs <- list(splits = split_objs,
-                     id = names0(length(split_objs), "Slice"))
+  split_objs <- list(
+    splits = split_objs,
+    id = names0(length(split_objs), "Slice")
+  )
 
-  roll_att <- list(initial = initial,
-                   assess = assess,
-                   cumulative = cumulative,
-                   skip = skip,
-                   lag = lag)
+  roll_att <- list(
+    initial = initial,
+    assess = assess,
+    cumulative = cumulative,
+    skip = skip,
+    lag = lag
+  )
 
-  new_rset(splits = split_objs$splits,
-           ids = split_objs$id,
-           attrib = roll_att,
-           subclass = c("rolling_origin", "rset"))
+  new_rset(
+    splits = split_objs$splits,
+    ids = split_objs$id,
+    attrib = roll_att,
+    subclass = c("rolling_origin", "rset")
+  )
 }
 
 #' @export

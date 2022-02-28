@@ -40,14 +40,12 @@
 #' cv_obj %>%
 #'   select(-splits) %>%
 #'   pivot_longer(-id)
-#'
 #' @export gather.rset
 #' @export
 #' @keywords internal
 #' @method gather rset
 gather.rset <- function(data, key = NULL, value = NULL, ..., na.rm = TRUE,
                         convert = FALSE, factor_key = TRUE) {
-
   lifecycle::deprecate_stop("0.1.0", "gather.rset()", "tidyr::pivot_longer()")
 
   if (any(names(data) == "splits")) {
@@ -73,10 +71,9 @@ gather.rset <- function(data, key = NULL, value = NULL, ..., na.rm = TRUE,
     data,
     key = model,
     value = statistic,
-    - !!id_vars,
+    -!!id_vars,
     na.rm = na.rm,
     convert = convert,
     factor_key = factor_key
   )
 }
-

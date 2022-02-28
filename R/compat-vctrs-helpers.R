@@ -35,7 +35,7 @@
 #' rset_reconstruct(x, to)
 #'
 #' # Say we lose the first row
-#' x <- x[-1,]
+#' x <- x[-1, ]
 #'
 #' # This is no longer reconstructable to `to`, as `x` is no longer an rset
 #' # bootstraps object with 25 bootstraps if one is lost!

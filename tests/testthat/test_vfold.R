@@ -7,7 +7,7 @@ library(modeldata)
 
 dat1 <- data.frame(a = 1:20, b = letters[1:20])
 
-test_that('default param', {
+test_that("default param", {
   set.seed(11)
   rs1 <- vfold_cv(dat1)
   sizes1 <- dim_rset(rs1)
@@ -15,18 +15,21 @@ test_that('default param', {
   expect_true(all(sizes1$analysis == 18))
   expect_true(all(sizes1$assessment == 2))
   same_data <-
-    map_lgl(rs1$splits, function(x)
-      all.equal(x$data, dat1))
+    map_lgl(rs1$splits, function(x) {
+      all.equal(x$data, dat1)
+    })
   expect_true(all(same_data))
 
-  good_holdout <- map_lgl(rs1$splits,
-                          function(x) {
-                            length(intersect(x$in_ind, x$out_id)) == 0
-                          })
+  good_holdout <- map_lgl(
+    rs1$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
   expect_true(all(good_holdout))
 })
 
-test_that('repeated', {
+test_that("repeated", {
   set.seed(11)
   rs2 <- vfold_cv(dat1, repeats = 4)
   sizes2 <- dim_rset(rs2)
@@ -34,18 +37,21 @@ test_that('repeated', {
   expect_true(all(sizes2$analysis == 18))
   expect_true(all(sizes2$assessment == 2))
   same_data <-
-    map_lgl(rs2$splits, function(x)
-      all.equal(x$data, dat1))
+    map_lgl(rs2$splits, function(x) {
+      all.equal(x$data, dat1)
+    })
   expect_true(all(same_data))
 
-  good_holdout <- map_lgl(rs2$splits,
-                          function(x) {
-                            length(intersect(x$in_ind, x$out_id)) == 0
-                          })
+  good_holdout <- map_lgl(
+    rs2$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
   expect_true(all(good_holdout))
 })
 
-test_that('strata', {
+test_that("strata", {
   set.seed(11)
   data("mlc_churn", package = "modeldata")
   rs3 <- vfold_cv(mlc_churn, repeats = 2, strata = "voice_mail_plan")
@@ -54,38 +60,41 @@ test_that('strata', {
   expect_true(all(sizes3$analysis %in% 4499:4501))
   expect_true(all(sizes3$assessment %in% 499:501))
 
-  rate <- map_dbl(rs3$splits,
-                  function(x) {
-                    dat <- as.data.frame(x)$voice_mail_plan
-                    mean(dat == "yes")
-                  })
+  rate <- map_dbl(
+    rs3$splits,
+    function(x) {
+      dat <- as.data.frame(x)$voice_mail_plan
+      mean(dat == "yes")
+    }
+  )
   expect_equal(mean(unique(rate)), 0.2645925848)
 
-  good_holdout <- map_lgl(rs3$splits,
-                          function(x) {
-                            length(intersect(x$in_ind, x$out_id)) == 0
-                          })
+  good_holdout <- map_lgl(
+    rs3$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
   expect_true(all(good_holdout))
 
   expect_warning(
     rs4 <- vfold_cv(mlc_churn, strata = state, pool = 0.01),
     "Stratifying groups that make up 1%"
   )
-
 })
 
 
-test_that('bad args', {
+test_that("bad args", {
   expect_error(vfold_cv(iris, strata = iris$Species))
   expect_error(vfold_cv(iris, strata = c("Species", "Sepal.Width")))
 })
 
-test_that('printing', {
+test_that("printing", {
   expect_output(print(vfold_cv(mtcars)))
 })
 
 
-test_that('rsplit labels', {
+test_that("rsplit labels", {
   rs <- vfold_cv(mtcars)
   all_labs <- map_df(rs$splits, labels)
   original_id <- rs[, grepl("^id", names(rs))]
@@ -96,4 +105,3 @@ test_that('rsplit labels', {
   original_id2 <- rs2[, grepl("^id", names(rs2))]
   expect_equal(all_labs2, original_id2)
 })
-

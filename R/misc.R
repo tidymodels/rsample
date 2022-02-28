@@ -1,7 +1,8 @@
 #' Constructors for split objects
 #' @export
-make_splits <- function(x, ...)
+make_splits <- function(x, ...) {
   UseMethod("make_splits")
+}
 
 #' @rdname make_splits
 #' @param x A list of integers with names "analysis" and "assessment", or a
@@ -149,5 +150,3 @@ split_unnamed <- function(x, f) {
   }
   res
 }
-
-

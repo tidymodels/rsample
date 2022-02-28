@@ -22,10 +22,12 @@ apparent <- function(data, ...) {
   class(splits) <- c("rsplit", "apparent_split")
   split_objs <- tibble::tibble(splits = list(splits), id = "Apparent")
 
-  new_rset(splits = split_objs$splits,
-           ids = split_objs$id,
-           attrib = NULL,
-           subclass = c("apparent", "rset"))
+  new_rset(
+    splits = split_objs$splits,
+    ids = split_objs$id,
+    attrib = NULL,
+    subclass = c("apparent", "rset")
+  )
 }
 
 #' @export
@@ -34,5 +36,3 @@ print.apparent <- function(x, ...) {
   class(x) <- class(x)[!(class(x) %in% c("apparent", "rset"))]
   print(x, ...)
 }
-
-

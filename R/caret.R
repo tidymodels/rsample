@@ -11,8 +11,9 @@
 #'  `rset` object of the appropriate class.
 #' @export
 rsample2caret <- function(object, data = c("analysis", "assessment")) {
-  if(!inherits(object, "rset"))
+  if (!inherits(object, "rset")) {
     stop("`object` must be an `rset`", call. = FALSE)
+  }
   data <- rlang::arg_match(data)
   in_ind <- purrr::map(object$splits, as.integer, data = "analysis")
   names(in_ind) <- labels(object)
@@ -30,16 +31,21 @@ rsample2caret <- function(object, data = c("analysis", "assessment")) {
 #'  `ctrl` object.
 #' @export
 caret2rsample <- function(ctrl, data = NULL) {
-  if (is.null(data))
+  if (is.null(data)) {
     stop("Must supply original data", call. = FALSE)
-  if (!any(names(ctrl) == "index"))
+  }
+  if (!any(names(ctrl) == "index")) {
     stop("`ctrl` should have an element `index`", call. = FALSE)
-  if (!any(names(ctrl) == "indexOut"))
+  }
+  if (!any(names(ctrl) == "indexOut")) {
     stop("`ctrl` should have an element `indexOut`", call. = FALSE)
-  if (is.null(ctrl$index))
+  }
+  if (is.null(ctrl$index)) {
     stop("`ctrl$index` should be populated with integers", call. = FALSE)
-  if (is.null(ctrl$indexOut))
+  }
+  if (is.null(ctrl$indexOut)) {
     stop("`ctrl$indexOut` should be populated with integers", call. = FALSE)
+  }
 
   indices <- purrr::map2(ctrl$index, ctrl$indexOut, extract_int)
   id_data <- names(indices)
@@ -51,27 +57,32 @@ caret2rsample <- function(ctrl, data = NULL) {
   if (ctrl$method %in% c("repeatedcv", "adaptive_cv")) {
     id_data <- strsplit(id_data, split = ".", fixed = TRUE)
     id_data <- tibble::tibble(
-      id  = vapply(id_data, function(x)
-        x[2], character(1)),
-      id2 = vapply(id_data, function(x)
-        x[1], character(1))
+      id = vapply(id_data, function(x) {
+        x[2]
+      }, character(1)),
+      id2 = vapply(id_data, function(x) {
+        x[1]
+      }, character(1))
     )
   } else {
     id_data <- tibble::tibble(id = id_data)
   }
 
-  new_rset(splits = indices$splits,
-           ids = id_data[, grepl("^id", names(id_data))],
-           attrib = map_attr(ctrl),
-           subclass = c(map_rset_method(ctrl$method), "rset"))
-
+  new_rset(
+    splits = indices$splits,
+    ids = id_data[, grepl("^id", names(id_data))],
+    attrib = map_attr(ctrl),
+    subclass = c(map_rset_method(ctrl$method), "rset")
+  )
 }
 
-extract_int <- function(x, y)
+extract_int <- function(x, y) {
   list(in_id = x, out_id = y)
+}
 
-add_data <- function(x, y)
+add_data <- function(x, y) {
   c(list(data = y), x)
+}
 
 add_rsplit_class <- function(x, cl) {
   class(x) <- c("rsplit", cl)
@@ -84,56 +95,79 @@ add_rset_class <- function(x, cl) {
 }
 
 map_rsplit_method <- function(method) {
-  out <- switch(
-    method,
-    cv = , repeatedcv = , adaptive_cv = "vfold_split",
-    boot = , boot_all =, boot632 = , optimism_boot = , adaptive_boot = "boot_split",
+  out <- switch(method,
+    cv = ,
+    repeatedcv = ,
+    adaptive_cv = "vfold_split",
+    boot = ,
+    boot_all = ,
+    boot632 = ,
+    optimism_boot = ,
+    adaptive_boot = "boot_split",
     LOOCV = "loo_split",
-    LGOCV = , adaptive_LGOCV = "mc_split",
+    LGOCV = ,
+    adaptive_LGOCV = "mc_split",
     timeSlice = "rof_split",
     "error"
   )
-  if (out == "error")
+  if (out == "error") {
     stop("Resampling method `",
-         method,
-         "` cannot be converted into an `rsplit` object",
-         call. = FALSE)
+      method,
+      "` cannot be converted into an `rsplit` object",
+      call. = FALSE
+    )
+  }
   out
 }
 
 map_rset_method <- function(method) {
-  out <- switch(
-    method,
-    cv = , repeatedcv = , adaptive_cv = "vfold_cv",
-    boot = , boot_all =, boot632 = , optimism_boot = , adaptive_boot = "bootstraps",
+  out <- switch(method,
+    cv = ,
+    repeatedcv = ,
+    adaptive_cv = "vfold_cv",
+    boot = ,
+    boot_all = ,
+    boot632 = ,
+    optimism_boot = ,
+    adaptive_boot = "bootstraps",
     LOOCV = "loo_cv",
-    LGOCV = , adaptive_LGOCV = "mc_cv",
+    LGOCV = ,
+    adaptive_LGOCV = "mc_cv",
     timeSlice = "rolling_origin",
     "error"
   )
-  if (out == "error")
+  if (out == "error") {
     stop("Resampling method `",
-         method,
-         "` cannot be converted into an `rset` object",
-         call. = FALSE)
+      method,
+      "` cannot be converted into an `rset` object",
+      call. = FALSE
+    )
+  }
   out
 }
 
 
 map_attr <- function(object) {
   if (grepl("cv$", object$method)) {
-    out <- list(v = object$number,
-                repeats = ifelse(!is.na(object$repeats),
-                             object$repeats, 1),
-                strata = TRUE)
+    out <- list(
+      v = object$number,
+      repeats = ifelse(!is.na(object$repeats),
+        object$repeats, 1
+      ),
+      strata = TRUE
+    )
   } else if (grepl("boot", object$method)) {
-    out <- list(times = object$number,
-                apparent = FALSE,
-                strata = FALSE)
+    out <- list(
+      times = object$number,
+      apparent = FALSE,
+      strata = FALSE
+    )
   } else if (grepl("LGOCV$", object$method)) {
-    out <- list(times = object$number,
-                prop = object$p,
-                strata = FALSE)
+    out <- list(
+      times = object$number,
+      prop = object$p,
+      strata = FALSE
+    )
   } else if (object$method == "LOOCV") {
     out <- list()
   } else if (object$method == "timeSlice") {
@@ -148,4 +182,3 @@ map_attr <- function(object) {
   }
   out
 }
-

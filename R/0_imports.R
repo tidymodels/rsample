@@ -16,11 +16,12 @@
 # ------------------------------------------------------------------------------
 
 utils::globalVariables(
-  c("model", "splits", "statistic", "Data", "Row", "id", ".", ".estimate",
+  c(
+    "model", "splits", "statistic", "Data", "Row", "id", ".", ".estimate",
     ".lower", ".upper", "Z0", "Za", "Zl", "Zu", "a", "cubed", "estimate",
     "orig", "p0", "squared", "term", "theta_0", "loo", "n", "..index", "models",
     paste0("predictor_", gsub(" ", "0", format(1:20))), "linear_pred",
     "non_linear_1", "non_linear_2", "non_linear_3", "outcome", "true_prob",
     "two_factor_1", "two_factor_2", "rand"
-    )
   )
+)
