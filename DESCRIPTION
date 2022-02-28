@@ -23,7 +23,7 @@ Imports:
     furrr,
     generics,
     lifecycle,
-    MASS,    
+    MASS,
     methods,
     purrr,
     rlang (>= 0.4.10),
@@ -47,11 +47,11 @@ Suggests:
 VignetteBuilder: 
     knitr
 Config/Needs/website: 
-    GGally,
+    GGally, 
     nlstools, 
     survival, 
-    tidymodels, 
-    tidyposterior,
+    tidymodels,
+    tidyposterior, 
     tidyverse/tidytemplate
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
