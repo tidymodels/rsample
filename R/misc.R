@@ -85,7 +85,7 @@ add_class <- function(x, cls) {
 strata_check <- function(strata, data) {
   if (!is.null(strata)) {
     if (!is.character(strata) | length(strata) != 1) {
-      rlang::abort("`strata` should be a single character value.")
+      rlang::abort("`strata` should be a single name or character value.")
     }
     if (inherits(data[, strata], "Surv")) {
       rlang::abort("`strata` cannot be a `Surv` object. Use the time or event variable directly.")
