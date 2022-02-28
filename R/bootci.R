@@ -58,7 +58,7 @@ check_tidy <- function(x, std_col = FALSE) {
   has_id <- any(names(x) == "id")
   if (has_id) {
     list_cols <- names(x)[map_lgl(x, is_list)]
-    x <- try(tidyr::unnest(x, cols = list_cols), silent = TRUE)
+    x <- try(tidyr::unnest(x, cols = all_of(list_cols)), silent = TRUE)
   } else {
     x <- try(map_dfr(x, ~.x), silent = TRUE)
   }
