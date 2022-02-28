@@ -77,7 +77,10 @@ test_that("bad args", {
 
 
 test_that("printing", {
-  expect_snapshot(bootstraps(warpbreaks))
+  expect_snapshot({
+    set.seed(11)
+    bootstraps(warpbreaks)
+  })
 })
 
 
