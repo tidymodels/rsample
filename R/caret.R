@@ -12,7 +12,7 @@
 #' @export
 rsample2caret <- function(object, data = c("analysis", "assessment")) {
   if (!inherits(object, "rset")) {
-    stop("`object` must be an `rset`", call. = FALSE)
+    rlang::abort("`object` must be an `rset`")
   }
   data <- rlang::arg_match(data)
   in_ind <- purrr::map(object$splits, as.integer, data = "analysis")
@@ -32,19 +32,19 @@ rsample2caret <- function(object, data = c("analysis", "assessment")) {
 #' @export
 caret2rsample <- function(ctrl, data = NULL) {
   if (is.null(data)) {
-    stop("Must supply original data", call. = FALSE)
+    rlang::abort("Must supply original data")
   }
   if (!any(names(ctrl) == "index")) {
-    stop("`ctrl` should have an element `index`", call. = FALSE)
+    rlang::abort("`ctrl` should have an element `index`")
   }
   if (!any(names(ctrl) == "indexOut")) {
-    stop("`ctrl` should have an element `indexOut`", call. = FALSE)
+    rlang::abort("`ctrl` should have an element `indexOut`")
   }
   if (is.null(ctrl$index)) {
-    stop("`ctrl$index` should be populated with integers", call. = FALSE)
+    rlang::abort("`ctrl$index` should be populated with integers")
   }
   if (is.null(ctrl$indexOut)) {
-    stop("`ctrl$indexOut` should be populated with integers", call. = FALSE)
+    rlang::abort("`ctrl$indexOut` should be populated with integers")
   }
 
   indices <- purrr::map2(ctrl$index, ctrl$indexOut, extract_int)
@@ -95,7 +95,8 @@ add_rset_class <- function(x, cl) {
 }
 
 map_rsplit_method <- function(method) {
-  out <- switch(method,
+  out <- switch(
+    method,
     cv = ,
     repeatedcv = ,
     adaptive_cv = "vfold_split",
@@ -111,17 +112,18 @@ map_rsplit_method <- function(method) {
     "error"
   )
   if (out == "error") {
-    stop("Resampling method `",
+    rlang::abort(
+      "Resampling method `",
       method,
-      "` cannot be converted into an `rsplit` object",
-      call. = FALSE
+      "` cannot be converted into an `rsplit` object"
     )
   }
   out
 }
 
 map_rset_method <- function(method) {
-  out <- switch(method,
+  out <- switch(
+    method,
     cv = ,
     repeatedcv = ,
     adaptive_cv = "vfold_cv",
@@ -137,10 +139,9 @@ map_rset_method <- function(method) {
     "error"
   )
   if (out == "error") {
-    stop("Resampling method `",
-      method,
-      "` cannot be converted into an `rset` object",
-      call. = FALSE
+    rlang::abort("Resampling method `",
+                 method,
+                 "` cannot be converted into an `rset` object"
     )
   }
   out
@@ -152,7 +153,7 @@ map_attr <- function(object) {
     out <- list(
       v = object$number,
       repeats = ifelse(!is.na(object$repeats),
-        object$repeats, 1
+                       object$repeats, 1
       ),
       strata = TRUE
     )
@@ -178,7 +179,7 @@ map_attr <- function(object) {
       skip = object$skip
     )
   } else {
-    stop("Method", object$method, "cannot be converted")
+    rlang::abort("Method", object$method, "cannot be converted")
   }
   out
 }

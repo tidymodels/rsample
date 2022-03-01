@@ -52,14 +52,12 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
   }
 
   if (is.null(group) || !is.character(group) || length(group) != 1) {
-    stop(
-      "`group` should be a single character value for the column ",
-      "that will be used for splitting.",
-      call. = FALSE
+    rlang::abort(
+      "`group` should be a single character value for the column that will be used for splitting."
     )
   }
   if (!any(names(data) == group)) {
-    stop("`group` should be a column in `data`.", call. = FALSE)
+    rlang::abort("`group` should be a column in `data`.")
   }
 
   split_objs <- group_vfold_splits(data = data, group = group, v = v)
@@ -94,7 +92,7 @@ group_vfold_splits <- function(data, group, v = NULL) {
     v <- max_v
   } else {
     if (v > max_v) {
-      stop("`v` should be less than ", max_v, call. = FALSE)
+      rlang::abort(paste0("`v` should be less than ", max_v))
     }
   }
   data_ind <- data.frame(..index = 1:nrow(data), ..group = getElement(data, group))

@@ -63,13 +63,13 @@ initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   }
 
   if (!is.numeric(lag) | !(lag %% 1 == 0)) {
-    stop("`lag` must be a whole number.", call. = FALSE)
+    rlang::abort("`lag` must be a whole number.")
   }
 
   n_train <- floor(nrow(data) * prop)
 
   if (lag > n_train) {
-    stop("`lag` must be less than or equal to the number of training observations.", call. = FALSE)
+    rlang::abort("`lag` must be less than or equal to the number of training observations.")
   }
 
   split <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))

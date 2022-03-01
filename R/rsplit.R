@@ -1,22 +1,20 @@
 rsplit <- function(data, in_id, out_id) {
   if (!is.data.frame(data) & !is.matrix(data)) {
-    stop("`data` must be a data frame.", call. = FALSE)
+    rlang::abort("`data` must be a data frame.")
   }
 
   if (!is.integer(in_id) | any(in_id < 1)) {
-    stop("`in_id` must be a positive integer vector.", call. = FALSE)
+    rlang::abort("`in_id` must be a positive integer vector.")
   }
 
   if (!all(is.na(out_id))) {
     if (!is.integer(out_id) | any(out_id < 1)) {
-      stop("`out_id` must be a positive integer vector.", call. = FALSE)
+      rlang::abort("`out_id` must be a positive integer vector.")
     }
   }
 
   if (length(in_id) == 0) {
-    stop("At least one row should be selected for the analysis set.",
-      call. = FALSE
-    )
+    rlang::abort("At least one row should be selected for the analysis set.")
   }
 
   structure(
@@ -90,18 +88,17 @@ as.data.frame.rsplit <-
            data = "analysis",
            ...) {
     if (!is.null(row.names)) {
-      warning("`row.names` is kept for consistency with the ",
-        "underlying class but non-NULL values will be ",
-        "ignored.",
-        call. = FALSE
-      )
+      rlang::warn(paste0(
+        "`row.names` is kept for consistency with the underlying class but",
+        "non-NULL values will be ignored."
+      ))
     }
     if (optional) {
-      warning("`optional` is kept for consistency with the ",
-        "underlying class but TRUE values will be ",
-        "ignored.",
-        call. = FALSE
-      )
+      rlang::warn(paste0(
+        "`optional` is kept for consistency with the underlying class but",
+        "TRUE values will be ignored."
+      ))
+
     }
     if (!is.null(x$col_id)) {
       if (identical(data, "assessment")) {
@@ -124,7 +121,7 @@ as.data.frame.rsplit <-
 #' @export
 analysis <- function(x, ...) {
   if (!inherits(x, "rsplit")) {
-    stop("`x` should be an `rsplit` object", call. = FALSE)
+    rlang::abort("`x` should be an `rsplit` object")
   }
   as.data.frame(x, data = "analysis", ...)
 }
@@ -132,7 +129,7 @@ analysis <- function(x, ...) {
 #' @export
 assessment <- function(x, ...) {
   if (!inherits(x, "rsplit")) {
-    stop("`x` should be an `rsplit` object", call. = FALSE)
+    rlang::abort("`x` should be an `rsplit` object")
   }
   as.data.frame(x, data = "assessment", ...)
 }

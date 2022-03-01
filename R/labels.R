@@ -14,9 +14,7 @@
 #' labels(vfold_cv(mtcars))
 labels.rset <- function(object, make_factor = FALSE, ...) {
   if (inherits(object, "nested_cv")) {
-    stop("`labels` not implemented for nested resampling",
-      call. = FALSE
-    )
+    rlang::abort("`labels` not implemented for nested resampling")
   }
   if (make_factor) {
     as.factor(object$id)
@@ -29,9 +27,7 @@ labels.rset <- function(object, make_factor = FALSE, ...) {
 #' @export
 labels.vfold_cv <- function(object, make_factor = FALSE, ...) {
   if (inherits(object, "nested_cv")) {
-    stop("`labels` not implemented for nested resampling",
-      call. = FALSE
-    )
+    rlang::abort("`labels` not implemented for nested resampling")
   }
   is_repeated <- attr(object, "repeats") > 1
   if (is_repeated) {
@@ -287,18 +283,18 @@ pretty.manual_rset <- function(x, ...) {
 #' @export
 add_resample_id <- function(.data, split, dots = FALSE) {
   if (!inherits(dots, "logical") || length(dots) > 1) {
-    stop("`dots` should be a single logical.", call. = FALSE)
+    rlang::abort("`dots` should be a single logical.")
   }
   if (!inherits(.data, "data.frame")) {
-    stop("`.data` should be a data frame.", call. = FALSE)
+    rlang::abort("`.data` should be a data frame.")
   }
   if (!inherits(split, "rsplit")) {
-    stop("`split` should be a single 'rset' object.", call. = FALSE)
+    rlang::abort("`split` should be a single 'rset' object.")
   }
   labs <- labels(split)
 
   if (!tibble::is_tibble(labs) && nrow(labs) == 1) {
-    stop("`split` should be a single 'rset' object.", call. = FALSE)
+    rlang::abort("`split` should be a single 'rset' object.")
   }
 
   if (dots) {

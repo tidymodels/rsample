@@ -110,7 +110,7 @@ vfold_cv <- function(data, v = 10, repeats = 1,
 
 vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
   if (!is.numeric(v) || length(v) != 1) {
-    stop("`v` must be a single integer.", call. = FALSE)
+    rlang::abort("`v` must be a single integer.")
   }
 
   n <- nrow(data)

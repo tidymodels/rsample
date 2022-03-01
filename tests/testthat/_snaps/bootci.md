@@ -2,27 +2,27 @@
 
     Code
       int_pctl(bt_resamples, res)
-    Warning <simpleWarning>
+    Warning <rlang_warning>
       Recommend at least 1000 non-missing bootstrap resamples for term `mean`.
-    Error <simpleError>
+    Error <rlang_error>
       All statistics have missing values..
 
 ---
 
     Code
       int_t(bt_resamples, res)
-    Warning <simpleWarning>
+    Warning <rlang_warning>
       Recommend at least 500 non-missing bootstrap resamples for term `mean`.
-    Error <simpleError>
+    Error <rlang_error>
       All statistics have missing values.
 
 ---
 
     Code
       int_bca(bt_resamples, res, .fn = bad_stats)
-    Warning <simpleWarning>
+    Warning <rlang_warning>
       Recommend at least 1000 non-missing bootstrap resamples for term `mean`.
-    Error <simpleError>
+    Error <rlang_error>
       All statistics have missing values.
 
 # regression intervals

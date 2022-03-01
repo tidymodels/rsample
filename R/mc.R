@@ -99,7 +99,7 @@ mc_complement <- function(ind, n) {
 mc_splits <- function(data, prop = 3 / 4, times = 25,
                       strata = NULL, breaks = 4, pool = 0.1) {
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
-    stop("`prop` must be a number on (0, 1).", call. = FALSE)
+    rlang::abort("`prop` must be a number on (0, 1).")
   }
 
   n <- nrow(data)
