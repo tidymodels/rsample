@@ -1,6 +1,7 @@
 # bad args
 
     Code
+      skip_if(new_rng_snapshots)
       set.seed(123)
       nested_cv(mtcars, outside = bootstraps(times = 5), inside = vfold_cv(V = 3))
     Warning <rlang_warning>

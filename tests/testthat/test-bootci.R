@@ -246,6 +246,7 @@ test_that("regression intervals", {
   )
 
   expect_snapshot({
+    skip_if(new_rng_snapshots)
     set.seed(123)
     int_2 <- reg_intervals(
       mpg ~ disp + wt,

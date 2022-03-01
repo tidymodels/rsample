@@ -77,6 +77,7 @@ test_that("bad args", {
 
 
 test_that("printing", {
+  skip_if(new_rng_snapshots)
   expect_snapshot({
     set.seed(11)
     bootstraps(warpbreaks)

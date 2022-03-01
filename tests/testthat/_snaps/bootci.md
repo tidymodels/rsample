@@ -28,6 +28,7 @@
 # regression intervals
 
     Code
+      skip_if(new_rng_snapshots)
       set.seed(123)
       int_2 <- reg_intervals(mpg ~ disp + wt, data = mtcars, filter = term == "wt",
       model_fn = "glm", keep_reps = TRUE)

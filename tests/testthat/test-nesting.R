@@ -40,6 +40,7 @@ test_that("default param", {
 
 test_that("bad args", {
   expect_snapshot({
+    skip_if(new_rng_snapshots)
     set.seed(123)
     nested_cv(mtcars,
       outside = bootstraps(times = 5),
