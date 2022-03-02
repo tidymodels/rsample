@@ -4,7 +4,7 @@ more conducive for stratification."><title>Create or Modify Stratification Varia
 more conducive for stratification."><meta property="og:image" content="https://rsample.tidymodels.org/logo.png"><meta name="robots" content="noindex"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--></head><body>
+<![endif]--><script defer data-domain="rsample.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script></head><body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
     
 
@@ -29,12 +29,17 @@ more conducive for stratification."><meta property="og:image" content="https://r
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Working_with_rsets.html">Working with Resample Sets</a>
-    <a class="dropdown-item" href="../articles/Applications/Recipes_and_rsample.html">Recipes and rsample</a>
-    <a class="dropdown-item" href="../articles/Applications/Survival_Analysis.html">Survival Analysis</a>
-    <a class="dropdown-item" href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
-    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/models/time-series/">Time Series Analysis</a>
-    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/work/nested-resampling/">Nested Resampling</a>
+    <a class="dropdown-item" href="../articles/Applications/Intervals.html">Bootstrap confidence intervals</a>
+    <a class="dropdown-item" href="../articles/Applications/Recipes_and_rsample.html">Recipes with rsample</a>
+    <a class="dropdown-item" href="../articles/Applications/Survival_Analysis.html">Survival analysis and resampling</a>
+    <a class="dropdown-item" href="../articles/Working_with_rsets.html">Working with resampling sets</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-learn-more">Learn more</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-learn-more">
+    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/models/time-series/">Time series analysis</a>
+    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/work/nested-resampling/">Nested resampling</a>
   </div>
 </li>
 <li class="nav-item">
@@ -181,7 +186,7 @@ to groups.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">483</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">x6</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x6</span>, probs <span class="op">=</span> <span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">/</span><span class="fl">10</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x6</span>, probs <span class="op">=</span> <span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         0%        10%        20%        30%        40%        50% </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -2.9114060 -1.4508635 -0.9513821 -0.6257852 -0.3286468 -0.0364388 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        60%        70%        80%        90%       100% </span>
@@ -207,7 +212,7 @@ to groups.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
   </div></footer></body></html>

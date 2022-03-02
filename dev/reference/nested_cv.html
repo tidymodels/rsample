@@ -6,7 +6,7 @@ and conduct further resamples within each split. Any type of resampling
 used in rsample can be used."><meta property="og:image" content="https://rsample.tidymodels.org/logo.png"><meta name="robots" content="noindex"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--></head><body>
+<![endif]--><script defer data-domain="rsample.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script></head><body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
     
 
@@ -31,12 +31,17 @@ used in rsample can be used."><meta property="og:image" content="https://rsample
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Working_with_rsets.html">Working with Resample Sets</a>
-    <a class="dropdown-item" href="../articles/Applications/Recipes_and_rsample.html">Recipes and rsample</a>
-    <a class="dropdown-item" href="../articles/Applications/Survival_Analysis.html">Survival Analysis</a>
-    <a class="dropdown-item" href="../articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
-    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/models/time-series/">Time Series Analysis</a>
-    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/work/nested-resampling/">Nested Resampling</a>
+    <a class="dropdown-item" href="../articles/Applications/Intervals.html">Bootstrap confidence intervals</a>
+    <a class="dropdown-item" href="../articles/Applications/Recipes_and_rsample.html">Recipes with rsample</a>
+    <a class="dropdown-item" href="../articles/Applications/Survival_Analysis.html">Survival analysis and resampling</a>
+    <a class="dropdown-item" href="../articles/Working_with_rsets.html">Working with resampling sets</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-learn-more">Learn more</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-learn-more">
+    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/models/time-series/">Time series analysis</a>
+    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/work/nested-resampling/">Nested resampling</a>
   </div>
 </li>
 <li class="nav-item">
@@ -138,8 +143,9 @@ the example below)</p>
 <span class="r-in"><span class="co">## The dangers of outer bootstraps:</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2222</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">bad_idea</span> <span class="op">&lt;-</span> <span class="fu">nested_cv</span><span class="op">(</span><span class="va">mtcars</span>,</span>
-<span class="r-in">                      outside <span class="op">=</span> <span class="fu"><a href="bootstraps.html">bootstraps</a></span><span class="op">(</span>times <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in">                      inside <span class="op">=</span> <span class="fu"><a href="vfold_cv.html">vfold_cv</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in">  outside <span class="op">=</span> <span class="fu"><a href="bootstraps.html">bootstraps</a></span><span class="op">(</span>times <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
+<span class="r-in">  inside <span class="op">=</span> <span class="fu"><a href="vfold_cv.html">vfold_cv</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Using bootstrapping as the outer resample is dangerous since the inner resample might have the same data point in both the analysis and assessment set.</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">first_outer_split</span> <span class="op">&lt;-</span> <span class="va">bad_idea</span><span class="op">$</span><span class="va">splits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
@@ -151,7 +157,7 @@ the example below)</p>
 <span class="r-in"><span class="co">## `Volvo 142E` data partitioned?</span></span>
 <span class="r-in"><span class="va">first_inner_split</span> <span class="op">&lt;-</span> <span class="va">bad_idea</span><span class="op">$</span><span class="va">inner_resamples</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">splits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span class="r-in"><span class="va">inner_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_inner_split</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">inner_assess</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_inner_split</span>, data <span class="op">=</span> <span class="st">"assessment"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">inner_assess</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_inner_split</span>, data <span class="op">=</span> <span class="st">"assessment"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Volvo 142E"</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">inner_analysis</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
@@ -170,7 +176,7 @@ the example below)</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
   </div></footer></body></html>

@@ -28,7 +28,7 @@
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><script defer data-domain="rsample.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 </head>
 <body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
@@ -56,12 +56,17 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/Working_with_rsets.html">Working with Resample Sets</a>
-    <a class="dropdown-item" href="articles/Applications/Recipes_and_rsample.html">Recipes and rsample</a>
-    <a class="dropdown-item" href="articles/Applications/Survival_Analysis.html">Survival Analysis</a>
-    <a class="dropdown-item" href="articles/Applications/Intervals.html">Bootstrap Interval Estimation</a>
-    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/models/time-series/">Time Series Analysis</a>
-    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/work/nested-resampling/">Nested Resampling</a>
+    <a class="dropdown-item" href="articles/Applications/Intervals.html">Bootstrap confidence intervals</a>
+    <a class="dropdown-item" href="articles/Applications/Recipes_and_rsample.html">Recipes with rsample</a>
+    <a class="dropdown-item" href="articles/Applications/Survival_Analysis.html">Survival analysis and resampling</a>
+    <a class="dropdown-item" href="articles/Working_with_rsets.html">Working with resampling sets</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-learn-more">Learn more</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-learn-more">
+    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/models/time-series/">Time series analysis</a>
+    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/work/nested-resampling/">Nested resampling</a>
   </div>
 </li>
 <li class="nav-item">
@@ -116,16 +121,16 @@
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">35222</span><span class="op">)</span>
 <span class="va">boots</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bootstraps.html">bootstraps</a></span><span class="op">(</span><span class="va">LetterRecognition</span>, times <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>
 <span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">boots</span><span class="op">)</span>
-<span class="co">#&gt; 6,686,512 B</span>
+<span class="co">#&gt; 6,686,776 B</span>
 
 <span class="co"># Object size per resample</span>
 <span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">boots</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">boots</span><span class="op">)</span>
-<span class="co">#&gt; 133,730.2 B</span>
+<span class="co">#&gt; 133,735.5 B</span>
 
 <span class="co"># Fold increase is &lt;&lt;&lt; 50</span>
 <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">boots</span><span class="op">)</span><span class="op">/</span><span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">LetterRecognition</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 2.528326</span></code></pre></div>
-<p><sup>Created on 2020-05-07 by the <a href="https://reprex.tidyverse.org" class="external-link">reprex package</a> (v0.3.0)</sup></p>
+<span class="co">#&gt; [1] 2.528426</span></code></pre></div>
+<p><sup>Created on 2022-02-28 by the <a href="https://reprex.tidyverse.org" class="external-link">reprex package</a> (v2.0.1)</sup></p>
 <p>The memory usage for 50 bootstrap samples is less than 3-fold more than the original data set.</p>
 </div>
 <div class="section level2">
@@ -142,12 +147,11 @@
 <div class="section level2">
 <h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
 </h2>
-<p>This project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>This project is released with a <a href="https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <ul>
 <li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://community.rstudio.com/new-topic?category_id=15&amp;tags=tidymodels,question" class="external-link">post on RStudio Community</a>.</p></li>
 <li><p>If you think you have encountered a bug, please <a href="https://github.com/tidymodels/rsample/issues" class="external-link">submit an issue</a>.</p></li>
 <li><p>Either way, learn how to create and share a <a href="https://reprex.tidyverse.org/articles/articles/learn-reprex.html" class="external-link">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
-<li><p>We welcome contributions, including typo corrections, bug fixes, and feature requests! If you have never made a pull request to an R package before, rsample is an excellent place to start. Find an <a href="https://github.com/tidymodels/rsample/issues/" class="external-link">issue</a> with the <strong>help wanted ❤️</strong> tag, comment that you’d like to take it on, and we’ll help you get started.</p></li>
 <li><p>Check out further details on <a href="https://www.tidymodels.org/contribute/" class="external-link">contributing guidelines for tidymodels packages</a> and <a href="https://www.tidymodels.org/help/" class="external-link">how to get help</a>.</p></li>
 </ul>
 </div>
@@ -202,7 +206,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/tidymodels/rsample/actions" class="external-link"><img src="https://github.com/tidymodels/rsample/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/tidymodels/rsample/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/tidymodels/rsample/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/tidymodels/rsample?branch=main" class="external-link"><img src="https://codecov.io/gh/tidymodels/rsample/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://cran.r-project.org/package=rsample" class="external-link"><img src="https://www.r-pkg.org/badges/version/rsample" alt="CRAN_Status_Badge"></a></li>
 <li><a href="https://cran.r-project.org/package=rsample" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/rsample" alt="Downloads"></a></li>
@@ -223,7 +227,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
   </div></footer>

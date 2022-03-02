@@ -49,22 +49,13 @@
     <loc>https://rsample.tidymodels.org/dev/reference/as.data.frame.rsplit.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/dev/reference/attrition.html</loc>
-  </url>
-  <url>
     <loc>https://rsample.tidymodels.org/dev/reference/bootstraps.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/dev/reference/complement.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/dev/reference/drinks.html</loc>
-  </url>
-  <url>
     <loc>https://rsample.tidymodels.org/dev/reference/form_pred.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/dev/reference/gather.rset.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/dev/reference/get_fingerprint.html</loc>
@@ -130,7 +121,7 @@
     <loc>https://rsample.tidymodels.org/dev/reference/rsample-dplyr.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/dev/reference/rsample.html</loc>
+    <loc>https://rsample.tidymodels.org/dev/reference/rsample-package.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/dev/reference/rsample2caret.html</loc>
@@ -146,9 +137,6 @@
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/dev/reference/tidy.rsplit.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/dev/reference/two_class_dat.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/dev/reference/validation_split.html</loc>
