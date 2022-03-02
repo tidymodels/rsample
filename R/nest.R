@@ -30,8 +30,9 @@
 #' ## The dangers of outer bootstraps:
 #' set.seed(2222)
 #' bad_idea <- nested_cv(mtcars,
-#'                       outside = bootstraps(times = 5),
-#'                       inside = vfold_cv(v = 3))
+#'   outside = bootstraps(times = 5),
+#'   inside = vfold_cv(v = 3)
+#' )
 #'
 #' first_outer_split <- bad_idea$splits[[1]]
 #' outer_analysis <- as.data.frame(first_outer_split)
@@ -41,12 +42,12 @@
 #' ## `Volvo 142E` data partitioned?
 #' first_inner_split <- bad_idea$inner_resamples[[1]]$splits[[1]]
 #' inner_analysis <- as.data.frame(first_inner_split)
-#' inner_assess   <- as.data.frame(first_inner_split, data = "assessment")
+#' inner_assess <- as.data.frame(first_inner_split, data = "assessment")
 #'
 #' sum(grepl("Volvo 142E", rownames(inner_analysis)))
 #' sum(grepl("Volvo 142E", rownames(inner_assess)))
 #' @export
-nested_cv <- function(data, outside, inside)  {
+nested_cv <- function(data, outside, inside) {
   cl <- match.call()
   env <- rlang::caller_env()
 
@@ -59,21 +60,24 @@ nested_cv <- function(data, outside, inside)  {
 
   outer_cl <- cl[["outside"]]
   if (is_call(outer_cl)) {
-    if (grepl("^bootstraps", deparse(outer_cl)))
+    if (grepl("^bootstraps", deparse(outer_cl))) {
       warn(boot_msg)
+    }
     outer_cl <- rlang::call_modify(outer_cl, data = data)
     outside <- eval(outer_cl, env)
   } else {
-    if (inherits(outside, "bootstraps"))
+    if (inherits(outside, "bootstraps")) {
       warn(boot_msg)
+    }
   }
 
   inner_cl <- cl[["inside"]]
-  if (!is_call(inner_cl))
+  if (!is_call(inner_cl)) {
     abort(
       "`inside` should be a expression such as `vfold()` or ",
       "bootstraps(times = 10)` instead of an existing object.",
     )
+  }
   inside <- map(outside$splits, inside_resample, cl = inner_cl, env = env)
 
   out <- dplyr::mutate(outside, inner_resamples = inside)

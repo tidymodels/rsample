@@ -42,8 +42,9 @@ test_data$dat <- runif(nrow(test_data))
 set.seed(5144)
 split_by_id <- group_vfold_cv(test_data, group = "id")
 
-get_id_left_out <- function(x)
+get_id_left_out <- function(x) {
   unique(assessment(x)$id)
+}
 
 library(purrr)
 table(map_int(split_by_id$splits, get_id_left_out))

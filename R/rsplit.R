@@ -1,18 +1,21 @@
 rsplit <- function(data, in_id, out_id) {
-  if (!is.data.frame(data) & !is.matrix(data))
-    stop("`data` must be a data frame.", call. = FALSE)
-
-  if (!is.integer(in_id) | any(in_id < 1))
-    stop("`in_id` must be a positive integer vector.", call. = FALSE)
-
-  if(!all(is.na(out_id))) {
-    if (!is.integer(out_id) | any(out_id < 1))
-      stop("`out_id` must be a positive integer vector.", call. = FALSE)
+  if (!is.data.frame(data) & !is.matrix(data)) {
+    rlang::abort("`data` must be a data frame.")
   }
 
-  if (length(in_id) == 0)
-    stop("At least one row should be selected for the analysis set.",
-         call. = FALSE)
+  if (!is.integer(in_id) | any(in_id < 1)) {
+    rlang::abort("`in_id` must be a positive integer vector.")
+  }
+
+  if (!all(is.na(out_id))) {
+    if (!is.integer(out_id) | any(out_id < 1)) {
+      rlang::abort("`out_id` must be a positive integer vector.")
+    }
+  }
+
+  if (length(in_id) == 0) {
+    rlang::abort("At least one row should be selected for the analysis set.")
+  }
 
   structure(
     list(
@@ -27,30 +30,33 @@ rsplit <- function(data, in_id, out_id) {
 #' @export
 print.rsplit <- function(x, ...) {
   out_char <-
-    if (is_missing_out_id(x))
+    if (is_missing_out_id(x)) {
       paste(length(complement(x)))
-  else
-    paste(length(x$out_id))
+    } else {
+      paste(length(x$out_id))
+    }
 
   cat("<Analysis/Assess/Total>\n")
   cat("<",
-      length(x$in_id), "/",
-      out_char, "/",
-      nrow(x$data), ">\n",
-      sep = "")
+    length(x$in_id), "/",
+    out_char, "/",
+    nrow(x$data), ">\n",
+    sep = ""
+  )
 }
 
 #' @export
 as.integer.rsplit <-
   function(x, data = c("analysis", "assessment"), ...) {
     data <- match.arg(data)
-    if (data == "analysis")
+    if (data == "analysis") {
       out <- x$in_id
-    else {
-      out <- if (is_missing_out_id(x))
+    } else {
+      out <- if (is_missing_out_id(x)) {
         complement(x)
-      else
+      } else {
         x$out_id
+      }
     }
     out
   }
@@ -81,42 +87,50 @@ as.data.frame.rsplit <-
            optional = FALSE,
            data = "analysis",
            ...) {
-
-  if (!is.null(row.names))
-    warning( "`row.names` is kept for consistency with the ",
-             "underlying class but non-NULL values will be ",
-             "ignored.", call. = FALSE)
-  if (optional)
-    warning( "`optional` is kept for consistency with the ",
-             "underlying class but TRUE values will be ",
-             "ignored.", call. = FALSE)
-  if (!is.null(x$col_id)) {
-    if (identical(data, "assessment")) {
-      rsplit_class <- class(x)[[2]]
-      msg <- paste0("There is no assessment data set for an `rsplit` object",
-                    " with class `", rsplit_class, "`.")
-      rlang::abort(msg)
+    if (!is.null(row.names)) {
+      rlang::warn(paste0(
+        "`row.names` is kept for consistency with the underlying class but",
+        "non-NULL values will be ignored."
+      ))
     }
-    permuted_col <-
-      x$data[as.integer(x, data = data, ...), x$col_id, drop = FALSE]
-    x$data[, x$col_id] <- permuted_col
-    return(x$data)
+    if (optional) {
+      rlang::warn(paste0(
+        "`optional` is kept for consistency with the underlying class but",
+        "TRUE values will be ignored."
+      ))
+
+    }
+    if (!is.null(x$col_id)) {
+      if (identical(data, "assessment")) {
+        rsplit_class <- class(x)[[2]]
+        msg <- paste0(
+          "There is no assessment data set for an `rsplit` object",
+          " with class `", rsplit_class, "`."
+        )
+        rlang::abort(msg)
+      }
+      permuted_col <-
+        x$data[as.integer(x, data = data, ...), x$col_id, drop = FALSE]
+      x$data[, x$col_id] <- permuted_col
+      return(x$data)
+    }
+    x$data[as.integer(x, data = data, ...), , drop = FALSE]
   }
-  x$data[as.integer(x, data = data, ...), , drop = FALSE]
-}
 
 #' @rdname as.data.frame.rsplit
 #' @export
 analysis <- function(x, ...) {
-  if (!inherits(x, "rsplit"))
-    stop("`x` should be an `rsplit` object", call. = FALSE)
+  if (!inherits(x, "rsplit")) {
+    rlang::abort("`x` should be an `rsplit` object")
+  }
   as.data.frame(x, data = "analysis", ...)
 }
 #' @rdname as.data.frame.rsplit
 #' @export
-assessment <- function(x, ...){
-  if (!inherits(x, "rsplit"))
-    stop("`x` should be an `rsplit` object", call. = FALSE)
+assessment <- function(x, ...) {
+  if (!inherits(x, "rsplit")) {
+    rlang::abort("`x` should be an `rsplit` object")
+  }
   as.data.frame(x, data = "assessment", ...)
 }
 
@@ -134,14 +148,17 @@ dim.rsplit <- function(x, ...) {
 #' @export
 obj_sum.rsplit <- function(x, ...) {
   out_char <-
-    if (is_missing_out_id(x))
+    if (is_missing_out_id(x)) {
       paste(length(complement(x)))
-  else
-    paste(length(x$out_id))
+    } else {
+      paste(length(x$out_id))
+    }
 
-  paste0("split [",
-         length(x$in_id), "/",
-         out_char, "]")
+  paste0(
+    "split [",
+    length(x$in_id), "/",
+    out_char, "]"
+  )
 }
 
 
@@ -149,10 +166,11 @@ obj_sum.rsplit <- function(x, ...) {
 #' @export
 type_sum.rsplit <- function(x, ...) {
   out_char <-
-    if (is_missing_out_id(x))
+    if (is_missing_out_id(x)) {
       format_n(length(complement(x)))
-  else
-    format_n(length(x$out_id))
+    } else {
+      format_n(length(x$out_id))
+    }
 
   paste0(
     "split [",
@@ -164,9 +182,9 @@ type_sum.rsplit <- function(x, ...) {
 
 format_n <- function(x, digits = 1) {
   case_when(
-    log10(x) < 3  ~ paste(x),
-    log10(x) >= 3 & log10(x) < 6 ~ paste0(round(x/1000, digits = digits), "K"),
-    TRUE ~ paste0(round(x/1000000, digits = digits), "M"),
+    log10(x) < 3 ~ paste(x),
+    log10(x) >= 3 & log10(x) < 6 ~ paste0(round(x / 1000, digits = digits), "K"),
+    TRUE ~ paste0(round(x / 1000000, digits = digits), "M"),
   )
 }
 

@@ -69,12 +69,11 @@ data(drinks, package = "modeldata")
 drinks_split <- initial_time_split(drinks)
 train_data <- training(drinks_split)
 test_data <- testing(drinks_split)
-c(max(train_data$date), min(test_data$date))  # no lag
+c(max(train_data$date), min(test_data$date)) # no lag
 
 # With 12 period lag
 drinks_lag_split <- initial_time_split(drinks, lag = 12)
 train_data <- training(drinks_lag_split)
 test_data <- testing(drinks_lag_split)
-c(max(train_data$date), min(test_data$date))  # 12 period lag
-
+c(max(train_data$date), min(test_data$date)) # 12 period lag
 }

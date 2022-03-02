@@ -44,8 +44,9 @@ nested_cv(mtcars, folds, inside = bootstraps(times = 5))
 ## The dangers of outer bootstraps:
 set.seed(2222)
 bad_idea <- nested_cv(mtcars,
-                      outside = bootstraps(times = 5),
-                      inside = vfold_cv(v = 3))
+  outside = bootstraps(times = 5),
+  inside = vfold_cv(v = 3)
+)
 
 first_outer_split <- bad_idea$splits[[1]]
 outer_analysis <- as.data.frame(first_outer_split)
@@ -55,7 +56,7 @@ sum(grepl("Volvo 142E", rownames(outer_analysis)))
 ## `Volvo 142E` data partitioned?
 first_inner_split <- bad_idea$inner_resamples[[1]]$splits[[1]]
 inner_analysis <- as.data.frame(first_inner_split)
-inner_assess   <- as.data.frame(first_inner_split, data = "assessment")
+inner_assess <- as.data.frame(first_inner_split, data = "assessment")
 
 sum(grepl("Volvo 142E", rownames(inner_analysis)))
 sum(grepl("Volvo 142E", rownames(inner_assess)))

@@ -56,5 +56,4 @@ resample2 <- permutations(mtcars, hp, times = 10, apparent = TRUE)
 map_dbl(resample2$splits, function(x) {
   t.test(hp ~ vs, data = analysis(x))$statistic
 })
-
 }

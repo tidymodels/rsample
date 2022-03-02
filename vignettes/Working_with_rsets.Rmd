@@ -1,8 +1,8 @@
 ---
-title: "Working with rsets"
+title: "Working with resampling sets"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Working with rsets}
+  %\VignetteIndexEntry{Working with resampling sets}
 output:
   knitr:::html_vignette:
     toc: yes

@@ -75,25 +75,31 @@ data(wa_churn)
 
 set.seed(13)
 resample1 <- bootstraps(wa_churn, times = 3)
-map_dbl(resample1$splits,
-        function(x) {
-          dat <- as.data.frame(x)$churn
-          mean(dat == "Yes")
-        })
+map_dbl(
+  resample1$splits,
+  function(x) {
+    dat <- as.data.frame(x)$churn
+    mean(dat == "Yes")
+  }
+)
 
 set.seed(13)
 resample2 <- bootstraps(wa_churn, strata = churn, times = 3)
-map_dbl(resample2$splits,
-        function(x) {
-          dat <- as.data.frame(x)$churn
-          mean(dat == "Yes")
-        })
+map_dbl(
+  resample2$splits,
+  function(x) {
+    dat <- as.data.frame(x)$churn
+    mean(dat == "Yes")
+  }
+)
 
 set.seed(13)
 resample3 <- bootstraps(wa_churn, strata = tenure, breaks = 6, times = 3)
-map_dbl(resample3$splits,
-        function(x) {
-          dat <- as.data.frame(x)$churn
-          mean(dat == "Yes")
-        })
+map_dbl(
+  resample3$splits,
+  function(x) {
+    dat <- as.data.frame(x)$churn
+    mean(dat == "Yes")
+  }
+)
 }

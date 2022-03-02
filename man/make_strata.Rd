@@ -77,6 +77,6 @@ table(make_strata(x5))
 
 set.seed(483)
 x6 <- rnorm(200)
-quantile(x6, probs = (0:10)/10)
+quantile(x6, probs = (0:10) / 10)
 table(make_strata(x6, breaks = 10))
 }

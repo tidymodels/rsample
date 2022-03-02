@@ -16,14 +16,14 @@ License: MIT + file LICENSE
 URL: https://rsample.tidymodels.org, https://github.com/tidymodels/rsample
 BugReports: https://github.com/tidymodels/rsample/issues
 Depends: 
-    R (>= 3.2)
+    R (>= 3.4)
 Imports: 
     dplyr (>= 1.0.0),
     ellipsis,
     furrr,
     generics,
     lifecycle,
-    MASS,    
+    MASS,
     methods,
     purrr,
     rlang (>= 0.4.10),
@@ -41,18 +41,19 @@ Suggests:
     recipes (>= 0.1.4),
     rmarkdown,
     stats,
-    testthat,
+    testthat (>= 3.0.0),
     utils,
     xml2
 VignetteBuilder: 
     knitr
 Config/Needs/website: 
-    GGally,
+    GGally, 
     nlstools, 
     survival, 
-    tidymodels, 
-    tidyposterior,
+    tidymodels,
+    tidymodels/tidyposterior, 
     tidyverse/tidytemplate
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+Config/testthat/edition: 3

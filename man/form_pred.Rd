@@ -35,5 +35,5 @@ form_pred(log(y1) + y2 ~ x + z)
 # form_pred(y ~ .)
 
 form_pred(terms(mpg ~ (.)^2, data = mtcars))
-form_pred(terms( ~ (.)^2, data = mtcars))
+form_pred(terms(~ (.)^2, data = mtcars))
 }

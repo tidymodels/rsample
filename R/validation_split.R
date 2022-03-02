@@ -20,9 +20,8 @@
 #' data(drinks, package = "modeldata")
 #' validation_time_split(drinks)
 #' @export
-validation_split <- function(data, prop = 3/4,
+validation_split <- function(data, prop = 3 / 4,
                              strata = NULL, breaks = 4, pool = 0.1, ...) {
-
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
     if (length(strata) == 0) {
@@ -33,12 +32,14 @@ validation_split <- function(data, prop = 3/4,
   strata_check(strata, data)
 
   split_objs <-
-    mc_splits(data = data,
-              prop = prop,
-              times = 1,
-              strata = strata,
-              breaks = breaks,
-              pool = pool)
+    mc_splits(
+      data = data,
+      prop = prop,
+      times = 1,
+      strata = strata,
+      breaks = breaks,
+      pool = pool
+    )
 
   ## We remove the holdout indices since it will save space and we can
   ## derive them later when they are needed.
@@ -46,47 +47,51 @@ validation_split <- function(data, prop = 3/4,
   split_objs$splits <- map(split_objs$splits, rm_out)
   class(split_objs$splits[[1]]) <- c("val_split", "rsplit")
 
-  val_att <- list(prop = prop,
-                 strata = !is.null(strata))
+  val_att <- list(
+    prop = prop,
+    strata = !is.null(strata)
+  )
 
-  new_rset(splits = split_objs$splits,
-           ids = "validation",
-           attrib = val_att,
-           subclass = c("validation_split", "rset"))
+  new_rset(
+    splits = split_objs$splits,
+    ids = "validation",
+    attrib = val_att,
+    subclass = c("validation_split", "rset")
+  )
 }
 
 #' @rdname validation_split
 #' @inheritParams vfold_cv
 #' @inheritParams initial_time_split
 #' @export
-validation_time_split <- function(data, prop = 3/4, lag = 0, ...) {
-
+validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
     rlang::abort("`prop` must be a number on (0, 1).")
   }
 
-  if (!is.numeric(lag) | !(lag%%1 == 0)) {
-    stop("`lag` must be a whole number.", call. = FALSE)
+  if (!is.numeric(lag) | !(lag %% 1 == 0)) {
+    rlang::abort("`lag` must be a whole number.")
   }
 
   n_train <- floor(nrow(data) * prop)
 
   if (lag > n_train) {
-    stop("`lag` must be less than or equal to the number of training observations.", call. = FALSE)
+    rlang::abort("`lag` must be less than or equal to the number of training observations.")
   }
 
-  split  <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
+  split <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
   split <- rm_out(split)
   class(split) <- c("val_split", "rsplit")
   splits <- list(split)
 
   val_att <- list(prop = prop, strata = FALSE)
 
-  new_rset(splits = splits,
-           ids = "validation",
-           attrib = val_att,
-           subclass = c("validation_split", "rset"))
-
+  new_rset(
+    splits = splits,
+    ids = "validation",
+    attrib = val_att,
+    subclass = c("validation_split", "rset")
+  )
 }
 
 
@@ -99,8 +104,7 @@ print.validation_split <- function(x, ...) {
 
 
 #' @export
-print.val_split<- function(x, ...) {
-
+print.val_split <- function(x, ...) {
   if (is_missing_out_id(x)) {
     out_char <- paste(length(complement(x)))
   } else {
@@ -109,8 +113,9 @@ print.val_split<- function(x, ...) {
 
   cat("<Training/Validation/Total>\n")
   cat("<",
-      length(x$in_id), "/",
-      out_char, "/",
-      nrow(x$data), ">\n",
-      sep = "")
+    length(x$in_id), "/",
+    out_char, "/",
+    nrow(x$data), ">\n",
+    sep = ""
+  )
 }

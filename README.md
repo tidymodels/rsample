@@ -3,7 +3,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/tidymodels/rsample/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/rsample/actions)
+[![R-CMD-check](https://github.com/tidymodels/rsample/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/rsample/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/tidymodels/rsample/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/rsample?branch=main)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/rsample)](https://cran.r-project.org/package=rsample)
@@ -46,19 +46,19 @@ lobstr::obj_size(LetterRecognition)
 set.seed(35222)
 boots <- bootstraps(LetterRecognition, times = 50)
 lobstr::obj_size(boots)
-#> 6,686,512 B
+#> 6,686,776 B
 
 # Object size per resample
 lobstr::obj_size(boots)/nrow(boots)
-#> 133,730.2 B
+#> 133,735.5 B
 
 # Fold increase is <<< 50
 as.numeric(lobstr::obj_size(boots)/lobstr::obj_size(LetterRecognition))
-#> [1] 2.528326
+#> [1] 2.528426
 ```
 
-<sup>Created on 2020-05-07 by the [reprex
-package](https://reprex.tidyverse.org) (v0.3.0)</sup>
+<sup>Created on 2022-02-28 by the [reprex
+package](https://reprex.tidyverse.org) (v2.0.1)</sup>
 
 The memory usage for 50 bootstrap samples is less than 3-fold more than
 the original data set.
@@ -81,7 +81,7 @@ install_dev("rsample")
 ## Contributing
 
 This project is released with a [Contributor Code of
-Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
 -   For questions and discussions about tidymodels packages, modeling,
@@ -95,13 +95,6 @@ By contributing to this project, you agree to abide by its terms.
     [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
     (a minimal, reproducible example), to clearly communicate about your
     code.
-
--   We welcome contributions, including typo corrections, bug fixes, and
-    feature requests! If you have never made a pull request to an R
-    package before, rsample is an excellent place to start. Find an
-    [issue](https://github.com/tidymodels/rsample/issues/) with the
-    **help wanted ❤️** tag, comment that you’d like to take it on, and
-    we’ll help you get started.
 
 -   Check out further details on [contributing guidelines for tidymodels
     packages](https://www.tidymodels.org/contribute/) and [how to get

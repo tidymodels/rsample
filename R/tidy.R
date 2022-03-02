@@ -24,64 +24,79 @@
 #' set.seed(4121)
 #' cv <- tidy(vfold_cv(mtcars, v = 5))
 #' ggplot(cv, aes(x = Fold, y = Row, fill = Data)) +
-#'   geom_tile() + scale_fill_brewer()
+#'   geom_tile() +
+#'   scale_fill_brewer()
 #'
 #' set.seed(4121)
 #' rcv <- tidy(vfold_cv(mtcars, v = 5, repeats = 2))
 #' ggplot(rcv, aes(x = Fold, y = Row, fill = Data)) +
-#'   geom_tile() + facet_wrap(~Repeat) + scale_fill_brewer()
+#'   geom_tile() +
+#'   facet_wrap(~Repeat) +
+#'   scale_fill_brewer()
 #'
 #' set.seed(4121)
 #' mccv <- tidy(mc_cv(mtcars, times = 5))
 #' ggplot(mccv, aes(x = Resample, y = Row, fill = Data)) +
-#'   geom_tile() + scale_fill_brewer()
+#'   geom_tile() +
+#'   scale_fill_brewer()
 #'
 #' set.seed(4121)
 #' bt <- tidy(bootstraps(mtcars, time = 5))
 #' ggplot(bt, aes(x = Resample, y = Row, fill = Data)) +
-#'   geom_tile() + scale_fill_brewer()
+#'   geom_tile() +
+#'   scale_fill_brewer()
 #'
 #' dat <- data.frame(day = 1:30)
 #' # Resample by week instead of day
-#' ts_cv <- rolling_origin(dat, initial = 7, assess = 7,
-#'                         skip = 6, cumulative = FALSE)
+#' ts_cv <- rolling_origin(dat,
+#'   initial = 7, assess = 7,
+#'   skip = 6, cumulative = FALSE
+#' )
 #' ts_cv <- tidy(ts_cv)
 #' ggplot(ts_cv, aes(x = Resample, y = factor(Row), fill = Data)) +
-#'   geom_tile() + scale_fill_brewer()
+#'   geom_tile() +
+#'   scale_fill_brewer()
 #' @export
 tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
   if (unique_ind) x$in_id <- unique(x$in_id)
-  out <- tibble(Row = c(x$in_id, complement(x)),
-                Data = rep(c("Analysis", "Assessment"),
-                           c(length(x$in_id), length(complement(x)))))
+  out <- tibble(
+    Row = c(x$in_id, complement(x)),
+    Data = rep(
+      c("Analysis", "Assessment"),
+      c(length(x$in_id), length(complement(x)))
+    )
+  )
   out <- dplyr::arrange(.data = out, Data, Row)
   out
 }
 
 #' @rdname tidy.rsplit
 #' @export
-tidy.rset <- function(x, ...)  {
+tidy.rset <- function(x, ...) {
   dots <- list(...)
   unique_ind <- dplyr::if_else(is.null(dots$unique_ind),
-                               TRUE,
-                               dots$unique_ind)
+    TRUE,
+    dots$unique_ind
+  )
   stacked <- purrr::map(x$splits, tidy, unique_ind = unique_ind)
-  for (i in seq(along = stacked))
+  for (i in seq(along = stacked)) {
     stacked[[i]]$Resample <- x$id[i]
+  }
   stacked <- dplyr::bind_rows(stacked)
   stacked <- dplyr::arrange(.data = stacked, Data, Row)
   stacked
 }
 #' @rdname tidy.rsplit
 #' @export
-tidy.vfold_cv <- function(x, ...)  {
+tidy.vfold_cv <- function(x, ...) {
   stacked <- purrr::map(x$splits, tidy)
   for (i in seq(along = stacked)) {
     if (attr(x, "repeats") > 1) {
       stacked[[i]]$Repeat <- x$id[i]
       stacked[[i]]$Fold <- x$id2[i]
-    } else
+    } else {
       stacked[[i]]$Fold <- x$id[i]
+    }
   }
   stacked <- dplyr::bind_rows(stacked)
   stacked <- dplyr::arrange(.data = stacked, Data, Row)
@@ -90,8 +105,7 @@ tidy.vfold_cv <- function(x, ...)  {
 
 #' @rdname tidy.rsplit
 #' @export
-tidy.nested_cv <- function(x, ...)  {
-
+tidy.nested_cv <- function(x, ...) {
   x$inner_tidy <- purrr::map(x$inner_resamples, tidy_wrap)
   inner_tidy <- tidyr::unnest(x, inner_tidy)
   class(x) <- class(x)[class(x) != "nested_cv"]
@@ -100,8 +114,9 @@ tidy.nested_cv <- function(x, ...)  {
   id_cols <- id_cols[!(id_cols %in% c("Row", "Data"))]
 
   inner_id <- grep("^id", names(inner_tidy))
-  if (length(inner_id) != length(id_cols))
-    stop("Cannot merge tidt data sets", call. = FALSE)
+  if (length(inner_id) != length(id_cols)) {
+    rlang::abort("Cannot merge tidy data sets")
+  }
   names(inner_tidy)[inner_id] <- id_cols
   full_join(outer_tidy, inner_tidy, by = id_cols)
 }

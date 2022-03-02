@@ -1,11 +1,27 @@
 url: https://rsample.tidymodels.org
 
+navbar:
+  components:
+    home: ~
+    tutorials:
+      text: Learn more
+      menu:
+      - text: Time series analysis
+        href: https://www.tidymodels.org/learn/models/time-series/
+      - text: Nested resampling
+        href: https://www.tidymodels.org/learn/work/nested-resampling/
+
 template:
+  package: tidytemplate
   bootstrap: 5
   bslib:
     danger: "#CA225E"
     primary: "#CA225E"
-  package: tidytemplate
+
+  includes:
+    in_header: |
+      <script defer data-domain="rsample.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
+
 
 development:
   mode: auto
@@ -15,7 +31,7 @@ figures:
   fig.height: 5.75
 
 reference:
-  - title: Resampling Methods
+  - title: Resampling methods
     contents:
       - initial_split
       - bootstraps
@@ -49,32 +65,6 @@ reference:
       - rset_reconstruct
       - starts_with("tidy")
       - sim_classification
-  - title: Data
-    contents:
-      - attrition
-      - drinks
-      - two_class_dat
   - title: Compatibility
     contents:
       - rsample-dplyr
-  - title: Package
-    contents:
-      - rsample
-
-navbar:
- components:
-   articles:
-    text: Articles
-    menu:
-    - text: Working with Resample Sets
-      href: articles/Working_with_rsets.html
-    - text: Recipes and rsample
-      href: articles/Applications/Recipes_and_rsample.html
-    - text: Survival Analysis
-      href: articles/Applications/Survival_Analysis.html
-    - text: Bootstrap Interval Estimation
-      href: articles/Applications/Intervals.html
-    - text: Time Series Analysis
-      href: https://www.tidymodels.org/learn/models/time-series/
-    - text: Nested Resampling
-      href: https://www.tidymodels.org/learn/work/nested-resampling/

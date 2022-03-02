@@ -29,10 +29,10 @@
 #' @examples
 #' \donttest{
 #' set.seed(1)
-#' reg_intervals(mpg ~ I(1/sqrt(disp)), data = mtcars)
+#' reg_intervals(mpg ~ I(1 / sqrt(disp)), data = mtcars)
 #'
 #' set.seed(1)
-#' reg_intervals(mpg ~ I(1/sqrt(disp)), data = mtcars, keep_reps = TRUE)
+#' reg_intervals(mpg ~ I(1 / sqrt(disp)), data = mtcars, keep_reps = TRUE)
 #' }
 reg_intervals <-
   function(formula, data, model_fn = "lm", type = "student-t", times = NULL,
@@ -65,16 +65,19 @@ reg_intervals <-
     } else {
       pkg <- NULL
     }
-    fn_call <- rlang::call2(model_fn, formula = formula,
-                            data = rlang::expr(data), .ns = pkg, ...)
+    fn_call <- rlang::call2(model_fn,
+      formula = formula,
+      data = rlang::expr(data), .ns = pkg, ...
+    )
 
     bt <- rsample::bootstraps(data, times = times, apparent = type %in% c("student-t"))
     bt <-
       dplyr::mutate(bt,
-                    models =
-                      purrr::map(splits,
-                                 ~ model_results(rsample::analysis(.x), fn_call, filter)
-                      )
+        models =
+          purrr::map(
+            splits,
+            ~ model_results(rsample::analysis(.x), fn_call, filter)
+          )
       )
     if (type == "student-t") {
       res <- int_t(bt, models, alpha = alpha)
@@ -83,7 +86,7 @@ reg_intervals <-
     }
 
     if (keep_reps) {
-      bt <- bt[bt$id != "Apparent",]
+      bt <- bt[bt$id != "Apparent", ]
       reps <- purrr::map_dfr(bt$models, I)
       reps <- dplyr::group_nest(reps, term, .key = ".replicates")
       res <- dplyr::full_join(res, reps, by = "term")

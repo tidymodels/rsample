@@ -1,7 +1,8 @@
 #' Constructors for split objects
 #' @export
-make_splits <- function(x, ...)
+make_splits <- function(x, ...) {
   UseMethod("make_splits")
+}
 
 #' @rdname make_splits
 #' @param x A list of integers with names "analysis" and "assessment", or a
@@ -84,7 +85,7 @@ add_class <- function(x, cls) {
 strata_check <- function(strata, data) {
   if (!is.null(strata)) {
     if (!is.character(strata) | length(strata) != 1) {
-      rlang::abort("`strata` should be a single character value.")
+      rlang::abort("`strata` should be a single name or character value.")
     }
     if (inherits(data[, strata], "Surv")) {
       rlang::abort("`strata` cannot be a `Surv` object. Use the time or event variable directly.")
@@ -149,5 +150,3 @@ split_unnamed <- function(x, f) {
   }
   res
 }
-
-

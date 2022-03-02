@@ -4,6 +4,10 @@
 
 * Added a set of regression and classification simulation functions (#273).
 
+* Updated to testthat 3e (#328).
+
+* Finally removed the `gather()` method for `rset` objects. Use `tidyr::pivot_longer()` instead (#328).
+
 # rsample 0.1.1
 
 * Updated documentation on stratified sampling (#245).

@@ -14,17 +14,21 @@
 loo_cv <- function(data, ...) {
   split_objs <- vfold_splits(data = data, v = nrow(data))
   split_objs <-
-    list(splits = map(split_objs$splits, change_class),
-         id = paste0("Resample", seq_along(split_objs$id)))
+    list(
+      splits = map(split_objs$splits, change_class),
+      id = paste0("Resample", seq_along(split_objs$id))
+    )
 
   ## We remove the holdout indices since it will save space and we can
   ## derive them later when they are needed.
 
   split_objs$splits <- map(split_objs$splits, rm_out)
 
-  new_rset(splits = split_objs$splits,
-           ids = split_objs$id,
-           subclass = c("loo_cv", "rset"))
+  new_rset(
+    splits = split_objs$splits,
+    ids = split_objs$id,
+    subclass = c("loo_cv", "rset")
+  )
 }
 
 #' @export
@@ -38,4 +42,3 @@ change_class <- function(x) {
   class(x) <- c("rsplit", "loo_split")
   x
 }
-

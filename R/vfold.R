@@ -35,50 +35,58 @@
 #'
 #' set.seed(13)
 #' folds1 <- vfold_cv(wa_churn, v = 5)
-#' map_dbl(folds1$splits,
-#'         function(x) {
-#'           dat <- as.data.frame(x)$churn
-#'           mean(dat == "Yes")
-#'         })
+#' map_dbl(
+#'   folds1$splits,
+#'   function(x) {
+#'     dat <- as.data.frame(x)$churn
+#'     mean(dat == "Yes")
+#'   }
+#' )
 #'
 #' set.seed(13)
 #' folds2 <- vfold_cv(wa_churn, strata = churn, v = 5)
-#' map_dbl(folds2$splits,
-#'         function(x) {
-#'           dat <- as.data.frame(x)$churn
-#'           mean(dat == "Yes")
-#'         })
+#' map_dbl(
+#'   folds2$splits,
+#'   function(x) {
+#'     dat <- as.data.frame(x)$churn
+#'     mean(dat == "Yes")
+#'   }
+#' )
 #'
 #' set.seed(13)
 #' folds3 <- vfold_cv(wa_churn, strata = tenure, breaks = 6, v = 5)
-#' map_dbl(folds3$splits,
-#'         function(x) {
-#'           dat <- as.data.frame(x)$churn
-#'           mean(dat == "Yes")
-#'         })
+#' map_dbl(
+#'   folds3$splits,
+#'   function(x) {
+#'     dat <- as.data.frame(x)$churn
+#'     mean(dat == "Yes")
+#'   }
+#' )
 #' @export
 vfold_cv <- function(data, v = 10, repeats = 1,
                      strata = NULL, breaks = 4, pool = 0.1, ...) {
-
-  if(!missing(strata)) {
+  if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
-    if(length(strata) == 0) strata <- NULL
+    if (length(strata) == 0) strata <- NULL
   }
 
   strata_check(strata, data)
 
   if (repeats == 1) {
-    split_objs <- vfold_splits(data = data, v = v,
-                               strata = strata, breaks = breaks, pool = pool)
+    split_objs <- vfold_splits(
+      data = data, v = v,
+      strata = strata, breaks = breaks, pool = pool
+    )
   } else {
     for (i in 1:repeats) {
       tmp <- vfold_splits(data = data, v = v, strata = strata, pool = pool)
       tmp$id2 <- tmp$id
       tmp$id <- names0(repeats, "Repeat")[i]
-      split_objs <- if (i == 1)
+      split_objs <- if (i == 1) {
         tmp
-      else
+      } else {
         rbind(split_objs, tmp)
+      }
     }
   }
 
@@ -91,16 +99,19 @@ vfold_cv <- function(data, v = 10, repeats = 1,
 
   cv_att <- list(v = v, repeats = repeats, strata = !is.null(strata))
 
-  new_rset(splits = split_objs$splits,
-           ids = split_objs[, grepl("^id", names(split_objs))],
-           attrib = cv_att,
-           subclass = c("vfold_cv", "rset"))
+  new_rset(
+    splits = split_objs$splits,
+    ids = split_objs[, grepl("^id", names(split_objs))],
+    attrib = cv_att,
+    subclass = c("vfold_cv", "rset")
+  )
 }
 
 
 vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
-  if (!is.numeric(v) || length(v) != 1)
-    stop("`v` must be a single integer.", call. = FALSE)
+  if (!is.numeric(v) || length(v) != 1) {
+    rlang::abort("`v` must be a single integer.")
+  }
 
   n <- nrow(data)
   if (is.null(strata)) {
@@ -108,10 +119,13 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
     idx <- seq_len(n)
     indices <- split_unnamed(idx, folds)
   } else {
-    stratas <- tibble::tibble(idx = 1:n,
-                              strata = make_strata(getElement(data, strata),
-                                                   breaks = breaks,
-                                                   pool = pool))
+    stratas <- tibble::tibble(
+      idx = 1:n,
+      strata = make_strata(getElement(data, strata),
+        breaks = breaks,
+        pool = pool
+      )
+    )
     stratas <- split_unnamed(stratas, stratas$strata)
     stratas <- purrr::map(stratas, add_vfolds, v = v)
     stratas <- dplyr::bind_rows(stratas)
@@ -121,8 +135,10 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
   indices <- lapply(indices, default_complement, n = n)
 
   split_objs <- purrr::map(indices, make_splits, data = data, class = "vfold_split")
-  tibble::tibble(splits = split_objs,
-                 id = names0(length(split_objs), "Fold"))
+  tibble::tibble(
+    splits = split_objs,
+    id = names0(length(split_objs), "Fold")
+  )
 }
 
 add_vfolds <- function(x, v) {

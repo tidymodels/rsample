@@ -55,25 +55,31 @@ data(wa_churn, package = "modeldata")
 
 set.seed(13)
 resample1 <- mc_cv(wa_churn, times = 3, prop = .5)
-map_dbl(resample1$splits,
-        function(x) {
-          dat <- as.data.frame(x)$churn
-          mean(dat == "Yes")
-        })
+map_dbl(
+  resample1$splits,
+  function(x) {
+    dat <- as.data.frame(x)$churn
+    mean(dat == "Yes")
+  }
+)
 
 set.seed(13)
 resample2 <- mc_cv(wa_churn, strata = churn, times = 3, prop = .5)
-map_dbl(resample2$splits,
-        function(x) {
-          dat <- as.data.frame(x)$churn
-          mean(dat == "Yes")
-        })
+map_dbl(
+  resample2$splits,
+  function(x) {
+    dat <- as.data.frame(x)$churn
+    mean(dat == "Yes")
+  }
+)
 
 set.seed(13)
 resample3 <- mc_cv(wa_churn, strata = tenure, breaks = 6, times = 3, prop = .5)
-map_dbl(resample3$splits,
-        function(x) {
-          dat <- as.data.frame(x)$churn
-          mean(dat == "Yes")
-        })
+map_dbl(
+  resample3$splits,
+  function(x) {
+    dat <- as.data.frame(x)$churn
+    mean(dat == "Yes")
+  }
+)
 }

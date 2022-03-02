@@ -1,5 +1,0 @@
-> set.seed(233)
-> print(vfold_cv(mtcars)$splits[[1]])
-<Analysis/Assess/Total>
-<28/4/32>
-

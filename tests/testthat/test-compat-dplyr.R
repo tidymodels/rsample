@@ -16,7 +16,7 @@ test_that("dplyr_reconstruct() returns an rset subclass if `x` retains rset stru
 test_that("dplyr_reconstruct() returns bare tibble if `x` loses rset structure", {
   for (x in rset_subclasses) {
     col <- x[1]
-    row <- x[0,]
+    row <- x[0, ]
 
     expect_s3_class_bare_tibble(dplyr_reconstruct(col, x))
     expect_s3_class_bare_tibble(dplyr_reconstruct(row, x))
@@ -282,7 +282,7 @@ test_that("semi_join() can lose rset class if rows are removed", {
 
 test_that("nest_join() can keep rset class if rset structure is intact", {
   for (x in rset_subclasses) {
-    y <- mutate(x, foo =  "bar")
+    y <- mutate(x, foo = "bar")
     expect_s3_class_rset(nest_join(x, y, by = names(x)))
   }
 })
@@ -320,4 +320,3 @@ test_that("bind_cols() drops the class with new rows", {
   x <- rset_subclasses$apparent
   expect_s3_class_bare_tibble(bind_cols(x, tibble(x = 1:2)))
 })
-

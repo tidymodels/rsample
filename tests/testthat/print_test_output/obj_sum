@@ -1,8 +1,0 @@
-> set.seed(233)
-> print(validation_split(mtcars))
-# Validation Set Split (0.75/0.25)  
-# A tibble: 1 x 2
-  splits         id        
-  <list>         <chr>     
-1 <split [24/8]> validation
-
