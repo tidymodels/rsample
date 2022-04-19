@@ -6,7 +6,7 @@
 \alias{rsample-package}
 \title{rsample: General Resampling Infrastructure}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
 Classes and functions to create and summarize different types of resampling objects (e.g. bootstrap, cross-validation).
 }
