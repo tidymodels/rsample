@@ -2,8 +2,9 @@
 
     Code
       assessment(xx$splits[[1]])
-    Error <rlang_error>
-      There is no assessment data set for an `rsplit` object with class `rsplit`.
+    Condition
+      Error in `as.data.frame()`:
+      ! There is no assessment data set for an `rsplit` object with class `rsplit`.
 
 # printing
 

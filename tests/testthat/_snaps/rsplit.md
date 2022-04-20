@@ -32,6 +32,7 @@
 
     Code
       complement("a string")
-    Error <rlang_error>
-      No `complement()` method for this class(es) 'character'
+    Condition
+      Error in `complement()`:
+      ! No `complement()` method for this class(es) 'character'
 

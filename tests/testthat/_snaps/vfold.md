@@ -2,7 +2,8 @@
 
     Code
       rs4 <- vfold_cv(mlc_churn, strata = state, pool = 0.01)
-    Warning <rlang_warning>
+    Condition
+      Warning:
       Stratifying groups that make up 1% of the data may be statistically risky.
       * Consider increasing `pool` to at least 0.1
 
