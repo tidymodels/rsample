@@ -13,15 +13,17 @@
 
     Code
       validation_time_split(drinks, lag = 12.5)
-    Error <rlang_error>
-      `lag` must be a whole number.
+    Condition
+      Error in `validation_time_split()`:
+      ! `lag` must be a whole number.
 
 ---
 
     Code
       validation_time_split(drinks, lag = 500)
-    Error <rlang_error>
-      `lag` must be less than or equal to the number of training observations.
+    Condition
+      Error in `validation_time_split()`:
+      ! `lag` must be less than or equal to the number of training observations.
 
 # printing
 

@@ -2,13 +2,15 @@
 
     Code
       initial_time_split(drinks, lag = 12.5)
-    Error <rlang_error>
-      `lag` must be a whole number.
+    Condition
+      Error in `initial_time_split()`:
+      ! `lag` must be a whole number.
 
 ---
 
     Code
       initial_time_split(drinks, lag = 500)
-    Error <rlang_error>
-      `lag` must be less than or equal to the number of training observations.
+    Condition
+      Error in `initial_time_split()`:
+      ! `lag` must be less than or equal to the number of training observations.
 

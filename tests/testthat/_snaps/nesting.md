@@ -4,7 +4,8 @@
       skip_if(new_rng_snapshots)
       set.seed(123)
       nested_cv(mtcars, outside = bootstraps(times = 5), inside = vfold_cv(V = 3))
-    Warning <rlang_warning>
+    Condition
+      Warning:
       Using bootstrapping as the outer resample is dangerous since the inner resample might have the same data point in both the analysis and assessment set.
     Output
       # Nested resampling:
@@ -23,8 +24,9 @@
 
     Code
       nested_cv(mtcars, outside = vfold_cv(), inside = folds)
-    Error <rlang_error>
-      Argument 3 is empty
+    Condition
+      Error in `list2()`:
+      ! Argument 3 is empty
 
 # printing
 
