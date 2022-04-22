@@ -2,8 +2,6 @@
 
 * Fixed how `nested_cv()` handles call objects so variables in the environment can be used when specifying resampling schemes (#81).
 
-* Added a set of regression and classification simulation functions (#273).
-
 * Updated to testthat 3e (#328).
 
 * Finally removed the `gather()` method for `rset` objects. Use `tidyr::pivot_longer()` instead (#328).
