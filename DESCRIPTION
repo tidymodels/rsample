@@ -22,7 +22,7 @@ Imports:
     ellipsis,
     furrr,
     generics,
-    lifecycle,
+    glue,
     methods,
     purrr,
     rlang (>= 0.4.10),
