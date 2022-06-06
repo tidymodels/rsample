@@ -145,20 +145,6 @@ add_vfolds <- function(x, v) {
   x
 }
 
-
-#' Check `v` for v-fold CV
-#'
-#' @param v The user-supplied value for `v`
-#' @param max_v The highest value of `v` possible
-#' @param resample What is being resampled? Defaults to "rows".
-#' @param call The execution environment of the calling function
-#'
-#' @examples
-#' try(check_v(10, 5))
-#' try(check_v(-2, 5))
-#'
-#' @keywords internal
-#' @export
 check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
   if (!is.numeric(v) || length(v) != 1 || v < 0) {
     rlang::abort("`v` must be a single positive integer", call = call)

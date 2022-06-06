@@ -2,9 +2,9 @@
 
 * Fixed how `nested_cv()` handles call objects so variables in the environment can be used when specifying resampling schemes (#81).
 
-* Updated to testthat 3e (#328).
+* Updated to testthat 3e (#280) and added better checking for `vfold_cv()` (#293).
 
-* Finally removed the `gather()` method for `rset` objects. Use `tidyr::pivot_longer()` instead (#328).
+* Finally removed the `gather()` method for `rset` objects. Use `tidyr::pivot_longer()` instead (#280).
 
 # rsample 0.1.1
 
