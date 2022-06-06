@@ -7,6 +7,14 @@
       Stratifying groups that make up 1% of the data may be statistically risky.
       * Consider increasing `pool` to at least 0.1
 
+# bad args
+
+    `v` must be a single positive integer
+
+---
+
+    The number of rows is less than `v = 500`
+
 # printing
 
     Code

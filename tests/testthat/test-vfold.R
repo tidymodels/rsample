@@ -77,6 +77,8 @@ test_that("strata", {
 test_that("bad args", {
   expect_error(vfold_cv(iris, strata = iris$Species))
   expect_error(vfold_cv(iris, strata = c("Species", "Sepal.Width")))
+  expect_snapshot_error(vfold_cv(iris, v = -500))
+  expect_snapshot_error(vfold_cv(iris, v = 500))
 })
 
 test_that("printing", {

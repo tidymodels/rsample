@@ -109,11 +109,10 @@ vfold_cv <- function(data, v = 10, repeats = 1,
 
 
 vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
-  if (!is.numeric(v) || length(v) != 1) {
-    rlang::abort("`v` must be a single integer.")
-  }
 
   n <- nrow(data)
+  check_v(v, n, call = rlang::caller_env())
+
   if (is.null(strata)) {
     folds <- sample(rep(1:v, length.out = n))
     idx <- seq_len(n)
@@ -144,6 +143,16 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
 add_vfolds <- function(x, v) {
   x$folds <- sample(rep(1:v, length.out = nrow(x)))
   x
+}
+
+check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
+  if (!is.numeric(v) || length(v) != 1 || v < 0) {
+    rlang::abort("`v` must be a single positive integer", call = call)
+  } else if (v > max_v) {
+    rlang::abort(
+      glue::glue("The number of {rows} is less than `v = {v}`"), call = call
+    )
+  }
 }
 
 #' @export
