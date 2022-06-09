@@ -38,7 +38,7 @@ that contains the fold information (within repeat).
 \description{
 V-fold cross-validation (also known as k-fold cross-validation) randomly
 splits the data into V groups of roughly equal size (called "folds"). A
-resample of the analysis data consisted of V-1 of the folds while the
+resample of the analysis data consists of V-1 of the folds while the
 assessment set contains the final fold. In basic V-fold cross-validation
 (i.e. no repeats), the number of resamples is equal to V.
 }
