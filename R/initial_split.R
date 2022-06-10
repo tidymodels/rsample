@@ -32,18 +32,11 @@
 #'
 initial_split <- function(data, prop = 3 / 4,
                           strata = NULL, breaks = 4, pool = 0.1, ...) {
-  if (!missing(strata)) {
-    strata <- tidyselect::vars_select(names(data), !!enquo(strata))
-    if (length(strata) == 0) {
-      strata <- NULL
-    }
-  }
-
   res <-
     mc_cv(
       data = data,
       prop = prop,
-      strata = strata,
+      strata = {{ strata }},
       breaks = breaks,
       pool = pool,
       times = 1,
