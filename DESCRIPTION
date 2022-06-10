@@ -24,6 +24,7 @@ Imports:
     generics,
     glue,
     methods,
+    pillar,
     purrr,
     rlang (>= 0.4.10),
     slider (>= 0.1.5),

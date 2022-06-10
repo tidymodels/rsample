@@ -9,7 +9,8 @@ NULL
 
 #' @importFrom utils globalVariables
 #' @importFrom purrr map map_df map2 map_dfr map_dbl pluck map_lgl
-#' @importFrom tibble tibble is_tibble as_tibble obj_sum type_sum
+#' @importFrom tibble tibble is_tibble as_tibble obj_sum
+#' @importFrom pillar type_sum
 #' @importFrom tidyr gather unnest
 #' @importFrom dplyr select %>% bind_cols bind_rows arrange_ arrange full_join
 #' @importFrom dplyr mutate last ungroup group_by inner_join summarize do case_when
