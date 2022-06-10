@@ -6,6 +6,14 @@
 
 * Finally removed the `gather()` method for `rset` objects. Use `tidyr::pivot_longer()` instead (#280).
 
+* Changed `initial_split()` to avoid calling tidyselect twice on `strata` (#296). This fix stops `initial_split()` from generating messages like:
+
+```
+  Note: Using an external vector in selections is ambiguous.
+  i Use `all_of(strata)` instead of `strata` to silence this message.
+  i See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+```
+
 # rsample 0.1.1
 
 * Updated documentation on stratified sampling (#245).
