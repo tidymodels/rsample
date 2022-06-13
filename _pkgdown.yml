@@ -6,10 +6,12 @@ navbar:
     tutorials:
       text: Learn more
       menu:
-      - text: Time series analysis
-        href: https://www.tidymodels.org/learn/models/time-series/
+      - text: Spatial resampling
+        href: https://spatialsample.tidymodels.org/
       - text: Nested resampling
         href: https://www.tidymodels.org/learn/work/nested-resampling/
+      - text: Time series analysis
+        href: https://www.tidymodels.org/learn/models/time-series/
 
 template:
   package: tidytemplate
