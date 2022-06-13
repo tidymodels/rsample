@@ -88,31 +88,50 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>formula</dt>
 <dd><p>An R model formula with one outcome and at least one predictor.</p></dd>
+
+
 <dt>data</dt>
 <dd><p>A data frame.</p></dd>
+
+
 <dt>model_fn</dt>
 <dd><p>The model to fit. Allowable values are "lm", "glm",
 "survreg", and "coxph". The latter two require that the <code>survival</code> package
 be installed.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>The type of bootstrap confidence interval. Values of "student-t" and
 "percentile" are allowed.</p></dd>
+
+
 <dt>times</dt>
 <dd><p>A single integer for the number of bootstrap samples. If left
 NULL, 1,001 are used for t-intervals and 2,001 for percentile intervals.</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>Level of significance.</p></dd>
+
+
 <dt>filter</dt>
 <dd><p>A logical expression used to remove rows from the final result, or <code>NULL</code> to keep all rows.</p></dd>
+
+
 <dt>keep_reps</dt>
 <dd><p>Should the individual parameter estimates for each bootstrap
 sample be retained?</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Options to pass to the model function (such as <code>family</code> for <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code>).</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A tibble with columns "term", ".lower", ".estimate", ".upper",
+    
+
+<p>A tibble with columns "term", ".lower", ".estimate", ".upper",
 ".alpha", and ".method". If <code>keep_reps = TRUE</code>, an additional list column
 called ".replicates" is also returned.</p>
     </div>
@@ -159,7 +178,7 @@ doi:10.1017/CBO9780511802843</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

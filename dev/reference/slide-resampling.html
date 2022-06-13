@@ -156,8 +156,12 @@ windows from daily data.</p></li>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>A data frame.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>These dots are for future extensions and must be empty.</p></dd>
+
+
 <dt>lookback</dt>
 <dd><p>The number of elements to look back from the current element
 when computing the resampling indices of the analysis set. The current
@@ -172,6 +176,8 @@ or a lubridate Period object.</p></li>
 to look back from the current group, where the groups were defined from
 breaking up the <code>index</code> according to the <code>period</code>.</p></li>
 </ul><p>In all cases, <code>Inf</code> is also allowed to force an expanding window.</p></dd>
+
+
 <dt>assess_start, assess_stop</dt>
 <dd><p>This combination of arguments determines
 how far into the future to look when constructing the assessment set.
@@ -192,6 +198,8 @@ the number of days to look forward, or a lubridate Period object.</p></li>
 number of groups to look forward from the current group, where the groups
 were defined from breaking up the <code>index</code> according to the <code>period</code>.</p></li>
 </ul></dd>
+
+
 <dt>complete</dt>
 <dd><p>A single logical. When using <code>lookback</code> to compute the
 analysis sets, should only complete windows be considered? If set to
@@ -199,12 +207,16 @@ analysis sets, should only complete windows be considered? If set to
 a complete window (based on <code>lookback</code>). This is a way to use an
 expanding window up to a certain point, and then switch to a sliding
 window.</p></dd>
+
+
 <dt>step</dt>
 <dd><p>A single positive integer. After computing the resampling
 indices, <code>step</code> is used to thin out the results by selecting every
 <code>step</code>-th result by subsetting the indices with
 <code>seq(1L, n_indices, by = step)</code>. <code>step</code> is applied after <code>skip</code>.
 Note that <code>step</code> is independent of any time <code>index</code> used.</p></dd>
+
+
 <dt>skip</dt>
 <dd><p>A single positive integer, or zero. After computing the
 resampling indices, the first <code>skip</code> results will be dropped by subsetting
@@ -214,6 +226,8 @@ window starting from the first row. By skipping forward, you can drop
 the first few windows that have very few data points. <code>skip</code> is
 applied before <code>step</code>. Note that <code>skip</code> is independent of any time
 <code>index</code> used.</p></dd>
+
+
 <dt>index</dt>
 <dd><p>The index to compute resampling indices relative to, specified
 as a bare column name. This must be an existing column in <code>data</code>.</p><ul><li><p>For <code>sliding_index()</code>, this is commonly a date vector, but is not
@@ -222,23 +236,30 @@ required.</p></li>
 vector.</p></li>
 </ul><p>The <code>index</code> must be an <em>increasing</em> vector, but duplicate values are
 allowed. Additionally, the index cannot contain any missing values.</p></dd>
+
+
 <dt>period</dt>
 <dd><p>The period to group the <code>index</code> by. This is specified as a
 single string, such as <code>"year"</code> or <code>"month"</code>. See the <code>.period</code> argument
 of <code><a href="https://rdrr.io/pkg/slider/man/slide_index.html" class="external-link">slider::slide_index()</a></code> for the full list of options and further
 explanation.</p></dd>
+
+
 <dt>every</dt>
 <dd><p>A single positive integer. The number of periods to group
 together.</p>
 <p>For example, if the <code>period</code> was set to <code>"year"</code> with an <code>every</code>
 value of 2, then the years 1970 and 1971 would be placed in the same
 group.</p></dd>
+
+
 <dt>origin</dt>
 <dd><p>The reference date time value. The default when left
 as <code>NULL</code> is the epoch time of <code>1970-01-01 00:00:00</code>,
 <em>in the time zone of the index</em>.</p>
 <p>This is generally used to define the anchor time to count from,
 which is relevant when the <code>every</code> value is <code>&gt; 1</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -446,7 +467,7 @@ which power these resamplers.</p></div>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

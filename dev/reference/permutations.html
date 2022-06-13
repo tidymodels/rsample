@@ -93,23 +93,34 @@ permutation split will throw an error.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>A data frame.</p></dd>
+
+
 <dt>permute</dt>
 <dd><p>One or more columns to shuffle. This argument supports
 <code>tidyselect</code> selectors. Multiple expressions can be combined with <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>.
 Variable names can be used as if they were positions in the data frame, so
 expressions like <code>x:y</code> can be used to select a range of variables.
 See <code><a href="https://tidyselect.r-lib.org/reference/language.html" class="external-link">language</a></code> for more details.</p></dd>
+
+
 <dt>times</dt>
 <dd><p>The number of permutation samples.</p></dd>
+
+
 <dt>apparent</dt>
 <dd><p>A logical. Should an extra resample be added where the
 analysis is the standard data set.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Not currently used.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>tibble</code> with classes <code>permutations</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and
+    
+
+<p>A <code>tibble</code> with classes <code>permutations</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and
 <code>data.frame</code>. The results include a column for the data split objects and a
 column called <code>id</code> that has a character string with the resample
 identifier.</p>
@@ -201,7 +212,7 @@ possible permutations of the data.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

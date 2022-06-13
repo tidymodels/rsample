@@ -90,32 +90,50 @@ assessment set contains the final fold. In basic V-fold cross-validation
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>A data frame.</p></dd>
+
+
 <dt>v</dt>
 <dd><p>The number of partitions of the data set.</p></dd>
+
+
 <dt>repeats</dt>
 <dd><p>The number of times to repeat the V-fold partitioning.</p></dd>
+
+
 <dt>strata</dt>
 <dd><p>A variable in <code>data</code> (single character or name) used to conduct
 stratified sampling. When not <code>NULL</code>, each resample is created within the
 stratification variable. Numeric <code>strata</code> are binned into quartiles.</p></dd>
+
+
 <dt>breaks</dt>
 <dd><p>A single number giving the number of bins desired to stratify a
 numeric stratification variable.</p></dd>
+
+
 <dt>pool</dt>
 <dd><p>A proportion of data used to determine if a particular group is
 too small and should be pooled into another group. We do not recommend
 decreasing this argument below its default of 0.1 because of the dangers
 of stratifying groups that are too small.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Not currently used.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A tibble with classes <code>vfold_cv</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and
+    
+
+<p>A tibble with classes <code>vfold_cv</code>, <code>rset</code>, <code>tbl_df</code>, <code>tbl</code>, and
 <code>data.frame</code>. The results include a column for the data split objects and
 one or more identification variables. For a single repeat, there will be
 one column called <code>id</code> that has a character string with the fold identifier.
-For repeats, <code>id</code> is the repeat number and an additional column called <code>id2</code>that contains the fold information (within repeat).</p>
+For repeats, <code>id</code> is the repeat number and an additional column called <code>id2</code></p>
+
+
+<p>that contains the fold information (within repeat).</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -223,7 +241,7 @@ pooled together; see <code><a href="make_strata.html">make_strata()</a></code> f
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>
