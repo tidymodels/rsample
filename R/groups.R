@@ -15,6 +15,11 @@
 #' @param v The number of partitions of the data set. If let
 #'  `NULL`, `v` will be set to the number of unique values
 #'  in the group.
+#' @param balance If `v` is less than the number of unique groups, how should
+#' groups be combined into folds? If `"groups"`, the default, then groups are
+#' combined randomly to try and have the same number of groups in each fold.
+#' If `"observations"`, then groups are combined to try and make each fold have
+#' roughly the same number of observations.
 #' @param ... Not currently used.
 #' @export
 #' @return A tibble with classes `group_vfold_cv`,
@@ -43,7 +48,7 @@
 #' # number held out per resample:
 #' map_int(held_out, length)
 #' @export
-group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
+group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "observations"), ...) {
   if (!missing(group)) {
     group <- tidyselect::vars_select(names(data), !!enquo(group))
     if (length(group) == 0) {
@@ -60,7 +65,9 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
     rlang::abort("`group` should be a column in `data`.")
   }
 
-  split_objs <- group_vfold_splits(data = data, group = group, v = v)
+  balance <- rlang::arg_match(balance)
+
+  split_objs <- group_vfold_splits(data = data, group = group, v = v, balance = balance)
 
   ## We remove the holdout indices since it will save space and we can
   ## derive them later when they are needed.
@@ -84,22 +91,43 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
   )
 }
 
-group_vfold_splits <- function(data, group, v = NULL) {
+group_vfold_splits <- function(data, group, v = NULL, balance = c("groups", "observations")) {
+
+  balance <- rlang::arg_match(balance)
+
   uni_groups <- unique(getElement(data, group))
   max_v <- length(uni_groups)
+  n <- length(uni_groups)
 
   if (is.null(v)) {
     v <- max_v
   } else {
-    if (v > max_v) {
-      rlang::abort(paste0("`v` should be less than ", max_v))
-    }
+    check_v(v = v, max_v = max_v, rows = "rows", call = rlang::caller_env())
   }
   data_ind <- data.frame(..index = 1:nrow(data), ..group = getElement(data, group))
-  keys <- data.frame(..group = uni_groups)
+  data_ind$..group <- as.character(data_ind$..group)
 
-  n <- nrow(keys)
-  keys$..folds <- sample(rep(1:v, length.out = n))
+  if (balance == "groups") {
+    keys <- data.frame(..group = uni_groups)
+    keys$..folds <- sample(rep(1:v, length.out = n))
+  } else if (balance == "observations") {
+    to_collapse <- n - v
+    while (to_collapse >= 1) {
+      freq_table <- sort(table(data_ind$..group))
+      # Recategorize the largest group to be collapsed
+      # as the smallest group to be kept
+      data_ind$..group[
+        data_ind$..group == names(freq_table[to_collapse])
+        ] <- names(freq_table[to_collapse + 1])
+      to_collapse <- to_collapse - 1
+    }
+    keys <- data.frame(..group = unique(data_ind$..group))
+    n <- nrow(keys)
+    keys$..folds <- sample(rep(1:v, length.out = n))
+  }
+
+  keys$..group <- as.character(keys$..group)
+
   data_ind <- data_ind %>%
     full_join(keys, by = "..group") %>%
     arrange(..index)
