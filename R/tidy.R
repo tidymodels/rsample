@@ -79,7 +79,7 @@ tidy.rset <- function(x, ...) {
     dots$unique_ind
   )
   stacked <- purrr::map(x$splits, tidy, unique_ind = unique_ind)
-  for (i in seq(along = stacked)) {
+  for (i in seq_along(stacked)) {
     stacked[[i]]$Resample <- x$id[i]
   }
   stacked <- dplyr::bind_rows(stacked)
@@ -90,7 +90,7 @@ tidy.rset <- function(x, ...) {
 #' @export
 tidy.vfold_cv <- function(x, ...) {
   stacked <- purrr::map(x$splits, tidy)
-  for (i in seq(along = stacked)) {
+  for (i in seq_along(stacked)) {
     if (attr(x, "repeats") > 1) {
       stacked[[i]]$Repeat <- x$id[i]
       stacked[[i]]$Fold <- x$id2[i]

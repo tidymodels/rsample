@@ -237,7 +237,7 @@ test_that("regression intervals", {
       set.seed(1)
       int_1 <- reg_intervals(mpg ~ disp + wt, data = mtcars)
     },
-    regex = NA
+    regexp = NA
   )
 
   expect_equal(
