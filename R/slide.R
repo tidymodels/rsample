@@ -283,13 +283,6 @@ sliding_window <- function(data,
   )
 }
 
-#' @export
-print.sliding_window <- function(x, ...) {
-  cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("sliding_window", "rset"))]
-  print(x, ...)
-}
-
 # ------------------------------------------------------------------------------
 
 #' @export
@@ -373,13 +366,6 @@ sliding_index <- function(data,
     attrib = attrib,
     subclass = c("sliding_index", "rset")
   )
-}
-
-#' @export
-print.sliding_index <- function(x, ...) {
-  cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("sliding_index", "rset"))]
-  print(x, ...)
 }
 
 # ------------------------------------------------------------------------------
@@ -483,13 +469,6 @@ sliding_period <- function(data,
     attrib = attrib,
     subclass = c("sliding_period", "rset")
   )
-}
-
-#' @export
-print.sliding_period <- function(x, ...) {
-  cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("sliding_period", "rset"))]
-  print(x, ...)
 }
 
 # ------------------------------------------------------------------------------

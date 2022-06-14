@@ -154,10 +154,3 @@ check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
     )
   }
 }
-
-#' @export
-print.vfold_cv <- function(x, ...) {
-  cat("# ", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("vfold_cv", "rset"))]
-  print(x, ...)
-}

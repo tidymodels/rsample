@@ -29,10 +29,3 @@ apparent <- function(data, ...) {
     subclass = c("apparent", "rset")
   )
 }
-
-#' @export
-print.apparent <- function(x, ...) {
-  cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("apparent", "rset"))]
-  print(x, ...)
-}

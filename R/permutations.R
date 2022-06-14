@@ -105,12 +105,3 @@ perm_splits <- function(data, times = 25) {
     id = names0(length(split_objs), "Permutations")
   )
 }
-
-#' @export
-print.permutations <- function(x, ...) {
-  shuffled_cols <- paste(names(attr(x, "col_id")), collapse = ", ")
-  cat("#", pretty(x), "\n")
-  cat("# Permuted columns: [", shuffled_cols, "] \n", sep = "")
-  class(x) <- class(x)[!(class(x) %in% c("permutations", "rset"))]
-  print(x, ...)
-}

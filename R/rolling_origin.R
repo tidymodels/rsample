@@ -110,10 +110,3 @@ rolling_origin <- function(data, initial = 5, assess = 1,
     subclass = c("rolling_origin", "rset")
   )
 }
-
-#' @export
-print.rolling_origin <- function(x, ...) {
-  cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("rolling_origin", "rset"))]
-  print(x, ...)
-}

@@ -85,22 +85,3 @@ training <- function(x) analysis(x)
 #' @rdname initial_split
 #' @export
 testing <- function(x) assessment(x)
-
-#' @export
-print.initial_split <- function(x, ...) {
-  out_char <-
-    if (is_missing_out_id(x)) {
-      paste(length(complement(x)))
-    } else {
-      paste(length(x$out_id))
-    }
-
-  cat("<Training/Testing/Total>\n")
-  cat("<",
-      length(x$in_id), "/",
-      out_char, "/",
-      nrow(x$data), ">\n",
-      sep = ""
-  )
-}
-
