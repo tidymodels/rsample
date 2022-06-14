@@ -14,6 +14,8 @@
   i See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
 ```
 
+* Added better printing methods for initial split objects.
+
 # rsample 0.1.1
 
 * Updated documentation on stratified sampling (#245).
