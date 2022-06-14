@@ -1,7 +1,7 @@
 test_that("default param", {
   set.seed(11)
   rs1 <- initial_split(dat1)
-  expect_equal(class(rs1), c("mc_split", "rsplit"))
+  expect_equal(class(rs1), c("initial_split", "mc_split", "rsplit"))
   tr1 <- training(rs1)
   ts1 <- testing(rs1)
   expect_equal(nrow(tr1), nrow(dat1) * 3 / 4)
@@ -10,7 +10,7 @@ test_that("default param", {
 
 test_that("default time param", {
   rs1 <- initial_time_split(dat1)
-  expect_equal(class(rs1), "rsplit")
+  expect_equal(class(rs1), c("initial_split", "rsplit"))
   tr1 <- training(rs1)
   ts1 <- testing(rs1)
   expect_equal(nrow(tr1), floor(nrow(dat1) * 3 / 4))
@@ -20,7 +20,7 @@ test_that("default time param", {
 
 test_that("default time param with lag", {
   rs1 <- initial_time_split(dat1, lag = 5)
-  expect_equal(class(rs1), "rsplit")
+  expect_equal(class(rs1), c("initial_split", "rsplit"))
   tr1 <- training(rs1)
   ts1 <- testing(rs1)
   expect_equal(nrow(tr1), floor(nrow(dat1) * 3 / 4))
@@ -62,4 +62,10 @@ test_that("`prop` computes the proportion for analysis (#217)", {
 
     expect_identical(actual, expect)
   }
+})
+
+
+test_that("printing initial split objects", {
+  expect_snapshot(initial_split(mtcars))
+  expect_snapshot(initial_time_split(mtcars))
 })
