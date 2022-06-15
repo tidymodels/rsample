@@ -4,7 +4,13 @@
 \alias{group_vfold_cv}
 \title{Group V-Fold Cross-Validation}
 \usage{
-group_vfold_cv(data, group = NULL, v = NULL, ...)
+group_vfold_cv(
+  data,
+  group = NULL,
+  v = NULL,
+  balance = c("groups", "observations"),
+  ...
+)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -16,6 +22,12 @@ assessment set within a fold.}
 \item{v}{The number of partitions of the data set. If let
 \code{NULL}, \code{v} will be set to the number of unique values
 in the group.}
+
+\item{balance}{If \code{v} is less than the number of unique groups, how should
+groups be combined into folds? If \code{"groups"}, the default, then groups are
+combined randomly to balance the number of groups in each fold.
+If \code{"observations"}, then groups are combined to balance the number of
+observations in each fold.}
 
 \item{...}{Not currently used.}
 }
@@ -35,24 +47,11 @@ out at a time. A common use of this kind of resampling is when you have
 repeated measures of the same subject.
 }
 \examples{
-set.seed(3527)
-test_data <- data.frame(id = sort(sample(1:20, size = 80, replace = TRUE)))
-test_data$dat <- runif(nrow(test_data))
+\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+data(Sacramento, package = "modeldata")
 
-set.seed(5144)
-split_by_id <- group_vfold_cv(test_data, group = "id")
-
-get_id_left_out <- function(x) {
-  unique(assessment(x)$id)
-}
-
-library(purrr)
-table(map_int(split_by_id$splits, get_id_left_out))
-
-set.seed(5144)
-split_by_some_id <- group_vfold_cv(test_data, group = "id", v = 7)
-held_out <- map(split_by_some_id$splits, get_id_left_out)
-table(unlist(held_out))
-# number held out per resample:
-map_int(held_out, length)
+set.seed(123)
+group_vfold_cv(Sacramento, group = city, v = 5)
+group_vfold_cv(Sacramento, group = city, v = 5, balance = "observations")
+\dontshow{\}) # examplesIf}
 }

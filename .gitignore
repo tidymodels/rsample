@@ -5,4 +5,5 @@ tests/.DS_Store
 .DS_Store
 revdep/checks.noindex
 revdep/library.noindex
+revdep/cloud.noindex
 docs
