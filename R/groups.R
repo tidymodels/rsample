@@ -16,37 +16,23 @@
 #'  `NULL`, `v` will be set to the number of unique values
 #'  in the group.
 #' @param balance If `v` is less than the number of unique groups, how should
-#' groups be combined into folds? If `"groups"`, the default, then groups are
-#' combined randomly to try and have the same number of groups in each fold.
-#' If `"observations"`, then groups are combined to try and make each fold have
-#' roughly the same number of observations.
+#'  groups be combined into folds? If `"groups"`, the default, then groups are
+#'  combined randomly to balance the number of groups in each fold.
+#'  If `"observations"`, then groups are combined to balance the number of
+#'  observations in each fold.
 #' @param ... Not currently used.
 #' @export
 #' @return A tibble with classes `group_vfold_cv`,
 #'  `rset`, `tbl_df`, `tbl`, and `data.frame`.
 #'  The results include a column for the data split objects and an
 #'  identification variable.
-#' @examples
-#' set.seed(3527)
-#' test_data <- data.frame(id = sort(sample(1:20, size = 80, replace = TRUE)))
-#' test_data$dat <- runif(nrow(test_data))
+#' @examplesIf rlang::is_installed("modeldata")
+#' data(Sacramento, package = "modeldata")
 #'
-#' set.seed(5144)
-#' split_by_id <- group_vfold_cv(test_data, group = "id")
+#' set.seed(123)
+#' group_vfold_cv(Sacramento, group = city, v = 5)
+#' group_vfold_cv(Sacramento, group = city, v = 5, balance = "observations")
 #'
-#' get_id_left_out <- function(x) {
-#'   unique(assessment(x)$id)
-#' }
-#'
-#' library(purrr)
-#' table(map_int(split_by_id$splits, get_id_left_out))
-#'
-#' set.seed(5144)
-#' split_by_some_id <- group_vfold_cv(test_data, group = "id", v = 7)
-#' held_out <- map(split_by_some_id$splits, get_id_left_out)
-#' table(unlist(held_out))
-#' # number held out per resample:
-#' map_int(held_out, length)
 #' @export
 group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "observations"), ...) {
   if (!missing(group)) {
@@ -95,9 +81,9 @@ group_vfold_splits <- function(data, group, v = NULL, balance = c("groups", "obs
 
   balance <- rlang::arg_match(balance)
 
+
   uni_groups <- unique(getElement(data, group))
   max_v <- length(uni_groups)
-  n <- length(uni_groups)
 
   if (is.null(v)) {
     v <- max_v
@@ -109,18 +95,18 @@ group_vfold_splits <- function(data, group, v = NULL, balance = c("groups", "obs
 
   if (balance == "groups") {
     keys <- data.frame(..group = uni_groups)
-    keys$..folds <- sample(rep(1:v, length.out = n))
+    keys$..folds <- sample(rep(1:v, length.out = max_v))
   } else if (balance == "observations") {
-    to_collapse <- n - v
-    while (to_collapse >= 1) {
-      freq_table <- sort(table(data_ind$..group))
+    while (vec_unique_count(data_ind$..group) > v) {
+      freq_table <- vec_count(data_ind$..group)
       # Recategorize the largest group to be collapsed
       # as the smallest group to be kept
-      data_ind$..group[
-        data_ind$..group == names(freq_table[to_collapse])
-        ] <- names(freq_table[to_collapse + 1])
-      to_collapse <- to_collapse - 1
+      group_to_keep <- vec_slice(freq_table, v)
+      group_to_collapse <- vec_slice(freq_table, v + 1)
+      collapse_lgl <- vec_in(data_ind$..group, group_to_collapse$key)
+      vec_slice(data_ind$..group, collapse_lgl) <- group_to_keep$key
     }
+
     keys <- data.frame(..group = unique(data_ind$..group))
     n <- nrow(keys)
     keys$..folds <- sample(rep(1:v, length.out = n))
