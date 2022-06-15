@@ -89,7 +89,13 @@ repeated measures of the same subject.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">group_vfold_cv</span><span class="op">(</span><span class="va">data</span>, group <span class="op">=</span> <span class="cn">NULL</span>, v <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">group_vfold_cv</span><span class="op">(</span>
+  <span class="va">data</span>,
+  group <span class="op">=</span> <span class="cn">NULL</span>,
+  v <span class="op">=</span> <span class="cn">NULL</span>,
+  balance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"groups"</span>, <span class="st">"observations"</span><span class="op">)</span>,
+  <span class="va">...</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -110,6 +116,14 @@ assessment set within a fold.</p></dd>
 in the group.</p></dd>
 
 
+<dt>balance</dt>
+<dd><p>If <code>v</code> is less than the number of unique groups, how should
+groups be combined into folds? If <code>"groups"</code>, the default, then groups are
+combined randomly to balance the number of groups in each fold.
+If <code>"observations"</code>, then groups are combined to balance the number of
+observations in each fold.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Not currently used.</p></dd>
 
@@ -126,33 +140,29 @@ identification variable.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">3527</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, size <span class="op">=</span> <span class="fl">80</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">test_data</span><span class="op">$</span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Sacramento</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">5144</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">split_by_id</span> <span class="op">&lt;-</span> <span class="fu">group_vfold_cv</span><span class="op">(</span><span class="va">test_data</span>, group <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">get_id_left_out</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="as.data.frame.rsplit.html">assessment</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_int</a></span><span class="op">(</span><span class="va">split_by_id</span><span class="op">$</span><span class="va">splits</span>, <span class="va">get_id_left_out</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">5144</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">split_by_some_id</span> <span class="op">&lt;-</span> <span class="fu">group_vfold_cv</span><span class="op">(</span><span class="va">test_data</span>, group <span class="op">=</span> <span class="st">"id"</span>, v <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">held_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">split_by_some_id</span><span class="op">$</span><span class="va">splits</span>, <span class="va">get_id_left_out</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">held_out</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 </span>
-<span class="r-in"><span class="co"># number held out per resample:</span></span>
-<span class="r-in"><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_int</a></span><span class="op">(</span><span class="va">held_out</span>, <span class="va">length</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 3 3 3 3 3 2</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">group_vfold_cv</span><span class="op">(</span><span class="va">Sacramento</span>, group <span class="op">=</span> <span class="va">city</span>, v <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Group 5-fold cross-validation </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   splits            id       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [452/480]&gt;</span> Resample1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [835/97]&gt;</span>  Resample2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [814/118]&gt;</span> Resample3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;split [889/43]&gt;</span>  Resample4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;split [738/194]&gt;</span> Resample5</span>
+<span class="r-in"><span class="fu">group_vfold_cv</span><span class="op">(</span><span class="va">Sacramento</span>, group <span class="op">=</span> <span class="va">city</span>, v <span class="op">=</span> <span class="fl">5</span>, balance <span class="op">=</span> <span class="st">"observations"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Group 5-fold cross-validation </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   splits            id       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [494/438]&gt;</span> Resample1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [809/123]&gt;</span> Resample2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [809/123]&gt;</span> Resample3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;split [808/124]&gt;</span> Resample4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;split [808/124]&gt;</span> Resample5</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
