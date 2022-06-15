@@ -38,7 +38,8 @@ of stratifying groups that are too small.}
 and analysis set. This is useful if lagged predictors will be used
 during training and testing.}
 
-\item{x}{An \code{rsplit} object produced by \code{initial_split}}
+\item{x}{An \code{rsplit} object produced by \code{initial_split()} or
+\code{initial_time_split()}.}
 }
 \value{
 An \code{rsplit} object that can be used with the \code{training} and \code{testing}
