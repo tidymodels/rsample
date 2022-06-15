@@ -16,6 +16,8 @@
 
 * Added better printing methods for initial split objects.
 
+* Added a new `balance` option to `group_vfold_cv()` to balance folds either by the number of groups or the number of observations (@mikemahoney218, #300).
+
 # rsample 0.1.1
 
 * Updated documentation on stratified sampling (#245).
