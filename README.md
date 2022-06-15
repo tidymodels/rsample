@@ -6,7 +6,7 @@
 [![R-CMD-check](https://github.com/tidymodels/rsample/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/rsample/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/tidymodels/rsample/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/rsample?branch=main)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/rsample)](https://cran.r-project.org/package=rsample)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/rsample)](https://cran.r-project.org/package=rsample)
 [![Downloads](https://cranlogs.r-pkg.org/badges/rsample)](https://cran.r-project.org/package=rsample)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
