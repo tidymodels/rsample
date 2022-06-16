@@ -93,29 +93,3 @@ validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
     subclass = c("validation_split", "rset")
   )
 }
-
-
-#' @export
-print.validation_split <- function(x, ...) {
-  cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("validation_split", "rset"))]
-  print(x, ...)
-}
-
-
-#' @export
-print.val_split <- function(x, ...) {
-  if (is_missing_out_id(x)) {
-    out_char <- paste(length(complement(x)))
-  } else {
-    out_char <- paste(length(x$out_id))
-  }
-
-  cat("<Training/Validation/Total>\n")
-  cat("<",
-    length(x$in_id), "/",
-    out_char, "/",
-    nrow(x$data), ">\n",
-    sep = ""
-  )
-}

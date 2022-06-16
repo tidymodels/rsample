@@ -49,9 +49,7 @@ VignetteBuilder:
 Config/Needs/website: 
     GGally, 
     nlstools, 
-    survival, 
     tidymodels,
-    tidymodels/tidyposterior, 
     tidyverse/tidytemplate
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

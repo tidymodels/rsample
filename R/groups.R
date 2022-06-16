@@ -130,10 +130,3 @@ group_vfold_splits <- function(data, group, v = NULL, balance = c("groups", "obs
     id = names0(length(split_objs), "Resample")
   )
 }
-
-#' @export
-print.group_vfold_cv <- function(x, ...) {
-  cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("group_vfold_cv", "rset"))]
-  print(x, ...)
-}

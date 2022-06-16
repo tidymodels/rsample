@@ -31,13 +31,6 @@ loo_cv <- function(data, ...) {
   )
 }
 
-#' @export
-print.loo_cv <- function(x, ...) {
-  cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("loo_cv", "rset"))]
-  print(x, ...)
-}
-
 change_class <- function(x) {
   class(x) <- c("rsplit", "loo_split")
   x

@@ -92,11 +92,3 @@ inside_resample <- function(src, cl, env) {
   cl <- rlang::call_modify(cl, data = as.data.frame(src))
   eval(cl, envir = env)
 }
-
-#' @export
-print.nested_cv <- function(x, ...) {
-  char_x <- paste("#", pretty(x))
-  cat(char_x, sep = "\n")
-  class(x) <- class(tibble())
-  print(x, ...)
-}

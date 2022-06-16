@@ -146,10 +146,3 @@ boot_splits <-
       id = names0(length(split_objs), "Bootstrap")
     )
   }
-
-#' @export
-print.bootstraps <- function(x, ...) {
-  cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("bootstraps", "rset"))]
-  print(x, ...)
-}

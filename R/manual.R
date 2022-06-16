@@ -37,10 +37,3 @@ manual_rset <- function(splits, ids) {
 new_manual_rset <- function(splits, ids) {
   new_rset(splits, ids, subclass = c("manual_rset", "rset"))
 }
-
-#' @export
-print.manual_rset <- function(x, ...) {
-  cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("manual_rset", "rset"))]
-  print(x, ...)
-}
