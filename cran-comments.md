@@ -1,6 +1,6 @@
 ## Release Summary
 
-This is the 10th CRAN release of rsample. This release improves documentation, adds methods for `make_splits()`, and improves the memory footprint of hashing resamples. 
+This is the 11th CRAN release of rsample. This release adds better checking, printing, and argument calling, as well as adding a new `balance` option to grouped v-fold CV. 
 
 ## R CMD check results
 
@@ -8,7 +8,7 @@ This is the 10th CRAN release of rsample. This release improves documentation, a
 
 ## revdepcheck results
 
-We checked 36 reverse dependencies (35 from CRAN + 1 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 43 reverse dependencies (42 from CRAN + 1 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 0 new problems
  * We failed to check 1 packages
@@ -17,4 +17,4 @@ Issues with CRAN packages are summarised below.
 
 ### Failed to check
 
-* did2s (NA)
+* tidyposterior (NA)
