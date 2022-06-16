@@ -51,7 +51,6 @@ Config/Needs/website:
     nlstools, 
     survival, 
     tidymodels,
-    tidymodels/tidyposterior, 
     tidyverse/tidytemplate
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
