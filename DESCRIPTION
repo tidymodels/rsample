@@ -49,7 +49,6 @@ VignetteBuilder:
 Config/Needs/website: 
     GGally, 
     nlstools, 
-    survival, 
     tidymodels,
     tidyverse/tidytemplate
 Encoding: UTF-8
