@@ -19,9 +19,6 @@
     <loc>https://rsample.tidymodels.org/dev/articles/Applications/Recipes_and_rsample.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/dev/articles/Applications/Survival_Analysis.html</loc>
-  </url>
-  <url>
     <loc>https://rsample.tidymodels.org/dev/articles/Working_with_rsets.html</loc>
   </url>
   <url>
@@ -104,9 +101,6 @@
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/dev/reference/populate.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/dev/reference/pretty.vfold_cv.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/dev/reference/reexports.html</loc>
