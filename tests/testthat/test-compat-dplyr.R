@@ -1,6 +1,128 @@
 library(dplyr)
 
 # ------------------------------------------------------------------------------
+# dplyr_reconstruct()
+
+test_that("dplyr_reconstruct() returns an rset subclass if `x` retains rset structure", {
+  for (x in rset_subclasses) {
+    expect_identical(dplyr_reconstruct(x, x), x)
+    expect_s3_class_rset(dplyr_reconstruct(x, x))
+  }
+})
+
+test_that("dplyr_reconstruct() returns bare tibble if `x` loses rset structure", {
+  for (x in rset_subclasses) {
+    col <- x[1]
+    row <- x[0, ]
+
+    expect_s3_class_bare_tibble(dplyr_reconstruct(col, x))
+    expect_s3_class_bare_tibble(dplyr_reconstruct(row, x))
+  }
+})
+
+test_that("dplyr_reconstruct() retains extra attributes of `to` when not falling back", {
+  for (x in rset_subclasses) {
+    to <- x
+    attr(to, "foo") <- "bar"
+
+    x_tbl <- x[1]
+
+    expect_identical(attr(dplyr_reconstruct(x, to), "foo"), "bar")
+    expect_identical(attr(dplyr_reconstruct(x_tbl, to), "foo"), NULL)
+
+    expect_s3_class_rset(dplyr_reconstruct(x, to))
+    expect_s3_class_bare_tibble(dplyr_reconstruct(x_tbl, to))
+  }
+})
+
+# ------------------------------------------------------------------------------
+# dplyr_col_modify()
+
+test_that("can add columns and retain rset class", {
+  for (x in rset_subclasses) {
+    cols <- list(x = rep(1, vec_size(x)))
+
+    result <- dplyr_col_modify(x, cols)
+
+    expect_s3_class_rset(result)
+    expect_identical(result$x, cols$x)
+  }
+})
+
+test_that("modifying rset columns removes rset class", {
+  for (x in rset_subclasses) {
+    cols <- list(splits = rep(1, vec_size(x)))
+
+    result <- dplyr_col_modify(x, cols)
+
+    expect_s3_class_bare_tibble(result)
+    expect_identical(result$splits, cols$splits)
+  }
+
+  for (x in rset_subclasses) {
+    cols <- list(id = rep(1, vec_size(x)))
+
+    result <- dplyr_col_modify(x, cols)
+
+    expect_s3_class_bare_tibble(result)
+    expect_identical(result$id, cols$id)
+  }
+})
+
+test_that("replacing rset columns with the exact same column retains rset class", {
+  for (x in rset_subclasses) {
+    cols <- list(splits = x$splits)
+
+    result <- dplyr_col_modify(x, cols)
+
+    expect_s3_class_rset(result)
+    expect_identical(result, x)
+  }
+})
+
+test_that("for nested_cv, `inner_resamples` is also a protected column", {
+  x <- rset_subclasses$nested_cv
+  cols <- list(inner_resamples = rep(1, vec_size(x)))
+  expect_s3_class_bare_tibble(dplyr_col_modify(x, cols))
+})
+
+# ------------------------------------------------------------------------------
+# dplyr_row_slice()
+
+test_that("row slicing generally removes the rset subclass", {
+  for (x in rset_subclasses) {
+    expect_s3_class_bare_tibble(dplyr_row_slice(x, 0))
+  }
+})
+
+test_that("row slicing and duplicating any rows removes the rset subclass", {
+  # Remove rsets with only 1 row
+  subclasses <- rset_subclasses
+  subclasses$apparent <- NULL
+  subclasses$validation_split <- NULL
+
+  for (x in subclasses) {
+    loc <- seq_len(nrow(x))
+    loc[length(loc)] <- 1L
+    expect_s3_class_bare_tibble(dplyr_row_slice(x, loc))
+  }
+})
+
+test_that("row slicing and selecting everything keeps the rset subclass", {
+  for (x in rset_subclasses) {
+    loc <- seq_len(nrow(x))
+    expect_s3_class_rset(dplyr_row_slice(x, loc))
+  }
+})
+
+test_that("rset subclass is kept if row order is changed but all rows are present", {
+  for (x in rset_subclasses) {
+    loc <- rev(seq_len(nrow(x)))
+    expect_s3_class_rset(dplyr_row_slice(x, loc))
+  }
+})
+
+# ------------------------------------------------------------------------------
 # mutate()
 
 test_that("mutate() can keep rset class", {
@@ -129,128 +251,6 @@ test_that("slice() keeps rset class when rows are untouched", {
   for (x in rset_subclasses) {
     expect_s3_class_rset(slice(x))
     expect_s3_class_rset(slice(x, seq_len(nrow(x))))
-  }
-})
-
-# ------------------------------------------------------------------------------
-# dplyr_reconstruct()
-
-test_that("dplyr_reconstruct() returns an rset subclass if `x` retains rset structure", {
-  for (x in rset_subclasses) {
-    expect_identical(dplyr_reconstruct(x, x), x)
-    expect_s3_class_rset(dplyr_reconstruct(x, x))
-  }
-})
-
-test_that("dplyr_reconstruct() returns bare tibble if `x` loses rset structure", {
-  for (x in rset_subclasses) {
-    col <- x[1]
-    row <- x[0, ]
-
-    expect_s3_class_bare_tibble(dplyr_reconstruct(col, x))
-    expect_s3_class_bare_tibble(dplyr_reconstruct(row, x))
-  }
-})
-
-test_that("dplyr_reconstruct() retains extra attributes of `to` when not falling back", {
-  for (x in rset_subclasses) {
-    to <- x
-    attr(to, "foo") <- "bar"
-
-    x_tbl <- x[1]
-
-    expect_identical(attr(dplyr_reconstruct(x, to), "foo"), "bar")
-    expect_identical(attr(dplyr_reconstruct(x_tbl, to), "foo"), NULL)
-
-    expect_s3_class_rset(dplyr_reconstruct(x, to))
-    expect_s3_class_bare_tibble(dplyr_reconstruct(x_tbl, to))
-  }
-})
-
-# ------------------------------------------------------------------------------
-# dplyr_col_modify()
-
-test_that("can add columns and retain rset class", {
-  for (x in rset_subclasses) {
-    cols <- list(x = rep(1, vec_size(x)))
-
-    result <- dplyr_col_modify(x, cols)
-
-    expect_s3_class_rset(result)
-    expect_identical(result$x, cols$x)
-  }
-})
-
-test_that("modifying rset columns removes rset class", {
-  for (x in rset_subclasses) {
-    cols <- list(splits = rep(1, vec_size(x)))
-
-    result <- dplyr_col_modify(x, cols)
-
-    expect_s3_class_bare_tibble(result)
-    expect_identical(result$splits, cols$splits)
-  }
-
-  for (x in rset_subclasses) {
-    cols <- list(id = rep(1, vec_size(x)))
-
-    result <- dplyr_col_modify(x, cols)
-
-    expect_s3_class_bare_tibble(result)
-    expect_identical(result$id, cols$id)
-  }
-})
-
-test_that("replacing rset columns with the exact same column retains rset class", {
-  for (x in rset_subclasses) {
-    cols <- list(splits = x$splits)
-
-    result <- dplyr_col_modify(x, cols)
-
-    expect_s3_class_rset(result)
-    expect_identical(result, x)
-  }
-})
-
-test_that("for nested_cv, `inner_resamples` is also a protected column", {
-  x <- rset_subclasses$nested_cv
-  cols <- list(inner_resamples = rep(1, vec_size(x)))
-  expect_s3_class_bare_tibble(dplyr_col_modify(x, cols))
-})
-
-# ------------------------------------------------------------------------------
-# dplyr_row_slice()
-
-test_that("row slicing generally removes the rset subclass", {
-  for (x in rset_subclasses) {
-    expect_s3_class_bare_tibble(dplyr_row_slice(x, 0))
-  }
-})
-
-test_that("row slicing and duplicating any rows removes the rset subclass", {
-  # Remove rsets with only 1 row
-  subclasses <- rset_subclasses
-  subclasses$apparent <- NULL
-  subclasses$validation_split <- NULL
-
-  for (x in subclasses) {
-    loc <- seq_len(nrow(x))
-    loc[length(loc)] <- 1L
-    expect_s3_class_bare_tibble(dplyr_row_slice(x, loc))
-  }
-})
-
-test_that("row slicing and selecting everything keeps the rset subclass", {
-  for (x in rset_subclasses) {
-    loc <- seq_len(nrow(x))
-    expect_s3_class_rset(dplyr_row_slice(x, loc))
-  }
-})
-
-test_that("rset subclass is kept if row order is changed but all rows are present", {
-  for (x in rset_subclasses) {
-    loc <- rev(seq_len(nrow(x)))
-    expect_s3_class_rset(dplyr_row_slice(x, loc))
   }
 })
 
