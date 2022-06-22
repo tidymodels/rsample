@@ -1,3 +1,18 @@
+#' Make groupings for grouped rsplits
+#'
+#' This function powers [group_vfold_cv] by splitting the data based upon
+#' a grouping variable and returning the assessment set indices for each
+#' split.
+#'
+#' @inheritParams vfold_cv
+#' @param group A variable in `data` (single character or name) used for
+#'  grouping observations with the same value to either the analysis or
+#'  assessment set within a fold.
+#' @param balance If `v` is less than the number of unique groups, how should
+#'  groups be combined into folds? If `"groups"`, the default, then groups are
+#'  combined randomly to balance the number of groups in each fold.
+#'  If `"observations"`, then groups are combined to balance the number of
+#'  observations in each fold.
 make_groups <- function(data, group, v, balance) {
   data_ind <- data.frame(..index = 1:nrow(data), ..group = group)
   data_ind$..group <- as.character(data_ind$..group)

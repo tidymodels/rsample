@@ -8,19 +8,10 @@
 #'  out at a time. A common use of this kind of resampling is when you have
 #'  repeated measures of the same subject.
 #'
-#' @param data A data frame.
-#' @param group A variable in `data` (single character or name) used for
-#'  grouping observations with the same value to either the analysis or
-#'  assessment set within a fold.
-#' @param v The number of partitions of the data set. If let
-#'  `NULL`, `v` will be set to the number of unique values
-#'  in the group.
-#' @param balance If `v` is less than the number of unique groups, how should
-#'  groups be combined into folds? If `"groups"`, the default, then groups are
-#'  combined randomly to balance the number of groups in each fold.
-#'  If `"observations"`, then groups are combined to balance the number of
-#'  observations in each fold.
-#' @param ... Not currently used.
+#' @inheritParams vfold_cv
+#' @param v The number of partitions of the data set. If left as `NULL`, `v`
+#'  will be set to the number of unique values in the group.
+#' @inheritParams make_groups
 #' @export
 #' @return A tibble with classes `group_vfold_cv`,
 #'  `rset`, `tbl_df`, `tbl`, and `data.frame`.
