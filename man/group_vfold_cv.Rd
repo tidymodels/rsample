@@ -19,9 +19,8 @@ group_vfold_cv(
 grouping observations with the same value to either the analysis or
 assessment set within a fold.}
 
-\item{v}{The number of partitions of the data set. If let
-\code{NULL}, \code{v} will be set to the number of unique values
-in the group.}
+\item{v}{The number of partitions of the data set. If left as \code{NULL}, \code{v}
+will be set to the number of unique values in the group.}
 
 \item{balance}{If \code{v} is less than the number of unique groups, how should
 groups be combined into folds? If \code{"groups"}, the default, then groups are

@@ -8,19 +8,10 @@
 #'  out at a time. A common use of this kind of resampling is when you have
 #'  repeated measures of the same subject.
 #'
-#' @param data A data frame.
-#' @param group A variable in `data` (single character or name) used for
-#'  grouping observations with the same value to either the analysis or
-#'  assessment set within a fold.
-#' @param v The number of partitions of the data set. If let
-#'  `NULL`, `v` will be set to the number of unique values
-#'  in the group.
-#' @param balance If `v` is less than the number of unique groups, how should
-#'  groups be combined into folds? If `"groups"`, the default, then groups are
-#'  combined randomly to balance the number of groups in each fold.
-#'  If `"observations"`, then groups are combined to balance the number of
-#'  observations in each fold.
-#' @param ... Not currently used.
+#' @inheritParams vfold_cv
+#' @param v The number of partitions of the data set. If left as `NULL`, `v`
+#'  will be set to the number of unique values in the group.
+#' @inheritParams make_groups
 #' @export
 #' @return A tibble with classes `group_vfold_cv`,
 #'  `rset`, `tbl_df`, `tbl`, and `data.frame`.
@@ -81,43 +72,16 @@ group_vfold_splits <- function(data, group, v = NULL, balance = c("groups", "obs
 
   balance <- rlang::arg_match(balance)
 
-
-  uni_groups <- unique(getElement(data, group))
-  max_v <- length(uni_groups)
+  group <- getElement(data, group)
+  max_v <- length(unique(group))
 
   if (is.null(v)) {
     v <- max_v
   } else {
     check_v(v = v, max_v = max_v, rows = "rows", call = rlang::caller_env())
   }
-  data_ind <- data.frame(..index = 1:nrow(data), ..group = getElement(data, group))
-  data_ind$..group <- as.character(data_ind$..group)
 
-  if (balance == "groups") {
-    keys <- data.frame(..group = uni_groups)
-    keys$..folds <- sample(rep(1:v, length.out = max_v))
-  } else if (balance == "observations") {
-    while (vec_unique_count(data_ind$..group) > v) {
-      freq_table <- vec_count(data_ind$..group)
-      # Recategorize the largest group to be collapsed
-      # as the smallest group to be kept
-      group_to_keep <- vec_slice(freq_table, v)
-      group_to_collapse <- vec_slice(freq_table, v + 1)
-      collapse_lgl <- vec_in(data_ind$..group, group_to_collapse$key)
-      vec_slice(data_ind$..group, collapse_lgl) <- group_to_keep$key
-    }
-
-    keys <- data.frame(..group = unique(data_ind$..group))
-    n <- nrow(keys)
-    keys$..folds <- sample(rep(1:v, length.out = n))
-  }
-
-  keys$..group <- as.character(keys$..group)
-
-  data_ind <- data_ind %>%
-    full_join(keys, by = "..group") %>%
-    arrange(..index)
-  indices <- split_unnamed(data_ind$..index, data_ind$..folds)
+  indices <- make_groups(data, group, v, balance)
   indices <- lapply(indices, default_complement, n = nrow(data))
   split_objs <-
     purrr::map(indices,
