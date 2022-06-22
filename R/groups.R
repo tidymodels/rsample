@@ -90,7 +90,7 @@ group_vfold_splits <- function(data, group, v = NULL, balance = c("groups", "obs
     check_v(v = v, max_v = max_v, rows = "rows", call = rlang::caller_env())
   }
 
-  indices <- make_group(data, group, v, balance)
+  indices <- make_groups(data, group, v, balance)
   indices <- lapply(indices, default_complement, n = nrow(data))
   split_objs <-
     purrr::map(indices,
@@ -102,61 +102,4 @@ group_vfold_splits <- function(data, group, v = NULL, balance = c("groups", "obs
     splits = split_objs,
     id = names0(length(split_objs), "Resample")
   )
-}
-
-make_group <- function(data, group, v, balance, prop = NULL) {
-  data_ind <- data.frame(..index = 1:nrow(data), ..group = group)
-  data_ind$..group <- as.character(data_ind$..group)
-
-  res <- switch(
-    balance,
-    "groups" = balance_groups(data_ind, v),
-    "observations" = balance_observations(data_ind, v)
-  )
-  data_ind <- res$data_ind
-  keys <- res$keys
-
-  keys$..group <- as.character(keys$..group)
-
-  data_ind <- data_ind %>%
-    full_join(keys, by = "..group") %>%
-    arrange(..index)
-  split_unnamed(data_ind$..index, data_ind$..folds)
-
-}
-
-balance_groups <- function(data_ind, v) {
-  unique_groups <- unique(data_ind$..group)
-  keys <- data.frame(
-    ..group = unique_groups,
-    ..folds = sample(rep(seq_len(v), length.out = length(unique_groups)))
-  )
-  list(
-    data_ind = data_ind,
-    keys = keys
-  )
-}
-
-balance_observations <- function(data_ind, v) {
-  while (vec_unique_count(data_ind$..group) > v) {
-    freq_table <- vec_count(data_ind$..group)
-    # Recategorize the largest group to be collapsed
-    # as the smallest group to be kept
-    group_to_keep <- vec_slice(freq_table, v)
-    group_to_collapse <- vec_slice(freq_table, v + 1)
-    collapse_lgl <- vec_in(data_ind$..group, group_to_collapse$key)
-    vec_slice(data_ind$..group, collapse_lgl) <- group_to_keep$key
-  }
-  unique_groups <- unique(data_ind$..group)
-
-  keys <- data.frame(
-    ..group = unique_groups,
-    ..folds = sample(rep(seq_len(v), length.out = length(unique_groups)))
-  )
-
-  list(
-    data_ind = data_ind,
-    keys = keys
-  )
-
 }
