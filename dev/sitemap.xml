@@ -79,6 +79,9 @@
     <loc>https://rsample.tidymodels.org/dev/reference/loo_cv.html</loc>
   </url>
   <url>
+    <loc>https://rsample.tidymodels.org/dev/reference/make_groups.html</loc>
+  </url>
+  <url>
     <loc>https://rsample.tidymodels.org/dev/reference/make_splits.html</loc>
   </url>
   <url>
