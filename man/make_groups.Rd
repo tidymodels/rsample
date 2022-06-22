@@ -26,3 +26,4 @@ This function powers \link{group_vfold_cv} by splitting the data based upon
 a grouping variable and returning the assessment set indices for each
 split.
 }
+\keyword{internal}

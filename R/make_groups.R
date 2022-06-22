@@ -13,6 +13,8 @@
 #'  combined randomly to balance the number of groups in each fold.
 #'  If `"observations"`, then groups are combined to balance the number of
 #'  observations in each fold.
+#'
+#' @keywords internal
 make_groups <- function(data, group, v, balance) {
   data_ind <- data.frame(..index = 1:nrow(data), ..group = group)
   data_ind$..group <- as.character(data_ind$..group)
