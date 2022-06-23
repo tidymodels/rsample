@@ -4,7 +4,7 @@
 \alias{make_groups}
 \title{Make groupings for grouped rsplits}
 \usage{
-make_groups(data, group, v, balance)
+make_groups(data, group, v)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -14,12 +14,6 @@ grouping observations with the same value to either the analysis or
 assessment set within a fold.}
 
 \item{v}{The number of partitions of the data set.}
-
-\item{balance}{If \code{v} is less than the number of unique groups, how should
-groups be combined into folds? If \code{"groups"}, the default, then groups are
-combined randomly to balance the number of groups in each fold.
-If \code{"observations"}, then groups are combined to balance the number of
-observations in each fold.}
 }
 \description{
 This function powers \link{group_vfold_cv} by splitting the data based upon

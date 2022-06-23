@@ -4,13 +4,7 @@
 \alias{group_vfold_cv}
 \title{Group V-Fold Cross-Validation}
 \usage{
-group_vfold_cv(
-  data,
-  group = NULL,
-  v = NULL,
-  balance = c("groups", "observations"),
-  ...
-)
+group_vfold_cv(data, group = NULL, v = NULL, ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -21,12 +15,6 @@ assessment set within a fold.}
 
 \item{v}{The number of partitions of the data set. If left as \code{NULL}, \code{v}
 will be set to the number of unique values in the group.}
-
-\item{balance}{If \code{v} is less than the number of unique groups, how should
-groups be combined into folds? If \code{"groups"}, the default, then groups are
-combined randomly to balance the number of groups in each fold.
-If \code{"observations"}, then groups are combined to balance the number of
-observations in each fold.}
 
 \item{...}{Not currently used.}
 }
@@ -51,6 +39,5 @@ data(Sacramento, package = "modeldata")
 
 set.seed(123)
 group_vfold_cv(Sacramento, group = city, v = 5)
-group_vfold_cv(Sacramento, group = city, v = 5, balance = "observations")
 \dontshow{\}) # examplesIf}
 }
