@@ -21,3 +21,4 @@ rsample_hex_thumb.png
 ^cran-comments\.md$
 ^LICENSE\.md$
 ^man-roxygen$
+^CRAN-SUBMISSION$
