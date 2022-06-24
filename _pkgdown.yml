@@ -57,7 +57,7 @@ reference:
       - .get_fingerprint
       - as.data.frame.rsplit
       - add_resample_id
-      - balance
+      - starts_with("balance")
       - complement
       - form_pred
       - starts_with("labels")
