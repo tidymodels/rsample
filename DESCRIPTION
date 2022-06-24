@@ -47,7 +47,8 @@ Suggests:
 VignetteBuilder: 
     knitr
 Config/Needs/website: 
-    GGally, 
+    GGally,
+    mlbench,
     nlstools, 
     tidymodels,
     tidyverse/tidytemplate
