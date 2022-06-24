@@ -14,7 +14,7 @@ used in rsample can be used."><meta property="og:image" content="https://rsample
     
     <a class="navbar-brand me-2" href="../index.html">rsample</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@ used in <code>rsample</code> can be used.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">nested_cv</span><span class="op">(</span><span class="va">data</span>, <span class="va">outside</span>, <span class="va">inside</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nested_cv</span><span class="op">(</span><span class="va">data</span>, <span class="va">outside</span>, <span class="va">inside</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -115,8 +115,8 @@ the example below)</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Using expressions for the resampling procedures:</span></span>
-<span class="r-in"><span class="fu">nested_cv</span><span class="op">(</span><span class="va">mtcars</span>, outside <span class="op">=</span> <span class="fu"><a href="vfold_cv.html">vfold_cv</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, inside <span class="op">=</span> <span class="fu"><a href="bootstraps.html">bootstraps</a></span><span class="op">(</span>times <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Using expressions for the resampling procedures:</span></span></span>
+<span class="r-in"><span><span class="fu">nested_cv</span><span class="op">(</span><span class="va">mtcars</span>, outside <span class="op">=</span> <span class="fu"><a href="vfold_cv.html">vfold_cv</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, inside <span class="op">=</span> <span class="fu"><a href="bootstraps.html">bootstraps</a></span><span class="op">(</span>times <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # Nested resampling:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #  outer: 3-fold cross-validation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #  inner: Bootstrap sampling</span>
@@ -126,10 +126,10 @@ the example below)</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [21/11]&gt;</span> Fold1 <span style="color: #949494;">&lt;bootstraps [5 × 2]&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [21/11]&gt;</span> Fold2 <span style="color: #949494;">&lt;bootstraps [5 × 2]&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [22/10]&gt;</span> Fold3 <span style="color: #949494;">&lt;bootstraps [5 × 2]&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Using an existing object:</span></span>
-<span class="r-in"><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="vfold_cv.html">vfold_cv</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">nested_cv</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">folds</span>, inside <span class="op">=</span> <span class="fu"><a href="bootstraps.html">bootstraps</a></span><span class="op">(</span>times <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Using an existing object:</span></span></span>
+<span class="r-in"><span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="vfold_cv.html">vfold_cv</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">nested_cv</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">folds</span>, inside <span class="op">=</span> <span class="fu"><a href="bootstraps.html">bootstraps</a></span><span class="op">(</span>times <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # Nested resampling:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #  outer: `folds`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #  inner: Bootstrap sampling</span>
@@ -146,29 +146,29 @@ the example below)</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold08 <span style="color: #949494;">&lt;bootstraps [5 × 2]&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold09 <span style="color: #949494;">&lt;bootstraps [5 × 2]&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold10 <span style="color: #949494;">&lt;bootstraps [5 × 2]&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## The dangers of outer bootstraps:</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2222</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">bad_idea</span> <span class="op">&lt;-</span> <span class="fu">nested_cv</span><span class="op">(</span><span class="va">mtcars</span>,</span>
-<span class="r-in">  outside <span class="op">=</span> <span class="fu"><a href="bootstraps.html">bootstraps</a></span><span class="op">(</span>times <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in">  inside <span class="op">=</span> <span class="fu"><a href="vfold_cv.html">vfold_cv</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## The dangers of outer bootstraps:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2222</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bad_idea</span> <span class="op">&lt;-</span> <span class="fu">nested_cv</span><span class="op">(</span><span class="va">mtcars</span>,</span></span>
+<span class="r-in"><span>  outside <span class="op">=</span> <span class="fu"><a href="bootstraps.html">bootstraps</a></span><span class="op">(</span>times <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  inside <span class="op">=</span> <span class="fu"><a href="vfold_cv.html">vfold_cv</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Using bootstrapping as the outer resample is dangerous since the inner resample might have the same data point in both the analysis and assessment set.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">first_outer_split</span> <span class="op">&lt;-</span> <span class="va">bad_idea</span><span class="op">$</span><span class="va">splits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">outer_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_outer_split</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Volvo 142E"</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">outer_analysis</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">first_outer_split</span> <span class="op">&lt;-</span> <span class="va">bad_idea</span><span class="op">$</span><span class="va">splits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">outer_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_outer_split</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Volvo 142E"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">outer_analysis</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## For the 3-fold CV used inside of each bootstrap, how are the replicated</span></span>
-<span class="r-in"><span class="co">## `Volvo 142E` data partitioned?</span></span>
-<span class="r-in"><span class="va">first_inner_split</span> <span class="op">&lt;-</span> <span class="va">bad_idea</span><span class="op">$</span><span class="va">inner_resamples</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">splits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">inner_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_inner_split</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">inner_assess</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_inner_split</span>, data <span class="op">=</span> <span class="st">"assessment"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Volvo 142E"</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">inner_analysis</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## For the 3-fold CV used inside of each bootstrap, how are the replicated</span></span></span>
+<span class="r-in"><span><span class="co">## `Volvo 142E` data partitioned?</span></span></span>
+<span class="r-in"><span><span class="va">first_inner_split</span> <span class="op">&lt;-</span> <span class="va">bad_idea</span><span class="op">$</span><span class="va">inner_resamples</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">splits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">inner_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_inner_split</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">inner_assess</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_inner_split</span>, data <span class="op">=</span> <span class="st">"assessment"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Volvo 142E"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">inner_analysis</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Volvo 142E"</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">inner_assess</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Volvo 142E"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">inner_assess</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 </code></pre></div>
     </div>

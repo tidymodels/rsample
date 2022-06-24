@@ -16,7 +16,7 @@ developer tool, and is not required for normal usage of rsample."><meta property
     
     <a class="navbar-brand me-2" href="../index.html">rsample</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,7 +79,7 @@ developer tool, and is not required for normal usage of rsample.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rset_reconstruct</span><span class="op">(</span><span class="va">x</span>, <span class="va">to</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rset_reconstruct</span><span class="op">(</span><span class="va">x</span>, <span class="va">to</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -109,17 +109,17 @@ and row order do not matter).</p></li>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">to</span> <span class="op">&lt;-</span> <span class="fu"><a href="bootstraps.html">bootstraps</a></span><span class="op">(</span><span class="va">mtcars</span>, times <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Imitate a vctrs/dplyr operation,</span></span>
-<span class="r-in"><span class="co"># where the class might be lost along the way</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">to</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Say we added a new column to `x`. Here we mock a `mutate()`.</span></span>
-<span class="r-in"><span class="va">x</span><span class="op">$</span><span class="va">foo</span> <span class="op">&lt;-</span> <span class="st">"bar"</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># This is still reconstructable to `to`</span></span>
-<span class="r-in"><span class="fu">rset_reconstruct</span><span class="op">(</span><span class="va">x</span>, <span class="va">to</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">to</span> <span class="op">&lt;-</span> <span class="fu"><a href="bootstraps.html">bootstraps</a></span><span class="op">(</span><span class="va">mtcars</span>, times <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Imitate a vctrs/dplyr operation,</span></span></span>
+<span class="r-in"><span><span class="co"># where the class might be lost along the way</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">to</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Say we added a new column to `x`. Here we mock a `mutate()`.</span></span></span>
+<span class="r-in"><span><span class="va">x</span><span class="op">$</span><span class="va">foo</span> <span class="op">&lt;-</span> <span class="st">"bar"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># This is still reconstructable to `to`</span></span></span>
+<span class="r-in"><span><span class="fu">rset_reconstruct</span><span class="op">(</span><span class="va">x</span>, <span class="va">to</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # Bootstrap sampling </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 25 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    splits          id          foo  </span>
@@ -135,13 +135,13 @@ and row order do not matter).</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [32/14]&gt;</span> Bootstrap09 bar  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [32/12]&gt;</span> Bootstrap10 bar  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 15 more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Say we lose the first row</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span>, <span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># This is no longer reconstructable to `to`, as `x` is no longer an rset</span></span>
-<span class="r-in"><span class="co"># bootstraps object with 25 bootstraps if one is lost!</span></span>
-<span class="r-in"><span class="fu">rset_reconstruct</span><span class="op">(</span><span class="va">x</span>, <span class="va">to</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Say we lose the first row</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># This is no longer reconstructable to `to`, as `x` is no longer an rset</span></span></span>
+<span class="r-in"><span><span class="co"># bootstraps object with 25 bootstraps if one is lost!</span></span></span>
+<span class="r-in"><span><span class="fu">rset_reconstruct</span><span class="op">(</span><span class="va">x</span>, <span class="va">to</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 24 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    splits          id          foo  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>

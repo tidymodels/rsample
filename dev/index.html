@@ -38,7 +38,7 @@
     
     <a class="navbar-brand me-2" href="index.html">rsample</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,25 +110,25 @@
 <p>Note that resampled data sets created by rsample are directly accessible in a resampling object but do not contain much overhead in memory. Since the original data is not modified, R does not make an automatic copy.</p>
 <p>For example, creating 50 bootstraps of a data set does not create an object that is 50-fold larger in memory:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org">rsample</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">mlbench</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">LetterRecognition</span><span class="op">)</span>
-<span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">LetterRecognition</span><span class="op">)</span>
-<span class="co">#&gt; 2,644,640 B</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">35222</span><span class="op">)</span>
-<span class="va">boots</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bootstraps.html">bootstraps</a></span><span class="op">(</span><span class="va">LetterRecognition</span>, times <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>
-<span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">boots</span><span class="op">)</span>
-<span class="co">#&gt; 6,686,776 B</span>
-
-<span class="co"># Object size per resample</span>
-<span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">boots</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">boots</span><span class="op">)</span>
-<span class="co">#&gt; 133,735.5 B</span>
-
-<span class="co"># Fold increase is &lt;&lt;&lt; 50</span>
-<span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">boots</span><span class="op">)</span><span class="op">/</span><span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">LetterRecognition</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 2.528426</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org">rsample</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">mlbench</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">LetterRecognition</span><span class="op">)</span></span>
+<span><span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">LetterRecognition</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 2,644,640 B</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">35222</span><span class="op">)</span></span>
+<span><span class="va">boots</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bootstraps.html">bootstraps</a></span><span class="op">(</span><span class="va">LetterRecognition</span>, times <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">boots</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 6,686,776 B</span></span>
+<span></span>
+<span><span class="co"># Object size per resample</span></span>
+<span><span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">boots</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">boots</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 133,735.5 B</span></span>
+<span></span>
+<span><span class="co"># Fold increase is &lt;&lt;&lt; 50</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">boots</span><span class="op">)</span><span class="op">/</span><span class="fu">lobstr</span><span class="fu">::</span><span class="fu">obj_size</span><span class="op">(</span><span class="va">LetterRecognition</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2.528426</span></span></code></pre></div>
 <p><sup>Created on 2022-02-28 by the <a href="https://reprex.tidyverse.org" class="external-link">reprex package</a> (v2.0.1)</sup></p>
 <p>The memory usage for 50 bootstrap samples is less than 3-fold more than the original data set.</p>
 </div>
@@ -137,11 +137,11 @@
 </h2>
 <p>To install it, use:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rsample"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rsample"</span><span class="op">)</span></span></code></pre></div>
 <p>And the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">install_dev</span><span class="op">(</span><span class="st">"rsample"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">install_dev</span><span class="op">(</span><span class="st">"rsample"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
