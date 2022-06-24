@@ -1,9 +1,8 @@
 # Revdeps
 
-## Failed to check (2)
+## Failed to check (1)
 
-|package                                    |version |error  |warning |note |
-|:------------------------------------------|:-------|:------|:-------|:----|
-|NA                                         |?       |       |        |     |
-|[tidyposterior](failures.md#tidyposterior) |0.1.0   |__+1__ |        |     |
+|package |version |error |warning |note |
+|:-------|:-------|:-----|:-------|:----|
+|NA      |?       |      |        |     |
 

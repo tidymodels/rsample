@@ -1,6 +1,6 @@
 ## Release Summary
 
-This is the 11th CRAN release of rsample. This release adds better checking, printing, and argument calling, as well as adding a new `balance` option to grouped v-fold CV. 
+This is the 11th CRAN release of rsample. This release adds better checking, printing, and argument calling.
 
 ## R CMD check results
 
@@ -8,13 +8,8 @@ This is the 11th CRAN release of rsample. This release adds better checking, pri
 
 ## revdepcheck results
 
-We checked 43 reverse dependencies (42 from CRAN + 1 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 44 reverse dependencies (43 from CRAN + 1 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 0 new problems
- * We failed to check 1 packages
+ * We failed to check 0 packages
 
-Issues with CRAN packages are summarised below.
-
-### Failed to check
-
-* tidyposterior (NA)
