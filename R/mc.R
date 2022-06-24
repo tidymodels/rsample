@@ -134,3 +134,73 @@ strat_sample <- function(x, prop, times, ...) {
   out$rs_id <- rep(1:times, each = floor(n * prop))
   out
 }
+
+#' Group Monte Carlo Cross-Validation
+#'
+#' Group Monte Carlo cross-validation creates splits of the data based
+#'  on some grouping variable (which may have more than a single row
+#'  associated with it). One resample of Monte Carlo cross-validation takes a
+#'  random sample (without replacement) of groups in the original data set to be
+#'  used for analysis. All other data points are added to the assessment set.
+#'  A common use of this kind of resampling is when you have
+#'  repeated measures of the same subject.
+#'
+#' @inheritParams mc_cv
+#' @inheritParams make_groups
+#' @export
+#' @return A tibble with classes `group_mc_cv`,
+#'  `rset`, `tbl_df`, `tbl`, and `data.frame`.
+#'  The results include a column for the data split objects and an
+#'  identification variable.
+#' @examplesIf rlang::is_installed("modeldata")
+#' data(ames, package = "modeldata")
+#'
+#' set.seed(123)
+#' group_mc_cv(ames, group = Neighborhood, times = 5)
+#'
+#' @export
+group_mc_cv <- function(data, group, times = 25, balance = balance_prop(prop = 3 / 4), ...) {
+
+  group <- validate_group({{ group }}, data)
+  validate_balance(balance, c("balance_groups", "balance_observations"))
+
+  split_objs <-
+    group_mc_splits(
+      data = data,
+      group = group,
+      times = times,
+      balance = balance
+    )
+
+  ## We remove the holdout indices since it will save space and we can
+  ## derive them later when they are needed.
+  split_objs$splits <- map(split_objs$splits, rm_out)
+
+  mc_att <- list(
+    group = group,
+    prop = balance$args$prop,
+    times = times,
+    balance = balance$type
+  )
+
+  new_rset(
+    splits = split_objs$splits,
+    ids = split_objs$id,
+    attrib = mc_att,
+    subclass = c("group_mc_cv", "rset")
+  )
+}
+
+group_mc_splits <- function(data, group, times = 25, balance = balance_prop(3 / 4)) {
+
+  group <- getElement(data, group)
+  n <- nrow(data)
+  indices <- make_groups(data, group, times, balance)
+  indices <- lapply(indices, mc_complement, n = n)
+  split_objs <-
+    purrr::map(indices, make_splits, data = data, class = "grouped_mc_split")
+  list(
+    splits = split_objs,
+    id = names0(length(split_objs), "Resample")
+  )
+}

@@ -3,14 +3,19 @@
 \name{balance_groups}
 \alias{balance_groups}
 \alias{balance_observations}
+\alias{balance_prop}
 \title{Balance group distribution across folds}
 \usage{
 balance_groups(...)
 
 balance_observations(...)
+
+balance_prop(prop = 3/4, ...)
 }
 \arguments{
 \item{...}{These dots are for future extensions and must be empty.}
+
+\item{prop}{The proportion of data to be retained for modeling/analysis.}
 }
 \value{
 A list with three elements: \code{fn}, the function which will actually

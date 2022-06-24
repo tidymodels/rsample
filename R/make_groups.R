@@ -14,18 +14,10 @@
 #'
 #' @keywords internal
 make_groups <- function(data, group, v, balance = balance_groups()) {
-  data_ind <- data.frame(..index = 1:nrow(data), ..group = group)
+  data_ind <- tibble(..index = 1:nrow(data), ..group = group)
   data_ind$..group <- as.character(data_ind$..group)
 
-  if (!rlang::is_list(balance)) {
-    rlang::abort(
-      c(
-        "`balance` must be a list created by a balancer function",
-        i = "See the available options in `?rsample::balance_groups`"
-      ),
-      call = rlang::caller_env()
-    )
-  }
+  validate_balance(balance, call = rlang::caller_env())
 
   res <- do.call(
     balance$fn,
@@ -137,4 +129,100 @@ make_balance_observations <- function(..., data_ind, v) {
     data_ind = data_ind,
     keys = keys
   )
+}
+
+#' @inheritParams mc_cv
+#' @rdname balance
+#' @export
+balance_prop <- function(prop = 3 / 4, ...) {
+  rlang::check_dots_empty()
+  list(
+    fn = make_balance_prop,
+    args = list(
+      prop = prop
+    ),
+    type = "balance_prop"
+  )
+}
+
+make_balance_prop <- function(prop, ..., data_ind, v) {
+  if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
+    rlang::abort("`prop` must be a number on (0, 1).")
+  }
+  n_obs <- nrow(data_ind)
+
+  freq_table <- vec_count(data_ind$..group)
+
+  freq_table <- purrr::map_dfr(
+    seq_len(v),
+    function(x) {
+      freq_table <- freq_table[sample.int(nrow(freq_table)), ]
+      cumulative_proportion <- cumsum(freq_table$count) / sum(freq_table$count)
+      crosses_target <- which(cumulative_proportion > prop)[[1]]
+      is_closest <- cumulative_proportion[c(crosses_target, crosses_target - 1)]
+      is_closest <- which.min(abs(is_closest - prop)) - 1
+      crosses_target <- crosses_target - is_closest
+      out <- freq_table[seq_len(crosses_target), ]
+      out$assignment <- x
+      out
+    }
+  )
+
+  data_ind <- dplyr::left_join(data_ind, freq_table, by = c("..group" = "key"))
+  data_ind$..group <- data_ind$assignment
+  data_ind <- data_ind[c("..index", "..group")]
+
+  unique_groups <- unique(data_ind$..group)
+
+  keys <- data.frame(
+    ..group = unique_groups,
+    ..folds = sample(rep(seq_len(v), length.out = length(unique_groups)))
+  )
+
+  list(
+    data_ind = data_ind,
+    keys = keys
+  )
+}
+
+validate_balance <- function(balance, banned_balancers = NULL, call = rlang::caller_env()) {
+  if (!rlang::is_list(balance)) {
+    rlang::abort(
+      c(
+        "`balance` must be a list created by a balancer function",
+        i = "See the available options in `?rsample::balance_groups`"
+      ),
+      call = call
+    )
+  }
+
+  if (!is.null(banned_balancers)) {
+    if (balance$type %in% banned_balancers) {
+      rlang::abort(
+        "`{balancer}` is not a permitted balancer for this resampling method",
+        balancer = balance$type
+      )
+    }
+  }
+}
+
+validate_group <- function(group, data, call = rlang::caller_env()) {
+  if (!missing(group)) {
+    group <- tidyselect::vars_select(names(data), !!enquo(group))
+    if (length(group) == 0) {
+      group <- NULL
+    }
+  }
+
+  if (is.null(group) || !is.character(group) || length(group) != 1) {
+    rlang::abort(
+      "`group` should be a single character value for the column that will be used for splitting.",
+      call = call
+    )
+  }
+  if (!any(names(data) == group)) {
+    rlang::abort("`group` should be a column in `data`.", call = call)
+  }
+
+  group
 }
