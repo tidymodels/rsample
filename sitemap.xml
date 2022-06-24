@@ -22,9 +22,6 @@
     <loc>https://rsample.tidymodels.org/articles/Applications/Recipes_and_rsample.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/articles/Applications/Survival_Analysis.html</loc>
-  </url>
-  <url>
     <loc>https://rsample.tidymodels.org/articles/Working_with_rsets.html</loc>
   </url>
   <url>
@@ -52,22 +49,13 @@
     <loc>https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/reference/attrition.html</loc>
-  </url>
-  <url>
     <loc>https://rsample.tidymodels.org/reference/bootstraps.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/complement.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/reference/drinks.html</loc>
-  </url>
-  <url>
     <loc>https://rsample.tidymodels.org/reference/form_pred.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/gather.rset.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/get_fingerprint.html</loc>
@@ -94,6 +82,9 @@
     <loc>https://rsample.tidymodels.org/reference/loo_cv.html</loc>
   </url>
   <url>
+    <loc>https://rsample.tidymodels.org/reference/make_groups.html</loc>
+  </url>
+  <url>
     <loc>https://rsample.tidymodels.org/reference/make_splits.html</loc>
   </url>
   <url>
@@ -118,9 +109,6 @@
     <loc>https://rsample.tidymodels.org/reference/populate.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/reference/pretty.vfold_cv.html</loc>
-  </url>
-  <url>
     <loc>https://rsample.tidymodels.org/reference/reexports.html</loc>
   </url>
   <url>
@@ -133,7 +121,7 @@
     <loc>https://rsample.tidymodels.org/reference/rsample-dplyr.html</loc>
   </url>
   <url>
-    <loc>https://rsample.tidymodels.org/reference/rsample.html</loc>
+    <loc>https://rsample.tidymodels.org/reference/rsample-package.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/rsample2caret.html</loc>
@@ -146,9 +134,6 @@
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/tidy.rsplit.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/two_class_dat.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/validation_split.html</loc>
