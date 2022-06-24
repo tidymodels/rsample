@@ -111,7 +111,7 @@ make_balance_observations <- function(..., data_ind, v) {
     group_breakdown <- freq_table %>%
       stats::na.omit() %>%
       dplyr::group_by(.data$assignment) %>%
-      dplyr::summarise(count = sum(.data$count), .groups = "drop") |>
+      dplyr::summarise(count = sum(.data$count), .groups = "drop") %>%
       dplyr::mutate(prop = .data$count / n_obs,
                     pre_error = abs(.data$prop - target_per_fold),
                     if_added_count = .data$count + next_size,
