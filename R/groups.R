@@ -22,6 +22,12 @@
 #'
 #' set.seed(123)
 #' group_vfold_cv(Sacramento, group = city, v = 5)
+#' group_vfold_cv(
+#'   Sacramento,
+#'   group = city,
+#'   v = 5,
+#'   balance = balance_observations()
+#' )
 #'
 #' @export
 group_vfold_cv <- function(data, group = NULL, v = NULL, balance = balance_groups(), ...) {

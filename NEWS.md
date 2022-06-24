@@ -1,3 +1,7 @@
+# rsample (development version)
+
+* Added functions to control how grouped resampling combines groups. Use `balance = balance_groups()` to assign (roughly) the same number of groups to each fold, or `balance = balance_observations()` to assign (roughly) the same number of observations to each fold.
+
 # rsample 1.0.0
 
 * Fixed how `nested_cv()` handles call objects so variables in the environment can be used when specifying resampling schemes (#81).
