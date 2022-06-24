@@ -21,7 +21,7 @@ make_groups <- function(data, group, v, balance = balance_groups()) {
     rlang::abort(
       c(
         "`balance` must be a list created by a balancer function",
-        i = "See the available options in ?rsample::balance"
+        i = "See the available options in `?rsample::balance_groups`"
       ),
       call = rlang::caller_env()
     )
