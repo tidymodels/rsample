@@ -1,6 +1,6 @@
 Package: rsample
 Title: General Resampling Infrastructure
-Version: 0.1.1.9000
+Version: 1.0.0
 Authors@R: c(
     person("Julia", "Silge", , "julia.silge@rstudio.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3671-836X")),
@@ -47,7 +47,8 @@ Suggests:
 VignetteBuilder: 
     knitr
 Config/Needs/website: 
-    GGally, 
+    GGally,
+    mlbench,
     nlstools, 
     tidymodels,
     tidyverse/tidytemplate
