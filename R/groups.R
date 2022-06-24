@@ -22,10 +22,9 @@
 #'
 #' set.seed(123)
 #' group_vfold_cv(Sacramento, group = city, v = 5)
-#' group_vfold_cv(Sacramento, group = city, v = 5, balance = "observations")
 #'
 #' @export
-group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "observations"), ...) {
+group_vfold_cv <- function(data, group = NULL, v = NULL, ...) {
   if (!missing(group)) {
     group <- tidyselect::vars_select(names(data), !!enquo(group))
     if (length(group) == 0) {
@@ -42,9 +41,7 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "
     rlang::abort("`group` should be a column in `data`.")
   }
 
-  balance <- rlang::arg_match(balance)
-
-  split_objs <- group_vfold_splits(data = data, group = group, v = v, balance = balance)
+  split_objs <- group_vfold_splits(data = data, group = group, v = v)
 
   ## We remove the holdout indices since it will save space and we can
   ## derive them later when they are needed.
@@ -68,9 +65,7 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "
   )
 }
 
-group_vfold_splits <- function(data, group, v = NULL, balance = c("groups", "observations")) {
-
-  balance <- rlang::arg_match(balance)
+group_vfold_splits <- function(data, group, v = NULL) {
 
   group <- getElement(data, group)
   max_v <- length(unique(group))
@@ -81,7 +76,7 @@ group_vfold_splits <- function(data, group, v = NULL, balance = c("groups", "obs
     check_v(v = v, max_v = max_v, rows = "rows", call = rlang::caller_env())
   }
 
-  indices <- make_groups(data, group, v, balance)
+  indices <- make_groups(data, group, v)
   indices <- lapply(indices, default_complement, n = nrow(data))
   split_objs <-
     purrr::map(indices,
