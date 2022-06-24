@@ -1,3 +1,5 @@
+# rsample (development version)
+
 # rsample 1.0.0
 
 * Fixed how `nested_cv()` handles call objects so variables in the environment can be used when specifying resampling schemes (#81).
