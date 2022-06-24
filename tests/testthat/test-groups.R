@@ -84,6 +84,41 @@ test_that("tibble input", {
   expect_true(all(table(sp_out) == 1))
 })
 
+test_that("other balance methods", {
+  data(ames, package = "modeldata")
+  set.seed(11)
+  rs1 <- group_vfold_cv(
+    ames,
+    "Neighborhood",
+    balance = balance_observations(),
+    v = 5
+  )
+  expect_snapshot(rs1)
+
+  sizes1 <- dim_rset(rs1)
+  same_data <-
+    purrr::map_lgl(rs1$splits, function(x) {
+      all.equal(x$data, ames)
+    })
+  expect_true(all(same_data))
+
+  good_holdout <- purrr::map_lgl(
+    rs1$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
+  expect_true(all(good_holdout))
+
+  expect_true(
+    !any(
+      unique(as.character(assessment(rs1$splits[[1]])$Neighborhood)) %in%
+        unique(as.character(analysis(rs1$splits[[1]])$Neighborhood))
+    )
+  )
+
+})
+
 test_that("printing", {
   expect_snapshot(group_vfold_cv(warpbreaks, "tension"))
 })
