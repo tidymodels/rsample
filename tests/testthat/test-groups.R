@@ -90,7 +90,7 @@ test_that("other balance methods", {
   rs1 <- group_vfold_cv(
     ames,
     "Neighborhood",
-    balance = balance_observations(),
+    balance = "observations",
     v = 5
   )
   expect_snapshot(rs1)

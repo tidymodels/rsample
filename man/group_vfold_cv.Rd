@@ -4,7 +4,13 @@
 \alias{group_vfold_cv}
 \title{Group V-Fold Cross-Validation}
 \usage{
-group_vfold_cv(data, group = NULL, v = NULL, balance = balance_groups(), ...)
+group_vfold_cv(
+  data,
+  group = NULL,
+  v = NULL,
+  balance = c("groups", "observations"),
+  ...
+)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -17,8 +23,10 @@ assessment set within a fold.}
 will be set to the number of unique values in the group.}
 
 \item{balance}{If \code{v} is less than the number of unique groups, how should
-groups be combined into folds? See the available functions listed in
-\code{\link[=balance_groups]{balance_groups()}}.}
+groups be combined into folds? Should be one of
+\code{groups}, \code{observations}
+or a list with the named elements \code{fn} (a function to make balanced groups)
+and \code{args} (extra arguments for the balancing function).}
 
 \item{...}{Not currently used.}
 }
@@ -43,5 +51,11 @@ data(Sacramento, package = "modeldata")
 
 set.seed(123)
 group_vfold_cv(Sacramento, group = city, v = 5)
+group_vfold_cv(
+  Sacramento,
+  group = city,
+  v = 5,
+  balance = "observations"
+)
 \dontshow{\}) # examplesIf}
 }

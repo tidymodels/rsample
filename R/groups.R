@@ -26,11 +26,11 @@
 #'   Sacramento,
 #'   group = city,
 #'   v = 5,
-#'   balance = balance_observations()
+#'   balance = "observations"
 #' )
 #'
 #' @export
-group_vfold_cv <- function(data, group = NULL, v = NULL, balance = balance_groups(), ...) {
+group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "observations"), ...) {
   if (!missing(group)) {
     group <- tidyselect::vars_select(names(data), !!enquo(group))
     if (length(group) == 0) {
@@ -46,6 +46,8 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, balance = balance_group
   if (!any(names(data) == group)) {
     rlang::abort("`group` should be a column in `data`.")
   }
+
+  if (!rlang::is_list(balance)) balance <- rlang::arg_match(balance)
 
   split_objs <- group_vfold_splits(data = data, group = group, v = v, balance = balance)
 

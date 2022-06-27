@@ -9,33 +9,25 @@
 #'  grouping observations with the same value to either the analysis or
 #'  assessment set within a fold.
 #' @param balance If `v` is less than the number of unique groups, how should
-#'  groups be combined into folds? See the available functions listed in
-#'  [balance_groups()].
+#'  groups be combined into folds? Should be one of
+#'  `groups`, `observations`.
+#' @param ... Arguments passed to balance functions.
 #'
 #' @keywords internal
-make_groups <- function(data, group, v, balance = balance_groups()) {
-  data_ind <- data.frame(..index = 1:nrow(data), ..group = group)
+make_groups <- function(data,
+                        group,
+                        v,
+                        balance = c("groups", "observations"),
+                        ...) {
+  data_ind <- tibble(..index = 1:nrow(data), ..group = group)
   data_ind$..group <- as.character(data_ind$..group)
 
-  if (!rlang::is_list(balance)) {
-    rlang::abort(
-      c(
-        "`balance` must be a list created by a balancer function",
-        i = "See the available options in `?rsample::balance_groups`"
-      ),
-      call = rlang::caller_env()
-    )
-  }
+  res <- switch(
+    balance,
+    "groups" = balance_groups(data_ind = data_ind, v = v),
+    "observations" = balance_observations(data_ind = data_ind, v = v)
+  )
 
-  res <- do.call(
-    balance$fn,
-    c(
-      balance$args,
-      list(
-        data_ind = data_ind,
-        v = v
-      )
-    ))
   data_ind <- res$data_ind
   keys <- res$keys
 
@@ -49,30 +41,8 @@ make_groups <- function(data, group, v, balance = balance_groups()) {
 
 }
 
-#' Balance group distribution across folds
-#'
-#' [balance_groups()] assigns groups to folds so that approximately equal
-#' numbers of groups are in each fold.
-#'
-#' @inheritParams rlang::args_dots_empty
-#'
-#' @return A list with three elements: `fn`, the function which will actually
-#'  produce groups for the resampling method, `args`, a list of
-#'  any balancing-method specific arguments that `fn` requires, and `type`,
-#'  indicating what balancing method is being used.
-#'
-#' @rdname balance
-#' @export
-balance_groups <- function(...) {
+balance_groups <- function(data_ind, v, ...) {
   rlang::check_dots_empty()
-  list(
-    fn = make_balance_groups,
-    args = list(),
-    type = "balance_groups"
-  )
-}
-
-make_balance_groups <- function(..., data_ind, v) {
   unique_groups <- unique(data_ind$..group)
   keys <- data.frame(
     ..group = unique_groups,
@@ -84,18 +54,8 @@ make_balance_groups <- function(..., data_ind, v) {
   )
 }
 
-#' @rdname balance
-#' @export
-balance_observations <- function(...) {
+balance_observations <- function(data_ind, v, ...) {
   rlang::check_dots_empty()
-  list(
-    fn = make_balance_observations,
-    args = list(),
-    type = "balance_observations"
-  )
-}
-
-make_balance_observations <- function(..., data_ind, v) {
   n_obs <- nrow(data_ind)
   target_per_fold <- 1 / v
 
@@ -138,3 +98,4 @@ make_balance_observations <- function(..., data_ind, v) {
     keys = keys
   )
 }
+
