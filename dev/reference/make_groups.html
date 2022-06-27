@@ -76,7 +76,7 @@ split.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_groups</span><span class="op">(</span><span class="va">data</span>, <span class="va">group</span>, <span class="va">v</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_groups</span><span class="op">(</span><span class="va">data</span>, <span class="va">group</span>, <span class="va">v</span>, <span class="va">balance</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -93,6 +93,18 @@ assessment set within a fold.</p></dd>
 
 <dt>v</dt>
 <dd><p>The number of partitions of the data set.</p></dd>
+
+
+<dt>balance</dt>
+<dd><p>If <code>v</code> is less than the number of unique groups, how should
+groups be combined into folds? Should be one of
+<code>groups</code>, <code>observations</code>
+or a list with the named elements <code>fn</code> (a function to make balanced groups)
+and <code>args</code> (extra arguments for the balancing function).</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Arguments passed to balance functions.</p></dd>
 
 </dl></div>
 
