@@ -19,6 +19,8 @@ make_groups <- function(data,
                         v,
                         balance = c("groups", "observations"),
                         ...) {
+  balance <- rlang::arg_match(balance, error_call = rlang::caller_env())
+
   data_ind <- tibble(..index = 1:nrow(data), ..group = group)
   data_ind$..group <- as.character(data_ind$..group)
 

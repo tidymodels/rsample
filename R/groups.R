@@ -47,7 +47,7 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "
     rlang::abort("`group` should be a column in `data`.")
   }
 
-  if (!rlang::is_list(balance)) balance <- rlang::arg_match(balance)
+  balance <- rlang::arg_match(balance)
 
   split_objs <- group_vfold_splits(data = data, group = group, v = v, balance = balance)
 
