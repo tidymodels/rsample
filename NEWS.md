@@ -1,6 +1,8 @@
 # rsample (development version)
 
-* Added functions to control how grouped resampling combines groups. Use `balance = "balance"` to assign (roughly) the same number of groups to each fold, or `balance = "observations"` to assign (roughly) the same number of observations to each fold.
+* Added arguments to control how `group_vfold_cv()` combines groups. Use `balance = "groups"` to assign (roughly) the same number of groups to each fold, or `balance = "observations"` to assign (roughly) the same number of observations to each fold.
+
+* Added a new function, `group_mc_cv()`, which performs grouped Monte-Carlo resampling.
 
 # rsample 1.0.0
 

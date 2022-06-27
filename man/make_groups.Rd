@@ -4,7 +4,7 @@
 \alias{make_groups}
 \title{Make groupings for grouped rsplits}
 \usage{
-make_groups(data, group, v, balance, ...)
+make_groups(data, group, v, balance = c("groups", "observations", "prop"), ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -17,9 +17,7 @@ assessment set within a fold.}
 
 \item{balance}{If \code{v} is less than the number of unique groups, how should
 groups be combined into folds? Should be one of
-\code{groups}, \code{observations}
-or a list with the named elements \code{fn} (a function to make balanced groups)
-and \code{args} (extra arguments for the balancing function).}
+\code{"groups"}, \code{"observations"}, \code{"prop"}.}
 
 \item{...}{Arguments passed to balance functions.}
 }
