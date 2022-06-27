@@ -1,6 +1,6 @@
 # rsample (development version)
 
-* Added functions to control how grouped resampling combines groups. Use `balance = balance_groups()` to assign (roughly) the same number of groups to each fold, or `balance = balance_observations()` to assign (roughly) the same number of observations to each fold.
+* Added functions to control how grouped resampling combines groups. Use `balance = "balance"` to assign (roughly) the same number of groups to each fold, or `balance = "observations"` to assign (roughly) the same number of observations to each fold.
 
 # rsample 1.0.0
 
