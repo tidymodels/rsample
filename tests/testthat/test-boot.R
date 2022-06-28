@@ -33,6 +33,38 @@ test_that("apparent", {
   expect_equal(res2, dat1)
 })
 
+test_that("groups", {
+  dat1 <- data.frame(a = 1:20, b = letters[1:20], c = rep(1:4, 5))
+  set.seed(11)
+  rs1 <- group_bootstraps(dat1, c)
+  sizes1 <- dim_rset(rs1)
+
+  expect_true(all(sizes1$analysis == nrow(dat1)))
+  same_data <-
+    purrr::map_lgl(rs1$splits, function(x) {
+      all.equal(x$data, dat1)
+    })
+  expect_true(all(same_data))
+
+  good_holdout <- purrr::map_lgl(
+    rs1$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
+  expect_true(all(good_holdout))
+
+  dat1 <- data.frame(a = 1:20, b = letters[1:20], c = rep(1:4, 5))
+  rs2 <- bootstraps(dat1, apparent = TRUE)
+  sizes2 <- dim_rset(rs2)
+
+  expect_true(all(sizes2$analysis == nrow(dat1)))
+  expect_true(all(sizes2$assessment[nrow(sizes2)] == nrow(dat1)))
+  expect_equal(sizes2$assessment[sizes2$id == "Apparent"], nrow(dat1))
+  res2 <-
+    as.data.frame(rs2$splits[[nrow(sizes2)]], data = "assessment")
+  expect_equal(res2, dat1)
+})
 
 test_that("strata", {
   set.seed(11)

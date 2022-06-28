@@ -170,8 +170,7 @@ group_mc_cv <- function(data, group, prop = 3 / 4, times = 25, ...) {
       data = data,
       group = group,
       prop = prop,
-      times = times,
-      balance = "prop"
+      times = times
     )
 
   ## We remove the holdout indices since it will save space and we can
@@ -193,11 +192,11 @@ group_mc_cv <- function(data, group, prop = 3 / 4, times = 25, ...) {
   )
 }
 
-group_mc_splits <- function(data, group, prop = 3 / 4, times = 25, balance = "prop") {
+group_mc_splits <- function(data, group, prop = 3 / 4, times = 25) {
 
   group <- getElement(data, group)
   n <- nrow(data)
-  indices <- make_groups(data, group, times, balance, prop = prop)
+  indices <- make_groups(data, group, times, balance = "prop", prop = prop, replace = FALSE)
   indices <- lapply(indices, mc_complement, n = n)
   split_objs <-
     purrr::map(indices, make_splits, data = data, class = "grouped_mc_split")

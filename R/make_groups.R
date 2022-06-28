@@ -105,25 +105,32 @@ balance_observations <- function(data_ind, v, ...) {
 
 }
 
-balance_prop <- function(prop, data_ind, v, ...) {
+balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
   rlang::check_dots_empty()
-  if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
+  if (!is.numeric(prop) | prop > 1 | prop <= 0) {
     rlang::abort("`prop` must be a number on (0, 1).", call = rlang::caller_env())
   }
   n_obs <- nrow(data_ind)
 
   freq_table <- vec_count(data_ind$..group)
 
+  n <- nrow(freq_table)
+  # If sampling with replacement,
+  # set `n` to the number of resamples we'd need
+  # if we somehow got the smallest group every time
+  if (replace) n <- n * prop * sum(freq_table$count) / min(freq_table$count)
+  n <- ceiling(n)
+
   freq_table <- purrr::map_dfr(
     seq_len(v),
     function(x) {
-      freq_table <- freq_table[sample.int(nrow(freq_table)), ]
-      cumulative_proportion <- cumsum(freq_table$count) / sum(freq_table$count)
+      work_table <- freq_table[sample.int(nrow(freq_table), n, replace = replace), ]
+      cumulative_proportion <- cumsum(work_table$count) / sum(freq_table$count)
       crosses_target <- which(cumulative_proportion > prop)[[1]]
       is_closest <- cumulative_proportion[c(crosses_target, crosses_target - 1)]
       is_closest <- which.min(abs(is_closest - prop)) - 1
       crosses_target <- crosses_target - is_closest
-      out <- freq_table[seq_len(crosses_target), ]
+      out <- work_table[seq_len(crosses_target), ]
       out$assignment <- x
       out
     }
