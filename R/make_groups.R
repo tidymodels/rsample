@@ -1,6 +1,6 @@
 #' Make groupings for grouped rsplits
 #'
-#' This function powers [group_vfold_cv] by splitting the data based upon
+#' This function powers grouped resampling by splitting the data based upon
 #' a grouping variable and returning the assessment set indices for each
 #' split.
 #'
@@ -12,6 +12,20 @@
 #'  groups be combined into folds? Should be one of
 #'  `"groups"`, `"observations"`, `"prop"`.
 #' @param ... Arguments passed to balance functions.
+#'
+#' @details
+#' Not all `balance` options are accepted -- or make sense -- for all resampling
+#'  functions. For instance, `balance = "prop"` assigns groups to folds at
+#'  random, meaning that any given observation is not guaranteed to be in one
+#'  (and only one) assessment set. That means `balance = "prop"` can't
+#'  be used with [group_vfold_cv()], and so isn't an option available for that
+#'  function.
+#'
+#' Similarly, [group_mc_cv()] and its derivatives don't want to explicitly
+#'  assign data to one (and only one) assessment set, but rather want to
+#'  allow each observation to be in an assessment set zero-or-more times. As
+#'  a result, those functions don't have a `balance` argument, and under the
+#'  hood always specify `balance = "prop"` when they call [make_groups()].
 #'
 #' @keywords internal
 make_groups <- function(data,

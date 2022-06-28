@@ -45,13 +45,13 @@ repeated measures of the same subject.
 }
 \examples{
 \dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-data(Sacramento, package = "modeldata")
+data(ames, package = "modeldata")
 
 set.seed(123)
-group_vfold_cv(Sacramento, group = city, v = 5)
+group_vfold_cv(ames, group = Neighborhood, v = 5)
 group_vfold_cv(
-  Sacramento,
-  group = city,
+  ames,
+  group = Neighborhood,
   v = 5,
   balance = "observations"
 )

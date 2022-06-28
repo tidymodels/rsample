@@ -164,13 +164,13 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
 #'  The results include a column for the data split objects and an
 #'  identification variable.
 #' @examplesIf rlang::is_installed("modeldata")
-#' data(Sacramento, package = "modeldata")
+#' data(ames, package = "modeldata")
 #'
 #' set.seed(123)
-#' group_vfold_cv(Sacramento, group = city, v = 5)
+#' group_vfold_cv(ames, group = Neighborhood, v = 5)
 #' group_vfold_cv(
-#'   Sacramento,
-#'   group = city,
+#'   ames,
+#'   group = Neighborhood,
 #'   v = 5,
 #'   balance = "observations"
 #' )
