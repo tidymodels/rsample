@@ -144,6 +144,29 @@ test_that("grouping - tibble input", {
 
 })
 
+test_that("grouping with times = 1 works", {
+  set.seed(11)
+  rs3 <- group_mc_cv(warpbreaks, "tension", times = 1)
+  sizes3 <- dim_rset(rs3)
+
+  expect_true(all(sizes3$analysis == 36))
+  expect_true(all(sizes3$assessment == 18))
+  same_data <-
+    purrr::map_lgl(rs3$splits, function(x) {
+      all.equal(x$data, warpbreaks)
+    })
+  expect_true(all(same_data))
+
+  good_holdout <- purrr::map_lgl(
+    rs3$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
+  expect_true(all(good_holdout))
+
+})
+
 test_that("grouping - printing", {
   expect_snapshot(group_mc_cv(warpbreaks, "tension"))
 })

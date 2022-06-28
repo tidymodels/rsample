@@ -100,21 +100,9 @@ balance_observations <- function(data_ind, v, ...) {
     most_improved <- which.min(group_breakdown$improvement)
     freq_table[next_row, ]$assignment <- group_breakdown[most_improved, ]$assignment
   }
-  data_ind <- dplyr::left_join(data_ind, freq_table, by = c("..group" = "key"))
-  data_ind$..group <- data_ind$assignment
-  data_ind <- data_ind[c("..index", "..group")]
 
-  unique_groups <- unique(data_ind$..group)
+  collapse_groups(freq_table, data_ind, v)
 
-  keys <- data.frame(
-    ..group = unique_groups,
-    ..folds = sample(rep(seq_len(v), length.out = length(unique_groups)))
-  )
-
-  list(
-    data_ind = data_ind,
-    keys = keys
-  )
 }
 
 balance_prop <- function(prop, data_ind, v, ...) {
@@ -141,9 +129,22 @@ balance_prop <- function(prop, data_ind, v, ...) {
     }
   )
 
+  collapse_groups(freq_table, data_ind, v)
+
+}
+
+collapse_groups <- function(freq_table, data_ind, v) {
   data_ind <- dplyr::left_join(data_ind, freq_table, by = c("..group" = "key"))
   data_ind$..group <- data_ind$assignment
   data_ind <- data_ind[c("..index", "..group")]
+
+  # If a group was never assigned a fold, then its `..group` is NA
+  #
+  # If we leave that alone, it winds up messing up our fold assignments,
+  # because it will be assigned some value in `seq_len(v)`
+  #
+  # So instead, we drop those groups here:
+  data_ind <- stats::na.omit(data_ind)
 
   unique_groups <- unique(data_ind$..group)
 

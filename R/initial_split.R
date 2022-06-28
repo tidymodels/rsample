@@ -3,6 +3,9 @@
 #' `initial_split` creates a single binary split of the data into a training
 #'  set and testing set. `initial_time_split` does the same, but takes the
 #'  _first_ `prop` samples for training, instead of a random selection.
+#'  `group_initial_split` creates splits of the data based
+#'  on some grouping variable, so that all data in a "group" is assigned to
+#'  the same split.
 #'  `training` and `testing` are used to extract the resulting data.
 #' @template strata_details
 #' @inheritParams vfold_cv
@@ -28,6 +31,12 @@
 #' train_data <- training(drinks_lag_split)
 #' test_data <- testing(drinks_lag_split)
 #' c(max(train_data$date), min(test_data$date)) # 12 period lag
+#'
+#' set.seed(1353)
+#' car_split <- group_initial_split(mtcars, cyl)
+#' train_data <- training(car_split)
+#' test_data <- testing(car_split)
+#'
 #' @export
 #'
 initial_split <- function(data, prop = 3 / 4,
@@ -85,3 +94,23 @@ training <- function(x) analysis(x)
 #' @rdname initial_split
 #' @export
 testing <- function(x) assessment(x)
+
+#' @inheritParams make_groups
+#' @rdname initial_split
+#' @export
+group_initial_split <- function(data, group, prop = 3 / 4, ...) {
+
+  res <-
+    group_mc_cv(
+      data = data,
+      group = {{ group }},
+      prop = prop,
+      times = 1,
+      ...
+    )
+  res <- res$splits[[1]]
+  class(res) <- c("initial_split", class(res))
+  res
+
+}
+

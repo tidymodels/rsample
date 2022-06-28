@@ -42,6 +42,15 @@ test_that("default time param with lag", {
   )
 })
 
+test_that("default group param", {
+  rs1 <- group_initial_split(dat1, c)
+  expect_equal(class(rs1), c("initial_split", "grouped_mc_split", "rsplit"))
+  tr1 <- training(rs1)
+  ts1 <- testing(rs1)
+  expect_equal(nrow(tr1), nrow(dat1) * 3 / 4)
+  expect_equal(nrow(ts1), nrow(dat1) / 4)
+})
+
 test_that("`prop` computes the proportion for analysis (#217)", {
   set.seed(11)
 
@@ -64,6 +73,15 @@ test_that("`prop` computes the proportion for analysis (#217)", {
   }
 })
 
+test_that("`prop` computes the proportion for group analysis", {
+  rs1 <- group_initial_split(dat1, c, prop = 1 / 2)
+  expect_equal(class(rs1), c("initial_split", "grouped_mc_split", "rsplit"))
+  tr1 <- training(rs1)
+  ts1 <- testing(rs1)
+  expect_equal(nrow(tr1), nrow(dat1) * 1 / 2)
+  expect_equal(nrow(ts1), nrow(dat1) / 2)
+  expect_equal(nrow(tr1), nrow(ts1))
+})
 
 test_that("printing initial split objects", {
   expect_snapshot(initial_split(mtcars))
