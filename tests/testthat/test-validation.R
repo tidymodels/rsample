@@ -59,6 +59,27 @@ test_that("default time param with lag", {
   expect_snapshot(validation_time_split(drinks, lag = 500), error = TRUE)
 })
 
+test_that("default group param", {
+  set.seed(11)
+  rs1 <- group_validation_split(dat1, c)
+  sizes1 <- dim_rset(rs1)
+
+  expect_true(all(sizes1$analysis == 15))
+  expect_true(all(sizes1$assessment == 5))
+  same_data <-
+    purrr::map_lgl(rs1$splits, function(x) {
+      all.equal(x$data, dat1)
+    })
+  expect_true(all(same_data))
+
+  good_holdout <- purrr::map_lgl(
+    rs1$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
+  expect_true(all(good_holdout))
+})
 
 test_that("different percent", {
   set.seed(11)
@@ -80,6 +101,27 @@ test_that("different percent", {
     }
   )
   expect_true(all(good_holdout))
+
+  set.seed(11)
+  rs2_group <- group_validation_split(dat1, c, prop = .5)
+  sizes2_group <- dim_rset(rs2_group)
+
+  expect_true(all(sizes2_group$analysis == 10))
+  expect_true(all(sizes2_group$assessment == 10))
+  same_data <-
+    purrr::map_lgl(rs2_group$splits, function(x) {
+      all.equal(x$data, dat1)
+    })
+  expect_true(all(same_data))
+
+  good_holdout <- purrr::map_lgl(
+    rs2_group$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
+  expect_true(all(good_holdout))
+
 })
 
 test_that("strata", {

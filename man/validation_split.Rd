@@ -3,11 +3,14 @@
 \name{validation_split}
 \alias{validation_split}
 \alias{validation_time_split}
+\alias{group_validation_split}
 \title{Create a Validation Set}
 \usage{
 validation_split(data, prop = 3/4, strata = NULL, breaks = 4, pool = 0.1, ...)
 
 validation_time_split(data, prop = 3/4, lag = 0, ...)
+
+group_validation_split(data, group, prop = 3/4, ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -31,6 +34,10 @@ of stratifying groups that are too small.}
 \item{lag}{A value to include a lag between the assessment
 and analysis set. This is useful if lagged predictors will be used
 during training and testing.}
+
+\item{group}{A variable in \code{data} (single character or name) used for
+grouping observations with the same value to either the analysis or
+assessment set within a fold.}
 }
 \value{
 An tibble with classes \code{validation_split}, \code{rset}, \code{tbl_df}, \code{tbl},
@@ -59,4 +66,6 @@ validation_split(mtcars, prop = .9)
 
 data(drinks, package = "modeldata")
 validation_time_split(drinks)
+
+group_validation_split(mtcars, cyl)
 }
