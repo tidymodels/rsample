@@ -5,6 +5,9 @@
 #'  added to the assessment set (to be used as the validation set).
 #'  `validation_time_split()` does the same, but takes the _first_ `prop` samples
 #'  for training, instead of a random selection.
+#'  `group_validation_split()` creates splits of the data based
+#'  on some grouping variable, so that all data in a "group" is assigned to
+#'  the same split.
 #' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata

@@ -51,6 +51,9 @@ the original data set to be used for analysis. All other data points are
 added to the assessment set (to be used as the validation set).
 \code{validation_time_split()} does the same, but takes the \emph{first} \code{prop} samples
 for training, instead of a random selection.
+\code{group_validation_split()} creates splits of the data based
+on some grouping variable, so that all data in a "group" is assigned to
+the same split.
 }
 \details{
 With a \code{strata} argument, the random sampling is conducted
