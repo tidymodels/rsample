@@ -4,7 +4,7 @@
 \alias{make_groups}
 \title{Make groupings for grouped rsplits}
 \usage{
-make_groups(data, group, v, balance, ...)
+make_groups(data, group, v, balance = c("groups", "observations", "prop"), ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -17,15 +17,27 @@ assessment set within a fold.}
 
 \item{balance}{If \code{v} is less than the number of unique groups, how should
 groups be combined into folds? Should be one of
-\code{groups}, \code{observations}
-or a list with the named elements \code{fn} (a function to make balanced groups)
-and \code{args} (extra arguments for the balancing function).}
+\code{"groups"}, \code{"observations"}, \code{"prop"}.}
 
 \item{...}{Arguments passed to balance functions.}
 }
 \description{
-This function powers \link{group_vfold_cv} by splitting the data based upon
+This function powers grouped resampling by splitting the data based upon
 a grouping variable and returning the assessment set indices for each
 split.
+}
+\details{
+Not all \code{balance} options are accepted -- or make sense -- for all resampling
+functions. For instance, \code{balance = "prop"} assigns groups to folds at
+random, meaning that any given observation is not guaranteed to be in one
+(and only one) assessment set. That means \code{balance = "prop"} can't
+be used with \code{\link[=group_vfold_cv]{group_vfold_cv()}}, and so isn't an option available for that
+function.
+
+Similarly, \code{\link[=group_mc_cv]{group_mc_cv()}} and its derivatives don't assign data to one (and
+only one) assessment set, but rather allow each observation to be in an
+assessment set zero-or-more times. As a result, those functions don't have
+a \code{balance} argument, and under the hood always specify \code{balance = "prop"}
+when they call \code{\link[=make_groups]{make_groups()}}.
 }
 \keyword{internal}

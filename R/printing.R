@@ -134,6 +134,22 @@ pretty.group_vfold_cv <- function(x, ...) {
 }
 
 #' @export
+pretty.group_mc_cv <- function(x, ...) {
+  details <- attributes(x)
+  res <- paste0(
+    "Grouped Monte Carlo cross-validation (",
+    signif(details$prop, 2),
+    "/",
+    signif(1 - details$prop, 2),
+    ") with ",
+    details$times,
+    " resamples "
+  )
+
+  res
+}
+
+#' @export
 pretty.manual_rset <- function(x, ...) {
   "Manual resampling"
 }
@@ -268,6 +284,13 @@ print.val_split <- function(x, ...) {
       nrow(x$data), ">\n",
       sep = ""
   )
+}
+
+#' @export
+print.group_mc_cv <- function(x, ...) {
+  cat("#", pretty(x), "\n")
+  class(x) <- class(x)[!(class(x) %in% c("group_mc_cv", "rset"))]
+  print(x, ...)
 }
 
 #' @export

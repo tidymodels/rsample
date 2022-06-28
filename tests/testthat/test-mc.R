@@ -88,3 +88,75 @@ test_that("rsplit labels", {
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
 })
+
+test_that("grouping - bad args", {
+  expect_error(group_mc_cv(warpbreaks, group = warpbreaks$tension))
+  expect_error(group_mc_cv(warpbreaks, group = c("tension", "wool")))
+  expect_error(group_mc_cv(warpbreaks, group = "tensio"))
+  expect_error(group_mc_cv(warpbreaks))
+  expect_error(group_mc_cv(warpbreaks, group = "tension", balance = "groups"))
+})
+
+test_that("grouping - default param", {
+  set.seed(11)
+  rs1 <- group_mc_cv(warpbreaks, "tension")
+  sizes1 <- dim_rset(rs1)
+
+  expect_true(all(sizes1$analysis == 36))
+  expect_true(all(sizes1$assessment == 18))
+  same_data <-
+    purrr::map_lgl(rs1$splits, function(x) {
+      all.equal(x$data, warpbreaks)
+    })
+  expect_true(all(same_data))
+
+  good_holdout <- purrr::map_lgl(
+    rs1$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
+  expect_true(all(good_holdout))
+
+})
+
+test_that("grouping - tibble input", {
+  warpbreaks2 <- tibble::as_tibble(warpbreaks)
+  set.seed(11)
+  rs3 <- group_mc_cv(warpbreaks2, "tension")
+  sizes3 <- dim_rset(rs3)
+
+  expect_true(all(sizes3$analysis == 36))
+  expect_true(all(sizes3$assessment == 18))
+  same_data <-
+    purrr::map_lgl(rs3$splits, function(x) {
+      all.equal(x$data, warpbreaks2)
+    })
+  expect_true(all(same_data))
+
+  good_holdout <- purrr::map_lgl(
+    rs3$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
+  expect_true(all(good_holdout))
+
+})
+
+test_that("grouping - printing", {
+  expect_snapshot(group_mc_cv(warpbreaks, "tension"))
+})
+
+test_that("grouping - printing with ...", {
+  expect_snapshot(
+    print(group_mc_cv(warpbreaks, "tension"), n = 2)
+  )
+})
+
+test_that("grouping - rsplit labels", {
+  rs <- group_mc_cv(warpbreaks, "tension")
+  all_labs <- purrr::map_df(rs$splits, labels)
+  original_id <- rs[, grepl("^id", names(rs))]
+  expect_equal(all_labs, original_id)
+})
