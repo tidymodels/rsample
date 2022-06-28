@@ -58,6 +58,9 @@
     <loc>https://rsample.tidymodels.org/dev/reference/get_fingerprint.html</loc>
   </url>
   <url>
+    <loc>https://rsample.tidymodels.org/dev/reference/group_mc_cv.html</loc>
+  </url>
+  <url>
     <loc>https://rsample.tidymodels.org/dev/reference/group_vfold_cv.html</loc>
   </url>
   <url>
