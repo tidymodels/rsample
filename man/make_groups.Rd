@@ -34,10 +34,10 @@ random, meaning that any given observation is not guaranteed to be in one
 be used with \code{\link[=group_vfold_cv]{group_vfold_cv()}}, and so isn't an option available for that
 function.
 
-Similarly, \code{\link[=group_mc_cv]{group_mc_cv()}} and its derivatives don't want to explicitly
-assign data to one (and only one) assessment set, but rather want to
-allow each observation to be in an assessment set zero-or-more times. As
-a result, those functions don't have a \code{balance} argument, and under the
-hood always specify \code{balance = "prop"} when they call \code{\link[=make_groups]{make_groups()}}.
+Similarly, \code{\link[=group_mc_cv]{group_mc_cv()}} and its derivatives don't assign data to one (and
+only one) assessment set, but rather allow each observation to be in an
+assessment set zero-or-more times. As a result, those functions don't have
+a \code{balance} argument, and under the hood always specify \code{balance = "prop"}
+when they call \code{\link[=make_groups]{make_groups()}}.
 }
 \keyword{internal}

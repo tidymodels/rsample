@@ -21,11 +21,11 @@
 #'  be used with [group_vfold_cv()], and so isn't an option available for that
 #'  function.
 #'
-#' Similarly, [group_mc_cv()] and its derivatives don't want to explicitly
-#'  assign data to one (and only one) assessment set, but rather want to
-#'  allow each observation to be in an assessment set zero-or-more times. As
-#'  a result, those functions don't have a `balance` argument, and under the
-#'  hood always specify `balance = "prop"` when they call [make_groups()].
+#' Similarly, [group_mc_cv()] and its derivatives don't assign data to one (and
+#'  only one) assessment set, but rather allow each observation to be in an
+#'  assessment set zero-or-more times. As a result, those functions don't have
+#'  a `balance` argument, and under the hood always specify `balance = "prop"`
+#'  when they call [make_groups()].
 #'
 #' @keywords internal
 make_groups <- function(data,
