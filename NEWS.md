@@ -6,6 +6,8 @@
 
 * Added a new function, `reverse_splits()`, to swap analysis and assessment splits (#319, #284).
 
+* Improved the error thrown when calling `assessment()` on a `perm_split` object created by `permutations()` (#321, #322).
+
 # rsample 1.0.0
 
 * Fixed how `nested_cv()` handles call objects so variables in the environment can be used when specifying resampling schemes (#81).
