@@ -4,7 +4,7 @@
 
 * Added new functions for grouped resampling: `group_mc_cv()` (#313), `group_initial_split()` and `group_validation_split()` (#315).
 
-* The error thrown when calling `assessment()` on a `perm_split` object (created by `permutations()`) now correctly states `There is no assessment data set for an rsplit object with class perm_split`. (#321, #322) 
+* Improved the error thrown when calling `assessment()` on a `perm_split` object created by `permutations()` (#321, #322).
 
 # rsample 1.0.0
 
