@@ -25,7 +25,7 @@ An object of the same class as \code{x}
 }
 \description{
 This functions "swaps" the analysis and assessment sets of either a single
-\code{rsplit} or all \code{rsplits} in the \code{split} column of an \code{rset} object.
+\code{rsplit} or all \code{rsplit}s in the \code{splits} column of an \code{rset} object.
 }
 \examples{
 set.seed(123)

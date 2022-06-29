@@ -154,7 +154,7 @@ split_unnamed <- function(x, f) {
 #' Reverse the analysis and assessment sets
 #'
 #' This functions "swaps" the analysis and assessment sets of either a single
-#' `rsplit` or all `rsplits` in the `split` column of an `rset` object.
+#' `rsplit` or all `rsplit`s in the `splits` column of an `rset` object.
 #'
 #' @param x An `rset` or `rsplit` object.
 #' @inheritParams rlang::args_dots_empty
