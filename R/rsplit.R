@@ -102,7 +102,7 @@ as.data.frame.rsplit <-
     }
     if (!is.null(x$col_id)) {
       if (identical(data, "assessment")) {
-        rsplit_class <- class(x)[[2]]
+        rsplit_class <- class(x)[[1]]
         msg <- paste0(
           "There is no assessment data set for an `rsplit` object",
           " with class `", rsplit_class, "`."
