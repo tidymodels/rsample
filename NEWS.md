@@ -4,6 +4,8 @@
 
 * Added new functions for grouped resampling: `group_mc_cv()` (#313), `group_initial_split()` and `group_validation_split()` (#315).
 
+* Added a new function, `reverse_splits()`, to swap analysis and assessment splits (#319, #284).
+
 * Improved the error thrown when calling `assessment()` on a `perm_split` object created by `permutations()` (#321, #322).
 
 # rsample 1.0.0
