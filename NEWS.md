@@ -4,6 +4,8 @@
 
 * Added new functions for grouped resampling: `group_mc_cv()` (#313), `group_initial_split()` and `group_validation_split()` (#315).
 
+* Added a new function, `reverse_splits()`, to swap analysis and assessment splits (#319, #284).
+
 # rsample 1.0.0
 
 * Fixed how `nested_cv()` handles call objects so variables in the environment can be used when specifying resampling schemes (#81).
