@@ -107,7 +107,10 @@ balance_observations <- function(data_ind, v, ...) {
 
 balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
   rlang::check_dots_empty()
-  if (!is.numeric(prop) | prop > 1 | prop <= 0) {
+  acceptable_prop <- is.numeric(prop)
+  acceptable_prop <- acceptable_prop && ((prop <= 1 && replace) || (prop < 1 && !replace))
+  acceptable_prop <- acceptable_prop && prop > 0
+  if (!acceptable_prop) {
     rlang::abort("`prop` must be a number on (0, 1).", call = rlang::caller_env())
   }
   n_obs <- nrow(data_ind)

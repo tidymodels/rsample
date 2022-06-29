@@ -109,7 +109,7 @@ rset_reconstructable <- function(x, to) {
 test_data <- function() {
   data.frame(
     x = 1:50,
-    y = rep(c(1, 2), each = 25),
+    y = rep(seq.int(25), each = 2),
     index = as.Date(0:49, origin = "1970-01-01")
   )
 }
@@ -120,6 +120,7 @@ test_data <- function() {
 delayedAssign("rset_subclasses", {
   list(
     bootstraps       = bootstraps(test_data()),
+    group_bootstraps = group_bootstraps(test_data(), y),
     vfold_cv         = vfold_cv(test_data(), v = 10, repeats = 2),
     group_vfold_cv   = group_vfold_cv(test_data(), y),
     loo_cv           = loo_cv(test_data()),

@@ -34,7 +34,7 @@ test_that("apparent", {
 })
 
 test_that("groups", {
-  dat1 <- data.frame(a = 1:20, b = letters[1:20], c = rep(1:4, 5))
+  dat1 <- data.frame(a = 1:20, b = letters[1:20], c = rep(1:10, 2))
   set.seed(11)
   rs1 <- group_bootstraps(dat1, c)
   sizes1 <- dim_rset(rs1)

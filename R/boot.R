@@ -227,6 +227,18 @@ group_boot_splits <- function(data, group, times = 25) {
   indices <- lapply(indices, boot_complement, n = n)
   split_objs <-
     purrr::map(indices, make_splits, data = data, class = c("group_boot_split", "boot_split"))
+  all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
+
+  if (any(all_assessable == 0)) {
+    rlang::abort(
+      c(
+        "Some assessment sets contained 0 data",
+        i = "Consider using a non-grouped resampling method"
+      ),
+      call = rlang::caller_env()
+    )
+  }
+
   list(
     splits = split_objs,
     id = names0(length(split_objs), "Bootstrap")
