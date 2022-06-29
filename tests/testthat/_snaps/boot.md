@@ -1,3 +1,12 @@
+# bad args
+
+    Code
+      group_bootstraps(warpbreaks, tension)
+    Condition
+      Error in `group_bootstraps()`:
+      ! Some assessment sets contained 0 data
+      i Consider using a non-grouped resampling method
+
 # printing
 
     Code

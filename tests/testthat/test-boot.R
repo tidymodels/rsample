@@ -105,6 +105,11 @@ test_that("strata", {
 test_that("bad args", {
   expect_error(bootstraps(warpbreaks, strata = warpbreaks$tension))
   expect_error(bootstraps(warpbreaks, strata = c("tension", "wool")))
+  set.seed(1)
+  expect_snapshot(
+    group_bootstraps(warpbreaks, tension),
+    error = TRUE
+  )
 })
 
 
