@@ -14,4 +14,17 @@ test_that("reverse_splits is working", {
     reverse_splits(1),
     error = TRUE
   )
+
+  permutes <- permutations(mtcars, cyl)
+
+  expect_snapshot(
+    reverse_splits(permutes),
+    error = TRUE
+  )
+
+  expect_snapshot(
+    reverse_splits(permutes$splits[[1]]),
+    error = TRUE
+  )
+
 })

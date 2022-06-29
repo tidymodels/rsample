@@ -183,6 +183,18 @@ reverse_splits.default <- function(x, ...) {
 
 #' @rdname reverse_splits
 #' @export
+reverse_splits.permutations <- function(x, ...) {
+  rlang::abort(
+    "Permutations cannot have their splits reversed"
+  )
+}
+
+#' @rdname reverse_splits
+#' @export
+reverse_splits.perm_split <- reverse_splits.permutations
+
+#' @rdname reverse_splits
+#' @export
 reverse_splits.rsplit <- function(x, ...) {
 
   rlang::check_dots_empty()
@@ -207,6 +219,8 @@ reverse_splits.rset <- function(x, ...) {
 
   x
 }
+
+
 
 
 

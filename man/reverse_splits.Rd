@@ -3,6 +3,8 @@
 \name{reverse_splits}
 \alias{reverse_splits}
 \alias{reverse_splits.default}
+\alias{reverse_splits.permutations}
+\alias{reverse_splits.perm_split}
 \alias{reverse_splits.rsplit}
 \alias{reverse_splits.rset}
 \title{Reverse the analysis and assessment sets}
@@ -10,6 +12,10 @@
 reverse_splits(x, ...)
 
 \method{reverse_splits}{default}(x, ...)
+
+\method{reverse_splits}{permutations}(x, ...)
+
+\method{reverse_splits}{perm_split}(x, ...)
 
 \method{reverse_splits}{rsplit}(x, ...)
 
