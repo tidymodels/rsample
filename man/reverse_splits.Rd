@@ -2,14 +2,26 @@
 % Please edit documentation in R/misc.R
 \name{reverse_splits}
 \alias{reverse_splits}
+\alias{reverse_splits.default}
+\alias{reverse_splits.rsplit}
+\alias{reverse_splits.rset}
 \title{Reverse the analysis and assessment sets}
 \usage{
 reverse_splits(x, ...)
+
+\method{reverse_splits}{default}(x, ...)
+
+\method{reverse_splits}{rsplit}(x, ...)
+
+\method{reverse_splits}{rset}(x, ...)
 }
 \arguments{
 \item{x}{An \code{rset} or \code{rsplit} object.}
 
 \item{...}{These dots are for future extensions and must be empty.}
+}
+\value{
+An object of the same class as \code{x}
 }
 \description{
 This functions "swaps" the analysis and assessment sets of either a single

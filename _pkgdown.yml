@@ -64,6 +64,7 @@ reference:
       - make_splits
       - make_strata
       - populate
+      - reverse_splits
       - rsample2caret
       - rset_reconstruct
       - starts_with("tidy")
