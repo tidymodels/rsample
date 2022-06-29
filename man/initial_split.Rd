@@ -5,6 +5,7 @@
 \alias{initial_time_split}
 \alias{training}
 \alias{testing}
+\alias{group_initial_split}
 \title{Simple Training/Test Set Splitting}
 \usage{
 initial_split(data, prop = 3/4, strata = NULL, breaks = 4, pool = 0.1, ...)
@@ -14,6 +15,8 @@ initial_time_split(data, prop = 3/4, lag = 0, ...)
 training(x)
 
 testing(x)
+
+group_initial_split(data, group, prop = 3/4, ...)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -40,6 +43,10 @@ during training and testing.}
 
 \item{x}{An \code{rsplit} object produced by \code{initial_split()} or
 \code{initial_time_split()}.}
+
+\item{group}{A variable in \code{data} (single character or name) used for
+grouping observations with the same value to either the analysis or
+assessment set within a fold.}
 }
 \value{
 An \code{rsplit} object that can be used with the \code{training} and \code{testing}
@@ -49,6 +56,9 @@ functions to extract the data in each split.
 \code{initial_split} creates a single binary split of the data into a training
 set and testing set. \code{initial_time_split} does the same, but takes the
 \emph{first} \code{prop} samples for training, instead of a random selection.
+\code{group_initial_split} creates splits of the data based
+on some grouping variable, so that all data in a "group" is assigned to
+the same split.
 \code{training} and \code{testing} are used to extract the resulting data.
 }
 \details{
@@ -77,4 +87,10 @@ drinks_lag_split <- initial_time_split(drinks, lag = 12)
 train_data <- training(drinks_lag_split)
 test_data <- testing(drinks_lag_split)
 c(max(train_data$date), min(test_data$date)) # 12 period lag
+
+set.seed(1353)
+car_split <- group_initial_split(mtcars, cyl)
+train_data <- training(car_split)
+test_data <- testing(car_split)
+
 }

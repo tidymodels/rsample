@@ -5,6 +5,9 @@
 #'  added to the assessment set (to be used as the validation set).
 #'  `validation_time_split()` does the same, but takes the _first_ `prop` samples
 #'  for training, instead of a random selection.
+#'  `group_validation_split()` creates splits of the data based
+#'  on some grouping variable, so that all data in a "group" is assigned to
+#'  the same split.
 #' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
@@ -19,6 +22,8 @@
 #'
 #' data(drinks, package = "modeldata")
 #' validation_time_split(drinks)
+#'
+#' group_validation_split(mtcars, cyl)
 #' @export
 validation_split <- function(data, prop = 3 / 4,
                              strata = NULL, breaks = 4, pool = 0.1, ...) {
@@ -93,3 +98,41 @@ validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
     subclass = c("validation_split", "rset")
   )
 }
+
+#' @rdname validation_split
+#' @inheritParams group_initial_split
+#' @export
+group_validation_split <- function(data, group, prop = 3 / 4, ...) {
+
+  rlang::check_dots_empty()
+
+  group <- validate_group({{ group }}, data)
+
+  split_objs <-
+    group_mc_splits(
+      data = data,
+      group = {{ group }},
+      prop = prop,
+      times = 1
+    )
+
+  ## We remove the holdout indices since it will save space and we can
+  ## derive them later when they are needed.
+
+  split_objs$splits <- map(split_objs$splits, rm_out)
+  class(split_objs$splits[[1]]) <- c("val_split", "rsplit")
+
+  val_att <- list(
+    prop = prop,
+    group = group,
+    strata = FALSE
+  )
+
+  new_rset(
+    splits = split_objs$splits,
+    ids = "validation",
+    attrib = val_att,
+    subclass = c("validation_split", "rset")
+  )
+}
+
