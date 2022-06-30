@@ -19,6 +19,15 @@
       10 <split [40/14]> Resample10
       # ... with 15 more rows
 
+# grouping - bad args
+
+    Code
+      group_mc_cv(warpbreaks, group = "tension", prop = 0.99)
+    Condition
+      Error in `group_mc_cv()`:
+      ! Some assessment sets contained zero rows
+      i Consider using a non-grouped resampling method
+
 # grouping - printing
 
     Code

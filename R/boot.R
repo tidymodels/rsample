@@ -20,7 +20,7 @@
 #'  some estimators used by the `summary` function that require the apparent
 #'  error rate.
 #' @export
-#' @return An tibble with classes `bootstraps`, `rset`, `tbl_df`, `tbl`, and
+#' @return A tibble with classes `bootstraps`, `rset`, `tbl_df`, `tbl`, and
 #'  `data.frame`. The results include a column for the data split objects and a
 #'  column called `id` that has a character string with the resample identifier.
 #' @examples
@@ -146,3 +146,101 @@ boot_splits <-
       id = names0(length(split_objs), "Bootstrap")
     )
   }
+
+#' Group Bootstraps
+#'
+#' Group bootstrapping creates splits of the data based
+#'  on some grouping variable (which may have more than a single row
+#'  associated with it). A common use of this kind of resampling is when you
+#'  have repeated measures of the same subject.
+#'  A bootstrap sample is a sample that is the same size as the original data
+#'  set that is made using replacement. This results in analysis samples that
+#'  have multiple replicates of some of the original rows of the data. The
+#'  assessment set is defined as the rows of the original data that were not
+#'  included in the bootstrap sample. This is often referred to as the
+#'  "out-of-bag" (OOB) sample.
+#' @details The argument `apparent` enables the option of an additional
+#'  "resample" where the analysis and assessment data sets are the same as the
+#'  original data set. This can be required for some types of analysis of the
+#'  bootstrap results.
+#'
+#' @inheritParams bootstraps
+#' @inheritParams make_groups
+#' @export
+#' @return An tibble with classes `group_bootstraps` `bootstraps`, `rset`,
+#'  `tbl_df`, `tbl`, and `data.frame`. The results include a column for the data
+#'  split objects and a column called `id` that has a character string with the
+#'  resample identifier.
+#' @examplesIf rlang::is_installed("modeldata")
+#' data(ames, package = "modeldata")
+#'
+#' set.seed(13)
+#' group_bootstraps(ames, Neighborhood, times = 3)
+#' group_bootstraps(ames, Neighborhood, times = 3, apparent = TRUE)
+#'
+#' @export
+group_bootstraps <- function(data,
+                             group,
+                             times = 25,
+                             apparent = FALSE,
+                             ...) {
+
+  rlang::check_dots_empty()
+
+  group <- validate_group({{ group }}, data)
+
+  split_objs <-
+    group_boot_splits(
+      data = data,
+      group = group,
+      times = times
+    )
+
+  ## We remove the holdout indices since it will save space and we can
+  ## derive them later when they are needed.
+  split_objs$splits <- map(split_objs$splits, rm_out)
+
+  if (apparent) {
+    split_objs <- bind_rows(split_objs, apparent(data))
+  }
+
+  boot_att <- list(
+    times = times,
+    apparent = apparent,
+    strata = FALSE,
+    group = group
+  )
+
+  new_rset(
+    splits = split_objs$splits,
+    ids = split_objs$id,
+    attrib = boot_att,
+    subclass = c("group_bootstraps", "bootstraps", "rset")
+  )
+}
+
+group_boot_splits <- function(data, group, times = 25) {
+
+  group <- getElement(data, group)
+  n <- nrow(data)
+  indices <- make_groups(data, group, times, balance = "prop", prop = 1, replace = TRUE)
+  indices <- lapply(indices, boot_complement, n = n)
+  split_objs <-
+    purrr::map(indices, make_splits, data = data, class = c("group_boot_split", "boot_split"))
+  all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
+
+  if (any(all_assessable == 0)) {
+    rlang::abort(
+      c(
+        "Some assessment sets contained zero rows",
+        i = "Consider using a non-grouped resampling method"
+      ),
+      call = rlang::caller_env()
+    )
+  }
+
+  list(
+    splits = split_objs,
+    id = names0(length(split_objs), "Bootstrap")
+  )
+}

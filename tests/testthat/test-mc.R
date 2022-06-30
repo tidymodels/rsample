@@ -95,6 +95,11 @@ test_that("grouping - bad args", {
   expect_error(group_mc_cv(warpbreaks, group = "tensio"))
   expect_error(group_mc_cv(warpbreaks))
   expect_error(group_mc_cv(warpbreaks, group = "tension", balance = "groups"))
+  set.seed(1)
+  expect_snapshot(
+    group_mc_cv(warpbreaks, group = "tension", prop = 0.99),
+    error = TRUE
+  )
 })
 
 test_that("grouping - default param", {

@@ -120,6 +120,7 @@ test_data <- function() {
 delayedAssign("rset_subclasses", {
   list(
     bootstraps       = bootstraps(test_data()),
+    group_bootstraps = group_bootstraps(test_data(), y),
     vfold_cv         = vfold_cv(test_data(), v = 10, repeats = 2),
     group_vfold_cv   = group_vfold_cv(test_data(), y),
     loo_cv           = loo_cv(test_data()),
