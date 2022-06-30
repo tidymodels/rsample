@@ -195,13 +195,13 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "
 
   ## Save some overall information
 
-  cv_att <- list(v = v, group = group, balance = balance)
+  cv_att <- list(v = v, group = group, balance = balance, repeats = 1, strata = FALSE)
 
   new_rset(
     splits = split_objs$splits,
     ids = split_objs[, grepl("^id", names(split_objs))],
     attrib = cv_att,
-    subclass = c("group_vfold_cv", "rset")
+    subclass = c("group_vfold_cv", "vfold_cv", "group_rset", "rset")
   )
 }
 
@@ -222,7 +222,7 @@ group_vfold_splits <- function(data, group, v = NULL, balance) {
     purrr::map(indices,
                make_splits,
                data = data,
-               class = "group_vfold_split"
+               class = c("group_vfold_split", "vfold_split")
     )
   tibble::tibble(
     splits = split_objs,
