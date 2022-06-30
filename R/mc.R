@@ -205,7 +205,7 @@ group_mc_splits <- function(data, group, prop = 3 / 4, times = 25) {
   if (any(all_assessable == 0)) {
     rlang::abort(
       c(
-        "Some assessment sets contained 0 data",
+        "Some assessment sets contained zero rows",
         i = "Consider using a non-grouped resampling method"
       ),
       call = rlang::caller_env()

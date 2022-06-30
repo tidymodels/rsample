@@ -20,7 +20,7 @@
 #'  some estimators used by the `summary` function that require the apparent
 #'  error rate.
 #' @export
-#' @return An tibble with classes `bootstraps`, `rset`, `tbl_df`, `tbl`, and
+#' @return A tibble with classes `bootstraps`, `rset`, `tbl_df`, `tbl`, and
 #'  `data.frame`. The results include a column for the data split objects and a
 #'  column called `id` that has a character string with the resample identifier.
 #' @examples
@@ -232,7 +232,7 @@ group_boot_splits <- function(data, group, times = 25) {
   if (any(all_assessable == 0)) {
     rlang::abort(
       c(
-        "Some assessment sets contained 0 data",
+        "Some assessment sets contained zero rows",
         i = "Consider using a non-grouped resampling method"
       ),
       call = rlang::caller_env()

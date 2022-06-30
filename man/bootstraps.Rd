@@ -39,7 +39,7 @@ error rate.}
 \item{...}{Not currently used.}
 }
 \value{
-An tibble with classes \code{bootstraps}, \code{rset}, \code{tbl_df}, \code{tbl}, and
+A tibble with classes \code{bootstraps}, \code{rset}, \code{tbl_df}, \code{tbl}, and
 \code{data.frame}. The results include a column for the data split objects and a
 column called \code{id} that has a character string with the resample identifier.
 }

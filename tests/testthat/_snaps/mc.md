@@ -25,7 +25,7 @@
       group_mc_cv(warpbreaks, group = "tension", prop = 0.99)
     Condition
       Error in `group_mc_cv()`:
-      ! Some assessment sets contained 0 data
+      ! Some assessment sets contained zero rows
       i Consider using a non-grouped resampling method
 
 # grouping - printing
