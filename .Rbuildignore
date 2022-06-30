@@ -22,3 +22,4 @@ rsample_hex_thumb.png
 ^LICENSE\.md$
 ^man-roxygen$
 ^CRAN-SUBMISSION$
+^generate_vctrs\.R$
