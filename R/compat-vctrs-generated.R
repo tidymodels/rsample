@@ -1,4 +1,5 @@
-# This file was generated, please edit generate_vctrs.R instead
+# This file was generated, do not edit by hand
+# Please edit inst/generate_vctrs.R instead
 # ------------------------------------------------------------------------------
 # bootstraps
 

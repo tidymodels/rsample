@@ -3,6 +3,8 @@
 #
 # It requires R > 4.1 to run
 
+devtools::load_all()
+
 template <- r"(# ------------------------------------------------------------------------------
 # CHANGEME
 
@@ -64,7 +66,8 @@ generated_template <- vapply(
 
 writeLines(
   c(
-    "# This file was generated, please edit generate_vctrs.R instead",
+    "# This file was generated, do not edit by hand",
+    "# Please edit inst/generate_vctrs.R instead",
     generated_template
   ),
   "R/compat-vctrs-generated.R"
