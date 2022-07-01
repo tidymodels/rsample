@@ -152,7 +152,7 @@ bootstrap results.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">13</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">group_bootstraps</span><span class="op">(</span><span class="va">ames</span>, <span class="va">Neighborhood</span>, times <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Bootstrap sampling </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Group bootstrap sampling </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   splits              id        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
@@ -160,7 +160,7 @@ bootstrap results.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [2887/1236]&gt;</span> Bootstrap2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [3018/1262]&gt;</span> Bootstrap3</span>
 <span class="r-in"><span><span class="fu">group_bootstraps</span><span class="op">(</span><span class="va">ames</span>, <span class="va">Neighborhood</span>, times <span class="op">=</span> <span class="fl">3</span>, apparent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Bootstrap sampling with apparent sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Group bootstrap sampling with apparent sample </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   splits              id        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
