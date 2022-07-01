@@ -217,7 +217,7 @@ group_bootstraps <- function(data,
     splits = split_objs$splits,
     ids = split_objs$id,
     attrib = boot_att,
-    subclass = c("group_bootstraps", "bootstraps", "rset")
+    subclass = c("group_bootstraps", "bootstraps", "group_rset", "rset")
   )
 }
 

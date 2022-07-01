@@ -181,14 +181,15 @@ group_mc_cv <- function(data, group, prop = 3 / 4, times = 25, ...) {
     group = group,
     prop = prop,
     times = times,
-    balance = "prop"
+    balance = "prop",
+    strata = FALSE
   )
 
   new_rset(
     splits = split_objs$splits,
     ids = split_objs$id,
     attrib = mc_att,
-    subclass = c("group_mc_cv", "rset")
+    subclass = c("group_mc_cv", "mc_cv", "group_rset", "rset")
   )
 }
 
@@ -199,7 +200,12 @@ group_mc_splits <- function(data, group, prop = 3 / 4, times = 25) {
   indices <- make_groups(data, group, times, balance = "prop", prop = prop, replace = FALSE)
   indices <- lapply(indices, mc_complement, n = n)
   split_objs <-
-    purrr::map(indices, make_splits, data = data, class = "grouped_mc_split")
+    purrr::map(
+      indices,
+      make_splits,
+      data = data,
+      class = c("grouped_mc_split", "mc_split")
+    )
   all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
 
   if (any(all_assessable == 0)) {
