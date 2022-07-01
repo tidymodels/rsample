@@ -15,6 +15,10 @@
 
     The number of rows is less than `v = 500`
 
+---
+
+    Repeated resampling when `v` is 150 would create identical resamples
+
 # printing
 
     Code
@@ -34,6 +38,14 @@
        8 <split [29/3]> Fold08
        9 <split [29/3]> Fold09
       10 <split [29/3]> Fold10
+
+# grouping -- bad args
+
+    Repeated resampling when `v` is 4 would create identical resamples
+
+---
+
+    Repeated resampling when `v` is `NULL` would create identical resamples
 
 # grouping -- other balance methods
 
