@@ -192,7 +192,7 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "
   } else {
     if (is.null(v)) {
       rlang::abort(
-        glue::glue("Repeated resampling when `v` is `NULL` would create identical resamples")
+        "Repeated resampling when `v` is `NULL` would create identical resamples"
       )
     }
     if (v == length(unique(getElement(data, group)))) {
