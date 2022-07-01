@@ -30,10 +30,27 @@ test_that("reverse_splits is working", {
 })
 
 test_that("reshuffle_rset is working", {
-  for (x in rset_subclasses) {
-    if (inherits(x, "manual_rset")) next
-    withr::with_seed(123, out <- reshuffle_rset(x))
-    expect_snapshot(out)
+
+  supported_subclasses <- rset_subclasses[
+    setdiff(names(rset_subclasses), "manual_rset")
+  ]
+
+  # Reshuffling with the same seed, in the same order,
+  # should recreate the same objects
+  out <- withr::with_seed(
+    123,
+    lapply(
+      supported_subclasses,
+      reshuffle_rset
+    )
+  )
+
+  for (i in seq_along(supported_subclasses)) {
+    expect_identical(
+      out[[i]],
+      supported_subclasses[[i]]
+    )
   }
+
 })
 
