@@ -83,7 +83,7 @@ pretty.validation_split <- function(x, ...) {
 pretty.group_validation_split <- function(x, ...) {
   details <- attributes(x)
   res <- paste0(
-    "Grouped Validation Set Split (",
+    "Group Validation Set Split (",
     signif(details$prop, 2),
     "/",
     signif(1 - details$prop, 2),
@@ -167,7 +167,7 @@ pretty.group_vfold_cv <- function(x, ...) {
 pretty.group_mc_cv <- function(x, ...) {
   details <- attributes(x)
   res <- paste0(
-    "Grouped Monte Carlo cross-validation (",
+    "Group Monte Carlo cross-validation (",
     signif(details$prop, 2),
     "/",
     signif(1 - details$prop, 2),

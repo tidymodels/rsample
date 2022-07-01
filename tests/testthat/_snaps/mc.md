@@ -33,7 +33,7 @@
     Code
       group_mc_cv(warpbreaks, "tension")
     Output
-      # Grouped Monte Carlo cross-validation (0.75/0.25) with 25 resamples  
+      # Group Monte Carlo cross-validation (0.75/0.25) with 25 resamples  
       # A tibble: 25 x 2
          splits          id        
          <list>          <chr>     
@@ -54,7 +54,7 @@
     Code
       print(group_mc_cv(warpbreaks, "tension"), n = 2)
     Output
-      # Grouped Monte Carlo cross-validation (0.75/0.25) with 25 resamples  
+      # Group Monte Carlo cross-validation (0.75/0.25) with 25 resamples  
       # A tibble: 25 x 2
         splits          id        
         <list>          <chr>     
