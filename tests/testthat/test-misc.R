@@ -1,4 +1,5 @@
 test_that("reverse_splits is working", {
+  skip_if_not(rlang::is_installed("withr"))
   for (x in rset_subclasses) {
 
     set.seed(123)

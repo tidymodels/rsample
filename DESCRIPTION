@@ -31,8 +31,7 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
-    vctrs (>= 0.3.0),
-    withr
+    vctrs (>= 0.3.0)
 Suggests: 
     broom,
     covr,
@@ -44,6 +43,7 @@ Suggests:
     stats,
     testthat (>= 3.0.0),
     utils,
+    withr,
     xml2
 VignetteBuilder: 
     knitr
