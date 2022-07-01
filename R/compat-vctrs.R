@@ -534,6 +534,58 @@ vec_cast.data.frame.validation_split <- function(x, to, ..., x_arg = "", to_arg 
 }
 
 # ------------------------------------------------------------------------------
+# group_validation_split
+
+#' @export
+vec_restore.group_validation_split <- function(x, to, ...) {
+  rset_reconstruct(x, to)
+}
+
+
+#' @export
+vec_ptype2.group_validation_split.group_validation_split <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.group_validation_split.group_validation_split")
+}
+#' @export
+vec_ptype2.group_validation_split.tbl_df <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.group_validation_split.tbl_df")
+}
+#' @export
+vec_ptype2.tbl_df.group_validation_split <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.tbl_df.group_validation_split")
+}
+#' @export
+vec_ptype2.group_validation_split.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.group_validation_split.data.frame")
+}
+#' @export
+vec_ptype2.data.frame.group_validation_split <- function(x, y, ..., x_arg = "", y_arg = "") {
+  stop_never_called("vec_ptype2.data.frame.group_validation_split")
+}
+
+
+#' @export
+vec_cast.group_validation_split.group_validation_split <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.group_validation_split.tbl_df <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.tbl_df.group_validation_split <- function(x, to, ..., x_arg = "", to_arg = "") {
+  tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.group_validation_split.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
+  stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
+}
+#' @export
+vec_cast.data.frame.group_validation_split <- function(x, to, ..., x_arg = "", to_arg = "") {
+  df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+
+# ------------------------------------------------------------------------------
 # rolling_origin
 
 #' @export
