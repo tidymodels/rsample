@@ -28,3 +28,12 @@ test_that("reverse_splits is working", {
   )
 
 })
+
+test_that("reshuffle_rset is working", {
+  for (x in rset_subclasses) {
+    if (inherits(x, "manual_rset")) next
+    withr::with_seed(123, out <- reshuffle_rset(x))
+    expect_snapshot(out)
+  }
+})
+

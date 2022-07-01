@@ -31,7 +31,8 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
-    vctrs (>= 0.3.0)
+    vctrs (>= 0.3.0),
+    withr
 Suggests: 
     broom,
     covr,

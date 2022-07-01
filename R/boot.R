@@ -91,7 +91,9 @@ bootstraps <-
     boot_att <- list(
       times = times,
       apparent = apparent,
-      strata = !is.null(strata)
+      strata = !is.null(strata),
+      breaks = breaks,
+      pool = pool
     )
 
     new_rset(
