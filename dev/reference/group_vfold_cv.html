@@ -93,6 +93,7 @@ repeated measures of the same subject.</p>
 <span>  group <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  v <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  balance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"groups"</span>, <span class="st">"observations"</span><span class="op">)</span>,</span>
+<span>  repeats <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -118,6 +119,10 @@ will be set to the number of unique values in the group.</p></dd>
 <dd><p>If <code>v</code> is less than the number of unique groups, how should
 groups be combined into folds? Should be one of
 <code>"groups"</code> or <code>"observations"</code>.</p></dd>
+
+
+<dt>repeats</dt>
+<dd><p>The number of times to repeat the V-fold partitioning.</p></dd>
 
 
 <dt>...</dt>
@@ -164,6 +169,21 @@ identification variable.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [2347/583]&gt;</span> Resample3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;split [2356/574]&gt;</span> Resample4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;split [2340/590]&gt;</span> Resample5</span>
+<span class="r-in"><span><span class="fu">group_vfold_cv</span><span class="op">(</span><span class="va">ames</span>, group <span class="op">=</span> <span class="va">Neighborhood</span>, v <span class="op">=</span> <span class="fl">5</span>, repeats <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Group 5-fold cross-validation </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    splits             id      id2      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> <span style="color: #949494;">&lt;split [2077/853]&gt;</span> Repeat1 Resample1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> <span style="color: #949494;">&lt;split [2215/715]&gt;</span> Repeat1 Resample2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> <span style="color: #949494;">&lt;split [2392/538]&gt;</span> Repeat1 Resample3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> <span style="color: #949494;">&lt;split [2574/356]&gt;</span> Repeat1 Resample4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> <span style="color: #949494;">&lt;split [2462/468]&gt;</span> Repeat1 Resample5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> <span style="color: #949494;">&lt;split [2269/661]&gt;</span> Repeat2 Resample1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> <span style="color: #949494;">&lt;split [2426/504]&gt;</span> Repeat2 Resample2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [2354/576]&gt;</span> Repeat2 Resample3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [2547/383]&gt;</span> Repeat2 Resample4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [2124/806]&gt;</span> Repeat2 Resample5</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
