@@ -32,6 +32,7 @@ test_that("reverse_splits is working", {
 
 test_that("reshuffle_rset is working", {
 
+  skip_if_not(rlang::is_installed("withr"))
   supported_subclasses <- rset_subclasses[
     setdiff(names(rset_subclasses), "manual_rset")
   ]
@@ -53,5 +54,25 @@ test_that("reshuffle_rset is working", {
     )
   }
 
+  supports_strata <- purrr::map_lgl(
+    names(supported_subclasses),
+    ~ any(names(formals(.x)) == "strata")
+  )
+  supports_strata <- names(supported_subclasses)[supports_strata]
+  supports_strata <- supported_subclasses[supports_strata]
+  for (i in seq_along(supports_strata)) {
+    set.seed(123)
+    resample <- do.call(
+      names(supports_strata)[i],
+      list(
+        data = test_data(),
+        strata = "y",
+        breaks = 2,
+        pool = 0.2
+      )
+    )
+    set.seed(123)
+    reshuffled_resample <- reshuffle_rset(resample)
+    expect_identical(resample, reshuffled_resample)
+  }
 })
-
