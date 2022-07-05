@@ -26,7 +26,7 @@
 #'
 #' _Bootstrap Confidence Intervals_,
 #' \url{https://rsample.tidymodels.org/articles/Applications/Intervals.html}
-#' @examples
+#' @examplesIf rlang::is_installed("broom")
 #' \donttest{
 #' set.seed(1)
 #' reg_intervals(mpg ~ I(1 / sqrt(disp)), data = mtcars)
@@ -37,6 +37,9 @@
 reg_intervals <-
   function(formula, data, model_fn = "lm", type = "student-t", times = NULL,
            alpha = 0.05, filter = term != "(Intercept)", keep_reps = FALSE, ...) {
+
+    rlang::check_installed("broom")
+
     model_fn <- rlang::arg_match(model_fn, c("lm", "glm", "survreg", "coxph"))
     type <- rlang::arg_match(type, c("student-t", "percentile"))
 

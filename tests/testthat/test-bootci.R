@@ -232,6 +232,7 @@ test_that("bad input", {
 # ------------------------------------------------------------------------------
 
 test_that("regression intervals", {
+  skip_if_not(rlang::is_installed("broom"))
   skip_on_cran()
 
   expect_error(
