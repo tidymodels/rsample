@@ -126,7 +126,7 @@ rs_obj$accuracy <- map_dbl(rs_obj$results, function(x) mean(x$correct))
 summary(rs_obj$accuracy)
 ```
 
-Keep in mind that the baseline accuracy to beat is the rate of non-attrition, which is `r round(mean(attrition$Attrition == "No"), 3)`. Not a great model so far.
+Keep in mind that the baseline accuracy to beat is the rate of non-attrition, which is `r ifelse(rlang::is_installed("modeldata"), round(mean(attrition$Attrition == "No"), 3), 0.839)`. Not a great model so far.
 
 ## Using the Bootstrap to Make Comparisons
 
