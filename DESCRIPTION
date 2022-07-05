@@ -43,6 +43,7 @@ Suggests:
     stats,
     testthat (>= 3.0.0),
     utils,
+    whisker,
     withr,
     xml2
 VignetteBuilder: 
