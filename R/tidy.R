@@ -17,7 +17,7 @@
 #' @details Note that for nested resampling, the rows of the inner resample,
 #'  named `inner_Row`, are *relative* row indices and do not correspond to the
 #'  rows in the original data set.
-#' @examples
+#' @examplesIf rlang::is_installed("ggplot2")
 #' library(ggplot2)
 #' theme_set(theme_bw())
 #'

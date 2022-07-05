@@ -47,6 +47,7 @@ which are then used to stratify. Strata below 10\% of the total are
 pooled together; see \code{\link[=make_strata]{make_strata()}} for more details.
 }
 \examples{
+\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 mc_cv(mtcars, times = 2)
 mc_cv(mtcars, prop = .5, times = 2)
 
@@ -82,4 +83,5 @@ map_dbl(
     mean(dat == "Yes")
   }
 )
+\dontshow{\}) # examplesIf}
 }

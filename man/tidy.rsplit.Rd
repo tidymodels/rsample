@@ -43,6 +43,7 @@ named \code{inner_Row}, are \emph{relative} row indices and do not correspond to
 rows in the original data set.
 }
 \examples{
+\dontshow{if (rlang::is_installed("ggplot2")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(ggplot2)
 theme_set(theme_bw())
 
@@ -81,4 +82,5 @@ ts_cv <- tidy(ts_cv)
 ggplot(ts_cv, aes(x = Resample, y = factor(Row), fill = Data)) +
   geom_tile() +
   scale_fill_brewer()
+\dontshow{\}) # examplesIf}
 }

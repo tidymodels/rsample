@@ -93,7 +93,7 @@ test_that("rsplit labels", {
 
 # ------------------------------------------------------------------------------
 # `[`
-
+skip_if_not(rlang::is_installed("withr"))
 test_that("can keep the rset class", {
   x <- rset_subclasses$nested_cv
   loc <- seq_len(ncol(x))

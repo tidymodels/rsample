@@ -1,5 +1,5 @@
 library(dplyr)
-
+skip_if_not(rlang::is_installed("withr"))
 # ------------------------------------------------------------------------------
 # dplyr_reconstruct()
 

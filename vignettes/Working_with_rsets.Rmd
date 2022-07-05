@@ -13,12 +13,17 @@ knitr::opts_chunk$set(
   message = FALSE,
   digits = 3,
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = rlang::is_installed("ggplot2") && rlang::is_installed("modeldata")
   )
 options(digits = 3, width = 90)
+```
+
+```{r ggplot2_setup, include = FALSE}
 library(ggplot2)
 theme_set(theme_bw())
 ```
+
 
 ## Introduction  
 
@@ -121,7 +126,7 @@ rs_obj$accuracy <- map_dbl(rs_obj$results, function(x) mean(x$correct))
 summary(rs_obj$accuracy)
 ```
 
-Keep in mind that the baseline accuracy to beat is the rate of non-attrition, which is `r round(mean(attrition$Attrition == "No"), 3)`. Not a great model so far.
+Keep in mind that the baseline accuracy to beat is the rate of non-attrition, which is `r ifelse(rlang::is_installed("modeldata"), round(mean(attrition$Attrition == "No"), 3), 0.839)`. Not a great model so far.
 
 ## Using the Bootstrap to Make Comparisons
 

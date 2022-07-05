@@ -4,8 +4,6 @@ sigma <- 1
 
 set.seed(888)
 rand_nums <- rnorm(n, mu, sigma)
-ttest <- broom::tidy(t.test(rand_nums))
-ttest_lower_conf <- broom::tidy(t.test(rand_nums, conf.level = 0.8))
 dat <- data.frame(x = rand_nums)
 
 set.seed(456765)
@@ -16,7 +14,10 @@ bt_norm <-
   )
 
 test_that("Bootstrap estimate of mean is close to estimate of mean from normal distribution", {
+  skip_if_not(rlang::is_installed("broom"))
   skip_on_cran()
+  ttest <- broom::tidy(t.test(rand_nums))
+  ttest_lower_conf <- broom::tidy(t.test(rand_nums, conf.level = 0.8))
   single_pct_res <- int_pctl(bt_norm, stats)
 
   single_t_res <- int_t(bt_norm, stats)
@@ -81,6 +82,7 @@ test_that("Bootstrap estimate of mean is close to estimate of mean from normal d
 # ------------------------------------------------------------------------------
 
 test_that("Wrappers -- selection of multiple variables works", {
+  skip_if_not(rlang::is_installed("modeldata"))
   data("attrition", package = "modeldata")
   func <- function(split, ...) {
     lm(Age ~ HourlyRate + DistanceFromHome, data = analysis(split)) %>% tidy()
@@ -230,6 +232,7 @@ test_that("bad input", {
 # ------------------------------------------------------------------------------
 
 test_that("regression intervals", {
+  skip_if_not(rlang::is_installed("broom"))
   skip_on_cran()
 
   expect_error(

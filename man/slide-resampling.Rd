@@ -163,6 +163,7 @@ windows from daily data.
 }
 }
 \examples{
+\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(vctrs)
 library(tibble)
 library(modeldata)
@@ -236,6 +237,7 @@ sliding_period(
   skip = 4,
   step = 2
 )
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=rolling_origin]{rolling_origin()}}

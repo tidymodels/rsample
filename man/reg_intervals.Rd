@@ -49,6 +49,7 @@ called ".replicates" is also returned.
 A convenience function for confidence intervals with linear-ish parametric models
 }
 \examples{
+\dontshow{if (rlang::is_installed("broom")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
 set.seed(1)
 reg_intervals(mpg ~ I(1 / sqrt(disp)), data = mtcars)
@@ -56,6 +57,7 @@ reg_intervals(mpg ~ I(1 / sqrt(disp)), data = mtcars)
 set.seed(1)
 reg_intervals(mpg ~ I(1 / sqrt(disp)), data = mtcars, keep_reps = TRUE)
 }
+\dontshow{\}) # examplesIf}
 }
 \references{
 Davison, A., & Hinkley, D. (1997). \emph{Bootstrap Methods and their

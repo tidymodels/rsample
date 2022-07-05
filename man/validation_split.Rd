@@ -65,10 +65,12 @@ which are then used to stratify. Strata below 10\% of the total are
 pooled together; see \code{\link[=make_strata]{make_strata()}} for more details.
 }
 \examples{
+\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 validation_split(mtcars, prop = .9)
 
 data(drinks, package = "modeldata")
 validation_time_split(drinks)
 
 group_validation_split(mtcars, cyl)
+\dontshow{\}) # examplesIf}
 }
