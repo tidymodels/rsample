@@ -71,6 +71,7 @@ which are then used to stratify. Strata below 10\% of the total are
 pooled together; see \code{\link[=make_strata]{make_strata()}} for more details.
 }
 \examples{
+\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 set.seed(1353)
 car_split <- initial_split(mtcars)
 train_data <- training(car_split)
@@ -92,5 +93,5 @@ set.seed(1353)
 car_split <- group_initial_split(mtcars, cyl)
 train_data <- training(car_split)
 test_data <- testing(car_split)
-
+\dontshow{\}) # examplesIf}
 }

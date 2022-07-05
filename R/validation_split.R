@@ -17,7 +17,7 @@
 #'  and `data.frame`. The results include a column for the data split objects
 #'  and a column called `id` that has a character string with the resample
 #'  identifier.
-#' @examples
+#' @examplesIf rlang::is_installed("modeldata")
 #' validation_split(mtcars, prop = .9)
 #'
 #' data(drinks, package = "modeldata")

@@ -60,6 +60,7 @@ will make the analysis data set to operate on \emph{weeks} instead of days. The
 assessment set size is not affected by this option.
 }
 \examples{
+\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 set.seed(1131)
 ex_data <- data.frame(row = 1:20, some_var = rnorm(20))
 dim(rolling_origin(ex_data))
@@ -81,6 +82,7 @@ multi_year_roll <- rolling_origin(drinks_annual, cumulative = FALSE)
 
 analysis(multi_year_roll$splits[[1]])
 assessment(multi_year_roll$splits[[1]])
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=sliding_window]{sliding_window()}}, \code{\link[=sliding_index]{sliding_index()}}, and \code{\link[=sliding_period]{sliding_period()}} for additional

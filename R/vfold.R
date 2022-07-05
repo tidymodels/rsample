@@ -26,7 +26,7 @@
 #'  For repeats, `id` is the repeat number and an additional column called `id2`
 #'  that contains the fold information (within repeat).
 #'
-#' @examples
+#' @examplesIf rlang::is_installed("modeldata")
 #' vfold_cv(mtcars, v = 10)
 #' vfold_cv(mtcars, v = 10, repeats = 2)
 #'
