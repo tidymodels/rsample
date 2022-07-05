@@ -20,8 +20,9 @@ group_vfold_cv(
 grouping observations with the same value to either the analysis or
 assessment set within a fold.}
 
-\item{v}{The number of partitions of the data set. If left as \code{NULL}, \code{v}
-will be set to the number of unique values in the group.}
+\item{v}{The number of partitions of the data set. If left as \code{NULL} (the
+default), \code{v} will be set to the number of unique values in the grouping
+variable, creating "leave-one-group-out" splits.}
 
 \item{repeats}{The number of times to repeat the V-fold partitioning.}
 
@@ -42,7 +43,7 @@ Group V-fold cross-validation creates splits of the data based
 on some grouping variable (which may have more than a single row
 associated with it). The function can create as many splits as
 there are unique values of the grouping variable or it can
-create a smaller set of splits where more than one value is left
+create a smaller set of splits where more than one group is left
 out at a time. A common use of this kind of resampling is when you have
 repeated measures of the same subject.
 }
@@ -59,5 +60,8 @@ group_vfold_cv(
   balance = "observations"
 )
 group_vfold_cv(ames, group = Neighborhood, v = 5, repeats = 2)
+
+# Leave-one-group-out CV
+group_vfold_cv(ames, group = Neighborhood)
 \dontshow{\}) # examplesIf}
 }
