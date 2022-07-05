@@ -9,6 +9,7 @@ group_vfold_cv(
   group = NULL,
   v = NULL,
   balance = c("groups", "observations"),
+  repeats = 1,
   ...
 )
 }
@@ -25,6 +26,8 @@ will be set to the number of unique values in the group.}
 \item{balance}{If \code{v} is less than the number of unique groups, how should
 groups be combined into folds? Should be one of
 \code{"groups"} or \code{"observations"}.}
+
+\item{repeats}{The number of times to repeat the V-fold partitioning.}
 
 \item{...}{Not currently used.}
 }
@@ -55,5 +58,6 @@ group_vfold_cv(
   v = 5,
   balance = "observations"
 )
+group_vfold_cv(ames, group = Neighborhood, v = 5, repeats = 2)
 \dontshow{\}) # examplesIf}
 }

@@ -79,6 +79,7 @@ test_that("bad args", {
   expect_error(vfold_cv(iris, strata = c("Species", "Sepal.Width")))
   expect_snapshot_error(vfold_cv(iris, v = -500))
   expect_snapshot_error(vfold_cv(iris, v = 500))
+  expect_snapshot_error(vfold_cv(iris, v = 150, repeats = 2))
 })
 
 test_that("printing", {
@@ -104,6 +105,8 @@ test_that("grouping -- bad args", {
   expect_error(group_vfold_cv(warpbreaks, group = "tensio"))
   expect_error(group_vfold_cv(warpbreaks))
   expect_error(group_vfold_cv(warpbreaks, group = "tension", v = 10))
+  expect_snapshot_error(group_vfold_cv(dat1, c, v = 4, repeats = 4))
+  expect_snapshot_error(group_vfold_cv(dat1, c, repeats = 4))
 })
 
 
@@ -216,6 +219,27 @@ test_that("grouping -- other balance methods", {
         unique(as.character(analysis(rs1$splits[[1]])$Neighborhood))
     )
   )
+
+})
+
+test_that("grouping -- repeated", {
+  set.seed(11)
+  rs2 <- group_vfold_cv(dat1, c, v = 3, repeats = 4)
+  sizes2 <- dim_rset(rs2)
+
+  same_data <-
+    purrr::map_lgl(rs2$splits, function(x) {
+      all.equal(x$data, dat1)
+    })
+  expect_true(all(same_data))
+
+  good_holdout <- purrr::map_lgl(
+    rs2$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
+  expect_true(all(good_holdout))
 
 })
 

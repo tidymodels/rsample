@@ -80,6 +80,22 @@ pretty.validation_split <- function(x, ...) {
 }
 
 #' @export
+pretty.group_validation_split <- function(x, ...) {
+  details <- attributes(x)
+  res <- paste0(
+    "Group Validation Set Split (",
+    signif(details$prop, 2),
+    "/",
+    signif(1 - details$prop, 2),
+    ") "
+  )
+  if (details$strata) {
+    res <- paste(res, "using stratification")
+  }
+  res
+}
+
+#' @export
 pretty.nested_cv <- function(x, ...) {
   details <- attributes(x)
 
@@ -118,6 +134,20 @@ pretty.bootstraps <- function(x, ...) {
 }
 
 #' @export
+pretty.group_bootstraps <- function(x, ...) {
+  details <- attributes(x)
+  res <- "Group bootstrap sampling"
+  if (details$strata) {
+    res <- paste(res, "using stratification")
+  }
+  if (details$apparent) {
+    res <- paste(res, "with apparent sample")
+  }
+  res
+}
+
+
+#' @export
 pretty.permutations <- function(x, ...) {
   details <- attributes(x)
   res <- "Permutation sampling"
@@ -137,7 +167,7 @@ pretty.group_vfold_cv <- function(x, ...) {
 pretty.group_mc_cv <- function(x, ...) {
   details <- attributes(x)
   res <- paste0(
-    "Grouped Monte Carlo cross-validation (",
+    "Group Monte Carlo cross-validation (",
     signif(details$prop, 2),
     "/",
     signif(1 - details$prop, 2),
@@ -171,9 +201,22 @@ print.bootstraps <- function(x, ...) {
 }
 
 #' @export
+print.group_bootstraps <- function(x, ...) {
+  cat("#", pretty(x), "\n")
+  class(x) <- class(x)[!(class(x) %in% c("group_bootstraps",
+                                         "bootstraps",
+                                         "group_rset",
+                                         "rset"))]
+  print(x, ...)
+}
+
+#' @export
 print.group_vfold_cv <- function(x, ...) {
   cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("group_vfold_cv", "rset"))]
+  class(x) <- class(x)[!(class(x) %in% c("group_vfold_cv",
+                                         "vfold_cv",
+                                         "group_rset",
+                                         "rset"))]
   print(x, ...)
 }
 
@@ -270,6 +313,17 @@ print.validation_split <- function(x, ...) {
 }
 
 #' @export
+print.group_validation_split <- function(x, ...) {
+  cat("#", pretty(x), "\n")
+  class(x) <- class(x)[!(class(x) %in% c("group_validation_split",
+                                         "validation_split",
+                                         "group_rset",
+                                         "rset"))]
+  print(x, ...)
+}
+
+
+#' @export
 print.val_split <- function(x, ...) {
   if (is_missing_out_id(x)) {
     out_char <- paste(length(complement(x)))
@@ -289,7 +343,10 @@ print.val_split <- function(x, ...) {
 #' @export
 print.group_mc_cv <- function(x, ...) {
   cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("group_mc_cv", "rset"))]
+  class(x) <- class(x)[!(class(x) %in% c("group_mc_cv",
+                                         "group_rset",
+                                         "mc_cv",
+                                         "rset"))]
   print(x, ...)
 }
 

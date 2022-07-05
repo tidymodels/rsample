@@ -78,6 +78,11 @@ vfold_cv <- function(data, v = 10, repeats = 1,
       strata = strata, breaks = breaks, pool = pool
     )
   } else {
+    if (v == nrow(data)) {
+      rlang::abort(
+        glue::glue("Repeated resampling when `v` is {v} would create identical resamples")
+      )
+    }
     for (i in 1:repeats) {
       tmp <- vfold_splits(data = data, v = v, strata = strata, pool = pool)
       tmp$id2 <- tmp$id
@@ -174,14 +179,38 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
 #'   v = 5,
 #'   balance = "observations"
 #' )
+#' group_vfold_cv(ames, group = Neighborhood, v = 5, repeats = 2)
 #'
 #' @export
-group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "observations"), ...) {
+group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "observations"), repeats = 1, ...) {
 
   group <- validate_group({{ group }}, data)
   balance <- rlang::arg_match(balance)
 
-  split_objs <- group_vfold_splits(data = data, group = group, v = v, balance = balance)
+  if (repeats == 1) {
+    split_objs <- group_vfold_splits(data = data, group = group, v = v, balance = balance)
+  } else {
+    if (is.null(v)) {
+      rlang::abort(
+        "Repeated resampling when `v` is `NULL` would create identical resamples"
+      )
+    }
+    if (v == length(unique(getElement(data, group)))) {
+      rlang::abort(
+        glue::glue("Repeated resampling when `v` is {v} would create identical resamples")
+      )
+    }
+    for (i in 1:repeats) {
+      tmp <- group_vfold_splits(data = data, group = group, v = v, balance = balance)
+      tmp$id2 <- tmp$id
+      tmp$id <- names0(repeats, "Repeat")[i]
+      split_objs <- if (i == 1) {
+        tmp
+      } else {
+        rbind(split_objs, tmp)
+      }
+    }
+  }
 
   ## We remove the holdout indices since it will save space and we can
   ## derive them later when they are needed.
@@ -195,13 +224,13 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "
 
   ## Save some overall information
 
-  cv_att <- list(v = v, group = group, balance = balance)
+  cv_att <- list(v = v, group = group, balance = balance, repeats = 1, strata = FALSE)
 
   new_rset(
     splits = split_objs$splits,
     ids = split_objs[, grepl("^id", names(split_objs))],
     attrib = cv_att,
-    subclass = c("group_vfold_cv", "rset")
+    subclass = c("group_vfold_cv", "vfold_cv", "group_rset", "rset")
   )
 }
 
@@ -213,7 +242,7 @@ group_vfold_splits <- function(data, group, v = NULL, balance) {
   if (is.null(v)) {
     v <- max_v
   } else {
-    check_v(v = v, max_v = max_v, rows = "rows", call = rlang::caller_env())
+    check_v(v = v, max_v = max_v, rows = "groups", call = rlang::caller_env())
   }
 
   indices <- make_groups(data, group, v, balance)
@@ -222,7 +251,7 @@ group_vfold_splits <- function(data, group, v = NULL, balance) {
     purrr::map(indices,
                make_splits,
                data = data,
-               class = "group_vfold_split"
+               class = c("group_vfold_split", "vfold_split")
     )
   tibble::tibble(
     splits = split_objs,

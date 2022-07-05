@@ -109,7 +109,7 @@ group_initial_split <- function(data, group, prop = 3 / 4, ...) {
       ...
     )
   res <- res$splits[[1]]
-  class(res) <- c("initial_split", class(res))
+  class(res) <- c("group_initial_split", "initial_split", class(res))
   res
 
 }

@@ -120,7 +120,7 @@ group_validation_split <- function(data, group, prop = 3 / 4, ...) {
   ## derive them later when they are needed.
 
   split_objs$splits <- map(split_objs$splits, rm_out)
-  class(split_objs$splits[[1]]) <- c("val_split", "rsplit")
+  class(split_objs$splits[[1]]) <- c("group_val_split", "val_split", "rsplit")
 
   val_att <- list(
     prop = prop,
@@ -132,7 +132,7 @@ group_validation_split <- function(data, group, prop = 3 / 4, ...) {
     splits = split_objs$splits,
     ids = "validation",
     attrib = val_att,
-    subclass = c("validation_split", "rset")
+    subclass = c("group_validation_split", "validation_split", "group_rset", "rset")
   )
 }
 

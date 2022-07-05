@@ -2,6 +2,8 @@
 
 * Added arguments to control how `group_vfold_cv()` combines groups. Use `balance = "groups"` to assign (roughly) the same number of groups to each fold, or `balance = "observations"` to assign (roughly) the same number of observations to each fold.
 
+* Added a `repeats` argument to `group_vfold_cv()` (#330).
+
 * Added new functions for grouped resampling: `group_mc_cv()` (#313), `group_initial_split()` and `group_validation_split()` (#315), and `group_bootstraps()` (#316).
 
 * Added a new function, `reverse_splits()`, to swap analysis and assessment splits (#319, #284).
