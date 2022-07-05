@@ -92,8 +92,8 @@ repeated measures of the same subject.</p>
 <span>  <span class="va">data</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  v <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  balance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"groups"</span>, <span class="st">"observations"</span><span class="op">)</span>,</span>
 <span>  repeats <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  balance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"groups"</span>, <span class="st">"observations"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -115,14 +115,14 @@ assessment set within a fold.</p></dd>
 will be set to the number of unique values in the group.</p></dd>
 
 
+<dt>repeats</dt>
+<dd><p>The number of times to repeat the V-fold partitioning.</p></dd>
+
+
 <dt>balance</dt>
 <dd><p>If <code>v</code> is less than the number of unique groups, how should
 groups be combined into folds? Should be one of
 <code>"groups"</code> or <code>"observations"</code>.</p></dd>
-
-
-<dt>repeats</dt>
-<dd><p>The number of times to repeat the V-fold partitioning.</p></dd>
 
 
 <dt>...</dt>
