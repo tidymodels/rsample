@@ -1,6 +1,9 @@
 test_that("reverse_splits is working", {
   skip_if_not(rlang::is_installed("withr"))
-  for (x in rset_subclasses) {
+
+  reversable_subclasses <- setdiff(names(rset_subclasses), "permutations")
+  reversable_subclasses <- rset_subclasses[reversable_subclasses]
+  for (x in reversable_subclasses) {
 
     set.seed(123)
     rev_x <- reverse_splits(x)

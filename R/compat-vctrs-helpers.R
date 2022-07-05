@@ -137,7 +137,8 @@ delayedAssign("rset_subclasses", {
         sliding_index          = sliding_index(test_data(), index),
         sliding_period         = sliding_period(test_data(), index, "week"),
         manual_rset            = manual_rset(bootstraps(test_data())$splits[1:2], c("ID1", "ID2")),
-        apparent               = apparent(test_data())
+        apparent               = apparent(test_data()),
+        permutations           = permutations(test_data(), y)
       )
     )
   } else {
