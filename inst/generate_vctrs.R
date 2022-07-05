@@ -15,6 +15,6 @@ for (name in names(rset_subclasses)) {
   )
   writeLines(
     generated_template,
-    file.path("R", paste0("z-compat-vctrs-", name, ".R"))
+    file.path("R", paste0("zzz-compat-vctrs-", name, ".R"))
   )
 }
