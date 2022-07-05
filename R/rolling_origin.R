@@ -34,7 +34,7 @@
 #'  and `data.frame`. The results include a column for the data split objects
 #'  and a column called `id` that has a character string with the resample
 #'  identifier.
-#' @examples
+#' @examplesIf rlang::is_installed("modeldata")
 #' set.seed(1131)
 #' ex_data <- data.frame(row = 1:20, some_var = rnorm(20))
 #' dim(rolling_origin(ex_data))

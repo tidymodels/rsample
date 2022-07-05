@@ -28,6 +28,7 @@ test_that("default time param with lag", {
   expect_equal(tr1, dplyr::slice(dat1, 1:floor(nrow(dat1) * 3 / 4)))
   expect_equal(ts1, dat1[(floor(nrow(dat1) * 3 / 4) + 1 - 5):nrow(dat1), ])
 
+  skip_if_not(rlang::is_installed("modeldata"))
   data(drinks, package = "modeldata")
 
   # Whole numbers only

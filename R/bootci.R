@@ -204,7 +204,7 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'  Application_. Cambridge: Cambridge University Press.
 #'  doi:10.1017/CBO9780511802843
 #'
-#' @examples
+#' @examplesIf rlang::is_installed("broom")
 #' \donttest{
 #' library(broom)
 #' library(dplyr)

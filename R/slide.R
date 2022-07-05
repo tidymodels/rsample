@@ -127,7 +127,7 @@
 #'
 #' @name slide-resampling
 #'
-#' @examples
+#' @examplesIf rlang::is_installed("modeldata")
 #' library(vctrs)
 #' library(tibble)
 #' library(modeldata)

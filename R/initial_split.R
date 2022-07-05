@@ -14,7 +14,7 @@
 #' @export
 #' @return An `rsplit` object that can be used with the `training` and `testing`
 #'  functions to extract the data in each split.
-#' @examples
+#' @examplesIf rlang::is_installed("modeldata")
 #' set.seed(1353)
 #' car_split <- initial_split(mtcars)
 #' train_data <- training(car_split)

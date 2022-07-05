@@ -44,6 +44,7 @@ test_that("repeated", {
 
 test_that("strata", {
   set.seed(11)
+  skip_if_not(rlang::is_installed("modeldata"))
   data("mlc_churn", package = "modeldata")
   rs3 <- vfold_cv(mlc_churn, repeats = 2, strata = "voice_mail_plan")
   sizes3 <- dim_rset(rs3)
@@ -188,6 +189,7 @@ test_that("grouping -- tibble input", {
 })
 
 test_that("grouping -- other balance methods", {
+  skip_if_not(rlang::is_installed("modeldata"))
   data(ames, package = "modeldata")
   set.seed(11)
   rs1 <- group_vfold_cv(
