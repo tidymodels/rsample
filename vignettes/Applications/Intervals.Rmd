@@ -10,11 +10,18 @@ output:
 
 
 ```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  eval = rlang::is_installed("ggplot2") && rlang::is_installed("modeldata")
+)
+```
+
+```{r package_setup, include = FALSE}
 library(tidymodels)
 library(nlstools)
 library(GGally)
 theme_set(theme_bw())
 ```
+
 
 The bootstrap was originally intended for estimating confidence intervals for complex statistics whose variance properties are difficult to analytically derive. Davison and Hinkley's [_Bootstrap Methods and Their Application_](https://www.cambridge.org/core/books/bootstrap-methods-and-their-application/ED2FD043579F27952363566DC09CBD6A) is a great resource for these methods. `rsample` contains a few function to compute the most common types of intervals. 
 

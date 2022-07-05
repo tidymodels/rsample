@@ -9,6 +9,9 @@ output:
 ---
 
 ```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  eval = rlang::is_installed("ggplot2") && rlang::is_installed("modeldata")
+)
 options(digits = 3)
 library(rsample)
 library(recipes)

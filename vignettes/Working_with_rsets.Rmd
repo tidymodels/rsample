@@ -13,12 +13,17 @@ knitr::opts_chunk$set(
   message = FALSE,
   digits = 3,
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = rlang::is_installed("ggplot2") && rlang::is_installed("modeldata")
   )
 options(digits = 3, width = 90)
+```
+
+```{r ggplot2_setup, include = FALSE}
 library(ggplot2)
 theme_set(theme_bw())
 ```
+
 
 ## Introduction  
 
