@@ -37,7 +37,7 @@ test_that("reshuffle_rset is working", {
 
   skip_if_not(rlang::is_installed("withr"))
   supported_subclasses <- rset_subclasses[
-    setdiff(names(rset_subclasses), "manual_rset")
+    setdiff(names(rset_subclasses), c("manual_rset"))
   ]
 
   # Reshuffling with the same seed, in the same order,
@@ -71,7 +71,7 @@ test_that("reshuffle_rset is working", {
         data = test_data(),
         strata = "y",
         breaks = 2,
-        pool = 0.2
+        pool = 0.1
       )
     )
     set.seed(123)

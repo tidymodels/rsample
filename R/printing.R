@@ -9,7 +9,7 @@ pretty.vfold_cv <- function(x, ...) {
   if (details$repeats > 1) {
     res <- paste(res, "repeated", details$repeats, "times")
   }
-  if (details$strata) {
+  if (!identical(details$strata, FALSE)) {
     res <- paste(res, "using stratification")
   }
   res
@@ -57,7 +57,7 @@ pretty.mc_cv <- function(x, ...) {
     details$times,
     " resamples "
   )
-  if (details$strata) {
+  if (!identical(details$strata, FALSE)) {
     res <- paste(res, "using stratification")
   }
   res
@@ -73,7 +73,7 @@ pretty.validation_split <- function(x, ...) {
     signif(1 - details$prop, 2),
     ") "
   )
-  if (details$strata) {
+  if (!identical(details$strata, FALSE)) {
     res <- paste(res, "using stratification")
   }
   res
@@ -89,7 +89,7 @@ pretty.group_validation_split <- function(x, ...) {
     signif(1 - details$prop, 2),
     ") "
   )
-  if (details$strata) {
+  if (!identical(details$strata, FALSE)) {
     res <- paste(res, "using stratification")
   }
   res
@@ -124,7 +124,7 @@ pretty.nested_cv <- function(x, ...) {
 pretty.bootstraps <- function(x, ...) {
   details <- attributes(x)
   res <- "Bootstrap sampling"
-  if (details$strata) {
+  if (!identical(details$strata, FALSE)) {
     res <- paste(res, "using stratification")
   }
   if (details$apparent) {
@@ -137,7 +137,7 @@ pretty.bootstraps <- function(x, ...) {
 pretty.group_bootstraps <- function(x, ...) {
   details <- attributes(x)
   res <- "Group bootstrap sampling"
-  if (details$strata) {
+  if (!identical(details$strata, FALSE)) {
     res <- paste(res, "using stratification")
   }
   if (details$apparent) {

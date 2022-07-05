@@ -76,7 +76,8 @@ permutations <- function(data,
   perm_att <- list(
     times = times,
     apparent = apparent,
-    col_id = col_id
+    col_id = col_id,
+    permute = names(col_id)
   )
 
   new_rset(

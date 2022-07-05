@@ -250,6 +250,11 @@ reshuffle_rset <- function(rset) {
   useful_arguments <- useful_arguments[!is.na(names(useful_arguments))]
   if (identical(useful_arguments$strata, FALSE)) {
     useful_arguments$strata <- NULL
+  } else if (identical(useful_arguments$strata, TRUE)) {
+    rlang::abort(
+      "Cannot reshuffle this rset (`attr(rset, 'strata')` is `TRUE`, not a column identifier)",
+      i = "If the original object was created with an older version of rsample, try recreating it with the newest version of the package"
+    )
   }
 
   do.call(

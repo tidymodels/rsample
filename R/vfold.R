@@ -102,7 +102,15 @@ vfold_cv <- function(data, v = 10, repeats = 1,
 
   ## Save some overall information
 
-  cv_att <- list(v = v, repeats = repeats, strata = !is.null(strata))
+  if (is.null(strata)) strata <- FALSE
+  names(strata) <- NULL
+  cv_att <- list(
+    v = v,
+    repeats = repeats,
+    strata = strata,
+    breaks = breaks,
+    pool = pool
+  )
 
   new_rset(
     splits = split_objs$splits,

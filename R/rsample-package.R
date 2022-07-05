@@ -21,7 +21,6 @@ NULL
 #' @importFrom tidyselect vars_select one_of
 #' @importFrom furrr future_map_dfr
 #' @importFrom tidyr gather
-#' @importFrom withr with_seed
 
 #------------------------------------------------------------------------------#
 
