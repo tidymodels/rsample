@@ -151,13 +151,14 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
 #'  on some grouping variable (which may have more than a single row
 #'  associated with it). The function can create as many splits as
 #'  there are unique values of the grouping variable or it can
-#'  create a smaller set of splits where more than one value is left
+#'  create a smaller set of splits where more than one group is left
 #'  out at a time. A common use of this kind of resampling is when you have
 #'  repeated measures of the same subject.
 #'
 #' @inheritParams vfold_cv
-#' @param v The number of partitions of the data set. If left as `NULL`, `v`
-#'  will be set to the number of unique values in the group.
+#' @param v The number of partitions of the data set. If left as `NULL` (the
+#'   default), `v` will be set to the number of unique values in the grouping
+#'   variable, creating "leave-one-group-out" splits.
 #' @param balance If `v` is less than the number of unique groups, how should
 #'  groups be combined into folds? Should be one of
 #'  `"groups"` or `"observations"`.
@@ -180,6 +181,9 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
 #'   balance = "observations"
 #' )
 #' group_vfold_cv(ames, group = Neighborhood, v = 5, repeats = 2)
+#'
+#' # Leave-one-group-out CV
+#' group_vfold_cv(ames, group = Neighborhood)
 #'
 #' @export
 group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = c("groups", "observations"), ...) {
