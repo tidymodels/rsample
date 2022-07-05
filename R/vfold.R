@@ -182,7 +182,7 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
 #' group_vfold_cv(ames, group = Neighborhood, v = 5, repeats = 2)
 #'
 #' @export
-group_vfold_cv <- function(data, group = NULL, v = NULL, balance = c("groups", "observations"), repeats = 1, ...) {
+group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = c("groups", "observations"), ...) {
 
   group <- validate_group({{ group }}, data)
   balance <- rlang::arg_match(balance)
