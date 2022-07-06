@@ -1,5 +1,12 @@
 # rsample (development version)
 
+* rset objects should now always have all parameters used to create them as
+attributes (#329).
+
+* Objects returned by sliding functions now have an `index` attribute, where appropriate, containing the column name used as an index (#329).
+
+* Objects returned by `permutations()` now have a `permutes` attribute containing the column name used for permutation (#329).
+
 * Added `break` and `pool` as attributes to all functions which support stratification (#329).
 
 * Changed the "strata" attribute on rset objects so that it now is either a character vector identifying the column used to stratify the data, or `FALSE` if stratification was not used. (#329)
