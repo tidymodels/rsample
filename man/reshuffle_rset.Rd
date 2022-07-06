@@ -13,7 +13,7 @@ reshuffle_rset(rset)
 An rset of the same class as \code{rset}.
 }
 \description{
-This function re-generates an rset object, using the same arguments as used
+This function re-generates an rset object, using the same arguments used
 to generate the original.
 }
 \examples{

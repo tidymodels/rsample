@@ -1,7 +1,6 @@
 # rsample (development version)
 
-* rset objects should now always have all parameters used to create them as
-attributes (#329).
+* rset objects now include all parameters used to create them as attributes (#329).
 
 * Objects returned by sliding functions now have an `index` attribute, where appropriate, containing the column name used as an index (#329).
 
@@ -128,7 +127,7 @@ attributes (#329).
 
 # `rsample` 0.0.4
 
-Small maintenence release. 
+Small maintenance release. 
 
 ## Minor improvements and fixes
 
