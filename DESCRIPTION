@@ -50,7 +50,6 @@ VignetteBuilder:
     knitr
 Config/Needs/website: 
     GGally,
-    mlbench,
     nlstools, 
     tidymodels,
     tidyverse/tidytemplate
