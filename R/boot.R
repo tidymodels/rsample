@@ -88,9 +88,7 @@ bootstraps <-
       split_objs <- bind_rows(split_objs, apparent(data))
     }
 
-    if (is.null(strata)) strata <- FALSE
-    names(strata) <- NULL
-
+    if (!is.null(strata)) names(strata) <- NULL
     boot_att <- list(
       times = times,
       apparent = apparent,

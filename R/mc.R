@@ -73,9 +73,7 @@ mc_cv <- function(data, prop = 3 / 4, times = 25,
 
   split_objs$splits <- map(split_objs$splits, rm_out)
 
-  if (is.null(strata)) strata <- FALSE
-  names(strata) <- NULL
-
+  if (!is.null(strata)) names(strata) <- NULL
   mc_att <- list(
     prop = prop,
     times = times,

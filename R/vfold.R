@@ -102,8 +102,7 @@ vfold_cv <- function(data, v = 10, repeats = 1,
 
   ## Save some overall information
 
-  if (is.null(strata)) strata <- FALSE
-  names(strata) <- NULL
+  if (!is.null(strata)) names(strata) <- NULL
   cv_att <- list(
     v = v,
     repeats = repeats,
