@@ -1,5 +1,17 @@
 # rsample (development version)
 
+* rset objects now include all parameters used to create them as attributes (#329).
+
+* Objects returned by sliding functions now have an `index` attribute, where appropriate, containing the column name used as an index (#329).
+
+* Objects returned by `permutations()` now have a `permutes` attribute containing the column name used for permutation (#329).
+
+* Added `break` and `pool` as attributes to all functions which support stratification (#329).
+
+* Changed the "strata" attribute on rset objects so that it now is either a character vector identifying the column used to stratify the data, and is not present (set to `NULL`) if stratification was not used. (#329)
+
+* Added a new function, `reshuffle_rset()`, which takes an `rset` object and generates a new version of it using the same arguments but the current random seed. (#79, #329)
+
 * Added arguments to control how `group_vfold_cv()` combines groups. Use `balance = "groups"` to assign (roughly) the same number of groups to each fold, or `balance = "observations"` to assign (roughly) the same number of observations to each fold.
 
 * Added a `repeats` argument to `group_vfold_cv()` (#330).
@@ -115,7 +127,7 @@
 
 # `rsample` 0.0.4
 
-Small maintenence release. 
+Small maintenance release. 
 
 ## Minor improvements and fixes
 

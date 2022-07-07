@@ -219,3 +219,46 @@ reverse_splits.rset <- function(x, ...) {
 
   x
 }
+
+#' "Reshuffle" an rset to re-generate a new rset with the same parameters
+#'
+#' This function re-generates an rset object, using the same arguments used
+#' to generate the original.
+#'
+#' @param rset The `rset` object to be reshuffled
+#'
+#' @return An rset of the same class as `rset`.
+#'
+#' @examples
+#' set.seed(123)
+#' (starting_splits <- group_vfold_cv(mtcars, cyl, v = 3))
+#' reshuffle_rset(starting_splits)
+#'
+#' @export
+reshuffle_rset <- function(rset) {
+  if (!inherits(rset, "rset")) {
+    rlang::abort("`rset` must be an rset object")
+  }
+
+  if (inherits(rset, "manual_rset")) {
+    rlang::abort("`manual_rset` objects cannot be reshuffled")
+  }
+
+  arguments <- attributes(rset)
+  useful_arguments <- names(formals(arguments$class[[1]]))
+  useful_arguments <- arguments[useful_arguments]
+  useful_arguments <- useful_arguments[!is.na(names(useful_arguments))]
+  if (identical(useful_arguments$strata, FALSE)) {
+    useful_arguments$strata <- NULL
+  } else if (identical(useful_arguments$strata, TRUE)) {
+    rlang::abort(
+      "Cannot reshuffle this rset (`attr(rset, 'strata')` is `TRUE`, not a column identifier)",
+      i = "If the original object was created with an older version of rsample, try recreating it with the newest version of the package"
+    )
+  }
+
+  do.call(
+    arguments$class[[1]],
+    c(list(data = rset$splits[[1]]$data), useful_arguments)
+  )
+}

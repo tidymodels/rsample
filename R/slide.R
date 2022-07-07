@@ -312,6 +312,7 @@ sliding_index <- function(data,
     rlang::abort("`index` must specify exactly one column in `data`.")
   }
 
+  index_attrib <- index
   index <- data[[loc]]
 
   seq <- vctrs::vec_seq_along(data)
@@ -352,6 +353,7 @@ sliding_index <- function(data,
   ids <- names0(length(indices), prefix = "Slice")
 
   attrib <- list(
+    index = index_attrib,
     lookback = lookback,
     assess_start = assess_start,
     assess_stop = assess_stop,
@@ -406,6 +408,7 @@ sliding_period <- function(data,
     rlang::abort("`index` must specify exactly one column in `data`.")
   }
 
+  index_attrib <- index
   index <- data[[loc]]
 
   seq <- vctrs::vec_seq_along(data)
@@ -452,6 +455,7 @@ sliding_period <- function(data,
   ids <- names0(length(indices), prefix = "Slice")
 
   attrib <- list(
+    index = index_attrib,
     period = period,
     lookback = lookback,
     assess_start = assess_start,

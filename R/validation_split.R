@@ -52,9 +52,12 @@ validation_split <- function(data, prop = 3 / 4,
   split_objs$splits <- map(split_objs$splits, rm_out)
   class(split_objs$splits[[1]]) <- c("val_split", "rsplit")
 
+  if (!is.null(strata)) names(strata) <- NULL
   val_att <- list(
     prop = prop,
-    strata = !is.null(strata)
+    strata = strata,
+    breaks = breaks,
+    pool = pool
   )
 
   new_rset(
