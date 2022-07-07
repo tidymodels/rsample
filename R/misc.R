@@ -222,7 +222,7 @@ reverse_splits.rset <- function(x, ...) {
 
 #' "Reshuffle" an rset to re-generate a new rset with the same parameters
 #'
-#' This function re-generates an rset object, using the same arguments as used
+#' This function re-generates an rset object, using the same arguments used
 #' to generate the original.
 #'
 #' @param rset The `rset` object to be reshuffled
