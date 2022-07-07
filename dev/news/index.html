@@ -65,7 +65,13 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="rsample-development-version">rsample (development version)<a class="anchor" aria-label="anchor" href="#rsample-development-version"></a></h2>
-<ul><li><p>Added arguments to control how <code><a href="../reference/group_vfold_cv.html">group_vfold_cv()</a></code> combines groups. Use <code>balance = "groups"</code> to assign (roughly) the same number of groups to each fold, or <code>balance = "observations"</code> to assign (roughly) the same number of observations to each fold.</p></li>
+<ul><li><p>rset objects now include all parameters used to create them as attributes (<a href="https://github.com/tidymodels/rsample/issues/329" class="external-link">#329</a>).</p></li>
+<li><p>Objects returned by sliding functions now have an <code>index</code> attribute, where appropriate, containing the column name used as an index (<a href="https://github.com/tidymodels/rsample/issues/329" class="external-link">#329</a>).</p></li>
+<li><p>Objects returned by <code><a href="../reference/permutations.html">permutations()</a></code> now have a <code>permutes</code> attribute containing the column name used for permutation (<a href="https://github.com/tidymodels/rsample/issues/329" class="external-link">#329</a>).</p></li>
+<li><p>Added <code><a href="https://rdrr.io/r/base/Control.html" class="external-link">break</a></code> and <code>pool</code> as attributes to all functions which support stratification (<a href="https://github.com/tidymodels/rsample/issues/329" class="external-link">#329</a>).</p></li>
+<li><p>Changed the “strata” attribute on rset objects so that it now is either a character vector identifying the column used to stratify the data, and is not present (set to <code>NULL</code>) if stratification was not used. (<a href="https://github.com/tidymodels/rsample/issues/329" class="external-link">#329</a>)</p></li>
+<li><p>Added a new function, <code><a href="../reference/reshuffle_rset.html">reshuffle_rset()</a></code>, which takes an <code>rset</code> object and generates a new version of it using the same arguments but the current random seed. (<a href="https://github.com/tidymodels/rsample/issues/79" class="external-link">#79</a>, <a href="https://github.com/tidymodels/rsample/issues/329" class="external-link">#329</a>)</p></li>
+<li><p>Added arguments to control how <code><a href="../reference/group_vfold_cv.html">group_vfold_cv()</a></code> combines groups. Use <code>balance = "groups"</code> to assign (roughly) the same number of groups to each fold, or <code>balance = "observations"</code> to assign (roughly) the same number of observations to each fold.</p></li>
 <li><p>Added a <code>repeats</code> argument to <code><a href="../reference/group_vfold_cv.html">group_vfold_cv()</a></code> (<a href="https://github.com/tidymodels/rsample/issues/330" class="external-link">#330</a>).</p></li>
 <li><p>Added new functions for grouped resampling: <code><a href="../reference/group_mc_cv.html">group_mc_cv()</a></code> (<a href="https://github.com/tidymodels/rsample/issues/313" class="external-link">#313</a>), <code><a href="../reference/initial_split.html">group_initial_split()</a></code> and <code><a href="../reference/validation_split.html">group_validation_split()</a></code> (<a href="https://github.com/tidymodels/rsample/issues/315" class="external-link">#315</a>), and <code><a href="../reference/group_bootstraps.html">group_bootstraps()</a></code> (<a href="https://github.com/tidymodels/rsample/issues/316" class="external-link">#316</a>).</p></li>
 <li><p>Added a new function, <code><a href="../reference/reverse_splits.html">reverse_splits()</a></code>, to swap analysis and assessment splits (<a href="https://github.com/tidymodels/rsample/issues/319" class="external-link">#319</a>, <a href="https://github.com/tidymodels/rsample/issues/284" class="external-link">#284</a>).</p></li>
@@ -143,7 +149,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.4" id="rsample-004">
 <code>rsample</code> 0.0.4<a class="anchor" aria-label="anchor" href="#rsample-004"></a></h2><p class="text-muted">CRAN release: 2019-01-07</p>
-<p>Small maintenence release.</p>
+<p>Small maintenance release.</p>
 <div class="section level3">
 <h3 id="minor-improvements-and-fixes-0-0-4">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-0-0-4"></a></h3>
 <ul><li>

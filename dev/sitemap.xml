@@ -118,6 +118,9 @@
     <loc>https://rsample.tidymodels.org/dev/reference/reg_intervals.html</loc>
   </url>
   <url>
+    <loc>https://rsample.tidymodels.org/dev/reference/reshuffle_rset.html</loc>
+  </url>
+  <url>
     <loc>https://rsample.tidymodels.org/dev/reference/reverse_splits.html</loc>
   </url>
   <url>
