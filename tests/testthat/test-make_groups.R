@@ -28,3 +28,18 @@ test_that("grouped variants have the same classes as nongrouped outputs", {
   )
 
 })
+
+test_that("grouped variants are consistent across R sessions", {
+  skip_if_not(rlang::is_installed("withr"))
+  grouped_variants <- grep("^group_", names(rset_subclasses), value = TRUE)
+
+  for (x in grouped_variants) {
+    withr::with_seed(
+      123,
+      rs <- do.call(x, list(data = dplyr::starwars, group = "name"))
+    )
+    expect_snapshot(
+      analysis(rs$splits[[1]])
+    )
+  }
+})
