@@ -164,11 +164,17 @@ unique(training(resample)$Tree)
 unique(testing(resample)$Tree)
 ```
 
-It's important to note that, while functions like `group_mc_cv()` and `group_validation_set()` still let you specify what proportion of your data should be in the analysis set (and `group_bootstraps()` still attempts to create analysis sets the same size as your original data), rsample won't "split" groups in order to exactly meet that proportion. That means that you can wind up with very differently sized analysis and assessment sets than anticipated, especially if your groups are unbalanced:
+It's important to note that, while functions like `group_mc_cv()` and `group_validation_set()` still let you specify what proportion of your data should be in the analysis set (and `group_bootstraps()` still attempts to create analysis sets the same size as your original data), rsample won't "split" groups in order to exactly meet that proportion. These functions start out by assigning one group at random to each set (or, for `group_vfold_cv()`, to each fold) and then assign each of the remaining groups, in a random order, to whichever set brings the relative sizes of each set closest to the target proportion. That means that resamples are randomized, and you can safely use repeated cross-validation just as you would with ungrouped resampling, but also means you can wind up with very differently sized analysis and assessment sets than anticipated if your groups are unbalanced:
 
 ```{r}
 set.seed(1)
 group_bootstraps(ames, Neighborhood, times = 2)
+```
+
+While most of the grouped resampling functions are always focused on balancing the proportion of data in the analysis set, by default `group_vfold_cv()` will attempt to balance the number of groups assigned to each fold. If instead you'd like to balance the number of observations in each fold (meaning your assessment sets will be of similar sizes, but smaller groups will be more likely to be assigned to the same folds than would happen under random chance), you can use the argument `balance = "observations"`:
+
+```{r}
+group_vfold_cv(ames, Neighborhood, balance = "observations", v = 2)
 ```
 
 If you're working with spatial data, your observations will often be more related to their neighbors than to the rest of the data set; as [Tobler's first law of geography](https://en.wikipedia.org/wiki/Tobler%27s_first_law_of_geography) puts it, "everything is related to everything else, but near things are more related than distant things." However, you often won't have a pre-defined "location" variable that you can use to group related observations. The [spatialsample](https://spatialsample.tidymodels.org/) package provides functions for spatial cross-validation using rsample syntax and classes, and is often useful for these situations.

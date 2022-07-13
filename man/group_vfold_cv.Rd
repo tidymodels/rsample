@@ -28,7 +28,9 @@ variable, creating "leave-one-group-out" splits.}
 
 \item{balance}{If \code{v} is less than the number of unique groups, how should
 groups be combined into folds? Should be one of
-\code{"groups"} or \code{"observations"}.}
+\code{"groups"}, which will assign roughly the same number of groups to each
+fold, or \code{"observations"}, which will assign roughly the same number of
+observations to each fold.}
 
 \item{...}{Not currently used.}
 }

@@ -168,7 +168,9 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
 #'   variable, creating "leave-one-group-out" splits.
 #' @param balance If `v` is less than the number of unique groups, how should
 #'  groups be combined into folds? Should be one of
-#'  `"groups"` or `"observations"`.
+#'  `"groups"`, which will assign roughly the same number of groups to each
+#'  fold, or `"observations"`, which will assign roughly the same number of
+#'  observations to each fold.
 #' @inheritParams make_groups
 #'
 #' @export
