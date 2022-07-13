@@ -56,11 +56,11 @@
       # A tibble: 5 x 2
         splits             id       
         <list>             <chr>    
-      1 <split [2345/585]> Resample1
-      2 <split [2290/640]> Resample2
+      1 <split [2364/566]> Resample1
+      2 <split [2371/559]> Resample2
       3 <split [2360/570]> Resample3
-      4 <split [2344/586]> Resample4
-      5 <split [2381/549]> Resample5
+      4 <split [2278/652]> Resample4
+      5 <split [2347/583]> Resample5
 
 # grouping -- printing
 

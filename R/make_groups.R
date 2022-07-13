@@ -77,7 +77,7 @@ balance_observations <- function(data_ind, v, ...) {
   n_obs <- nrow(data_ind)
   target_per_fold <- 1 / v
 
-  freq_table <- vec_count(data_ind$..group)
+  freq_table <- vec_count(data_ind$..group, sort = "location")
   freq_table <- freq_table[sample.int(nrow(freq_table)), ]
   freq_table$assignment <- NA
   freq_table$assignment[seq_len(v)] <- seq_len(v)
@@ -115,7 +115,7 @@ balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
   }
   n_obs <- nrow(data_ind)
 
-  freq_table <- vec_count(data_ind$..group)
+  freq_table <- vec_count(data_ind$..group, sort = "location")
 
   n <- nrow(freq_table)
   # If sampling with replacement,
