@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-rsample provides a number of resampling methods which are broadly applicable to a wide variety of modeling applications. This vignette walks through the most popular methods in the package, with brief descriptions of how they can be applied. For a more in-depth overview of resampling, check out the [matching chapter in Tidy Modeling with R](https://www.tmwr.org/resampling.html).
+rsample provides a number of resampling methods which are broadly applicable to a wide variety of modeling applications. This vignette walks through the most popular methods in the package, with brief descriptions of how they can be applied. For a more in-depth overview of resampling, check out the matching chapters in [Tidy Modeling with R](https://www.tmwr.org/resampling.html) and [Feature Engineering and Selection](http://www.feat.engineering/resampling.html).
 
 Let's go ahead and load rsample now:
 
@@ -25,7 +25,7 @@ library(rsample)
 
 As well as dplyr, for the pipe operator `%>%`:
 
-```{r}
+```{r message=FALSE}
 library(dplyr)
 ```
 
@@ -80,7 +80,7 @@ head(testing(resample), 2)
 
 ### Validation Splits
 
-You shouldn't evaluate your model against the "testing" data until you've completely finished tuning and training your models: you should only evaluate models against your test set once. However, it's possible to have additional sets of data held out from the model training process, which can be used to evaluate models multiple times before you're ready to evaluate against the final test set.
+You should only evaluate models against your test set once, when you've completely finished tuning and training your models. However, it's possible to have additional sets of data "held out" from the model training process, which can be used to evaluate models multiple times before you're ready to evaluate against the final test set.
 
 These sets of data are often called "validation sets", and can be created in rsample via `validation_split()`:
 
@@ -113,7 +113,7 @@ vfold_cv(ames, v = 2, repeats = 2)
 
 ### Monte-Carlo Cross-Validation
 
-An alternative approach to V-fold cross-validation is Monte-Carlo cross-validation. Where V-fold assigns each observation in your data to one (and exactly one) assessment set, Monte-Carlo cross-validation takes a random subset of your data for each assessment set, meaning each observation can be used in 0, 1, or many assessment sets. The analysis set is then made up of all the observations that weren't selected. Because each assessment set is sampled independently, you can repeat this as many times as you want.
+An alternative to V-fold cross-validation is Monte-Carlo cross-validation. Where V-fold assigns each observation in your data to one (and exactly one) assessment set, Monte-Carlo cross-validation takes a random subset of your data for each assessment set, meaning each observation can be used in 0, 1, or many assessment sets. The analysis set is then made up of all the observations that weren't selected. Because each assessment set is sampled independently, you can repeat this as many times as you want.
 
 To use Monte-Carlo cross-validation in rsample, use the `mc_cv()` function:
 
@@ -164,7 +164,7 @@ unique(training(resample)$Tree)
 unique(testing(resample)$Tree)
 ```
 
-It's important to note that, while functions like `group_mc_cv()` and `group_validation_set()` still let you specify what proportion of your data should be in the analysis set (and `group_bootstraps()` still attempts to create analysis sets the same size as your original data), rsample won't "split" groups in order to exactly meet that proportion. These functions start out by assigning one group at random to each set (or, for `group_vfold_cv()`, to each fold) and then assign each of the remaining groups, in a random order, to whichever set brings the relative sizes of each set closest to the target proportion. That means that resamples are randomized, and you can safely use repeated cross-validation just as you would with ungrouped resampling, but also means you can wind up with very differently sized analysis and assessment sets than anticipated if your groups are unbalanced:
+It's important to note that, while functions like `group_mc_cv()` and `group_validation_split()` still let you specify what proportion of your data should be in the analysis set (and `group_bootstraps()` still attempts to create analysis sets the same size as your original data), rsample won't "split" groups in order to exactly meet that proportion. These functions start out by assigning one group at random to each set (or, for `group_vfold_cv()`, to each fold) and then assign each of the remaining groups, in a random order, to whichever set brings the relative sizes of each set closest to the target proportion. That means that resamples are randomized, and you can safely use repeated cross-validation just as you would with ungrouped resampling, but also means you can wind up with very differently sized analysis and assessment sets than anticipated if your groups are unbalanced:
 
 ```{r}
 set.seed(1)
