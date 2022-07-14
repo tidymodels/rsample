@@ -244,6 +244,14 @@ reshuffle_rset <- function(rset) {
     rlang::abort("`manual_rset` objects cannot be reshuffled")
   }
 
+  # non-random classes is defined below
+  if (any(non_random_classes %in% class(rset))) {
+    cls <- class(rset)[[1]]
+    rlang::warn(
+      glue::glue("`reshuffle_rset()` will return an identical rset when called on {cls} objects")
+    )
+  }
+
   arguments <- attributes(rset)
   useful_arguments <- names(formals(arguments$class[[1]]))
   useful_arguments <- arguments[useful_arguments]
@@ -262,3 +270,11 @@ reshuffle_rset <- function(rset) {
     c(list(data = rset$splits[[1]]$data), useful_arguments)
   )
 }
+
+non_random_classes <- c(
+  "sliding_index",
+  "sliding_period",
+  "sliding_window",
+  "rolling_origin",
+  "validation_time_split"
+)

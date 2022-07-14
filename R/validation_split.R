@@ -89,7 +89,7 @@ validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
 
   split <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
   split <- rm_out(split)
-  class(split) <- c("val_split", "rsplit")
+  class(split) <- c("val_time_split", "val_split", "rsplit")
   splits <- list(split)
 
   val_att <- list(prop = prop, strata = FALSE)
@@ -98,7 +98,7 @@ validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
     splits = splits,
     ids = "validation",
     attrib = val_att,
-    subclass = c("validation_split", "rset")
+    subclass = c("validation_time_split", "validation_split", "rset")
   )
 }
 
