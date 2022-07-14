@@ -37,7 +37,7 @@
 #'
 #' @param period The period to group the `index` by. This is specified as a
 #'   single string, such as `"year"` or `"month"`. See the `.period` argument
-#'   of [slider::slide_index()] for the full list of options and further
+#'   of [slider::slide_period()] for the full list of options and further
 #'   explanation.
 #'
 #' @param lookback The number of elements to look back from the current element
