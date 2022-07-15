@@ -41,6 +41,7 @@ repeated measures of the same subject."><meta property="og:image" content="https
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Applications/Intervals.html">Bootstrap confidence intervals</a>
     <a class="dropdown-item" href="../articles/Applications/Recipes_and_rsample.html">Recipes with rsample</a>
+    <a class="dropdown-item" href="../articles/Common_Patterns.html">Common Resampling Patterns</a>
     <a class="dropdown-item" href="../articles/Working_with_rsets.html">Working with resampling sets</a>
   </div>
 </li>
@@ -123,7 +124,9 @@ variable, creating "leave-one-group-out" splits.</p></dd>
 <dt>balance</dt>
 <dd><p>If <code>v</code> is less than the number of unique groups, how should
 groups be combined into folds? Should be one of
-<code>"groups"</code> or <code>"observations"</code>.</p></dd>
+<code>"groups"</code>, which will assign roughly the same number of groups to each
+fold, or <code>"observations"</code>, which will assign roughly the same number of
+observations to each fold.</p></dd>
 
 
 <dt>...</dt>
