@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-rsample provides a number of resampling methods which are broadly applicable to a wide variety of modeling applications. This vignette walks through the most popular methods in the package, with brief descriptions of how they can be applied. For a more in-depth overview of resampling, check out the matching chapters in [Tidy Modeling with R](https://www.tmwr.org/resampling.html) and [Feature Engineering and Selection](http://www.feat.engineering/resampling.html).
+The rsample package provides a number of resampling methods which are broadly applicable to a wide variety of modeling applications. This vignette walks through the most popular methods in the package, with brief descriptions of how they can be applied. For a more in-depth overview of resampling, check out the matching chapters in [Tidy Modeling with R](https://www.tmwr.org/resampling.html) and [Feature Engineering and Selection](http://www.feat.engineering/resampling.html).
 
 Let's go ahead and load rsample now:
 
@@ -127,9 +127,9 @@ Monte-Carlo cross-validation tends to produce more biased estimates than V-fold.
 
 ### Bootstrap Resampling
 
-The last primary resampling function in rsample is `bootstraps()`, for bootstrap resampling. A "bootstrap sample" is a sample of your data set, the same size as your data set, taken with replacement so that a single observation might be sampled multiple times. The assessment set is then made up of all the observations that weren't selected for the analysis set. Generally, bootstrap resampling produces pessimistic estimates of model accuracy.
+The last primary resampling technique in rsample is bootstrap resampling. A "bootstrap sample" is a sample of your data set, the same size as your data set, taken with replacement so that a single observation might be sampled multiple times. The assessment set is then made up of all the observations that weren't selected for the analysis set. Generally, bootstrap resampling produces pessimistic estimates of model accuracy.
 
-As mentioned, you can create bootstrap resamples in rsample using the `bootstraps()` function. While you can't control the proportion of data in each set -- the assessment set of a bootstrap resample is always the same size as the training data -- the function otherwise works exactly like `mc_cv()`:
+You can create bootstrap resamples in rsample using the `bootstraps()` function. While you can't control the proportion of data in each set -- the assessment set of a bootstrap resample is always the same size as the training data -- the function otherwise works exactly like `mc_cv()`:
 
 ```{r}
 bootstraps(ames, times = 2)
