@@ -37,11 +37,17 @@ data(ames, package = "modeldata")
 head(ames, 2)
 ```
 
-And secondly, data on Chicago transit ridership data:
+Secondly, data on Chicago transit ridership numbers:
 
 ```{r}
 data(Chicago, package = "modeldata")
 head(Chicago, 2)
+```
+
+In addition to these data sets from the modeldata package, we'll also make use of the Orange data set in base R, containing repeated measurements of 5 orange trees over time:
+
+```{r}
+head(Orange, 2)
 ```
 
 And last but not least, we'll set a seed so our results are reproducible:
