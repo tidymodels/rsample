@@ -1,0 +1,230 @@
+---
+title: "Common Resampling Patterns"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Common Resampling Patterns}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = rlang::is_installed("modeldata")
+)
+```
+
+The rsample package provides a number of resampling methods which are broadly applicable to a wide variety of modeling applications. This vignette walks through the most popular methods in the package, with brief descriptions of how they can be applied. For a more in-depth overview of resampling, check out the matching chapters in [Tidy Modeling with R](https://www.tmwr.org/resampling.html) and [Feature Engineering and Selection](http://www.feat.engineering/resampling.html).
+
+Let's go ahead and load rsample now:
+
+```{r setup}
+library(rsample)
+```
+
+As well as dplyr, for the pipe operator `%>%`:
+
+```{r message=FALSE}
+library(dplyr)
+```
+
+
+We'll also load in a few data sets from the modeldata package. First, the Ames housing data, containing the sale prices of homes in Ames, Iowa:
+
+```{r}
+data(ames, package = "modeldata")
+head(ames, 2)
+```
+
+Secondly, data on Chicago transit ridership numbers:
+
+```{r}
+data(Chicago, package = "modeldata")
+head(Chicago, 2)
+```
+
+In addition to these data sets from the modeldata package, we'll also make use of the Orange data set in base R, containing repeated measurements of 5 orange trees over time:
+
+```{r}
+head(Orange, 2)
+```
+
+And last but not least, we'll set a seed so our results are reproducible:
+
+```{r}
+set.seed(123)
+```
+
+
+## Random Resampling
+
+By far and away, the most common use for rsample is to generate simple random resamples of your data. The rsample package includes a number of functions specifically for this purpose.
+
+### Initial Splits
+
+To split your data into two sets -- often referred to as the "training" and "testing" sets -- rsample provides the `initial_split()` function:
+
+```{r}
+initial_split(ames)
+```
+
+The output of this is [an rsplit object](./rsample.html) with each observation assigned to one of the two sets. You can control the proportion of data assigned to the "training" set through the `prop` argument:
+
+```{r}
+initial_split(ames, prop = 0.8)
+```
+
+To get the actual data assigned to either set, use the `training()` and `testing()` functions:
+
+```{r}
+resample <- initial_split(ames, prop = 0.6)
+
+head(training(resample), 2)
+head(testing(resample), 2)
+```
+
+### Validation Splits
+
+You should only evaluate models against your test set once, when you've completely finished tuning and training your models. However, it's possible to have additional sets of data "held out" from the model training process, which can be used to evaluate models multiple times before you're ready to evaluate against the final test set.
+
+These sets of data are often called "validation sets", and can be created in rsample via `validation_split()`:
+
+```{r}
+validation_split(ames, prop = 0.8)
+```
+
+These validation splits separate your data into ["analysis" and "assessment" sets](./rsample.html), which you can use to fit models and assess their accuracy while still preserving your initial hold-out test set.
+
+Just like `initial_split()`, you can control the amount of data assigned to each set using the `prop` argument. Unlike the output from `initial_split()`, however, the output from `validation_split()` is [an rset object](./rsample.html), which can then be used by other packages in the tidymodels universe (such as [tune](https://tune.tidymodels.org/)) to evaluate model performance. 
+
+### V-Fold Cross-Validation
+
+For hyperparameter tuning and model fitting, it's often useful to assess your model against more than just a single validation set in order to get a more stable estimate of model performance. As a result, modelers often use a process known as cross-validation, where your data is split into analysis and assessment sets multiple times.
+
+Perhaps the most common cross-validation method is [V-fold cross-validation](https://www.tmwr.org/resampling.html#cv). Also known as "k-fold cross-validation", this method creates V resamples by splitting your data into V groups (also known as "folds") of roughly equal size. The analysis set of each resample is made up of V-1 folds, with the remaining fold being used as the assessment set. This way, each observation in your data is used in exactly one assessment set.
+
+To use V-fold cross-validation in rsample, use the `vfold_cv()` function:
+
+```{r}
+vfold_cv(ames, v = 2)
+```
+
+One downside to V-fold cross validation is that it tends to produce "noisy", or high-variance, estimates [when compared to other resampling methods](https://bookdown.org/max/FES/resampling.html#resample-var-bias). To try and reduce that variance, it's often helpful to perform what's known as [repeated cross-validation](https://www.tmwr.org/resampling.html#repeated-cross-validation), effectively running the V-fold resampling procedure multiple times for your data. To perform repeated V-fold cross-validation in rsample, you can use the repeats argument inside of `vfold_cv()`:
+
+```{r}
+vfold_cv(ames, v = 2, repeats = 2)
+```
+
+
+### Monte-Carlo Cross-Validation
+
+An alternative to V-fold cross-validation is Monte-Carlo cross-validation. Where V-fold assigns each observation in your data to one (and exactly one) assessment set, Monte-Carlo cross-validation takes a random subset of your data for each assessment set, meaning each observation can be used in 0, 1, or many assessment sets. The analysis set is then made up of all the observations that weren't selected. Because each assessment set is sampled independently, you can repeat this as many times as you want.
+
+To use Monte-Carlo cross-validation in rsample, use the `mc_cv()` function:
+
+```{r}
+mc_cv(ames, prop = 0.8, times = 2)
+```
+
+Just as with `validation_set()`, you can control the proportion of your data assigned to the analysis fold using `prop`. You can also control the number of resamples you create using the `times` argument.
+
+Monte-Carlo cross-validation tends to produce more biased estimates than V-fold. As such, when computationally feasible we typically recommend using [five or so repeats of 10-fold cross-validation](https://bookdown.org/max/FES/resampling.html#resample-var-bias) for model assessment.
+
+### Bootstrap Resampling
+
+The last primary resampling technique in rsample is bootstrap resampling. A "bootstrap sample" is a sample of your data set, the same size as your data set, taken with replacement so that a single observation might be sampled multiple times. The assessment set is then made up of all the observations that weren't selected for the analysis set. Generally, bootstrap resampling produces pessimistic estimates of model accuracy.
+
+You can create bootstrap resamples in rsample using the `bootstraps()` function. While you can't control the proportion of data in each set -- the assessment set of a bootstrap resample is always the same size as the training data -- the function otherwise works exactly like `mc_cv()`:
+
+```{r}
+bootstraps(ames, times = 2)
+```
+
+## Stratified Resampling
+
+If your data is heavily imbalanced (that is, if the distribution of an important continuous variable is skewed, or some classes of a categorical variable are much more common than others), simple random resampling may accidentally skew your data even further by allocating more "rare" observations disproportionately into the analysis or assessment fold. In these situations, it can be useful to instead use [stratified resampling](https://www.tmwr.org/splitting.html#splitting-methods) to ensure the analysis and assessment folds have a similar distribution as your overall data.
+
+All of the functions discussed so far support stratified resampling through their `strata` argument. This argument takes a single column identifier and uses it to stratify the resampling procedure:
+
+```{r}
+vfold_cv(ames, v = 2, strata = Sale_Price)
+```
+
+By default, rsample will cut continuous variables into four bins, and ensure that each bin is proportionally represented in each set. If desired, this behavior can be changed using the `breaks` argument:
+
+```{r}
+vfold_cv(ames, v = 2, strata = Sale_Price, breaks = 100)
+```
+
+## Grouped Resampling
+
+Often, some observations in your data will be "more related" to each other than would be probable under random chance, for instance because they represent repeated measurements of the same subject or were all collected at a single location. In these situations, you often want to assign all related observations to either the analysis or assessment fold as a group, to avoid having assessment data that's closely related to the data used to fit a model.
+
+All of the functions discussed so far have a "grouped resampling" variation to handle these situations. These functions all start with the `group_` prefix, and use the argument `group` to specify which column should be used to group observations. Other than respecting these groups, these functions all work like their ungrouped variants:
+
+```{r}
+resample <- group_initial_split(Orange, group = Tree)
+
+unique(training(resample)$Tree)
+unique(testing(resample)$Tree)
+```
+
+It's important to note that, while functions like `group_mc_cv()` and `group_validation_split()` still let you specify what proportion of your data should be in the analysis set (and `group_bootstraps()` still attempts to create analysis sets the same size as your original data), rsample won't "split" groups in order to exactly meet that proportion. These functions start out by assigning one group at random to each set (or, for `group_vfold_cv()`, to each fold) and then assign each of the remaining groups, in a random order, to whichever set brings the relative sizes of each set closest to the target proportion. That means that resamples are randomized, and you can safely use repeated cross-validation just as you would with ungrouped resampling, but also means you can wind up with very differently sized analysis and assessment sets than anticipated if your groups are unbalanced:
+
+```{r}
+set.seed(1)
+group_bootstraps(ames, Neighborhood, times = 2)
+```
+
+While most of the grouped resampling functions are always focused on balancing the proportion of data in the analysis set, by default `group_vfold_cv()` will attempt to balance the number of groups assigned to each fold. If instead you'd like to balance the number of observations in each fold (meaning your assessment sets will be of similar sizes, but smaller groups will be more likely to be assigned to the same folds than would happen under random chance), you can use the argument `balance = "observations"`:
+
+```{r}
+group_vfold_cv(ames, Neighborhood, balance = "observations", v = 2)
+```
+
+If you're working with spatial data, your observations will often be more related to their neighbors than to the rest of the data set; as [Tobler's first law of geography](https://en.wikipedia.org/wiki/Tobler%27s_first_law_of_geography) puts it, "everything is related to everything else, but near things are more related than distant things." However, you often won't have a pre-defined "location" variable that you can use to group related observations. The [spatialsample](https://spatialsample.tidymodels.org/) package provides functions for spatial cross-validation using rsample syntax and classes, and is often useful for these situations.
+
+## Time-Based Resampling
+
+When working with time-based data, it usually doesn't make sense to randomly resample your data: random resampling will likely result in your analysis set having observations from later than your assessment set, which isn't a realistic way to assess model performance.
+
+As such, rsample provides a few different functions to make sure that all data in your assessment sets are after that in the analysis set.
+
+First off, two variants on `initial_split()` and `validation_split()`, `initial_time_split()` and `validation_time_split()`, will assign the _first_ rows of your data to the analysis set (with the number of rows assigned determined by `prop`):
+
+```{r}
+initial_time_split(Chicago)
+
+validation_time_split(Chicago)
+```
+
+There are also several functions in rsample to help you construct multiple analysis and assessment sets from time-based data. For instance, the `sliding_window()` will create "windows" of your data, moving down through the rows of the data frame:
+
+```{r}
+sliding_window(Chicago) %>%
+  head(2)
+```
+
+If you want to create sliding windows of your data based on a specific variable, you can use the `sliding_index()` function:
+
+```{r}
+sliding_index(Chicago, date) %>%
+  head(2)
+```
+
+And if you want to set the size of windows based on units of time, for instance to have each window contain a year of data, you can use `sliding_period()`:
+
+```{r}
+sliding_period(Chicago, date, "year") %>%
+  head(2)
+```
+
+All of these functions produce analysis sets of the same size, with the start and end of the analysis set "sliding" down your data frame. If you'd rather have your analysis set get progressively larger, so that you're predicting new data based upon a growing set of older observations, you can use the `rolling_origin()` function:
+
+```{r}
+rolling_origin(Chicago) %>%
+  head(2)
+```
+
+Note that all of these time-based resampling functions are deterministic: unlike the rest of the package, running these functions repeatedly under different random seeds will always return the same results. 
