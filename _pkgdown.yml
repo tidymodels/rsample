@@ -50,6 +50,7 @@ reference:
       - apparent
       - manual_rset
       - permutations
+      - clustering_cv
   - title: Analysis
     contents:
       - int_pctl
