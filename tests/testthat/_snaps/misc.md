@@ -45,6 +45,7 @@
        9 <split [1/1]> Slice09
       10 <split [1/1]> Slice10
       # ... with 39 more rows
+      # i Use `print(n = ...)` to see more rows
 
 ---
 
@@ -89,6 +90,7 @@
        9 <split [1/1]> Slice09
       10 <split [1/1]> Slice10
       # ... with 39 more rows
+      # i Use `print(n = ...)` to see more rows
 
 ---
 
@@ -113,6 +115,7 @@
        9 <split [13/1]> Slice09
       10 <split [14/1]> Slice10
       # ... with 35 more rows
+      # i Use `print(n = ...)` to see more rows
 
 ---
 
