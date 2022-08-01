@@ -184,6 +184,12 @@ pretty.manual_rset <- function(x, ...) {
   "Manual resampling"
 }
 
+#' @export
+pretty.clustering_cv <- function(x, ...) {
+  details <- attributes(x)
+  paste0(details$v, "-cluster cross-validation")
+}
+
 # The print methods below control the display of rset objects
 
 #' @export
@@ -354,6 +360,13 @@ print.group_mc_cv <- function(x, ...) {
 print.vfold_cv <- function(x, ...) {
   cat("# ", pretty(x), "\n")
   class(x) <- class(x)[!(class(x) %in% c("vfold_cv", "rset"))]
+  print(x, ...)
+}
+
+#' @export
+print.clustering_cv <- function(x, ...) {
+  cat("#", pretty(x), "\n")
+  class(x) <- class(x)[!(class(x) %in% c("clustering_cv", "rset"))]
   print(x, ...)
 }
 
