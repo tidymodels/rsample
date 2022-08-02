@@ -6,7 +6,7 @@
 
 * Objects returned by `permutations()` now have a `permutes` attribute containing the column name used for permutation (#329).
 
-* Added `break` and `pool` as attributes to all functions which support stratification (#329).
+* Added `breaks` and `pool` as attributes to all functions which support stratification (#329).
 
 * Changed the "strata" attribute on rset objects so that it now is either a character vector identifying the column used to stratify the data, and is not present (set to `NULL`) if stratification was not used. (#329)
 
