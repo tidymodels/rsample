@@ -18,6 +18,7 @@
        9 <split [40/14]> Resample09
       10 <split [40/14]> Resample10
       # ... with 15 more rows
+      # i Use `print(n = ...)` to see more rows
 
 # grouping - bad args
 
@@ -48,6 +49,7 @@
        9 <split [36/18]> Resample09
       10 <split [36/18]> Resample10
       # ... with 15 more rows
+      # i Use `print(n = ...)` to see more rows
 
 # grouping - printing with ...
 
@@ -61,4 +63,5 @@
       1 <split [36/18]> Resample01
       2 <split [36/18]> Resample02
       # ... with 23 more rows
+      # i Use `print(n = ...)` to see more rows
 
