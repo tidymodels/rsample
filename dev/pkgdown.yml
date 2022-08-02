@@ -1,5 +1,5 @@
 pandoc: 2.14.2
-pkgdown: 2.0.5
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   Intervals: Applications/Intervals.html
@@ -7,7 +7,7 @@ articles:
   Common_Patterns: Common_Patterns.html
   Working_with_rsets: Working_with_rsets.html
   rsample: rsample.html
-last_built: 2022-07-15T16:43Z
+last_built: 2022-08-02T23:28Z
 urls:
   reference: https://rsample.tidymodels.org/reference
   article: https://rsample.tidymodels.org/articles
