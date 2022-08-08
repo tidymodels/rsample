@@ -29,7 +29,7 @@
 #' row of the data frame.
 #'
 #' @param data A data frame to split into folds.
-#' @param vars A vector of variable names to use to cluster the data.
+#' @param vars A vector of bare variable names to use to cluster the data.
 #' @param v The number of partitions of the data set.
 #' @param distance_function Which function should be used for distance calculations?
 #' Defaults to [stats::dist()]. You can also provide your own
