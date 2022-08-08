@@ -16,7 +16,7 @@ clustering_cv(
 \arguments{
 \item{data}{A data frame to split into folds.}
 
-\item{vars}{A vector of variable names to use to cluster the data.}
+\item{vars}{A vector of bare variable names to use to cluster the data.}
 
 \item{v}{The number of partitions of the data set.}
 
