@@ -22,6 +22,9 @@
     <loc>https://rsample.tidymodels.org/articles/Applications/Recipes_and_rsample.html</loc>
   </url>
   <url>
+    <loc>https://rsample.tidymodels.org/articles/Common_Patterns.html</loc>
+  </url>
+  <url>
     <loc>https://rsample.tidymodels.org/articles/Working_with_rsets.html</loc>
   </url>
   <url>
@@ -59,6 +62,12 @@
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/get_fingerprint.html</loc>
+  </url>
+  <url>
+    <loc>https://rsample.tidymodels.org/reference/group_bootstraps.html</loc>
+  </url>
+  <url>
+    <loc>https://rsample.tidymodels.org/reference/group_mc_cv.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/group_vfold_cv.html</loc>
@@ -113,6 +122,12 @@
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/reg_intervals.html</loc>
+  </url>
+  <url>
+    <loc>https://rsample.tidymodels.org/reference/reshuffle_rset.html</loc>
+  </url>
+  <url>
+    <loc>https://rsample.tidymodels.org/reference/reverse_splits.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/rolling_origin.html</loc>
