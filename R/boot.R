@@ -84,6 +84,7 @@ bootstraps <-
         breaks = breaks,
         pool = pool
       )
+
     if (apparent) {
       split_objs <- bind_rows(split_objs, apparent(data))
     }
@@ -144,6 +145,15 @@ boot_splits <-
 
     split_objs <-
       purrr::map(indices, make_splits, data = data, class = "boot_split")
+
+    all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
+    if (any(all_assessable == 0)) {
+      rlang::warn(
+        "Some assessment sets contained zero rows.",
+        call = rlang::caller_env()
+      )
+    }
+
     list(
       splits = split_objs,
       id = names0(length(split_objs), "Bootstrap")
@@ -230,13 +240,13 @@ group_boot_splits <- function(data, group, times = 25) {
   indices <- lapply(indices, boot_complement, n = n)
   split_objs <-
     purrr::map(indices, make_splits, data = data, class = c("group_boot_split", "boot_split"))
-  all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
 
+  all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
   if (any(all_assessable == 0)) {
-    rlang::abort(
+    rlang::warn(
       c(
-        "Some assessment sets contained zero rows",
-        i = "Consider using a non-grouped resampling method"
+        "Some assessment sets contained zero rows.",
+        i = "Consider using a non-grouped resampling method."
       ),
       call = rlang::caller_env()
     )

@@ -1,5 +1,9 @@
 # rsample (development version)
 
+* `group_bootstraps()` now warns if resampling returns any empty assessment sets (previously had been an error) (#356) (#357).
+
+* `bootstraps()` now warns if resampling returns any empty assessment sets (previously had no message or warning) (#356) (#357).
+
 * Added a new function, `clustering_cv()`, for blocked cross-validation in various predictor spaces. This is a very flexible function, taking arguments to both `distance_function` and `cluster_function`, allowing it to be used for spatial clustering as well as potentially phylogenetic and other forms of clustering (#351).
 
 # rsample 1.1.0
