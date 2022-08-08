@@ -1,6 +1,6 @@
 ## Release Summary
 
-This is the 11th CRAN release of rsample. This release adds better checking, printing, and argument calling.
+This is the 12th CRAN release of rsample. This release harmonizes object attributes and adds support for grouped resampling.
 
 ## R CMD check results
 

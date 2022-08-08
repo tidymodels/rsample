@@ -1,4 +1,4 @@
-# rsample (development version)
+# rsample 1.1.0
 
 * rset objects now include all parameters used to create them as attributes (#329).
 
