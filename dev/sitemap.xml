@@ -52,6 +52,9 @@
     <loc>https://rsample.tidymodels.org/dev/reference/bootstraps.html</loc>
   </url>
   <url>
+    <loc>https://rsample.tidymodels.org/dev/reference/clustering_cv.html</loc>
+  </url>
+  <url>
     <loc>https://rsample.tidymodels.org/dev/reference/complement.html</loc>
   </url>
   <url>
