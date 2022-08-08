@@ -139,7 +139,8 @@ delayedAssign("rset_subclasses", {
         sliding_period         = sliding_period(test_data(), index, "week"),
         manual_rset            = manual_rset(list(initial_time_split(test_data()), initial_time_split(test_data())), c("ID1", "ID2")),
         apparent               = apparent(test_data()),
-        permutations           = permutations(test_data(), y)
+        permutations           = permutations(test_data(), y),
+        clustering_cv          = clustering_cv(test_data(), y)
       )
     )
   } else {

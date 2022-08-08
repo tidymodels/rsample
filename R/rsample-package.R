@@ -17,7 +17,7 @@ NULL
 #' @importFrom vctrs vec_unique_count vec_count vec_slice vec_in
 #' @importFrom rlang !! is_call is_string enquo quos exec is_list abort warn .data %||%
 #' @importFrom methods formalArgs
-#' @importFrom stats quantile setNames qnorm pnorm
+#' @importFrom stats quantile setNames qnorm pnorm dist
 #' @importFrom tidyselect vars_select one_of
 #' @importFrom furrr future_map_dfr
 #' @importFrom tidyr gather
