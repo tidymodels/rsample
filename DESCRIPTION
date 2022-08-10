@@ -2,14 +2,18 @@ Package: rsample
 Title: General Resampling Infrastructure
 Version: 1.1.0.9000
 Authors@R: c(
-    person("Julia", "Silge", , "julia.silge@rstudio.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-3671-836X")),
+    person("Hannah", "Frick", , "hannah@rstudio.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-6049-5258")),
     person("Fanny", "Chow", , "fannybchow@gmail.com", role = "aut"),
     person("Max", "Kuhn", , "max@rstudio.com", role = "aut"),
+    person("Michael", "Mahoney", , "mike.mahoney.218@gmail.com", role = c("aut"),
+           comment = c(ORCID = "0000-0003-2402-304X")),
+    person("Julia", "Silge", , "julia.silge@rstudio.com", role = c("aut"),
+           comment = c(ORCID = "0000-0002-3671-836X")),
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut"),
     person("RStudio", role = c("cph", "fnd"))
   )
-Maintainer: Julia Silge <julia.silge@rstudio.com>
+Maintainer: Hannah Frick <hannah@rstudio.com>
 Description: Classes and functions to create and summarize different types
     of resampling objects (e.g. bootstrap, cross-validation).
 License: MIT + file LICENSE
