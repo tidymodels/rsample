@@ -229,7 +229,7 @@ test_that("grouping -- strata", {
 
   group_table <- tibble(
     group = 1:100,
-    outcome = sample(c(rep(0, 90), rep(1, 10)))
+    outcome = sample(c(rep(0, 70), rep(1, 30)))
   )
   observation_table <- tibble(
     group = sample(1:100, 1e5, replace = TRUE),
@@ -247,7 +247,7 @@ test_that("grouping -- strata", {
       mean(dat == "1")
     }
   )
-  expect_equal(mean(unique(rate)), 0.1, tolerance = 1e-3)
+  expect_equal(mean(unique(rate)), 0.3, tolerance = 1e-2)
 
   good_holdout <- purrr::map_lgl(
     rs4$splits,
