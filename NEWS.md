@@ -1,5 +1,7 @@
 # rsample (development version)
 
+* `group_vfold_cv()` now supports stratification, so long as `balance = "groups"` (the default). Strata must be constant within each group (#317).
+
 * `group_bootstraps()` now warns if resampling returns any empty assessment sets (previously had been an error) (#356) (#357).
 
 * `bootstraps()` now warns if resampling returns any empty assessment sets (previously had no message or warning) (#356) (#357).

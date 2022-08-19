@@ -4,7 +4,14 @@
 \alias{make_groups}
 \title{Make groupings for grouped rsplits}
 \usage{
-make_groups(data, group, v, balance = c("groups", "observations", "prop"), ...)
+make_groups(
+  data,
+  group,
+  v,
+  balance = c("groups", "observations", "prop"),
+  strata = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -18,6 +25,10 @@ assessment set within a fold.}
 \item{balance}{If \code{v} is less than the number of unique groups, how should
 groups be combined into folds? Should be one of
 \code{"groups"}, \code{"observations"}, \code{"prop"}.}
+
+\item{strata}{A variable in \code{data} (single character or name) used to conduct
+stratified sampling. When not \code{NULL}, each resample is created within the
+stratification variable. Numeric \code{strata} are binned into quartiles.}
 
 \item{...}{Arguments passed to balance functions.}
 }

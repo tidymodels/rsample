@@ -20,12 +20,14 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Julia Silge \email{julia.silge@rstudio.com} (\href{https://orcid.org/0000-0002-3671-836X}{ORCID})
+\strong{Maintainer}: Hannah Frick \email{hannah@rstudio.com} (\href{https://orcid.org/0000-0002-6049-5258}{ORCID})
 
 Authors:
 \itemize{
   \item Fanny Chow \email{fannybchow@gmail.com}
   \item Max Kuhn \email{max@rstudio.com}
+  \item Michael Mahoney \email{mike.mahoney.218@gmail.com} (\href{https://orcid.org/0000-0003-2402-304X}{ORCID})
+  \item Julia Silge \email{julia.silge@rstudio.com} (\href{https://orcid.org/0000-0002-3671-836X}{ORCID})
   \item Hadley Wickham \email{hadley@rstudio.com}
 }
 

@@ -62,6 +62,20 @@
       4 <split [2278/652]> Resample4
       5 <split [2347/583]> Resample5
 
+# grouping -- strata
+
+    Code
+      sizes4
+    Output
+      # A tibble: 5 x 5
+        analysis assessment      n     p id       
+           <int>      <int>  <int> <int> <chr>    
+      1    80087      19913 100000     3 Resample1
+      2    79903      20097 100000     3 Resample2
+      3    80163      19837 100000     3 Resample3
+      4    79867      20133 100000     3 Resample4
+      5    79980      20020 100000     3 Resample5
+
 # grouping -- printing
 
     Code

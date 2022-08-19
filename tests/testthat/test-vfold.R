@@ -224,6 +224,40 @@ test_that("grouping -- other balance methods", {
 
 })
 
+test_that("grouping -- strata", {
+  set.seed(11)
+
+  group_table <- tibble(
+    group = 1:100,
+    outcome = sample(c(rep(0, 90), rep(1, 10)))
+  )
+  observation_table <- tibble(
+    group = sample(1:100, 1e5, replace = TRUE),
+    observation = 1:1e5
+  )
+  sample_data <- dplyr::full_join(group_table, observation_table, by = "group")
+  rs4 <- group_vfold_cv(sample_data, group, v = 5, strata = outcome)
+  sizes4 <- dim_rset(rs4)
+  expect_snapshot(sizes4)
+
+  rate <- purrr::map_dbl(
+    rs4$splits,
+    function(x) {
+      dat <- as.data.frame(x)$outcome
+      mean(dat == "1")
+    }
+  )
+  expect_equal(mean(unique(rate)), 0.1, tolerance = 1e-3)
+
+  good_holdout <- purrr::map_lgl(
+    rs4$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
+  expect_true(all(good_holdout))
+})
+
 test_that("grouping -- repeated", {
   set.seed(11)
   rs2 <- group_vfold_cv(dat1, c, v = 3, repeats = 4)

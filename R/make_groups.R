@@ -32,19 +32,30 @@ make_groups <- function(data,
                         group,
                         v,
                         balance = c("groups", "observations", "prop"),
+                        strata = NULL,
                         ...) {
   rlang::check_dots_used(call = rlang::caller_env())
   balance <- rlang::arg_match(balance, error_call = rlang::caller_env())
 
-  data_ind <- tibble(..index = 1:nrow(data), ..group = group)
+  data_ind <- tibble(..index = 1:nrow(data), ..group = group, ..strata = strata)
   data_ind$..group <- as.character(data_ind$..group)
 
-  res <- switch(
-    balance,
-    "groups" = balance_groups(data_ind = data_ind, v = v, ...),
-    "observations" = balance_observations(data_ind = data_ind, v = v, ...),
-    "prop" = balance_prop(data_ind = data_ind, v = v, ...)
-  )
+  res <- if (is.null(strata)) {
+    switch(
+      balance,
+      "groups" = balance_groups(data_ind = data_ind, v = v, ...),
+      "observations" = balance_observations(data_ind = data_ind, v = v, ...),
+      "prop" = balance_prop(data_ind = data_ind, v = v, ...)
+    )
+  } else {
+    data_ind$..strata <- as.character(data_ind$..strata)
+    switch(
+      balance,
+      "groups" = balance_groups_strata(data_ind = data_ind, v = v, ...),
+      "observations" = balance_observations_strata(data_ind = data_ind, v = v, ...),
+      "prop" = balance_prop_strata(data_ind = data_ind, v = v, ...)
+    )
+  }
 
   data_ind <- res$data_ind
   keys <- res$keys
@@ -65,6 +76,23 @@ balance_groups <- function(data_ind, v, ...) {
   keys <- data.frame(
     ..group = unique_groups,
     ..folds = sample(rep(seq_len(v), length.out = length(unique_groups)))
+  )
+  list(
+    data_ind = data_ind,
+    keys = keys
+  )
+}
+
+balance_groups_strata <- function(data_ind, v, ...) {
+  rlang::check_dots_empty()
+
+  keys <- vctrs::vec_unique(data_ind[c("..group", "..strata")])
+  keys <- split_unnamed(keys, keys$..strata)
+  keys <- purrr::map(keys, add_vfolds, v = v)
+  keys <- dplyr::bind_rows(keys)
+  keys <- data.frame(
+    ..group = keys$..group,
+    ..folds = keys$folds
   )
   list(
     data_ind = data_ind,
@@ -105,6 +133,15 @@ balance_observations <- function(data_ind, v, ...) {
 
 }
 
+balance_observations_strata <- function(data_ind, v, ...) {
+  rlang::abort(
+    c(
+      "`balance = 'observations'` has not yet been implemented for grouped resampling with stratification.",
+      i = "Consider setting `balance = 'groups'`"
+    )
+  )
+}
+
 balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
   rlang::check_dots_empty()
   acceptable_prop <- is.numeric(prop)
@@ -141,6 +178,15 @@ balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
 
   collapse_groups(freq_table, data_ind, v)
 
+}
+
+balance_prop_strata <- function(...) {
+  rlang::abort(
+    c(
+      "`balance = 'prop'` has not yet been implemented for grouped resampling with stratification, and should not be usable at all.",
+      i = "Please open an issue at https://github.com/tidymodels/rsample/issues with the code you ran that returned this error."
+    )
+  )
 }
 
 collapse_groups <- function(freq_table, data_ind, v) {

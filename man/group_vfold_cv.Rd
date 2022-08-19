@@ -10,7 +10,9 @@ group_vfold_cv(
   v = NULL,
   repeats = 1,
   balance = c("groups", "observations"),
-  ...
+  ...,
+  strata = NULL,
+  pool = 0.1
 )
 }
 \arguments{
@@ -33,6 +35,15 @@ fold, or \code{"observations"}, which will assign roughly the same number of
 observations to each fold.}
 
 \item{...}{Not currently used.}
+
+\item{strata}{A variable in \code{data} (single character or name) used to conduct
+stratified sampling. When not \code{NULL}, each resample is created within the
+stratification variable. Numeric \code{strata} are binned into quartiles.}
+
+\item{pool}{A proportion of data used to determine if a particular group is
+too small and should be pooled into another group. We do not recommend
+decreasing this argument below its default of 0.1 because of the dangers
+of stratifying groups that are too small.}
 }
 \value{
 A tibble with classes \code{group_vfold_cv},
@@ -65,5 +76,19 @@ group_vfold_cv(ames, group = Neighborhood, v = 5, repeats = 2)
 
 # Leave-one-group-out CV
 group_vfold_cv(ames, group = Neighborhood)
+
+library(dplyr)
+data(Sacramento, package = "modeldata")
+
+city_strata <- Sacramento \%>\%
+  group_by(city) \%>\%
+  summarize(strata = mean(price)) \%>\%
+  summarize(city = city,
+            strata = cut(strata, quantile(strata), include.lowest = TRUE))
+
+sacramento_data <- Sacramento \%>\%
+  full_join(city_strata, by = "city")
+
+group_vfold_cv(sacramento_data, city, strata = strata)
 \dontshow{\}) # examplesIf}
 }
