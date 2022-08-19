@@ -322,4 +322,6 @@ check_grouped_strata <- function(group, strata, pool, data) {
       nrow(vctrs::vec_unique(grouped_table["group"]))) {
     rlang::abort("`strata` must be constant across all members of each `group`.")
   }
+
+  strata
 }
