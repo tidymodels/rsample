@@ -256,6 +256,12 @@ test_that("grouping -- strata", {
     }
   )
   expect_true(all(good_holdout))
+
+  expect_equal(
+    nrow(group_vfold_cv(sample_data, group, strata = outcome)),
+    length(unique(sample_data$group))
+  )
+
 })
 
 test_that("grouping -- repeated", {

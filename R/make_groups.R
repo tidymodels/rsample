@@ -87,13 +87,22 @@ balance_groups_strata <- function(data_ind, v, ...) {
   rlang::check_dots_empty()
 
   keys <- vctrs::vec_unique(data_ind[c("..group", "..strata")])
+  folds <- rep(1:v, length.out = nrow(keys))
+
+  folds <- split_unnamed(folds, sort(keys$..strata))
   keys <- split_unnamed(keys, keys$..strata)
-  keys <- purrr::map(keys, add_vfolds, v = v)
-  keys <- dplyr::bind_rows(keys)
-  keys <- data.frame(
-    ..group = keys$..group,
-    ..folds = keys$folds
+
+  keys <- purrr::map2(
+    keys,
+    folds,
+    function(x, y) {
+      x$..folds <- sample(y)
+      x
+    }
   )
+
+  keys <- dplyr::bind_rows(keys)
+  keys <- keys[c("..group", "..folds")]
   list(
     data_ind = data_ind,
     keys = keys
