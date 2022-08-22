@@ -19,7 +19,6 @@
       # ... with 77 more rows, 4 more variables: species <chr>, films <list>,
       #   vehicles <list>, starships <list>, and abbreviated variable names
       #   1: hair_color, 2: skin_color, 3: eye_color, 4: birth_year, 5: homeworld
-      # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 ---
 
@@ -42,7 +41,6 @@
       # ... with 76 more rows, 4 more variables: species <chr>, films <list>,
       #   vehicles <list>, starships <list>, and abbreviated variable names
       #   1: hair_color, 2: skin_color, 3: eye_color, 4: birth_year, 5: homeworld
-      # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 ---
 
@@ -65,7 +63,6 @@
       # ... with 55 more rows, 4 more variables: species <chr>, films <list>,
       #   vehicles <list>, starships <list>, and abbreviated variable names
       #   1: hair_color, 2: skin_color, 3: eye_color, 4: birth_year, 5: homeworld
-      # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 ---
 
@@ -88,5 +85,4 @@
       # ... with 55 more rows, 4 more variables: species <chr>, films <list>,
       #   vehicles <list>, starships <list>, and abbreviated variable names
       #   1: hair_color, 2: skin_color, 3: eye_color, 4: birth_year, 5: homeworld
-      # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
