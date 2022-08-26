@@ -126,8 +126,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   Year_Built &lt;int&gt;, Year_Remod_Add &lt;int&gt;, Roof_Style &lt;fct&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   Roof_Matl &lt;fct&gt;, Exterior_1st &lt;fct&gt;, Exterior_2nd &lt;fct&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   Mas_Vnr_Type &lt;fct&gt;, Mas_Vnr_Area &lt;dbl&gt;, Exter_Cond &lt;fct&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Foundation &lt;fct&gt;, Bsmt_Cond &lt;fct&gt;, Bsmt_Exposure &lt;fct&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Foundation &lt;fct&gt;, Bsmt_Cond &lt;fct&gt;, Bsmt_Exposure &lt;fct&gt;, …</span></span></span></code></pre></div>
 <p>Secondly, data on Chicago transit ridership numbers:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Chicago</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
@@ -143,8 +142,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   Montrose &lt;dbl&gt;, California &lt;dbl&gt;, temp_min &lt;dbl&gt;, temp &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   temp_max &lt;dbl&gt;, temp_change &lt;dbl&gt;, dew &lt;dbl&gt;, humidity &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   pressure &lt;dbl&gt;, pressure_change &lt;dbl&gt;, wind &lt;dbl&gt;, wind_max &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   gust &lt;dbl&gt;, gust_max &lt;dbl&gt;, percip &lt;dbl&gt;, percip_max &lt;dbl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   gust &lt;dbl&gt;, gust_max &lt;dbl&gt;, percip &lt;dbl&gt;, percip_max &lt;dbl&gt;, …</span></span></span></code></pre></div>
 <p>In addition to these data sets from the modeldata package, we’ll also make use of the Orange data set in base R, containing repeated measurements of 5 orange trees over time:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">Orange</span>, <span class="fl">2</span><span class="op">)</span></span>
@@ -188,7 +186,6 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   Roof_Matl &lt;fct&gt;, Exterior_1st &lt;fct&gt;, Exterior_2nd &lt;fct&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   Mas_Vnr_Type &lt;fct&gt;, Mas_Vnr_Area &lt;dbl&gt;, Exter_Cond &lt;fct&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   Foundation &lt;fct&gt;, Bsmt_Cond &lt;fct&gt;, Bsmt_Exposure &lt;fct&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/initial_split.html">testing</a></span><span class="op">(</span><span class="va">resample</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 74</span></span></span>
 <span><span class="co">#&gt;   MS_SubClass MS_Zo…¹ Lot_F…² Lot_A…³ Street Alley Lot_S…⁴ Land_…⁵ Utili…⁶</span></span>
@@ -201,8 +198,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   Year_Built &lt;int&gt;, Year_Remod_Add &lt;int&gt;, Roof_Style &lt;fct&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   Roof_Matl &lt;fct&gt;, Exterior_1st &lt;fct&gt;, Exterior_2nd &lt;fct&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   Mas_Vnr_Type &lt;fct&gt;, Mas_Vnr_Area &lt;dbl&gt;, Exter_Cond &lt;fct&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Foundation &lt;fct&gt;, Bsmt_Cond &lt;fct&gt;, Bsmt_Exposure &lt;fct&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Foundation &lt;fct&gt;, Bsmt_Cond &lt;fct&gt;, Bsmt_Exposure &lt;fct&gt;, …</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="validation-splits">Validation Splits<a class="anchor" aria-label="anchor" href="#validation-splits"></a>

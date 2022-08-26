@@ -214,8 +214,7 @@
 <span><span class="co">## <span style="color: #949494;">#   variable names ¹​Year_Sold, ²​Lot_Area, ³​Sale_Price,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   ⁴​Neighborhood_College_Creek, ⁵​Neighborhood_Old_Town,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   ⁶​Neighborhood_Edwards, ⁷​Neighborhood_Somerset,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   ⁸​Neighborhood_Northridge_Heights, ⁹​Neighborhood_Gilbert</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;">#   ⁸​Neighborhood_Northridge_Heights, ⁹​Neighborhood_Gilbert</span></span></span></code></pre>
 <p>Note that there are fewer dummy variables for <code>Neighborhood</code> and <code>House_Style</code> than in the data.</p>
 <p>Also, the above code using <code>prep</code> benefits from the default argument of <code>retain = TRUE</code>, which keeps the processed version of the data set so that we don’t have to reapply the steps to extract the processed values. For the data used to train the recipe, we would have used:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -235,8 +234,7 @@
 <span><span class="co">## <span style="color: #949494;">#   variable names ¹​Year_Sold, ²​Lot_Area, ³​Sale_Price,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   ⁴​Neighborhood_College_Creek, ⁵​Neighborhood_Old_Town,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   ⁶​Neighborhood_Edwards, ⁷​Neighborhood_Somerset,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   ⁸​Neighborhood_Northridge_Heights, ⁹​Neighborhood_Gilbert</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;">#   ⁸​Neighborhood_Northridge_Heights, ⁹​Neighborhood_Gilbert</span></span></span></code></pre>
 <p>The next section will explore recipes and bootstrap resampling for modeling:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org">rsample</a></span><span class="op">)</span></span>
@@ -257,8 +255,7 @@
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [2930/1068]&gt;</span> Bootstrap08</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [2930/1062]&gt;</span> Bootstrap09</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [2930/1064]&gt;</span> Bootstrap10</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bt_samples</span><span class="op">$</span><span class="va">splits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## &lt;Analysis/Assess/Total&gt;</span></span>
@@ -287,8 +284,7 @@
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [2930/1068]&gt;</span> Bootstrap08 <span style="color: #949494;">&lt;recipe&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [2930/1062]&gt;</span> Bootstrap09 <span style="color: #949494;">&lt;recipe&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [2930/1064]&gt;</span> Bootstrap10 <span style="color: #949494;">&lt;recipe&gt;</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span></code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bt_samples</span><span class="op">$</span><span class="va">recipes</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## Recipe</span></span>
@@ -335,8 +331,7 @@
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [2930/1068]&gt;</span> Bootstrap08 <span style="color: #949494;">&lt;recipe&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [2930/1062]&gt;</span> Bootstrap09 <span style="color: #949494;">&lt;recipe&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [2930/1064]&gt;</span> Bootstrap10 <span style="color: #949494;">&lt;recipe&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span></code></pre>
 <p>To get predictions, the function needs three arguments: the splits (to get the assessment data), the recipe (to process them), and the model. To iterate over these, the function <code><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">purrr::pmap</a></code> is used:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pred_lm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">split_obj</span>, <span class="va">rec_obj</span>, <span class="va">model_obj</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
@@ -376,8 +371,7 @@
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [2930/1068]&gt;</span> Bootstrap08 <span style="color: #949494;">&lt;recipe&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   <span style="color: #949494;">&lt;tibble [1,068 × 2]&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [2930/1062]&gt;</span> Bootstrap09 <span style="color: #949494;">&lt;recipe&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   <span style="color: #949494;">&lt;tibble [1,062 × 2]&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [2930/1064]&gt;</span> Bootstrap10 <span style="color: #949494;">&lt;recipe&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   <span style="color: #949494;">&lt;tibble [1,064 × 2]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span></code></pre>
 <p>Calculating the RMSE:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/yardstick" class="external-link">yardstick</a></span><span class="op">)</span></span></code></pre></div>
@@ -399,8 +393,7 @@
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> rmse    standard       0.130</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> rmse    standard       0.122</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> rmse    standard       0.127</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span></code></pre>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">.estimate</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.129</span></span></code></pre>
