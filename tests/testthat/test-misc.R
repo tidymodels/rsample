@@ -61,10 +61,10 @@ test_that("reshuffle_rset is working", {
   # with non-default arguments,
   # is supported by reshuffled_resample
 
-  # Select any function in rset_subclasses with a strata argument:
+  # Select any non-grouped function in rset_subclasses with a strata argument:
   supports_strata <- purrr::map_lgl(
     names(supported_subclasses),
-    ~ any(names(formals(.x)) == "strata")
+    ~ any(names(formals(.x)) == "strata") && !any(names(formals(.x)) == "group")
   )
   supports_strata <- names(supported_subclasses)[supports_strata]
 
@@ -76,6 +76,32 @@ test_that("reshuffle_rset is working", {
       list(
         data = test_data(),
         strata = "y",
+        breaks = 2,
+        pool = 0.2
+      )
+    )
+    # Reshuffle them under the same seed to ensure they're identical
+    set.seed(123)
+    reshuffled_resample <- reshuffle_rset(resample)
+    expect_identical(resample, reshuffled_resample)
+  }
+
+  # Select any grouped function in rset_subclasses with a strata argument:
+  grouped_strata <- purrr::map_lgl(
+    names(supported_subclasses),
+    ~ any(names(formals(.x)) == "strata") && any(names(formals(.x)) == "group")
+  )
+  grouped_strata <- names(supported_subclasses)[grouped_strata]
+
+  for (i in seq_along(grouped_strata)) {
+    # Fit those functions with non-default arguments:
+    set.seed(123)
+    resample <- do.call(
+      grouped_strata[i],
+      list(
+        data = cbind(test_data(), z = rep(1:5, each = 10)),
+        group = "y",
+        strata = "z",
         breaks = 2,
         pool = 0.2
       )

@@ -62,6 +62,20 @@
       4 <split [2278/652]> Resample4
       5 <split [2347/583]> Resample5
 
+# grouping -- strata
+
+    Code
+      sizes4
+    Output
+      # A tibble: 5 x 5
+        analysis assessment      n     p id       
+           <int>      <int>  <int> <int> <chr>    
+      1    79814      20186 100000     3 Resample1
+      2    80195      19805 100000     3 Resample2
+      3    80109      19891 100000     3 Resample3
+      4    79831      20169 100000     3 Resample4
+      5    80051      19949 100000     3 Resample5
+
 # grouping -- printing
 
     Code
@@ -87,5 +101,4 @@
       1 <split [36/18]> Resample1
       2 <split [36/18]> Resample2
       # ... with 1 more row
-      # i Use `print(n = ...)` to see more rows
 

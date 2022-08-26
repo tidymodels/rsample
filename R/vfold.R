@@ -194,14 +194,32 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
 #' # Leave-one-group-out CV
 #' group_vfold_cv(ames, group = Neighborhood)
 #'
+#' library(dplyr)
+#' data(Sacramento, package = "modeldata")
+#'
+#' city_strata <- Sacramento %>%
+#'   group_by(city) %>%
+#'   summarize(strata = mean(price)) %>%
+#'   summarize(city = city,
+#'             strata = cut(strata, quantile(strata), include.lowest = TRUE))
+#'
+#' sacramento_data <- Sacramento %>%
+#'   full_join(city_strata, by = "city")
+#'
+#' group_vfold_cv(sacramento_data, city, strata = strata)
+#'
 #' @export
-group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = c("groups", "observations"), ...) {
+group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = c("groups", "observations"), ..., strata = NULL, pool = 0.1) {
 
   group <- validate_group({{ group }}, data)
   balance <- rlang::arg_match(balance)
 
+  if (!missing(strata)) {
+    strata <- check_grouped_strata({{ group }}, {{ strata }}, pool, data)
+  }
+
   if (repeats == 1) {
-    split_objs <- group_vfold_splits(data = data, group = group, v = v, balance = balance)
+    split_objs <- group_vfold_splits(data = data, group = group, v = v, balance = balance, strata = strata, pool = pool)
   } else {
     if (is.null(v)) {
       rlang::abort(
@@ -214,7 +232,7 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = 
       )
     }
     for (i in 1:repeats) {
-      tmp <- group_vfold_splits(data = data, group = group, v = v, balance = balance)
+      tmp <- group_vfold_splits(data = data, group = group, v = v, balance = balance, strata = strata, pool = pool)
       tmp$id2 <- tmp$id
       tmp$id <- names0(repeats, "Repeat")[i]
       split_objs <- if (i == 1) {
@@ -237,7 +255,7 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = 
 
   ## Save some overall information
 
-  cv_att <- list(v = v, group = group, balance = balance, repeats = 1, strata = FALSE)
+  cv_att <- list(v = v, group = group, balance = balance, repeats = 1, strata = strata, pool = pool)
 
   new_rset(
     splits = split_objs$splits,
@@ -247,9 +265,14 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = 
   )
 }
 
-group_vfold_splits <- function(data, group, v = NULL, balance) {
+group_vfold_splits <- function(data, group, v = NULL, balance, strata = NULL, pool = 0.1) {
 
   group <- getElement(data, group)
+  if (!is.null(strata)) {
+    strata <- getElement(data, strata)
+    strata <- as.character(strata)
+    strata <- make_strata(strata, pool = pool)
+  }
   max_v <- length(unique(group))
 
   if (is.null(v)) {
@@ -258,7 +281,7 @@ group_vfold_splits <- function(data, group, v = NULL, balance) {
     check_v(v = v, max_v = max_v, rows = "groups", call = rlang::caller_env())
   }
 
-  indices <- make_groups(data, group, v, balance)
+  indices <- make_groups(data, group, v, balance, strata)
   indices <- lapply(indices, default_complement, n = nrow(data))
   split_objs <-
     purrr::map(indices,
@@ -285,4 +308,20 @@ check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
       glue::glue("The number of {rows} is less than `v = {v}`"), call = call
     )
   }
+}
+
+check_grouped_strata <- function(group, strata, pool, data) {
+
+  strata <- tidyselect::vars_select(names(data), !!enquo(strata))
+  grouped_table <- tibble(
+    group = getElement(data, group),
+    strata = getElement(data, strata)
+  )
+
+  if (nrow(vctrs::vec_unique(grouped_table)) !=
+      nrow(vctrs::vec_unique(grouped_table["group"]))) {
+    rlang::abort("`strata` must be constant across all members of each `group`.")
+  }
+
+  strata
 }
