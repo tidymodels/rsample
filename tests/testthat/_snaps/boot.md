@@ -22,7 +22,6 @@
        9 <split [54/18]> Bootstrap09
       10 <split [54/18]> Bootstrap10
       # ... with 15 more rows
-      # i Use `print(n = ...)` to see more rows
 
 ---
 
@@ -47,7 +46,6 @@
        9 <split [1/0]> Bootstrap09
       10 <split [1/0]> Bootstrap10
       # ... with 15 more rows
-      # i Use `print(n = ...)` to see more rows
 
 # printing
 
@@ -70,5 +68,4 @@
        9 <split [54/23]> Bootstrap09
       10 <split [54/22]> Bootstrap10
       # ... with 15 more rows
-      # i Use `print(n = ...)` to see more rows
 

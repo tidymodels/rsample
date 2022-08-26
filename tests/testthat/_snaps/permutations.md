@@ -27,5 +27,4 @@
        9 <split [32/0]> Permutations09
       10 <split [32/0]> Permutations10
       # ... with 15 more rows
-      # i Use `print(n = ...)` to see more rows
 
