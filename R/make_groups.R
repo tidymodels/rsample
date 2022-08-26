@@ -37,23 +37,53 @@ make_groups <- function(data,
   rlang::check_dots_used(call = rlang::caller_env())
   balance <- rlang::arg_match(balance, error_call = rlang::caller_env())
 
-  data_ind <- tibble(..index = 1:nrow(data), ..group = group, ..strata = strata)
+  data_ind <- tibble(
+    ..index = 1:nrow(data),
+    ..group = group,
+    # "strata" is either the values from the strata column or NULL
+    # so this either creates a new column or is silently ignored (as we want)
+    ..strata = strata
+  )
   data_ind$..group <- as.character(data_ind$..group)
 
   res <- if (is.null(strata)) {
     switch(
       balance,
-      "groups" = balance_groups(data_ind = data_ind, v = v, ...),
-      "observations" = balance_observations(data_ind = data_ind, v = v, ...),
-      "prop" = balance_prop(data_ind = data_ind, v = v, ...)
+      "groups" = balance_groups(
+        data_ind = data_ind,
+        v = v,
+        ...
+      ),
+      "observations" = balance_observations(
+        data_ind = data_ind,
+        v = v,
+        ...
+      ),
+      "prop" = balance_prop(
+        data_ind = data_ind,
+        v = v,
+        ...
+      )
     )
   } else {
     data_ind$..strata <- as.character(data_ind$..strata)
     switch(
       balance,
-      "groups" = balance_groups_strata(data_ind = data_ind, v = v, ...),
-      "observations" = balance_observations_strata(data_ind = data_ind, v = v, ...),
-      "prop" = balance_prop_strata(data_ind = data_ind, v = v, ...)
+      "groups" = balance_groups_strata(
+        data_ind = data_ind,
+        v = v,
+        ...
+      ),
+      "observations" = balance_observations_strata(
+        data_ind = data_ind,
+        v = v,
+        ...
+      ),
+      "prop" = balance_prop_strata(
+        data_ind = data_ind,
+        v = v,
+        ...
+      )
     )
   }
 
@@ -75,7 +105,9 @@ balance_groups <- function(data_ind, v, ...) {
   unique_groups <- unique(data_ind$..group)
   keys <- data.frame(
     ..group = unique_groups,
-    ..folds = sample(rep(seq_len(v), length.out = length(unique_groups)))
+    ..folds = sample(
+      rep(seq_len(v), length.out = length(unique_groups))
+    )
   )
   list(
     data_ind = data_ind,
@@ -86,12 +118,24 @@ balance_groups <- function(data_ind, v, ...) {
 balance_groups_strata <- function(data_ind, v, ...) {
   rlang::check_dots_empty()
 
+  # Create a table that's all the unique group x strata combinations:
   keys <- vctrs::vec_unique(data_ind[c("..group", "..strata")])
+  # Create as many fold IDs as there are group x strata,
+  # in repeating order (1, 2, ..., n, 1, 2, ..., n)
   folds <- rep(1:v, length.out = nrow(keys))
 
+  # Split the folds based on how many groups are within each strata
+  # So if the first strata in sort is 3, and v is 2, that strata gets a
+  # c(1, 2, 1) for fold IDs
+  #
+  # This means that, if nrow(keys) %% v == 0, each fold should have
+  # the same number of groups from each strata
   folds <- split_unnamed(folds, sort(keys$..strata))
   keys <- split_unnamed(keys, keys$..strata)
 
+  # Randomly assign fold IDs to each group within each strata
+  # This is the only step here with any randomness in it
+  # If each strata only has one group, this function is deterministic
   keys <- purrr::map2(
     keys,
     folds,
@@ -135,7 +179,8 @@ balance_observations <- function(data_ind, v, ...) {
                     improvement = .data$post_error - .data$pre_error)
 
     most_improved <- which.min(group_breakdown$improvement)
-    freq_table[next_row, ]$assignment <- group_breakdown[most_improved, ]$assignment
+    freq_table[next_row, ]$assignment <-
+      group_breakdown[most_improved, ]$assignment
   }
 
   collapse_groups(freq_table, data_ind, v)
@@ -153,12 +198,18 @@ balance_observations_strata <- function(data_ind, v, ...) {
 
 balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
   rlang::check_dots_empty()
+
   acceptable_prop <- is.numeric(prop)
-  acceptable_prop <- acceptable_prop && ((prop <= 1 && replace) || (prop < 1 && !replace))
+  acceptable_prop <- acceptable_prop &&
+    ((prop <= 1 && replace) || (prop < 1 && !replace))
   acceptable_prop <- acceptable_prop && prop > 0
   if (!acceptable_prop) {
-    rlang::abort("`prop` must be a number on (0, 1).", call = rlang::caller_env())
+    rlang::abort(
+      "`prop` must be a number on (0, 1).",
+      call = rlang::caller_env()
+    )
   }
+
   n_obs <- nrow(data_ind)
 
   freq_table <- vec_count(data_ind$..group, sort = "location")
@@ -173,7 +224,8 @@ balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
   freq_table <- purrr::map_dfr(
     seq_len(v),
     function(x) {
-      work_table <- freq_table[sample.int(nrow(freq_table), n, replace = replace), ]
+      row_idx <- sample.int(nrow(freq_table), n, replace = replace)
+      work_table <- freq_table[row_idx, ]
       cumulative_proportion <- cumsum(work_table$count) / sum(freq_table$count)
       crosses_target <- which(cumulative_proportion > prop)[[1]]
       is_closest <- cumulative_proportion[c(crosses_target, crosses_target - 1)]
