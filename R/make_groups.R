@@ -130,12 +130,22 @@ balance_groups_strata <- function(data_ind, v, ...) {
   #
   # This means that, if nrow(keys) %% v == 0, each fold should have
   # the same number of groups from each strata
-  folds <- split_unnamed(folds, sort(keys$..strata))
+  #
+  # We randomize "keys" here so that the function is stochastic even for
+  # strata with only one group:
+  unique_strata <- unique(keys$..strata)
+  keys_order <- sample.int(length(unique_strata))
+
+  # Re-order the keys data.frame based on the reshuffled strata variable:
+  keys <- keys[
+    order(match(keys$..strata, unique_strata[keys_order])),
+  ]
+
+  # And split both folds and keys with the reordered strata vector:
+  folds <- split_unnamed(folds, keys$..strata)
   keys <- split_unnamed(keys, keys$..strata)
 
   # Randomly assign fold IDs to each group within each strata
-  # This is the only step here with any randomness in it
-  # If each strata only has one group, this function is deterministic
   keys <- purrr::map2(
     keys,
     folds,

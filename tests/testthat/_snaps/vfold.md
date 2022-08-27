@@ -70,11 +70,11 @@
       # A tibble: 5 x 5
         analysis assessment      n     p id       
            <int>      <int>  <int> <int> <chr>    
-      1    79814      20186 100000     3 Resample1
-      2    80195      19805 100000     3 Resample2
-      3    80109      19891 100000     3 Resample3
-      4    79831      20169 100000     3 Resample4
-      5    80051      19949 100000     3 Resample5
+      1    80004      19996 100000     3 Resample1
+      2    79850      20150 100000     3 Resample2
+      3    79912      20088 100000     3 Resample3
+      4    80131      19869 100000     3 Resample4
+      5    80103      19897 100000     3 Resample5
 
 # grouping -- printing
 
