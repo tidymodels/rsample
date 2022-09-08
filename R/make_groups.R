@@ -199,9 +199,8 @@ balance_observations_helper <- function(data_split, v, target_per_fold) {
   # (to ensure that each fold gets at least one group assigned):
   freq_table <- freq_table[sample.int(nrow(freq_table)), ]
   freq_table$assignment <- NA
-  # Assign _either_ the first
-  starting_folds <- seq_len(v)[seq_len(min(nrow(freq_table), v))]
-  freq_table$assignment[starting_folds] <- starting_folds
+  # Assign the first `v` rows to folds, so that each fold has _some_ data:
+  freq_table$assignment[seq_len(v)] <- seq_len(v)
 
   # Each run of this loop assigns one "NA" assignment to a fold,
   # so we won't get caught in an endless loop here
