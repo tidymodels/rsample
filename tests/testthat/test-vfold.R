@@ -227,9 +227,12 @@ test_that("grouping -- other balance methods", {
 test_that("grouping -- strata", {
   set.seed(11)
 
+  common_class <- 70
+  rare_class <- 30
+
   group_table <- tibble(
     group = 1:100,
-    outcome = sample(c(rep(0, 70), rep(1, 30)))
+    outcome = sample(c(rep(0, common_class), rep(1, rare_class)))
   )
   observation_table <- tibble(
     group = sample(1:100, 1e5, replace = TRUE),
@@ -247,7 +250,7 @@ test_that("grouping -- strata", {
       mean(dat == "1")
     }
   )
-  expect_equal(mean(unique(rate)), 0.3, tolerance = 1e-2)
+  expect_equal(mean(rate), 0.3, tolerance = 1e-2)
 
   good_holdout <- purrr::map_lgl(
     rs4$splits,
@@ -257,11 +260,63 @@ test_that("grouping -- strata", {
   )
   expect_true(all(good_holdout))
 
-  expect_equal(
-    nrow(group_vfold_cv(sample_data, group, strata = outcome)),
-    length(unique(sample_data$group))
+  expect_snapshot_warning(
+    group_vfold_cv(sample_data, group, strata = outcome)
   )
 
+  expect_equal(
+    nrow(
+      suppressWarnings(
+        group_vfold_cv(sample_data, group, strata = outcome)
+      )
+    ),
+    rare_class
+  )
+
+  rs5 <- group_vfold_cv(
+    sample_data,
+    group,
+    v = 5,
+    strata = outcome,
+    balance = "observations"
+  )
+  sizes5 <- dim_rset(rs5)
+  expect_snapshot(sizes5)
+
+  rate <- purrr::map_dbl(
+    rs5$splits,
+    function(x) {
+      dat <- as.data.frame(x)$outcome
+      mean(dat == "1")
+    }
+  )
+  expect_equal(mean(rate), 0.3, tolerance = 1e-2)
+
+  good_holdout <- purrr::map_lgl(
+    rs5$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
+  expect_true(all(good_holdout))
+
+  expect_snapshot_warning(
+    group_vfold_cv(sample_data, group, strata = outcome)
+  )
+
+  expect_equal(
+    nrow(
+      suppressWarnings(
+        group_vfold_cv(
+          sample_data,
+          group,
+          strata = outcome,
+          balance = "observations"
+        )
+      )
+    ),
+    rare_class
+  )
 })
 
 test_that("grouping -- repeated", {

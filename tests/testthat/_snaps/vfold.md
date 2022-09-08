@@ -76,6 +76,30 @@
       4    80131      19869 100000     3 Resample4
       5    80103      19897 100000     3 Resample5
 
+---
+
+    Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common strata.
+    i Set `v` explicitly to override this warning.
+
+---
+
+    Code
+      sizes5
+    Output
+      # A tibble: 5 x 5
+        analysis assessment      n     p id       
+           <int>      <int>  <int> <int> <chr>    
+      1    80096      19904 100000     3 Resample1
+      2    79962      20038 100000     3 Resample2
+      3    79928      20072 100000     3 Resample3
+      4    80058      19942 100000     3 Resample4
+      5    79956      20044 100000     3 Resample5
+
+---
+
+    Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common strata.
+    i Set `v` explicitly to override this warning.
+
 # grouping -- printing
 
     Code

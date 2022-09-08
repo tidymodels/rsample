@@ -268,18 +268,47 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = 
 group_vfold_splits <- function(data, group, v = NULL, balance, strata = NULL, pool = 0.1) {
 
   group <- getElement(data, group)
+  max_v <- length(unique(group))
   if (!is.null(strata)) {
     strata <- getElement(data, strata)
     strata <- as.character(strata)
     strata <- make_strata(strata, pool = pool)
+
+    if (is.null(v)) {
+      # Set max_v to be the lowest number of groups in a single strata
+      # to ensure that all folds get each strata
+      max_v <- min(
+        vec_count(
+          vec_unique(
+            data.frame(group, strata)
+          )$strata
+        )$count
+      )
+      message <- c(
+        "Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common strata."
+      )
+
+      if (max_v < 5) {
+        rlang::abort(c(
+          message,
+          x = glue::glue("The least common strata only had {max_v} groups, which may not be enough for cross-validation."),
+          i = "Set `v` explicitly to override this error."
+        ),
+        call = rlang::caller_env())
+      }
+
+      rlang::warn(c(
+        message,
+        i = "Set `v` explicitly to override this warning."
+      ),
+      call = rlang::caller_env())
+    }
   }
-  max_v <- length(unique(group))
 
   if (is.null(v)) {
     v <- max_v
-  } else {
-    check_v(v = v, max_v = max_v, rows = "groups", call = rlang::caller_env())
   }
+  check_v(v = v, max_v = max_v, rows = "groups", call = rlang::caller_env())
 
   indices <- make_groups(data, group, v, balance, strata)
   indices <- lapply(indices, default_complement, n = nrow(data))
