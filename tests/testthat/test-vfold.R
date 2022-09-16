@@ -227,12 +227,12 @@ test_that("grouping -- other balance methods", {
 test_that("grouping -- strata", {
   set.seed(11)
 
-  common_class <- 70
-  rare_class <- 30
+  n_common_class <- 70
+  n_rare_class <- 30
 
   group_table <- tibble(
     group = 1:100,
-    outcome = sample(c(rep(0, common_class), rep(1, rare_class)))
+    outcome = sample(c(rep(0, n_common_class), rep(1, n_rare_class)))
   )
   observation_table <- tibble(
     group = sample(1:100, 1e5, replace = TRUE),

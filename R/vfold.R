@@ -285,13 +285,13 @@ group_vfold_splits <- function(data, group, v = NULL, balance, strata = NULL, po
         )$count
       )
       message <- c(
-        "Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common strata."
+        "Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum."
       )
 
       if (max_v < 5) {
         rlang::abort(c(
           message,
-          x = glue::glue("The least common strata only had {max_v} groups, which may not be enough for cross-validation."),
+          x = glue::glue("The least common stratum only had {max_v} groups, which may not be enough for cross-validation."),
           i = "Set `v` explicitly to override this error."
         ),
         call = rlang::caller_env())
