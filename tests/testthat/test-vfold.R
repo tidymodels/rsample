@@ -270,7 +270,7 @@ test_that("grouping -- strata", {
         group_vfold_cv(sample_data, group, strata = outcome)
       )
     ),
-    rare_class
+    n_rare_class
   )
 
   rs5 <- group_vfold_cv(
@@ -315,7 +315,7 @@ test_that("grouping -- strata", {
         )
       )
     ),
-    rare_class
+    n_rare_class
   )
 })
 
