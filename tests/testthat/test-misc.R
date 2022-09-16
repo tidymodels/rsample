@@ -103,7 +103,8 @@ test_that("reshuffle_rset is working", {
         group = "y",
         strata = "z",
         breaks = 2,
-        pool = 0.2
+        pool = 0.2,
+        v = 2
       )
     )
     # Reshuffle them under the same seed to ensure they're identical

@@ -76,6 +76,11 @@
       4    80131      19869 100000     3 Resample4
       5    80103      19897 100000     3 Resample5
 
+---
+
+    Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum.
+    i Set `v` explicitly to override this warning.
+
 # grouping -- printing
 
     Code

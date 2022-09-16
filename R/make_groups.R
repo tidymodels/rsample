@@ -168,42 +168,75 @@ balance_observations <- function(data_ind, v, ...) {
   n_obs <- nrow(data_ind)
   target_per_fold <- 1 / v
 
-  freq_table <- vec_count(data_ind$..group, sort = "location")
-  freq_table <- freq_table[sample.int(nrow(freq_table)), ]
-  freq_table$assignment <- NA
-  freq_table$assignment[seq_len(v)] <- seq_len(v)
-
-  while (any(is.na(freq_table$assignment))) {
-    next_row <- which(is.na(freq_table$assignment))[[1]]
-    next_size <- freq_table[next_row, ]$count
-
-    group_breakdown <- freq_table %>%
-      stats::na.omit() %>%
-      dplyr::group_by(.data$assignment) %>%
-      dplyr::summarise(count = sum(.data$count), .groups = "drop") %>%
-      dplyr::mutate(prop = .data$count / n_obs,
-                    pre_error = abs(.data$prop - target_per_fold),
-                    if_added_count = .data$count + next_size,
-                    if_added_prop = .data$if_added_count / n_obs,
-                    post_error = abs(.data$if_added_prop - target_per_fold),
-                    improvement = .data$post_error - .data$pre_error)
-
-    most_improved <- which.min(group_breakdown$improvement)
-    freq_table[next_row, ]$assignment <-
-      group_breakdown[most_improved, ]$assignment
-  }
+  freq_table <- balance_observations_helper(data_ind, v, target_per_fold)
 
   collapse_groups(freq_table, data_ind, v)
 
 }
 
 balance_observations_strata <- function(data_ind, v, ...) {
-  rlang::abort(
-    c(
-      "`balance = 'observations'` has not yet been implemented for grouped resampling with stratification.",
-      i = "Consider setting `balance = 'groups'`"
-    )
+  rlang::check_dots_empty()
+
+  target_per_fold <- 1 / v
+
+  data_splits <- split_unnamed(data_ind, data_ind[["..strata"]])
+  freq_table <- purrr::map_dfr(
+    data_splits,
+    balance_observations_helper,
+    v = v,
+    target_per_fold = target_per_fold
   )
+
+  collapse_groups(freq_table, data_ind, v)
+}
+
+balance_observations_helper <- function(data_split, v, target_per_fold) {
+
+  n_obs <- nrow(data_split)
+  # Create a frequency table counting how many of each group are in the data:
+  freq_table <- vec_count(data_split$..group, sort = "location")
+  # Randomly shuffle that table, then assign the first few rows to folds
+  # (to ensure that each fold gets at least one group assigned):
+  freq_table <- freq_table[sample.int(nrow(freq_table)), ]
+  freq_table$assignment <- NA
+  # Assign the first `v` rows to folds, so that each fold has _some_ data:
+  freq_table$assignment[seq_len(v)] <- seq_len(v)
+
+  # Each run of this loop assigns one "NA" assignment to a fold,
+  # so we won't get caught in an endless loop here
+  while (any(is.na(freq_table$assignment))) {
+    # Get the index of the next row to be assigned, and its count:
+    next_row <- which(is.na(freq_table$assignment))[[1]]
+    next_size <- freq_table[next_row, ]$count
+
+    # Calculate which fold to assign this new row into:
+    group_breakdown <- freq_table %>%
+      # The only NA column in freq_table should be assignment
+      # So this should only drop un-assigned groups:
+      stats::na.omit() %>%
+      # Group by fold assignments and count data in each fold:
+      dplyr::group_by(.data$assignment) %>%
+      dplyr::summarise(count = sum(.data$count), .groups = "drop") %>%
+      # Calculate...:
+      dplyr::mutate(
+        # The proportion of data in each fold so far,
+        prop = .data$count / n_obs,
+        # The amount off from the target proportion so far,
+        pre_error = abs(.data$prop - target_per_fold),
+        # The amount off from the target proportion if we add this new group,
+        if_added_count = .data$count + next_size,
+        if_added_prop = .data$if_added_count / n_obs,
+        post_error = abs(.data$if_added_prop - target_per_fold),
+        # And how much better or worse adding this new group would make things
+        improvement = .data$post_error - .data$pre_error
+      )
+
+    # Assign the group in question to the best fold and move on to the next one:
+    most_improved <- which.min(group_breakdown$improvement)
+    freq_table[next_row, ]$assignment <-
+      group_breakdown[most_improved, ]$assignment
+  }
+  freq_table
 }
 
 balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
