@@ -74,6 +74,28 @@ test_that("`prop` computes the proportion for analysis (#217)", {
   }
 })
 
+test_that("grouping -- strata", {
+  set.seed(11)
+
+  n_common_class <- 70
+  n_rare_class <- 30
+
+  group_table <- tibble(
+    group = 1:100,
+    outcome = sample(c(rep(0, n_common_class), rep(1, n_rare_class)))
+  )
+  observation_table <- tibble(
+    group = sample(1:100, 5e4, replace = TRUE),
+    observation = 1:5e4
+  )
+  sample_data <- dplyr::full_join(group_table, observation_table, by = "group")
+  rs4 <- group_initial_split(sample_data, group, strata = outcome)
+  expect_equal(mean(as.data.frame(rs4)$outcome == 1), 0.3, tolerance = 1e-2)
+
+  expect_identical(length(intersect(rs4$in_ind, rs4$out_id)), 0L)
+
+})
+
 test_that("`prop` computes the proportion for group analysis", {
   rs1 <- group_initial_split(dat1, c, prop = 1 / 2)
   expect_equal(class(rs1), c("group_initial_split", "initial_split", "grouped_mc_split", "mc_split", "rsplit"))

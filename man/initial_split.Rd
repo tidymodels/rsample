@@ -16,7 +16,7 @@ training(x)
 
 testing(x)
 
-group_initial_split(data, group, prop = 3/4, ...)
+group_initial_split(data, group, prop = 3/4, ..., strata = NULL, pool = 0.1)
 }
 \arguments{
 \item{data}{A data frame.}

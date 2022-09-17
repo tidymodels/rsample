@@ -1,3 +1,17 @@
+# grouping -- strata
+
+    Code
+      sizes4
+    Output
+      # A tibble: 5 x 5
+        analysis assessment     n     p id        
+           <int>      <int> <int> <int> <chr>     
+      1    49669      18552 50000     3 Bootstrap1
+      2    49943      17429 50000     3 Bootstrap2
+      3    50133      16350 50000     3 Bootstrap3
+      4    50314      18071 50000     3 Bootstrap4
+      5    50253      17830 50000     3 Bootstrap5
+
 # bad args
 
     Code

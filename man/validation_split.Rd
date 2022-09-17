@@ -10,7 +10,7 @@ validation_split(data, prop = 3/4, strata = NULL, breaks = 4, pool = 0.1, ...)
 
 validation_time_split(data, prop = 3/4, lag = 0, ...)
 
-group_validation_split(data, group, prop = 3/4, ...)
+group_validation_split(data, group, prop = 3/4, ..., strata = NULL, pool = 0.1)
 }
 \arguments{
 \item{data}{A data frame.}

@@ -28,6 +28,20 @@
       ! Some assessment sets contained zero rows
       i Consider using a non-grouped resampling method
 
+# grouping -- strata
+
+    Code
+      sizes4
+    Output
+      # A tibble: 5 x 5
+        analysis assessment     n     p id       
+           <int>      <int> <int> <int> <chr>    
+      1    37939      12061 50000     3 Resample1
+      2    37063      12937 50000     3 Resample2
+      3    37178      12822 50000     3 Resample3
+      4    37950      12050 50000     3 Resample4
+      5    37585      12415 50000     3 Resample5
+
 # grouping - printing
 
     Code

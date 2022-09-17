@@ -162,19 +162,29 @@ strat_sample <- function(x, prop, times, ...) {
 #' group_mc_cv(ames, group = Neighborhood, times = 5)
 #'
 #' @export
-group_mc_cv <- function(data, group, prop = 3 / 4, times = 25, ...) {
+group_mc_cv <- function(data, group, prop = 3 / 4, times = 25, ...,
+                        strata = NULL, pool = 0.1) {
 
   rlang::check_dots_empty()
 
   group <- validate_group({{ group }}, data)
+
+  if (!missing(strata)) {
+    strata <- check_grouped_strata({{ group }}, {{ strata }}, pool, data)
+  }
 
   split_objs <-
     group_mc_splits(
       data = data,
       group = group,
       prop = prop,
-      times = times
+      times = times,
+      strata = strata,
+      pool = pool
     )
+
+  # This is needed for printing checks; strata can't be missing for mc_cv
+  if (is.null(strata)) strata <- FALSE
 
   ## We remove the holdout indices since it will save space and we can
   ## derive them later when they are needed.
@@ -185,7 +195,8 @@ group_mc_cv <- function(data, group, prop = 3 / 4, times = 25, ...) {
     prop = prop,
     times = times,
     balance = "prop",
-    strata = FALSE
+    strata = strata,
+    pool = pool
   )
 
   new_rset(
@@ -196,12 +207,29 @@ group_mc_cv <- function(data, group, prop = 3 / 4, times = 25, ...) {
   )
 }
 
-group_mc_splits <- function(data, group, prop = 3 / 4, times = 25) {
+group_mc_splits <- function(data, group, prop = 3 / 4, times = 25, strata = NULL, pool = 0.1) {
 
   group <- getElement(data, group)
+  if (!is.null(strata)) {
+    strata <- getElement(data, strata)
+    strata <- as.character(strata)
+    strata <- make_strata(strata, pool = pool)
+  }
+
   n <- nrow(data)
-  indices <- make_groups(data, group, times, balance = "prop", prop = prop, replace = FALSE)
+
+  indices <- make_groups(
+    data,
+    group,
+    times,
+    balance = "prop",
+    prop = prop,
+    replace = FALSE,
+    strata = strata
+  )
+
   indices <- lapply(indices, mc_complement, n = n)
+
   split_objs <-
     purrr::map(
       indices,
@@ -209,8 +237,8 @@ group_mc_splits <- function(data, group, prop = 3 / 4, times = 25) {
       data = data,
       class = c("grouped_mc_split", "mc_split")
     )
-  all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
 
+  all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
   if (any(all_assessable == 0)) {
     rlang::abort(
       c(
@@ -220,6 +248,7 @@ group_mc_splits <- function(data, group, prop = 3 / 4, times = 25) {
       call = rlang::caller_env()
     )
   }
+
   list(
     splits = split_objs,
     id = names0(length(split_objs), "Resample")

@@ -105,18 +105,24 @@ validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
 #' @rdname validation_split
 #' @inheritParams group_initial_split
 #' @export
-group_validation_split <- function(data, group, prop = 3 / 4, ...) {
+group_validation_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, pool = 0.1) {
 
   rlang::check_dots_empty()
 
   group <- validate_group({{ group }}, data)
+
+  if (!missing(strata)) {
+    strata <- check_grouped_strata({{ group }}, {{ strata }}, pool, data)
+  }
 
   split_objs <-
     group_mc_splits(
       data = data,
       group = {{ group }},
       prop = prop,
-      times = 1
+      times = 1,
+      strata = {{ strata }},
+      pool = pool
     )
 
   ## We remove the holdout indices since it will save space and we can
@@ -125,10 +131,13 @@ group_validation_split <- function(data, group, prop = 3 / 4, ...) {
   split_objs$splits <- map(split_objs$splits, rm_out)
   class(split_objs$splits[[1]]) <- c("group_val_split", "val_split", "rsplit")
 
+  # This is needed for printing -- strata cannot be missing
+  if (is.null(strata)) strata <- FALSE
   val_att <- list(
     prop = prop,
     group = group,
-    strata = FALSE
+    strata = strata,
+    pool = pool
   )
 
   new_rset(

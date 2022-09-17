@@ -241,30 +241,45 @@ balance_observations_helper <- function(data_split, v, target_per_fold) {
 
 balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
   rlang::check_dots_empty()
+  check_prop(prop, replace)
 
-  acceptable_prop <- is.numeric(prop)
-  acceptable_prop <- acceptable_prop &&
-    ((prop <= 1 && replace) || (prop < 1 && !replace))
-  acceptable_prop <- acceptable_prop && prop > 0
-  if (!acceptable_prop) {
-    rlang::abort(
-      "`prop` must be a number on (0, 1).",
-      call = rlang::caller_env()
-    )
-  }
+  freq_table <- balance_prop_helper(prop, data_ind, v, replace)
 
-  n_obs <- nrow(data_ind)
+  collapse_groups(freq_table, data_ind, v)
+
+}
+
+balance_prop_strata <- function(prop, data_ind, v, replace = FALSE, ...) {
+  rlang::check_dots_empty()
+
+  data_splits <- split_unnamed(data_ind, data_ind[["..strata"]])
+  folds_by_strata <- purrr::map(
+    data_splits,
+    balance_prop_helper,
+    prop = prop,
+    v = v,
+    replace = replace
+  )
+
+  freq_table <- do.call(rbind, folds_by_strata)
+
+  collapse_groups(freq_table, data_ind, v)
+}
+
+balance_prop_helper <- function(prop, data_ind, v, replace) {
 
   freq_table <- vec_count(data_ind$..group, sort = "location")
 
-  n <- nrow(freq_table)
+  # Calculate how many groups to sample each iteration
   # If sampling with replacement,
   # set `n` to the number of resamples we'd need
-  # if we somehow got the smallest group every time
+  # if we somehow got the smallest group every time.
+  # If sampling without replacement, just reshuffle all the groups.
+  n <- nrow(freq_table)
   if (replace) n <- n * prop * sum(freq_table$count) / min(freq_table$count)
   n <- ceiling(n)
 
-  freq_table <- purrr::map_dfr(
+  purrr::map_dfr(
     seq_len(v),
     function(x) {
       row_idx <- sample.int(nrow(freq_table), n, replace = replace)
@@ -279,19 +294,21 @@ balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
       out
     }
   )
-
-  collapse_groups(freq_table, data_ind, v)
-
 }
 
-balance_prop_strata <- function(...) {
-  rlang::abort(
-    c(
-      "`balance = 'prop'` has not yet been implemented for grouped resampling with stratification, and should not be usable at all.",
-      i = "Please open an issue at https://github.com/tidymodels/rsample/issues with the code you ran that returned this error."
+check_prop <- function(prop, replace) {
+  acceptable_prop <- is.numeric(prop)
+  acceptable_prop <- acceptable_prop &&
+    ((prop <= 1 && replace) || (prop < 1 && !replace))
+  acceptable_prop <- acceptable_prop && prop > 0
+  if (!acceptable_prop) {
+    rlang::abort(
+      "`prop` must be a number on (0, 1).",
+      call = rlang::caller_env()
     )
-  )
+  }
 }
+
 
 collapse_groups <- function(freq_table, data_ind, v) {
   data_ind <- dplyr::left_join(data_ind, freq_table, by = c("..group" = "key"))

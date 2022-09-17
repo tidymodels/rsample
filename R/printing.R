@@ -90,7 +90,7 @@ pretty.group_validation_split <- function(x, ...) {
     ") "
   )
   if (has_strata(details)) {
-    res <- paste(res, "using stratification")
+    res <- paste0(res, "using stratification")
   }
   res
 }
@@ -175,6 +175,10 @@ pretty.group_mc_cv <- function(x, ...) {
     details$times,
     " resamples "
   )
+
+  if (has_strata(details)) {
+    res <- paste0(res, "using stratification")
+  }
 
   res
 }

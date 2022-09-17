@@ -196,17 +196,25 @@ group_bootstraps <- function(data,
                              group,
                              times = 25,
                              apparent = FALSE,
-                             ...) {
+                             ...,
+                             strata = NULL,
+                             pool = 0.1) {
 
   rlang::check_dots_empty()
 
   group <- validate_group({{ group }}, data)
 
+  if (!missing(strata)) {
+    strata <- check_grouped_strata({{ group }}, {{ strata }}, pool, data)
+  }
+
   split_objs <-
     group_boot_splits(
       data = data,
       group = group,
-      times = times
+      times = times,
+      strata = strata,
+      pool = pool
     )
 
   ## We remove the holdout indices since it will save space and we can
@@ -217,10 +225,13 @@ group_bootstraps <- function(data,
     split_objs <- bind_rows(split_objs, apparent(data))
   }
 
+  # This is needed for printing checks; strata can't be missing
+  if (is.null(strata)) strata <- FALSE
   boot_att <- list(
     times = times,
     apparent = apparent,
-    strata = FALSE,
+    strata = strata,
+    pool = pool,
     group = group
   )
 
@@ -232,14 +243,34 @@ group_bootstraps <- function(data,
   )
 }
 
-group_boot_splits <- function(data, group, times = 25) {
+group_boot_splits <- function(data, group, times = 25, strata = NULL, pool = 0.1) {
 
   group <- getElement(data, group)
+  if (!is.null(strata)) {
+    strata <- getElement(data, strata)
+    strata <- as.character(strata)
+    strata <- make_strata(strata, pool = pool)
+  }
+
   n <- nrow(data)
-  indices <- make_groups(data, group, times, balance = "prop", prop = 1, replace = TRUE)
+
+  indices <- make_groups(
+    data,
+    group,
+    times,
+    balance = "prop",
+    prop = 1,
+    replace = TRUE,
+    strata = strata
+  )
+
   indices <- lapply(indices, boot_complement, n = n)
-  split_objs <-
-    purrr::map(indices, make_splits, data = data, class = c("group_boot_split", "boot_split"))
+  split_objs <- purrr::map(
+    indices,
+    make_splits,
+    data = data,
+    class = c("group_boot_split", "boot_split")
+  )
 
   all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
   if (any(all_assessable == 0)) {

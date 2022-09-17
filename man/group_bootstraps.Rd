@@ -4,7 +4,15 @@
 \alias{group_bootstraps}
 \title{Group Bootstraps}
 \usage{
-group_bootstraps(data, group, times = 25, apparent = FALSE, ...)
+group_bootstraps(
+  data,
+  group,
+  times = 25,
+  apparent = FALSE,
+  ...,
+  strata = NULL,
+  pool = 0.1
+)
 }
 \arguments{
 \item{data}{A data frame.}
@@ -21,6 +29,15 @@ some estimators used by the \code{summary} function that require the apparent
 error rate.}
 
 \item{...}{Not currently used.}
+
+\item{strata}{A variable in \code{data} (single character or name) used to conduct
+stratified sampling. When not \code{NULL}, each resample is created within the
+stratification variable. Numeric \code{strata} are binned into quartiles.}
+
+\item{pool}{A proportion of data used to determine if a particular group is
+too small and should be pooled into another group. We do not recommend
+decreasing this argument below its default of 0.1 because of the dangers
+of stratifying groups that are too small.}
 }
 \value{
 An tibble with classes \code{group_bootstraps} \code{bootstraps}, \code{rset},

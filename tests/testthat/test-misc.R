@@ -93,18 +93,30 @@ test_that("reshuffle_rset is working", {
   )
   grouped_strata <- names(supported_subclasses)[grouped_strata]
 
+  set.seed(11)
+
+  group_table <- tibble::tibble(
+    group = 1:100,
+    outcome = sample(c(rep(0, 89), rep(1, 11)))
+  )
+  observation_table <- tibble::tibble(
+    group = sample(1:100, 5e4, replace = TRUE),
+    observation = 1:5e4
+  )
+  sample_data <- dplyr::full_join(group_table, observation_table, by = "group")
+
   for (i in seq_along(grouped_strata)) {
     # Fit those functions with non-default arguments:
     set.seed(123)
-    resample <- do.call(
-      grouped_strata[i],
-      list(
-        data = cbind(test_data(), z = rep(1:5, each = 10)),
-        group = "y",
-        strata = "z",
-        breaks = 2,
-        pool = 0.2,
-        v = 2
+    resample <- suppressWarnings(
+      do.call(
+        grouped_strata[i],
+        list(
+          data = sample_data,
+          group = "group",
+          strata = "outcome",
+          pool = 0.2
+        )
       )
     )
     # Reshuffle them under the same seed to ensure they're identical
