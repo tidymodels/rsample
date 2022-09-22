@@ -179,6 +179,14 @@ balance_observations_strata <- function(data_ind, v, ...) {
 
   target_per_fold <- 1 / v
 
+  # This is the core difference between stratification and not:
+  #
+  # Without stratification, data_ind is broken into v groups,
+  # which are roughly balanced based on the number of observations
+  #
+  # With strata, data_ind is split up by strata, and then each _split_
+  # is broken into v groups (which are then combined with the other strata);
+  # the balancing for each fold is done separately inside each strata "split"
   data_splits <- split_unnamed(data_ind, data_ind[["..strata"]])
   freq_table <- purrr::map_dfr(
     data_splits,
@@ -252,6 +260,14 @@ balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
 balance_prop_strata <- function(prop, data_ind, v, replace = FALSE, ...) {
   rlang::check_dots_empty()
 
+  # This is the core difference between stratification and not:
+  #
+  # Without stratification, `prop`% of `data_ind` is sampled `v` times;
+  # the resampling is done with the entire set of groups
+  #
+  # With strata, data_ind is split up by strata, and then each _split_
+  # has `prop`% of `data_ind` is sampled `v` times;
+  # the resampling for each iteration is done inside each strata "split"
   data_splits <- split_unnamed(data_ind, data_ind[["..strata"]])
   folds_by_strata <- purrr::map(
     data_splits,
