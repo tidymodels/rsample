@@ -98,16 +98,27 @@ testing <- function(x) assessment(x)
 #' @inheritParams make_groups
 #' @rdname initial_split
 #' @export
-group_initial_split <- function(data, group, prop = 3 / 4, ...) {
+group_initial_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, pool = 0.1) {
 
-  res <-
-    group_mc_cv(
-      data = data,
-      group = {{ group }},
-      prop = prop,
-      times = 1,
-      ...
-    )
+  if (missing(strata)) {
+    res <- group_mc_cv(
+        data = data,
+        group = {{ group }},
+        prop = prop,
+        times = 1,
+        ...
+      )
+  } else {
+    res <- group_mc_cv(
+        data = data,
+        group = {{ group }},
+        prop = prop,
+        times = 1,
+        ...,
+        strata = {{ strata }},
+        pool = pool
+      )
+  }
   res <- res$splits[[1]]
   class(res) <- c("group_initial_split", "initial_split", class(res))
   res

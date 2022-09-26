@@ -25,6 +25,16 @@
       Error in `validation_time_split()`:
       ! `lag` must be less than or equal to the number of training observations.
 
+# grouping -- strata
+
+    Code
+      sizes4
+    Output
+      # A tibble: 1 x 5
+        analysis assessment     n     p id        
+           <int>      <int> <int> <int> <chr>     
+      1    37074      12926 50000     3 validation
+
 # printing
 
     Code

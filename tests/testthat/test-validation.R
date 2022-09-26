@@ -82,6 +82,44 @@ test_that("default group param", {
   expect_true(all(good_holdout))
 })
 
+test_that("grouping -- strata", {
+  set.seed(11)
+
+  n_common_class <- 70
+  n_rare_class <- 30
+
+  group_table <- tibble(
+    group = 1:100,
+    outcome = sample(c(rep(0, n_common_class), rep(1, n_rare_class)))
+  )
+  observation_table <- tibble(
+    group = sample(1:100, 5e4, replace = TRUE),
+    observation = 1:5e4
+  )
+  sample_data <- dplyr::full_join(group_table, observation_table, by = "group")
+  rs4 <- group_validation_split(sample_data, group, strata = outcome)
+  sizes4 <- dim_rset(rs4)
+  expect_snapshot(sizes4)
+
+  rate <- purrr::map_dbl(
+    rs4$splits,
+    function(x) {
+      dat <- as.data.frame(x)$outcome
+      mean(dat == "1")
+    }
+  )
+  expect_equal(mean(rate), 0.3, tolerance = 1e-2)
+
+  good_holdout <- purrr::map_lgl(
+    rs4$splits,
+    function(x) {
+      length(intersect(x$in_ind, x$out_id)) == 0
+    }
+  )
+  expect_true(all(good_holdout))
+
+})
+
 test_that("different percent", {
   set.seed(11)
   rs2 <- validation_split(dat1, prop = .5)
