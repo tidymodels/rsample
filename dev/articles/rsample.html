@@ -107,14 +107,24 @@
 <div class="section level2">
 <h2 id="terminology">Terminology<a class="anchor" aria-label="anchor" href="#terminology"></a>
 </h2>
-<p>We define a <em>resample</em> as the result of a two-way split of a data set. For example, when bootstrapping, one part of the resample is a sample with replacement of the original data. The other part of the split contains the instances that were not contained in the bootstrap sample. Cross-validation is another type of resampling.</p>
+<p>We define a <em>resample</em> as the result of a two-way split of a
+data set. For example, when bootstrapping, one part of the resample is a
+sample with replacement of the original data. The other part of the
+split contains the instances that were not contained in the bootstrap
+sample. Cross-validation is another type of resampling.</p>
 </div>
 <div class="section level2">
 <h2 id="rset-objects-contain-many-resamples">
 <code>rset</code> Objects Contain Many Resamples<a class="anchor" aria-label="anchor" href="#rset-objects-contain-many-resamples"></a>
 </h2>
-<p>The main class in the package (<code>rset</code>) is for a <em>set</em> or <em>collection</em> of resamples. In 10-fold cross-validation, the set would consist of the 10 different resamples of the original data.</p>
-<p>Like <a href="https://cran.r-project.org/package=modelr" class="external-link"><code>modelr</code></a>, the resamples are stored in data-frame-like <code>tibble</code> object. As a simple example, here is a small set of bootstraps of the <code>mtcars</code> data:</p>
+<p>The main class in the package (<code>rset</code>) is for a
+<em>set</em> or <em>collection</em> of resamples. In 10-fold
+cross-validation, the set would consist of the 10 different resamples of
+the original data.</p>
+<p>Like <a href="https://cran.r-project.org/package=modelr" class="external-link"><code>modelr</code></a>,
+the resamples are stored in data-frame-like <code>tibble</code> object.
+As a simple example, here is a small set of bootstraps of the
+<code>mtcars</code> data:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org">rsample</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">8584</span><span class="op">)</span></span>
@@ -131,21 +141,41 @@
 <div class="section level2">
 <h2 id="individual-resamples-are-rsplit-objects">Individual Resamples are <code>rsplit</code> Objects<a class="anchor" aria-label="anchor" href="#individual-resamples-are-rsplit-objects"></a>
 </h2>
-<p>The resamples are stored in the <code>splits</code> column in an object that has class <code>rsplit</code>.</p>
-<p>In this package we use the following terminology for the two partitions that comprise a resample:</p>
+<p>The resamples are stored in the <code>splits</code> column in an
+object that has class <code>rsplit</code>.</p>
+<p>In this package we use the following terminology for the two
+partitions that comprise a resample:</p>
 <ul>
-<li>The <em>analysis</em> data are those that we selected in the resample. For a bootstrap, this is the sample with replacement. For 10-fold cross-validation, this is the 90% of the data. These data are often used to fit a model or calculate a statistic in traditional bootstrapping.</li>
-<li>The <em>assessment</em> data are usually the section of the original data not covered by the analysis set. Again, in 10-fold CV, this is the 10% held out. These data are often used to evaluate the performance of a model that was fit to the analysis data.</li>
+<li>The <em>analysis</em> data are those that we selected in the
+resample. For a bootstrap, this is the sample with replacement. For
+10-fold cross-validation, this is the 90% of the data. These data are
+often used to fit a model or calculate a statistic in traditional
+bootstrapping.</li>
+<li>The <em>assessment</em> data are usually the section of the original
+data not covered by the analysis set. Again, in 10-fold CV, this is the
+10% held out. These data are often used to evaluate the performance of a
+model that was fit to the analysis data.</li>
 </ul>
-<p>(Aside: While some might use the term “training” and “testing” for these data sets, we avoid them since those labels often conflict with the data that result from an initial partition of the data that is typically done <em>before</em> resampling. The training/test split can be conducted using the <code>initial_split</code> function in this package.)</p>
+<p>(Aside: While some might use the term “training” and “testing” for
+these data sets, we avoid them since those labels often conflict with
+the data that result from an initial partition of the data that is
+typically done <em>before</em> resampling. The training/test split can
+be conducted using the <code>initial_split</code> function in this
+package.)</p>
 <p>Let’s look at one of the <code>rsplit</code> objects</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">first_resample</span> <span class="op">&lt;-</span> <span class="va">bt_resamples</span><span class="op">$</span><span class="va">splits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">first_resample</span></span>
 <span><span class="co">#&gt; &lt;Analysis/Assess/Total&gt;</span></span>
 <span><span class="co">#&gt; &lt;32/14/32&gt;</span></span></code></pre></div>
-<p>This indicates that there were 32 data points in the analysis set, 14 instances were in the assessment set, and that the original data contained 32 data points. These results can also be determined using the <code>dim</code> function on an <code>rsplit</code> object.</p>
-<p>To obtain either of these data sets from an <code>rsplit</code>, the <code>as.data.frame</code> function can be used. By default, the analysis set is returned but the <code>data</code> option can be used to return the assessment data:</p>
+<p>This indicates that there were 32 data points in the analysis set, 14
+instances were in the assessment set, and that the original data
+contained 32 data points. These results can also be determined using the
+<code>dim</code> function on an <code>rsplit</code> object.</p>
+<p>To obtain either of these data sets from an <code>rsplit</code>, the
+<code>as.data.frame</code> function can be used. By default, the
+analysis set is returned but the <code>data</code> option can be used to
+return the assessment data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_resample</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                   mpg cyl  disp  hp drat   wt qsec vs am gear carb</span></span>
@@ -171,7 +201,9 @@
 <span><span class="co">#&gt; Fiat X1-9          27.3   4  79.0  66 4.08 1.94 18.9  1  1    4    1</span></span>
 <span><span class="co">#&gt; Lotus Europa       30.4   4  95.1 113 3.77 1.51 16.9  1  1    5    2</span></span>
 <span><span class="co">#&gt; Volvo 142E         21.4   4 121.0 109 4.11 2.78 18.6  1  1    4    2</span></span></code></pre></div>
-<p>Alternatively, you can use the shortcuts <code>analysis(first_resample)</code> and <code>assessment(first_resample)</code>.</p>
+<p>Alternatively, you can use the shortcuts
+<code>analysis(first_resample)</code> and
+<code>assessment(first_resample)</code>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
