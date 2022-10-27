@@ -552,8 +552,8 @@ check_skip <- function(x) {
 compute_complete_indices <- function(id_in, id_out) {
   # Remove where either list has a `NULL` element.
   # These are incomplete windows.
-  id_in_na <- vctrs::vec_equal_na(id_in)
-  id_out_na <- vctrs::vec_equal_na(id_out)
+  id_in_na <- vctrs::vec_detect_missing(id_in)
+  id_out_na <- vctrs::vec_detect_missing(id_out)
 
   id_either_na <- id_in_na | id_out_na
 
