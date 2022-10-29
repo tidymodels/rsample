@@ -80,9 +80,9 @@ make_groups <- function(data,
 
 balance_groups <- function(data_ind, v, strata = NULL, ...) {
   if (is.null(strata)) {
-    balance_groups_normal(data_ind, v)
+    balance_groups_normal(data_ind, v, ...)
   } else {
-    balance_groups_strata(data_ind, v, strata)
+    balance_groups_strata(data_ind, v, strata, ...)
   }
 }
 
