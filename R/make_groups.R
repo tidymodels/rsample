@@ -39,53 +39,31 @@ make_groups <- function(data,
 
   data_ind <- tibble(
     ..index = 1:nrow(data),
-    ..group = group,
-    # "strata" is either the values from the strata column or NULL
-    # so this either creates a new column or is silently ignored (as we want)
-    ..strata = strata
+    ..group = group
   )
   data_ind$..group <- as.character(data_ind$..group)
 
-  res <- if (is.null(strata)) {
-    switch(
-      balance,
-      "groups" = balance_groups(
-        data_ind = data_ind,
-        v = v,
-        ...
-      ),
-      "observations" = balance_observations(
-        data_ind = data_ind,
-        v = v,
-        ...
-      ),
-      "prop" = balance_prop(
-        data_ind = data_ind,
-        v = v,
-        ...
-      )
+  res <- switch(
+    balance,
+    "groups" = balance_groups(
+      data_ind = data_ind,
+      v = v,
+      strata = strata,
+      ...
+    ),
+    "observations" = balance_observations(
+      data_ind = data_ind,
+      v = v,
+      strata = strata,
+      ...
+    ),
+    "prop" = balance_prop(
+      data_ind = data_ind,
+      v = v,
+      strata = strata,
+      ...
     )
-  } else {
-    data_ind$..strata <- as.character(data_ind$..strata)
-    switch(
-      balance,
-      "groups" = balance_groups_strata(
-        data_ind = data_ind,
-        v = v,
-        ...
-      ),
-      "observations" = balance_observations_strata(
-        data_ind = data_ind,
-        v = v,
-        ...
-      ),
-      "prop" = balance_prop_strata(
-        data_ind = data_ind,
-        v = v,
-        ...
-      )
-    )
-  }
+  )
 
   data_ind <- res$data_ind
   keys <- res$keys
@@ -100,7 +78,15 @@ make_groups <- function(data,
 
 }
 
-balance_groups <- function(data_ind, v, ...) {
+balance_groups <- function(data_ind, v, strata = NULL, ...) {
+  if (is.null(strata)) {
+    balance_groups_normal(data_ind, v, ...)
+  } else {
+    balance_groups_strata(data_ind, v, strata, ...)
+  }
+}
+
+balance_groups_normal <- function(data_ind, v, ...) {
   rlang::check_dots_empty()
   unique_groups <- unique(data_ind$..group)
   keys <- data.frame(
@@ -115,9 +101,10 @@ balance_groups <- function(data_ind, v, ...) {
   )
 }
 
-balance_groups_strata <- function(data_ind, v, ...) {
+balance_groups_strata <- function(data_ind, v, strata, ...) {
   rlang::check_dots_empty()
 
+  data_ind$..strata <- strata
   # Create a table that's all the unique group x strata combinations:
   keys <- vctrs::vec_unique(data_ind[c("..group", "..strata")])
   # Create as many fold IDs as there are group x strata,
@@ -163,20 +150,9 @@ balance_groups_strata <- function(data_ind, v, ...) {
   )
 }
 
-balance_observations <- function(data_ind, v, ...) {
+balance_observations <- function(data_ind, v, strata = NULL, ...) {
   rlang::check_dots_empty()
   n_obs <- nrow(data_ind)
-  target_per_fold <- 1 / v
-
-  freq_table <- balance_observations_helper(data_ind, v, target_per_fold)
-
-  collapse_groups(freq_table, data_ind, v)
-
-}
-
-balance_observations_strata <- function(data_ind, v, ...) {
-  rlang::check_dots_empty()
-
   target_per_fold <- 1 / v
 
   # This is the core difference between stratification and not:
@@ -187,7 +163,12 @@ balance_observations_strata <- function(data_ind, v, ...) {
   # With strata, data_ind is split up by strata, and then each _split_
   # is broken into v groups (which are then combined with the other strata);
   # the balancing for each fold is done separately inside each strata "split"
-  data_splits <- split_unnamed(data_ind, data_ind[["..strata"]])
+  data_splits <- if (is.null(strata)) {
+    list(data_ind)
+  } else {
+    split_unnamed(data_ind, strata)
+  }
+
   freq_table <- purrr::map_dfr(
     data_splits,
     balance_observations_helper,
@@ -247,18 +228,9 @@ balance_observations_helper <- function(data_split, v, target_per_fold) {
   freq_table
 }
 
-balance_prop <- function(prop, data_ind, v, replace = FALSE, ...) {
+balance_prop <- function(prop, data_ind, v, replace = FALSE, strata = NULL, ...) {
   rlang::check_dots_empty()
   check_prop(prop, replace)
-
-  freq_table <- balance_prop_helper(prop, data_ind, v, replace)
-
-  collapse_groups(freq_table, data_ind, v)
-
-}
-
-balance_prop_strata <- function(prop, data_ind, v, replace = FALSE, ...) {
-  rlang::check_dots_empty()
 
   # This is the core difference between stratification and not:
   #
@@ -268,16 +240,19 @@ balance_prop_strata <- function(prop, data_ind, v, replace = FALSE, ...) {
   # With strata, data_ind is split up by strata, and then each _split_
   # has `prop`% of `data_ind` is sampled `v` times;
   # the resampling for each iteration is done inside each strata "split"
-  data_splits <- split_unnamed(data_ind, data_ind[["..strata"]])
-  folds_by_strata <- purrr::map(
+  data_splits <- if (is.null(strata)) {
+    list(data_ind)
+  } else {
+    split_unnamed(data_ind, strata)
+  }
+
+  freq_table <- purrr::map_dfr(
     data_splits,
     balance_prop_helper,
     prop = prop,
     v = v,
     replace = replace
   )
-
-  freq_table <- do.call(rbind, folds_by_strata)
 
   collapse_groups(freq_table, data_ind, v)
 }
@@ -319,7 +294,7 @@ check_prop <- function(prop, replace) {
   acceptable_prop <- acceptable_prop && prop > 0
   if (!acceptable_prop) {
     rlang::abort(
-      "`prop` must be a number on (0, 1).",
+      "`prop` must be a number between 0 and 1.",
       call = rlang::caller_env()
     )
   }
