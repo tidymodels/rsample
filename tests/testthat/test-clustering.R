@@ -45,6 +45,7 @@ test_that("bad args", {
 })
 
 test_that("printing", {
+  set.seed(11)
   expect_snapshot(clustering_cv(dat1, c, v = 2))
 })
 
