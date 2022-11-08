@@ -8,17 +8,20 @@ clustering_cv(
   data,
   vars,
   v = 10,
+  repeats = 1,
   distance_function = "dist",
   cluster_function = c("kmeans", "hclust"),
   ...
 )
 }
 \arguments{
-\item{data}{A data frame to split into folds.}
+\item{data}{A data frame.}
 
 \item{vars}{A vector of bare variable names to use to cluster the data.}
 
 \item{v}{The number of partitions of the data set.}
+
+\item{repeats}{The number of times to repeat the clustered partitioning.}
 
 \item{distance_function}{Which function should be used for distance calculations?
 Defaults to \code{\link[stats:dist]{stats::dist()}}. You can also provide your own
