@@ -21,8 +21,8 @@
     Output
       # 2-cluster cross-validation 
       # A tibble: 2 x 2
-        splits          id   
-        <list>          <chr>
-      1 <split [10/10]> Fold1
-      2 <split [10/10]> Fold2
+        splits         id   
+        <list>         <chr>
+      1 <split [5/15]> Fold1
+      2 <split [15/5]> Fold2
 

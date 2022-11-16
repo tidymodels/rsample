@@ -28,9 +28,9 @@
 #' `nrow(data)`, with each element of the vector corresponding to the matching
 #' row of the data frame.
 #'
-#' @param data A data frame to split into folds.
+#' @inheritParams vfold_cv
 #' @param vars A vector of bare variable names to use to cluster the data.
-#' @param v The number of partitions of the data set.
+#' @param repeats The number of times to repeat the clustered partitioning.
 #' @param distance_function Which function should be used for distance calculations?
 #' Defaults to [stats::dist()]. You can also provide your own
 #' function; see `Details`.
@@ -53,6 +53,7 @@
 clustering_cv <- function(data,
                           vars,
                           v = 10,
+                          repeats = 1,
                           distance_function = "dist",
                           cluster_function = c("kmeans", "hclust"),
                           ...) {
@@ -65,15 +66,35 @@ clustering_cv <- function(data,
     rlang::abort("`vars` are required and must be variables in `data`.")
   }
   vars <- data[vars]
-  dists <- rlang::exec(distance_function, vars)
 
-  split_objs <- clustering_splits(
-    data = data,
-    dists = dists,
-    v = v,
-    cluster_function = cluster_function,
-    ...
-  )
+  if (repeats == 1) {
+    dists <- rlang::exec(distance_function, vars)
+    split_objs <- clustering_splits(
+      data = data,
+      dists = dists,
+      v = v,
+      cluster_function = cluster_function,
+      ...
+    )
+  } else {
+    for (i in 1:repeats) {
+      dists <- rlang::exec(distance_function, vars)
+      tmp <- clustering_splits(
+        data = data,
+        dists = dists,
+        v = v,
+        cluster_function = cluster_function,
+        ...
+      )
+      tmp$id2 <- tmp$id
+      tmp$id <- names0(repeats, "Repeat")[i]
+      split_objs <- if (i == 1) {
+        tmp
+      } else {
+        rbind(split_objs, tmp)
+      }
+    }
+  }
 
   split_objs$splits <- map(split_objs$splits, rm_out)
 
@@ -82,7 +103,7 @@ clustering_cv <- function(data,
   cv_att <- list(
     v = v,
     vars = names(vars),
-    repeats = 1,
+    repeats = repeats,
     distance_function = distance_function,
     cluster_function = cluster_function
   )

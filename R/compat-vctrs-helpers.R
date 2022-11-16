@@ -140,7 +140,7 @@ delayedAssign("rset_subclasses", {
         manual_rset            = manual_rset(list(initial_time_split(test_data()), initial_time_split(test_data())), c("ID1", "ID2")),
         apparent               = apparent(test_data()),
         permutations           = permutations(test_data(), y),
-        clustering_cv          = clustering_cv(test_data(), y)
+        clustering_cv          = clustering_cv(test_data(), y, repeats = 2)
       )
     )
   } else {
