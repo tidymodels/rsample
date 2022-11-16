@@ -103,7 +103,7 @@ clustering_cv <- function(data,
   cv_att <- list(
     v = v,
     vars = names(vars),
-    repeats = 1,
+    repeats = repeats,
     distance_function = distance_function,
     cluster_function = cluster_function
   )
