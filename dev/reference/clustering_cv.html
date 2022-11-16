@@ -90,6 +90,7 @@ is equal to V.</p>
 <span>  <span class="va">data</span>,</span>
 <span>  <span class="va">vars</span>,</span>
 <span>  v <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  repeats <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  distance_function <span class="op">=</span> <span class="st">"dist"</span>,</span>
 <span>  cluster_function <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"kmeans"</span>, <span class="st">"hclust"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -99,7 +100,7 @@ is equal to V.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
-<dd><p>A data frame to split into folds.</p></dd>
+<dd><p>A data frame.</p></dd>
 
 
 <dt>vars</dt>
@@ -108,6 +109,10 @@ is equal to V.</p>
 
 <dt>v</dt>
 <dd><p>The number of partitions of the data set.</p></dd>
+
+
+<dt>repeats</dt>
+<dd><p>The number of times to repeat the clustered partitioning.</p></dd>
 
 
 <dt>distance_function</dt>
