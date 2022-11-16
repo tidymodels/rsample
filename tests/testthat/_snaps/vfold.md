@@ -19,6 +19,14 @@
 
     Repeated resampling when `v` is 150 would create identical resamples
 
+---
+
+    `repeats` must be a single positive integer
+
+---
+
+    `repeats` must be a single positive integer
+
 # printing
 
     Code

@@ -14,6 +14,14 @@
 
     `cluster_function` must be one of "kmeans" or "hclust", not "not an option".
 
+---
+
+    `repeats` must be a single positive integer
+
+---
+
+    `repeats` must be a single positive integer
+
 # printing
 
     Code

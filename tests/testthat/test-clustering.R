@@ -42,6 +42,8 @@ test_that("bad args", {
   expect_snapshot_error(clustering_cv(iris, Sepal.Length, v = -500))
   expect_snapshot_error(clustering_cv(iris, Sepal.Length, v = 500))
   expect_snapshot_error(clustering_cv(iris, Sepal.Length, cluster_function = "not an option"))
+  expect_snapshot_error(clustering_cv(Orange, repeats = 0))
+  expect_snapshot_error(clustering_cv(Orange, repeats = NULL))
 })
 
 test_that("printing", {
