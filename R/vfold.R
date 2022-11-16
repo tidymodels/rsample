@@ -332,7 +332,7 @@ add_vfolds <- function(x, v) {
 }
 
 check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
-  if (!is.numeric(v) || length(v) != 1 || v < 0) {
+  if (!is.numeric(v) || length(v) != 1 || v < 1) {
     rlang::abort("`v` must be a single positive integer", call = call)
   } else if (v > max_v) {
     rlang::abort(
