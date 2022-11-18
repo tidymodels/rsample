@@ -4,7 +4,7 @@
 
 ---
 
-    `v` must be a single positive integer
+    `v` must be a single positive integer greater than 1
 
 ---
 
@@ -13,6 +13,14 @@
 ---
 
     `cluster_function` must be one of "kmeans" or "hclust", not "not an option".
+
+---
+
+    Code
+      clustering_cv(Orange, v = 1, vars = "Tree")
+    Condition
+      Error in `clustering_cv()`:
+      ! `v` must be a single positive integer greater than 1
 
 ---
 

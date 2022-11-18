@@ -332,8 +332,8 @@ add_vfolds <- function(x, v) {
 }
 
 check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
-  if (!is.numeric(v) || length(v) != 1 || v < 1) {
-    rlang::abort("`v` must be a single positive integer", call = call)
+  if (!is.numeric(v) || length(v) != 1 || v < 2) {
+    rlang::abort("`v` must be a single positive integer greater than 1", call = call)
   } else if (v > max_v) {
     rlang::abort(
       glue::glue("The number of {rows} is less than `v = {v}`"), call = call
