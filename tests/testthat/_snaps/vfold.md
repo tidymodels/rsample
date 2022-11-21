@@ -9,7 +9,15 @@
 
 # bad args
 
-    `v` must be a single positive integer
+    `v` must be a single positive integer greater than 1
+
+---
+
+    `v` must be a single positive integer greater than 1
+
+---
+
+    `v` must be a single positive integer greater than 1
 
 ---
 
@@ -54,6 +62,14 @@
 ---
 
     Repeated resampling when `v` is `NULL` would create identical resamples
+
+---
+
+    Code
+      group_vfold_cv(Orange, v = 1, group = "Tree")
+    Condition
+      Error in `group_vfold_cv()`:
+      ! `v` must be a single positive integer greater than 1
 
 # grouping -- other balance methods
 
