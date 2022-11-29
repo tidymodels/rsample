@@ -1,5 +1,7 @@
 # rsample (development version)
 
+* Removed an overly strict test in preparation for dplyr 1.1.0 (#380).
+
 * All grouped resampling functions (`group_vfold_cv()`, `group_mc_cv()`, `group_initial_split()` and `group_validation_split()`, and `group_bootstraps()`) now support stratification. Strata must be constant within each group (#317, #360, #363, #364, #365).
 
 * `group_bootstraps()` now warns if resampling returns any empty assessment sets (previously had been an error) (#356) (#357).
