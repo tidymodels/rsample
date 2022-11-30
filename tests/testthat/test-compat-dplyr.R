@@ -251,7 +251,6 @@ test_that("slice() drops rset class when rows are modified", {
 
 test_that("slice() keeps rset class when rows are untouched", {
   for (x in rset_subclasses) {
-    expect_s3_class_rset(slice(x))
     expect_s3_class_rset(slice(x, seq_len(nrow(x))))
   }
 })
