@@ -89,13 +89,13 @@ as.data.frame.rsplit <-
            ...) {
     if (!is.null(row.names)) {
       rlang::warn(paste0(
-        "`row.names` is kept for consistency with the underlying class but",
+        "`row.names` is kept for consistency with the underlying class but ",
         "non-NULL values will be ignored."
       ))
     }
     if (optional) {
       rlang::warn(paste0(
-        "`optional` is kept for consistency with the underlying class but",
+        "`optional` is kept for consistency with the underlying class but ",
         "TRUE values will be ignored."
       ))
 
