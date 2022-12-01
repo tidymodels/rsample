@@ -60,6 +60,13 @@ test_that("default time param with lag", {
   expect_snapshot(validation_time_split(drinks, lag = 500), error = TRUE)
 })
 
+test_that("assessment set of time split includes the lag (#376)", {
+  toy_data <- data.frame(id = 1:100)
+  val_rset <- validation_time_split(toy_data, prob = 75, lag = 2)
+  dat_assess <- assessment(val_rset$splits[[1]])
+  expect_equal(dat_assess$id, 74:100)
+})
+
 test_that("default group param", {
   set.seed(11)
   rs1 <- group_validation_split(dat1, c)

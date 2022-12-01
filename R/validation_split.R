@@ -88,7 +88,6 @@ validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   }
 
   split <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
-  split <- rm_out(split)
   class(split) <- c("val_time_split", "val_split", "rsplit")
   splits <- list(split)
 
