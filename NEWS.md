@@ -10,6 +10,9 @@
 
 * Added a new function, `clustering_cv()`, for blocked cross-validation in various predictor spaces. This is a very flexible function, taking arguments to both `distance_function` and `cluster_function`, allowing it to be used for spatial clustering as well as potentially phylogenetic and other forms of clustering (#351).
 
+* `training()`, `testing()`, `analysis()`, and `assessment()` are now generics (#384).
+
+
 # rsample 1.1.0
 
 * rset objects now include all parameters used to create them as attributes (#329).
