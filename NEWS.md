@@ -12,6 +12,8 @@
 
 * `training()`, `testing()`, `analysis()`, and `assessment()` are now generics (#384).
 
+* The assessment set of `validation_time_split()` now also contains the lagged observations (#376).
+
 
 # rsample 1.1.0
 
