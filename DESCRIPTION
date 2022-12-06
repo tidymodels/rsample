@@ -24,7 +24,6 @@ Depends:
 Imports: 
     cli,
     dplyr (>= 1.0.0),
-    ellipsis,
     furrr,
     generics,
     glue,

@@ -14,6 +14,8 @@
 
 * The assessment set of `validation_time_split()` now also contains the lagged observations (#376).
 
+* The dependency on the ellipsis package has been removed (#393).
+
 
 # rsample 1.1.0
 
