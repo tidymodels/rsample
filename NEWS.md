@@ -12,6 +12,9 @@
 
 * The assessment set of `validation_time_split()` now also contains the lagged observations (#376).
 
+* The dependency on the ellipsis package has been removed (#393).
+
+
 # rsample 1.1.0
 
 * rset objects now include all parameters used to create them as attributes (#329).
