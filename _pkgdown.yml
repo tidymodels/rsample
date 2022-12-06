@@ -71,6 +71,3 @@ reference:
       - rsample2caret
       - rset_reconstruct
       - starts_with("tidy")
-  - title: Compatibility
-    contents:
-      - rsample-dplyr
