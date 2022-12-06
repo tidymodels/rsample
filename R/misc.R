@@ -19,7 +19,7 @@ make_splits.default <- function(x, ...) {
 #' used).
 #' @export
 make_splits.list <- function(x, data, class = NULL, ...) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
   res <- rsplit(data, x$analysis, x$assessment)
   if (!is.null(class)) {
     res <- add_class(res, class)
@@ -31,7 +31,7 @@ make_splits.list <- function(x, data, class = NULL, ...) {
 #' @param assessment A data frame of assessment or testing data, which can be empty.
 #' @export
 make_splits.data.frame <- function(x, assessment, ...) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
   if (nrow(x) == 0) {
     rlang::abort("The analysis set must contain at least one row.")
   }
