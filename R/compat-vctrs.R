@@ -16,6 +16,7 @@ stop_never_called <- function(fn) {
 vec_ptype_abbr.initial_split <- function(x, ...) {
   "i_splt"
 }
+
 #' @export
 vec_ptype_abbr.group_initial_split <- function(x, ...) {
   "g_i_splt"
@@ -25,10 +26,12 @@ vec_ptype_abbr.group_initial_split <- function(x, ...) {
 vec_ptype_abbr.validation_split <- function(x, ...) {
   "v_splt"
 }
+
 #' @export
 vec_ptype_abbr.validation_time_split <- function(x, ...) {
   "v_t_splt"
 }
+
 #' @export
 vec_ptype_abbr.group_validation_split <- function(x, ...) {
   "g_v_splt"
@@ -38,6 +41,7 @@ vec_ptype_abbr.group_validation_split <- function(x, ...) {
 vec_ptype_abbr.bootstraps <- function(x, ...) {
   "boot"
 }
+
 #' @export
 vec_ptype_abbr.group_bootstraps <- function(x, ...) {
   "g_boot"
@@ -47,6 +51,7 @@ vec_ptype_abbr.group_bootstraps <- function(x, ...) {
 vec_ptype_abbr.vfold_cv <- function(x, ...) {
   "vfold"
 }
+
 #' @export
 vec_ptype_abbr.group_vfold_cv <- function(x, ...) {
   "g_vfold"
@@ -66,14 +71,17 @@ vec_ptype_abbr.clustering_cv <- function(x, ...) {
 vec_ptype_abbr.rolling_origin <- function(x, ...) {
   "roll_ori"
 }
+
 #' @export
 vec_ptype_abbr.sliding_window <- function(x, ...) {
   "slide_w"
 }
+
 #' @export
 vec_ptype_abbr.sliding_index <- function(x, ...) {
   "slide_i"
 }
+
 #' @export
 vec_ptype_abbr.sliding_period <- function(x, ...) {
   "slide_p"
@@ -88,10 +96,12 @@ vec_ptype_abbr.nested_cv <- function(x, ...) {
 vec_ptype_abbr.apparent <- function(x, ...) {
   "appr"
 }
+
 #' @export
 vec_ptype_abbr.manual_rset <- function(x, ...) {
   "m_rset"
 }
+
 #' @export
 vec_ptype_abbr.permutations <- function(x, ...) {
   "perm"
