@@ -281,9 +281,9 @@ non_random_classes <- c(
 
 #' Retrieve individual rsplits objects from an rset
 #'
-#' @param rset The `rset` object to retrieve an rsplit from.
+#' @param x The `rset` object to retrieve an rsplit from.
 #' @param index An integer indicating which rsplit to retrieve: `1` for the
-#' rsplit in the first row of the `rset`, `2` for the second, and so on.
+#' rsplit in the first row of the rset, `2` for the second, and so on.
 #' @inheritParams rlang::args_dots_empty
 #'
 #' @return The rsplit object in row `index` of `rset`
@@ -295,16 +295,16 @@ non_random_classes <- c(
 #'
 #' @rdname get_rsplit
 #' @export
-get_rsplit <- function(rset, index, ...) {
+get_rsplit <- function(x, index, ...) {
   UseMethod("get_rsplit")
 }
 
 #' @rdname get_rsplit
 #' @export
-get_rsplit.rset <- function(rset, index, ...) {
+get_rsplit.rset <- function(x, index, ...) {
   rlang::check_dots_empty()
 
-  n_rows <- nrow(rset)
+  n_rows <- nrow(x)
 
   acceptable_index <- length(index) == 1 &&
     rlang::is_integerish(index) &&
@@ -326,14 +326,13 @@ get_rsplit.rset <- function(rset, index, ...) {
     )
   }
 
-  rset$splits[[index]]
-
+  x$splits[[index]]
 }
 
 #' @rdname get_rsplit
 #' @export
-get_rsplit.default <- function(rset, index, ...) {
-  cls <- paste0("'", class(rset), "'", collapse = ", ")
+get_rsplit.default <- function(x, index, ...) {
+  cls <- paste0("'", class(x), "'", collapse = ", ")
   rlang::abort(
     paste("No `get_rsplit()` method for this class(es)", cls)
   )

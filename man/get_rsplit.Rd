@@ -6,17 +6,17 @@
 \alias{get_rsplit.default}
 \title{Retrieve individual rsplits objects from an rset}
 \usage{
-get_rsplit(rset, index, ...)
+get_rsplit(x, index, ...)
 
-\method{get_rsplit}{rset}(rset, index, ...)
+\method{get_rsplit}{rset}(x, index, ...)
 
-\method{get_rsplit}{default}(rset, index, ...)
+\method{get_rsplit}{default}(x, index, ...)
 }
 \arguments{
-\item{rset}{The \code{rset} object to retrieve an rsplit from.}
+\item{x}{The \code{rset} object to retrieve an rsplit from.}
 
 \item{index}{An integer indicating which rsplit to retrieve: \code{1} for the
-rsplit in the first row of the \code{rset}, \code{2} for the second, and so on.}
+rsplit in the first row of the rset, \code{2} for the second, and so on.}
 
 \item{...}{These dots are for future extensions and must be empty.}
 }
