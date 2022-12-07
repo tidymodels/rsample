@@ -62,6 +62,7 @@ reference:
       - add_resample_id
       - complement
       - form_pred
+      - get_rsplit
       - starts_with("labels")
       - make_splits
       - make_strata
