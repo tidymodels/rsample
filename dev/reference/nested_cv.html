@@ -122,11 +122,11 @@ the example below)</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #  outer: 3-fold cross-validation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #  inner: Bootstrap sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   splits          id    inner_resamples   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [21/11]&gt;</span> Fold1 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [21/11]&gt;</span> Fold2 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [22/10]&gt;</span> Fold3 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   splits          id    inner_resamples</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [21/11]&gt;</span> Fold1 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [21/11]&gt;</span> Fold2 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [22/10]&gt;</span> Fold3 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Using an existing object:</span></span></span>
 <span class="r-in"><span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="vfold_cv.html">vfold_cv</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
@@ -135,18 +135,18 @@ the example below)</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #  outer: `folds`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #  inner: Bootstrap sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    splits         id     inner_resamples   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> <span style="color: #949494;">&lt;split [28/4]&gt;</span> Fold01 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> <span style="color: #949494;">&lt;split [28/4]&gt;</span> Fold02 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold03 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold04 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold05 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold06 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold07 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold08 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold09 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold10 <span style="color: #949494;">&lt;botstrps [5 × 2]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    splits         id     inner_resamples</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> <span style="color: #949494;">&lt;split [28/4]&gt;</span> Fold01 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> <span style="color: #949494;">&lt;split [28/4]&gt;</span> Fold02 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold03 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold04 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold05 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold06 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold07 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold08 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold09 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold10 <span style="color: #949494;">&lt;boot [5 × 2]&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## The dangers of outer bootstraps:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2222</span><span class="op">)</span></span></span>
