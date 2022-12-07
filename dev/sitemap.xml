@@ -64,6 +64,9 @@
     <loc>https://rsample.tidymodels.org/dev/reference/get_fingerprint.html</loc>
   </url>
   <url>
+    <loc>https://rsample.tidymodels.org/dev/reference/get_rsplit.html</loc>
+  </url>
+  <url>
     <loc>https://rsample.tidymodels.org/dev/reference/group_bootstraps.html</loc>
   </url>
   <url>
