@@ -82,7 +82,7 @@ initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   rset <- new_rset(splits, ids)
 
   res <- rset$splits[[1]]
-  class(res) <- c("initial_split", class(res))
+  class(res) <- c("initial_time_split", "initial_split", class(res))
   res
 }
 
