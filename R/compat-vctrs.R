@@ -18,6 +18,11 @@ vec_ptype_abbr.initial_split <- function(x, ...) {
 }
 
 #' @export
+vec_ptype_abbr.initial_time_split <- function(x, ...) {
+  "i_t_splt"
+}
+
+#' @export
 vec_ptype_abbr.group_initial_split <- function(x, ...) {
   "g_i_splt"
 }

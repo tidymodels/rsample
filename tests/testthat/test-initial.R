@@ -10,7 +10,7 @@ test_that("default param", {
 
 test_that("default time param", {
   rs1 <- initial_time_split(dat1)
-  expect_equal(class(rs1), c("initial_split", "rsplit"))
+  expect_equal(class(rs1), c("initial_time_split", "initial_split", "rsplit"))
   tr1 <- training(rs1)
   ts1 <- testing(rs1)
   expect_equal(nrow(tr1), floor(nrow(dat1) * 3 / 4))
@@ -20,7 +20,7 @@ test_that("default time param", {
 
 test_that("default time param with lag", {
   rs1 <- initial_time_split(dat1, lag = 5)
-  expect_equal(class(rs1), c("initial_split", "rsplit"))
+  expect_equal(class(rs1), c("initial_time_split", "initial_split", "rsplit"))
   tr1 <- training(rs1)
   ts1 <- testing(rs1)
   expect_equal(nrow(tr1), floor(nrow(dat1) * 3 / 4))

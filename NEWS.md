@@ -14,6 +14,8 @@
 
 * The dependency on the ellipsis package has been removed (#393).
 
+* The result of `initial_time_split()` now has its own subclass `"initial_time_split"`, in addition to existing classes (#397).
+
 
 # rsample 1.1.0
 
