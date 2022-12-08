@@ -11,8 +11,6 @@
 
 * `bootstraps()` and `group_bootstraps()` now warn if resampling returns any empty assessment sets. Previously, `bootstraps()` was silent while `group_bootstraps()` errored (@mikemahoney218, #356, #357).
 
-* `training()`, `testing()`, `analysis()`, and `assessment()` are now generics (#384).
-
 * The assessment set of `validation_time_split()` now also contains the lagged observations (#376).
 
 * The new helper `get_rsplit()` lets you conveniently access the `rsplit` objects inside an `rset` objects (@mikemahoney218, #399).
