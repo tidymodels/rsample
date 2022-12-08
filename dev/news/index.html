@@ -66,7 +66,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="rsample-development-version">rsample (development version)<a class="anchor" aria-label="anchor" href="#rsample-development-version"></a></h2>
-</div>
+<ul><li>
+<code><a href="../reference/initial_split.html">training()</a></code>, <code><a href="../reference/initial_split.html">testing()</a></code>, <code><a href="../reference/as.data.frame.rsplit.html">analysis()</a></code>, and <code><a href="../reference/as.data.frame.rsplit.html">assessment()</a></code> are now S3 generics with methods for <code>rsplit</code> objects. Previously they manually required the input to be an <code>rsplit</code> object (<a href="https://github.com/tidymodels/rsample/issues/384" class="external-link">#384</a>).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.1" id="rsample-111">rsample 1.1.1<a class="anchor" aria-label="anchor" href="#rsample-111"></a></h2><p class="text-muted">CRAN release: 2022-12-07</p>
 <ul><li><p>All grouped resampling functions (<code><a href="../reference/group_vfold_cv.html">group_vfold_cv()</a></code>, <code><a href="../reference/group_mc_cv.html">group_mc_cv()</a></code>, <code><a href="../reference/initial_split.html">group_initial_split()</a></code> and <code><a href="../reference/validation_split.html">group_validation_split()</a></code>, and <code><a href="../reference/group_bootstraps.html">group_bootstraps()</a></code>) now support stratification. Strata must be constant within each group (<a href="https://github.com/mikemahoney218" class="external-link">@mikemahoney218</a>, <a href="https://github.com/tidymodels/rsample/issues/317" class="external-link">#317</a>, <a href="https://github.com/tidymodels/rsample/issues/360" class="external-link">#360</a>, <a href="https://github.com/tidymodels/rsample/issues/363" class="external-link">#363</a>, <a href="https://github.com/tidymodels/rsample/issues/364" class="external-link">#364</a>, <a href="https://github.com/tidymodels/rsample/issues/365" class="external-link">#365</a>).</p></li>
