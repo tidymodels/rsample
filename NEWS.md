@@ -1,3 +1,5 @@
+# rsample (development version)
+
 # rsample 1.1.1
 
 * All grouped resampling functions (`group_vfold_cv()`, `group_mc_cv()`, `group_initial_split()` and `group_validation_split()`, and `group_bootstraps()`) now support stratification. Strata must be constant within each group (@mikemahoney218, #317, #360, #363, #364, #365).

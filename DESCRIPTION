@@ -1,6 +1,6 @@
 Package: rsample
 Title: General Resampling Infrastructure
-Version: 1.1.1
+Version: 1.1.1.9000
 Authors@R: c(
     person("Hannah", "Frick", , "hannah@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6049-5258")),
