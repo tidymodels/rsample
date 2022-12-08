@@ -278,3 +278,62 @@ non_random_classes <- c(
   "rolling_origin",
   "validation_time_split"
 )
+
+#' Retrieve individual rsplits objects from an rset
+#'
+#' @param x The `rset` object to retrieve an rsplit from.
+#' @param index An integer indicating which rsplit to retrieve: `1` for the
+#' rsplit in the first row of the rset, `2` for the second, and so on.
+#' @inheritParams rlang::args_dots_empty
+#'
+#' @return The rsplit object in row `index` of `rset`
+#'
+#' @examples
+#' set.seed(123)
+#' (starting_splits <- group_vfold_cv(mtcars, cyl, v = 3))
+#' get_rsplit(starting_splits, 1)
+#'
+#' @rdname get_rsplit
+#' @export
+get_rsplit <- function(x, index, ...) {
+  UseMethod("get_rsplit")
+}
+
+#' @rdname get_rsplit
+#' @export
+get_rsplit.rset <- function(x, index, ...) {
+  rlang::check_dots_empty()
+
+  n_rows <- nrow(x)
+
+  acceptable_index <- length(index) == 1 &&
+    rlang::is_integerish(index) &&
+    index > 0 &&
+    index <= n_rows
+
+  if (!acceptable_index) {
+    msg <- ifelse(
+      length(index) != 1,
+      glue::glue("Index was of length {length(index)}."),
+      glue::glue("A value of {index} was provided.")
+      )
+
+    rlang::abort(
+      c(
+        glue::glue("`index` must be a length-1 integer between 1 and {n_rows}."),
+        x = msg
+      )
+    )
+  }
+
+  x$splits[[index]]
+}
+
+#' @rdname get_rsplit
+#' @export
+get_rsplit.default <- function(x, index, ...) {
+  cls <- paste0("'", class(x), "'", collapse = ", ")
+  rlang::abort(
+    paste("No `get_rsplit()` method for this class(es)", cls)
+  )
+}
