@@ -55,6 +55,9 @@
     <loc>https://rsample.tidymodels.org/reference/bootstraps.html</loc>
   </url>
   <url>
+    <loc>https://rsample.tidymodels.org/reference/clustering_cv.html</loc>
+  </url>
+  <url>
     <loc>https://rsample.tidymodels.org/reference/complement.html</loc>
   </url>
   <url>
@@ -62,6 +65,9 @@
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/get_fingerprint.html</loc>
+  </url>
+  <url>
+    <loc>https://rsample.tidymodels.org/reference/get_rsplit.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/reference/group_bootstraps.html</loc>
