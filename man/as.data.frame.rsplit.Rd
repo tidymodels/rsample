@@ -3,14 +3,26 @@
 \name{as.data.frame.rsplit}
 \alias{as.data.frame.rsplit}
 \alias{analysis}
+\alias{analysis.default}
+\alias{analysis.rsplit}
 \alias{assessment}
+\alias{assessment.default}
+\alias{assessment.rsplit}
 \title{Convert an \code{rsplit} object to a data frame}
 \usage{
 \method{as.data.frame}{rsplit}(x, row.names = NULL, optional = FALSE, data = "analysis", ...)
 
 analysis(x, ...)
 
+\method{analysis}{default}(x, ...)
+
+\method{analysis}{rsplit}(x, ...)
+
 assessment(x, ...)
+
+\method{assessment}{default}(x, ...)
+
+\method{assessment}{rsplit}(x, ...)
 }
 \arguments{
 \item{x}{An \code{rsplit} object.}

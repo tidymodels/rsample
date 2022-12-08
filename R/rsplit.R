@@ -120,17 +120,41 @@ as.data.frame.rsplit <-
 #' @rdname as.data.frame.rsplit
 #' @export
 analysis <- function(x, ...) {
-  if (!inherits(x, "rsplit")) {
-    rlang::abort("`x` should be an `rsplit` object")
-  }
+  UseMethod("analysis")
+}
+
+#' @export
+#' @rdname as.data.frame.rsplit
+analysis.default <- function(x, ...) {
+  cls <- class(x)
+  cli::cli_abort(
+    "No method for objects of class{?es}: {cls}"
+  )
+}
+
+#' @export
+#' @rdname as.data.frame.rsplit
+analysis.rsplit <- function(x, ...) {
   as.data.frame(x, data = "analysis", ...)
 }
 #' @rdname as.data.frame.rsplit
 #' @export
 assessment <- function(x, ...) {
-  if (!inherits(x, "rsplit")) {
-    rlang::abort("`x` should be an `rsplit` object")
-  }
+  UseMethod("assessment")
+}
+
+#' @export
+#' @rdname as.data.frame.rsplit
+assessment.default <- function(x, ...) {
+  cls <- class(x)
+  cli::cli_abort(
+    "No method for objects of class{?es}: {cls}"
+  )
+}
+
+#' @rdname as.data.frame.rsplit
+#' @export
+assessment.rsplit <- function(x, ...) {
   as.data.frame(x, data = "assessment", ...)
 }
 

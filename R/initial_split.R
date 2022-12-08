@@ -90,10 +90,45 @@ initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
 #' @export
 #' @param x An `rsplit` object produced by `initial_split()` or
 #'  `initial_time_split()`.
-training <- function(x) analysis(x)
+training <- function(x, ...) {
+  UseMethod("training")
+}
+
+#' @export
+#' @rdname initial_split
+training.default <- function(x, ...) {
+  cls <- class(x)
+  cli::cli_abort(
+    "No method for objects of class{?es}: {cls}"
+  )
+}
+
 #' @rdname initial_split
 #' @export
-testing <- function(x) assessment(x)
+training.rsplit <- function(x, ...) {
+  analysis(x, ...)
+}
+
+#' @rdname initial_split
+#' @export
+testing <- function(x, ...) {
+  UseMethod("testing")
+}
+
+#' @export
+#' @rdname initial_split
+testing.default <- function(x, ...) {
+  cls <- class(x)
+  cli::cli_abort(
+    "No method for objects of class{?es}: {cls}"
+  )
+}
+
+#' @rdname initial_split
+#' @export
+testing.rsplit <- function(x, ...) {
+  assessment(x, ...)
+}
 
 #' @inheritParams make_groups
 #' @rdname initial_split

@@ -1,5 +1,8 @@
 # rsample (development version)
 
+* `training()`, `testing()`, `analysis()`, and `assessment()` are now S3 generics with methods for `rsplit` objects. Previously they manually required the input to be an `rsplit` object (#384).
+
+
 # rsample 1.1.1
 
 * All grouped resampling functions (`group_vfold_cv()`, `group_mc_cv()`, `group_initial_split()` and `group_validation_split()`, and `group_bootstraps()`) now support stratification. Strata must be constant within each group (@mikemahoney218, #317, #360, #363, #364, #365).
