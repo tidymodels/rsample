@@ -2,6 +2,7 @@
 #'
 #' @param split An object of class `initial_validation_split`, such as resulting
 #' from [initial_validation_split()] or [group_initial_validation_split()].
+#' @param x An `rsplit` object produced by `validation_set()`.
 #' @inheritParams rlang::args_dots_empty
 #'
 #' @return An tibble with classes `validation_set`, `rset`, `tbl_df`, `tbl`, and

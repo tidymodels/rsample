@@ -26,6 +26,8 @@ validation_set(split, ...)
 from \code{\link[=initial_validation_split]{initial_validation_split()}} or \code{\link[=group_initial_validation_split]{group_initial_validation_split()}}.}
 
 \item{...}{These dots are for future extensions and must be empty.}
+
+\item{x}{An \code{rsplit} object produced by \code{validation_set()}.}
 }
 \value{
 An tibble with classes \code{validation_set}, \code{rset}, \code{tbl_df}, \code{tbl}, and
