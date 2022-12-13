@@ -1,10 +1,10 @@
-#' Create an Initial Validation Split
+#' Create an Initial Train/Validation/Test Split
 #'
 #' `initial_validation_split()` creates a random three-way split of the data
 #' into a training set, a validation set, and a testing set.
-#' `group_initial_validation_split()` creates splits of the data based on some
+#' `group_initial_validation_split()` creates similar splits of the data based on some
 #' grouping variable, so that all data in a "group" are assigned to the same
-#' split.
+#' partition.
 #' `training()`, `validation()`, and `testing()` can be used to extract the
 #' resulting data sets.
 #'
@@ -12,13 +12,13 @@
 #'
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
-#' @param prop The proportions of data to be retained for training and for
-#' validation.
+#' @param prop A length 2 vector of proportions of data to be retained for training and
+#' validation data, respectively.
 #' @inheritParams rlang::args_dots_empty
 #' @param x An object of class `initial_validation_split`.
 #'
 #' @return An `initial_validation_split` object that can be used with the
-#' `training()`, `validation()`, and `testing()` functions to extract the data
+#' [training()], [validation()], and [testing()] functions to extract the data
 #' in each split.
 #'
 #' @export
@@ -224,13 +224,13 @@ group_initial_validation_split <- function(data,
 #' @export
 #' @rdname initial_validation_split
 training.initial_validation_split <- function(x, ...) {
-  x$data[x$train_id, , drop = FALSE]
+  x$data[sort(x$train_id), , drop = FALSE]
 }
 
 #' @export
 #' @rdname initial_validation_split
 testing.initial_validation_split <- function(x, ...) {
-  x$data[-c(x$train_id, x$val_id), , drop = FALSE]
+  x$data[-sort(c(x$train_id, x$val_id)), , drop = FALSE]
 }
 
 #' @export
