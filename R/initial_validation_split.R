@@ -7,8 +7,6 @@
 #' split.
 #' `training()`, `validation()`, and `testing()` can be used to extract the
 #' resulting data sets.
-#' Use [`validation_set()`] create an `rset` object for use with functions from
-#' the tune package such as `tune::tune_grid()`.
 #'
 #' @template strata_details
 #'
@@ -22,8 +20,6 @@
 #' @return An `initial_validation_split` object that can be used with the
 #' `training()`, `validation()`, and `testing()` functions to extract the data
 #' in each split.
-#'
-#' @seealso [`validation_set()`]
 #'
 #' @export
 #' @examplesIf rlang::is_installed("modeldata")

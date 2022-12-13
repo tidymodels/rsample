@@ -77,8 +77,6 @@ grouping variable, so that all data in a "group" are assigned to the same
 split.
 \code{training()}, \code{validation()}, and \code{testing()} can be used to extract the
 resulting data sets.
-Use \code{\link[=validation_set]{validation_set()}} create an \code{rset} object for use with functions from
-the tune package such as \code{tune::tune_grid()}.
 }
 \details{
 With a \code{strata} argument, the random sampling is conducted
@@ -104,7 +102,4 @@ train_data <- training(ames_split)
 validation_data <- validation(ames_split)
 test_data <- testing(ames_split)
 \dontshow{\}) # examplesIf}
-}
-\seealso{
-\code{\link[=validation_set]{validation_set()}}
 }
