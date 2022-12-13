@@ -8,8 +8,6 @@
 \alias{validation}
 \alias{validation.default}
 \alias{validation.initial_validation_split}
-\alias{analysis.initial_validation_split}
-\alias{assessment.initial_validation_split}
 \title{Create an Initial Validation Split}
 \usage{
 initial_validation_split(
@@ -39,15 +37,12 @@ validation(x, ...)
 \method{validation}{default}(x, ...)
 
 \method{validation}{initial_validation_split}(x, ...)
-
-\method{analysis}{initial_validation_split}(x, ...)
-
-\method{assessment}{initial_validation_split}(x, ...)
 }
 \arguments{
 \item{data}{A data frame.}
 
-\item{prop}{The proportions of data to be retained for training and for validation.}
+\item{prop}{The proportions of data to be retained for training and for
+validation.}
 
 \item{strata}{A variable in \code{data} (single character or name) used to conduct
 stratified sampling. When not \code{NULL}, each resample is created within the
@@ -83,7 +78,7 @@ split.
 \code{training()}, \code{validation()}, and \code{testing()} can be used to extract the
 resulting data sets.
 Use \code{\link[=validation_set]{validation_set()}} create an \code{rset} object for use with functions from
-the tune package such as \code{\link[tune:tune_grid]{tune::tune_grid()}}.
+the tune package such as \code{tune::tune_grid()}.
 }
 \details{
 With a \code{strata} argument, the random sampling is conducted

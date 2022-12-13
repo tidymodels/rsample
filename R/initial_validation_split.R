@@ -8,7 +8,7 @@
 #' `training()`, `validation()`, and `testing()` can be used to extract the
 #' resulting data sets.
 #' Use [`validation_set()`] create an `rset` object for use with functions from
-#' the tune package such as [`tune::tune_grid()`].
+#' the tune package such as `tune::tune_grid()`.
 #'
 #' @template strata_details
 #'
@@ -260,7 +260,7 @@ validation.initial_validation_split <- function(x, ...) {
 
 
 #' @export
-#' @rdname initial_validation_split
+#' @keywords internal
 analysis.initial_validation_split <- function(x, ...) {
   rlang::abort(
     "The initial validation split does not contain an analysis set.",
@@ -269,7 +269,7 @@ analysis.initial_validation_split <- function(x, ...) {
 }
 
 #' @export
-#' @rdname initial_validation_split
+#' @keywords internal
 assessment.initial_validation_split <- function(x, ...) {
   rlang::abort(
     "The initial validation split does not contain an assessment set.",
