@@ -56,6 +56,10 @@ on some grouping variable, so that all data in a "group" is assigned to
 the same split.
 }
 \details{
+Note that the input \code{data} to \code{validation_split()}, \code{validation_time_split()},
+and \code{group_validation_split()} should \emph{not} contain the testing data. To
+create a three-way split directly of the entire data set, use \code{\link[=validation_set]{validation_set()}}.
+
 With a \code{strata} argument, the random sampling is conducted
 \emph{within the stratification variable}. This can help ensure that the
 resamples have equivalent proportions as the original data set. For
@@ -66,11 +70,19 @@ pooled together; see \code{\link[=make_strata]{make_strata()}} for more details.
 }
 \examples{
 \dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-validation_split(mtcars, prop = .9)
+cars_split <- initial_split(mtcars)
+cars_not_testing <- training(cars_split)
+validation_split(cars_not_testing, prop = .9)
+group_validation_split(cars_not_testing, cyl)
 
 data(drinks, package = "modeldata")
-validation_time_split(drinks)
+validation_time_split(drinks[1:200,])
 
-group_validation_split(mtcars, cyl)
+# Alternative
+cars_split_3 <- initial_validation_split(mtcars)
+validation_set(cars_split_3)
 \dontshow{\}) # examplesIf}
+}
+\seealso{
+\code{\link[=initial_validation_split]{initial_validation_split()}}, \code{\link[=validation_set]{validation_set()}}
 }
