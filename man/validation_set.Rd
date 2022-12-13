@@ -9,7 +9,7 @@
 \alias{testing.val_split}
 \title{Create a Validation Split for Tuning}
 \usage{
-validation_set(x, ...)
+validation_set(split, ...)
 
 \method{analysis}{val_split}(x, ...)
 
@@ -22,7 +22,7 @@ validation_set(x, ...)
 \method{testing}{val_split}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{initial_validation_split}, such as resulting
+\item{split}{An object of class \code{initial_validation_split}, such as resulting
 from \code{\link[=initial_validation_split]{initial_validation_split()}} or \code{\link[=group_initial_validation_split]{group_initial_validation_split()}}.}
 
 \item{...}{These dots are for future extensions and must be empty.}

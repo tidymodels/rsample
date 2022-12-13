@@ -1,6 +1,6 @@
 #' Create a Validation Split for Tuning
 #'
-#' @param x An object of class `initial_validation_split`, such as resulting
+#' @param split An object of class `initial_validation_split`, such as resulting
 #' from [initial_validation_split()] or [group_initial_validation_split()].
 #' @inheritParams rlang::args_dots_empty
 #'
@@ -13,14 +13,14 @@
 #' set.seed(1353)
 #' car_split <- initial_validation_split(mtcars)
 #' car_set <- validation_set(car_split)
-validation_set <- function(x, ...) {
+validation_set <- function(split, ...) {
   rlang::check_dots_empty()
 
   train_and_val <- rbind(
-    training(x),
-    validation(x)
+    training(split),
+    validation(split)
   )
-  n_train <- length(x$train_id)
+  n_train <- length(split$train_id)
 
   val_split <- rsplit(
     data = train_and_val,
@@ -31,7 +31,7 @@ validation_set <- function(x, ...) {
   # this is same class as via the alternative `validation_split()`
   class(val_split) <- c("val_split", "rsplit")
 
-  val_att <- attr(x, "val_att")
+  val_att <- attr(split, "val_att")
 
   new_rset(
     splits = list(val_split),
@@ -71,7 +71,7 @@ validation.val_split <- function(x, ...) {
 #' @export
 testing.val_split <- function(x, ...) {
   rlang::abort(
-    "The testing data is not part of the validation set object.", 
+    "The testing data is not part of the validation set object.",
     i = "It is part of the result of `initial_validation_split()`."
   )
 }
