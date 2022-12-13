@@ -4,5 +4,5 @@
       testing(val_split)
     Condition
       Error in `testing()`:
-      ! The testing data is not part of the validation set.
+      ! The testing data is not part of the validation set object.
 
