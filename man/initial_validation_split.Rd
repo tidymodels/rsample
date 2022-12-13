@@ -8,7 +8,7 @@
 \alias{validation}
 \alias{validation.default}
 \alias{validation.initial_validation_split}
-\title{Create an Initial Validation Split}
+\title{Create an Initial Train/Validation/Test Split}
 \usage{
 initial_validation_split(
   data,
@@ -41,8 +41,8 @@ validation(x, ...)
 \arguments{
 \item{data}{A data frame.}
 
-\item{prop}{The proportions of data to be retained for training and for
-validation.}
+\item{prop}{A length 2 vector of proportions of data to be retained for training and
+validation data, respectively.}
 
 \item{strata}{A variable in \code{data} (single character or name) used to conduct
 stratified sampling. When not \code{NULL}, each resample is created within the
@@ -66,15 +66,15 @@ assessment set within a fold.}
 }
 \value{
 An \code{initial_validation_split} object that can be used with the
-\code{training()}, \code{validation()}, and \code{testing()} functions to extract the data
+\code{\link[=training]{training()}}, \code{\link[=validation]{validation()}}, and \code{\link[=testing]{testing()}} functions to extract the data
 in each split.
 }
 \description{
 \code{initial_validation_split()} creates a random three-way split of the data
 into a training set, a validation set, and a testing set.
-\code{group_initial_validation_split()} creates splits of the data based on some
+\code{group_initial_validation_split()} creates similar splits of the data based on some
 grouping variable, so that all data in a "group" are assigned to the same
-split.
+partition.
 \code{training()}, \code{validation()}, and \code{testing()} can be used to extract the
 resulting data sets.
 }

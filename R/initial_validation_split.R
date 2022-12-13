@@ -50,7 +50,9 @@ initial_validation_split <- function(data,
 
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
-    if (length(strata) == 0) strata <- NULL
+    if (length(strata) == 0) {
+      strata <- NULL
+    }
   }
   strata_check(strata, data)
 
@@ -86,7 +88,7 @@ initial_validation_split <- function(data,
     train_id = train_id,
     val_id = val_id,
     test_id = NA,
-    id = split_train$id
+    id = "split"
   )
 
   # include those so that they can be attached to the `rset` later in `validation_set()`
@@ -150,7 +152,9 @@ group_initial_validation_split <- function(data,
 
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
-    if (length(strata) == 0) strata <- NULL
+    if (length(strata) == 0) {
+      strata <- NULL
+    }
   }
   strata_check(strata, data)
 
@@ -202,7 +206,7 @@ group_initial_validation_split <- function(data,
     train_id = train_id,
     val_id = val_id,
     test_id = NA,
-    id = split_train$id
+    id = "split"
   )
 
   # include those so that they can be attached to the `rset` later in `validation_set()`
@@ -251,7 +255,7 @@ validation.default <- function(x, ...) {
 #' @export
 #' @rdname initial_validation_split
 validation.initial_validation_split <- function(x, ...) {
-  x$data[x$val_id, , drop = FALSE]
+  x$data[sort(x$val_id), , drop = FALSE]
 }
 
 
