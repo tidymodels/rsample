@@ -36,6 +36,7 @@ reference:
   - title: Resampling methods
     contents:
       - initial_split
+      - initial_validation_split
       - bootstraps
       - vfold_cv
       - loo_cv
