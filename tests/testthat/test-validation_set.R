@@ -22,9 +22,6 @@ test_that("basic set", {
     train_and_val,
     ignore_attr = "row.names"
   )
-
-  overlap_train_val <- intersect(val_set$splits[[1]]$in_ind)
-  expect_equal(overlap_train_val, NULL)
 })
 
 test_that("accessor functions for `val_split`", {
