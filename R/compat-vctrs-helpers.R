@@ -133,6 +133,7 @@ delayedAssign("rset_subclasses", {
         validation_split       = validation_split(test_data()),
         validation_time_split  = validation_time_split(test_data()),
         group_validation_split = group_validation_split(test_data(), y),
+        validation_set         = validation_set(initial_validation_split(test_data())),
         rolling_origin         = rolling_origin(test_data()),
         sliding_window         = sliding_window(test_data()),
         sliding_index          = sliding_index(test_data(), index),
