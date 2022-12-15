@@ -208,8 +208,10 @@
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `splits` -> `splits...3`
-      * `id` -> `id...4`
+      * `id2` -> `id2...3`
+      * `splits` -> `splits...4`
+      * `id` -> `id...5`
+      * `id2` -> `id2...6`
 
 ---
 
@@ -219,10 +221,8 @@
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `id2` -> `id2...3`
-      * `splits` -> `splits...4`
-      * `id` -> `id...5`
-      * `id2` -> `id2...6`
+      * `splits` -> `splits...3`
+      * `id` -> `id...4`
 
 # vec_cbind() returns a bare tibble
 
@@ -1026,13 +1026,17 @@
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `splits` -> `splits...3`
-      * `id` -> `id...4`
+      * `id2` -> `id2...3`
+      * `splits` -> `splits...4`
+      * `id` -> `id...5`
+      * `id2` -> `id2...6`
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `splits` -> `splits...3`
-      * `id` -> `id...4`
+      * `id2` -> `id2...3`
+      * `splits` -> `splits...4`
+      * `id` -> `id...5`
+      * `id2` -> `id2...6`
 
 ---
 
@@ -1042,13 +1046,17 @@
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `splits` -> `splits...3`
-      * `id` -> `id...4`
+      * `id2` -> `id2...3`
+      * `splits` -> `splits...4`
+      * `id` -> `id...5`
+      * `id2` -> `id2...6`
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `splits` -> `splits...3`
-      * `id` -> `id...4`
+      * `id2` -> `id2...3`
+      * `splits` -> `splits...4`
+      * `id` -> `id...5`
+      * `id2` -> `id2...6`
 
 ---
 
@@ -1058,8 +1066,10 @@
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `splits` -> `splits...3`
-      * `id` -> `id...4`
+      * `id2` -> `id2...3`
+      * `splits` -> `splits...4`
+      * `id` -> `id...5`
+      * `id2` -> `id2...6`
 
 ---
 
@@ -1069,17 +1079,13 @@
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `id2` -> `id2...3`
-      * `splits` -> `splits...4`
-      * `id` -> `id...5`
-      * `id2` -> `id2...6`
+      * `splits` -> `splits...3`
+      * `id` -> `id...4`
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `id2` -> `id2...3`
-      * `splits` -> `splits...4`
-      * `id` -> `id...5`
-      * `id2` -> `id2...6`
+      * `splits` -> `splits...3`
+      * `id` -> `id...4`
 
 ---
 
@@ -1089,17 +1095,13 @@
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `id2` -> `id2...3`
-      * `splits` -> `splits...4`
-      * `id` -> `id...5`
-      * `id2` -> `id2...6`
+      * `splits` -> `splits...3`
+      * `id` -> `id...4`
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `id2` -> `id2...3`
-      * `splits` -> `splits...4`
-      * `id` -> `id...5`
-      * `id2` -> `id2...6`
+      * `splits` -> `splits...3`
+      * `id` -> `id...4`
 
 ---
 
@@ -1109,8 +1111,6 @@
       New names:
       * `splits` -> `splits...1`
       * `id` -> `id...2`
-      * `id2` -> `id2...3`
-      * `splits` -> `splits...4`
-      * `id` -> `id...5`
-      * `id2` -> `id2...6`
+      * `splits` -> `splits...3`
+      * `id` -> `id...4`
 

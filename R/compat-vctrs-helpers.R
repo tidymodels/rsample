@@ -133,7 +133,6 @@ delayedAssign("rset_subclasses", {
         validation_split       = validation_split(test_data()),
         validation_time_split  = validation_time_split(test_data()),
         group_validation_split = group_validation_split(test_data(), y),
-        validation_set         = validation_set(initial_validation_split(test_data())),
         rolling_origin         = rolling_origin(test_data()),
         sliding_window         = sliding_window(test_data()),
         sliding_index          = sliding_index(test_data(), index),
@@ -141,7 +140,8 @@ delayedAssign("rset_subclasses", {
         manual_rset            = manual_rset(list(initial_time_split(test_data()), initial_time_split(test_data())), c("ID1", "ID2")),
         apparent               = apparent(test_data()),
         permutations           = permutations(test_data(), y),
-        clustering_cv          = clustering_cv(test_data(), y, repeats = 2)
+        clustering_cv          = clustering_cv(test_data(), y, repeats = 2),
+        validation_set         = validation_set(initial_validation_split(test_data()))
       )
     )
   } else {
