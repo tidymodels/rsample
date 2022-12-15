@@ -2,7 +2,7 @@
 
 * `training()`, `testing()`, `analysis()`, and `assessment()` are now S3 generics with methods for `rsplit` objects. Previously they manually required the input to be an `rsplit` object (#384).
 
-* The new `initial_validation_split()` generates a three-way split of the data into training, validation, and test sets (#403).
+* The new `initial_validation_split()` generates a three-way split of the data into training, validation, and test sets. With the new `validation_set()`, this can be turned into an `rset` object for tuning (#403).
 
 
 # rsample 1.1.1
