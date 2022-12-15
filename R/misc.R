@@ -250,6 +250,9 @@ reshuffle_rset <- function(rset) {
     rlang::warn(
       glue::glue("`reshuffle_rset()` will return an identical rset when called on {cls} objects")
     )
+    if ("validation_set" %in% class(rset)) {
+      return(rset)
+    }
   }
 
   arguments <- attributes(rset)
@@ -276,7 +279,8 @@ non_random_classes <- c(
   "sliding_period",
   "sliding_window",
   "rolling_origin",
-  "validation_time_split"
+  "validation_time_split",
+  "validation_set"
 )
 
 #' Retrieve individual rsplits objects from an rset
