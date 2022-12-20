@@ -102,6 +102,7 @@ test_that("row slicing and duplicating any rows removes the rset subclass", {
   subclasses$validation_split <- NULL
   subclasses$validation_time_split <- NULL
   subclasses$group_validation_split <- NULL
+  subclasses$validation_set <- NULL
 
   for (x in subclasses) {
     loc <- seq_len(nrow(x))
@@ -450,3 +451,4 @@ test_that("bind_cols() drops the class with new rows", {
   x <- rset_subclasses$apparent
   expect_s3_class_bare_tibble(bind_cols(x, tibble(x = 1:2)))
 })
+

@@ -19,7 +19,7 @@ make_splits.default <- function(x, ...) {
 #' used).
 #' @export
 make_splits.list <- function(x, data, class = NULL, ...) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
   res <- rsplit(data, x$analysis, x$assessment)
   if (!is.null(class)) {
     res <- add_class(res, class)
@@ -31,7 +31,7 @@ make_splits.list <- function(x, data, class = NULL, ...) {
 #' @param assessment A data frame of assessment or testing data, which can be empty.
 #' @export
 make_splits.data.frame <- function(x, assessment, ...) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
   if (nrow(x) == 0) {
     rlang::abort("The analysis set must contain at least one row.")
   }
@@ -250,6 +250,9 @@ reshuffle_rset <- function(rset) {
     rlang::warn(
       glue::glue("`reshuffle_rset()` will return an identical rset when called on {cls} objects")
     )
+    if ("validation_set" %in% class(rset)) {
+      return(rset)
+    }
   }
 
   arguments <- attributes(rset)
@@ -276,5 +279,65 @@ non_random_classes <- c(
   "sliding_period",
   "sliding_window",
   "rolling_origin",
-  "validation_time_split"
+  "validation_time_split",
+  "validation_set"
 )
+
+#' Retrieve individual rsplits objects from an rset
+#'
+#' @param x The `rset` object to retrieve an rsplit from.
+#' @param index An integer indicating which rsplit to retrieve: `1` for the
+#' rsplit in the first row of the rset, `2` for the second, and so on.
+#' @inheritParams rlang::args_dots_empty
+#'
+#' @return The rsplit object in row `index` of `rset`
+#'
+#' @examples
+#' set.seed(123)
+#' (starting_splits <- group_vfold_cv(mtcars, cyl, v = 3))
+#' get_rsplit(starting_splits, 1)
+#'
+#' @rdname get_rsplit
+#' @export
+get_rsplit <- function(x, index, ...) {
+  UseMethod("get_rsplit")
+}
+
+#' @rdname get_rsplit
+#' @export
+get_rsplit.rset <- function(x, index, ...) {
+  rlang::check_dots_empty()
+
+  n_rows <- nrow(x)
+
+  acceptable_index <- length(index) == 1 &&
+    rlang::is_integerish(index) &&
+    index > 0 &&
+    index <= n_rows
+
+  if (!acceptable_index) {
+    msg <- ifelse(
+      length(index) != 1,
+      glue::glue("Index was of length {length(index)}."),
+      glue::glue("A value of {index} was provided.")
+      )
+
+    rlang::abort(
+      c(
+        glue::glue("`index` must be a length-1 integer between 1 and {n_rows}."),
+        x = msg
+      )
+    )
+  }
+
+  x$splits[[index]]
+}
+
+#' @rdname get_rsplit
+#' @export
+get_rsplit.default <- function(x, index, ...) {
+  cls <- paste0("'", class(x), "'", collapse = ", ")
+  rlang::abort(
+    paste("No `get_rsplit()` method for this class(es)", cls)
+  )
+}

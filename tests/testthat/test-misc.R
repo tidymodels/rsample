@@ -141,3 +141,30 @@ test_that("reshuffle_rset is working", {
   expect_snapshot_error(reshuffle_rset(rset_subclasses[["manual_rset"]]$splits[[1]]))
 
 })
+
+test_that("get_rsplit()", {
+
+  val <- withr::with_seed(
+    11,
+    validation_split(warpbreaks)
+  )
+
+  expect_identical(val$splits[[1]], get_rsplit(val, 1))
+
+  expect_snapshot(error = TRUE,{
+    get_rsplit(val, 3)
+  })
+
+  expect_snapshot(error = TRUE,{
+    get_rsplit(val, c(1, 2))
+  })
+
+  expect_snapshot(error = TRUE,{
+    get_rsplit(val, 1.5)
+  })
+
+  expect_snapshot(error = TRUE,{
+    get_rsplit(warpbreaks, 1)
+  })
+
+})

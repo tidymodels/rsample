@@ -4,7 +4,11 @@
 \alias{initial_split}
 \alias{initial_time_split}
 \alias{training}
+\alias{training.default}
+\alias{training.rsplit}
 \alias{testing}
+\alias{testing.default}
+\alias{testing.rsplit}
 \alias{group_initial_split}
 \title{Simple Training/Test Set Splitting}
 \usage{
@@ -12,9 +16,17 @@ initial_split(data, prop = 3/4, strata = NULL, breaks = 4, pool = 0.1, ...)
 
 initial_time_split(data, prop = 3/4, lag = 0, ...)
 
-training(x)
+training(x, ...)
 
-testing(x)
+\method{training}{default}(x, ...)
+
+\method{training}{rsplit}(x, ...)
+
+testing(x, ...)
+
+\method{testing}{default}(x, ...)
+
+\method{testing}{rsplit}(x, ...)
 
 group_initial_split(data, group, prop = 3/4, ..., strata = NULL, pool = 0.1)
 }

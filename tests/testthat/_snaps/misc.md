@@ -130,6 +130,19 @@
 
 ---
 
+    Code
+      reshuffle_rset(rset_subclasses[[non_random_classes[[i]]]])
+    Condition
+      Warning:
+      `reshuffle_rset()` will return an identical rset when called on validation_set objects
+    Output
+      # A tibble: 1 x 2
+        splits          id        
+        <list>          <chr>     
+      1 <split [30/10]> validation
+
+---
+
     Cannot reshuffle this rset (`attr(rset, 'strata')` is `TRUE`, not a column identifier)
 
 ---
@@ -139,4 +152,39 @@
 ---
 
     `rset` must be an rset object
+
+# get_rsplit()
+
+    Code
+      get_rsplit(val, 3)
+    Condition
+      Error in `get_rsplit()`:
+      ! `index` must be a length-1 integer between 1 and 1.
+      x A value of 3 was provided.
+
+---
+
+    Code
+      get_rsplit(val, c(1, 2))
+    Condition
+      Error in `get_rsplit()`:
+      ! `index` must be a length-1 integer between 1 and 1.
+      x Index was of length 2.
+
+---
+
+    Code
+      get_rsplit(val, 1.5)
+    Condition
+      Error in `get_rsplit()`:
+      ! `index` must be a length-1 integer between 1 and 1.
+      x A value of 1.5 was provided.
+
+---
+
+    Code
+      get_rsplit(warpbreaks, 1)
+    Condition
+      Error in `get_rsplit()`:
+      ! No `get_rsplit()` method for this class(es) 'data.frame'
 

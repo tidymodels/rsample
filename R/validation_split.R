@@ -8,6 +8,11 @@
 #'  `group_validation_split()` creates splits of the data based
 #'  on some grouping variable, so that all data in a "group" is assigned to
 #'  the same split.
+#'
+#'  Note that the input `data` to `validation_split()`, `validation_time_split()`,
+#'  and `group_validation_split()` should _not_ contain the testing data. To
+#'  create a three-way split directly of the entire data set, use [validation_set()].
+#'
 #' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
@@ -17,13 +22,21 @@
 #'  and `data.frame`. The results include a column for the data split objects
 #'  and a column called `id` that has a character string with the resample
 #'  identifier.
+#'
+#' @seealso [initial_validation_split()], [validation_set()]
+#'
 #' @examplesIf rlang::is_installed("modeldata")
-#' validation_split(mtcars, prop = .9)
+#' cars_split <- initial_split(mtcars)
+#' cars_not_testing <- training(cars_split)
+#' validation_split(cars_not_testing, prop = .9)
+#' group_validation_split(cars_not_testing, cyl)
 #'
 #' data(drinks, package = "modeldata")
-#' validation_time_split(drinks)
+#' validation_time_split(drinks[1:200,])
 #'
-#' group_validation_split(mtcars, cyl)
+#' # Alternative
+#' cars_split_3 <- initial_validation_split(mtcars)
+#' validation_set(cars_split_3)
 #' @export
 validation_split <- function(data, prop = 3 / 4,
                              strata = NULL, breaks = 4, pool = 0.1, ...) {

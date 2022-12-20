@@ -1,16 +1,28 @@
 # rsample (development version)
 
-* Removed an overly strict test in preparation for dplyr 1.1.0 (#380).
+* `training()`, `testing()`, `analysis()`, and `assessment()` are now S3 generics with methods for `rsplit` objects. Previously they manually required the input to be an `rsplit` object (#384).
 
-* All grouped resampling functions (`group_vfold_cv()`, `group_mc_cv()`, `group_initial_split()` and `group_validation_split()`, and `group_bootstraps()`) now support stratification. Strata must be constant within each group (#317, #360, #363, #364, #365).
+* The new `initial_validation_split()` generates a three-way split of the data into training, validation, and test sets. With the new `validation_set()`, this can be turned into an `rset` object for tuning (#403).
 
-* `group_bootstraps()` now warns if resampling returns any empty assessment sets (previously had been an error) (#356) (#357).
 
-* `bootstraps()` now warns if resampling returns any empty assessment sets (previously had no message or warning) (#356) (#357).
+# rsample 1.1.1
 
-* Added a new function, `clustering_cv()`, for blocked cross-validation in various predictor spaces. This is a very flexible function, taking arguments to both `distance_function` and `cluster_function`, allowing it to be used for spatial clustering as well as potentially phylogenetic and other forms of clustering (#351).
+* All grouped resampling functions (`group_vfold_cv()`, `group_mc_cv()`, `group_initial_split()` and `group_validation_split()`, and `group_bootstraps()`) now support stratification. Strata must be constant within each group (@mikemahoney218, #317, #360, #363, #364, #365).
+
+* Added a new function, `clustering_cv()`, for blocked cross-validation in various predictor spaces. This is a very flexible function, taking arguments to both `distance_function` and `cluster_function`, allowing it to be used for spatial clustering as well as potentially phylogenetic and other forms of clustering (@mikemahoney218, #351).
+
+* `bootstraps()` and `group_bootstraps()` now warn if resampling returns any empty assessment sets. Previously, `bootstraps()` was silent while `group_bootstraps()` errored (@mikemahoney218, #356, #357).
 
 * The assessment set of `validation_time_split()` now also contains the lagged observations (#376).
+
+* The new helper `get_rsplit()` lets you conveniently access the `rsplit` objects inside an `rset` objects (@mikemahoney218, #399).
+
+* The result of `initial_time_split()` now has its own subclass `"initial_time_split"`, in addition to existing classes (#397).
+
+* The dependency on the ellipsis package has been removed (#393).
+
+* Removed an overly strict test in preparation for dplyr 1.1.0 (#380).
+
 
 # rsample 1.1.0
 
