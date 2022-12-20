@@ -130,6 +130,19 @@
 
 ---
 
+    Code
+      reshuffle_rset(rset_subclasses[[non_random_classes[[i]]]])
+    Condition
+      Warning:
+      `reshuffle_rset()` will return an identical rset when called on validation_set objects
+    Output
+      # A tibble: 1 x 2
+        splits          id        
+        <list>          <chr>     
+      1 <split [30/10]> validation
+
+---
+
     Cannot reshuffle this rset (`attr(rset, 'strata')` is `TRUE`, not a column identifier)
 
 ---

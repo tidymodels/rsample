@@ -28,6 +28,21 @@ vec_ptype_abbr.group_initial_split <- function(x, ...) {
 }
 
 #' @export
+vec_ptype_abbr.initial_validation_split <- function(x, ...) {
+  "i_v_splt"
+}
+
+#' @export
+vec_ptype_abbr.group_initial_validation_split <- function(x, ...) {
+  "giv_splt"
+}
+
+#' @export
+vec_ptype_abbr.validation_set <- function(x, ...) {
+  "v_set"
+}
+
+#' @export
 vec_ptype_abbr.validation_split <- function(x, ...) {
   "v_splt"
 }
