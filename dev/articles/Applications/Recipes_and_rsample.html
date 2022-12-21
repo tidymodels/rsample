@@ -370,7 +370,7 @@ it will in the prediction function below).</p>
 <span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span></code></pre>
 <p>To get predictions, the function needs three arguments: the splits
 (to get the assessment data), the recipe (to process them), and the
-model. To iterate over these, the function <code><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">purrr::pmap</a></code> is
+model. To iterate over these, the function <code><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">purrr::pmap</a></code> is
 used:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pred_lm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">split_obj</span>, <span class="va">rec_obj</span>, <span class="va">model_obj</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
@@ -387,7 +387,7 @@ used:</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">bt_samples</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">pmap</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">pmap</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://tibble.tidyverse.org/reference/lst.html" class="external-link">lst</a></span><span class="op">(</span></span>
 <span>      split_obj <span class="op">=</span> <span class="va">bt_samples</span><span class="op">$</span><span class="va">splits</span>, </span>
 <span>      rec_obj <span class="op">=</span> <span class="va">bt_samples</span><span class="op">$</span><span class="va">recipes</span>, </span>
@@ -417,7 +417,7 @@ used:</p>
 <pre><code><span><span class="co">## For binary classification, the first factor level is assumed to be the event.</span></span>
 <span><span class="co">## Use the argument `event_level = "second"` to alter this as needed.</span></span></code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">bt_samples</span><span class="op">$</span><span class="va">pred</span>, <span class="va">rmse</span>, <span class="va">Sale_Price</span>, <span class="va">predicted</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">bt_samples</span><span class="op">$</span><span class="va">pred</span>, <span class="va">rmse</span>, <span class="va">Sale_Price</span>, <span class="va">predicted</span><span class="op">)</span></span>
 <span><span class="va">results</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 25 × 3</span></span></span>
 <span><span class="co">##    .metric .estimator .estimate</span></span>
