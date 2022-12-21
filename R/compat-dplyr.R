@@ -2,8 +2,8 @@
 #'
 #' @description
 #' This page lays out the compatibility between rsample and dplyr. The `rset`
-#' objects from rsample are a sepeciifc subclass of tibbles, hence standard
-#' dyplyr operations like joins as well row or column modifications work.
+#' objects from rsample are a specific subclass of tibbles, hence standard
+#' dplyr operations like joins as well row or column modifications work.
 #' However, whether the operation returns an rset or a tibble depends on the
 #' details of the operation.
 #'
