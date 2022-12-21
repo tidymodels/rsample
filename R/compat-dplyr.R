@@ -1,106 +1,62 @@
 #' Compatibility with dplyr
 #'
 #' @description
-#' rsample should be fully compatible with dplyr 1.0.0.
+#' This page lays out the compatibility between rsample and dplyr. The `rset`
+#' objects from rsample are a specific subclass of tibbles, hence standard
+#' dplyr operations like joins as well row or column modifications work.
+#' However, whether the operation returns an rset or a tibble depends on the
+#' details of the operation.
 #'
-#' With older versions of dplyr, there is partial support for the following
-#' verbs: `mutate()`, `arrange()`, `filter()`, `rename()`, `select()`, and
-#' `slice()`. We strongly recommend updating to dplyr 1.0.0 if possible to
-#' get more complete integration with dplyr.
+#' The overarching principle is that any operation which leaves the specific
+#' characteristics of an rset intact will return an rset. If an operation
+#' modifies any of the following characteristics, the result will be a `tibble`
+#' rather than an `rset`:
 #'
-#' @section Version Specific Behavior:
+#' * Rows: The number of rows needs to remain unchanged to retain the rset
+#' property. For example, you can't have a 10-fold CV object without 10 rows.
+#' The order of the rows can be changed though and the object remains an rset.
 #'
-#' rsample performs somewhat differently depending on whether you have
-#' dplyr >= 1.0.0 (new) or dplyr < 1.0.0 (old). Additionally, version
-#' 0.0.7 of rsample (new) introduced some changes to how rsample objects
-#' work with dplyr, even on old dplyr. Most of these changes influence the
-#' return value of a dplyr verb and determine whether it will be a tibble
-#' or an rsample rset subclass.
-#'
-#' The table below attempts to capture most of these changes. These examples
-#' are not exhaustive and may not capture some edge-cases.
+#' * Columns: The `splits` column and the `id` column(s) are required for an
+#' rset and need to remain untouched. They cannot be dropped, renamed, or
+#' modified if the result should remain an rset.
 #'
 #' ## Joins
 #'
 #' The following affect all of the dplyr joins, such as `left_join()`,
 #' `right_join()`, `full_join()`, and `inner_join()`.
 #'
-#' Joins that alter the rows of the original rset object:
+#' The resulting object is an `rset` if the number of rows is unaffected.
+#' Rows can be reordered but not added or removed, otherwise the resulting object
+#' is a `tibble`.
 #'
-#' | operation                  | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
-#' | :------------------------- | :---------------------: | :---------------------: | :---------------------:
-#' | `join(rset, tbl)`          | error                   | error                   | tibble
+#' | operation          | same rows, possibly reordered | add or remove rows
+#' | :----------------- | :---------------------------: | :---------------------:
+#' | `join(rset, tbl)`  | `rset`                        | `tibble`
 #'
-#' The idea here is that, if there are less rows in the result, the result should
-#' not be an rset object. For example, you can't have a 10-fold CV object
-#' without 10 rows.
+#' ## Row Operations
 #'
-#' Joins that keep the rows of the original rset object:
+#' The resulting object is an `rset` if the number of rows is unaffected.
+#' Rows can be reordered but not added or removed, otherwise the resulting object
+#' is a `tibble`.
 #'
-#' | operation                  | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
-#' | :------------------------- | :---------------------: | :---------------------: | :---------------------:
-#' | `join(rset, tbl)`          | error                   | error                   | rset
+#' | operation          | same rows, possibly reordered | add or remove rows
+#' | :----------------- | :---------------------------: | :---------------------:
+#' | `rset[ind,]`       | `rset`                        | `tibble`
+#' | `slice(rset)`      | `rset`                        | `tibble`
+#' | `filter(rset)`     | `rset`                        | `tibble`
+#' | `arrange(rset)`    | `rset`                        | `tibble`
 #'
-#' As with the logic above, if the original rset object (defined by the split
-#' column and the id column(s)) is left intact, the results should be an rset.
+#' ## Column Operations
 #'
-#' ## Row Subsetting
+#' The resulting object is an `rset` if the required `splits` and `id` columns
+#' remain unaltered. Otherwise the resulting object is a `tibble`.
 #'
-#' As mentioned above, this should result in a tibble if any rows are removed
-#' or added. Simply reordering rows still results in a valid rset with new
-#' rsample.
-#'
-#' Cases where rows are removed or added:
-#'
-#' | operation       | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
-#' | :-------------- | :---------------------: | :---------------------: | :---------------------:
-#' | `rset[ind,]`    | tibble                  | tibble                  | tibble
-#' | `slice(rset)`   | rset                    | tibble                  | tibble
-#' | `filter(rset)`  | rset                    | tibble                  | tibble
-#'
-#' Cases where all rows are kept, but are possibly reordered:
-#'
-#' | operation       | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
-#' | :-------------- | :---------------------: | :---------------------: | :---------------------:
-#' | `rset[ind,]`    | tibble                  | rset                    | rset
-#' | `slice(rset)`   | rset                    | rset                    | rset
-#' | `filter(rset)`  | rset                    | rset                    | rset
-#' | `arrange(rset)` | rset                    | rset                    | rset
-#'
-#' ## Column Subsetting
-#'
-#' When the `splits` column or any `id` columns are dropped or renamed,
-#' the result should no longer be considered a valid rset.
-#'
-#' Cases when the required columns are removed or renamed:
-#'
-#' | operation       | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
-#' | :-------------- | :---------------------: | :---------------------: | :---------------------:
-#' | `rset[,ind]`    | tibble                  | tibble                  | tibble
-#' | `select(rset)`  | rset                    | tibble                  | tibble
-#' | `rename(rset)`  | tibble                  | tibble                  | tibble
-#'
-#' Cases when no required columns are affected:
-#'
-#' | operation       | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
-#' | :-------------- | :---------------------: | :---------------------: | :---------------------:
-#' | `rset[,ind]`    | tibble                  | rset                    | rset
-#' | `select(rset)`  | rset                    | rset                    | rset
-#' | `rename(rset)`  | rset                    | rset                    | rset
-#'
-#' ## Other Column Operations
-#'
-#' Cases when the required columns are altered:
-#'
-#' | operation       | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
-#' | :-------------- | :---------------------: | :---------------------: | :---------------------:
-#' | `mutate(rset)`  | rset                    | tibble                  | tibble
-#'
-#' Cases when no required columns are affected:
-#'
-#' | operation       | old rsample + old dplyr | new rsample + old dplyr | new rsample + new dplyr
-#' | :-------------- | :---------------------: | :---------------------: | :---------------------:
-#' | `mutate(rset)`  | rset                    | rset                    | rset
+#' | operation          | required columns unaltered    | required columns removed, renamed, or modified
+#' | :----------------- | :---------------------------: | :---------------------:
+#' | `rset[,ind]`       | `rset`                        | `tibble`
+#' | `select(rset)`     | `rset`                        | `tibble`
+#' | `rename(rset)`     | `rset`                        | `tibble`
+#' | `mutate(rset)`     | `rset`                        | `tibble`
 #'
 #' @name rsample-dplyr
 NULL

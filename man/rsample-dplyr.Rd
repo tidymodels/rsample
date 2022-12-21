@@ -4,109 +4,62 @@
 \alias{rsample-dplyr}
 \title{Compatibility with dplyr}
 \description{
-rsample should be fully compatible with dplyr 1.0.0.
+This page lays out the compatibility between rsample and dplyr. The \code{rset}
+objects from rsample are a specific subclass of tibbles, hence standard
+dplyr operations like joins as well row or column modifications work.
+However, whether the operation returns an rset or a tibble depends on the
+details of the operation.
 
-With older versions of dplyr, there is partial support for the following
-verbs: \code{mutate()}, \code{arrange()}, \code{filter()}, \code{rename()}, \code{select()}, and
-\code{slice()}. We strongly recommend updating to dplyr 1.0.0 if possible to
-get more complete integration with dplyr.
+The overarching principle is that any operation which leaves the specific
+characteristics of an rset intact will return an rset. If an operation
+modifies any of the following characteristics, the result will be a \code{tibble}
+rather than an \code{rset}:
+\itemize{
+\item Rows: The number of rows needs to remain unchanged to retain the rset
+property. For example, you can't have a 10-fold CV object without 10 rows.
+The order of the rows can be changed though and the object remains an rset.
+\item Columns: The \code{splits} column and the \code{id} column(s) are required for an
+rset and need to remain untouched. They cannot be dropped, renamed, or
+modified if the result should remain an rset.
 }
-\section{Version Specific Behavior}{
-
-
-rsample performs somewhat differently depending on whether you have
-dplyr >= 1.0.0 (new) or dplyr < 1.0.0 (old). Additionally, version
-0.0.7 of rsample (new) introduced some changes to how rsample objects
-work with dplyr, even on old dplyr. Most of these changes influence the
-return value of a dplyr verb and determine whether it will be a tibble
-or an rsample rset subclass.
-
-The table below attempts to capture most of these changes. These examples
-are not exhaustive and may not capture some edge-cases.
 \subsection{Joins}{
 
 The following affect all of the dplyr joins, such as \code{left_join()},
 \code{right_join()}, \code{full_join()}, and \code{inner_join()}.
 
-Joins that alter the rows of the original rset object:\tabular{lccc}{
-   operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
-   \code{join(rset, tbl)} \tab error \tab error \tab tibble \cr
-}
-
-
-The idea here is that, if there are less rows in the result, the result should
-not be an rset object. For example, you can't have a 10-fold CV object
-without 10 rows.
-
-Joins that keep the rows of the original rset object:\tabular{lccc}{
-   operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
-   \code{join(rset, tbl)} \tab error \tab error \tab rset \cr
-}
-
-
-As with the logic above, if the original rset object (defined by the split
-column and the id column(s)) is left intact, the results should be an rset.
-}
-
-\subsection{Row Subsetting}{
-
-As mentioned above, this should result in a tibble if any rows are removed
-or added. Simply reordering rows still results in a valid rset with new
-rsample.
-
-Cases where rows are removed or added:\tabular{lccc}{
-   operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
-   \code{rset[ind,]} \tab tibble \tab tibble \tab tibble \cr
-   \code{slice(rset)} \tab rset \tab tibble \tab tibble \cr
-   \code{filter(rset)} \tab rset \tab tibble \tab tibble \cr
-}
-
-
-Cases where all rows are kept, but are possibly reordered:\tabular{lccc}{
-   operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
-   \code{rset[ind,]} \tab tibble \tab rset \tab rset \cr
-   \code{slice(rset)} \tab rset \tab rset \tab rset \cr
-   \code{filter(rset)} \tab rset \tab rset \tab rset \cr
-   \code{arrange(rset)} \tab rset \tab rset \tab rset \cr
+The resulting object is an \code{rset} if the number of rows is unaffected.
+Rows can be reordered but not added or removed, otherwise the resulting object
+is a \code{tibble}.\tabular{lcc}{
+   operation \tab same rows, possibly reordered \tab add or remove rows \cr
+   \code{join(rset, tbl)} \tab \code{rset} \tab \code{tibble} \cr
 }
 
 }
 
-\subsection{Column Subsetting}{
+\subsection{Row Operations}{
 
-When the \code{splits} column or any \code{id} columns are dropped or renamed,
-the result should no longer be considered a valid rset.
-
-Cases when the required columns are removed or renamed:\tabular{lccc}{
-   operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
-   \code{rset[,ind]} \tab tibble \tab tibble \tab tibble \cr
-   \code{select(rset)} \tab rset \tab tibble \tab tibble \cr
-   \code{rename(rset)} \tab tibble \tab tibble \tab tibble \cr
-}
-
-
-Cases when no required columns are affected:\tabular{lccc}{
-   operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
-   \code{rset[,ind]} \tab tibble \tab rset \tab rset \cr
-   \code{select(rset)} \tab rset \tab rset \tab rset \cr
-   \code{rename(rset)} \tab rset \tab rset \tab rset \cr
+The resulting object is an \code{rset} if the number of rows is unaffected.
+Rows can be reordered but not added or removed, otherwise the resulting object
+is a \code{tibble}.\tabular{lcc}{
+   operation \tab same rows, possibly reordered \tab add or remove rows \cr
+   \code{rset[ind,]} \tab \code{rset} \tab \code{tibble} \cr
+   \code{slice(rset)} \tab \code{rset} \tab \code{tibble} \cr
+   \code{filter(rset)} \tab \code{rset} \tab \code{tibble} \cr
+   \code{arrange(rset)} \tab \code{rset} \tab \code{tibble} \cr
 }
 
 }
 
-\subsection{Other Column Operations}{
+\subsection{Column Operations}{
 
-Cases when the required columns are altered:\tabular{lccc}{
-   operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
-   \code{mutate(rset)} \tab rset \tab tibble \tab tibble \cr
-}
-
-
-Cases when no required columns are affected:\tabular{lccc}{
-   operation \tab old rsample + old dplyr \tab new rsample + old dplyr \tab new rsample + new dplyr \cr
-   \code{mutate(rset)} \tab rset \tab rset \tab rset \cr
+The resulting object is an \code{rset} if the required \code{splits} and \code{id} columns
+remain unaltered. Otherwise the resulting object is a \code{tibble}.\tabular{lcc}{
+   operation \tab required columns unaltered \tab required columns removed, renamed, or modified \cr
+   \code{rset[,ind]} \tab \code{rset} \tab \code{tibble} \cr
+   \code{select(rset)} \tab \code{rset} \tab \code{tibble} \cr
+   \code{rename(rset)} \tab \code{rset} \tab \code{tibble} \cr
+   \code{mutate(rset)} \tab \code{rset} \tab \code{tibble} \cr
 }
 
 }
 }
-
