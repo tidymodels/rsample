@@ -1,5 +1,5 @@
 test_that("grouped variants have the same classes as nongrouped outputs", {
-  skip_if_not(rlang::is_installed("withr"))
+  skip_if_not_installed("withr")
   grouped_variants <- grep("^group_", names(rset_subclasses), value = TRUE)
 
   for (x in grouped_variants) {
@@ -30,7 +30,7 @@ test_that("grouped variants have the same classes as nongrouped outputs", {
 })
 
 test_that("grouped variants are consistent across R sessions", {
-  skip_if_not(rlang::is_installed("withr"))
+  skip_if_not_installed("withr")
   grouped_variants <- grep("^group_", names(rset_subclasses), value = TRUE)
 
   for (x in grouped_variants) {
