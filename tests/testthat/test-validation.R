@@ -46,7 +46,7 @@ test_that("default time param", {
 })
 
 test_that("default time param with lag", {
-  skip_if_not(rlang::is_installed("modeldata"))
+  skip_if_not_installed("modeldata")
   data(drinks, package = "modeldata")
 
   rs1 <- validation_time_split(dat1, lag = 5)
