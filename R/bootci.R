@@ -372,7 +372,7 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
     loo_res %>%
     dplyr::group_by(term) %>%
     dplyr::summarize(loo = mean(estimate, na.rm = TRUE)) %>%
-    dplyr::inner_join(loo_res, by = "term") %>%
+    dplyr::inner_join(loo_res, by = "term", multiple = "all") %>%
     dplyr::group_by(term) %>%
     dplyr::summarize(
       cubed = sum((loo - estimate)^3),
