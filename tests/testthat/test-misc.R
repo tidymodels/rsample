@@ -1,5 +1,5 @@
 test_that("reverse_splits is working", {
-  skip_if_not(rlang::is_installed("withr"))
+  skip_if_not_installed("withr")
 
   reversable_subclasses <- setdiff(names(rset_subclasses), "permutations")
   reversable_subclasses <- rset_subclasses[reversable_subclasses]
@@ -35,7 +35,7 @@ test_that("reverse_splits is working", {
 
 test_that("reshuffle_rset is working", {
 
-  skip_if_not(rlang::is_installed("withr"))
+  skip_if_not_installed("withr")
   supported_subclasses <- rset_subclasses[
     setdiff(names(rset_subclasses), c("manual_rset"))
   ]
