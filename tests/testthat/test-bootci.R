@@ -14,7 +14,7 @@ bt_norm <-
   )
 
 test_that("Bootstrap estimate of mean is close to estimate of mean from normal distribution", {
-  skip_if_not_is_installed("broom")
+  skip_if_not_installed("broom")
   skip_on_cran()
   ttest <- broom::tidy(t.test(rand_nums))
   ttest_lower_conf <- broom::tidy(t.test(rand_nums, conf.level = 0.8))
@@ -82,6 +82,7 @@ test_that("Bootstrap estimate of mean is close to estimate of mean from normal d
 # ------------------------------------------------------------------------------
 
 test_that("Wrappers -- selection of multiple variables works", {
+  skip_if_not_installed("broom")
   skip_if_not_installed("modeldata")
   data("attrition", package = "modeldata")
   func <- function(split, ...) {
