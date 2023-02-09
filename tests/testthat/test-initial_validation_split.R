@@ -130,7 +130,12 @@ test_that("grouped split stratified", {
     group = sample(1:100, 5e4, replace = TRUE),
     observation = 1:5e4
   )
-  sample_data <- dplyr::full_join(group_table, observation_table, by = "group")
+  sample_data <- dplyr::full_join(
+    group_table,
+    observation_table,
+    by = "group",
+    multiple = "all"
+  )
 
   val_split <- group_initial_validation_split(
     sample_data,

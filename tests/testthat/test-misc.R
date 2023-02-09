@@ -103,7 +103,12 @@ test_that("reshuffle_rset is working", {
     group = sample(1:100, 5e4, replace = TRUE),
     observation = 1:5e4
   )
-  sample_data <- dplyr::full_join(group_table, observation_table, by = "group")
+  sample_data <- dplyr::full_join(
+    group_table,
+    observation_table,
+    by = "group",
+    multiple = "all"
+  )
 
   for (i in seq_along(grouped_strata)) {
     # Fit those functions with non-default arguments:
