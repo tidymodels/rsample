@@ -18,7 +18,7 @@ library(recipes)
 library(purrr)
 ```
 
-The [`recipes`](https://topepo.github.io/recipes/) package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide. This document uses version `r packageDescription("recipes")$Version` of `recipes`. 
+The [recipes](https://recipes.tidymodels.org/) package contains a data preprocessor that can be used to avoid the potentially expensive formula methods as well as providing a richer set of data manipulation tools than base R can provide. This document uses version `r packageDescription("recipes")$Version` of recipes. 
 
 In many cases, the preprocessing steps might contain quantities that require statistical estimation of parameters, such as
 
@@ -30,7 +30,7 @@ In many cases, the preprocessing steps might contain quantities that require sta
 
 It is critical that any complex preprocessing steps be contained _inside_ of resampling so that the model performance estimates take into account the variability of these steps. 
 
-Before discussing how `rsample` can use recipes, let's look at an example recipe for the Ames housing data. 
+Before discussing how rsample can use recipes, let's look at an example recipe for the Ames housing data. 
 
 ## An Example Recipe
 
@@ -48,7 +48,7 @@ log10(Sale_Price) ~ Neighborhood + House_Style + Year_Sold + Lot_Area
 
 The distribution of the lot size is right-skewed:
 
-```{r build}
+```{r build, fig.alt = "The histogram of the lot size, showing a long right tail of the empirical distribution."}
 library(ggplot2)
 theme_set(theme_bw())
 ggplot(ames, aes(x = Lot_Area)) + 
@@ -59,7 +59,7 @@ It might benefit the model if we estimate a transformation of the data using the
 
 Also, note that the frequencies of the neighborhoods can vary:
 
-```{r hood}
+```{r hood, fig.alt = "A bar plot of the counts of different neighborhoods, with the frequencies ranging from over 400 observations of North_Ames to only a handful for Green_Hills and Landmark."}
 ggplot(ames, aes(x = Neighborhood)) + geom_bar() + coord_flip() + xlab("")
 ```
 
@@ -105,10 +105,10 @@ bake(rec_training_set, new_data = head(ames))
 ```
 Note that there are fewer dummy variables for `Neighborhood` and `House_Style` than in the data. 
 
-Also, the above code using `prep` benefits from the default argument of `retain = TRUE`, which keeps the processed version of the data set so that we don't have to reapply the steps to extract the processed values. For the data used to train the recipe, we would have used:
+Also, the above code using `prep()` benefits from the default argument of `retain = TRUE`, which keeps the processed version of the data set so that we don't have to reapply the steps to extract the processed values. For the data used to train the recipe, we would have used:
 
 ```{r juiced}
-juice(rec_training_set) %>% head
+bake(rec_training_set, new_data = NULL) %>% head
 ```
 
 The next section will explore recipes and bootstrap resampling for modeling:
@@ -123,7 +123,7 @@ bt_samples$splits[[1]]
 
 ## Working with Resamples
 
-We can add a recipe column to the tibble. `recipes` has a convenience function called `prepper` that can be used to call `prep` but has the split object as the first argument (for easier purrring):
+We can add a recipe column to the tibble. recipes has a convenience function called `prepper()` that can be used to call `prep()` but has the split object as the first argument (for easier purrring):
 
 ```{r col-pred}
 library(purrr)
@@ -133,11 +133,11 @@ bt_samples
 bt_samples$recipes[[1]]
 ```
 
-Now, to fit the model, the fit function only needs the recipe as input. This is because the above code implicitly used the `retain = TRUE` option in `prep`. Otherwise, the split objects would also be needed to `bake` the recipe (as it will in the prediction function below). 
+Now, to fit the model, the fit function only needs the recipe as input. This is because the above code implicitly used the `retain = TRUE` option in `prep()`. Otherwise, the split objects would also be needed to `bake()` the recipe (as it will in the prediction function below). 
 
 ```{r cols-fit}
 fit_lm <- function(rec_obj, ...) 
-  lm(..., data = juice(rec_obj, everything()))
+  lm(..., data = bake(rec_obj, new_data = NULL, everything()))
 
 bt_samples$lm_mod <- 
   map(
@@ -148,7 +148,7 @@ bt_samples$lm_mod <-
 bt_samples
 ```
 
-To get predictions, the function needs three arguments: the splits (to get the assessment data), the recipe (to process them), and the model. To iterate over these, the function `purrr::pmap` is used: 
+To get predictions, the function needs three arguments: the splits (to get the assessment data), the recipe (to process them), and the model. To iterate over these, the function `purrr::pmap()` is used: 
 
 ```{r cols-pred}
 pred_lm <- function(split_obj, rec_obj, model_obj, ...) {

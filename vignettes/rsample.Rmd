@@ -26,7 +26,7 @@ We define a _resample_ as the result of a two-way split of a data set. For examp
 
 The main class in the package (`rset`) is for a _set_ or _collection_ of resamples. In 10-fold cross-validation, the set would consist of the 10 different resamples of the original data. 
 
-Like [`modelr`](https://cran.r-project.org/package=modelr), the resamples are stored in data-frame-like `tibble` object. As a simple example, here is a small set of bootstraps of the `mtcars` data:
+Like [modelr](https://cran.r-project.org/package=modelr), the resamples are stored in data-frame-like `tibble` object. As a simple example, here is a small set of bootstraps of the `mtcars` data:
 
 ```{r mtcars_bt, message=FALSE}
 library(rsample)
@@ -45,7 +45,7 @@ In this package we use the following terminology for the two partitions that com
  * The _analysis_ data are those that we selected in the resample. For a bootstrap, this is the sample with replacement. For 10-fold cross-validation, this is the 90% of the data. These data are often used to fit a model or calculate a statistic in traditional bootstrapping. 
  * The _assessment_ data are usually the section of the original data not covered by the analysis set. Again, in 10-fold CV, this is the 10% held out. These data are often used to evaluate the performance of a model that was fit to the analysis data. 
 
-(Aside: While some might use the term "training" and "testing" for these data sets, we avoid them since those labels often conflict with the data that result from an initial partition of the data that is typically done _before_ resampling. The training/test split can be conducted using the `initial_split` function in this package.)
+(Aside: While some might use the term "training" and "testing" for these data sets, we avoid them since those labels often conflict with the data that result from an initial partition of the data that is typically done _before_ resampling. The training/test split can be conducted using the `initial_split()` function in this package.)
 
 Let's look at one of the `rsplit` objects
 ```{r rsplit}
@@ -54,7 +54,7 @@ first_resample
 ```
 This indicates that there were `r dim(bt_resamples$splits[[1]])["analysis"]` data points in the analysis set, `r dim(bt_resamples$splits[[1]])["assessment"]` instances were in the assessment set, and that the original data contained `r dim(bt_resamples$splits[[1]])["n"]` data points. These results can also be determined using the `dim` function on an `rsplit` object. 
 
-To obtain either of these data sets from an `rsplit`, the `as.data.frame` function can be used. By default, the analysis set is returned but the `data` option can be used to return the assessment data: 
+To obtain either of these data sets from an `rsplit`, the `as.data.frame()` function can be used. By default, the analysis set is returned but the `data` option can be used to return the assessment data: 
 ```{r rsplit_df}
 head(as.data.frame(first_resample))
 as.data.frame(first_resample, data = "assessment")
