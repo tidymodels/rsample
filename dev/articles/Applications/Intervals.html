@@ -108,8 +108,8 @@
 intervals for complex statistics whose variance properties are difficult
 to analytically derive. Davison and Hinkley’s <a href="https://www.cambridge.org/core/books/bootstrap-methods-and-their-application/ED2FD043579F27952363566DC09CBD6A" class="external-link"><em>Bootstrap
 Methods and Their Application</em></a> is a great resource for these
-methods. <code>rsample</code> contains a few function to compute the
-most common types of intervals.</p>
+methods. rsample contains a few functions to compute the most common
+types of intervals.</p>
 <div class="section level2">
 <h2 id="a-nonlinear-regression-example">A nonlinear regression example<a class="anchor" aria-label="anchor" href="#a-nonlinear-regression-example"></a>
 </h2>
@@ -127,7 +127,7 @@ patient with rest and exercise phases (in the data frame
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">O2K</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">t</span>, y <span class="op">=</span> <span class="va">VO2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intervals_files/figure-html/O2K-dat-1.png" width="768"></p>
+<p><img src="Intervals_files/figure-html/O2K-dat-1.png" alt="A scatterplot with time on the x-axis and oxygen uptake on the y-axis. For time &lt; 6, the oxygen uptake remains at around 400. Between time = 6 and time = 9, it rises to about 1600, then remains around that value." width="768"></p>
 <p>The authors fit a segmented regression model where the transition
 point was known (this is the time when exercise commenced). Their model
 was:</p>
@@ -154,10 +154,10 @@ was:</p>
 <p><code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">broom::tidy()</a></code> returns our analysis object in a
 standardized way. The column names shown here are used for most types of
 objects and this allows us to use the results more easily.</p>
-<p>For <code>rsample</code>, we’ll rely on the <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>
-method to work with bootstrap estimates when we need confidence
-intervals. There’s an example at the end of a univariate statistic that
-isn’t automatically formatted with <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>.</p>
+<p>For rsample, we’ll rely on the <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> method to work
+with bootstrap estimates when we need confidence intervals. There’s an
+example at the end of a univariate statistic that isn’t automatically
+formatted with <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>.</p>
 <p>To run our model over different bootstraps, we’ll write a function
 that uses the <code>split</code> object as input and produces a tidy
 data frame:</p>
@@ -209,13 +209,11 @@ results:</p>
 <span>  <span class="va">nlin_bt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">splits</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Turn it into a tibble by stacking the `models` col</span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">models</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Get rid of unneeded columns</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">term</span>, <span class="va">estimate</span><span class="op">)</span> </span></code></pre></div>
-<pre><code><span><span class="co">## Warning: `cols` is now required when using `unnest()`.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `cols = c(models)`.</span></span></code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nls_coef</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">term</span>, <span class="va">estimate</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nls_coef</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">##   id            term    estimate</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -226,10 +224,10 @@ results:</p>
 <span><span class="co">## <span style="color: #BCBCBC;">5</span> Bootstrap0002 VO2peak  <span style="text-decoration: underline;">1</span>662.  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">6</span> Bootstrap0002 mu          1.26</span></span></code></pre>
 <p>Now let’s create a scatterplot matrix:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nls_coef</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Put different parameters in columns</span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/spread.html" class="external-link">spread</a></span><span class="op">(</span><span class="va">term</span>, <span class="va">estimate</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">term</span>, values_from <span class="op">=</span> <span class="va">estimate</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="co"># Keep only numeric columns</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggscatmat.html" class="external-link">ggscatmat</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">.25</span><span class="op">)</span></span></code></pre></div>
@@ -237,16 +235,16 @@ results:</p>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `after_stat(scaled)` instead.</span></span>
 <span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">GGally</span> package.</span></span>
 <span><span class="co">##   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/ggobi/ggally/issues&gt;</span>.</span></span></code></pre>
-<p><img src="Intervals_files/figure-html/splom-1.png" width="768"></p>
+<p><img src="Intervals_files/figure-html/splom-1.png" alt="The 3x3 scatter plot matrix for the variables VO2rest, VO2peak, and mu. We can see one value for VO2peak that is larger than the rest." width="768"></p>
 <p>One potential outlier on the right for <code>VO2peak</code> but we’ll
 leave it in.</p>
 <p>The univariate distributions are:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nls_coef</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">estimate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">20</span>, col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">term</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intervals_files/figure-html/hists-1.png" width="768"></p>
+<p><img src="Intervals_files/figure-html/hists-1.png" alt="Three histograms for mu, VO2peak, and VO2rest: all distributions are unimodal and symmetric." width="768"></p>
 <div class="section level3">
 <h3 id="percentile-intervals">Percentile intervals<a class="anchor" aria-label="anchor" href="#percentile-intervals"></a>
 </h3>
@@ -254,7 +252,7 @@ leave it in.</p>
 resampling distribution. To get the percentile intervals, the
 <code>rset</code> object is passed as the first argument and the second
 argument is the list column of tidy results:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_ints</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/int_pctl.html">int_pctl</a></span><span class="op">(</span><span class="va">nlin_bt</span>, <span class="va">models</span><span class="op">)</span></span>
 <span><span class="va">p_ints</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
@@ -264,17 +262,17 @@ argument is the list column of tidy results:</p>
 <span><span class="co">## <span style="color: #BCBCBC;">2</span> VO2rest  344.      357.    370.     0.05 percentile</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">3</span> mu         1.00      1.18    1.35   0.05 percentile</span></span></code></pre>
 <p>When overlaid with the univariate distributions:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nls_coef</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">estimate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">20</span>, col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">term</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">p_ints</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">.lower</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">p_ints</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">.upper</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intervals_files/figure-html/pctl-plot-1.png" width="768"></p>
+<p><img src="Intervals_files/figure-html/pctl-plot-1.png" alt="The three histograms for mu, VO2peak, and VO2rest with added vertical lines for the estimated lower and upper bounds of the percentile intervals." width="768"></p>
 <p>How do these intervals compare to the parametric asymptotic
 values?</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">parametric</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">res</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
@@ -315,13 +313,13 @@ values?</p>
 <p>The percentile intervals are wider than the parametric intervals
 (which assume asymptotic normality). Do the estimates appear to be
 normally distributed? We can look at quantile-quantile plots:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nls_coef</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="va">estimate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">stat_qq</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">stat_qq_line</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">.25</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">term</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="Intervals_files/figure-html/qqplot-1.png" width="768"></p>
+<p><img src="Intervals_files/figure-html/qqplot-1.png" alt="Three QQ plots for mu, VO2peak, and VO2rest which show that the empirical distributions deviate from a normal distribution in the tails." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="t-intervals">t-intervals<a class="anchor" aria-label="anchor" href="#t-intervals"></a>
@@ -331,10 +329,10 @@ intermediate statistics that are <em>t</em>-like in structure. To use
 these, we require the estimated variance <em>for each individual
 resampled estimate</em>. In our example, this comes along with the
 fitted model object. We can extract the standard errors of the
-parameters. Luckily, most <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> provide this in a column
-named <code>std.error</code>.</p>
+parameters. Luckily, most <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> methods provide this in a
+column named <code>std.error</code>.</p>
 <p>The arguments for these intervals are the same:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">t_stats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/int_pctl.html">int_t</a></span><span class="op">(</span><span class="va">nlin_bt</span>, <span class="va">models</span><span class="op">)</span></span>
 <span><span class="va">intervals</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">intervals</span>, <span class="va">t_stats</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -381,7 +379,7 @@ have set up a parallel processing plan (see
 <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">?future::plan</a></code>).</p>
 <p>The user-facing function takes an argument for the function and the
 ellipses.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bias_corr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/int_pctl.html">int_bca</a></span><span class="op">(</span><span class="va">nlin_bt</span>, <span class="va">models</span>, .fn <span class="op">=</span> <span class="va">fit_fun</span>, start <span class="op">=</span> <span class="va">start_vals</span><span class="op">)</span></span>
 <span><span class="va">intervals</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">intervals</span>, <span class="va">bias_corr</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -424,11 +422,11 @@ ellipses.</p>
 <li>a numeric column called <code>estimate</code>, and, optionally,</li>
 <li>a numeric column called <code>std.error</code>.</li>
 </ul>
-<p>The last column is only needed for <code>int_t</code>.</p>
+<p>The last column is only needed for <code><a href="../../reference/int_pctl.html">int_t()</a></code>.</p>
 <p>Suppose we just want to estimate the fold-increase in the outcome
 between the 90th and 10th percentiles over the course of the experiment.
 Our function might look like:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fold_incr</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">split</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/as.data.frame.rsplit.html">analysis</a></span><span class="op">(</span><span class="va">split</span><span class="op">)</span></span>
 <span>  <span class="va">quants</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">VO2</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.9</span><span class="op">)</span><span class="op">)</span></span>
@@ -440,7 +438,7 @@ Our function might look like:</p>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Everything else works the same as before:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nlin_bt</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">nlin_bt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>folds <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">splits</span>, <span class="va">fold_incr</span><span class="op">)</span><span class="op">)</span></span>
@@ -450,7 +448,7 @@ Our function might look like:</p>
 <span><span class="co">##   term          .lower .estimate .upper .alpha .method   </span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span> fold increase   4.42      4.76   5.05   0.05 percentile</span></span></code></pre>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/int_pctl.html">int_bca</a></span><span class="op">(</span><span class="va">nlin_bt</span>, <span class="va">folds</span>, .fn <span class="op">=</span> <span class="va">fold_incr</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
 <span><span class="co">##   term          .lower .estimate .upper .alpha .method</span></span>
@@ -460,18 +458,17 @@ Our function might look like:</p>
 <div class="section level2">
 <h2 id="intervals-for-linearish-parametric-intervals">Intervals for linear(ish) parametric intervals<a class="anchor" aria-label="anchor" href="#intervals-for-linearish-parametric-intervals"></a>
 </h2>
-<p><code>rsample</code> also contains the <code><a href="../../reference/reg_intervals.html">reg_intervals()</a></code>
-function that can be used for linear regression (via <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code>),
-generalized linear models (<code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code>), or log-linear survival
-models (<code><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survival::survreg()</a></code> or
-<code><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">survival::coxph()</a></code>). This function makes it easier to get
-intervals for these models.</p>
+<p>rsample also contains the <code><a href="../../reference/reg_intervals.html">reg_intervals()</a></code> function that
+can be used for linear regression (via <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code>), generalized
+linear models (<code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code>), or log-linear survival models
+(<code><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survival::survreg()</a></code> or <code><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">survival::coxph()</a></code>).
+This function makes it easier to get intervals for these models.</p>
 <p>A simple example is a logistic regression using the dementia data
 from the <code>modeldata</code> package:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ad_data</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span></code></pre></div>
 <p>Let’s fit a model with a few predictors:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lr_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">male</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">Ab_42</span> <span class="op">+</span> <span class="va">tau</span>, data <span class="op">=</span> <span class="va">ad_data</span>,</span>
 <span>              family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance</a></span><span class="op">(</span><span class="va">lr_mod</span><span class="op">)</span></span></code></pre></div>
@@ -479,7 +476,7 @@ from the <code>modeldata</code> package:</p>
 <span><span class="co">##   null.deviance df.null logLik   AIC   BIC deviance df.residual  nobs</span></span>
 <span><span class="co">##           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>          391.     332  -<span style="color: #BB0000;">140.</span>  289.  308.     279.         328   333</span></span></code></pre>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">lr_mod</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 5 × 5</span></span></span>
 <span><span class="co">##   term        estimate std.error statistic       p.value</span></span>
@@ -490,7 +487,7 @@ from the <code>modeldata</code> package:</p>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> Ab_42          0.534     0.104      5.14 0.000<span style="text-decoration: underline;">000</span>282  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">5</span> tau           -<span style="color: #BB0000;">1.78</span>      0.309     -<span style="color: #BB0000;">5.77</span> 0.000<span style="text-decoration: underline;">000</span>008<span style="text-decoration: underline;">07</span></span></span></code></pre>
 <p>Let’s use this model with student-t intervals:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">29832</span><span class="op">)</span></span>
 <span><span class="va">lr_int</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../../reference/reg_intervals.html">reg_intervals</a></span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">male</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">Ab_42</span> <span class="op">+</span> <span class="va">tau</span>, </span>
@@ -506,7 +503,7 @@ from the <code>modeldata</code> package:</p>
 <span><span class="co">## <span style="color: #BCBCBC;">3</span> male    -<span style="color: #BB0000;">1.35</span>     -<span style="color: #BB0000;">0.755</span> -<span style="color: #BB0000;">0.133</span>   0.05 student-t</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> tau     -<span style="color: #BB0000;">2.38</span>     -<span style="color: #BB0000;">1.83</span>  -<span style="color: #BB0000;">1.17</span>    0.05 student-t</span></span></code></pre>
 <p>We can also save the resamples for plotting:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">29832</span><span class="op">)</span></span>
 <span><span class="va">lr_int</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../../reference/reg_intervals.html">reg_intervals</a></span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">male</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">Ab_42</span> <span class="op">+</span> <span class="va">tau</span>, </span>
@@ -523,7 +520,7 @@ from the <code>modeldata</code> package:</p>
 <span><span class="co">## <span style="color: #BCBCBC;">3</span> male    -<span style="color: #BB0000;">1.35</span>     -<span style="color: #BB0000;">0.755</span> -<span style="color: #BB0000;">0.133</span>   0.05 student-t        <span style="color: #949494;">[1,001 × 2]</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> tau     -<span style="color: #BB0000;">2.38</span>     -<span style="color: #BB0000;">1.83</span>  -<span style="color: #BB0000;">1.17</span>    0.05 student-t        <span style="color: #949494;">[1,001 × 2]</span></span></span></code></pre>
 <p>Now we can unnest the data to use in a ggplot:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lr_int</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">term</span>, <span class="va">.replicates</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">.replicates</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -533,7 +530,7 @@ from the <code>modeldata</code> package:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">lr_int</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">.lower</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">lr_int</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">.upper</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span>, col <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intervals_files/figure-html/ad-plot-1.png" width="768"></p>
+<p><img src="Intervals_files/figure-html/ad-plot-1.png" alt="Four histograms for the distribution of the regression model coefficients, with vertical lines indicating the estimated lower and upper interval bounds, as well as vertical lines for a coefficient value of 0. For age, the interval encloses 0, for the other variables it does not." width="768"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

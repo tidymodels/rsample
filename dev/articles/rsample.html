@@ -121,7 +121,7 @@ sample. Cross-validation is another type of resampling.</p>
 <em>set</em> or <em>collection</em> of resamples. In 10-fold
 cross-validation, the set would consist of the 10 different resamples of
 the original data.</p>
-<p>Like <a href="https://cran.r-project.org/package=modelr" class="external-link"><code>modelr</code></a>,
+<p>Like <a href="https://cran.r-project.org/package=modelr" class="external-link">modelr</a>,
 the resamples are stored in data-frame-like <code>tibble</code> object.
 As a simple example, here is a small set of bootstraps of the
 <code>mtcars</code> data:</p>
@@ -160,7 +160,7 @@ model that was fit to the analysis data.</li>
 these data sets, we avoid them since those labels often conflict with
 the data that result from an initial partition of the data that is
 typically done <em>before</em> resampling. The training/test split can
-be conducted using the <code>initial_split</code> function in this
+be conducted using the <code><a href="../reference/initial_split.html">initial_split()</a></code> function in this
 package.)</p>
 <p>Let’s look at one of the <code>rsplit</code> objects</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -173,7 +173,7 @@ instances were in the assessment set, and that the original data
 contained 32 data points. These results can also be determined using the
 <code>dim</code> function on an <code>rsplit</code> object.</p>
 <p>To obtain either of these data sets from an <code>rsplit</code>, the
-<code>as.data.frame</code> function can be used. By default, the
+<code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> function can be used. By default, the
 analysis set is returned but the <code>data</code> option can be used to
 return the assessment data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
