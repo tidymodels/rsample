@@ -325,7 +325,7 @@ test_that("left_join() can keep rset class if rset structure is intact", {
 test_that("left_join() can lose rset class if rows are added", {
   for (x in rset_subclasses) {
     y <- tibble(id = x$id[[1]], x = 1:2)
-    expect_s3_class_bare_tibble(left_join(x, y, by = "id"))
+    expect_s3_class_bare_tibble(left_join(x, y, by = "id", multiple = "all"))
   }
 })
 
@@ -347,7 +347,7 @@ test_that("right_join() can keep rset class if rset structure is intact", {
 test_that("right_join() can lose rset class if rows are added", {
   for (x in rset_subclasses) {
     y <- tibble(id = x$id[[1]], x = 1:2)
-    expect_s3_class_bare_tibble(right_join(x, y, by = "id"))
+    expect_s3_class_bare_tibble(right_join(x, y, by = "id", multiple = "all"))
   }
 })
 
@@ -355,7 +355,7 @@ test_that("right_join() restores to the type of first input", {
   for (x in rset_subclasses) {
     y <- tibble(id = x$id[[1]], x = 1)
     # technically rset structure is intact, but `y` is a bare tibble!
-    expect_s3_class_bare_tibble(right_join(y, x, by = "id"))
+    expect_s3_class_bare_tibble(right_join(y, x, by = "id", multiple = "all"))
   }
 })
 
@@ -451,4 +451,3 @@ test_that("bind_cols() drops the class with new rows", {
   x <- rset_subclasses$apparent
   expect_s3_class_bare_tibble(bind_cols(x, tibble(x = 1:2)))
 })
-
