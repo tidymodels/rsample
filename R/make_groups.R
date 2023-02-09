@@ -302,7 +302,12 @@ check_prop <- function(prop, replace) {
 
 
 collapse_groups <- function(freq_table, data_ind, v) {
-  data_ind <- dplyr::left_join(data_ind, freq_table, by = c("..group" = "key"))
+  data_ind <- dplyr::left_join(
+    data_ind,
+    freq_table,
+    by = c("..group" = "key"),
+    multiple = "all"
+  )
   data_ind$..group <- data_ind$assignment
   data_ind <- data_ind[c("..index", "..group")]
 

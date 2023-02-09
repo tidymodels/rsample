@@ -243,7 +243,12 @@ test_that("grouping -- strata", {
     group = sample(1:100, 1e5, replace = TRUE),
     observation = 1:1e5
   )
-  sample_data <- dplyr::full_join(group_table, observation_table, by = "group")
+  sample_data <- dplyr::full_join(
+    group_table,
+    observation_table,
+    by = "group",
+    multiple = "all"
+  )
   rs4 <- group_vfold_cv(sample_data, group, v = 5, strata = outcome)
   sizes4 <- dim_rset(rs4)
   expect_snapshot(sizes4)
