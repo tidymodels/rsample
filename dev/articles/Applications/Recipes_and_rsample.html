@@ -156,11 +156,15 @@ categories.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/recipes" class="external-link">recipes</a></span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Apply log10 transformation outside the recipe</span></span>
+<span><span class="co"># https://www.tmwr.org/recipes.html#skip-equals-true</span></span>
+<span><span class="va">ames</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">ames</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Sale_Price <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">Sale_Price</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">rec</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html" class="external-link">recipe</a></span><span class="op">(</span><span class="va">Sale_Price</span> <span class="op">~</span> <span class="va">Neighborhood</span> <span class="op">+</span> <span class="va">House_Style</span> <span class="op">+</span> <span class="va">Year_Sold</span> <span class="op">+</span> <span class="va">Lot_Area</span>, </span>
 <span>         data <span class="op">=</span> <span class="va">ames</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="co"># Log the outcome</span></span>
-<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_log.html" class="external-link">step_log</a></span><span class="op">(</span><span class="va">Sale_Price</span>, base <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Collapse rarely occurring jobs into "other"</span></span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_other.html" class="external-link">step_other</a></span><span class="op">(</span><span class="va">Neighborhood</span>, <span class="va">House_Style</span>, threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Dummy variables on the qualitative predictors</span></span>
@@ -181,7 +185,6 @@ categories.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Operations:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Log transformation on Sale_Price</span></span>
 <span><span class="co">## Collapsing factor levels for Neighborhood, House_Style</span></span>
 <span><span class="co">## Dummy variables from all_nominal()</span></span>
 <span><span class="co">## Box-Cox transformation on Lot_Area</span></span>
@@ -209,7 +212,6 @@ recipe can be estimated on the analysis component of the resample.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Operations:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Log transformation on Sale_Price [trained]</span></span>
 <span><span class="co">## Collapsing factor levels for Neighborhood, House_Style [trained]</span></span>
 <span><span class="co">## Dummy variables from Neighborhood, House_Style [trained]</span></span>
 <span><span class="co">## Box-Cox transformation on Lot_Area [trained]</span></span>
@@ -331,7 +333,6 @@ easier purrring):</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Operations:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Log transformation on Sale_Price [trained]</span></span>
 <span><span class="co">## Collapsing factor levels for Neighborhood, House_Style [trained]</span></span>
 <span><span class="co">## Dummy variables from Neighborhood, House_Style [trained]</span></span>
 <span><span class="co">## Box-Cox transformation on Lot_Area [trained]</span></span>
