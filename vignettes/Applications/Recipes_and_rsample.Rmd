@@ -70,11 +70,15 @@ To define the design matrix, an initial recipe is created:
 ```{r rec_setup, message=FALSE, warning=FALSE}
 library(recipes)
 
+# Apply log10 transformation outside the recipe
+# https://www.tmwr.org/recipes.html#skip-equals-true
+ames <-
+  ames %>%
+  mutate(Sale_Price = log10(Sale_Price))
+
 rec <- 
   recipe(Sale_Price ~ Neighborhood + House_Style + Year_Sold + Lot_Area, 
          data = ames) %>%
-  # Log the outcome
-  step_log(Sale_Price, base = 10) %>%
   # Collapse rarely occurring jobs into "other"
   step_other(Neighborhood, House_Style, threshold = 0.05) %>%
   # Dummy variables on the qualitative predictors
