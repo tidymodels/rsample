@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# rsample <a href='https://rsample.tidymodels.org/'><img src='man/figures/logo.png' align="right" height="139" /></a>
+# rsample <a href='https://rsample.tidymodels.org/'><img src='man/figures/logo.png' align="right" height="139" alt="a boot on a green background" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/tidymodels/rsample/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/rsample/actions/workflows/R-CMD-check.yaml)
