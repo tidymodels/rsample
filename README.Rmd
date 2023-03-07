@@ -76,8 +76,8 @@ install.packages("rsample")
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-install_dev("rsample")
+# install.packages("pak")
+pak::pak("rsample")
 ```
 
 ## Contributing
