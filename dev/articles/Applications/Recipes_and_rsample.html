@@ -108,7 +108,7 @@
 contains a data preprocessor that can be used to avoid the potentially
 expensive formula methods as well as providing a richer set of data
 manipulation tools than base R can provide. This document uses version
-1.0.4 of recipes.</p>
+1.0.5 of recipes.</p>
 <p>In many cases, the preprocessing steps might contain quantities that
 require statistical estimation of parameters, such as</p>
 <ul>
@@ -175,21 +175,6 @@ categories.</p>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_center.html" class="external-link">step_center</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_scale.html" class="external-link">step_scale</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </span>
 <span><span class="va">rec</span></span></code></pre></div>
-<pre><code><span><span class="co">## Recipe</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Inputs:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##       role #variables</span></span>
-<span><span class="co">##    outcome          1</span></span>
-<span><span class="co">##  predictor          4</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Operations:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Collapsing factor levels for Neighborhood, House_Style</span></span>
-<span><span class="co">## Dummy variables from all_nominal()</span></span>
-<span><span class="co">## Box-Cox transformation on Lot_Area</span></span>
-<span><span class="co">## Centering for all_predictors()</span></span>
-<span><span class="co">## Scaling for all_predictors()</span></span></code></pre>
 <p>This recreates the work that the formula method traditionally uses
 with the additional steps.</p>
 <p>While the original data object <code>ames</code> is used in the call,
@@ -197,29 +182,29 @@ it is only used to define the variables and their characteristics so a
 single recipe is valid across all resampled versions of the data. The
 recipe can be estimated on the analysis component of the resample.</p>
 <p>If we execute the recipe on the entire data set:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rec_training_set</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep</a></span><span class="op">(</span><span class="va">rec</span>, training <span class="op">=</span> <span class="va">ames</span><span class="op">)</span></span>
 <span><span class="va">rec_training_set</span></span></code></pre></div>
-<pre><code><span><span class="co">## Recipe</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Inputs:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##       role #variables</span></span>
-<span><span class="co">##    outcome          1</span></span>
-<span><span class="co">##  predictor          4</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Training data contained 2930 data points and no missing data.</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Operations:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Collapsing factor levels for Neighborhood, House_Style [trained]</span></span>
-<span><span class="co">## Dummy variables from Neighborhood, House_Style [trained]</span></span>
-<span><span class="co">## Box-Cox transformation on Lot_Area [trained]</span></span>
-<span><span class="co">## Centering for Year_Sold, Lot_Area, Neighborhood_College... [trained]</span></span>
-<span><span class="co">## Scaling for Year_Sold, Lot_Area, Neighborhood_College... [trained]</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Recipe</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## ── Inputs</span></span></code></pre>
+<pre><code><span><span class="co">## Number of variables by role</span></span></code></pre>
+<pre><code><span><span class="co">## outcome:   1</span></span>
+<span><span class="co">## predictor: 4</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## ── Training information</span></span></code></pre>
+<pre><code><span><span class="co">## Training data contained 2930 data points and no incomplete rows.</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## ── Operations</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Collapsing factor levels for: <span style="color: #0000BB;">Neighborhood</span>, <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Dummy variables from: <span style="color: #0000BB;">Neighborhood</span>, <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Box-Cox transformation on: <span style="color: #0000BB;">Lot_Area</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Centering for: <span style="color: #0000BB;">Year_Sold</span>, <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Scaling for: <span style="color: #0000BB;">Year_Sold</span>, <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
 <p>To get the values of the data, the <code>bake</code> function can be
 used:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># By default, the selector `everything()` is used to </span></span>
 <span><span class="co"># return all the variables. Other selectors can be used too. </span></span>
 <span><span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake</a></span><span class="op">(</span><span class="va">rec_training_set</span>, new_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ames</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -247,7 +232,7 @@ default argument of <code>retain = TRUE</code>, which keeps the
 processed version of the data set so that we don’t have to reapply the
 steps to extract the processed values. For the data used to train the
 recipe, we would have used:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake</a></span><span class="op">(</span><span class="va">rec_training_set</span>, new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">head</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 14</span></span></span>
 <span><span class="co">##   Year_S…¹ Lot_A…² Sale_…³ Neigh…⁴ Neigh…⁵ Neigh…⁶ Neigh…⁷ Neigh…⁸ Neigh…⁹</span></span>
@@ -267,7 +252,7 @@ recipe, we would have used:</p>
 <span><span class="co">## <span style="color: #949494;">#   ⁸​Neighborhood_Northridge_Heights, ⁹​Neighborhood_Gilbert</span></span></span></code></pre>
 <p>The next section will explore recipes and bootstrap resampling for
 modeling:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org">rsample</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">7712</span><span class="op">)</span></span>
 <span><span class="va">bt_samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bootstraps.html">bootstraps</a></span><span class="op">(</span><span class="va">ames</span><span class="op">)</span></span>
@@ -287,7 +272,7 @@ modeling:</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [2930/1062]&gt;</span> Bootstrap09</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [2930/1064]&gt;</span> Bootstrap10</span></span>
 <span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span></code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bt_samples</span><span class="op">$</span><span class="va">splits</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## &lt;Analysis/Assess/Total&gt;</span></span>
 <span><span class="co">## &lt;2930/1095/2930&gt;</span></span></code></pre>
@@ -299,7 +284,7 @@ modeling:</p>
 function called <code><a href="https://recipes.tidymodels.org/reference/prepper.html" class="external-link">prepper()</a></code> that can be used to call
 <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep()</a></code> but has the split object as the first argument (for
 easier purrring):</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">bt_samples</span><span class="op">$</span><span class="va">recipes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">bt_samples</span><span class="op">$</span><span class="va">splits</span>, <span class="va">prepper</span>, recipe <span class="op">=</span> <span class="va">rec</span><span class="op">)</span></span>
@@ -319,31 +304,31 @@ easier purrring):</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [2930/1062]&gt;</span> Bootstrap09 <span style="color: #949494;">&lt;recipe&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [2930/1064]&gt;</span> Bootstrap10 <span style="color: #949494;">&lt;recipe&gt;</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span></code></pre>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bt_samples</span><span class="op">$</span><span class="va">recipes</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
-<pre><code><span><span class="co">## Recipe</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Inputs:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##       role #variables</span></span>
-<span><span class="co">##    outcome          1</span></span>
-<span><span class="co">##  predictor          4</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Training data contained 2930 data points and no missing data.</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Operations:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Collapsing factor levels for Neighborhood, House_Style [trained]</span></span>
-<span><span class="co">## Dummy variables from Neighborhood, House_Style [trained]</span></span>
-<span><span class="co">## Box-Cox transformation on Lot_Area [trained]</span></span>
-<span><span class="co">## Centering for Year_Sold, Lot_Area, Neighborhood_College... [trained]</span></span>
-<span><span class="co">## Scaling for Year_Sold, Lot_Area, Neighborhood_College... [trained]</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Recipe</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## ── Inputs</span></span></code></pre>
+<pre><code><span><span class="co">## Number of variables by role</span></span></code></pre>
+<pre><code><span><span class="co">## outcome:   1</span></span>
+<span><span class="co">## predictor: 4</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## ── Training information</span></span></code></pre>
+<pre><code><span><span class="co">## Training data contained 2930 data points and no incomplete rows.</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## ── Operations</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Collapsing factor levels for: <span style="color: #0000BB;">Neighborhood</span>, <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Dummy variables from: <span style="color: #0000BB;">Neighborhood</span>, <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Box-Cox transformation on: <span style="color: #0000BB;">Lot_Area</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Centering for: <span style="color: #0000BB;">Year_Sold</span>, <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Scaling for: <span style="color: #0000BB;">Year_Sold</span>, <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
 <p>Now, to fit the model, the fit function only needs the recipe as
 input. This is because the above code implicitly used the
 <code>retain = TRUE</code> option in <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep()</a></code>. Otherwise, the
 split objects would also be needed to <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake()</a></code> the recipe (as
 it will in the prediction function below).</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_lm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">rec_obj</span>, <span class="va">...</span><span class="op">)</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">...</span>, data <span class="op">=</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake</a></span><span class="op">(</span><span class="va">rec_obj</span>, new_data <span class="op">=</span> <span class="cn">NULL</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -373,7 +358,7 @@ it will in the prediction function below).</p>
 (to get the assessment data), the recipe (to process them), and the
 model. To iterate over these, the function <code><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">purrr::pmap()</a></code> is
 used:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pred_lm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">split_obj</span>, <span class="va">rec_obj</span>, <span class="va">model_obj</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">mod_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake</a></span><span class="op">(</span></span>
 <span>    <span class="va">rec_obj</span>, </span>
@@ -413,11 +398,11 @@ used:</p>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [2930/1064]&gt;</span> Bootstrap10 <span style="color: #949494;">&lt;recipe&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   <span style="color: #949494;">&lt;tibble [1,064 × 2]&gt;</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span></code></pre>
 <p>Calculating the RMSE:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/yardstick" class="external-link">yardstick</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## For binary classification, the first factor level is assumed to be the event.</span></span>
 <span><span class="co">## Use the argument `event_level = "second"` to alter this as needed.</span></span></code></pre>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">bt_samples</span><span class="op">$</span><span class="va">pred</span>, <span class="va">rmse</span>, <span class="va">Sale_Price</span>, <span class="va">predicted</span><span class="op">)</span></span>
 <span><span class="va">results</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 25 × 3</span></span></span>
@@ -434,7 +419,7 @@ used:</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> rmse    standard       0.122</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> rmse    standard       0.127</span></span>
 <span><span class="co">## <span style="color: #949494;"># … with 15 more rows</span></span></span></code></pre>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">.estimate</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.129</span></span></code></pre>
 </div>
