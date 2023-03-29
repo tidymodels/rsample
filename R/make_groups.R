@@ -169,12 +169,13 @@ balance_observations <- function(data_ind, v, strata = NULL, ...) {
     split_unnamed(data_ind, strata)
   }
 
-  freq_table <- purrr::map_dfr(
+  freq_table <- purrr::map(
     data_splits,
     balance_observations_helper,
     v = v,
     target_per_fold = target_per_fold
-  )
+  ) %>%
+    list_rbind()
 
   collapse_groups(freq_table, data_ind, v)
 }
@@ -246,13 +247,14 @@ balance_prop <- function(prop, data_ind, v, replace = FALSE, strata = NULL, ...)
     split_unnamed(data_ind, strata)
   }
 
-  freq_table <- purrr::map_dfr(
+  freq_table <- purrr::map(
     data_splits,
     balance_prop_helper,
     prop = prop,
     v = v,
     replace = replace
-  )
+  ) %>%
+    list_rbind()
 
   collapse_groups(freq_table, data_ind, v)
 }
@@ -270,7 +272,7 @@ balance_prop_helper <- function(prop, data_ind, v, replace) {
   if (replace) n <- n * prop * sum(freq_table$count) / min(freq_table$count)
   n <- ceiling(n)
 
-  purrr::map_dfr(
+  purrr::map(
     seq_len(v),
     function(x) {
       row_idx <- sample.int(nrow(freq_table), n, replace = replace)
@@ -284,7 +286,8 @@ balance_prop_helper <- function(prop, data_ind, v, replace) {
       out$assignment <- x
       out
     }
-  )
+  ) %>%
+    list_rbind()
 }
 
 check_prop <- function(prop, replace) {

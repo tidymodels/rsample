@@ -8,7 +8,7 @@ NULL
 #------------------------------------------------------------------------------#
 
 #' @importFrom utils globalVariables
-#' @importFrom purrr map map_df map2 map_dfr map_dbl pluck map_lgl
+#' @importFrom purrr map map_df map2 map_dbl pluck map_lgl list_rbind
 #' @importFrom tibble tibble is_tibble as_tibble obj_sum
 #' @importFrom pillar type_sum
 #' @importFrom tidyr gather unnest
@@ -19,7 +19,7 @@ NULL
 #' @importFrom methods formalArgs
 #' @importFrom stats quantile setNames qnorm pnorm dist
 #' @importFrom tidyselect vars_select one_of
-#' @importFrom furrr future_map_dfr
+#' @importFrom furrr future_map
 #' @importFrom tidyr gather
 
 #------------------------------------------------------------------------------#
