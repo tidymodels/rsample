@@ -8,7 +8,7 @@ NULL
 #------------------------------------------------------------------------------#
 
 #' @importFrom utils globalVariables
-#' @importFrom purrr map map_df map2 map_dbl pluck map_lgl list_rbind
+#' @importFrom purrr map map2 map_dbl pluck map_lgl list_rbind
 #' @importFrom tibble tibble is_tibble as_tibble obj_sum
 #' @importFrom pillar type_sum
 #' @importFrom tidyr gather unnest
