@@ -178,7 +178,7 @@ accuracy of the model.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [1323/147]&gt;</span> Repeat01 Fold08</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [1323/147]&gt;</span> Repeat01 Fold09</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [1323/147]&gt;</span> Repeat01 Fold10</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 90 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 90 more rows</span></span></span></code></pre></div>
 <p>Now let’s write a function that will, for each resample:</p>
 <ol style="list-style-type: decimal">
 <li>obtain the analysis data set (i.e. the 90% used for modeling)</li>
@@ -252,7 +252,7 @@ predictor in log-odds units.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [1323/147]&gt;</span> Repeat01 Fold08 <span style="color: #949494;">&lt;tibble [147 × 34]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [1323/147]&gt;</span> Repeat01 Fold09 <span style="color: #949494;">&lt;tibble [147 × 34]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [1323/147]&gt;</span> Repeat01 Fold10 <span style="color: #949494;">&lt;tibble [147 × 34]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 90 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 90 more rows</span></span></span></code></pre></div>
 <p>Now we can compute the accuracy values for all of the assessment data
 sets:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -351,7 +351,7 @@ used to estimate and save these values for each split.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [1470/536]&gt;</span> Bootstrap008      286  <span style="color: #949494;">&lt;df [1 × 6]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [1470/552]&gt;</span> Bootstrap009      -<span style="color: #BB0000;">30</span>  <span style="color: #949494;">&lt;df [1 × 6]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [1470/517]&gt;</span> Bootstrap010      410  <span style="color: #949494;">&lt;df [1 × 6]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 490 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 490 more rows</span></span></span>
 <span><span class="va">bt_resamples</span><span class="op">$</span><span class="va">betas</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#&gt;   (Intercept) JobSatisfaction.L JobSatisfaction.Q JobSatisfaction.C GenderMale</span></span>
 <span><span class="co">#&gt; 1      -0.939            -0.501            -0.272            0.0842     0.0989</span></span>
@@ -384,7 +384,7 @@ plotting, etc. rsample contains <code>tidy</code> methods for
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    13 Analysis</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    18 Analysis</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    19 Analysis</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 1,460 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,460 more rows</span></span></span></code></pre></div>
 <p>and</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">bt_resamples</span><span class="op">)</span></span>
@@ -403,7 +403,7 @@ plotting, etc. rsample contains <code>tidy</code> methods for
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1 Analysis Bootstrap013</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 Analysis Bootstrap015</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 Analysis Bootstrap016</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 734,990 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 734,990 more rows</span></span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
