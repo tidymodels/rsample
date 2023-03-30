@@ -26,7 +26,7 @@
       nested_cv(mtcars, outside = vfold_cv(), inside = folds)
     Condition
       Error in `list2()`:
-      ! Argument 3 is empty
+      ! Argument 3 can't be empty.
 
 # printing
 

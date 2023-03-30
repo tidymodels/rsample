@@ -148,5 +148,5 @@
         <list>          <chr>    
       1 <split [36/18]> Resample1
       2 <split [36/18]> Resample2
-      # ... with 1 more row
+      # i 1 more row
 
