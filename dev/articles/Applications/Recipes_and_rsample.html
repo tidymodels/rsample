@@ -401,7 +401,7 @@ used:</p>
 <pre><code><span><span class="co">## For binary classification, the first factor level is assumed to be the event.</span></span>
 <span><span class="co">## Use the argument `event_level = "second"` to alter this as needed.</span></span></code></pre>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">bt_samples</span><span class="op">$</span><span class="va">pred</span>, <span class="va">rmse</span>, <span class="va">Sale_Price</span>, <span class="va">predicted</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">bt_samples</span><span class="op">$</span><span class="va">pred</span>, <span class="va">rmse</span>, <span class="va">Sale_Price</span>, <span class="va">predicted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">list_rbind</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">results</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 25 × 3</span></span></span>
 <span><span class="co">##    .metric .estimator .estimate</span></span>
