@@ -309,7 +309,8 @@ collapse_groups <- function(freq_table, data_ind, v) {
     data_ind,
     freq_table,
     by = c("..group" = "key"),
-    multiple = "all"
+    multiple = "all",
+    relationship = "many-to-many"
   )
   data_ind$..group <- data_ind$assignment
   data_ind <- data_ind[c("..index", "..group")]
