@@ -131,13 +131,14 @@ boot_splits <-
       )
       stratas <- split_unnamed(stratas, stratas$strata)
       stratas <-
-        purrr::map_df(
+        purrr::map(
           stratas,
           strat_sample,
           prop = 1,
           times = times,
           replace = TRUE
-        )
+        ) %>%
+        list_rbind()
       indices <- split_unnamed(stratas$idx, stratas$rs_id)
     }
 

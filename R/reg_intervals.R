@@ -90,7 +90,7 @@ reg_intervals <-
 
     if (keep_reps) {
       bt <- bt[bt$id != "Apparent", ]
-      reps <- purrr::map_dfr(bt$models, I)
+      reps <- purrr::map(bt$models, I) %>% list_rbind()
       reps <- dplyr::group_nest(reps, term, .key = ".replicates")
       res <- dplyr::full_join(res, reps, by = "term")
     }

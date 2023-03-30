@@ -184,7 +184,7 @@ Calculating the RMSE:
 
 ```{r cols-rmse}
 library(yardstick)
-results <- map_dfr(bt_samples$pred, rmse, Sale_Price, predicted)
+results <- map(bt_samples$pred, rmse, Sale_Price, predicted) %>% list_rbind()
 results
 mean(results$.estimate)
 ```

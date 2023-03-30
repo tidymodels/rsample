@@ -118,7 +118,8 @@ mc_splits <- function(data, prop = 3 / 4, times = 25,
     )
     stratas <- split_unnamed(stratas, stratas$strata)
     stratas <-
-      purrr::map_df(stratas, strat_sample, prop = prop, times = times)
+      purrr::map(stratas, strat_sample, prop = prop, times = times) %>%
+      list_rbind()
     indices <- split_unnamed(stratas$idx, stratas$rs_id)
   }
   indices <- lapply(indices, mc_complement, n = n)
@@ -133,7 +134,8 @@ mc_splits <- function(data, prop = 3 / 4, times = 25,
 strat_sample <- function(x, prop, times, ...) {
   n <- nrow(x)
   idx <- purrr::map(rep(n, times), sample, size = floor(n * prop), ...)
-  out <- purrr::map_df(idx, function(ind, x) x[sort(ind), "idx"], x = x)
+  out <- purrr::map(idx, function(ind, x) x[sort(ind), "idx"], x = x) %>%
+    list_rbind()
   out$rs_id <- rep(1:times, each = floor(n * prop))
   out
 }
