@@ -38,7 +38,7 @@ make_groups <- function(data,
   balance <- rlang::arg_match(balance, error_call = rlang::caller_env())
 
   data_ind <- tibble(
-    ..index = 1:nrow(data),
+    ..index = seq_len(nrow(data)),
     ..group = group
   )
   data_ind$..group <- as.character(data_ind$..group)

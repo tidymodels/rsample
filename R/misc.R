@@ -36,14 +36,14 @@ make_splits.data.frame <- function(x, assessment, ...) {
     rlang::abort("The analysis set must contain at least one row.")
   }
 
-  ind_analysis <- 1:nrow(x)
+  ind_analysis <- seq_len(nrow(x))
   if (nrow(assessment) == 0) {
     ind_assessment <- integer()
   } else {
     if (!identical(colnames(x), colnames(assessment))) {
       rlang::abort("The analysis and assessment sets must have the same columns.")
     }
-    ind_assessment <- nrow(x) + 1:nrow(assessment)
+    ind_assessment <- nrow(x) + seq_len(nrow(assessment))
   }
 
   data <- bind_rows(x, assessment)
