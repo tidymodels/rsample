@@ -29,7 +29,7 @@ complement.rsplit <- function(x, ...) {
   if (!is_missing_out_id(x)) {
     return(x$out_id)
   } else {
-    (1:nrow(x$data))[-unique(x$in_id)]
+    seq_len(nrow(x$data))[-unique(x$in_id)]
   }
 }
 #' @export
@@ -73,7 +73,7 @@ complement.apparent_split <- function(x, ...) {
   if (!is_missing_out_id(x)) {
     return(x$out_id)
   } else {
-    1:nrow(x$data)
+    seq_len(nrow(x$data))
   }
 }
 
