@@ -8,8 +8,8 @@
 #'   many of the `rsplit` objects will not contain indices for the
 #'   assessment split.
 #'
-#' @param x An `rsplit` object
-#' @param ... Not currently used
+#' @param x An `rsplit` object.
+#' @param ... Not currently used.
 #' @return A integer vector.
 #' @seealso [populate()]
 #' @examples
@@ -26,6 +26,7 @@ complement <- function(x, ...) {
 #' @export
 #' @rdname complement
 complement.rsplit <- function(x, ...) {
+  check_dots_empty()
   if (!is_missing_out_id(x)) {
     return(x$out_id)
   } else {
@@ -35,21 +36,25 @@ complement.rsplit <- function(x, ...) {
 #' @export
 #' @rdname complement
 complement.rof_split <- function(x, ...) {
+  check_dots_empty()
   get_stored_out_id(x)
 }
 #' @export
 #' @rdname complement
 complement.sliding_window_split <- function(x, ...) {
+  check_dots_empty()
   get_stored_out_id(x)
 }
 #' @export
 #' @rdname complement
 complement.sliding_index_split <- function(x, ...) {
+  check_dots_empty()
   get_stored_out_id(x)
 }
 #' @export
 #' @rdname complement
 complement.sliding_period_split <- function(x, ...) {
+  check_dots_empty()
   get_stored_out_id(x)
 }
 
@@ -70,6 +75,7 @@ get_stored_out_id <- function(x) {
 #' @export
 #' @rdname complement
 complement.apparent_split <- function(x, ...) {
+  check_dots_empty()
   if (!is_missing_out_id(x)) {
     return(x$out_id)
   } else {
