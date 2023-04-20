@@ -20,7 +20,7 @@ See \code{\link[tidyselect]{language}} for more details.}
 \item{apparent}{A logical. Should an extra resample be added where the
 analysis is the standard data set.}
 
-\item{...}{Not currently used.}
+\item{...}{These dots are for future extensions and must be empty.}
 }
 \value{
 A \code{tibble} with classes \code{permutations}, \code{rset}, \code{tbl_df}, \code{tbl}, and

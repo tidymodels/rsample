@@ -17,7 +17,7 @@
 #' @param times The number of permutation samples.
 #' @param apparent A logical. Should an extra resample be added where the
 #'   analysis is the standard data set.
-#' @param ... Not currently used.
+#' @inheritParams rlang::args_dots_empty
 #'
 #' @details The argument `apparent` enables the option of an additional
 #'   "resample" where the analysis data set is the same as the original data
@@ -49,6 +49,8 @@ permutations <- function(data,
                          times = 25,
                          apparent = FALSE,
                          ...) {
+  check_dots_empty()
+
   permute <- rlang::enquo(permute)
   if (is.null(permute)) {
     rlang::abort("You must specify at least one column to permute!")
