@@ -106,7 +106,7 @@ default_complement <- function(ind, n) {
 #'   the assessment samples. `populate()` can be used to fill the slot
 #'   for the appropriate indices.
 #' @param x A `rsplit` and `rset` object.
-#' @param ... Not currently used
+#' @param ... Not currently used.
 #' @return An object of the same kind with the integer indices.
 #' @examples
 #' set.seed(28432)
@@ -124,12 +124,14 @@ populate <- function(x, ...) UseMethod("populate")
 
 #' @export
 populate.rsplit <- function(x, ...) {
-  x$out_id <- complement(x, ...)
+  check_dots_empty()
+  x$out_id <- complement(x)
   x
 }
 
 #' @export
 populate.rset <- function(x, ...) {
+  check_dots_empty()
   x$splits <- map(x$splits, populate)
   x
 }
