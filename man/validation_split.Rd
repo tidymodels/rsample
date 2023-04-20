@@ -29,7 +29,7 @@ too small and should be pooled into another group. We do not recommend
 decreasing this argument below its default of 0.1 because of the dangers
 of stratifying groups that are too small.}
 
-\item{...}{Not currently used.}
+\item{...}{These dots are for future extensions and must be empty.}
 
 \item{lag}{A value to include a lag between the assessment
 and analysis set. This is useful if lagged predictors will be used

@@ -25,7 +25,7 @@ too small and should be pooled into another group. We do not recommend
 decreasing this argument below its default of 0.1 because of the dangers
 of stratifying groups that are too small.}
 
-\item{...}{Not currently used.}
+\item{...}{These dots are for future extensions and must be empty.}
 }
 \value{
 A tibble with classes \code{vfold_cv}, \code{rset}, \code{tbl_df}, \code{tbl}, and

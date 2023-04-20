@@ -9,7 +9,7 @@ loo_cv(data, ...)
 \arguments{
 \item{data}{A data frame.}
 
-\item{...}{Not currently used.}
+\item{...}{These dots are for future extensions and must be empty.}
 }
 \value{
 An tibble with classes \code{loo_cv}, \code{rset}, \code{tbl_df}, \code{tbl}, and
