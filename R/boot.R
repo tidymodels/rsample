@@ -69,6 +69,8 @@ bootstraps <-
            pool = 0.1,
            apparent = FALSE,
            ...) {
+    check_dots_empty()
+
     if (!missing(strata)) {
       strata <- tidyselect::vars_select(names(data), !!enquo(strata))
       if (length(strata) == 0) strata <- NULL
@@ -200,8 +202,7 @@ group_bootstraps <- function(data,
                              ...,
                              strata = NULL,
                              pool = 0.1) {
-
-  rlang::check_dots_empty()
+  check_dots_empty()
 
   group <- validate_group({{ group }}, data)
 
