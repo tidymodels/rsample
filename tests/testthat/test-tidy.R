@@ -19,7 +19,7 @@ test_that("simple boot", {
 test_that("vfold", {
   set.seed(11)
   rs2 <- vfold_cv(dat1)
-  td2 <- tidy(rs2, unique_ind = FALSE)
+  td2 <- tidy(rs2)
 
   for (i in 1:nrow(rs2)) {
     expect_true(
@@ -34,7 +34,7 @@ test_that("vfold", {
 test_that("vfold with repeats", {
   set.seed(11)
   rs3 <- vfold_cv(dat1, repeats = 2)
-  td3 <- tidy(rs3, unique_ind = FALSE)
+  td3 <- tidy(rs3)
 
   for (i in 1:nrow(rs3)) {
     expect_true(
