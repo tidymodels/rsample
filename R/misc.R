@@ -158,7 +158,7 @@ split_unnamed <- function(x, f) {
 #' `rsplit` or all `rsplit`s in the `splits` column of an `rset` object.
 #'
 #' @param x An `rset` or `rsplit` object.
-#'@param ... Not currently used.
+#' @param ... Not currently used.
 #'
 #' @return An object of the same class as `x`
 #'
