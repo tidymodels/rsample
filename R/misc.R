@@ -142,6 +142,7 @@ split_unnamed <- function(x, f) {
 #' @export
 #' @rdname get_fingerprint
 .get_fingerprint.rset <- function(x, ...) {
+  check_dots_empty()
   att <- attributes(x)
   if (any(names(att) == "fingerprint")) {
     res <- att$fingerprint
