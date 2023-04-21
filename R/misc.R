@@ -57,6 +57,7 @@ make_splits.data.frame <- function(x, assessment, ...) {
 merge_lists <- function(a, b) list(analysis = a, assessment = b)
 
 dim_rset <- function(x, ...) {
+  check_dots_empty()
   dims <- purrr::map(x$splits, dim)
   dims <- do.call("rbind", dims)
   dims <- tibble::as_tibble(dims)

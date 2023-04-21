@@ -160,6 +160,7 @@ assessment.rsplit <- function(x, ...) {
 
 #' @export
 dim.rsplit <- function(x, ...) {
+  check_dots_empty()
   c(
     analysis = length(x$in_id),
     assessment = length(complement(x)),
@@ -171,6 +172,8 @@ dim.rsplit <- function(x, ...) {
 #' @method obj_sum rsplit
 #' @export
 obj_sum.rsplit <- function(x, ...) {
+  check_dots_empty()
+
   out_char <-
     if (is_missing_out_id(x)) {
       paste(length(complement(x)))
@@ -189,6 +192,8 @@ obj_sum.rsplit <- function(x, ...) {
 #' @method type_sum rsplit
 #' @export
 type_sum.rsplit <- function(x, ...) {
+  check_dots_empty()
+
   out_char <-
     if (is_missing_out_id(x)) {
       format_n(length(complement(x)))
