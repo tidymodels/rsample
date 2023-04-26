@@ -4,6 +4,8 @@
 
 * The new `initial_validation_split()` generates a three-way split of the data into training, validation, and test sets. With the new `validation_set()`, this can be turned into an `rset` object for tuning (#403).
 
+* Functions which don't use the ellipsis `...` now enforce empty dots (#429).
+
 
 # rsample 1.1.1
 
