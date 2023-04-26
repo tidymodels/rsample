@@ -15,7 +15,7 @@
 \item{make_factor}{A logical for whether the results should be
 a character or a factor.}
 
-\item{...}{These dots are for future extensions and must be empty.}
+\item{...}{Not currently used.}
 }
 \value{
 A single character or factor vector.

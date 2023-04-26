@@ -302,7 +302,6 @@ print.initial_validation_split <- function(x, ...) {
 
 #' @export
 dim.initial_validation_split <- function(x, ...) {
-  check_dots_empty()
   n_test <- nrow(x$data) - length(x$train_id) - length(x$val_id)
   c(
     training = length(x$train_id),

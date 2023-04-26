@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{An \code{rsplit} object}
 
-\item{...}{These dots are for future extensions and must be empty.}
+\item{...}{Not currently used.}
 }
 \value{
 A tibble.

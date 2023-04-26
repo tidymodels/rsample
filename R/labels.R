@@ -7,13 +7,12 @@
 #' @param object An `rset` object
 #' @param make_factor A logical for whether the results should be
 #'  a character or a factor.
-#' @inheritParams rlang::args_dots_empty
+#' @param ... Not currently used.
 #' @return A single character or factor vector.
 #' @export
 #' @examples
 #' labels(vfold_cv(mtcars))
 labels.rset <- function(object, make_factor = FALSE, ...) {
-  check_dots_empty()
   if (inherits(object, "nested_cv")) {
     rlang::abort("`labels` not implemented for nested resampling")
   }
@@ -27,7 +26,6 @@ labels.rset <- function(object, make_factor = FALSE, ...) {
 #' @rdname labels.rset
 #' @export
 labels.vfold_cv <- function(object, make_factor = FALSE, ...) {
-  check_dots_empty()
   if (inherits(object, "nested_cv")) {
     rlang::abort("`labels` not implemented for nested resampling")
   }
@@ -49,7 +47,7 @@ labels.vfold_cv <- function(object, make_factor = FALSE, ...) {
 #'  splits can be linked to a particular resample.
 #'
 #' @param object An `rsplit` object
-#' @inheritParams rlang::args_dots_empty
+#' @param ... Not currently used.
 #' @return A tibble.
 #' @seealso add_resample_id
 #' @export
@@ -57,7 +55,6 @@ labels.vfold_cv <- function(object, make_factor = FALSE, ...) {
 #' cv_splits <- vfold_cv(mtcars)
 #' labels(cv_splits$splits[[1]])
 labels.rsplit <- function(object, ...) {
-  check_dots_empty()
   out <- if ("id" %in% names(object)) {
     object$id
   } else {

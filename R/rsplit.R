@@ -48,7 +48,6 @@ print.rsplit <- function(x, ...) {
 #' @export
 as.integer.rsplit <-
   function(x, data = c("analysis", "assessment"), ...) {
-    check_dots_empty()
     data <- match.arg(data)
     if (data == "analysis") {
       out <- x$in_id
@@ -161,7 +160,6 @@ assessment.rsplit <- function(x, ...) {
 
 #' @export
 dim.rsplit <- function(x, ...) {
-  check_dots_empty()
   c(
     analysis = length(x$in_id),
     assessment = length(complement(x)),
