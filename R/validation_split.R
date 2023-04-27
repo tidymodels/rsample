@@ -11,7 +11,8 @@
 #'
 #'  Note that the input `data` to `validation_split()`, `validation_time_split()`,
 #'  and `group_validation_split()` should _not_ contain the testing data. To
-#'  create a three-way split directly of the entire data set, use [validation_set()].
+#'  create a three-way split directly of the entire data set, use
+#'  [initial_validation_split()].
 #'
 #' @template strata_details
 #' @inheritParams vfold_cv
@@ -23,7 +24,8 @@
 #'  and a column called `id` that has a character string with the resample
 #'  identifier.
 #'
-#' @seealso [initial_validation_split()], [validation_set()]
+#' @seealso [initial_validation_split()], [group_initial_validation_split()],
+#' [validation_set()]
 #'
 #' @examplesIf rlang::is_installed("modeldata")
 #' cars_split <- initial_split(mtcars)
