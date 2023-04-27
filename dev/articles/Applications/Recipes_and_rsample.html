@@ -108,7 +108,7 @@
 contains a data preprocessor that can be used to avoid the potentially
 expensive formula methods as well as providing a richer set of data
 manipulation tools than base R can provide. This document uses version
-1.0.5 of recipes.</p>
+1.0.6 of recipes.</p>
 <p>In many cases, the preprocessing steps might contain quantities that
 require statistical estimation of parameters, such as</p>
 <ul>
@@ -397,11 +397,8 @@ used:</p>
 <span><span class="co">## <span style="color: #949494;"># ℹ 15 more rows</span></span></span></code></pre>
 <p>Calculating the RMSE:</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/yardstick" class="external-link">yardstick</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## For binary classification, the first factor level is assumed to be the event.</span></span>
-<span><span class="co">## Use the argument `event_level = "second"` to alter this as needed.</span></span></code></pre>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">bt_samples</span><span class="op">$</span><span class="va">pred</span>, <span class="va">rmse</span>, <span class="va">Sale_Price</span>, <span class="va">predicted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">list_rbind</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/yardstick" class="external-link">yardstick</a></span><span class="op">)</span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">bt_samples</span><span class="op">$</span><span class="va">pred</span>, <span class="va">rmse</span>, <span class="va">Sale_Price</span>, <span class="va">predicted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">list_rbind</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">results</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 25 × 3</span></span></span>
 <span><span class="co">##    .metric .estimator .estimate</span></span>
@@ -417,7 +414,7 @@ used:</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> rmse    standard       0.122</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> rmse    standard       0.127</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 15 more rows</span></span></span></code></pre>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">.estimate</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.129</span></span></code></pre>
 </div>
