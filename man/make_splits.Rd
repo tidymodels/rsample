@@ -19,8 +19,7 @@ make_splits(x, ...)
 \item{x}{A list of integers with names "analysis" and "assessment", or a
 data frame of analysis or training data.}
 
-\item{...}{Further arguments passed to or from other methods (not currently
-used).}
+\item{...}{Not currently used.}
 
 \item{data}{A data frame.}
 

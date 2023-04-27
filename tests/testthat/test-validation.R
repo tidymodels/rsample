@@ -62,7 +62,7 @@ test_that("default time param with lag", {
 
 test_that("assessment set of time split includes the lag (#376)", {
   toy_data <- data.frame(id = 1:100)
-  val_rset <- validation_time_split(toy_data, prob = 75, lag = 2)
+  val_rset <- validation_time_split(toy_data, prop = 0.75, lag = 2)
   dat_assess <- assessment(val_rset$splits[[1]])
   expect_equal(dat_assess$id, 74:100)
 })

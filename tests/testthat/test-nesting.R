@@ -44,7 +44,7 @@ test_that("bad args", {
     set.seed(123)
     nested_cv(mtcars,
       outside = bootstraps(times = 5),
-      inside = vfold_cv(V = 3)
+      inside = vfold_cv(v = 3)
     )
   })
   folds <- vfold_cv(mtcars)

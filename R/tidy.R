@@ -7,7 +7,7 @@
 #' @param unique_ind Should unique row identifiers be returned? For example,
 #'  if `FALSE` then bootstrapping results will include multiple rows in the
 #'  sample for the same row in the original data.
-#' @param ... Not currently used.
+#' @inheritParams rlang::args_dots_empty
 #' @return A tibble with columns `Row` and `Data`. The latter has possible
 #'  values "Analysis" or "Assessment". For `rset` inputs, identification columns
 #'  are also returned but their names and values depend on the type of
@@ -58,6 +58,7 @@
 #'   scale_fill_brewer()
 #' @export
 tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
+  check_dots_empty()
   if (unique_ind) x$in_id <- unique(x$in_id)
   out <- tibble(
     Row = c(x$in_id, complement(x)),
@@ -72,9 +73,8 @@ tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
 
 #' @rdname tidy.rsplit
 #' @export
-tidy.rset <- function(x, ...) {
-  dots <- list(...)
-  unique_ind <- dots$unique_ind %||% TRUE
+tidy.rset <- function(x, unique_ind = TRUE, ...) {
+  check_dots_empty()
   stacked <- purrr::map(x$splits, tidy, unique_ind = unique_ind)
   for (i in seq_along(stacked)) {
     stacked[[i]]$Resample <- x$id[i]
@@ -83,9 +83,11 @@ tidy.rset <- function(x, ...) {
   stacked <- dplyr::arrange(.data = stacked, Data, Row)
   stacked
 }
+
 #' @rdname tidy.rsplit
 #' @export
 tidy.vfold_cv <- function(x, ...) {
+  check_dots_empty()
   stacked <- purrr::map(x$splits, tidy)
   for (i in seq_along(stacked)) {
     if (attr(x, "repeats") > 1) {
@@ -102,11 +104,16 @@ tidy.vfold_cv <- function(x, ...) {
 
 #' @rdname tidy.rsplit
 #' @export
-tidy.nested_cv <- function(x, ...) {
-  x$inner_tidy <- purrr::map(x$inner_resamples, tidy_wrap)
+tidy.nested_cv <- function(x, unique_ind = TRUE, ...) {
+  check_dots_empty()
+  x$inner_tidy <- purrr::map(
+    x$inner_resamples,
+    tidy_wrap,
+    unique_ind = unique_ind
+  )
   inner_tidy <- tidyr::unnest(x, inner_tidy)
   class(x) <- class(x)[class(x) != "nested_cv"]
-  outer_tidy <- tidy(x)
+  outer_tidy <- tidy(x, unique_ind = unique_ind)
   id_cols <- names(outer_tidy)
   id_cols <- id_cols[!(id_cols %in% c("Row", "Data"))]
 
@@ -118,8 +125,8 @@ tidy.nested_cv <- function(x, ...) {
   full_join(outer_tidy, inner_tidy, by = id_cols)
 }
 
-tidy_wrap <- function(x) {
-  x <- tidy(x)
+tidy_wrap <- function(x, unique_ind = TRUE) {
+  x <- tidy(x, unique_ind = unique_ind)
   names(x) <- paste0("inner_", names(x))
   x
 }

@@ -34,7 +34,7 @@ groups be combined into folds? Should be one of
 fold, or \code{"observations"}, which will assign roughly the same number of
 observations to each fold.}
 
-\item{...}{Not currently used.}
+\item{...}{These dots are for future extensions and must be empty.}
 
 \item{strata}{A variable in \code{data} (single character or name) used to conduct
 stratified sampling. When not \code{NULL}, each resample is created within the

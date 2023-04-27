@@ -41,6 +41,7 @@
 #'
 initial_split <- function(data, prop = 3 / 4,
                           strata = NULL, breaks = 4, pool = 0.1, ...) {
+  check_dots_empty()
   res <-
     mc_cv(
       data = data,
@@ -48,8 +49,7 @@ initial_split <- function(data, prop = 3 / 4,
       strata = {{ strata }},
       breaks = breaks,
       pool = pool,
-      times = 1,
-      ...
+      times = 1
     )
   res <- res$splits[[1]]
   class(res) <- c("initial_split", class(res))
@@ -62,6 +62,7 @@ initial_split <- function(data, prop = 3 / 4,
 #'  during training and testing.
 #' @export
 initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
+  check_dots_empty()
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
     rlang::abort("`prop` must be a number on (0, 1).")
   }
@@ -134,14 +135,14 @@ testing.rsplit <- function(x, ...) {
 #' @rdname initial_split
 #' @export
 group_initial_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, pool = 0.1) {
+  check_dots_empty()
 
   if (missing(strata)) {
     res <- group_mc_cv(
         data = data,
         group = {{ group }},
         prop = prop,
-        times = 1,
-        ...
+        times = 1
       )
   } else {
     res <- group_mc_cv(
@@ -149,7 +150,6 @@ group_initial_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, p
         group = {{ group }},
         prop = prop,
         times = 1,
-        ...,
         strata = {{ strata }},
         pool = pool
       )
@@ -157,6 +157,4 @@ group_initial_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, p
   res <- res$splits[[1]]
   class(res) <- c("group_initial_split", "initial_split", class(res))
   res
-
 }
-

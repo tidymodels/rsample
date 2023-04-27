@@ -18,7 +18,7 @@ get_rsplit(x, index, ...)
 \item{index}{An integer indicating which rsplit to retrieve: \code{1} for the
 rsplit in the first row of the rset, \code{2} for the second, and so on.}
 
-\item{...}{These dots are for future extensions and must be empty.}
+\item{...}{Not currently used.}
 }
 \value{
 The rsplit object in row \code{index} of \code{rset}

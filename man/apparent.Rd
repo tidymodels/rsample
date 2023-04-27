@@ -9,7 +9,7 @@ apparent(data, ...)
 \arguments{
 \item{data}{A data frame.}
 
-\item{...}{Not currently used.}
+\item{...}{These dots are for future extensions and must be empty.}
 }
 \value{
 A tibble with a single row and classes \code{apparent},

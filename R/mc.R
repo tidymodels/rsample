@@ -51,6 +51,8 @@
 #' @export
 mc_cv <- function(data, prop = 3 / 4, times = 25,
                   strata = NULL, breaks = 4, pool = 0.1, ...) {
+  check_dots_empty()
+
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
     if (length(strata) == 0) strata <- NULL
@@ -167,7 +169,7 @@ strat_sample <- function(x, prop, times, ...) {
 group_mc_cv <- function(data, group, prop = 3 / 4, times = 25, ...,
                         strata = NULL, pool = 0.1) {
 
-  rlang::check_dots_empty()
+  check_dots_empty()
 
   group <- validate_group({{ group }}, data)
 

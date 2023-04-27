@@ -33,7 +33,7 @@ assessment(x, ...)
 
 \item{data}{Either "analysis" or "assessment" to specify which data are returned.}
 
-\item{...}{Additional arguments to be passed to or from methods. Not currently used.}
+\item{...}{Not currently used.}
 }
 \description{
 The analysis or assessment code can be returned as a data

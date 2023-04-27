@@ -25,7 +25,7 @@ assessment set within a fold.}
 
 \item{times}{The number of times to repeat the sampling.}
 
-\item{...}{Not currently used.}
+\item{...}{These dots are for future extensions and must be empty.}
 
 \item{strata}{A variable in \code{data} (single character or name) used to conduct
 stratified sampling. When not \code{NULL}, each resample is created within the

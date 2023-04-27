@@ -36,7 +36,7 @@ analysis and holdout subset are the entire data set. This is required for
 some estimators used by the \code{summary} function that require the apparent
 error rate.}
 
-\item{...}{Not currently used.}
+\item{...}{These dots are for future extensions and must be empty.}
 }
 \value{
 A tibble with classes \code{bootstraps}, \code{rset}, \code{tbl_df}, \code{tbl}, and

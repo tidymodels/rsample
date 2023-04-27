@@ -42,6 +42,8 @@
 #' @export
 validation_split <- function(data, prop = 3 / 4,
                              strata = NULL, breaks = 4, pool = 0.1, ...) {
+  check_dots_empty()
+
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
     if (length(strata) == 0) {
@@ -88,6 +90,8 @@ validation_split <- function(data, prop = 3 / 4,
 #' @inheritParams initial_time_split
 #' @export
 validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
+  check_dots_empty()
+
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
     rlang::abort("`prop` must be a number on (0, 1).")
   }
@@ -121,7 +125,7 @@ validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
 #' @export
 group_validation_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, pool = 0.1) {
 
-  rlang::check_dots_empty()
+  check_dots_empty()
 
   group <- validate_group({{ group }}, data)
 

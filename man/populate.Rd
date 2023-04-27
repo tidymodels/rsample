@@ -9,7 +9,7 @@ populate(x, ...)
 \arguments{
 \item{x}{A \code{rsplit} and \code{rset} object.}
 
-\item{...}{Not currently used}
+\item{...}{Not currently used.}
 }
 \value{
 An object of the same kind with the integer indices.
