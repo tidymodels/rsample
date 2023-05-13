@@ -1,5 +1,36 @@
 #' Constructors for split objects
 #' @export
+#' @examples
+#' # Creating data.frame to sample
+#' df <-
+#'   data.frame(
+#'     year = 1900:1999,
+#'     value = 10 + 8*1900:1999 + runif(100L, 0, 100)
+#'   )
+#'
+#'
+#' # If our training data goes from 1900 to 1980
+#' # we have 2 ways the rsplit object using make_splits function
+#'
+#' # 1. Passing the training and testing data to the function
+#'
+#' split_1 <-
+#'   make_splits(x = df[df$year <= 1980,],
+#'               assessment = df[df$year > 1980,])
+#'
+#'
+#' # 2. Passing the training and testing row indexes in a list
+#'
+#' row_index <- seq_len(nrow(df))
+#'
+#' split_2 <-
+#'   make_splits(x = list(analysis   = row_index[df$year <= 1980],
+#'                        assessment = row_index[df$year >  1980]),
+#'               data = df)
+#'
+#' # In both cases the result is identical
+#' identical(training(split_1)$value, training(split_2)$value)
+
 make_splits <- function(x, ...) {
   UseMethod("make_splits")
 }
