@@ -30,3 +30,22 @@ data frame of analysis or training data.}
 \description{
 Constructors for split objects
 }
+\examples{
+\dontrun{
+library(dplyr)
+
+gapminder <-
+   gapminder::gapminder \%>\%
+   arrange(year) \%>\%
+   mutate(.row = row_number())
+
+split <-
+   list(analysis   = gapminder$.row[gapminder$year <= 2000],
+        assessment = gapminder$.row[gapminder$year >  2000]) \%>\%
+   make_splits(data = select(gapminder, -.row))
+
+training(split)
+
+testing(split)
+}
+}

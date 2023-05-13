@@ -17,6 +17,24 @@ make_splits.default <- function(x, ...) {
 #' @param class An optional class to give the object.
 #' @param ... Not currently used.
 #' @export
+#' @examples
+#' \dontrun{
+#' library(dplyr)
+#'
+#' gapminder <-
+#'    gapminder::gapminder %>%
+#'    arrange(year) %>%
+#'    mutate(.row = row_number())
+#'
+#' split <-
+#'    list(analysis   = gapminder$.row[gapminder$year <= 2000],
+#'         assessment = gapminder$.row[gapminder$year >  2000]) %>%
+#'    make_splits(data = select(gapminder, -.row))
+#'
+#' training(split)
+#'
+#' testing(split)
+#' }
 make_splits.list <- function(x, data, class = NULL, ...) {
   rlang::check_dots_empty()
   res <- rsplit(data, x$analysis, x$assessment)
@@ -53,6 +71,7 @@ make_splits.data.frame <- function(x, assessment, ...) {
 
   make_splits(ind, data)
 }
+
 
 merge_lists <- function(a, b) list(analysis = a, assessment = b)
 
