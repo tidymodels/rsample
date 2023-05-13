@@ -55,7 +55,7 @@ check_tidy <- function(x, std_col = FALSE) {
     list_cols <- names(x)[map_lgl(x, is_list)]
     x <- try(tidyr::unnest(x, cols = all_of(list_cols)), silent = TRUE)
   } else {
-    x <- try(map_dfr(x, ~.x), silent = TRUE)
+    x <- try(map(x, ~.x) %>% list_rbind(), silent = TRUE)
   }
 
   if (inherits(x, "try-error")) {
@@ -366,7 +366,7 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
     rlang::abort("`.fn` failed.")
   }
 
-  loo_res <- furrr::future_map_dfr(loo_rs$splits, .fn, ...)
+  loo_res <- furrr::future_map(loo_rs$splits, .fn, ...) %>% list_rbind()
 
   loo_estimate <-
     loo_res %>%

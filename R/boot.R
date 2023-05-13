@@ -69,6 +69,8 @@ bootstraps <-
            pool = 0.1,
            apparent = FALSE,
            ...) {
+    check_dots_empty()
+
     if (!missing(strata)) {
       strata <- tidyselect::vars_select(names(data), !!enquo(strata))
       if (length(strata) == 0) strata <- NULL
@@ -131,13 +133,14 @@ boot_splits <-
       )
       stratas <- split_unnamed(stratas, stratas$strata)
       stratas <-
-        purrr::map_df(
+        purrr::map(
           stratas,
           strat_sample,
           prop = 1,
           times = times,
           replace = TRUE
-        )
+        ) %>%
+        list_rbind()
       indices <- split_unnamed(stratas$idx, stratas$rs_id)
     }
 
@@ -199,8 +202,7 @@ group_bootstraps <- function(data,
                              ...,
                              strata = NULL,
                              pool = 0.1) {
-
-  rlang::check_dots_empty()
+  check_dots_empty()
 
   group <- validate_group({{ group }}, data)
 

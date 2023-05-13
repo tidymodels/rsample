@@ -38,7 +38,7 @@ make_groups <- function(data,
   balance <- rlang::arg_match(balance, error_call = rlang::caller_env())
 
   data_ind <- tibble(
-    ..index = 1:nrow(data),
+    ..index = seq_len(nrow(data)),
     ..group = group
   )
   data_ind$..group <- as.character(data_ind$..group)
@@ -169,12 +169,13 @@ balance_observations <- function(data_ind, v, strata = NULL, ...) {
     split_unnamed(data_ind, strata)
   }
 
-  freq_table <- purrr::map_dfr(
+  freq_table <- purrr::map(
     data_splits,
     balance_observations_helper,
     v = v,
     target_per_fold = target_per_fold
-  )
+  ) %>%
+    list_rbind()
 
   collapse_groups(freq_table, data_ind, v)
 }
@@ -246,13 +247,14 @@ balance_prop <- function(prop, data_ind, v, replace = FALSE, strata = NULL, ...)
     split_unnamed(data_ind, strata)
   }
 
-  freq_table <- purrr::map_dfr(
+  freq_table <- purrr::map(
     data_splits,
     balance_prop_helper,
     prop = prop,
     v = v,
     replace = replace
-  )
+  ) %>%
+    list_rbind()
 
   collapse_groups(freq_table, data_ind, v)
 }
@@ -270,7 +272,7 @@ balance_prop_helper <- function(prop, data_ind, v, replace) {
   if (replace) n <- n * prop * sum(freq_table$count) / min(freq_table$count)
   n <- ceiling(n)
 
-  purrr::map_dfr(
+  purrr::map(
     seq_len(v),
     function(x) {
       row_idx <- sample.int(nrow(freq_table), n, replace = replace)
@@ -284,7 +286,8 @@ balance_prop_helper <- function(prop, data_ind, v, replace) {
       out$assignment <- x
       out
     }
-  )
+  ) %>%
+    list_rbind()
 }
 
 check_prop <- function(prop, replace) {
@@ -306,7 +309,8 @@ collapse_groups <- function(freq_table, data_ind, v) {
     data_ind,
     freq_table,
     by = c("..group" = "key"),
-    multiple = "all"
+    multiple = "all",
+    relationship = "many-to-many"
   )
   data_ind$..group <- data_ind$assignment
   data_ind <- data_ind[c("..index", "..group")]

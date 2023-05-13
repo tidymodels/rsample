@@ -8,8 +8,8 @@
 #'   many of the `rsplit` objects will not contain indices for the
 #'   assessment split.
 #'
-#' @param x An `rsplit` object
-#' @param ... Not currently used
+#' @param x An `rsplit` object.
+#' @param ... Not currently used.
 #' @return A integer vector.
 #' @seealso [populate()]
 #' @examples
@@ -26,30 +26,35 @@ complement <- function(x, ...) {
 #' @export
 #' @rdname complement
 complement.rsplit <- function(x, ...) {
+  check_dots_empty()
   if (!is_missing_out_id(x)) {
     return(x$out_id)
   } else {
-    (1:nrow(x$data))[-unique(x$in_id)]
+    seq_len(nrow(x$data))[-unique(x$in_id)]
   }
 }
 #' @export
 #' @rdname complement
 complement.rof_split <- function(x, ...) {
+  check_dots_empty()
   get_stored_out_id(x)
 }
 #' @export
 #' @rdname complement
 complement.sliding_window_split <- function(x, ...) {
+  check_dots_empty()
   get_stored_out_id(x)
 }
 #' @export
 #' @rdname complement
 complement.sliding_index_split <- function(x, ...) {
+  check_dots_empty()
   get_stored_out_id(x)
 }
 #' @export
 #' @rdname complement
 complement.sliding_period_split <- function(x, ...) {
+  check_dots_empty()
   get_stored_out_id(x)
 }
 
@@ -70,10 +75,11 @@ get_stored_out_id <- function(x) {
 #' @export
 #' @rdname complement
 complement.apparent_split <- function(x, ...) {
+  check_dots_empty()
   if (!is_missing_out_id(x)) {
     return(x$out_id)
   } else {
-    1:nrow(x$data)
+    seq_len(nrow(x$data))
   }
 }
 
@@ -100,7 +106,7 @@ default_complement <- function(ind, n) {
 #'   the assessment samples. `populate()` can be used to fill the slot
 #'   for the appropriate indices.
 #' @param x A `rsplit` and `rset` object.
-#' @param ... Not currently used
+#' @param ... Not currently used.
 #' @return An object of the same kind with the integer indices.
 #' @examples
 #' set.seed(28432)
@@ -118,12 +124,14 @@ populate <- function(x, ...) UseMethod("populate")
 
 #' @export
 populate.rsplit <- function(x, ...) {
-  x$out_id <- complement(x, ...)
+  check_dots_empty()
+  x$out_id <- complement(x)
   x
 }
 
 #' @export
 populate.rset <- function(x, ...) {
+  check_dots_empty()
   x$splits <- map(x$splits, populate)
   x
 }

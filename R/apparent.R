@@ -17,7 +17,8 @@
 #' apparent(mtcars)
 #' @export
 apparent <- function(data, ...) {
-  splits <- rsplit(data, in_id = 1:nrow(data), out_id = 1:nrow(data))
+  check_dots_empty()
+  splits <- rsplit(data, in_id = seq_len(nrow(data)), out_id = seq_len(nrow(data)))
   # splits <- rm_out(splits)
   class(splits) <- c("rsplit", "apparent_split")
   split_objs <- tibble::tibble(splits = list(splits), id = "Apparent")

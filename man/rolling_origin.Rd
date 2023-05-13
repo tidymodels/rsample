@@ -33,7 +33,7 @@ See the example below.}
 and analysis set. This is useful if lagged predictors will be used
 during training and testing.}
 
-\item{...}{Not currently used.}
+\item{...}{These dots are for future extensions and must be empty.}
 }
 \value{
 An tibble with classes \code{rolling_origin}, \code{rset}, \code{tbl_df}, \code{tbl},

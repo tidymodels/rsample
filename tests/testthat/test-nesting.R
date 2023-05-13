@@ -44,7 +44,7 @@ test_that("bad args", {
     set.seed(123)
     nested_cv(mtcars,
       outside = bootstraps(times = 5),
-      inside = vfold_cv(V = 3)
+      inside = vfold_cv(v = 3)
     )
   })
   folds <- vfold_cv(mtcars)
@@ -86,7 +86,8 @@ test_that("rsplit labels", {
     outside = vfold_cv(v = 10),
     inside = vfold_cv(v = 3)
   )
-  all_labs <- purrr::map_df(rs$splits, labels)
+  all_labs <- purrr::map(rs$splits, labels) %>%
+    list_rbind()
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
 })

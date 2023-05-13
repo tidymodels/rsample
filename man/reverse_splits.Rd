@@ -24,7 +24,7 @@ reverse_splits(x, ...)
 \arguments{
 \item{x}{An \code{rset} or \code{rsplit} object.}
 
-\item{...}{These dots are for future extensions and must be empty.}
+\item{...}{Not currently used.}
 }
 \value{
 An object of the same class as \code{x}

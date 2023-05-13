@@ -17,7 +17,7 @@
        8 <split [40/14]> Resample08
        9 <split [40/14]> Resample09
       10 <split [40/14]> Resample10
-      # ... with 15 more rows
+      # i 15 more rows
 
 # grouping - bad args
 
@@ -61,7 +61,7 @@
        8 <split [36/18]> Resample08
        9 <split [36/18]> Resample09
       10 <split [36/18]> Resample10
-      # ... with 15 more rows
+      # i 15 more rows
 
 # grouping - printing with ...
 
@@ -74,5 +74,5 @@
         <list>          <chr>     
       1 <split [36/18]> Resample01
       2 <split [36/18]> Resample02
-      # ... with 23 more rows
+      # i 23 more rows
 

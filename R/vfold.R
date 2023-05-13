@@ -17,7 +17,7 @@
 #' @param strata A variable in `data` (single character or name) used to conduct
 #'  stratified sampling. When not `NULL`, each resample is created within the
 #'  stratification variable. Numeric `strata` are binned into quartiles.
-#' @param ... Not currently used.
+#' @inheritParams rlang::args_dots_empty
 #' @export
 #' @return A tibble with classes `vfold_cv`, `rset`, `tbl_df`, `tbl`, and
 #'  `data.frame`. The results include a column for the data split objects and
@@ -65,6 +65,7 @@
 #' @export
 vfold_cv <- function(data, v = 10, repeats = 1,
                      strata = NULL, breaks = 4, pool = 0.1, ...) {
+  check_dots_empty()
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
     if (length(strata) == 0) strata <- NULL
@@ -211,7 +212,7 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
 #'
 #' @export
 group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = c("groups", "observations"), ..., strata = NULL, pool = 0.1) {
-
+  check_dots_empty()
   check_repeats(repeats)
   group <- validate_group({{ group }}, data)
   balance <- rlang::arg_match(balance)

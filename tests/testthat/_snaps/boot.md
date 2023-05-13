@@ -35,7 +35,7 @@
        8 <split [54/18]> Bootstrap08
        9 <split [54/18]> Bootstrap09
       10 <split [54/18]> Bootstrap10
-      # ... with 15 more rows
+      # i 15 more rows
 
 ---
 
@@ -59,7 +59,7 @@
        8 <split [1/0]> Bootstrap08
        9 <split [1/0]> Bootstrap09
       10 <split [1/0]> Bootstrap10
-      # ... with 15 more rows
+      # i 15 more rows
 
 # printing
 
@@ -81,5 +81,5 @@
        8 <split [54/17]> Bootstrap08
        9 <split [54/23]> Bootstrap09
       10 <split [54/22]> Bootstrap10
-      # ... with 15 more rows
+      # i 15 more rows
 

@@ -9,11 +9,11 @@
 \usage{
 \method{tidy}{rsplit}(x, unique_ind = TRUE, ...)
 
-\method{tidy}{rset}(x, ...)
+\method{tidy}{rset}(x, unique_ind = TRUE, ...)
 
 \method{tidy}{vfold_cv}(x, ...)
 
-\method{tidy}{nested_cv}(x, ...)
+\method{tidy}{nested_cv}(x, unique_ind = TRUE, ...)
 }
 \arguments{
 \item{x}{A  \code{rset} or  \code{rsplit} object}
@@ -22,7 +22,7 @@
 if \code{FALSE} then bootstrapping results will include multiple rows in the
 sample for the same row in the original data.}
 
-\item{...}{Not currently used.}
+\item{...}{These dots are for future extensions and must be empty.}
 }
 \value{
 A tibble with columns \code{Row} and \code{Data}. The latter has possible

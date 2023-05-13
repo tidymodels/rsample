@@ -22,13 +22,13 @@ Depends:
     R (>= 3.4)
 Imports: 
     cli,
-    dplyr (>= 1.1.0),
+    dplyr (>= 1.1.1),
     furrr,
     generics,
     glue,
     methods,
     pillar,
-    purrr,
+    purrr (>= 1.0.0),
     rlang (>= 0.4.10),
     slider (>= 0.1.5),
     tibble,

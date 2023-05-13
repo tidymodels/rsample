@@ -11,7 +11,8 @@
 #'
 #'  Note that the input `data` to `validation_split()`, `validation_time_split()`,
 #'  and `group_validation_split()` should _not_ contain the testing data. To
-#'  create a three-way split directly of the entire data set, use [validation_set()].
+#'  create a three-way split directly of the entire data set, use
+#'  [initial_validation_split()].
 #'
 #' @template strata_details
 #' @inheritParams vfold_cv
@@ -23,7 +24,8 @@
 #'  and a column called `id` that has a character string with the resample
 #'  identifier.
 #'
-#' @seealso [initial_validation_split()], [validation_set()]
+#' @seealso [initial_validation_split()], [group_initial_validation_split()],
+#' [validation_set()]
 #'
 #' @examplesIf rlang::is_installed("modeldata")
 #' cars_split <- initial_split(mtcars)
@@ -40,6 +42,8 @@
 #' @export
 validation_split <- function(data, prop = 3 / 4,
                              strata = NULL, breaks = 4, pool = 0.1, ...) {
+  check_dots_empty()
+
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
     if (length(strata) == 0) {
@@ -86,6 +90,8 @@ validation_split <- function(data, prop = 3 / 4,
 #' @inheritParams initial_time_split
 #' @export
 validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
+  check_dots_empty()
+
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
     rlang::abort("`prop` must be a number on (0, 1).")
   }
@@ -119,7 +125,7 @@ validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
 #' @export
 group_validation_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, pool = 0.1) {
 
-  rlang::check_dots_empty()
+  check_dots_empty()
 
   group <- validate_group({{ group }}, data)
 

@@ -72,7 +72,7 @@ as.integer.rsplit <-
 #' @param row.names `NULL` or a character vector giving the row names for the data frame. Missing values are not allowed.
 #' @param optional A logical: should the column names of the data be checked for legality?
 #' @param data Either "analysis" or "assessment" to specify which data are returned.
-#' @param ...	Additional arguments to be passed to or from methods. Not currently used.
+#' @param ... Not currently used.
 #' @examples
 #' library(dplyr)
 #' set.seed(104)

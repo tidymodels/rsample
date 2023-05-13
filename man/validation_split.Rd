@@ -29,7 +29,7 @@ too small and should be pooled into another group. We do not recommend
 decreasing this argument below its default of 0.1 because of the dangers
 of stratifying groups that are too small.}
 
-\item{...}{Not currently used.}
+\item{...}{These dots are for future extensions and must be empty.}
 
 \item{lag}{A value to include a lag between the assessment
 and analysis set. This is useful if lagged predictors will be used
@@ -58,7 +58,8 @@ the same split.
 \details{
 Note that the input \code{data} to \code{validation_split()}, \code{validation_time_split()},
 and \code{group_validation_split()} should \emph{not} contain the testing data. To
-create a three-way split directly of the entire data set, use \code{\link[=validation_set]{validation_set()}}.
+create a three-way split directly of the entire data set, use
+\code{\link[=initial_validation_split]{initial_validation_split()}}.
 
 With a \code{strata} argument, the random sampling is conducted
 \emph{within the stratification variable}. This can help ensure that the
@@ -84,5 +85,6 @@ validation_set(cars_split_3)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=initial_validation_split]{initial_validation_split()}}, \code{\link[=validation_set]{validation_set()}}
+\code{\link[=initial_validation_split]{initial_validation_split()}}, \code{\link[=group_initial_validation_split]{group_initial_validation_split()}},
+\code{\link[=validation_set]{validation_set()}}
 }

@@ -232,12 +232,14 @@ group_initial_validation_split <- function(data,
 #' @export
 #' @rdname initial_validation_split
 training.initial_validation_split <- function(x, ...) {
+  check_dots_empty()
   x$data[sort(x$train_id), , drop = FALSE]
 }
 
 #' @export
 #' @rdname initial_validation_split
 testing.initial_validation_split <- function(x, ...) {
+  check_dots_empty()
   x$data[-sort(c(x$train_id, x$val_id)), , drop = FALSE]
 }
 
@@ -259,6 +261,7 @@ validation.default <- function(x, ...) {
 #' @export
 #' @rdname initial_validation_split
 validation.initial_validation_split <- function(x, ...) {
+  check_dots_empty()
   x$data[sort(x$val_id), , drop = FALSE]
 }
 

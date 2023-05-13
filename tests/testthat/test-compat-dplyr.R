@@ -325,7 +325,8 @@ test_that("left_join() can keep rset class if rset structure is intact", {
 test_that("left_join() can lose rset class if rows are added", {
   for (x in rset_subclasses) {
     y <- tibble(id = x$id[[1]], x = 1:2)
-    expect_s3_class_bare_tibble(left_join(x, y, by = "id", multiple = "all"))
+    expect_s3_class_bare_tibble(left_join(x, y, by = "id", multiple = "all",
+                                          relationship = "many-to-many"))
   }
 })
 
@@ -347,7 +348,8 @@ test_that("right_join() can keep rset class if rset structure is intact", {
 test_that("right_join() can lose rset class if rows are added", {
   for (x in rset_subclasses) {
     y <- tibble(id = x$id[[1]], x = 1:2)
-    expect_s3_class_bare_tibble(right_join(x, y, by = "id", multiple = "all"))
+    expect_s3_class_bare_tibble(right_join(x, y, by = "id", multiple = "all",
+                                           relationship = "many-to-many"))
   }
 })
 

@@ -15,8 +15,7 @@ make_splits.default <- function(x, ...) {
 #' @rdname make_splits
 #' @param data A data frame.
 #' @param class An optional class to give the object.
-#' @param ... Further arguments passed to or from other methods (not currently
-#' used).
+#' @param ... Not currently used.
 #' @export
 #' @examples
 #' \dontrun{
@@ -54,14 +53,14 @@ make_splits.data.frame <- function(x, assessment, ...) {
     rlang::abort("The analysis set must contain at least one row.")
   }
 
-  ind_analysis <- 1:nrow(x)
+  ind_analysis <- seq_len(nrow(x))
   if (nrow(assessment) == 0) {
     ind_assessment <- integer()
   } else {
     if (!identical(colnames(x), colnames(assessment))) {
       rlang::abort("The analysis and assessment sets must have the same columns.")
     }
-    ind_assessment <- nrow(x) + 1:nrow(assessment)
+    ind_assessment <- nrow(x) + seq_len(nrow(assessment))
   }
 
   data <- bind_rows(x, assessment)
@@ -77,6 +76,7 @@ make_splits.data.frame <- function(x, assessment, ...) {
 merge_lists <- function(a, b) list(analysis = a, assessment = b)
 
 dim_rset <- function(x, ...) {
+  check_dots_empty()
   dims <- purrr::map(x$splits, dim)
   dims <- do.call("rbind", dims)
   dims <- tibble::as_tibble(dims)
@@ -161,6 +161,7 @@ split_unnamed <- function(x, f) {
 #' @export
 #' @rdname get_fingerprint
 .get_fingerprint.rset <- function(x, ...) {
+  check_dots_empty()
   att <- attributes(x)
   if (any(names(att) == "fingerprint")) {
     res <- att$fingerprint
@@ -176,7 +177,7 @@ split_unnamed <- function(x, f) {
 #' `rsplit` or all `rsplit`s in the `splits` column of an `rset` object.
 #'
 #' @param x An `rset` or `rsplit` object.
-#' @inheritParams rlang::args_dots_empty
+#' @param ... Not currently used.
 #'
 #' @return An object of the same class as `x`
 #'
@@ -307,7 +308,7 @@ non_random_classes <- c(
 #' @param x The `rset` object to retrieve an rsplit from.
 #' @param index An integer indicating which rsplit to retrieve: `1` for the
 #' rsplit in the first row of the rset, `2` for the second, and so on.
-#' @inheritParams rlang::args_dots_empty
+#' @param ... Not currently used.
 #'
 #' @return The rsplit object in row `index` of `rset`
 #'

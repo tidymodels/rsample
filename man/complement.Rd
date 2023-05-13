@@ -25,9 +25,9 @@ complement(x, ...)
 \method{complement}{apparent_split}(x, ...)
 }
 \arguments{
-\item{x}{An \code{rsplit} object}
+\item{x}{An \code{rsplit} object.}
 
-\item{...}{Not currently used}
+\item{...}{Not currently used.}
 }
 \value{
 A integer vector.
