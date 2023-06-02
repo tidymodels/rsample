@@ -2,15 +2,24 @@
 % Please edit documentation in R/bootci.R
 \name{int_pctl}
 \alias{int_pctl}
+\alias{int_pctl.bootstraps}
 \alias{int_t}
+\alias{int_t.bootstraps}
 \alias{int_bca}
+\alias{int_bca.bootstraps}
 \title{Bootstrap confidence intervals}
 \usage{
-int_pctl(.data, statistics, alpha = 0.05)
+int_pctl(.data, ...)
 
-int_t(.data, statistics, alpha = 0.05)
+\method{int_pctl}{bootstraps}(.data, statistics, alpha = 0.05, ...)
 
-int_bca(.data, statistics, alpha = 0.05, .fn, ...)
+int_t(.data, ...)
+
+\method{int_t}{bootstraps}(.data, statistics, alpha = 0.05, ...)
+
+int_bca(.data, ...)
+
+\method{int_bca}{bootstraps}(.data, statistics, alpha = 0.05, .fn, ...)
 }
 \arguments{
 \item{.data}{A data frame containing the bootstrap resamples created using
@@ -19,6 +28,8 @@ should be set to \code{TRUE}. Even if the \code{apparent} argument is set to
 \code{TRUE} for the percentile method, the apparent data is never used in calculating
 the percentile confidence interval.}
 
+\item{...}{Arguments to pass to \code{.fn} (\code{int_bca()} only).}
+
 \item{statistics}{An unquoted column name or \code{dplyr} selector that identifies
 a single column in the data set containing the individual bootstrap
 estimates. This must be a list column of tidy tibbles (with columns
@@ -26,13 +37,11 @@ estimates. This must be a list column of tidy tibbles (with columns
 standard tidy column (usually called \code{std.err}) is required.
 See the examples below.}
 
-\item{alpha}{Level of significance}
+\item{alpha}{Level of significance.}
 
 \item{.fn}{A function to calculate statistic of interest. The
 function should take an \code{rsplit} as the first argument and the \code{...} are
 required.}
-
-\item{...}{Arguments to pass to \code{.fn}.}
 }
 \value{
 Each function returns a tibble with columns \code{.lower},
@@ -97,11 +106,11 @@ bootstraps(Sacramento, 1000, apparent = TRUE) \%>\%
 \dontshow{\}) # examplesIf}
 }
 \references{
+\url{https://rsample.tidymodels.org/articles/Applications/Intervals.html}
+
 Davison, A., & Hinkley, D. (1997). \emph{Bootstrap Methods and their
 Application}. Cambridge: Cambridge University Press.
 doi:10.1017/CBO9780511802843
-
-\url{https://rsample.tidymodels.org/articles/Applications/Intervals.html}
 }
 \seealso{
 \code{\link[=reg_intervals]{reg_intervals()}}

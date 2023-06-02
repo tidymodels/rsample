@@ -177,7 +177,9 @@ test_that("bad input", {
   expect_error(int_pctl(bt_small, stats, alpha = c(0.05, 0.2)))
   expect_error(int_t(bt_small, stats, alpha = "potato"))
   expect_error(int_bca(bt_small, stats, alpha = 1:2, .fn = get_stats))
-
+  expect_error(int_pctl(vfold_cv(mtcars)))
+  expect_error(int_t(vfold_cv(mtcars)))
+  expect_error(int_bca(vfold_cv(mtcars)))
 
   bad_bt_norm <-
     bt_norm %>%

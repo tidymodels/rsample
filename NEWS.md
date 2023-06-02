@@ -6,6 +6,7 @@
 
 * Functions which don't use the ellipsis `...` now enforce empty dots (#429).
 
+* The `int_*()` functions are now generics and have corresponding methods for class `bootstraps`. 
 
 # rsample 1.1.1
 
