@@ -30,3 +30,19 @@ data frame of analysis or training data.}
 \description{
 Constructors for split objects
 }
+\examples{
+df <- data.frame(
+  year = 1900:1999,
+  value = 10 + 8*1900:1999 + runif(100L, 0, 100)
+)
+split_from_indices <- make_splits(
+  x = list(analysis = which(df$year <= 1980),
+           assessment = which(df$year > 1980)),
+  data = df
+)
+split_from_data_frame <- make_splits(
+  x = df[df$year <= 1980,],
+  assessment = df[df$year > 1980,]
+)
+identical(split_from_indices, split_from_data_frame)
+}
