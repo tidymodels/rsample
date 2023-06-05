@@ -6,6 +6,8 @@
 
 * Functions which don't use the ellipsis `...` now enforce empty dots (#429).
 
+* `make_splits()` gained an example in the documentation (@AngelFelizR, #432).
+
 
 # rsample 1.1.1
 
