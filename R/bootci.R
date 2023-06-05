@@ -255,6 +255,7 @@ int_pctl <- function(.data, ...) {
 #' @export
 #' @rdname int_pctl
 int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
+  check_dots_empty()
   check_rset(.data, app = FALSE)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
     abort("`alpha` must be a single numeric value.")
@@ -335,6 +336,7 @@ int_t <- function(.data, ...) {
 #' @rdname int_pctl
 #' @export
 int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
+  check_dots_empty()
   check_rset(.data)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
     abort("`alpha` must be a single numeric value.")
