@@ -8,6 +8,8 @@
 
 * `make_splits()` gained an example in the documentation (@AngelFelizR, #432).
 
+* The `int_*()` functions are now generics and have corresponding methods for class `bootstraps` (#435). 
+
 
 # rsample 1.1.1
 
