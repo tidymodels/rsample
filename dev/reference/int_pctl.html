@@ -71,10 +71,19 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">int_pctl</span><span class="op">(</span><span class="va">.data</span>, <span class="va">statistics</span>, alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">int_pctl</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">int_t</span><span class="op">(</span><span class="va">.data</span>, <span class="va">statistics</span>, alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
+<span><span class="co"># S3 method for bootstraps</span></span>
+<span><span class="fu">int_pctl</span><span class="op">(</span><span class="va">.data</span>, <span class="va">statistics</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">int_t</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for bootstraps</span></span>
+<span><span class="fu">int_t</span><span class="op">(</span><span class="va">.data</span>, <span class="va">statistics</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">int_bca</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for bootstraps</span></span>
 <span><span class="fu">int_bca</span><span class="op">(</span><span class="va">.data</span>, <span class="va">statistics</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>, <span class="va">.fn</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -88,6 +97,10 @@ should be set to <code>TRUE</code>. Even if the <code>apparent</code> argument i
 the percentile confidence interval.</p></dd>
 
 
+<dt>...</dt>
+<dd><p>Arguments to pass to <code>.fn</code> (<code>int_bca()</code> only).</p></dd>
+
+
 <dt>statistics</dt>
 <dd><p>An unquoted column name or <code>dplyr</code> selector that identifies
 a single column in the data set containing the individual bootstrap
@@ -98,17 +111,13 @@ See the examples below.</p></dd>
 
 
 <dt>alpha</dt>
-<dd><p>Level of significance</p></dd>
+<dd><p>Level of significance.</p></dd>
 
 
 <dt>.fn</dt>
 <dd><p>A function to calculate statistic of interest. The
 function should take an <code>rsplit</code> as the first argument and the <code>...</code> are
 required.</p></dd>
-
-
-<dt>...</dt>
-<dd><p>Arguments to pass to <code>.fn</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -137,10 +146,10 @@ computationally taxing.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Davison, A., &amp; Hinkley, D. (1997). <em>Bootstrap Methods and their
+    <p><a href="https://rsample.tidymodels.org/articles/Applications/Intervals.html">https://rsample.tidymodels.org/articles/Applications/Intervals.html</a></p>
+<p>Davison, A., &amp; Hinkley, D. (1997). <em>Bootstrap Methods and their
 Application</em>. Cambridge: Cambridge University Press.
 doi:10.1017/CBO9780511802843</p>
-<p><a href="https://rsample.tidymodels.org/articles/Applications/Intervals.html">https://rsample.tidymodels.org/articles/Applications/Intervals.html</a></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
