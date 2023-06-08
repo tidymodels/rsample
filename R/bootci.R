@@ -72,13 +72,14 @@ check_tidy <- function(x, std_col = FALSE) {
       x <-
         dplyr::select(x, dplyr::all_of(grp_cols), estimate, id,
                       tidyselect::one_of(std_candidates)) %>%
-        mutate(id = (id == "Apparent")) %>%
-        setNames(c("term", "estimate", "orig", "std_err"))
+        mutate(orig = (id == "Apparent")) %>%
+        update_std_err_name() %>%
+        dplyr::select(-id)
     } else {
       x <-
         dplyr::select(x, dplyr::all_of(grp_cols), estimate,
                       tidyselect::one_of(std_candidates)) %>%
-        setNames(c("term", "estimate", "std_err"))
+        update_std_err_name()
     }
   } else {
     if (has_id) {
@@ -94,6 +95,12 @@ check_tidy <- function(x, std_col = FALSE) {
   x
 }
 
+update_std_err_name <- function(x) {
+  if (any(names(x) == "std.error")) {
+    x <- dplyr::rename(x, std_err = std.error)
+  }
+  x
+}
 
 get_p0 <- function(x, alpha = 0.05) {
   orig <- x %>%
