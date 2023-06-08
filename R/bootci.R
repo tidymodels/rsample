@@ -63,28 +63,31 @@ check_tidy <- function(x, std_col = FALSE) {
   }
 
   check_tidy_names(x, std_col)
+  grp_cols <- int_group_cols(x)
 
   if (std_col) {
     std_candidates <- colnames(x) %in% std_exp
     std_candidates <- colnames(x)[std_candidates]
     if (has_id) {
       x <-
-        dplyr::select(x, term, estimate, id, tidyselect::one_of(std_candidates)) %>%
+        dplyr::select(x, dplyr::all_of(grp_cols), estimate, id,
+                      tidyselect::one_of(std_candidates)) %>%
         mutate(id = (id == "Apparent")) %>%
         setNames(c("term", "estimate", "orig", "std_err"))
     } else {
       x <-
-        dplyr::select(x, term, estimate, tidyselect::one_of(std_candidates)) %>%
+        dplyr::select(x, dplyr::all_of(grp_cols), estimate,
+                      tidyselect::one_of(std_candidates)) %>%
         setNames(c("term", "estimate", "std_err"))
     }
   } else {
     if (has_id) {
       x <-
-        dplyr::select(x, term, estimate, id) %>%
+        dplyr::select(x, dplyr::all_of(grp_cols), estimate, id) %>%
         mutate(orig = (id == "Apparent")) %>%
         dplyr::select(-id)
     } else {
-      x <- dplyr::select(x, term, estimate)
+      x <- dplyr::select(x, dplyr::all_of(grp_cols), estimate)
     }
   }
 
@@ -146,6 +149,9 @@ check_num_resamples <- function(x, B = 1000) {
 # ------------------------------------------------------------------------------
 # percentile code
 
+pctl_calcs <- function(x) {
+
+}
 
 pctl_single <- function(stats, alpha = 0.05) {
   if (all(is.na(stats))) {
