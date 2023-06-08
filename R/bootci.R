@@ -94,14 +94,14 @@ check_tidy <- function(x, std_col = FALSE) {
 
 get_p0 <- function(x, alpha = 0.05) {
   orig <- x %>%
-    group_by(term) %>%
+    int_groups() %>%
     dplyr::filter(orig) %>%
     dplyr::select(term, theta_0 = estimate) %>%
     ungroup()
   x %>%
     dplyr::filter(!orig) %>%
     inner_join(orig, by = "term") %>%
-    group_by(term) %>%
+    int_groups() %>%
     summarize(p0 = mean(estimate <= theta_0, na.rm = TRUE)) %>%
     mutate(
       Z0 = stats::qnorm(p0),
@@ -125,7 +125,7 @@ has_dots <- function(x) {
 check_num_resamples <- function(x, B = 1000) {
   x <-
     x %>%
-    dplyr::group_by(term) %>%
+    int_groups() %>%
     dplyr::summarize(n = sum(!is.na(estimate))) %>%
     dplyr::filter(n < B)
 
@@ -255,7 +255,6 @@ int_pctl <- function(.data, ...) {
 #' @export
 #' @rdname int_pctl
 int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
-  check_dots_empty()
   check_rset(.data, app = FALSE)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
     abort("`alpha` must be a single numeric value.")
@@ -273,7 +272,7 @@ int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   check_num_resamples(stats, B = 1000)
 
   vals <- stats %>%
-    dplyr::group_by(term) %>%
+    int_groups() %>%
     dplyr::do(pctl_single(.$estimate, alpha = alpha)) %>%
     dplyr::ungroup()
   vals
@@ -336,7 +335,6 @@ int_t <- function(.data, ...) {
 #' @rdname int_pctl
 #' @export
 int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
-  check_dots_empty()
   check_rset(.data)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
     abort("`alpha` must be a single numeric value.")
@@ -353,7 +351,7 @@ int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
 
   vals <-
     stats %>%
-    dplyr::group_by(term) %>%
+    int_groups() %>%
     dplyr::do(t_single(.$estimate, .$std_err, .$orig, alpha = alpha)) %>%
     dplyr::ungroup()
   vals
@@ -388,10 +386,10 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
 
   loo_estimate <-
     loo_res %>%
-    dplyr::group_by(term) %>%
+    int_groups() %>%
     dplyr::summarize(loo = mean(estimate, na.rm = TRUE)) %>%
     dplyr::inner_join(loo_res, by = "term", multiple = "all") %>%
-    dplyr::group_by(term) %>%
+    int_groups() %>%
     dplyr::summarize(
       cubed = sum((loo - estimate)^3),
       squared = sum((loo - estimate)^2)
@@ -457,3 +455,19 @@ int_bca.bootstraps <- function(.data, statistics, alpha = 0.05, .fn, ...) {
   vals <- bca_calc(stats, .data$splits[[1]]$data, alpha = alpha, .fn = .fn, ...)
   vals
 }
+
+
+# ------------------------------------------------------------------------------
+# Enable group_by() over a select list of column names
+
+int_group_list <- c("term", ".config", ".iter", ".eval_time")
+
+int_group_cols <- function(x) {
+  intersect(names(x), int_group_list)
+}
+
+int_groups <- function(x) {
+  grps <- int_group_cols(x)
+  dplyr::group_by(x, !!!rlang::syms(grps))
+}
+
