@@ -33,6 +33,7 @@ validation_set <- function(split, ...) {
   class(val_split) <- c("val_split", "rsplit")
 
   val_att <- attr(split, "val_att")
+  val_att[["origin_3way"]] <- TRUE
 
   new_rset(
     splits = list(val_split),
