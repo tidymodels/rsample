@@ -114,7 +114,8 @@ as.data.frame.rsplit <-
       x$data[, x$col_id] <- permuted_col
       return(x$data)
     }
-    x$data[as.integer(x, data = data, ...), , drop = FALSE]
+    row_ind <- as.integer(x, data = data, ...)
+    dplyr::slice(x$data, row_ind)
   }
 
 #' @rdname as.data.frame.rsplit
