@@ -46,6 +46,7 @@ Suggests:
     stats,
     testthat (>= 3.0.0),
     utils,
+    vctrs,
     whisker,
     withr,
     xml2

@@ -234,7 +234,7 @@ group_initial_validation_split <- function(data,
 training.initial_validation_split <- function(x, ...) {
   check_dots_empty()
   ind <- sort(x$train_id)
-  dplyr::slice(x$data, ind)
+  vctrs::vec_slice(x$data, ind)
 }
 
 #' @export
@@ -242,7 +242,7 @@ training.initial_validation_split <- function(x, ...) {
 testing.initial_validation_split <- function(x, ...) {
   check_dots_empty()
   ind <- -sort(c(x$train_id, x$val_id))
-  dplyr::slice(x$data, ind)
+  vctrs::vec_slice(x$data, ind)
 }
 
 #' @export
@@ -266,7 +266,7 @@ validation.initial_validation_split <- function(x, ...) {
   check_dots_empty()
 
   ind <- sort(x$val_id)
-  dplyr::slice(x$data, ind)
+  vctrs::vec_slice(x$data, ind)
 }
 
 

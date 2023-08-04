@@ -115,7 +115,7 @@ as.data.frame.rsplit <-
       return(x$data)
     }
     row_ind <- as.integer(x, data = data, ...)
-    dplyr::slice(x$data, row_ind)
+    vctrs::vec_slice(x$data, row_ind)
   }
 
 #' @rdname as.data.frame.rsplit
