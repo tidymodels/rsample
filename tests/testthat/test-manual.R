@@ -22,7 +22,7 @@ test_that("can use analysis/assessment functions", {
   rset <- manual_rset(splits, "Split 1")
 
   expect_identical(analysis(rset$splits[[1]]), df[1:2, 1, drop = FALSE])
-  expect_identical(assessment(rset$splits[[1]]), df[3, 1, drop = FALSE], ignore_attr = TRUE)
+  expect_identical(assessment(rset$splits[[1]]), df[3, 1, drop = FALSE], ignore_attr = "row.names")
 })
 
 test_that("`pretty()` works", {

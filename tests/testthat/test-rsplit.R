@@ -25,11 +25,11 @@ test_that("bad inputs", {
 test_that("as.data.frame", {
   rs3 <- rsplit(dat1, 1:2, 4:5)
   expect_equal(as.data.frame(rs3), dat1[1:2, ])
-  expect_equal(as.data.frame(rs3, data = "assessment"), dat1[4:5, ], ignore_attr = TRUE)
+  expect_equal(as.data.frame(rs3, data = "assessment"), dat1[4:5, ], ignore_attr = "row.names")
 
   rs4 <- rsplit(dat1, rep(1:2, each = 3), rep(4:5, c(2, 1)))
-  expect_equal(as.data.frame(rs4), dat1[c(1, 1, 1, 2, 2, 2), ], ignore_attr = TRUE)
-  expect_equal(as.data.frame(rs4, data = "assessment"), dat1[c(4, 4, 5), ], ignore_attr = TRUE)
+  expect_equal(as.data.frame(rs4), dat1[c(1, 1, 1, 2, 2, 2), ], ignore_attr = "row.names")
+  expect_equal(as.data.frame(rs4, data = "assessment"), dat1[c(4, 4, 5), ], ignore_attr = "row.names")
 })
 
 

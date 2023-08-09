@@ -26,7 +26,7 @@ test_that("default time param with lag", {
   expect_equal(nrow(tr1), floor(nrow(dat1) * 3 / 4))
   expect_equal(nrow(ts1), ceiling(nrow(dat1) / 4) + 5)
   expect_equal(tr1, dplyr::slice(dat1, 1:floor(nrow(dat1) * 3 / 4)))
-  expect_equal(ts1, dat1[(floor(nrow(dat1) * 3 / 4) + 1 - 5):nrow(dat1), ], ignore_attr = TRUE)
+  expect_equal(ts1, dat1[(floor(nrow(dat1) * 3 / 4) + 1 - 5):nrow(dat1), ], ignore_attr = "row.names")
 
   skip_if_not_installed("modeldata")
   data(drinks, package = "modeldata")
