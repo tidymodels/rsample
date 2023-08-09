@@ -41,8 +41,6 @@ test_that("accessor functions for `val_split`", {
 
 test_that("working with Surv objects - issue #443", {
 
-  check_surv <- function(x) inherits(x$surv_obj, "Surv")
-
   srv <-
     list(
       age = c(74, 68, 56, 57, 60, 74, 76, 77, 39, 75, 66, 58),
@@ -62,44 +60,41 @@ test_that("working with Surv objects - issue #443", {
 
   surv_tbl <- dplyr::as_tibble(surv_df)
 
-  # ----------------------------------------------------------------------------
   # data frame input
 
   set.seed(472)
   surv_split_df <- initial_validation_split(surv_df, prop = c(.3, .3))
 
-  expect_true(check_surv(surv_split_df$data))
+  expect_s3_class(surv_split_df$data$surv_obj, "Surv")
 
-  expect_true(check_surv(training(surv_split_df)))
-  expect_true(check_surv(testing(surv_split_df)))
-  expect_true(check_surv(validation(surv_split_df)))
+  expect_s3_class(training(surv_split_df)$surv_obj, "Surv")
+  expect_s3_class(testing(surv_split_df)$surv_obj, "Surv")
+  expect_s3_class(validation(surv_split_df)$surv_obj, "Surv")
 
   surv_rs_df <- validation_set(surv_split_df)
-  expect_true(check_surv(surv_rs_df$splits[[1]]$data))
+  expect_s3_class(surv_rs_df$splits[[1]]$data$surv_obj, "Surv")
 
-  expect_true(check_surv(training(surv_rs_df$splits[[1]])))
-  expect_true(check_surv(validation(surv_rs_df$splits[[1]])))
-  expect_true(check_surv(analysis(surv_rs_df$splits[[1]])))
+  expect_s3_class(training(surv_rs_df$splits[[1]])$surv_obj, "Surv")
+  expect_s3_class(validation(surv_rs_df$splits[[1]])$surv_obj, "Surv")
+  expect_s3_class(analysis(surv_rs_df$splits[[1]])$surv_obj, "Surv")
+  expect_s3_class(assessment(surv_rs_df$splits[[1]])$surv_obj, "Surv")
 
-  # ----------------------------------------------------------------------------
   # tibble input
 
   set.seed(472)
   surv_split_tbl <- initial_validation_split(surv_tbl, prop = c(.3, .3))
 
-  expect_true(check_surv(surv_split_tbl$data))
+  expect_s3_class(surv_split_tbl$data$surv_obj, "Surv")
 
-  expect_true(check_surv(training(surv_split_tbl)))
-  expect_true(check_surv(testing(surv_split_tbl)))
-  expect_true(check_surv(validation(surv_split_tbl)))
-  expect_true(check_surv(validation(surv_split_tbl)))
+  expect_s3_class(training(surv_split_tbl)$surv_obj, "Surv")
+  expect_s3_class(testing(surv_split_tbl)$surv_obj, "Surv")
+  expect_s3_class(validation(surv_split_tbl)$surv_obj, "Surv")
 
   surv_rs_tbl <- validation_set(surv_split_tbl)
-  expect_true(check_surv(surv_rs_tbl$splits[[1]]$data))
+  expect_s3_class(surv_rs_tbl$splits[[1]]$data$surv_obj, "Surv")
 
-  expect_true(check_surv(training(surv_rs_tbl$splits[[1]])))
-  expect_true(check_surv(validation(surv_rs_tbl$splits[[1]])))
-  expect_true(check_surv(analysis(surv_rs_tbl$splits[[1]])))
-  expect_true(check_surv(assessment(surv_rs_tbl$splits[[1]])))
-
+  expect_s3_class(training(surv_rs_tbl$splits[[1]])$surv_obj, "Surv")
+  expect_s3_class(validation(surv_rs_tbl$splits[[1]])$surv_obj, "Surv")
+  expect_s3_class(analysis(surv_rs_tbl$splits[[1]])$surv_obj, "Surv")
+  expect_s3_class(assessment(surv_rs_tbl$splits[[1]])$surv_obj, "Surv")
 })
