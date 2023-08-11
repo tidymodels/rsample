@@ -109,8 +109,9 @@ as.data.frame.rsplit <-
         )
         rlang::abort(msg)
       }
-      permuted_col <-
-        x$data[as.integer(x, data = data, ...), x$col_id, drop = FALSE]
+      ind <- as.integer(x, data = data, ...)
+      permuted_col <- vctrs::vec_slice(x$data, ind) %>%
+        dplyr::select(x$col_id)
       x$data[, x$col_id] <- permuted_col
       return(x$data)
     }

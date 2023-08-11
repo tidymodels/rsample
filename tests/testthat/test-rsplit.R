@@ -54,3 +54,29 @@ test_that("default complement method errors", {
     error = TRUE
   )
 })
+
+test_that("as.data.frame() works for permutations with Surv object without the survival package loaded - issue #443", {
+  srv <-
+    list(
+      age = c(74, 68, 56, 57, 60, 74, 76, 77, 39, 75, 66, 58),
+      sex = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2),
+      surv_obj = structure(
+        c(306, 455, 1010, 210, 883, 1022, 116, 188,  191, 105, 174,  177,
+          1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0),
+        dim = c(12L, 2L),
+        dimnames = list(NULL, c("time", "status")),
+        type = "right",
+        class = "Surv"))
+  surv_df <-
+    structure(
+      srv,
+      row.names = paste(1:12),
+      class = "data.frame")
+
+  set.seed(472)
+  surv_permutation_df <- permutations(surv_df, permute = c(age, surv_obj), times = 1) %>%
+    get_rsplit(1)
+
+  expect_s3_class(surv_permutation_df$data$surv_obj, "Surv")
+  expect_s3_class(analysis(surv_permutation_df)$surv_obj, "Surv")
+})
