@@ -17,7 +17,7 @@
 validation_set <- function(split, ...) {
   rlang::check_dots_empty()
 
-  train_and_val <- rbind(
+  train_and_val <- dplyr::bind_rows(
     training(split),
     validation(split)
   )
