@@ -178,13 +178,13 @@ analysis set is returned but the <code>data</code> option can be used to
 return the assessment data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_resample</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   mpg cyl  disp  hp drat   wt qsec vs am gear carb</span></span>
-<span><span class="co">#&gt; Fiat 128         32.4   4  78.7  66 4.08 2.20 19.5  1  1    4    1</span></span>
-<span><span class="co">#&gt; Toyota Corolla   33.9   4  71.1  65 4.22 1.83 19.9  1  1    4    1</span></span>
-<span><span class="co">#&gt; Toyota Corolla.1 33.9   4  71.1  65 4.22 1.83 19.9  1  1    4    1</span></span>
-<span><span class="co">#&gt; AMC Javelin      15.2   8 304.0 150 3.15 3.44 17.3  0  0    3    2</span></span>
-<span><span class="co">#&gt; Valiant          18.1   6 225.0 105 2.76 3.46 20.2  1  0    3    1</span></span>
-<span><span class="co">#&gt; Merc 450SLC      15.2   8 275.8 180 3.07 3.78 18.0  0  0    3    3</span></span>
+<span><span class="co">#&gt;                     mpg cyl  disp  hp drat   wt qsec vs am gear carb</span></span>
+<span><span class="co">#&gt; Fiat 128...1       32.4   4  78.7  66 4.08 2.20 19.5  1  1    4    1</span></span>
+<span><span class="co">#&gt; Toyota Corolla...2 33.9   4  71.1  65 4.22 1.83 19.9  1  1    4    1</span></span>
+<span><span class="co">#&gt; Toyota Corolla...3 33.9   4  71.1  65 4.22 1.83 19.9  1  1    4    1</span></span>
+<span><span class="co">#&gt; AMC Javelin...4    15.2   8 304.0 150 3.15 3.44 17.3  0  0    3    2</span></span>
+<span><span class="co">#&gt; Valiant...5        18.1   6 225.0 105 2.76 3.46 20.2  1  0    3    1</span></span>
+<span><span class="co">#&gt; Merc 450SLC...6    15.2   8 275.8 180 3.07 3.78 18.0  0  0    3    3</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">first_resample</span>, data <span class="op">=</span> <span class="st">"assessment"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                     mpg cyl  disp  hp drat   wt qsec vs am gear carb</span></span>
 <span><span class="co">#&gt; Mazda RX4 Wag      21.0   6 160.0 110 3.90 2.88 17.0  0  1    4    4</span></span>
