@@ -2,19 +2,22 @@
 #'
 #' `initial_validation_split()` creates a random three-way split of the data
 #' into a training set, a validation set, and a testing set.
-#' `group_initial_validation_split()` creates similar splits of the data based on some
-#' grouping variable, so that all data in a "group" are assigned to the same
-#' partition.
+#' `initial_validation_time_split()` does the same, but instead of a random
+#' selection the training, validation, and testing set are in order of the full
+#' data set, with the first observations being put into the training set.
+#' `group_initial_validation_split()` creates similar random splits of the data
+#' based on some grouping variable, so that all data in a "group" are assigned
+#' to the same partition.
 #' `training()`, `validation()`, and `testing()` can be used to extract the
 #' resulting data sets.
-#' Use [`validation_set()`] create an `rset` object for use with functions from
+#' Use [`validation_set()`] to create an `rset` object for use with functions from
 #' the tune package such as `tune::tune_grid()`.
 #'
 #' @template strata_details
 #'
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
-#' @param prop A length 2 vector of proportions of data to be retained for training and
+#' @param prop A length-2 vector of proportions of data to be retained for training and
 #' validation data, respectively.
 #' @inheritParams rlang::args_dots_empty
 #' @param x An object of class `initial_validation_split`.
@@ -32,6 +35,12 @@
 #' train_data <- training(car_split)
 #' validation_data <- validation(car_split)
 #' test_data <- testing(car_split)
+#'
+#' data(drinks, package = "modeldata")
+#' drinks_split <- initial_validation_time_split(drinks)
+#' train_data <- training(drinks_split)
+#' validation_data <- validation(drinks_split)
+#' c(max(train_data$date), min(validation_data$date))
 #'
 #' data(ames, package = "modeldata")
 #' set.seed(1353)
@@ -135,6 +144,45 @@ check_prop_3 <- function(prop, call = rlang::caller_env()) {
     )
   }
   invisible(prop)
+}
+
+#' @rdname initial_validation_split
+#' @export
+initial_validation_time_split <- function(data,
+                                          prop = c(0.6, 0.2),
+                                          ...) {
+  rlang::check_dots_empty()
+
+  check_prop_3(prop)
+  prop_train <- prop[1]
+  prop_val <- prop[2] / (1 - prop_train)
+
+  n_train <- floor(nrow(data) * prop_train)
+  n_val <- floor((nrow(data) - n_train) * prop_val)
+
+  train_id <- seq(1, n_train, by = 1)
+  val_id <- seq(n_train + 1, n_train + n_val, by = 1)
+
+  res <- list(
+    data = data,
+    train_id = train_id,
+    val_id = val_id,
+    test_id = NA,
+    id = "split"
+  )
+
+  # include those so that they can be attached to the `rset` later in `validation_set()`
+  val_att <- list(
+    prop = prop
+  )
+  attr(res, "val_att") <- val_att
+
+  class(res) <- c(
+    "initial_validation_time_split",
+    "initial_validation_split",
+    "three_way_split"
+  )
+  res
 }
 
 #' @inheritParams make_groups

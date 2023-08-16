@@ -2,6 +2,7 @@
 % Please edit documentation in R/initial_validation_split.R
 \name{initial_validation_split}
 \alias{initial_validation_split}
+\alias{initial_validation_time_split}
 \alias{group_initial_validation_split}
 \alias{training.initial_validation_split}
 \alias{testing.initial_validation_split}
@@ -18,6 +19,8 @@ initial_validation_split(
   pool = 0.1,
   ...
 )
+
+initial_validation_time_split(data, prop = c(0.6, 0.2), ...)
 
 group_initial_validation_split(
   data,
@@ -41,7 +44,7 @@ validation(x, ...)
 \arguments{
 \item{data}{A data frame.}
 
-\item{prop}{A length 2 vector of proportions of data to be retained for training and
+\item{prop}{A length-2 vector of proportions of data to be retained for training and
 validation data, respectively.}
 
 \item{strata}{A variable in \code{data} (single character or name) used to conduct
@@ -72,12 +75,15 @@ in each split.
 \description{
 \code{initial_validation_split()} creates a random three-way split of the data
 into a training set, a validation set, and a testing set.
-\code{group_initial_validation_split()} creates similar splits of the data based on some
-grouping variable, so that all data in a "group" are assigned to the same
-partition.
+\code{initial_validation_time_split()} does the same, but instead of a random
+selection the training, validation, and testing set are in order of the full
+data set, with the first observations being put into the training set.
+\code{group_initial_validation_split()} creates similar random splits of the data
+based on some grouping variable, so that all data in a "group" are assigned
+to the same partition.
 \code{training()}, \code{validation()}, and \code{testing()} can be used to extract the
 resulting data sets.
-Use \code{\link[=validation_set]{validation_set()}} create an \code{rset} object for use with functions from
+Use \code{\link[=validation_set]{validation_set()}} to create an \code{rset} object for use with functions from
 the tune package such as \code{tune::tune_grid()}.
 }
 \details{
@@ -96,6 +102,12 @@ car_split <- initial_validation_split(mtcars)
 train_data <- training(car_split)
 validation_data <- validation(car_split)
 test_data <- testing(car_split)
+
+data(drinks, package = "modeldata")
+drinks_split <- initial_validation_time_split(drinks)
+train_data <- training(drinks_split)
+validation_data <- validation(drinks_split)
+c(max(train_data$date), min(validation_data$date))
 
 data(ames, package = "modeldata")
 set.seed(1353)

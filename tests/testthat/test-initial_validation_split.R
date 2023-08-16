@@ -41,7 +41,6 @@ test_that("basic split - accessor functions", {
   })
 })
 
-
 test_that("basic split stratified", {
   dat <- data.frame(
     id = 1:100,
@@ -75,9 +74,33 @@ test_that("basic split stratified", {
   })
 })
 
+test_that("time split", {
+  dat1 <- data.frame(a = 1:109)
+
+  set.seed(11)
+  rs1 <- initial_validation_time_split(dat1, prop = c(0.6, 0.2))
+
+  expect_s3_class(
+    rs1,
+    c("initial_validation_time_split", "initial_validation_split", "three_way_split")
+  )
+
+  exp_size_train <- floor(nrow(dat1) * 0.6)
+  exp_size_val <- floor((nrow(dat1) - exp_size_train) * 0.2 / (1 - 0.6))
+
+  expect_equal(rs1$train_id, seq(1, exp_size_train))
+  expect_equal(rs1$val_id, seq(exp_size_train + 1, exp_size_train + exp_size_val))
+  expect_equal(rs1$test_id, NA)
+
+  expect_equal(rs1$data, dat1)
+
+  good_val <- length(intersect(rs1$train_id, rs1$val_id))
+  expect_equal(good_val, 0)
+  good_test <- length(intersect(rs1$val_id, rs1$test_id))
+  expect_equal(good_test, 0)
+})
 
 test_that("grouped split", {
-
   # all observations of each group should be in only one of the 3 data sets
   # = all obs in the same group and no intersection in the groups
   #   from the 3 data sets
@@ -180,7 +203,6 @@ test_that("grouped split - accessor functions", {
     assessment(val_split)
   })
 })
-
 
 test_that("check_prop_3() works", {
   expect_snapshot(error = TRUE, check_prop_3(0.3))
