@@ -41,7 +41,6 @@ reference:
       - vfold_cv
       - loo_cv
       - mc_cv
-      - validation_split
       - validation_set
       - group_bootstraps
       - group_mc_cv
