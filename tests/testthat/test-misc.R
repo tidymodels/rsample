@@ -34,8 +34,10 @@ test_that("reverse_splits is working", {
 })
 
 test_that("reshuffle_rset is working", {
-
   skip_if_not_installed("withr")
+  # for `validation_split()` and variants
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   supported_subclasses <- rset_subclasses[
     setdiff(names(rset_subclasses), c("manual_rset"))
   ]
@@ -148,6 +150,9 @@ test_that("reshuffle_rset is working", {
 })
 
 test_that("get_rsplit()", {
+  skip_if_not_installed("withr")
+  # for `validation_split()` and variants
+  withr::local_options(lifecycle_verbosity = "quiet")
 
   val <- withr::with_seed(
     11,
