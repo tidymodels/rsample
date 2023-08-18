@@ -1,3 +1,31 @@
+# `validation_split()` is deprecated
+
+    Code
+      set.seed(11)
+      rs1 <- validation_split(dat1)
+    Condition
+      Warning:
+      `validation_split()` was deprecated in rsample 1.2.0.
+      i Please use `initial_validation_split()` instead.
+    Code
+      sizes1 <- dim_rset(rs1)
+      expect_true(all(sizes1$analysis == 15))
+      expect_true(all(sizes1$assessment == 5))
+
+# `validation_time_split()` is deprecated
+
+    Code
+      set.seed(11)
+      rs1 <- validation_time_split(dat1)
+    Condition
+      Warning:
+      `validation_time_split()` was deprecated in rsample 1.2.0.
+      i Please use `initial_validation_time_split()` instead.
+    Code
+      sizes1 <- dim_rset(rs1)
+      expect_true(all(sizes1$analysis == 15))
+      expect_true(all(sizes1$assessment == 5))
+
 # default time param with lag
 
     Code
@@ -24,6 +52,20 @@
     Condition
       Error in `validation_time_split()`:
       ! `lag` must be less than or equal to the number of training observations.
+
+# `group_validation_split()` is deprecated
+
+    Code
+      set.seed(11)
+      rs1 <- group_validation_split(dat1, c)
+    Condition
+      Warning:
+      `group_validation_split()` was deprecated in rsample 1.2.0.
+      i Please use `group_initial_validation_split()` instead.
+    Code
+      sizes1 <- dim_rset(rs1)
+      expect_true(all(sizes1$analysis == 15))
+      expect_true(all(sizes1$assessment == 5))
 
 # grouping -- strata
 

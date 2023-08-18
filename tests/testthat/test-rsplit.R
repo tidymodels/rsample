@@ -38,6 +38,10 @@ test_that("print methods", {
     set.seed(233)
     vfold_cv(mtcars)$splits[[1]]
   })
+
+  skip_if_not_installed("withr")
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_snapshot({
     set.seed(233)
     validation_split(mtcars)$splits[[1]]

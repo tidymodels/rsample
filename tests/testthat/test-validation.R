@@ -1,4 +1,19 @@
+test_that("`validation_split()` is deprecated", {
+  dat1 <- data.frame(a = 1:20, b = letters[1:20], c = rep(1:4, 5))
+
+  expect_snapshot({
+    set.seed(11)
+    rs1 <- validation_split(dat1)
+    sizes1 <- dim_rset(rs1)
+
+    expect_true(all(sizes1$analysis == 15))
+    expect_true(all(sizes1$assessment == 5))
+    })
+})
+
 test_that("default param", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   set.seed(11)
   rs1 <- validation_split(dat1)
   sizes1 <- dim_rset(rs1)
@@ -20,7 +35,22 @@ test_that("default param", {
   expect_true(all(good_holdout))
 })
 
+test_that("`validation_time_split()` is deprecated", {
+  dat1 <- data.frame(a = 1:20, b = letters[1:20], c = rep(1:4, 5))
+
+  expect_snapshot({
+    set.seed(11)
+    rs1 <- validation_time_split(dat1)
+    sizes1 <- dim_rset(rs1)
+
+    expect_true(all(sizes1$analysis == 15))
+    expect_true(all(sizes1$assessment == 5))
+  })
+})
+
 test_that("default time param", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   set.seed(11)
   rs1 <- validation_time_split(dat1)
   sizes1 <- dim_rset(rs1)
@@ -46,6 +76,8 @@ test_that("default time param", {
 })
 
 test_that("default time param with lag", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   skip_if_not_installed("modeldata")
   data(drinks, package = "modeldata")
 
@@ -61,13 +93,30 @@ test_that("default time param with lag", {
 })
 
 test_that("assessment set of time split includes the lag (#376)", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   toy_data <- data.frame(id = 1:100)
   val_rset <- validation_time_split(toy_data, prop = 0.75, lag = 2)
   dat_assess <- assessment(val_rset$splits[[1]])
   expect_equal(dat_assess$id, 74:100)
 })
 
+test_that("`group_validation_split()` is deprecated", {
+  dat1 <- data.frame(a = 1:20, b = letters[1:20], c = rep(1:4, 5))
+
+  expect_snapshot({
+    set.seed(11)
+    rs1 <- group_validation_split(dat1, c)
+    sizes1 <- dim_rset(rs1)
+
+    expect_true(all(sizes1$analysis == 15))
+    expect_true(all(sizes1$assessment == 5))
+  })
+})
+
 test_that("default group param", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   set.seed(11)
   rs1 <- group_validation_split(dat1, c)
   sizes1 <- dim_rset(rs1)
@@ -90,6 +139,8 @@ test_that("default group param", {
 })
 
 test_that("grouping -- strata", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   set.seed(11)
 
   n_common_class <- 70
@@ -133,6 +184,8 @@ test_that("grouping -- strata", {
 })
 
 test_that("different percent", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   set.seed(11)
   rs2 <- validation_split(dat1, prop = .5)
   sizes2 <- dim_rset(rs2)
@@ -176,6 +229,8 @@ test_that("different percent", {
 })
 
 test_that("strata", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   set.seed(11)
   rs3 <- validation_split(warpbreaks, strata = "tension")
   sizes3 <- dim_rset(rs3)
@@ -201,19 +256,23 @@ test_that("strata", {
   expect_true(all(good_holdout))
 })
 
-
 test_that("bad args", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_error(validation_split(warpbreaks, strata = warpbreaks$tension))
   expect_error(validation_split(warpbreaks, strata = c("tension", "wool")))
 })
 
-
 test_that("printing", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_snapshot(validation_split(warpbreaks))
   expect_snapshot(validation_split(warpbreaks)$splits[[1]])
 })
 
 test_that("rsplit labels", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   rs <- validation_split(mtcars)
   all_labs <- purrr::map(rs$splits, labels) %>%
     list_rbind()

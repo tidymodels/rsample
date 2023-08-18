@@ -4,6 +4,8 @@
 
 * The new `initial_validation_split()`, along with variants `initial_validation_time_split()` and `group_initial_validation_split()`, generates a three-way split of the data into training, validation, and test sets. With the new `validation_set()`, this can be turned into an `rset` object for tuning (#403, #446).
 
+* `validation_split()`, `validation_time_split()`, and `group_validation_split()` have been soft-deprecated in favor of the new functions implementing a 3-way split (`initial_validation_split()`, `initial_validation_time_split()`, and `group_initial_validation_split()`) (#449).
+
 * Functions which don't use the ellipsis `...` now enforce empty dots (#429).
 
 * `make_splits()` gained an example in the documentation (@AngelFelizR, #432).

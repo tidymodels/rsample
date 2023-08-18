@@ -1,5 +1,8 @@
 test_that("grouped variants have the same classes as nongrouped outputs", {
   skip_if_not_installed("withr")
+  # for `validation_split()` and variants
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   grouped_variants <- grep("^group_", names(rset_subclasses), value = TRUE)
 
   for (x in grouped_variants) {
@@ -19,7 +22,8 @@ test_that("grouped variants have the same classes as nongrouped outputs", {
 
   }
 
-  # Test initial_split separately, as it doesn't return an rset
+  # Test initial_split() and initial_validation_split() separately,
+  # as they don't return an rset
   grouped_variant <- group_initial_split(test_data(), y)
   ungrouped_variant <- initial_split(test_data())
 
@@ -27,10 +31,19 @@ test_that("grouped variants have the same classes as nongrouped outputs", {
     all(class(ungrouped_variant) %in% class(grouped_variant))
   )
 
+  grouped_variant <- group_initial_validation_split(test_data(), y)
+  ungrouped_variant <- initial_validation_split(test_data())
+
+  expect_true(
+    all(class(ungrouped_variant) %in% class(grouped_variant))
+  )
 })
 
 test_that("grouped variants are consistent across R sessions", {
   skip_if_not_installed("withr")
+  # for `validation_split()` and variants
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   grouped_variants <- grep("^group_", names(rset_subclasses), value = TRUE)
 
   for (x in grouped_variants) {
