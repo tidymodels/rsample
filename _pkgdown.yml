@@ -37,21 +37,21 @@ reference:
     contents:
       - initial_split
       - initial_validation_split
-      - bootstraps
-      - vfold_cv
-      - loo_cv
-      - mc_cv
       - validation_set
+      - bootstraps
       - group_bootstraps
-      - group_mc_cv
+      - vfold_cv
       - group_vfold_cv
+      - mc_cv
+      - group_mc_cv
+      - clustering_cv
+      - nested_cv
+      - loo_cv
       - rolling_origin
       - sliding_window
-      - nested_cv
       - apparent
-      - manual_rset
       - permutations
-      - clustering_cv
+      - manual_rset
   - title: Analysis
     contents:
       - int_pctl
