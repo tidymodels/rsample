@@ -14,6 +14,7 @@
 
 * The underlying mechanics of data splitting were changed so that `Surv` objects maintain their class. This change affects the row names of the resulting objects; they are reindexed from one instead of being a subset of the original row names. (#443)
 
+* rsample does not re-export `gather()` anymore (#451).
 
 # rsample 1.1.1
 
