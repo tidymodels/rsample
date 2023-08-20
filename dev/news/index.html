@@ -73,6 +73,7 @@
 <li><p><code><a href="../reference/make_splits.html">make_splits()</a></code> gained an example in the documentation (<a href="https://github.com/AngelFelizR" class="external-link">@AngelFelizR</a>, <a href="https://github.com/tidymodels/rsample/issues/432" class="external-link">#432</a>).</p></li>
 <li><p>The <code>int_*()</code> functions are now generics and have corresponding methods for class <code>bootstraps</code> (<a href="https://github.com/tidymodels/rsample/issues/435" class="external-link">#435</a>).</p></li>
 <li><p>The underlying mechanics of data splitting were changed so that <code>Surv</code> objects maintain their class. This change affects the row names of the resulting objects; they are reindexed from one instead of being a subset of the original row names. (<a href="https://github.com/tidymodels/rsample/issues/443" class="external-link">#443</a>)</p></li>
+<li><p>rsample does not re-export <code><a href="https://tidyr.tidyverse.org/reference/gather.html" class="external-link">gather()</a></code> anymore (<a href="https://github.com/tidymodels/rsample/issues/451" class="external-link">#451</a>).</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.1" id="rsample-111">rsample 1.1.1<a class="anchor" aria-label="anchor" href="#rsample-111"></a></h2><p class="text-muted">CRAN release: 2022-12-07</p>
