@@ -4,7 +4,6 @@
 \name{reexports}
 \alias{reexports}
 \alias{tidy}
-\alias{gather}
 \alias{contains}
 \alias{select_helpers}
 \alias{ends_with}
@@ -23,8 +22,6 @@ below to see their documentation.
 
 \describe{
   \item{generics}{\code{\link[generics]{tidy}}}
-
-  \item{tidyr}{\code{\link[tidyr]{gather}}}
 
   \item{tidyselect}{\code{\link[tidyselect]{all_of}}, \code{\link[tidyselect:all_of]{any_of}}, \code{\link[tidyselect:starts_with]{contains}}, \code{\link[tidyselect:starts_with]{ends_with}}, \code{\link[tidyselect]{everything}}, \code{\link[tidyselect:everything]{last_col}}, \code{\link[tidyselect:starts_with]{matches}}, \code{\link[tidyselect:starts_with]{num_range}}, \code{\link[tidyselect]{starts_with}}}
 }}
