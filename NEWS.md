@@ -1,6 +1,4 @@
-# rsample (development version)
-
-* `training()`, `testing()`, `analysis()`, and `assessment()` are now S3 generics with methods for `rsplit` objects. Previously they manually required the input to be an `rsplit` object (#384).
+# rsample 1.2.0
 
 * The new `initial_validation_split()`, along with variants `initial_validation_time_split()` and `group_initial_validation_split()`, generates a three-way split of the data into training, validation, and test sets. With the new `validation_set()`, this can be turned into an `rset` object for tuning (#403, #446).
 
@@ -10,11 +8,14 @@
 
 * `make_splits()` gained an example in the documentation (@AngelFelizR, #432).
 
-* The `int_*()` functions are now generics and have corresponding methods for class `bootstraps` (#435). 
+* `training()`, `testing()`, `analysis()`, and `assessment()` are now S3 generics with methods for `rsplit` objects. Previously they manually required the input to be an `rsplit` object (#384).
 
-* The underlying mechanics of data splitting were changed so that `Surv` objects maintain their class. This change affects the row names of the resulting objects; they are reindexed from one instead of being a subset of the original row names. (#443)
+* The `int_*()` functions are now S3 generics and have corresponding methods for class `bootstraps` (#435). 
+
+* The underlying mechanics of data splitting were changed so that `Surv` objects maintain their class. This change affects the row names of the resulting objects; they are reindexed from one instead of being a subset of the original row names (#443).
 
 * rsample does not re-export `gather()` anymore (#451).
+
 
 # rsample 1.1.1
 

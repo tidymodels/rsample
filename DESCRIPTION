@@ -1,6 +1,6 @@
 Package: rsample
 Title: General Resampling Infrastructure
-Version: 1.1.1.9001
+Version: 1.2.0
 Authors@R: c(
     person("Hannah", "Frick", , "hannah@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6049-5258")),
@@ -19,7 +19,7 @@ License: MIT + file LICENSE
 URL: https://rsample.tidymodels.org, https://github.com/tidymodels/rsample
 BugReports: https://github.com/tidymodels/rsample/issues
 Depends: 
-    R (>= 3.4)
+    R (>= 3.6)
 Imports: 
     cli,
     dplyr (>= 1.1.1),
