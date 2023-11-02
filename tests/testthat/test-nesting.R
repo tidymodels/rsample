@@ -100,12 +100,11 @@ test_that("long calls don't error", {
       outside = sliding_period(
         index = date,
         period = "month",
-        origin = modeldata::Chicago$date[1])
-      ,
+        origin = modeldata::Chicago$date[1]
+      ),
       inside = vfold_cv(v = 4)
     )
   )
-
 })
 
 # ------------------------------------------------------------------------------
