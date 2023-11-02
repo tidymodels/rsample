@@ -60,7 +60,14 @@ nested_cv <- function(data, outside, inside) {
 
   outer_cl <- cl[["outside"]]
   if (is_call(outer_cl)) {
-    if (grepl("^bootstraps", deparse(outer_cl))) {
+    using_bootstraps <- grepl(
+      "^bootstraps",
+      paste(
+        deparse(outer_cl, width.cutoff = 500L),
+        collapse = " "
+      )
+    )
+    if (using_bootstraps) {
       warn(boot_msg)
     }
     outer_cl <- rlang::call_modify(outer_cl, data = data)
