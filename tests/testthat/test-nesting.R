@@ -92,6 +92,21 @@ test_that("rsplit labels", {
   expect_equal(all_labs, original_id)
 })
 
+test_that("long calls don't error", {
+  skip_if_not_installed("modeldata")
+  expect_no_error(
+    nested_cv(
+      modeldata::Chicago,
+      outside = sliding_period(
+        index = date,
+        period = "month",
+        origin = modeldata::Chicago$date[1]
+      ),
+      inside = vfold_cv(v = 4)
+    )
+  )
+})
+
 # ------------------------------------------------------------------------------
 # `[`
 skip_if_not_installed("withr")
