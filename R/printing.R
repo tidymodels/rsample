@@ -64,6 +64,19 @@ pretty.mc_cv <- function(x, ...) {
 }
 
 #' @export
+pretty.validation_set <- function(x, ...) {
+  details <- attributes(x)
+  res <- paste0(
+    "Validation Set (",
+    signif(details$prop[1] / sum(details$prop), 2),
+    "/",
+    signif(details$prop[2] / sum(details$prop), 2),
+    ")"
+  )
+  res
+}
+
+#' @export
 pretty.validation_split <- function(x, ...) {
   details <- attributes(x)
   res <- paste0(
