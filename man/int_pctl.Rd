@@ -33,9 +33,10 @@ the percentile confidence interval.}
 \item{statistics}{An unquoted column name or \code{dplyr} selector that identifies
 a single column in the data set containing the individual bootstrap
 estimates. This must be a list column of tidy tibbles (with columns
-\code{term} and \code{estimate}). For t-intervals, a
-standard tidy column (usually called \code{std.err}) is required.
-See the examples below.}
+\code{term} and \code{estimate}). Optionally, users can include columns whose names
+begin with a period and the intervals will be created for each combination
+of these variables and the \code{term} column. For t-intervals, a standard tidy
+column (usually called \code{std.err}) is required. See the examples below.}
 
 \item{alpha}{Level of significance.}
 
@@ -72,6 +73,8 @@ library(dplyr)
 library(purrr)
 library(tibble)
 
+# ------------------------------------------------------------------------------
+
 lm_est <- function(split, ...) {
   lm(mpg ~ disp + hp, data = analysis(split)) \%>\%
     tidy()
@@ -85,6 +88,8 @@ car_rs <-
 int_pctl(car_rs, results)
 int_t(car_rs, results)
 int_bca(car_rs, results, .fn = lm_est)
+
+# ------------------------------------------------------------------------------
 
 # putting results into a tidy format
 rank_corr <- function(split) {
