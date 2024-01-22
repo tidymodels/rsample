@@ -215,12 +215,13 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'  Application_. Cambridge: Cambridge University Press.
 #'  doi:10.1017/CBO9780511802843
 #'
-#' @examplesIf rlang::is_installed("broom")
+#' @examplesIf rlang::is_installed("broom") & rlang::is_installed("modeldata")
 #' \donttest{
 #' library(broom)
 #' library(dplyr)
 #' library(purrr)
 #' library(tibble)
+#' library(tidyr)
 #'
 #' # ------------------------------------------------------------------------------
 #'
@@ -256,6 +257,31 @@ pctl_single <- function(stats, alpha = 0.05) {
 #' bootstraps(Sacramento, 1000, apparent = TRUE) %>%
 #'   mutate(correlations = map(splits, rank_corr)) %>%
 #'   int_pctl(correlations)
+#'
+#' # ------------------------------------------------------------------------------
+#' # An example of computing the interval for each value of a custom grouping
+#' # factor (type of house in this example)
+#'
+#' # Get regression estimates for each house type
+#' lm_est <- function(split, ...) {
+#'   analysis(split) %>%
+#'     tidyr::nest(.by = c(type)) %>%
+#'     # Compute regression estimates for each house type
+#'     mutate(
+#'       betas = purrr::map(data, ~ lm(log10(price) ~ sqft, data = .x) %>% tidy())
+#'     ) %>%
+#'     # Convert the column name to begin with a period
+#'     rename(.type = type) %>%
+#'     select(.type, betas) %>%
+#'     unnest(cols = betas)
+#' }
+#'
+#' set.seed(52156)
+#' house_rs <-
+#'   bootstraps(Sacramento, 1000, apparent = TRUE) %>%
+#'   mutate(results = map(splits, lm_est))
+#'
+#' int_pctl(house_rs, results)
 #' }
 #' @export
 int_pctl <- function(.data, ...) {
