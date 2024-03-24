@@ -20,7 +20,7 @@
       initial_validation_split(dat, strata = does_not_exist)
     Condition
       Error in `initial_validation_split()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `does_not_exist` doesn't exist.
 
 ---
@@ -29,7 +29,7 @@
       initial_validation_split(dat, strata = c(x, f))
     Condition
       Error in `initial_validation_split()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `x` doesn't exist.
 
 ---
@@ -38,7 +38,7 @@
       initial_validation_split(dat, strata = rep(1:3, times = c(50, 25, 25)))
     Condition
       Error in `initial_validation_split()`:
-      ! Can't subset columns past the end.
+      ! Can't select columns past the end.
       i Location 3 doesn't exist.
       i There are only 2 columns.
 
