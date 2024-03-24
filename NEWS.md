@@ -1,6 +1,9 @@
-# rsample (development version)
+# rsample 1.2.1
 
 * `nested_cv()` no longer errors if `outside` is a long call (#459, #461).
+
+* The `validation_set` class now has its own `pretty()` method (#456).
+
 
 # rsample 1.2.0
 
