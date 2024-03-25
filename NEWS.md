@@ -1,3 +1,5 @@
+# rsample (development version)
+
 # rsample 1.2.1
 
 * `nested_cv()` no longer errors if `outside` is a long call (#459, #461).
