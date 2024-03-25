@@ -1,4 +1,4 @@
-pandoc: 2.19.2
+pandoc: 3.1.11
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
@@ -7,7 +7,7 @@ articles:
   Common_Patterns: Common_Patterns.html
   Working_with_rsets: Working_with_rsets.html
   rsample: rsample.html
-last_built: 2023-08-23T15:14Z
+last_built: 2024-03-25T10:45Z
 urls:
   reference: https://rsample.tidymodels.org/reference
   article: https://rsample.tidymodels.org/articles
