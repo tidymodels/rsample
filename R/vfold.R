@@ -86,7 +86,7 @@ vfold_cv <- function(data, v = 10, repeats = 1,
       )
     }
     for (i in 1:repeats) {
-      tmp <- vfold_splits(data = data, v = v, strata = strata, pool = pool)
+      tmp <- vfold_splits(data = data, v = v, strata = strata, breaks = breaks ,pool = pool)
       tmp$id2 <- tmp$id
       tmp$id <- names0(repeats, "Repeat")[i]
       split_objs <- if (i == 1) {
