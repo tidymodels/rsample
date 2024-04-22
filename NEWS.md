@@ -1,5 +1,10 @@
 # rsample (development version)
 
+## Bug fixes
+
+* `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
+
+
 # rsample 1.2.1
 
 * `nested_cv()` no longer errors if `outside` is a long call (#459, #461).
