@@ -4,6 +4,8 @@
 \alias{inner_split}
 \alias{inner_split.mc_split}
 \alias{inner_split.grouped_mc_split}
+\alias{inner_split.vfold_split}
+\alias{inner_split.group_vfold_split}
 \title{Inner split of the analysis set for fitting a post-processor}
 \usage{
 inner_split(x, ...)
@@ -11,6 +13,10 @@ inner_split(x, ...)
 \method{inner_split}{mc_split}(x, split_args, ...)
 
 \method{inner_split}{grouped_mc_split}(x, split_args, ...)
+
+\method{inner_split}{vfold_split}(x, split_args, ...)
+
+\method{inner_split}{group_vfold_split}(x, split_args, ...)
 }
 \arguments{
 \item{x}{An \code{rsplit} object.}
