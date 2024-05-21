@@ -4,6 +4,8 @@
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
 
+* The class of grouped MC splits is now `group_mc_split` instead of `grouped_mc_split`, aligning it with the other grouped splits (#478).
+
 
 # rsample 1.2.1
 
