@@ -1,8 +1,9 @@
 # Revdeps
 
-## Failed to check (1)
+## Failed to check (2)
 
 |package |version |error |warning |note |
 |:-------|:-------|:-----|:-------|:----|
-|NA      |?       |      |        |     |
+|psfmi   |1.4.0   |1     |        |     |
+|tidyfit |?       |      |        |     |
 
