@@ -18,9 +18,10 @@
 #' @export
 apparent <- function(data, ...) {
   check_dots_empty()
+
   splits <- rsplit(data, in_id = seq_len(nrow(data)), out_id = seq_len(nrow(data)))
-  # splits <- rm_out(splits)
-  class(splits) <- c("rsplit", "apparent_split")
+
+  class(splits) <- c("apparent_split", "rsplit")
   split_objs <- tibble::tibble(splits = list(splits), id = "Apparent")
 
   new_rset(

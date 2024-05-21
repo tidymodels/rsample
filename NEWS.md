@@ -4,6 +4,8 @@
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
 
+* The `rsplit` objects of an `apparent()` split now have the correct class inheritance structure. The order is now `apparent_split` and then `rsplit` rather than the other way around.
+
 
 # rsample 1.2.1
 
