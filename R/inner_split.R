@@ -116,3 +116,28 @@ inner_split.group_vfold_split <- function(x, split_args, ...) {
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
+
+# clustering -------------------------------------------------------------
+
+#' @rdname inner_split
+#' @export
+inner_split.clustering_split <- function(x, split_args, ...) {
+  check_dots_empty() 
+
+  analysis_set <- analysis(x)
+  
+  # TODO: reduce the number of clusters by 1 in tune?
+  split_inner <- clustering_cv(
+    analysis_set, 
+    vars = split_args$vars,
+    v = split_args$v, 
+    repeats = 1,
+    distance_function = split_args$distance_function,
+    cluster_function = split_args$cluster_function
+  )
+  split_inner <- split_inner$splits[[1]]
+
+  class_inner <- paste0(class(x)[1], "_inner")
+  class(split_inner) <- c(class_inner, class(x))
+  split_inner
+}
