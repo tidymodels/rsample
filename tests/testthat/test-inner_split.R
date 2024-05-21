@@ -140,3 +140,26 @@ test_that("clustering_split", {
   )
 })
 
+# apparent ---------------------------------------------------------------
+
+test_that("apparent_split", {
+  set.seed(11)
+  r_set <- apparent(warpbreaks)
+  r_split <- get_rsplit(r_set, 1)
+
+  isplit <- inner_split(r_split)
+
+  expect_identical(
+    isplit$data,
+    analysis(r_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+  expect_identical(
+    assessment(isplit),
+    analysis(r_split)
+  )
+})

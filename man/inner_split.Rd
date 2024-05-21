@@ -7,6 +7,7 @@
 \alias{inner_split.vfold_split}
 \alias{inner_split.group_vfold_split}
 \alias{inner_split.clustering_split}
+\alias{inner_split.apparent_split}
 \title{Inner split of the analysis set for fitting a post-processor}
 \usage{
 inner_split(x, ...)
@@ -20,6 +21,8 @@ inner_split(x, ...)
 \method{inner_split}{group_vfold_split}(x, split_args, ...)
 
 \method{inner_split}{clustering_split}(x, split_args, ...)
+
+\method{inner_split}{apparent_split}(x, ...)
 }
 \arguments{
 \item{x}{An \code{rsplit} object.}

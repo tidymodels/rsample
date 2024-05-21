@@ -141,3 +141,21 @@ inner_split.clustering_split <- function(x, split_args, ...) {
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
+
+
+# apparent ---------------------------------------------------------------
+
+#' @rdname inner_split
+#' @export
+inner_split.apparent_split <- function(x, ...) {
+  check_dots_empty() 
+
+  analysis_set <- analysis(x)
+  
+  split_inner <- apparent(analysis_set)
+  split_inner <- split_inner$splits[[1]]
+
+  class_inner <- paste0(class(x)[1], "_inner")
+  class(split_inner) <- c(class_inner, class(x))
+  split_inner
+}
