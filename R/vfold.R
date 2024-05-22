@@ -345,6 +345,12 @@ check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
 check_grouped_strata <- function(group, strata, pool, data) {
 
   strata <- tidyselect::vars_select(names(data), !!enquo(strata))
+
+  # if strata was NULL this is empty, thus return NULL
+  if (length(strata) < 1) {
+    return(NULL)
+  }
+
   grouped_table <- tibble(
     group = getElement(data, group),
     strata = getElement(data, strata)
