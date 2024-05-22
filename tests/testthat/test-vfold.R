@@ -143,6 +143,18 @@ test_that("grouping -- default param", {
   expect_true(all(table(sp_out) == 1))
 })
 
+test_that("grouping works with non-missing strata = NULL", {
+  set.seed(11)
+  rset_strata_missing <- group_vfold_cv(warpbreaks, "tension")
+
+  expect_no_error({
+    set.seed(11)
+    rset_strata_null <- group_vfold_cv(warpbreaks, "tension", strata = NULL)
+  })
+  
+  expect_identical(rset_strata_null, rset_strata_missing)
+
+})
 
 test_that("grouping -- v < max v", {
   set.seed(11)
