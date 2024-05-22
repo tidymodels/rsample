@@ -18,14 +18,10 @@ inner_split.mc_split <- function(x, split_args, ...) {
   check_dots_empty() 
 
   analysis_set <- analysis(x)
-  
-  split_inner <- mc_splits(
-    analysis_set, 
-    prop = split_args$prop, 
-    times = 1,
-    strata = split_args$strata, 
-    breaks = split_args$breaks, 
-    pool = split_args$pool
+
+  split_args$times <- 1
+  split_inner <- rlang::inject(
+    mc_splits(analysis_set, !!!split_args)
   )
   split_inner <- split_inner$splits[[1]]
 
@@ -41,14 +37,10 @@ inner_split.grouped_mc_split <- function(x, split_args, ...) {
   check_dots_empty() 
 
   analysis_set <- analysis(x)
-  
-  split_inner <- group_mc_splits(
-    analysis_set, 
-    group = split_args$group,
-    prop = split_args$prop, 
-    times = 1,
-    strata = split_args$strata, 
-    pool = split_args$pool
+
+  split_args$times <- 1
+  split_inner <- rlang::inject(
+    group_mc_splits(analysis_set, !!!split_args)
   )
   split_inner <- split_inner$splits[[1]]
 
@@ -73,13 +65,11 @@ inner_split.vfold_split <- function(x, split_args, ...) {
     split_args$prop <- 1 - 1/split_args$v
   }
   # use mc_splits for a random split
-  split_inner <- mc_splits(
-    analysis_set, 
-    prop = split_args$prop, 
-    times = 1,
-    strata = split_args$strata, 
-    breaks = split_args$breaks, 
-    pool = split_args$pool
+  split_args$times <- 1
+  split_args$v <- NULL
+  split_args$repeats <- NULL
+  split_inner <- rlang::inject(
+    mc_splits(analysis_set, !!!split_args)
   )
   split_inner <- split_inner$splits[[1]]
 
@@ -102,13 +92,12 @@ inner_split.group_vfold_split <- function(x, split_args, ...) {
   }
   
   # use group_mc_splits for a random split
-  split_inner <- group_mc_splits(
-    analysis_set, 
-    group = split_args$group,
-    prop = split_args$prop, 
-    times = 1,
-    strata = split_args$strata, 
-    pool = split_args$pool
+  split_args$times <- 1
+  split_args$v <- NULL
+  split_args$repeats <- NULL
+  split_args$balance <- NULL
+  split_inner <- rlang::inject(
+    group_mc_splits(analysis_set, !!!split_args)
   )
   split_inner <- split_inner$splits[[1]]
 
@@ -127,13 +116,9 @@ inner_split.clustering_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
   
   # TODO: reduce the number of clusters by 1 in tune?
-  split_inner <- clustering_cv(
-    analysis_set, 
-    vars = split_args$vars,
-    v = split_args$v, 
-    repeats = 1,
-    distance_function = split_args$distance_function,
-    cluster_function = split_args$cluster_function
+  split_args$repeats <- 1
+  split_inner <- rlang::inject(
+    clustering_cv(analysis_set, !!!split_args)
   )
   split_inner <- split_inner$splits[[1]]
 
