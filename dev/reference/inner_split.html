@@ -85,6 +85,12 @@
 <span><span class="co"># S3 method for group_vfold_split</span></span>
 <span><span class="fu">inner_split</span><span class="op">(</span><span class="va">x</span>, <span class="va">split_args</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># S3 method for boot_split</span></span>
+<span><span class="fu">inner_split</span><span class="op">(</span><span class="va">x</span>, <span class="va">split_args</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for group_boot_split</span></span>
+<span><span class="fu">inner_split</span><span class="op">(</span><span class="va">x</span>, <span class="va">split_args</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># S3 method for clustering_split</span></span>
 <span><span class="fu">inner_split</span><span class="op">(</span><span class="va">x</span>, <span class="va">split_args</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
@@ -122,8 +128,10 @@ corresponding <code>rset</code> object, even if some of the arguments used to cr
 <li><p>For <code>vfold_split</code> and <code>group_vfold_split</code> objects, it will ignore
 <code>split_args$times</code> and <code>split_args$repeats</code>. <code>split_args$v</code> will be used to
 set <code>split_args$prop</code> to <code>1 - 1/v</code> if <code>prop</code> is not already set and otherwise
-ignored. The method
-for <code>group_vfold_split</code> will always use <code>split_args$balance = NULL</code>.</p></li>
+ignored. The method for <code>group_vfold_split</code> will always use
+<code>split_args$balance = NULL</code>.</p></li>
+<li><p>For <code>boot_split</code> and <code>group_boot_split</code> objects, it will ignore
+<code>split_args$times</code>.</p></li>
 <li><p>For <code>clustering_split</code> objects, it will ignore <code>split_args$repeats</code>.</p></li>
 </ul></div>
 
