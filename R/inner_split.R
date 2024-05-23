@@ -16,6 +16,11 @@
 #' set `split_args$prop` to `1 - 1/v` if `prop` is not already set and otherwise 
 #' ignored. The method 
 #' for `group_vfold_split` will always use `split_args$balance = NULL`.
+#' * For `val_split`, `group_val_split`, and `time_val_split` objects, it will 
+#' interpret a length-2 `split_args$prop` as a ratio between the training and
+#' validation sets and split into inner analsysi and inner assessment set in 
+#' the same ratio. If `split_args$prop` is a single value, it will be used as
+#' the proportion of the inner analysis set.
 #' * For `clustering_split` objects, it will ignore `split_args$repeats`.
 #'  
 #' @keywords internal
@@ -118,6 +123,84 @@ inner_split.group_vfold_split <- function(x, split_args, ...) {
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
+
+
+# validation set ---------------------------------------------------------
+
+#' @rdname inner_split
+#' @export
+inner_split.val_split <- function(x, split_args, ...) {
+  check_dots_empty() 
+
+  analysis_set <- analysis(x)
+
+  if (length(split_args$prop) == 2) {
+    # keep ratio between training and validation as ratio between
+    # inner analysis and inner assessment
+    split_args$prop <- split_args$prop[[1]] / sum(split_args$prop)
+  } else {
+    split_args$prop <- split_args$prop[[1]]
+  }
+  split_args$times <- 1
+  split_inner <- rlang::inject(
+    mc_splits(analysis_set, !!!split_args)
+  )
+  split_inner <- split_inner$splits[[1]]
+
+  class_inner <- paste0(class(x)[1], "_inner")
+  class(split_inner) <- c(class_inner, class(x))
+  split_inner
+}
+
+#' @rdname inner_split
+#' @export
+inner_split.group_val_split <- function(x, split_args, ...) {
+  check_dots_empty() 
+
+  analysis_set <- analysis(x)
+
+  if (length(split_args$prop) == 2) {
+    # keep ratio between training and validation as ratio between
+    # inner analysis and inner assessment
+    split_args$prop <- split_args$prop[[1]] / sum(split_args$prop)
+  } else {
+    split_args$prop <- split_args$prop[[1]]
+  }
+  split_args$times <- 1
+  split_inner <- rlang::inject(
+    group_mc_splits(analysis_set, !!!split_args)
+  )
+  split_inner <- split_inner$splits[[1]]
+
+  class_inner <- paste0(class(x)[1], "_inner")
+  class(split_inner) <- c(class_inner, class(x))
+  split_inner
+}
+
+#' @rdname inner_split
+#' @export
+inner_split.time_val_split <- function(x, split_args, ...) {
+  check_dots_empty() 
+
+  analysis_set <- analysis(x)
+
+  if (length(split_args$prop) == 2) {
+    # keep ratio between training and validation as ratio between
+    # inner analysis and inner assessment
+    split_args$prop <- split_args$prop[[1]] / sum(split_args$prop)
+  } else {
+    split_args$prop <- split_args$prop[[1]]
+  }
+  split_inner <- initial_time_split(
+    analysis_set,
+    prop = split_args$prop
+  )
+
+  class_inner <- paste0(class(x)[1], "_inner")
+  class(split_inner) <- c(class_inner, class(x))
+  split_inner
+}
+
 
 # clustering -------------------------------------------------------------
 
