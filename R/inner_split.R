@@ -32,8 +32,7 @@ inner_split.mc_split <- function(x, split_args, ...) {
 
 #' @rdname inner_split
 #' @export
-inner_split.grouped_mc_split <- function(x, split_args, ...) {
-  # FIXME update this class to `group_mc_split`
+inner_split.group_mc_split <- function(x, split_args, ...) {
   check_dots_empty() 
 
   analysis_set <- analysis(x)

@@ -3,7 +3,7 @@
 \name{inner_split}
 \alias{inner_split}
 \alias{inner_split.mc_split}
-\alias{inner_split.grouped_mc_split}
+\alias{inner_split.group_mc_split}
 \alias{inner_split.vfold_split}
 \alias{inner_split.group_vfold_split}
 \alias{inner_split.clustering_split}
@@ -14,7 +14,7 @@ inner_split(x, ...)
 
 \method{inner_split}{mc_split}(x, split_args, ...)
 
-\method{inner_split}{grouped_mc_split}(x, split_args, ...)
+\method{inner_split}{group_mc_split}(x, split_args, ...)
 
 \method{inner_split}{vfold_split}(x, split_args, ...)
 
