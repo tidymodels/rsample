@@ -4,6 +4,14 @@
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
 
+* Grouped resampling functions now work with an explicit `strata = NULL` instead of strata being either a name or missing (#485).
+
+## Breaking changes
+
+* The class of grouped MC splits is now `group_mc_split` instead of `grouped_mc_split`, aligning it with the other grouped splits (#478).
+
+* The `rsplit` objects of an `apparent()` split now have the correct class inheritance structure. The order is now `apparent_split` and then `rsplit` rather than the other way around (#477).
+
 
 # rsample 1.2.1
 
