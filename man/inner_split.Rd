@@ -6,6 +6,8 @@
 \alias{inner_split.group_mc_split}
 \alias{inner_split.vfold_split}
 \alias{inner_split.group_vfold_split}
+\alias{inner_split.boot_split}
+\alias{inner_split.group_boot_split}
 \alias{inner_split.clustering_split}
 \alias{inner_split.apparent_split}
 \title{Inner split of the analysis set for fitting a post-processor}
@@ -19,6 +21,10 @@ inner_split(x, ...)
 \method{inner_split}{vfold_split}(x, split_args, ...)
 
 \method{inner_split}{group_vfold_split}(x, split_args, ...)
+
+\method{inner_split}{boot_split}(x, split_args, ...)
+
+\method{inner_split}{group_boot_split}(x, split_args, ...)
 
 \method{inner_split}{clustering_split}(x, split_args, ...)
 
@@ -48,8 +54,10 @@ corresponding \code{rset} object, even if some of the arguments used to creat th
 \item For \code{vfold_split} and \code{group_vfold_split} objects, it will ignore
 \code{split_args$times} and \code{split_args$repeats}. \code{split_args$v} will be used to
 set \code{split_args$prop} to \code{1 - 1/v} if \code{prop} is not already set and otherwise
-ignored. The method
-for \code{group_vfold_split} will always use \code{split_args$balance = NULL}.
+ignored. The method for \code{group_vfold_split} will always use
+\code{split_args$balance = NULL}.
+\item For \code{boot_split} and \code{group_boot_split} objects, it will ignore
+\code{split_args$times}.
 \item For \code{clustering_split} objects, it will ignore \code{split_args$repeats}.
 }
 }

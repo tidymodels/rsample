@@ -113,6 +113,63 @@ test_that("group_vfold_split", {
 })
 
 
+# bootstrap --------------------------------------------------------------
+
+test_that("boot_split", {
+  set.seed(11)
+  r_set <- bootstraps(warpbreaks, times = 2)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  isplit <- inner_split(r_split, split_args)
+
+  expect_lte(
+    nrow(isplit$data),
+    analysis(r_split) %>% nrow()
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, ],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[complement(isplit), ],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("group_boot_split", {
+  skip_if_not_installed("modeldata")
+
+  data(ames, package = "modeldata", envir = rlang::current_env())
+
+  set.seed(11)
+  r_set <- group_bootstraps(ames, group = "MS_SubClass", times = 2)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  isplit <- inner_split(r_split, split_args)
+
+  expect_lte(
+    nrow(isplit$data),
+    analysis(r_split) %>% nrow()
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, ],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[complement(isplit), ],
+    ignore_attr = "row.names"
+  )
+})
+
+
 # clustering -------------------------------------------------------------
 
 test_that("clustering_split", {
