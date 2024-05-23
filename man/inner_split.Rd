@@ -37,4 +37,20 @@ An \code{rsplit} object.
 \description{
 Inner split of the analysis set for fitting a post-processor
 }
+\details{
+\code{rsplit} objects live most commonly inside of an \code{rset} object. The
+\code{split_args} argument can be the output of \code{\link[=.get_split_args]{.get_split_args()}} on that
+corresponding \code{rset} object, even if some of the arguments used to creat the
+\code{rset} object are not needed for the inner split.
+\itemize{
+\item For \code{mc_split} and \code{group_mc_split} objects, \code{inner_split()} will ignore
+\code{split_args$times}.
+\item For \code{vfold_split} and \code{group_vfold_split} objects, it will ignore
+\code{split_args$times} and \code{split_args$repeats}. \code{split_args$v} will be used to
+set \code{split_args$prop} to \code{1 - 1/v} if \code{prop} is not already set and otherwise
+ignored. The method
+for \code{group_vfold_split} will always use \code{split_args$balance = NULL}.
+\item For \code{clustering_split} objects, it will ignore \code{split_args$repeats}.
+}
+}
 \keyword{internal}

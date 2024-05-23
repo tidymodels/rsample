@@ -4,6 +4,20 @@
 #' @param split_args A list of arguments to be used for the inner split.
 #' @param ... Not currently used.
 #' @return An `rsplit` object.
+#' @details
+#' `rsplit` objects live most commonly inside of an `rset` object. The 
+#' `split_args` argument can be the output of [.get_split_args()] on that 
+#' corresponding `rset` object, even if some of the arguments used to creat the 
+#' `rset` object are not needed for the inner split. 
+#' * For `mc_split` and `group_mc_split` objects, `inner_split()` will ignore 
+#' `split_args$times`.
+#' * For `vfold_split` and `group_vfold_split` objects, it will ignore 
+#' `split_args$times` and `split_args$repeats`. `split_args$v` will be used to 
+#' set `split_args$prop` to `1 - 1/v` if `prop` is not already set and otherwise 
+#' ignored. The method 
+#' for `group_vfold_split` will always use `split_args$balance = NULL`.
+#' * For `clustering_split` objects, it will ignore `split_args$repeats`.
+#'  
 #' @keywords internal
 #' @export
 inner_split <- function(x, ...) {
