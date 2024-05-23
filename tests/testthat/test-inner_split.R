@@ -4,7 +4,7 @@
 test_that("mc_split", {
   set.seed(11)
   r_set <- mc_cv(warpbreaks)
-  split_args <- get_split_args(r_set)
+  split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
   isplit <- inner_split(r_split, split_args)
@@ -33,7 +33,7 @@ test_that("group_mc_split", {
 
   set.seed(11)
   r_set <- group_mc_cv(ames, "MS_SubClass")
-  split_args <- get_split_args(r_set)
+  split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
   isplit <- inner_split(r_split, split_args)
@@ -61,7 +61,7 @@ test_that("group_mc_split", {
 test_that("vfold_split", {
   set.seed(11)
   r_set <- vfold_cv(warpbreaks, v = 5)
-  split_args <- get_split_args(r_set)
+  split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
   isplit <- inner_split(r_split, split_args)
@@ -90,7 +90,7 @@ test_that("group_vfold_split", {
 
   set.seed(11)
   r_set <- group_vfold_cv(ames, "MS_SubClass")
-  split_args <- get_split_args(r_set)
+  split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
   isplit <- inner_split(r_split, split_args)
@@ -118,7 +118,7 @@ test_that("group_vfold_split", {
 test_that("clustering_split", {
   set.seed(11)
   r_set <- clustering_cv(warpbreaks, vars = breaks, v = 5)
-  split_args <- get_split_args(r_set)
+  split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
   isplit <- inner_split(r_split, split_args)

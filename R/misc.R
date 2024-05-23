@@ -272,7 +272,7 @@ reshuffle_rset <- function(rset) {
   }
 
   rset_type <- class(rset)[[1]]
-  split_arguments <- get_split_args(rset)
+  split_arguments <- .get_split_args(rset)
   if (identical(split_arguments$strata, TRUE)) {
     rlang::abort(
       "Cannot reshuffle this rset (`attr(rset, 'strata')` is `TRUE`, not a column identifier)",
@@ -295,7 +295,12 @@ non_random_classes <- c(
   "validation_set"
 )
 
-get_split_args <- function(rset) {
+#' Get the split arguments from an rset
+#' @param rset An `rset` object.
+#' @return A list of arguments used to create the rset.
+#' @keywords internal
+#' @export
+.get_split_args <- function(rset) {
   all_attributes <- attributes(rset)
   args <- names(formals(all_attributes$class[[1]]))
   split_args <- all_attributes[args]
