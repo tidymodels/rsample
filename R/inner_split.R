@@ -14,8 +14,10 @@
 #' * For `vfold_split` and `group_vfold_split` objects, it will ignore 
 #' `split_args$times` and `split_args$repeats`. `split_args$v` will be used to 
 #' set `split_args$prop` to `1 - 1/v` if `prop` is not already set and otherwise 
-#' ignored. The method 
-#' for `group_vfold_split` will always use `split_args$balance = NULL`.
+#' ignored. The method for `group_vfold_split` will always use 
+#' `split_args$balance = NULL`.
+#' * For `boot_split` and `group_boot_split` objects, it will ignore
+#' `split_args$times`.
 #' * For `val_split`, `group_val_split`, and `time_val_split` objects, it will 
 #' interpret a length-2 `split_args$prop` as a ratio between the training and
 #' validation sets and split into inner analsysi and inner assessment set in 
@@ -116,6 +118,51 @@ inner_split.group_vfold_split <- function(x, split_args, ...) {
   split_args$balance <- NULL
   split_inner <- rlang::inject(
     group_mc_splits(analysis_set, !!!split_args)
+  )
+  split_inner <- split_inner$splits[[1]]
+
+  class_inner <- paste0(class(x)[1], "_inner")
+  class(split_inner) <- c(class_inner, class(x))
+  split_inner
+}
+
+
+# bootstrap --------------------------------------------------------------
+
+#' @rdname inner_split
+#' @export
+inner_split.boot_split <- function(x, split_args, ...) {
+  check_dots_empty() 
+
+  # use unique rows to prevent the same information from entering
+  # both the inner analysis and inner assessment set
+  id_outer_analysis <- unique(x$in_id)
+  analysis_set <- x$data[id_outer_analysis, , drop = FALSE]
+
+  split_args$times <- 1
+  split_inner <- rlang::inject(
+    bootstraps(analysis_set, !!!split_args)
+  )
+  split_inner <- split_inner$splits[[1]]
+
+  class_inner <- paste0(class(x)[1], "_inner")
+  class(split_inner) <- c(class_inner, class(x))
+  split_inner
+}
+
+#' @rdname inner_split
+#' @export
+inner_split.group_boot_split <- function(x, split_args, ...) {
+  check_dots_empty() 
+
+  # use unique rows to prevent the same information from entering
+  # both the inner analysis and inner assessment set
+  id_outer_analysis <- unique(x$in_id)
+  analysis_set <- x$data[id_outer_analysis, , drop = FALSE]
+
+  split_args$times <- 1
+  split_inner <- rlang::inject(
+    group_bootstraps(analysis_set, !!!split_args)
   )
   split_inner <- split_inner$splits[[1]]
 
