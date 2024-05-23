@@ -271,13 +271,9 @@ reshuffle_rset <- function(rset) {
     }
   }
 
-  arguments <- attributes(rset)
-  useful_arguments <- names(formals(arguments$class[[1]]))
-  useful_arguments <- arguments[useful_arguments]
-  useful_arguments <- useful_arguments[!is.na(names(useful_arguments))]
-  if (identical(useful_arguments$strata, FALSE)) {
-    useful_arguments$strata <- NULL
-  } else if (identical(useful_arguments$strata, TRUE)) {
+  rset_type <- class(rset)[[1]]
+  split_arguments <- .get_split_args(rset)
+  if (identical(split_arguments$strata, TRUE)) {
     rlang::abort(
       "Cannot reshuffle this rset (`attr(rset, 'strata')` is `TRUE`, not a column identifier)",
       i = "If the original object was created with an older version of rsample, try recreating it with the newest version of the package"
@@ -285,8 +281,8 @@ reshuffle_rset <- function(rset) {
   }
 
   do.call(
-    arguments$class[[1]],
-    c(list(data = rset$splits[[1]]$data), useful_arguments)
+    rset_type,
+    c(list(data = rset$splits[[1]]$data), split_arguments)
   )
 }
 
@@ -298,6 +294,22 @@ non_random_classes <- c(
   "validation_time_split",
   "validation_set"
 )
+
+#' Get the split arguments from an rset
+#' @param rset An `rset` object.
+#' @return A list of arguments used to create the rset.
+#' @keywords internal
+#' @export
+.get_split_args <- function(rset) {
+  all_attributes <- attributes(rset)
+  args <- names(formals(all_attributes$class[[1]]))
+  split_args <- all_attributes[args]
+  split_args <- split_args[!is.na(names(split_args))]
+  if (identical(split_args$strata, FALSE)) {
+    split_args$strata <- NULL
+  }
+  split_args
+}
 
 #' Retrieve individual rsplits objects from an rset
 #'
