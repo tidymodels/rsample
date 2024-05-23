@@ -66,7 +66,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="rsample-development-version">rsample (development version)<a class="anchor" aria-label="anchor" href="#rsample-development-version"></a></h2>
-<div class="section level3">
+<ul><li>The new <code><a href="../reference/inner_split.html">inner_split()</a></code> function and its methods for various resamples is for usage in tune to create a inner resample of the analysis set to fit the preprocessor and model on one part and the post-processor on the other part (<a href="https://github.com/tidymodels/rsample/issues/483" class="external-link">#483</a>).</li>
+</ul><div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
 <ul><li><p><code><a href="../reference/vfold_cv.html">vfold_cv()</a></code> now utilizes the <code>breaks</code> argument correctly for repeated cross-validation (<a href="https://github.com/ZWael" class="external-link">@ZWael</a>, <a href="https://github.com/tidymodels/rsample/issues/471" class="external-link">#471</a>).</p></li>
 <li><p>Grouped resampling functions now work with an explicit <code>strata = NULL</code> instead of strata being either a name or missing (<a href="https://github.com/tidymodels/rsample/issues/485" class="external-link">#485</a>).</p></li>

@@ -58,6 +58,9 @@
     <loc>https://rsample.tidymodels.org/dev/reference/complement.html</loc>
   </url>
   <url>
+    <loc>https://rsample.tidymodels.org/dev/reference/dot-get_split_args.html</loc>
+  </url>
+  <url>
     <loc>https://rsample.tidymodels.org/dev/reference/form_pred.html</loc>
   </url>
   <url>
@@ -83,6 +86,9 @@
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/dev/reference/initial_validation_split.html</loc>
+  </url>
+  <url>
+    <loc>https://rsample.tidymodels.org/dev/reference/inner_split.html</loc>
   </url>
   <url>
     <loc>https://rsample.tidymodels.org/dev/reference/int_pctl.html</loc>
