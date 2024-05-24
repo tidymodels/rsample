@@ -69,7 +69,7 @@ ignored. The method for \code{group_vfold_split} will always use
 \code{split_args$times}.
 \item For \code{val_split}, \code{group_val_split}, and \code{time_val_split} objects, it will
 interpret a length-2 \code{split_args$prop} as a ratio between the training and
-validation sets and split into inner analsysi and inner assessment set in
+validation sets and split into inner analysis and inner assessment set in
 the same ratio. If \code{split_args$prop} is a single value, it will be used as
 the proportion of the inner analysis set.
 \item For \code{clustering_split} objects, it will ignore \code{split_args$repeats}.
