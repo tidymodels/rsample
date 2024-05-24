@@ -20,7 +20,7 @@
 #' `split_args$times`.
 #' * For `val_split`, `group_val_split`, and `time_val_split` objects, it will 
 #' interpret a length-2 `split_args$prop` as a ratio between the training and
-#' validation sets and split into inner analsysi and inner assessment set in 
+#' validation sets and split into inner analysis and inner assessment set in 
 #' the same ratio. If `split_args$prop` is a single value, it will be used as
 #' the proportion of the inner analysis set.
 #' * For `clustering_split` objects, it will ignore `split_args$repeats`.
