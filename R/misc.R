@@ -299,7 +299,6 @@ non_random_classes <- c(
 #' @param rset An `rset` object.
 #' @return A list of arguments used to create the rset.
 #' @keywords internal
-#' @export
 .get_split_args <- function(rset) {
   all_attributes <- attributes(rset)
   args <- names(formals(all_attributes$class[[1]]))
