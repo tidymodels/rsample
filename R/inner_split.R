@@ -7,7 +7,7 @@
 #' @details
 #' `rsplit` objects live most commonly inside of an `rset` object. The 
 #' `split_args` argument can be the output of [.get_split_args()] on that 
-#' corresponding `rset` object, even if some of the arguments used to creat the 
+#' corresponding `rset` object, even if some of the arguments used to create the 
 #' `rset` object are not needed for the inner split. 
 #' * For `mc_split` and `group_mc_split` objects, `inner_split()` will ignore 
 #' `split_args$times`.
