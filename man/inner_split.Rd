@@ -8,6 +8,9 @@
 \alias{inner_split.group_vfold_split}
 \alias{inner_split.boot_split}
 \alias{inner_split.group_boot_split}
+\alias{inner_split.val_split}
+\alias{inner_split.group_val_split}
+\alias{inner_split.time_val_split}
 \alias{inner_split.clustering_split}
 \alias{inner_split.apparent_split}
 \title{Inner split of the analysis set for fitting a post-processor}
@@ -25,6 +28,12 @@ inner_split(x, ...)
 \method{inner_split}{boot_split}(x, split_args, ...)
 
 \method{inner_split}{group_boot_split}(x, split_args, ...)
+
+\method{inner_split}{val_split}(x, split_args, ...)
+
+\method{inner_split}{group_val_split}(x, split_args, ...)
+
+\method{inner_split}{time_val_split}(x, split_args, ...)
 
 \method{inner_split}{clustering_split}(x, split_args, ...)
 
@@ -58,6 +67,11 @@ ignored. The method for \code{group_vfold_split} will always use
 \code{split_args$balance = NULL}.
 \item For \code{boot_split} and \code{group_boot_split} objects, it will ignore
 \code{split_args$times}.
+\item For \code{val_split}, \code{group_val_split}, and \code{time_val_split} objects, it will
+interpret a length-2 \code{split_args$prop} as a ratio between the training and
+validation sets and split into inner analysis and inner assessment set in
+the same ratio. If \code{split_args$prop} is a single value, it will be used as
+the proportion of the inner analysis set.
 \item For \code{clustering_split} objects, it will ignore \code{split_args$repeats}.
 }
 }

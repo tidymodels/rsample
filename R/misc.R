@@ -302,7 +302,14 @@ non_random_classes <- c(
 #' @export
 .get_split_args <- function(rset) {
   all_attributes <- attributes(rset)
-  args <- names(formals(all_attributes$class[[1]]))
+  function_used_to_create <- switch(
+    all_attributes$class[[1]],
+    "validation_set" = "initial_validation_split",
+    "group_validation_set" = "group_initial_validation_split",
+    "time_validation_set" = "initial_validation_time_split",
+    all_attributes$class[[1]]
+  )
+  args <- names(formals(function_used_to_create))
   split_args <- all_attributes[args]
   split_args <- split_args[!is.na(names(split_args))]
   if (identical(split_args$strata, FALSE)) {

@@ -112,7 +112,6 @@ test_that("group_vfold_split", {
   )
 })
 
-
 # bootstrap --------------------------------------------------------------
 
 test_that("boot_split", {
@@ -165,6 +164,101 @@ test_that("group_boot_split", {
   expect_identical(
     assessment(isplit),
     isplit$data[complement(isplit), ],
+    ignore_attr = "row.names"
+  )
+})
+
+
+# validation set ---------------------------------------------------------
+
+ test_that("initial_validation_split", {
+  set.seed(11)
+  initial_vsplit <- initial_validation_split(
+    warpbreaks, 
+    prop = c(0.6, 0.2)
+  )
+  r_set <- validation_set(initial_vsplit)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  isplit <- inner_split(r_split, split_args)
+
+  expect_identical(
+    isplit$data,
+    analysis(r_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, ],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, ],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("group_initial_validation_split", {
+  skip_if_not_installed("modeldata")
+
+  data(ames, package = "modeldata", envir = rlang::current_env())
+
+  set.seed(11)
+  initial_vsplit <- group_initial_validation_split(
+    ames,
+    group = "MS_SubClass",
+    prop = c(0.7, 0.2)
+  )
+  r_set <- validation_set(initial_vsplit)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  isplit <- inner_split(r_split, split_args)
+
+  expect_identical(
+    isplit$data,
+    analysis(r_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, ],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, ],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("initial_validation_time_split", {
+  set.seed(11)
+  initial_vsplit <- initial_validation_time_split(
+    warpbreaks, 
+    prop = c(0.6, 0.2)
+  )
+  r_set <- validation_set(initial_vsplit)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  isplit <- inner_split(r_split, split_args)
+
+  expect_identical(
+    isplit$data,
+    analysis(r_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, ],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
 })

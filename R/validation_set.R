@@ -29,17 +29,34 @@ validation_set <- function(split, ...) {
     out_id = NA
   )
 
-  # this is same class as via the alternative `validation_split()`
-  class(val_split) <- c("val_split", "rsplit")
+  split_type <- switch(
+    class(split)[1],
+    "group_initial_validation_split" = "group",
+    "initial_validation_time_split" = "time",
+    "initial_validation_split" = NULL
+  )
+
+  # "val_split" is same class as via the alternative `validation_split()`
+  if (is.null(split_type)) {
+    class(val_split) <- c("val_split", "rsplit")
+  } else {
+    class(val_split) <- c(paste0(split_type, "_val_split"), "val_split", "rsplit")
+  }
 
   val_att <- attr(split, "val_att")
   val_att[["origin_3way"]] <- TRUE
+
+  if (is.null(split_type)) {
+    rset_classes <- c("validation_set", "rset")
+  } else {
+    rset_classes <- c(paste0(split_type, "_validation_set"), "validation_set", "rset")
+  }
 
   new_rset(
     splits = list(val_split),
     ids = "validation",
     attrib = val_att,
-    subclass = c("validation_set", "rset")
+    subclass = rset_classes
   )
 }
 
