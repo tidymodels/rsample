@@ -238,10 +238,10 @@ inner_split.time_val_split <- function(x, split_args, ...) {
   } else {
     split_args$prop <- split_args$prop[[1]]
   }
-  split_inner <- initial_time_split(
-    analysis_set,
-    prop = split_args$prop
+  split_inner <- rlang::inject(
+    initial_time_split(analysis_set, !!!split_args)
   )
+  # no need to pick the first split, as `initial_time_split()` only returns one
 
   class_inner <- paste0(class(x)[1], "_inner")
   class(split_inner) <- c(class_inner, class(x))
