@@ -46,7 +46,7 @@ Inner split of the analysis set for fitting a post-processor
 \details{
 \code{rsplit} objects live most commonly inside of an \code{rset} object. The
 \code{split_args} argument can be the output of \code{\link[=.get_split_args]{.get_split_args()}} on that
-corresponding \code{rset} object, even if some of the arguments used to creat the
+corresponding \code{rset} object, even if some of the arguments used to create the
 \code{rset} object are not needed for the inner split.
 \itemize{
 \item For \code{mc_split} and \code{group_mc_split} objects, \code{inner_split()} will ignore
