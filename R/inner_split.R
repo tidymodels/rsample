@@ -46,7 +46,7 @@ inner_split.mc_split <- function(x, split_args, ...) {
   )
   split_inner <- split_inner$splits[[1]]
 
-  class_inner <- paste0(class(x)[1], "_inner")
+  class_inner <- "mc_split_inner"
   split_inner <- add_class(split_inner, class_inner)
   split_inner
 }
@@ -64,7 +64,7 @@ inner_split.group_mc_split <- function(x, split_args, ...) {
   )
   split_inner <- split_inner$splits[[1]]
 
-  class_inner <- paste0(class(x)[1], "_inner")
+  class_inner <- "group_mc_split_inner"
   split_inner <- add_class(split_inner, class_inner)
   split_inner
 }
@@ -93,7 +93,7 @@ inner_split.vfold_split <- function(x, split_args, ...) {
   )
   split_inner <- split_inner$splits[[1]]
 
-  class_inner <- paste0(class(x)[1], "_inner")
+  class_inner <- "vfold_split_inner"
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
@@ -121,7 +121,7 @@ inner_split.group_vfold_split <- function(x, split_args, ...) {
   )
   split_inner <- split_inner$splits[[1]]
 
-  class_inner <- paste0(class(x)[1], "_inner")
+  class_inner <- "group_vfold_split_inner"
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
@@ -145,7 +145,7 @@ inner_split.boot_split <- function(x, split_args, ...) {
   )
   split_inner <- split_inner$splits[[1]]
 
-  class_inner <- paste0(class(x)[1], "_inner")
+  class_inner <- "boot_split_inner"
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
@@ -166,7 +166,7 @@ inner_split.group_boot_split <- function(x, split_args, ...) {
   )
   split_inner <- split_inner$splits[[1]]
 
-  class_inner <- paste0(class(x)[1], "_inner")
+  class_inner <- "group_boot_split_inner"
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
@@ -194,7 +194,7 @@ inner_split.val_split <- function(x, split_args, ...) {
   )
   split_inner <- split_inner$splits[[1]]
 
-  class_inner <- paste0(class(x)[1], "_inner")
+  class_inner <- "val_split_inner"
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
@@ -219,7 +219,7 @@ inner_split.group_val_split <- function(x, split_args, ...) {
   )
   split_inner <- split_inner$splits[[1]]
 
-  class_inner <- paste0(class(x)[1], "_inner")
+  class_inner <- "group_val_split_inner"
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
@@ -243,7 +243,7 @@ inner_split.time_val_split <- function(x, split_args, ...) {
   )
   # no need to pick the first split, as `initial_time_split()` only returns one
 
-  class_inner <- paste0(class(x)[1], "_inner")
+  class_inner <- "time_val_split_inner"
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
@@ -265,7 +265,7 @@ inner_split.clustering_split <- function(x, split_args, ...) {
   )
   split_inner <- split_inner$splits[[1]]
 
-  class_inner <- paste0(class(x)[1], "_inner")
+  class_inner <- "clustering_split_inner"
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
@@ -283,7 +283,7 @@ inner_split.apparent_split <- function(x, ...) {
   split_inner <- apparent(analysis_set)
   split_inner <- split_inner$splits[[1]]
 
-  class_inner <- paste0(class(x)[1], "_inner")
+  class_inner <- "apparent_split_inner"
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
