@@ -4,10 +4,14 @@
 \alias{.get_split_args}
 \title{Get the split arguments from an rset}
 \usage{
-.get_split_args(rset)
+.get_split_args(x, allow_strata_false = FALSE)
 }
 \arguments{
-\item{rset}{An \code{rset} object.}
+\item{x}{An \code{rset} or \code{initial_split} object.}
+
+\item{allow_strata_false}{A logical to specify which value to use if no
+stratification was specified. The default is to use \code{strata = NULL}, the
+alternative is \code{strata = FALSE}.}
 }
 \value{
 A list of arguments used to create the rset.

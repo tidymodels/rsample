@@ -296,12 +296,15 @@ non_random_classes <- c(
 )
 
 #' Get the split arguments from an rset
-#' @param rset An `rset` object.
+#' @param x An `rset` or `initial_split` object.
+#' @param allow_strata_false A logical to specify which value to use if no 
+#' stratification was specified. The default is to use `strata = NULL`, the 
+#' alternative is `strata = FALSE`.
 #' @return A list of arguments used to create the rset.
 #' @keywords internal
 #' @export
-.get_split_args <- function(rset) {
-  all_attributes <- attributes(rset)
+.get_split_args <- function(x, allow_strata_false = FALSE) {
+  all_attributes <- attributes(x)
   function_used_to_create <- switch(
     all_attributes$class[[1]],
     "validation_set" = "initial_validation_split",
@@ -312,7 +315,8 @@ non_random_classes <- c(
   args <- names(formals(function_used_to_create))
   split_args <- all_attributes[args]
   split_args <- split_args[!is.na(names(split_args))]
-  if (identical(split_args$strata, FALSE)) {
+  
+  if (identical(split_args$strata, FALSE) && !allow_strata_false) {
     split_args$strata <- NULL
   }
   split_args

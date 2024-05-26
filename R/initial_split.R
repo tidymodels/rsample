@@ -51,8 +51,17 @@ initial_split <- function(data, prop = 3 / 4,
       pool = pool,
       times = 1
     )
+  attrib <- .get_split_args(res, allow_strata_false = TRUE)
+
   res <- res$splits[[1]]
+
+  attrib$times <- NULL
+  for (i in names(attrib)) {
+    attr(res, i) <- attrib[[i]]
+  }
+
   class(res) <- c("initial_split", class(res))
+
   res
 }
 
@@ -83,6 +92,15 @@ initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   rset <- new_rset(splits, ids)
 
   res <- rset$splits[[1]]
+
+  attrib <- list(
+    prop = prop,
+    lag = lag
+  )
+  for (i in names(attrib)) {
+    attr(res, i) <- attrib[[i]]
+  }
+
   class(res) <- c("initial_time_split", "initial_split", class(res))
   res
 }
@@ -154,7 +172,16 @@ group_initial_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, p
         pool = pool
       )
   }
+
+  attrib <- .get_split_args(res, allow_strata_false = TRUE)
+
   res <- res$splits[[1]]
+  
+  attrib$times <- NULL
+  for (i in names(attrib)) {
+    attr(res, i) <- attrib[[i]]
+  }
   class(res) <- c("group_initial_split", "initial_split", class(res))
+  
   res
 }
