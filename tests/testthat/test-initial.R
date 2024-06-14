@@ -45,7 +45,7 @@ test_that("default time param with lag", {
 
 test_that("default group param", {
   rs1 <- group_initial_split(dat1, c)
-  expect_equal(class(rs1), c("group_initial_split", "initial_split", "grouped_mc_split", "mc_split", "rsplit"))
+  expect_equal(class(rs1), c("group_initial_split", "initial_split", "group_mc_split", "mc_split", "rsplit"))
   tr1 <- training(rs1)
   ts1 <- testing(rs1)
   expect_equal(nrow(tr1), nrow(dat1) * 3 / 4)
@@ -103,7 +103,7 @@ test_that("grouping -- strata", {
 
 test_that("`prop` computes the proportion for group analysis", {
   rs1 <- group_initial_split(dat1, c, prop = 1 / 2)
-  expect_equal(class(rs1), c("group_initial_split", "initial_split", "grouped_mc_split", "mc_split", "rsplit"))
+  expect_equal(class(rs1), c("group_initial_split", "initial_split", "group_mc_split", "mc_split", "rsplit"))
   tr1 <- training(rs1)
   ts1 <- testing(rs1)
   expect_equal(nrow(tr1), nrow(dat1) * 1 / 2)

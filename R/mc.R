@@ -239,7 +239,7 @@ group_mc_splits <- function(data, group, prop = 3 / 4, times = 25, strata = NULL
       indices,
       make_splits,
       data = data,
-      class = c("grouped_mc_split", "mc_split")
+      class = c("group_mc_split", "mc_split")
     )
 
   all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))

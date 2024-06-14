@@ -86,7 +86,7 @@ vfold_cv <- function(data, v = 10, repeats = 1,
       )
     }
     for (i in 1:repeats) {
-      tmp <- vfold_splits(data = data, v = v, strata = strata, pool = pool)
+      tmp <- vfold_splits(data = data, v = v, strata = strata, breaks = breaks ,pool = pool)
       tmp$id2 <- tmp$id
       tmp$id <- names0(repeats, "Repeat")[i]
       split_objs <- if (i == 1) {
@@ -345,6 +345,12 @@ check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
 check_grouped_strata <- function(group, strata, pool, data) {
 
   strata <- tidyselect::vars_select(names(data), !!enquo(strata))
+
+  # if strata was NULL this is empty, thus return NULL
+  if (length(strata) < 1) {
+    return(NULL)
+  }
+
   grouped_table <- tibble(
     group = getElement(data, group),
     strata = getElement(data, strata)
