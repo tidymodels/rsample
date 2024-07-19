@@ -28,11 +28,19 @@
         <list>         <chr>     
       1 <split [24/8]> validation
 
-# default complement method errors
+# `complement()` error messages
 
     Code
       complement("a string")
     Condition
       Error in `complement()`:
       ! No `complement()` method for this class(es) 'character'
+
+---
+
+    Code
+      get_stored_out_id(list(out_id = NA))
+    Condition
+      Error in `get_stored_out_id()`:
+      ! Cannot derive the assessment set for this type of resampling.
 
