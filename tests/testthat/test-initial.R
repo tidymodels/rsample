@@ -27,20 +27,23 @@ test_that("default time param with lag", {
   expect_equal(nrow(ts1), ceiling(nrow(dat1) / 4) + 5)
   expect_equal(tr1, dplyr::slice(dat1, 1:floor(nrow(dat1) * 3 / 4)))
   expect_equal(ts1, dat1[(floor(nrow(dat1) * 3 / 4) + 1 - 5):nrow(dat1), ], ignore_attr = "row.names")
+})
 
+test_that("`initial_time_split()` error messages", {
   skip_if_not_installed("modeldata")
-  data(drinks, package = "modeldata")
+  data(drinks, package = "modeldata", envir = rlang::current_env())
 
-  # Whole numbers only
-  expect_snapshot(
-    initial_time_split(drinks, lag = 12.5),
-    error = TRUE
-  )
-  # Lag must be less than number of training observations
-  expect_snapshot(
-    initial_time_split(drinks, lag = 500),
-    error = TRUE
-  )
+  expect_snapshot(error = TRUE, {
+    initial_time_split(drinks, prop = 2)
+  })
+
+  expect_snapshot(error = TRUE, {
+    initial_time_split(drinks, lag = 12.5)
+  })
+
+  expect_snapshot(error = TRUE, {
+    initial_time_split(drinks, lag = nrow(drinks) + 1)
+  })
 })
 
 test_that("default group param", {

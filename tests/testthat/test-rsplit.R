@@ -52,11 +52,19 @@ test_that("print methods", {
   })
 })
 
-test_that("default complement method errors", {
-  expect_snapshot(
-    complement("a string"),
-    error = TRUE
-  )
+test_that("`complement()` error messages", {
+  fake_rsplit <- 1
+  class(fake_rsplit) <- c("not_an_rsplit")
+  expect_snapshot(error = TRUE, {
+    complement(fake_rsplit)
+  })
+  class(fake_rsplit) <- c("not_an_rsplit", "really_not_an_rsplit")
+  expect_snapshot(error = TRUE, {
+    complement(fake_rsplit)
+  })
+  expect_snapshot(error = TRUE, {
+    get_stored_out_id(list(out_id = NA))
+  })
 })
 
 test_that("as.data.frame() works for permutations with Surv object without the survival package loaded - issue #443", {

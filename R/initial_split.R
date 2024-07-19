@@ -73,17 +73,17 @@ initial_split <- function(data, prop = 3 / 4,
 initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   check_dots_empty()
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
-    rlang::abort("`prop` must be a number on (0, 1).")
+    cli_abort("{.arg prop} must be a number on (0, 1).")
   }
 
   if (!is.numeric(lag) | !(lag %% 1 == 0)) {
-    rlang::abort("`lag` must be a whole number.")
+    cli_abort("{.arg lag} must be a whole number.")
   }
 
   n_train <- floor(nrow(data) * prop)
 
   if (lag > n_train) {
-    rlang::abort("`lag` must be less than or equal to the number of training observations.")
+    cli_abort("{.arg lag} must be less than or equal to the number of training observations.")
   }
 
   split <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
