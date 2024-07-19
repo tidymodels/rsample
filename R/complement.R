@@ -85,9 +85,9 @@ complement.apparent_split <- function(x, ...) {
 
 #' @export
 complement.default <- function(x, ...) {
-  cls <- paste0("'", class(x), "'", collapse = ", ")
-  rlang::abort(
-    paste("No `complement()` method for this class(es)", cls)
+  x_cls <- class(x)
+  cli_abort(
+     "No {.fn complement} method for objects of class{?es}: {.cls {x_cls}}"
   )
 }
 

@@ -53,8 +53,14 @@ test_that("print methods", {
 })
 
 test_that("`complement()` error messages", {
+  fake_rsplit <- 1
+  class(fake_rsplit) <- c("not_an_rsplit")
   expect_snapshot(error = TRUE, {
-    complement("a string")
+    complement(fake_rsplit)
+  })
+  class(fake_rsplit) <- c("not_an_rsplit", "really_not_an_rsplit")
+  expect_snapshot(error = TRUE, {
+    complement(fake_rsplit)
   })
   expect_snapshot(error = TRUE, {
     get_stored_out_id(list(out_id = NA))

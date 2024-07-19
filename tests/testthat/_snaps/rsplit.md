@@ -31,10 +31,18 @@
 # `complement()` error messages
 
     Code
-      complement("a string")
+      complement(fake_rsplit)
     Condition
       Error in `complement()`:
-      ! No `complement()` method for this class(es) 'character'
+      ! No `complement()` method for objects of class: <not_an_rsplit>
+
+---
+
+    Code
+      complement(fake_rsplit)
+    Condition
+      Error in `complement()`:
+      ! No `complement()` method for objects of classes: <not_an_rsplit/really_not_an_rsplit>
 
 ---
 
