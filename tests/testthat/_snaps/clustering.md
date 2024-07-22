@@ -1,6 +1,6 @@
 # bad args
 
-    `vars` are required and must be variables in `data`.
+    `vars` is required and must contain at least one variable in `data`.
 
 ---
 

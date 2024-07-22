@@ -50,5 +50,5 @@
       get_stored_out_id(list(out_id = NA))
     Condition
       Error in `get_stored_out_id()`:
-      ! Cannot derive the assessment set for this type of resampling.
+      ! Cannot derive the assessment set for this type of resampling with class: <list>.
 
