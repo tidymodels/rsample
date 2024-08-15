@@ -4,6 +4,8 @@
 
 * Started moving error messages to cli (#499, #502). With contributions from @JamesHWade (#518).
 
+* Fixed example for `nested_cv()` (@seb09, #520).
+
 ## Bug fixes
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
