@@ -109,7 +109,7 @@ example[1:10, setdiff(names(example), names(attrition))]
 
 For this model, the `.fitted` value is the linear predictor in log-odds units. 
 
-To compute this data set for each of the 100 resamples, we'll use the `map` function from the  package:
+To compute this data set for each of the 100 resamples, we'll use the `map` function from the purrr package:
 
 ```{r model_purrr, warning=FALSE}
 library(purrr)
