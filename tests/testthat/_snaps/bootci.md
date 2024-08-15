@@ -4,7 +4,7 @@
       int_pctl(bt_resamples, res)
     Condition
       Warning:
-      Recommend at least 1000 non-missing bootstrap resamples for term `mean`.
+      Recommend at least 1000 non-missing bootstrap resamples for `mean` term.
       Error in `pctl_single()`:
       ! All statistics have missing values.
 
@@ -14,7 +14,7 @@
       int_t(bt_resamples, res)
     Condition
       Warning:
-      Recommend at least 500 non-missing bootstrap resamples for term `mean`.
+      Recommend at least 500 non-missing bootstrap resamples for `mean` term.
       Error in `t_single()`:
       ! All statistics have missing values.
 
@@ -24,7 +24,7 @@
       int_bca(bt_resamples, res, .fn = bad_stats)
     Condition
       Warning:
-      Recommend at least 1000 non-missing bootstrap resamples for term `mean`.
+      Recommend at least 1000 non-missing bootstrap resamples for `mean` term.
       Error in `bca_calc()`:
       ! All statistics have missing values.
 
