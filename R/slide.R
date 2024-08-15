@@ -216,7 +216,7 @@ sliding_window <- function(data,
   rlang::check_dots_empty()
 
   if (!is.data.frame(data)) {
-    rlang::abort("`data` must be a data frame.")
+    cli_abort("{.arg data} must be a {.cls data frame}.")
   }
 
   lookback <- check_lookback(lookback)
@@ -226,7 +226,7 @@ sliding_window <- function(data,
   skip <- check_skip(skip)
 
   if (assess_start > assess_stop) {
-    rlang::abort("`assess_start` must be less than or equal to `assess_stop`.")
+    cli_abort("{.arg assess_start} must be less than or equal to {.arg assess_stop}.")
   }
 
   seq <- vctrs::vec_seq_along(data)
@@ -299,7 +299,7 @@ sliding_index <- function(data,
   rlang::check_dots_empty()
 
   if (!is.data.frame(data)) {
-    rlang::abort("`data` must be a data frame.")
+    cli_abort("{.arg data} must be a {.cls data frame}.")
   }
 
   step <- check_step(step)
@@ -309,7 +309,7 @@ sliding_index <- function(data,
   loc <- tidyselect::eval_select(index, data)
 
   if (length(loc) != 1L) {
-    rlang::abort("`index` must specify exactly one column in `data`.")
+    cli_abort("{.arg index} must specify exactly one column in {.arg data}.")
   }
 
   index_attrib <- index
@@ -389,7 +389,7 @@ sliding_period <- function(data,
   rlang::check_dots_empty()
 
   if (!is.data.frame(data)) {
-    rlang::abort("`data` must be a data frame.")
+    cli_abort("{.arg data} must be a {.cls data frame}.")
   }
 
   lookback <- check_lookback(lookback)
@@ -398,14 +398,14 @@ sliding_period <- function(data,
   step <- check_step(step)
 
   if (assess_start > assess_stop) {
-    rlang::abort("`assess_start` must be less than or equal to `assess_stop`.")
+    cli_abort("{.arg assess_start} must be less than or equal to {.arg assess_stop}.")
   }
 
   index <- rlang::enexpr(index)
   loc <- tidyselect::eval_select(index, data)
 
   if (length(loc) != 1L) {
-    rlang::abort("`index` must specify exactly one column in `data`.")
+    cli_abort("{.arg index} must specify exactly one column in {.arg data}.")
   }
 
   index_attrib <- index
@@ -479,7 +479,7 @@ sliding_period <- function(data,
 
 check_lookback <- function(x) {
   if (vctrs::vec_size(x) != 1L) {
-    rlang::abort(paste0("`lookback` must have size 1."))
+    cli_abort("{.arg lookback} must have size 1.")
   }
 
   if (identical(x, Inf)) {
@@ -487,11 +487,11 @@ check_lookback <- function(x) {
   }
 
   if (!rlang::is_integerish(x, finite = TRUE)) {
-    rlang::abort(paste0("`lookback` must be an integer of size 1, or `Inf`."))
+    cli_abort("{.arg lookback} must be an integer of size 1, or {.arg Inf}.")
   }
 
   if (x < 0L) {
-    rlang::abort(paste0("`lookback` must be positive, or zero."))
+    cli_abort("{.arg lookback} must be positive, or zero.")
   }
 
   vctrs::vec_cast(x, integer(), x_arg = "lookback")
@@ -499,7 +499,7 @@ check_lookback <- function(x) {
 
 check_assess <- function(x, arg) {
   if (vctrs::vec_size(x) != 1L) {
-    rlang::abort(paste0("`", arg, "` must have size 1."))
+    cli_abort("{.arg arg} must have size 1.You have provided {.arg {arg}}")
   }
 
   if (identical(x, Inf)) {
@@ -507,11 +507,11 @@ check_assess <- function(x, arg) {
   }
 
   if (!rlang::is_integerish(x, finite = TRUE)) {
-    rlang::abort(paste0("`", arg, "` must be an integer of size 1, or `Inf`."))
+    cli_abort("{.arg arg} must be an integer of size 1, or `Inf`. You have provided {.arg {arg}}")
   }
 
   if (x <= 0L) {
-    rlang::abort(paste0("`", arg, "` must be positive."))
+    cli_abort("{.arg arg} must be positive.")
   }
 
   vctrs::vec_cast(x, integer(), x_arg = arg)
@@ -519,15 +519,15 @@ check_assess <- function(x, arg) {
 
 check_step <- function(x) {
   if (vctrs::vec_size(x) != 1L) {
-    rlang::abort(paste0("`step` must have size 1."))
+    cli_abort("{.arg step} must have size 1.")
   }
 
   if (!rlang::is_integerish(x, finite = TRUE)) {
-    rlang::abort(paste0("`step` must be an integer of size 1."))
+    cli_abort("{.arg step} must be an integer of size 1.")
   }
 
   if (x <= 0L) {
-    rlang::abort(paste0("`step` must be positive."))
+    cli_abort("{.arg step} must be positive.")
   }
 
   vctrs::vec_cast(x, integer(), x_arg = "step")
@@ -535,15 +535,15 @@ check_step <- function(x) {
 
 check_skip <- function(x) {
   if (vctrs::vec_size(x) != 1L) {
-    rlang::abort(paste0("`skip` must have size 1."))
+    cli_abort("{.arg skip} must have size 1.")
   }
 
   if (!rlang::is_integerish(x, finite = TRUE)) {
-    rlang::abort(paste0("`skip` must be an integer of size 1."))
+    cli_abort("{.arg skip}` must be an integer of size 1.")
   }
 
   if (x < 0L) {
-    rlang::abort(paste0("`skip` must be positive, or zero."))
+    cli_abort("{.arg skip} must be positive, or zero.")
   }
 
   vctrs::vec_cast(x, integer(), x_arg = "skip")
@@ -577,19 +577,19 @@ slice_step <- function(indices, step) {
 
 seq2_by <- function(from, to, by) {
   if (length(from) != 1) {
-    rlang::abort("`from` must be length one")
+    cli_abort("{.arg from} must be length one")
   }
   if (length(to) != 1) {
-    rlang::abort("`to` must be length one")
+    cli_abort("{.arg to} must be length one")
   }
 
   by <- as.integer(by)
 
   if (length(by) != 1) {
-    rlang::abort("`by` must be length one")
+    cli_abort("{.arg by} must be length one")
   }
   if (by <= 0L) {
-    rlang::abort("`by` must be positive")
+    cli_abort("{.arg by} must be positive")
   }
 
   if (from > to) {
