@@ -223,11 +223,3 @@ sliding_period(Chicago, date, "year") %>%
   head(2)
 ```
 
-All of these functions produce analysis sets of the same size, with the start and end of the analysis set "sliding" down your data frame. If you'd rather have your analysis set get progressively larger, so that you're predicting new data based upon a growing set of older observations, you can use the `rolling_origin()` function:
-
-```{r}
-rolling_origin(Chicago) %>%
-  head(2)
-```
-
-Note that all of these time-based resampling functions are deterministic: unlike the rest of the package, running these functions repeatedly under different random seeds will always return the same results. 

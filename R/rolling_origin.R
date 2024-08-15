@@ -59,6 +59,12 @@
 #' @export
 rolling_origin <- function(data, initial = 5, assess = 1,
                            cumulative = TRUE, skip = 0, lag = 0, ...) {
+
+  lifecycle::signal_stage(
+    stage = "superseded", what = "rolling_origin()",
+    with = I("sliding_window(), sliding_index() and sliding_period()")
+  )
+
   check_dots_empty()
 
   n <- nrow(data)
