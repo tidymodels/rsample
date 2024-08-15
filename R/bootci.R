@@ -6,12 +6,12 @@
 
 check_rset <- function(x, app = TRUE) {
   if (!inherits(x, "bootstraps")) {
-    rlang::abort("`.data` should be an `rset` object generated from `bootstraps()`")
+    cli::cli_abort("`.data` should be an `rset` object generated from `bootstraps()`")
   }
 
   if (app) {
     if (x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1) {
-      rlang::abort("Please set `apparent = TRUE` in `bootstraps()` function")
+      cli::cli_abort("Please set `apparent = TRUE` in `bootstraps()` function")
     }
   }
   invisible(NULL)
@@ -28,15 +28,15 @@ std_exp <- c("std.error", "robust.se")
 check_tidy_names <- function(x, std_col) {
   # check for proper columns
   if (sum(colnames(x) == "estimate") != 1) {
-    rlang::abort(stat_nm_err)
+    cli::cli_abort(stat_nm_err)
   }
   if (sum(colnames(x) == "term") != 1) {
-    rlang::abort(stat_nm_err)
+    cli::cli_abort(stat_nm_err)
   }
   if (std_col) {
     std_candidates <- colnames(x) %in% std_exp
     if (sum(std_candidates) != 1) {
-      rlang::abort(
+      cli::cli_abort(
         "`statistics` should select a single column for the standard error."
       )
     }
@@ -59,7 +59,7 @@ check_tidy <- function(x, std_col = FALSE) {
   }
 
   if (inherits(x, "try-error")) {
-    rlang::abort(stat_fmt_err)
+    cli::cli_abort(stat_fmt_err)
   }
 
   check_tidy_names(x, std_col)
@@ -117,7 +117,7 @@ new_stats <- function(x, lo, hi) {
 has_dots <- function(x) {
   nms <- names(formals(x))
   if (!any(nms == "...")) {
-    rlang::abort("`.fn` must have an argument `...`.")
+    cli::cli_abort("`.fn` must have an argument `...`.")
   }
   invisible(NULL)
 }
@@ -131,14 +131,8 @@ check_num_resamples <- function(x, B = 1000) {
 
   if (nrow(x) > 0) {
     terms <- paste0("`", x$term, "`")
-    msg <-
-      paste0(
-        "Recommend at least ", B, " non-missing bootstrap resamples for ",
-        ifelse(length(terms) > 1, "terms: ", "term "),
-        paste0(terms, collapse = ", "),
-        "."
-      )
-    rlang::warn(msg)
+    cli::cli_warn(paste0("Recommend at least {B} non-missing bootstrap",
+                         "resamples for {cli::qty(terms)} term{?s} {terms}."))
   }
   invisible(NULL)
 }
@@ -149,11 +143,11 @@ check_num_resamples <- function(x, B = 1000) {
 
 pctl_single <- function(stats, alpha = 0.05) {
   if (all(is.na(stats))) {
-    rlang::abort("All statistics have missing values..")
+    cli::cli_abort("All statistics have missing values.")
   }
 
   if (!is.numeric(stats)) {
-    rlang::abort("`stats` must be a numeric vector.")
+    cli::cli_abort("`stats` must be a numeric vector.")
   }
 
   # stats is a numeric vector of values
@@ -289,19 +283,19 @@ t_single <- function(stats, std_err, is_orig, alpha = 0.05) {
   # which_orig is the index of stats and std_err that has the original result
 
   if (all(is.na(stats))) {
-    rlang::abort("All statistics have missing values.")
+    cli::cli_abort("All statistics have missing values.")
   }
 
   if (!is.logical(is_orig) || any(is.na(is_orig))) {
-    rlang::abort(
+    cli::cli_abort(
       "`is_orig` should be a logical column the same length as `stats` with no missing values."
     )
   }
   if (length(stats) != length(std_err) && length(stats) != length(is_orig)) {
-    rlang::abort("`stats`, `std_err`, and `is_orig` should have the same length.")
+    cli::cli_abort("`stats`, `std_err`, and `is_orig` should have the same length.")
   }
   if (sum(is_orig) != 1) {
-    rlang::abort("The original statistic must be in a single row.")
+    cli::cli_abort("The original statistic must be in a single row.")
   }
 
   theta_obs <- stats[is_orig]
@@ -339,12 +333,12 @@ int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   check_dots_empty()
   check_rset(.data)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
-    abort("`alpha` must be a single numeric value.")
+    cli::cli_abort("`alpha` must be a single numeric value.")
   }
 
   column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
   if (length(column_name) != 1) {
-    rlang::abort(stat_fmt_err)
+    cli::cli_abort(stat_fmt_err)
   }
   stats <- .data %>% dplyr::select(!!column_name, id)
   stats <- check_tidy(stats, std_col = TRUE)
@@ -366,7 +360,7 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
 
   # TODO check per term
   if (all(is.na(stats$estimate))) {
-    rlang::abort("All statistics have missing values.")
+    cli::cli_abort("All statistics have missing values.")
   }
 
   ### Estimating Z0 bias-correction
@@ -440,14 +434,14 @@ int_bca <- function(.data, ...) {
 int_bca.bootstraps <- function(.data, statistics, alpha = 0.05, .fn, ...) {
   check_rset(.data)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
-    abort("`alpha` must be a single numeric value.")
+    cli::cli_abort("`alpha` must be a single numeric value.")
   }
 
   has_dots(.fn)
 
   column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
   if (length(column_name) != 1) {
-    rlang::abort(stat_fmt_err)
+    cli::cli_abort(stat_fmt_err)
   }
   stats <- .data %>% dplyr::select(!!column_name, id)
   stats <- check_tidy(stats)
