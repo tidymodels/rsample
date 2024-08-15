@@ -6,12 +6,12 @@
 
 check_rset <- function(x, app = TRUE) {
   if (!inherits(x, "bootstraps")) {
-    cli::cli_abort("`.data` should be an `rset` object generated from `bootstraps()`")
+    cli::cli_abort("{.arg .data} should be an `rset` object generated from {.fn bootstraps}")
   }
 
   if (app) {
     if (x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1) {
-      cli::cli_abort("Please set `apparent = TRUE` in `bootstraps()` function")
+      cli::cli_abort("Please set `apparent = TRUE` in {.fn bootstraps} function")
     }
   }
   invisible(NULL)
@@ -36,9 +36,7 @@ check_tidy_names <- function(x, std_col) {
   if (std_col) {
     std_candidates <- colnames(x) %in% std_exp
     if (sum(std_candidates) != 1) {
-      cli::cli_abort(
-        "`statistics` should select a single column for the standard error."
-      )
+      cli::cli_abort("{.arg statistics} should select a single column for the standard error.")
     }
   }
   invisible(TRUE)
@@ -117,7 +115,7 @@ new_stats <- function(x, lo, hi) {
 has_dots <- function(x) {
   nms <- names(formals(x))
   if (!any(nms == "...")) {
-    cli::cli_abort("`.fn` must have an argument `...`.")
+    cli::cli_abort("{.arg .fn} must have an argument {.arg ...}.")
   }
   invisible(NULL)
 }
@@ -147,7 +145,7 @@ pctl_single <- function(stats, alpha = 0.05) {
   }
 
   if (!is.numeric(stats)) {
-    cli::cli_abort("`stats` must be a numeric vector.")
+    cli::cli_abort("{.arg stats} must be a numeric vector.")
   }
 
   # stats is a numeric vector of values
@@ -252,7 +250,7 @@ int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   check_dots_empty()
   check_rset(.data, app = FALSE)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
-    abort("`alpha` must be a single numeric value.")
+    cli::cli_abort("{.arg alpha} must be a single numeric value.")
   }
 
   .data <- .data %>% dplyr::filter(id != "Apparent")
@@ -288,11 +286,12 @@ t_single <- function(stats, std_err, is_orig, alpha = 0.05) {
 
   if (!is.logical(is_orig) || any(is.na(is_orig))) {
     cli::cli_abort(
-      "`is_orig` should be a logical column the same length as `stats` with no missing values."
+      "{.arg is_orig} should be a logical column the same length as {.arg stats} with no missing values."
     )
   }
   if (length(stats) != length(std_err) && length(stats) != length(is_orig)) {
-    cli::cli_abort("`stats`, `std_err`, and `is_orig` should have the same length.")
+    function_args <- c('stats', 'std_err', 'is_orig')
+    cli::cli_abort("{.arg {function_args}} should have the same length.")
   }
   if (sum(is_orig) != 1) {
     cli::cli_abort("The original statistic must be in a single row.")
@@ -333,7 +332,7 @@ int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   check_dots_empty()
   check_rset(.data)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
-    cli::cli_abort("`alpha` must be a single numeric value.")
+    cli::cli_abort("{.arg alpha} must be a single numeric value.")
   }
 
   column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
@@ -375,7 +374,7 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
   if (inherits(loo_test, "try-error")) {
     cat("Running `.fn` on the LOO resamples produced an error:\n")
     print(loo_test)
-    rlang::abort("`.fn` failed.")
+    cli::cli_abort("{.arg .fn} failed.")
   }
 
   loo_res <- furrr::future_map(loo_rs$splits, .fn, ...) %>% list_rbind()
@@ -434,7 +433,7 @@ int_bca <- function(.data, ...) {
 int_bca.bootstraps <- function(.data, statistics, alpha = 0.05, .fn, ...) {
   check_rset(.data)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
-    cli::cli_abort("`alpha` must be a single numeric value.")
+    cli::cli_abort("{.arg alpha} must be a single numeric value.")
   }
 
   has_dots(.fn)
