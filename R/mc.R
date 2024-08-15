@@ -104,7 +104,7 @@ mc_complement <- function(ind, n) {
 mc_splits <- function(data, prop = 3 / 4, times = 25,
                       strata = NULL, breaks = 4, pool = 0.1) {
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
-    rlang::abort("`prop` must be a number on (0, 1).")
+    cli_abort("`prop` must be a number on (0, 1).")
   }
 
   n <- nrow(data)
@@ -244,7 +244,7 @@ group_mc_splits <- function(data, group, prop = 3 / 4, times = 25, strata = NULL
 
   all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
   if (any(all_assessable == 0)) {
-    rlang::abort(
+    cli_abort(
       c(
         "Some assessment sets contained zero rows",
         i = "Consider using a non-grouped resampling method"
