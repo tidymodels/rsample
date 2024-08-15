@@ -6,6 +6,8 @@
 
 * Fixed example for `nested_cv()` (@seb09, #520).
 
+* Removed trailing space in printing of `mc_cv()` objects (@ccani007, #464).
+
 ## Bug fixes
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
