@@ -143,7 +143,7 @@ check_num_resamples <- function(x, B = 1000) {
 
 pctl_single <- function(stats, alpha = 0.05) {
   if (all(is.na(stats))) {
-    cli::cli_abort("All statistics have missing values.")
+    cli::cli_abort("All statistics have missing values..")
   }
 
   if (!is.numeric(stats)) {
