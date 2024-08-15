@@ -55,10 +55,10 @@ pretty.mc_cv <- function(x, ...) {
     signif(1 - details$prop, 2),
     ") with ",
     details$times,
-    " resamples "
+    " resamples"
   )
   if (has_strata(details)) {
-    res <- paste(res, "using stratification")
+    res <- paste(res, " using stratification")
   }
   res
 }

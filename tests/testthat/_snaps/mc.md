@@ -3,7 +3,7 @@
     Code
       mc_cv(warpbreaks)
     Output
-      # Monte Carlo cross-validation (0.75/0.25) with 25 resamples  
+      # Monte Carlo cross-validation (0.75/0.25) with 25 resamples 
       # A tibble: 25 x 2
          splits          id        
          <list>          <chr>     
