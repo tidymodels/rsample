@@ -12,7 +12,7 @@
 #' @export
 rsample2caret <- function(object, data = c("analysis", "assessment")) {
   if (!inherits(object, "rset")) {
-    rlang::abort("`object` must be an `rset`")
+    cli::cli_abort("`object` must be an `rset`")
   }
   data <- rlang::arg_match(data)
   in_ind <- purrr::map(object$splits, as.integer, data = "analysis")
@@ -32,19 +32,19 @@ rsample2caret <- function(object, data = c("analysis", "assessment")) {
 #' @export
 caret2rsample <- function(ctrl, data = NULL) {
   if (is.null(data)) {
-    rlang::abort("Must supply original data")
+    cli::cli_abort("Must supply original data")
   }
   if (!any(names(ctrl) == "index")) {
-    rlang::abort("`ctrl` should have an element `index`")
+    cli::cli_abort("`ctrl` should have an element `index`")
   }
   if (!any(names(ctrl) == "indexOut")) {
-    rlang::abort("`ctrl` should have an element `indexOut`")
+    cli::cli_abort("`ctrl` should have an element `indexOut`")
   }
   if (is.null(ctrl$index)) {
-    rlang::abort("`ctrl$index` should be populated with integers")
+    cli::cli_abort("`ctrl$index` should be populated with integers")
   }
   if (is.null(ctrl$indexOut)) {
-    rlang::abort("`ctrl$indexOut` should be populated with integers")
+    cli::cli_abort("`ctrl$indexOut` should be populated with integers")
   }
 
   indices <- purrr::map2(ctrl$index, ctrl$indexOut, extract_int)
@@ -139,10 +139,7 @@ map_rset_method <- function(method) {
     "error"
   )
   if (out == "error") {
-    rlang::abort("Resampling method `",
-                 method,
-                 "` cannot be converted into an `rset` object"
-    )
+    cli::cli_abort("Resampling method `{method}` cannot be converted into an `rset` object")
   }
   out
 }
@@ -179,7 +176,8 @@ map_attr <- function(object) {
       skip = object$skip
     )
   } else {
-    rlang::abort("Method", object$method, "cannot be converted")
+    cli::cli_abort("Method", object$method, "cannot be converted")
+    cli::cli_abort("Method `{object$method}` cannot be converted")
   }
   out
 }
