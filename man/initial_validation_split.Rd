@@ -81,12 +81,13 @@ data set, with the first observations being put into the training set.
 \code{group_initial_validation_split()} creates similar random splits of the data
 based on some grouping variable, so that all data in a "group" are assigned
 to the same partition.
+}
+\details{
 \code{training()}, \code{validation()}, and \code{testing()} can be used to extract the
 resulting data sets.
 Use \code{\link[=validation_set]{validation_set()}} to create an \code{rset} object for use with functions from
 the tune package such as \code{tune::tune_grid()}.
-}
-\details{
+
 With a \code{strata} argument, the random sampling is conducted
 \emph{within the stratification variable}. This can help ensure that the
 resamples have equivalent proportions as the original data set. For

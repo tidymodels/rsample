@@ -6,7 +6,9 @@
 #'  `group_initial_split` creates splits of the data based
 #'  on some grouping variable, so that all data in a "group" is assigned to
 #'  the same split.
-#'  `training` and `testing` are used to extract the resulting data.
+#'
+#' @details `training` and `testing` are used to extract the resulting data.
+#'
 #' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
@@ -176,12 +178,12 @@ group_initial_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, p
   attrib <- .get_split_args(res, allow_strata_false = TRUE)
 
   res <- res$splits[[1]]
-  
+
   attrib$times <- NULL
   for (i in names(attrib)) {
     attr(res, i) <- attrib[[i]]
   }
   class(res) <- c("group_initial_split", "initial_split", class(res))
-  
+
   res
 }

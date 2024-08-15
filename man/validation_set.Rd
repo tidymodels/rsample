@@ -35,7 +35,7 @@ An tibble with classes \code{validation_set}, \code{rset}, \code{tbl_df}, \code{
 column called \code{id} that has a character string with the resample identifier.
 }
 \description{
-Create a Validation Split for Tuning
+\code{validation_set} creates a the validation split for model tuning.
 }
 \examples{
 set.seed(1353)

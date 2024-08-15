@@ -1,5 +1,7 @@
 #' Create a Validation Split for Tuning
 #'
+#' `validation_set` creates a the validation split for model tuning.
+#'
 #' @param split An object of class `initial_validation_split`, such as resulting
 #' from [initial_validation_split()] or [group_initial_validation_split()].
 #' @param x An `rsplit` object produced by `validation_set()`.
