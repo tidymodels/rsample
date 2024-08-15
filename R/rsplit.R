@@ -1,6 +1,6 @@
 rsplit <- function(data, in_id, out_id) {
   if (!is.data.frame(data) & !is.matrix(data)) {
-    cli_abort("{.arg `data`} must be a data frame.")
+    cli_abort("{.arg data} must be a data frame.")
   }
 
   if (!is.integer(in_id) | any(in_id < 1)) {
