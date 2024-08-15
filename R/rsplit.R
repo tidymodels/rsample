@@ -1,20 +1,20 @@
 rsplit <- function(data, in_id, out_id) {
   if (!is.data.frame(data) & !is.matrix(data)) {
-    rlang::abort("`data` must be a data frame.")
+    cli_abort("{.arg data} must be a data frame.")
   }
 
   if (!is.integer(in_id) | any(in_id < 1)) {
-    rlang::abort("`in_id` must be a positive integer vector.")
+    cli_abort("{.arg in_id} must be a positive integer vector.")
   }
 
   if (!all(is.na(out_id))) {
     if (!is.integer(out_id) | any(out_id < 1)) {
-      rlang::abort("`out_id` must be a positive integer vector.")
+      cli_abort("{.arg out_id} must be a positive integer vector.")
     }
   }
 
   if (length(in_id) == 0) {
-    rlang::abort("At least one row should be selected for the analysis set.")
+    cli_abort("At least one row should be selected for the analysis set.")
   }
 
   structure(
@@ -88,26 +88,25 @@ as.data.frame.rsplit <-
            data = "analysis",
            ...) {
     if (!is.null(row.names)) {
-      rlang::warn(paste0(
-        "`row.names` is kept for consistency with the underlying class but ",
-        "non-NULL values will be ignored."
-      ))
+      cli::cli_warn(
+        "{.arg row.names} is kept for consistency with the underlying class but 
+        non-NULL values will be ignored."
+      )
     }
     if (optional) {
-      rlang::warn(paste0(
-        "`optional` is kept for consistency with the underlying class but ",
-        "TRUE values will be ignored."
-      ))
+      cli::cli_warn(
+        "{.arg optional} is kept for consistency with the underlying class but
+        TRUE values will be ignored."
+      )
 
     }
     if (!is.null(x$col_id)) {
       if (identical(data, "assessment")) {
         rsplit_class <- class(x)[[1]]
-        msg <- paste0(
-          "There is no assessment data set for an `rsplit` object",
-          " with class `", rsplit_class, "`."
+        cli_abort(
+          "There is no assessment data set for an {.arg rsplit} object
+          with class {.cls {rsplit_class}}."
         )
-        rlang::abort(msg)
       }
       ind <- as.integer(x, data = data, ...)
       permuted_col <- vctrs::vec_slice(x$data, ind) %>%
