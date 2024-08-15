@@ -34,18 +34,18 @@
 #'   inside = vfold_cv(v = 3)
 #' )
 #'
-#' first_outer_split <- bad_idea$splits[[1]]
-#' outer_analysis <- as.data.frame(first_outer_split)
-#' sum(grepl("Volvo 142E", rownames(outer_analysis)))
+#' first_outer_split <- get_rsplit(bad_idea, 1)
+#' outer_analysis <- analysis(first_outer_split)
+#' sum(grepl("Camaro Z28", rownames(outer_analysis)))
 #'
 #' ## For the 3-fold CV used inside of each bootstrap, how are the replicated
-#' ## `Volvo 142E` data partitioned?
-#' first_inner_split <- bad_idea$inner_resamples[[1]]$splits[[1]]
-#' inner_analysis <- as.data.frame(first_inner_split)
-#' inner_assess <- as.data.frame(first_inner_split, data = "assessment")
+#' ## `Camaro Z28` data partitioned?
+#' first_inner_split <- get_rsplit(bad_idea$inner_resamples[[1]], 1)
+#' inner_analysis <- analysis(first_inner_split)
+#' inner_assess <- assessment(first_inner_split)
 #'
-#' sum(grepl("Volvo 142E", rownames(inner_analysis)))
-#' sum(grepl("Volvo 142E", rownames(inner_assess)))
+#' sum(grepl("Camaro Z28", rownames(inner_analysis)))
+#' sum(grepl("Camaro Z28", rownames(inner_assess)))
 #' @export
 nested_cv <- function(data, outside, inside) {
   cl <- match.call()
