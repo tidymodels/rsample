@@ -105,7 +105,7 @@ as.data.frame.rsplit <-
         rsplit_class <- class(x)[[1]]
         cli_abort(
           "There is no assessment data set for an {.arg rsplit} object
-          with class {rsplit_class}."
+          with class {.cls {rsplit_class}}."
         )
       }
       ind <- as.integer(x, data = data, ...)
