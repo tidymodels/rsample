@@ -119,14 +119,14 @@ pooled together; see <code><a href="make_strata.html">make_strata()</a></code> f
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">mc_cv</span><span class="op">(</span><span class="va">mtcars</span>, times <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Monte Carlo cross-validation (0.75/0.25) with 2 resamples  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Monte Carlo cross-validation (0.75/0.25) with 2 resamples </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   splits         id       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [24/8]&gt;</span> Resample1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [24/8]&gt;</span> Resample2</span>
 <span class="r-in"><span><span class="fu">mc_cv</span><span class="op">(</span><span class="va">mtcars</span>, prop <span class="op">=</span> <span class="fl">.5</span>, times <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # Monte Carlo cross-validation (0.5/0.5) with 2 resamples  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # Monte Carlo cross-validation (0.5/0.5) with 2 resamples </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   splits          id       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
