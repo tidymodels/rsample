@@ -17,7 +17,7 @@
 #' @param times The number of bootstrap samples.
 #' @param apparent A logical. Should an extra resample be added where the
 #'  analysis and holdout subset are the entire data set. This is required for
-#'  some estimators used by the `summary` function that require the apparent
+#'  some estimators used by the `summary()` function that require the apparent
 #'  error rate.
 #' @export
 #' @return A tibble with classes `bootstraps`, `rset`, `tbl_df`, `tbl`, and

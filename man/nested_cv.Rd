@@ -25,7 +25,7 @@ and a column of nested tibbles called \code{inner_resamples} with the
 additional resamples.
 }
 \description{
-\code{nested_cv} can be used to take the results of one resampling procedure
+\code{nested_cv()} can be used to take the results of one resampling procedure
 and conduct further resamples within each split. Any type of resampling
 used in \code{rsample} can be used.
 }

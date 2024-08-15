@@ -26,14 +26,14 @@ sample for the same row in the original data.}
 }
 \value{
 A tibble with columns \code{Row} and \code{Data}. The latter has possible
-values "Analysis" or "Assessment". For \code{rset} inputs, identification columns
-are also returned but their names and values depend on the type of
-resampling. \code{vfold_cv} contains a column "Fold" and, if repeats are used,
-another called "Repeats". \code{bootstraps} and \code{mc_cv} use the column
+values "Analysis" or "Assessment". For \code{rset} inputs, identification
+columns are also returned but their names and values depend on the type of
+resampling. For \code{vfold_cv()}, contains a column "Fold" and, if repeats are
+used, another called "Repeats". \code{bootstraps()} and \code{mc_cv()} use the column
 "Resample".
 }
 \description{
-The \code{tidy} function from the \pkg{broom} package can be used on \code{rset} and
+The \code{tidy()} function from the \pkg{broom} package can be used on \code{rset} and
 \code{rsplit} objects to generate tibbles with which rows are in the analysis and
 assessment sets.
 }

@@ -109,7 +109,7 @@ example[1:10, setdiff(names(example), names(attrition))]
 
 For this model, the `.fitted` value is the linear predictor in log-odds units. 
 
-To compute this data set for each of the 100 resamples, we'll use the `map` function from the `purrr` package:
+To compute this data set for each of the 100 resamples, we'll use the `map()` function from the `purrr` package:
 
 ```{r model_purrr, warning=FALSE}
 library(purrr)
@@ -182,7 +182,7 @@ The calculated 95% confidence interval contains zero, so we don't have evidence 
 
 ## Bootstrap Estimates of Model Coefficients
 
-Unless there is already a column in the resample object that contains the fitted model, a function can be used to fit the model and save all of the model coefficients. The [`broom` package](https://cran.r-project.org/package=broom) package has a `tidy` function that will save the coefficients in a data frame. Instead of returning a data frame with a row for each model term, we will save a data frame with a single row and columns for each model term. As before, `purrr::map` can be used to estimate and save these values for each split. 
+Unless there is already a column in the resample object that contains the fitted model, a function can be used to fit the model and save all of the model coefficients. The [`broom` package](https://cran.r-project.org/package=broom) package has a `tidy()` function that will save the coefficients in a data frame. Instead of returning a data frame with a row for each model term, we will save a data frame with a single row and columns for each model term. As before, `purrr::map()` can be used to estimate and save these values for each split. 
 
 
 ```{r coefs}

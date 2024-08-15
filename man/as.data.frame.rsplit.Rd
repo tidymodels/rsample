@@ -38,8 +38,8 @@ assessment(x, ...)
 \description{
 The analysis or assessment code can be returned as a data
 frame (as dictated by the \code{data} argument) using
-\code{as.data.frame.rsplit}. \code{analysis} and
-\code{assessment} are shortcuts.
+\code{as.data.frame.rsplit()}. \code{analysis()} and
+\code{assessment()} are shortcuts.
 }
 \examples{
 library(dplyr)

@@ -66,8 +66,8 @@ as.integer.rsplit <-
 #'
 #' The analysis or assessment code can be returned as a data
 #'   frame (as dictated by the `data` argument) using
-#'   `as.data.frame.rsplit`. `analysis` and
-#'   `assessment` are shortcuts.
+#'   `as.data.frame.rsplit()`. `analysis()` and
+#'   `assessment()` are shortcuts.
 #' @param x An `rsplit` object.
 #' @param row.names `NULL` or a character vector giving the row names for the data frame. Missing values are not allowed.
 #' @param optional A logical: should the column names of the data be checked for legality?

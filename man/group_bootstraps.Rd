@@ -25,7 +25,7 @@ assessment set within a fold.}
 
 \item{apparent}{A logical. Should an extra resample be added where the
 analysis and holdout subset are the entire data set. This is required for
-some estimators used by the \code{summary} function that require the apparent
+some estimators used by the \code{summary()} function that require the apparent
 error rate.}
 
 \item{...}{These dots are for future extensions and must be empty.}

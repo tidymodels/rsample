@@ -4,10 +4,10 @@
 #'  \pkg{rsample} and \pkg{caret}.
 #'
 #' @param object An `rset` object. Currently,
-#'  `nested_cv` is not supported.
-#' @return `rsample2caret` returns a list that mimics the
+#'  `nested_cv()` is not supported.
+#' @return `rsample2caret()` returns a list that mimics the
 #'  `index` and `indexOut` elements of a
-#'  `trainControl` object. `caret2rsample` returns an
+#'  `trainControl` object. `caret2rsample()` returns an
 #'  `rset` object of the appropriate class.
 #' @export
 rsample2caret <- function(object, data = c("analysis", "assessment")) {
@@ -23,7 +23,7 @@ rsample2caret <- function(object, data = c("analysis", "assessment")) {
 }
 
 #' @rdname rsample2caret
-#' @param ctrl An object produced by `trainControl` that has
+#' @param ctrl An object produced by `caret::trainControl()` that has
 #'  had the `index` and `indexOut` elements populated by
 #'  integers. One method of getting this is to extract the
 #'  `control` objects from an object produced by `train`.
