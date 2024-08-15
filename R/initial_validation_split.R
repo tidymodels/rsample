@@ -120,26 +120,26 @@ initial_validation_split <- function(data,
 
 check_prop_3 <- function(prop, call = rlang::caller_env()) {
   if (!is.numeric(prop)) {
-    cli_abort("`prop` needs to be numeric.", call = call)
+    cli_abort("{.arg prop} needs to be numeric.", call = call)
   }
   if (any(is.na(prop))) {
-    cli_abort("`prop` cannot contain `NA`.", call = call)
+    cli_abort("{.arg prop} cannot contain `NA`.", call = call)
   }
   if (any(is.null(prop))) {
-    cli_abort("`prop` cannot contain `NULL`.", call = call)
+    cli_abort("{.arg prop} cannot contain `NULL`.", call = call)
   }
   if (length(prop) != 2L) {
     cli_abort(
-      "`prop` needs to contain the proportions for training and validation.",
+      "{.arg prop} needs to contain the proportions for training and validation.",
       call = call
     )
   }
   if (any(!(prop > 0)) | any(!(prop < 1))) {
-    cli_abort("Elements of `prop` need to be in (0, 1).", call = call)
+    cli_abort("Elements of {.arg prop} need to be in (0, 1).", call = call)
   }
   if (!(sum(prop) > 0 ) | !(sum(prop) < 1) ) {
     cli_abort(
-      "The sum of the proportions in `prop` needs to be in (0, 1).",
+      "The sum of the proportions in {.arg prop} needs to be in (0, 1).",
       call = call
     )
   }

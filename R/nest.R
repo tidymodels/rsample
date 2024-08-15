@@ -81,7 +81,7 @@ nested_cv <- function(data, outside, inside) {
   inner_cl <- cl[["inside"]]
   if (!is_call(inner_cl)) {
     cli_abort(
-      "{.arg {inside}} should be a expression such as {.fun vfold} or //
+      "{.arg inside} should be a expression such as {.code vfold()} or
       {.code bootstraps(times = 10)} instead of an existing object."
     )
   }
