@@ -12,7 +12,9 @@
 #' @template strata_details
 #' @inheritParams make_strata
 #' @param data A data frame.
-#' @param v The number of partitions of the data set.
+#' @param v The number of partitions of the data set. Should be an integer
+#' smaller than `nrow(data)`. If you want to create a split for a leave-one-out
+#' cross-validation (`v = nrow(data)`), please use [loo_cv()] instead.
 #' @param repeats The number of times to repeat the V-fold partitioning.
 #' @param strata A variable in `data` (single character or name) used to conduct
 #'  stratified sampling. When not `NULL`, each resample is created within the
@@ -74,17 +76,20 @@ vfold_cv <- function(data, v = 10, repeats = 1,
   strata_check(strata, data)
   check_repeats(repeats)
 
+  if (isTRUE(v == nrow(data))) {
+    rlang::abort(c(
+      "Leave-one-out cross-validation is not supported by `vfold_cv()`.",
+      x = "You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.",
+      i = "Use `loo_cv()` in this case."
+    ))
+  }
+
   if (repeats == 1) {
     split_objs <- vfold_splits(
       data = data, v = v,
       strata = strata, breaks = breaks, pool = pool
     )
   } else {
-    if (v == nrow(data)) {
-      rlang::abort(
-        glue::glue("Repeated resampling when `v` is {v} would create identical resamples")
-      )
-    }
     for (i in 1:repeats) {
       tmp <- vfold_splits(data = data, v = v, strata = strata, breaks = breaks ,pool = pool)
       tmp$id2 <- tmp$id
