@@ -120,25 +120,25 @@ initial_validation_split <- function(data,
 
 check_prop_3 <- function(prop, call = rlang::caller_env()) {
   if (!is.numeric(prop)) {
-    cli::cli_abort("`prop` needs to be numeric.", call = call)
+    cli_abort("`prop` needs to be numeric.", call = call)
   }
   if (any(is.na(prop))) {
-    cli::cli_abort("`prop` cannot contain `NA`.", call = call)
+    cli_abort("`prop` cannot contain `NA`.", call = call)
   }
   if (any(is.null(prop))) {
-    cli::cli_abort("`prop` cannot contain `NULL`.", call = call)
+    cli_abort("`prop` cannot contain `NULL`.", call = call)
   }
   if (length(prop) != 2L) {
-    cli::cli_abort(
+    cli_abort(
       "`prop` needs to contain the proportions for training and validation.",
       call = call
     )
   }
   if (any(!(prop > 0)) | any(!(prop < 1))) {
-    cli::cli_abort("Elements of `prop` need to be in (0, 1).", call = call)
+    cli_abort("Elements of `prop` need to be in (0, 1).", call = call)
   }
   if (!(sum(prop) > 0 ) | !(sum(prop) < 1) ) {
-    cli::cli_abort(
+    cli_abort(
       "The sum of the proportions in `prop` needs to be in (0, 1).",
       call = call
     )
@@ -303,7 +303,7 @@ validation <- function(x, ...) {
 #' @rdname initial_validation_split
 validation.default <- function(x, ...) {
   cls <- class(x)
-  cli::cli_abort(
+  cli_abort(
     "No method for objects of class{?es}: {.cls {cls}} "
   )
 }
@@ -321,7 +321,7 @@ validation.initial_validation_split <- function(x, ...) {
 #' @export
 #' @keywords internal
 analysis.initial_validation_split <- function(x, ...) {
-  cli::cli_abort(
+  cli_abort(
     c("The initial validation split does not contain an analysis set.",
     "i" = "You can access the training data with {.fun training}.")
   )
@@ -330,7 +330,7 @@ analysis.initial_validation_split <- function(x, ...) {
 #' @export
 #' @keywords internal
 assessment.initial_validation_split <- function(x, ...) {
-  cli::cli_abort(
+  cli_abort(
     c("The initial validation split does not contain an assessment set.",
     "i" = "You can access the testing data with {.fun testing}.")
   )
