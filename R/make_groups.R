@@ -351,7 +351,7 @@ validate_group <- function(group, data, call = rlang::caller_env()) {
     )
   }
   if (!any(names(data) == group)) {
-    cli_abort("`group` should be a column in `data`.", call = call)
+    cli_abort("{.arg {group}} should be a column in {.arg {data}}.", call = call)
   }
 
   group
