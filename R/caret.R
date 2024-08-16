@@ -12,7 +12,7 @@
 #' @export
 rsample2caret <- function(object, data = c("analysis", "assessment")) {
   if (!inherits(object, "rset")) {
-    cli::cli_abort("`object` must be an `rset`")
+    cli_abort("`object` must be an `rset`")
   }
   data <- rlang::arg_match(data)
   in_ind <- purrr::map(object$splits, as.integer, data = "analysis")
@@ -32,19 +32,19 @@ rsample2caret <- function(object, data = c("analysis", "assessment")) {
 #' @export
 caret2rsample <- function(ctrl, data = NULL) {
   if (is.null(data)) {
-    cli::cli_abort("Must supply original data")
+    cli_abort("Must supply original data")
   }
   if (!any(names(ctrl) == "index")) {
-    cli::cli_abort("`ctrl` should have an element `index`")
+    cli_abort("{.arg ctrl} should have an element {.arg index}")
   }
   if (!any(names(ctrl) == "indexOut")) {
-    cli::cli_abort("`ctrl` should have an element `indexOut`")
+    cli_abort("{.arg ctrl} should have an element {.arg indexOut}")
   }
   if (is.null(ctrl$index)) {
-    cli::cli_abort("`ctrl$index` should be populated with integers")
+    cli_abort("{.arg ctrl$index} should be populated with integers")
   }
   if (is.null(ctrl$indexOut)) {
-    cli::cli_abort("`ctrl$indexOut` should be populated with integers")
+    cli_abort("{.arg ctrl$indexOut} should be populated with integers")
   }
 
   indices <- purrr::map2(ctrl$index, ctrl$indexOut, extract_int)
@@ -112,10 +112,8 @@ map_rsplit_method <- function(method) {
     "error"
   )
   if (out == "error") {
-    rlang::abort(
-      "Resampling method `",
-      method,
-      "` cannot be converted into an `rsplit` object"
+    cli_abort(
+      "Resampling method {.arg method} cannot be converted into an {.arg rsplit} object"
     )
   }
   out
@@ -139,7 +137,7 @@ map_rset_method <- function(method) {
     "error"
   )
   if (out == "error") {
-    cli::cli_abort("Resampling method `{method}` cannot be converted into an `rset` object")
+    cli_abort("Resampling method {.arg method} cannot be converted into an {.arg rset} object")
   }
   out
 }
@@ -176,8 +174,7 @@ map_attr <- function(object) {
       skip = object$skip
     )
   } else {
-    cli::cli_abort("Method", object$method, "cannot be converted")
-    cli::cli_abort("Method `{object$method}` cannot be converted")
+    cli_abort("Method {.arg object$method} cannot be converted")
   }
   out
 }
