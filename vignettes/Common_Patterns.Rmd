@@ -222,6 +222,7 @@ And if you want to set the size of windows based on units of time, for instance 
 sliding_period(Chicago, date, "year") %>%
   head(2)
 ```
+
 All of these functions produce analysis sets of the same size, with the start and end of the analysis set "sliding" down your data frame. If you'd rather have your analysis set get progressively larger, so that you're predicting new data based upon a growing set of older observations, you can use the `sliding_window()` function with `lookback = -Inf`:
 
 ```{r}

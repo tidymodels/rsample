@@ -1,5 +1,7 @@
 #' Rolling Origin Forecast Resampling
 #'
+#' `r lifecycle::badge("superseded")`
+#'
 #' This resampling method is useful when the data set has a strong time
 #'  component. The resamples are not random and contain data points that are
 #'  consecutive values. The function assumes that the original data set are
