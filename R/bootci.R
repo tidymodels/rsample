@@ -128,8 +128,8 @@ check_num_resamples <- function(x, B = 1000) {
     dplyr::filter(n < B)
 
   if (nrow(x) > 0) {
-    terms <- paste0("`", x$term, "`")
-    cli::cli_warn("Recommend at least {B} non-missing bootstrap resamples for {cli::qty(terms)} term{?s} {terms}.")
+    terms <- x$term
+    cli::cli_warn("Recommend at least {B} non-missing bootstrap resamples for {terms} term{?s}.")
   }
   invisible(NULL)
 }
