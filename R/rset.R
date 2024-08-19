@@ -18,7 +18,7 @@ new_rset <- function(splits, ids, attrib = NULL,
     ids <- tibble(id = ids)
   } else {
     if (!all(grepl("^id", names(ids)))) {
-      rlang::abort("The `ids` tibble column names should start with 'id'.")
+      cli_abort("The {.code id} tibble column names should start with 'id'.")
     }
   }
   either_type <- function(x) {
@@ -26,15 +26,15 @@ new_rset <- function(splits, ids, attrib = NULL,
   }
   ch_check <- vapply(ids, either_type, c(logical = TRUE))
   if (!all(ch_check)) {
-    rlang::abort("All ID columns should be character or factor vectors.")
+    cli_abort("{.strong All} ID columns should be character or factor {.field vectors}.")
   }
 
   if (!is_tibble(splits)) {
     splits <- tibble(splits = splits)
   } else {
     if (ncol(splits) > 1 | names(splits)[1] != "splits") {
-      rlang::abort(
-        "The `splits` tibble should have a single column named `splits`."
+      cli_abort(
+        "The {.var splits} tibble should have a single column named {.code splits}."
       )
     }
   }
@@ -42,11 +42,11 @@ new_rset <- function(splits, ids, attrib = NULL,
   where_rsplits <- vapply(splits[["splits"]], is_rsplit, logical(1))
 
   if (!all(where_rsplits)) {
-    rlang::abort("Each element of `splits` must be an `rsplit` object.")
+    cli_abort("Each element of {.var splits} must be an {.var rsplit} object.")
   }
 
   if (nrow(ids) != nrow(splits)) {
-    rlang::abort("Split and ID vectors have different lengths.")
+    cli_abort("Split and ID vectors have different lengths.")
   }
 
   # Create another element to the splits that is a tibble containing
@@ -64,7 +64,7 @@ new_rset <- function(splits, ids, attrib = NULL,
 
   if (!is.null(attrib)) {
     if (any(names(attrib) == "")) {
-      rlang::abort("`attrib` should be a fully named list.")
+      cli_abort("{.var attrib} should be a fully named {.field list}.")
     }
     for (i in names(attrib)) {
       attr(res, i) <- attrib[[i]]
