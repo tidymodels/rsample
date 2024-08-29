@@ -81,9 +81,10 @@ vfold_cv <- function(data, v = 10, repeats = 1,
     )
   } else {
     if (v == nrow(data)) {
-      rlang::abort(
-        glue::glue("Repeated resampling when `v` is {v} would create identical resamples")
-      )
+      cli_abort(c(
+        "x" = sprintf("Repeated resampling when {.arg v} is %s would create identical resamples", v),
+        "i" = "Consider adjusting the value of {.arg v} to avoid identical resamples."
+      ))
     }
     for (i in 1:repeats) {
       tmp <- vfold_splits(data = data, v = v, strata = strata, breaks = breaks ,pool = pool)
@@ -225,14 +226,13 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = 
     split_objs <- group_vfold_splits(data = data, group = group, v = v, balance = balance, strata = strata, pool = pool)
   } else {
     if (is.null(v)) {
-      rlang::abort(
-        "Repeated resampling when `v` is `NULL` would create identical resamples"
+     cli_abort(
+        "Repeated resampling when {.arg v} is {.val NULL} would create identical resamples"
       )
     }
     if (v == length(unique(getElement(data, group)))) {
-      rlang::abort(
-        glue::glue("Repeated resampling when `v` is {v} would create identical resamples")
-      )
+      cli_abort("Repeated resampling when {.arg v} is {.val {v}} would create identical resamples")
+
     }
     for (i in 1:repeats) {
       tmp <- group_vfold_splits(data = data, group = group, v = v, balance = balance, strata = strata, pool = pool)
@@ -292,12 +292,11 @@ group_vfold_splits <- function(data, group, v = NULL, balance, strata = NULL, po
       )
 
       if (max_v < 5) {
-        rlang::abort(c(
-          message,
-          x = glue::glue("The least common stratum only had {max_v} groups, which may not be enough for cross-validation."),
-          i = "Set `v` explicitly to override this error."
-        ),
-        call = rlang::caller_env())
+        cli_abort(c(
+          if (is.function(message)) message() else message,
+          "x" = "The least common stratum only had {.val {max_v}} groups, which may not be enough for cross-validation.",
+          "i" = "Set {.arg v} explicitly to override this error."
+        ), call = rlang::caller_env())
       }
 
       rlang::warn(c(
@@ -334,10 +333,11 @@ add_vfolds <- function(x, v) {
 
 check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
   if (!is.numeric(v) || length(v) != 1 || v < 2) {
-    rlang::abort("`v` must be a single positive integer greater than 1", call = call)
+    cli_abort("{.var v} must be a single positive integer greater than 1", call = call)
   } else if (v > max_v) {
-    rlang::abort(
-      glue::glue("The number of {rows} is less than `v = {v}`"), call = call
+    cli_abort(
+      "The number of {.field {rows}} is less than {.arg v} = {.val {v}}",
+      call = call
     )
   }
 }
@@ -358,7 +358,7 @@ check_grouped_strata <- function(group, strata, pool, data) {
 
   if (nrow(vctrs::vec_unique(grouped_table)) !=
       nrow(vctrs::vec_unique(grouped_table["group"]))) {
-    rlang::abort("`strata` must be constant across all members of each `group`.")
+    cli_abort("{.var strata} must be constant across all members of each {.var group}.")
   }
 
   strata
@@ -366,6 +366,6 @@ check_grouped_strata <- function(group, strata, pool, data) {
 
 check_repeats <- function(repeats, call = rlang::caller_env()) {
   if (!is.numeric(repeats) || length(repeats) != 1 || repeats < 1) {
-    rlang::abort("`repeats` must be a single positive integer", call = call)
+    cli_abort("{.var repeats} must be a single positive integer", call = call)
   }
 }
