@@ -42,7 +42,7 @@ new_rset <- function(splits, ids, attrib = NULL,
   where_rsplits <- vapply(splits[["splits"]], is_rsplit, logical(1))
 
   if (!all(where_rsplits)) {
-    cli_abort("Each element of {.var splits} must be an {.var rsplit} object.")
+    cli_abort("Each element of {.arg splits} must be an {.cls rsplit} object.")
   }
 
   if (nrow(ids) != nrow(splits)) {
