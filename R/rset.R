@@ -26,7 +26,7 @@ new_rset <- function(splits, ids, attrib = NULL,
   }
   ch_check <- vapply(ids, either_type, c(logical = TRUE))
   if (!all(ch_check)) {
-    cli_abort("{.strong All} ID columns should be character or factor {.field vectors}.")
+    cli_abort("{.strong All} ID columns should be character or factor vectors.")
   }
 
   if (!is_tibble(splits)) {
