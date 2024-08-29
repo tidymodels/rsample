@@ -64,7 +64,7 @@ new_rset <- function(splits, ids, attrib = NULL,
 
   if (!is.null(attrib)) {
     if (any(names(attrib) == "")) {
-      cli_abort("{.var attrib} should be a fully named {.field list}.")
+      cli_abort("{.arg attrib} should be a fully named list.")
     }
     for (i in names(attrib)) {
       attr(res, i) <- attrib[[i]]
