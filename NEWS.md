@@ -12,6 +12,8 @@
 
 * Formatting improvement: package names are now not in backticks anymore (@agmurray, #525).
 
+* Improved documentation and formatting: function names are now more easily identifiable through either `()` at the end or being links to the function documentation (@brshallo , #521).
+
 ## Bug fixes
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
