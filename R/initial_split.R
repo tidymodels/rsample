@@ -1,20 +1,20 @@
 #' Simple Training/Test Set Splitting
 #'
-#' `initial_split` creates a single binary split of the data into a training
-#'  set and testing set. `initial_time_split` does the same, but takes the
+#' `initial_split()` creates a single binary split of the data into a training
+#'  set and testing set. `initial_time_split()` does the same, but takes the
 #'  _first_ `prop` samples for training, instead of a random selection.
-#'  `group_initial_split` creates splits of the data based
+#'  `group_initial_split()` creates splits of the data based
 #'  on some grouping variable, so that all data in a "group" is assigned to
-#'  the same split.
-#'
-#' @details `training` and `testing` are used to extract the resulting data.
+#'  the same split. 
+#' 
+#' @details `training()` and `testing()` are used to extract the resulting data.
 #'
 #' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
 #' @param prop The proportion of data to be retained for modeling/analysis.
 #' @export
-#' @return An `rsplit` object that can be used with the `training` and `testing`
+#' @return An `rsplit` object that can be used with the `training()` and `testing()`
 #'  functions to extract the data in each split.
 #' @examplesIf rlang::is_installed("modeldata")
 #' set.seed(1353)

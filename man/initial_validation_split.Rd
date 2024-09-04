@@ -83,7 +83,7 @@ based on some grouping variable, so that all data in a "group" are assigned
 to the same partition.
 }
 \details{
-\code{training()}, \code{validation()}, and \code{testing()} can be used to extract the
+\code{\link[=training]{training()}}, \code{\link[=validation]{validation()}}, and \code{\link[=testing]{testing()}} can be used to extract the
 resulting data sets.
 Use \code{\link[=validation_set]{validation_set()}} to create an \code{rset} object for use with functions from
 the tune package such as \code{tune::tune_grid()}.
