@@ -8,9 +8,10 @@
 #' `group_initial_validation_split()` creates similar random splits of the data
 #' based on some grouping variable, so that all data in a "group" are assigned
 #' to the same partition.
-#' `training()`, `validation()`, and `testing()` can be used to extract the
+#'
+#' @details [training()], [validation()], and [testing()] can be used to extract the
 #' resulting data sets.
-#' Use [`validation_set()`] to create an `rset` object for use with functions from
+#' Use [validation_set()] to create an `rset` object for use with functions from
 #' the tune package such as `tune::tune_grid()`.
 #'
 #' @template strata_details

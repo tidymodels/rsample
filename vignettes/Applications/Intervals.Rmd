@@ -193,7 +193,7 @@ intervals %>% split(intervals$term)
 
 For bias-corrected and accelerated (BCa) intervals, an additional argument is required. The `.fn` argument is a function that computes the statistic of interest. The first argument should be for the `rsplit` object and other arguments can be passed in using the ellipses. 
 
-These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for _every bootstrap resample_. If the statistic is expensive to compute, this may take some time. For those calculations, we use the `furrr` package so these can be computed in parallel if you have set up a parallel processing plan (see `?future::plan`). 
+These intervals use an internal leave-one-out resample to compute the Jackknife statistic and will recompute the statistic for _every bootstrap resample_. If the statistic is expensive to compute, this may take some time. For those calculations, we use the furrr package so these can be computed in parallel if you have set up a parallel processing plan (see `?future::plan`). 
 
 The user-facing function takes an argument for the function and the ellipses. 
 
