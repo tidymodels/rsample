@@ -42,10 +42,17 @@ and a column called \code{id} that has a character string with the resample
 identifier.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
 This resampling method is useful when the data set has a strong time
 component. The resamples are not random and contain data points that are
 consecutive values. The function assumes that the original data set are
 sorted in time order.
+
+This function is superseded by \code{\link[=sliding_window]{sliding_window()}}, \code{\link[=sliding_index]{sliding_index()}}, and
+\code{\link[=sliding_period]{sliding_period()}} which provide more flexibility and control. Superseded
+functions will not go away, but active development will be focused on the new
+functions.
 }
 \details{
 The main options, \code{initial} and \code{assess}, control the number of
