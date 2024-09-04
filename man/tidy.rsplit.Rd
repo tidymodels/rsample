@@ -16,7 +16,7 @@
 \method{tidy}{nested_cv}(x, unique_ind = TRUE, ...)
 }
 \arguments{
-\item{x}{A  \code{rset} or  \code{rsplit} object}
+\item{x}{A \code{rset} or \code{rsplit} object}
 
 \item{unique_ind}{Should unique row identifiers be returned? For example,
 if \code{FALSE} then bootstrapping results will include multiple rows in the

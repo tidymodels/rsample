@@ -3,7 +3,7 @@
 #' The `tidy()` function from the \pkg{broom} package can be used on `rset` and
 #'  `rsplit` objects to generate tibbles with which rows are in the analysis and
 #'  assessment sets.
-#' @param x A  `rset` or  `rsplit` object
+#' @param x A `rset` or `rsplit` object
 #' @param unique_ind Should unique row identifiers be returned? For example,
 #'  if `FALSE` then bootstrapping results will include multiple rows in the
 #'  sample for the same row in the original data.

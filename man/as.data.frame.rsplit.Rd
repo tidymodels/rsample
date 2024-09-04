@@ -31,7 +31,7 @@ assessment(x, ...)
 
 \item{optional}{A logical: should the column names of the data be checked for legality?}
 
-\item{data}{Either "analysis" or "assessment" to specify which data are returned.}
+\item{data}{Either \code{"analysis"} or \code{"assessment"} to specify which data are returned.}
 
 \item{...}{Not currently used.}
 }

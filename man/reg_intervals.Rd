@@ -21,15 +21,15 @@ reg_intervals(
 
 \item{data}{A data frame.}
 
-\item{model_fn}{The model to fit. Allowable values are "lm", "glm",
-"survreg", and "coxph". The latter two require that the \code{survival} package
+\item{model_fn}{The model to fit. Allowable values are \code{"lm"}, \code{"glm"},
+\code{"survreg"}, and \code{"coxph"}. The latter two require that the survival package
 be installed.}
 
-\item{type}{The type of bootstrap confidence interval. Values of "student-t" and
-"percentile" are allowed.}
+\item{type}{The type of bootstrap confidence interval. Values of \code{"student-t"} and
+\code{"percentile"} are allowed.}
 
 \item{times}{A single integer for the number of bootstrap samples. If left
-NULL, 1,001 are used for t-intervals and 2,001 for percentile intervals.}
+\code{NULL}, 1,001 are used for t-intervals and 2,001 for percentile intervals.}
 
 \item{alpha}{Level of significance.}
 

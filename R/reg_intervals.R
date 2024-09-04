@@ -2,13 +2,13 @@
 #'
 #' @param formula An R model formula with one outcome and at least one predictor.
 #' @param data A data frame.
-#' @param model_fn The model to fit. Allowable values are "lm", "glm",
-#'  "survreg", and "coxph". The latter two require that the `survival` package
+#' @param model_fn The model to fit. Allowable values are `"lm"`, `"glm"`,
+#'  `"survreg"`, and `"coxph"`. The latter two require that the survival package
 #'  be installed.
-#' @param type The type of bootstrap confidence interval. Values of "student-t" and
-#' "percentile" are allowed.
+#' @param type The type of bootstrap confidence interval. Values of `"student-t"` and
+#' `"percentile"` are allowed.
 #' @param times A single integer for the number of bootstrap samples. If left
-#' NULL, 1,001 are used for t-intervals and 2,001 for percentile intervals.
+#' `NULL`, 1,001 are used for t-intervals and 2,001 for percentile intervals.
 #' @param alpha Level of significance.
 #' @param filter A logical expression used to remove rows from the final result, or `NULL` to keep all rows.
 #' @param keep_reps Should the individual parameter estimates for each bootstrap

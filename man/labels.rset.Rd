@@ -10,7 +10,7 @@
 \method{labels}{vfold_cv}(object, make_factor = FALSE, ...)
 }
 \arguments{
-\item{object}{An \code{rset} object}
+\item{object}{An \code{rset} object.}
 
 \item{make_factor}{A logical for whether the results should be
 a character or a factor.}
