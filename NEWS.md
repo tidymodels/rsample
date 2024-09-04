@@ -6,6 +6,8 @@
 
 * Fixed example for `nested_cv()` (@seb09, #520).
 
+* `rolling_origin()` is now superseded by `sliding_window()`, `sliding_index()`, and `sliding_period()` which provide more flexibility and control (@nmercadeb, #524).
+
 * Removed trailing space in printing of `mc_cv()` objects (@ccani007, #464).
 
 * Improved documentation for `initial_split()` and friends (@laurabrianna, #519).
