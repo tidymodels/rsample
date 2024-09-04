@@ -71,9 +71,10 @@ set and testing set. \code{initial_time_split()} does the same, but takes the
 \code{group_initial_split()} creates splits of the data based
 on some grouping variable, so that all data in a "group" is assigned to
 the same split.
-\code{training()} and \code{testing()} are used to extract the resulting data.
 }
 \details{
+\code{training()} and \code{testing()} are used to extract the resulting data.
+
 With a \code{strata} argument, the random sampling is conducted
 \emph{within the stratification variable}. This can help ensure that the
 resamples have equivalent proportions as the original data set. For

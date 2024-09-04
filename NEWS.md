@@ -2,7 +2,13 @@
 
 * The new `inner_split()` function and its methods for various resamples is for usage in tune to create a inner resample of the analysis set to fit the preprocessor and model on one part and the post-processor on the other part (#483, #488, #489).
 
-* Started moving error messages to cli (#499, #502).
+* Started moving error messages to cli (#499, #502). With contributions from @JamesHWade (#518).
+
+* Fixed example for `nested_cv()` (@seb09, #520).
+
+* Removed trailing space in printing of `mc_cv()` objects (@ccani007, #464).
+
+* Improved documentation for `initial_split()` and friends (@laurabrianna, #519).
 
 ## Bug fixes
 

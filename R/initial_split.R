@@ -5,8 +5,10 @@
 #'  _first_ `prop` samples for training, instead of a random selection.
 #'  `group_initial_split()` creates splits of the data based
 #'  on some grouping variable, so that all data in a "group" is assigned to
-#'  the same split.
-#'  `training()` and `testing()` are used to extract the resulting data.
+#'  the same split. 
+#' 
+#' @details `training()` and `testing()` are used to extract the resulting data.
+#'
 #' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
