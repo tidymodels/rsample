@@ -66,7 +66,7 @@ rsample and caret."><meta property="og:image" content="https://rsample.tidymodel
 
 <dl><dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p>An <code>rset</code> object. Currently,
-<code>nested_cv</code> is not supported.</p></dd>
+<code><a href="nested_cv.html">nested_cv()</a></code> is not supported.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
@@ -75,7 +75,7 @@ rsample and caret."><meta property="og:image" content="https://rsample.tidymodel
 
 
 <dt id="arg-ctrl">ctrl<a class="anchor" aria-label="anchor" href="#arg-ctrl"></a></dt>
-<dd><p>An object produced by <code>trainControl</code> that has
+<dd><p>An object produced by <code>caret::trainControl()</code> that has
 had the <code>index</code> and <code>indexOut</code> elements populated by
 integers. One method of getting this is to extract the
 <code>control</code> objects from an object produced by <code>train</code>.</p></dd>
@@ -83,9 +83,9 @@ integers. One method of getting this is to extract the
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>rsample2caret</code> returns a list that mimics the
+    <p><code>rsample2caret()</code> returns a list that mimics the
 <code>index</code> and <code>indexOut</code> elements of a
-<code>trainControl</code> object. <code>caret2rsample</code> returns an
+<code>trainControl</code> object. <code>caret2rsample()</code> returns an
 <code>rset</code> object of the appropriate class.</p>
     </div>
 

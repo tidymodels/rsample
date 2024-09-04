@@ -207,7 +207,7 @@ using the broom package</li>
 <p>For this model, the <code>.fitted</code> value is the linear
 predictor in log-odds units.</p>
 <p>To compute this data set for each of the 100 resamples, we’ll use the
-<code>map</code> function from the purrr package:</p>
+<code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code> function from the purrr package:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
 <span><span class="va">rs_obj</span><span class="op">$</span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">rs_obj</span><span class="op">$</span><span class="va">splits</span>,</span>
@@ -298,11 +298,11 @@ a confidence level of 95%.</p>
 <p>Unless there is already a column in the resample object that contains
 the fitted model, a function can be used to fit the model and save all
 of the model coefficients. The <a href="https://cran.r-project.org/package=broom" class="external-link">broom package</a>
-package has a <code>tidy</code> function that will save the coefficients
-in a data frame. Instead of returning a data frame with a row for each
-model term, we will save a data frame with a single row and columns for
-each model term. As before, <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> can be used to
-estimate and save these values for each split.</p>
+package has a <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> function that will save the
+coefficients in a data frame. Instead of returning a data frame with a
+row for each model term, we will save a data frame with a single row and
+columns for each model term. As before, <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> can be
+used to estimate and save these values for each split.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">glm_coefs</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">splits</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co">## use `analysis` or `as.data.frame` to get the analysis data</span></span>

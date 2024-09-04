@@ -78,19 +78,19 @@
 
 
 <dt id="arg-model-fn">model_fn<a class="anchor" aria-label="anchor" href="#arg-model-fn"></a></dt>
-<dd><p>The model to fit. Allowable values are "lm", "glm",
-"survreg", and "coxph". The latter two require that the <code>survival</code> package
+<dd><p>The model to fit. Allowable values are <code>"lm"</code>, <code>"glm"</code>,
+<code>"survreg"</code>, and <code>"coxph"</code>. The latter two require that the survival package
 be installed.</p></dd>
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>The type of bootstrap confidence interval. Values of "student-t" and
-"percentile" are allowed.</p></dd>
+<dd><p>The type of bootstrap confidence interval. Values of <code>"student-t"</code> and
+<code>"percentile"</code> are allowed.</p></dd>
 
 
 <dt id="arg-times">times<a class="anchor" aria-label="anchor" href="#arg-times"></a></dt>
 <dd><p>A single integer for the number of bootstrap samples. If left
-NULL, 1,001 are used for t-intervals and 2,001 for percentile intervals.</p></dd>
+<code>NULL</code>, 1,001 are used for t-intervals and 2,001 for percentile intervals.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
@@ -107,7 +107,7 @@ sample be retained?</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Options to pass to the model function (such as <code>family</code> for <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code>).</p></dd>
+<dd><p>Options to pass to the model function (such as <code>family</code> for <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">stats::glm()</a></code>).</p></dd>
 
 </dl></div>
     <div class="section level2">
