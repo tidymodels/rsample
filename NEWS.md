@@ -4,6 +4,8 @@
 
 * Started moving error messages to cli (#499, #502).
 
+* Formatting improvement: package names are now not in backticks anymore (@agmurray, #525).
+
 ## Bug fixes
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
