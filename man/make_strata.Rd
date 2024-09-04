@@ -64,7 +64,6 @@ x3 <- factor(x2)
 table(x3)
 table(make_strata(x3))
 
-# `oilType` data from 
 x4 <- rep(LETTERS[1:7], c(37, 26, 3, 7, 11, 10, 2))
 table(x4)
 table(make_strata(x4))

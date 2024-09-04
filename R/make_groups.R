@@ -25,7 +25,7 @@
 #'  only one) assessment set, but rather allow each observation to be in an
 #'  assessment set zero-or-more times. As a result, those functions don't have
 #'  a `balance` argument, and under the hood always specify `balance = "prop"`
-#'  when they call [make_groups()].
+#'  when they call `make_groups()`.
 #'
 #' @keywords internal
 make_groups <- function(data,

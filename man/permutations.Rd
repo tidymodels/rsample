@@ -33,7 +33,7 @@ A permutation sample is the same size as the original data set and is made
 by permuting/shuffling one or more columns. This results in analysis
 samples where some columns are in their original order and some columns
 are permuted to a random order. Unlike other sampling functions in
-rsample, there is no assessment set and calling \code{assessment()} on a
+rsample, there is no assessment set and calling \code{\link[=assessment]{assessment()}} on a
 permutation split will throw an error.
 }
 \details{

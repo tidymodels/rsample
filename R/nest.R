@@ -1,6 +1,6 @@
 #' Nested or Double Resampling
 #'
-#' `nested_cv` can be used to take the results of one resampling procedure
+#' `nested_cv()` can be used to take the results of one resampling procedure
 #'   and conduct further resamples within each split. Any type of resampling
 #'   used in rsample can be used.
 #'
