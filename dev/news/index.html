@@ -52,6 +52,7 @@
 <li><p>Fixed example for <code><a href="../reference/nested_cv.html">nested_cv()</a></code> (<a href="https://github.com/seb09" class="external-link">@seb09</a>, <a href="https://github.com/tidymodels/rsample/issues/520" class="external-link">#520</a>).</p></li>
 <li><p>Removed trailing space in printing of <code><a href="../reference/mc_cv.html">mc_cv()</a></code> objects (<a href="https://github.com/ccani007" class="external-link">@ccani007</a>, <a href="https://github.com/tidymodels/rsample/issues/464" class="external-link">#464</a>).</p></li>
 <li><p>Improved documentation for <code><a href="../reference/initial_split.html">initial_split()</a></code> and friends (<a href="https://github.com/laurabrianna" class="external-link">@laurabrianna</a>, <a href="https://github.com/tidymodels/rsample/issues/519" class="external-link">#519</a>).</p></li>
+<li><p>Formatting improvement: package names are now not in backticks anymore (<a href="https://github.com/agmurray" class="external-link">@agmurray</a>, <a href="https://github.com/tidymodels/rsample/issues/525" class="external-link">#525</a>).</p></li>
 </ul><div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
 <ul><li><p><code><a href="../reference/vfold_cv.html">vfold_cv()</a></code> now utilizes the <code>breaks</code> argument correctly for repeated cross-validation (<a href="https://github.com/ZWael" class="external-link">@ZWael</a>, <a href="https://github.com/tidymodels/rsample/issues/471" class="external-link">#471</a>).</p></li>
@@ -140,7 +141,7 @@
 <li><p>Fixed an issue where empty assessment sets couldn’t be created by <code><a href="../reference/make_splits.html">make_splits()</a></code> (<a href="https://github.com/tidymodels/rsample/issues/188" class="external-link">#188</a>).</p></li>
 <li><p><code>rset</code> objects now contain a “fingerprint” attribute that can be used to check to see if the same object uses the same resamples.</p></li>
 <li><p>The <code><a href="../reference/reg_intervals.html">reg_intervals()</a></code> function is a convenience function for <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code>, <code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm()</a></code>, <code>survreg()</code>, and <code>coxph()</code> models (<a href="https://github.com/tidymodels/rsample/issues/206" class="external-link">#206</a>).</p></li>
-<li><p>A few internal functions were exported so that <code>rsample</code>-adjacent packages can use the same underlying code.</p></li>
+<li><p>A few internal functions were exported so that rsample-adjacent packages can use the same underlying code.</p></li>
 <li><p>The <code><a href="https://pillar.r-lib.org/reference/type_sum.html" class="external-link">obj_sum()</a></code> method for <code>rsplit</code> objects was updated (<a href="https://github.com/tidymodels/rsample/issues/215" class="external-link">#215</a>).</p></li>
 <li><p>Changed the inheritance structure for <code>rsplit</code> objects from specific to general and simplified the methods for the <code><a href="../reference/complement.html">complement()</a></code> generic (<a href="https://github.com/tidymodels/rsample/issues/216" class="external-link">#216</a>).</p></li>
 </ul></div>
@@ -154,12 +155,11 @@
 <h2 class="pkg-version" data-toc-text="0.0.7" id="rsample-007">rsample 0.0.7<a class="anchor" aria-label="anchor" href="#rsample-007"></a></h2><p class="text-muted">CRAN release: 2020-06-04</p>
 <ul><li><p>Lower threshold for pooling strata to 10% (from 15%) (<a href="https://github.com/tidymodels/rsample/issues/149" class="external-link">#149</a>).</p></li>
 <li><p>The <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> methods for <code>rsplit</code> and <code>val_split</code> objects were adjusted to show <code>"&lt;Analysis/Assess/Total&gt;"</code> and <code>&lt;Training/Validation/Total&gt;</code>, respectively.</p></li>
-<li><p>The <code>drinks</code>, <code>attrition</code>, and <code>two_class_dat</code> data sets were removed. They are in the <code>modeldata</code> package.</p></li>
-<li><p>Compatability with <code>dplyr</code> 1.0.0.</p></li>
+<li><p>The <code>drinks</code>, <code>attrition</code>, and <code>two_class_dat</code> data sets were removed. They are in the modeldata package.</p></li>
+<li><p>Compatability with dplyr 1.0.0.</p></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.6" id="rsample-006">
-<code>rsample</code> 0.0.6<a class="anchor" aria-label="anchor" href="#rsample-006"></a></h2><p class="text-muted">CRAN release: 2020-03-31</p>
+<h2 class="pkg-version" data-toc-text="0.0.6" id="rsample-006">rsample 0.0.6<a class="anchor" aria-label="anchor" href="#rsample-006"></a></h2><p class="text-muted">CRAN release: 2020-03-31</p>
 <ul><li><p>Added <code><a href="../reference/validation_set.html">validation_set()</a></code> for making a single resample.</p></li>
 <li><p>Correct the tidy method for bootstraps (<a href="https://github.com/tidymodels/rsample/issues/115" class="external-link">#115</a>).</p></li>
 <li><p>Changes for upcoming `tibble release.</p></li>
@@ -167,27 +167,24 @@
 <li><p><code><a href="../reference/initial_split.html">initial_time_split()</a></code> and <code><a href="../reference/rolling_origin.html">rolling_origin()</a></code> now have a <code>lag</code> parameter that ensures that previous data are available so that lagged variables can be calculated. (<a href="https://github.com/tidymodels/rsample/issues/135" class="external-link">#135</a>, <a href="https://github.com/tidymodels/rsample/issues/136" class="external-link">#136</a>)</p></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.5" id="rsample-005">
-<code>rsample</code> 0.0.5<a class="anchor" aria-label="anchor" href="#rsample-005"></a></h2><p class="text-muted">CRAN release: 2019-07-12</p>
+<h2 class="pkg-version" data-toc-text="0.0.5" id="rsample-005">rsample 0.0.5<a class="anchor" aria-label="anchor" href="#rsample-005"></a></h2><p class="text-muted">CRAN release: 2019-07-12</p>
 <ul><li>Added three functions to compute different bootstrap confidence intervals.</li>
 <li>A new function (<code><a href="../reference/add_resample_id.html">add_resample_id()</a></code>) augments a data frame with columns for the resampling identifier.</li>
 <li>Updated <code><a href="../reference/initial_split.html">initial_split()</a></code>, <code><a href="../reference/mc_cv.html">mc_cv()</a></code>, <code><a href="../reference/vfold_cv.html">vfold_cv()</a></code>, <code><a href="../reference/bootstraps.html">bootstraps()</a></code>, and <code><a href="../reference/group_vfold_cv.html">group_vfold_cv()</a></code> to use tidyselect on the stratification variable.</li>
 <li>Updated <code><a href="../reference/initial_split.html">initial_split()</a></code>, <code><a href="../reference/mc_cv.html">mc_cv()</a></code>, <code><a href="../reference/vfold_cv.html">vfold_cv()</a></code>, <code><a href="../reference/bootstraps.html">bootstraps()</a></code> with new <code>breaks</code> parameter that specifies the number of bins to stratify by for a numeric stratification variable.</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.4" id="rsample-004">
-<code>rsample</code> 0.0.4<a class="anchor" aria-label="anchor" href="#rsample-004"></a></h2><p class="text-muted">CRAN release: 2019-01-07</p>
+<h2 class="pkg-version" data-toc-text="0.0.4" id="rsample-004">rsample 0.0.4<a class="anchor" aria-label="anchor" href="#rsample-004"></a></h2><p class="text-muted">CRAN release: 2019-01-07</p>
 <p>Small maintenance release.</p>
 <div class="section level3">
 <h3 id="minor-improvements-and-fixes-0-0-4">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-0-0-4"></a></h3>
 <ul><li>
 <code><a href="https://tidyr.tidyverse.org/reference/fill.html" class="external-link">fill()</a></code> was removed per the deprecation warning.</li>
-<li>Small changes were made for the new version of <code>tibble</code>.</li>
+<li>Small changes were made for the new version of tibble.</li>
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.3" id="rsample-003">
-<code>rsample</code> 0.0.3<a class="anchor" aria-label="anchor" href="#rsample-003"></a></h2><p class="text-muted">CRAN release: 2018-11-20</p>
+<h2 class="pkg-version" data-toc-text="0.0.3" id="rsample-003">rsample 0.0.3<a class="anchor" aria-label="anchor" href="#rsample-003"></a></h2><p class="text-muted">CRAN release: 2018-11-20</p>
 <div class="section level3">
 <h3 id="new-features-0-0-3">New features<a class="anchor" aria-label="anchor" href="#new-features-0-0-3"></a></h3>
 <ul><li>Added function <code><a href="../reference/initial_split.html">initial_time_split()</a></code> for ordered initial sampling appropriate for time series data.</li>
@@ -196,28 +193,26 @@
 <h3 id="minor-improvements-and-fixes-0-0-3">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-0-0-3"></a></h3>
 <ul><li><p><code><a href="https://tidyr.tidyverse.org/reference/fill.html" class="external-link">fill()</a></code> has been renamed <code><a href="../reference/populate.html">populate()</a></code> to avoid a conflict with <code><a href="https://tidyr.tidyverse.org/reference/fill.html" class="external-link">tidyr::fill()</a></code>.</p></li>
 <li><p>Changed the R version requirement to be R &gt;= 3.1 instead of 3.3.3.</p></li>
-<li><p>The <code>recipes</code>-related <code>prepper</code> function was <a href="https://github.com/tidymodels/rsample/issues/48" class="external-link">moved to the <code>recipes</code> package</a>. This makes the <code>rsample</code> install footprint much smaller.</p></li>
+<li><p>The recipes-related <code><a href="https://recipes.tidymodels.org/reference/prepper.html" class="external-link">prepper()</a></code> function was <a href="https://github.com/tidymodels/rsample/issues/48" class="external-link">moved to the recipes package</a>. This makes the rsample install footprint much smaller.</p></li>
 <li><p><code>rsplit</code> objects are shown differently inside of a tibble.</p></li>
-<li><p>Moved from the <code>broom</code> package to the <code>generics</code> package.</p></li>
+<li><p>Moved from the broom package to the generics package.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.2" id="rsample-002">
-<code>rsample</code> 0.0.2<a class="anchor" aria-label="anchor" href="#rsample-002"></a></h2><p class="text-muted">CRAN release: 2017-11-12</p>
+<h2 class="pkg-version" data-toc-text="0.0.2" id="rsample-002">rsample 0.0.2<a class="anchor" aria-label="anchor" href="#rsample-002"></a></h2><p class="text-muted">CRAN release: 2017-11-12</p>
 <ul><li>
 <code>initial_split</code>, <code>training</code>, and <code>testing</code> were added to do training/testing splits prior to resampling.</li>
 <li>Another resampling method, <code>group_vfold_cv</code>, was added.</li>
 <li>
 <code>caret2rsample</code> and <code>rsample2caret</code> can convert <code>rset</code> objects to those used by <code>caret::trainControl</code> and vice-versa.</li>
 <li>A function called <code>form_pred</code> can be used to determine the original names of the predictors in a formula or <code>terms</code> object.</li>
-<li>A vignette and a function (<code>prepper</code>) were included to facilitate using the <code>recipes</code> with <code>rsample</code>.</li>
+<li>A vignette and a function (<code>prepper</code>) were included to facilitate using the recipes with rsample.</li>
 <li>A <code>gather</code> method was added for <code>rset</code> objects.</li>
 <li>A <code>labels</code> method was added for <code>rsplit</code> objects. This can help identify which resample is being used even when the whole <code>rset</code> object is not available.</li>
-<li>A variety of <code>dplyr</code> methods were added (e.g. <code>filter</code>, <code>mutate</code>, etc) that work without dropping classes or attributes of the <code>rsample</code> objects.</li>
+<li>A variety of dplyr methods were added (e.g. <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code>, etc) that work without dropping classes or attributes of the rsample objects.</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.1" id="rsample-001-2017-07-08">
-<code>rsample</code> 0.0.1 (2017-07-08)<a class="anchor" aria-label="anchor" href="#rsample-001-2017-07-08"></a></h2><p class="text-muted">CRAN release: 2017-07-08</p>
+<h2 class="pkg-version" data-toc-text="0.0.1" id="rsample-001-2017-07-08">rsample 0.0.1 (2017-07-08)<a class="anchor" aria-label="anchor" href="#rsample-001-2017-07-08"></a></h2><p class="text-muted">CRAN release: 2017-07-08</p>
 <p>Initial public version on CRAN</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

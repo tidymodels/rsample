@@ -61,7 +61,7 @@ permutation split will throw an error."><meta property="og:image" content="https
 by permuting/shuffling one or more columns. This results in analysis
 samples where some columns are in their original order and some columns
 are permuted to a random order. Unlike other sampling functions in
-<code>rsample</code>, there is no assessment set and calling <code><a href="as.data.frame.rsplit.html">assessment()</a></code> on a
+rsample, there is no assessment set and calling <code><a href="as.data.frame.rsplit.html">assessment()</a></code> on a
 permutation split will throw an error.</p>
     </div>
 
@@ -80,7 +80,7 @@ permutation split will throw an error.</p>
 
 <dt id="arg-permute">permute<a class="anchor" aria-label="anchor" href="#arg-permute"></a></dt>
 <dd><p>One or more columns to shuffle. This argument supports
-<code>tidyselect</code> selectors. Multiple expressions can be combined with <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>.
+tidyselect selectors. Multiple expressions can be combined with <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>.
 Variable names can be used as if they were positions in the data frame, so
 expressions like <code>x:y</code> can be used to select a range of variables.
 See <code><a href="https://tidyselect.r-lib.org/reference/language.html" class="external-link">language</a></code> for more details.</p></dd>

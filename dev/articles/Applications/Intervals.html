@@ -345,10 +345,9 @@ the ellipses.</p>
 <p>These intervals use an internal leave-one-out resample to compute the
 Jackknife statistic and will recompute the statistic for <em>every
 bootstrap resample</em>. If the statistic is expensive to compute, this
-may take some time. For those calculations, we use the
-<code>furrr</code> package so these can be computed in parallel if you
-have set up a parallel processing plan (see
-<code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">?future::plan</a></code>).</p>
+may take some time. For those calculations, we use the furrr package so
+these can be computed in parallel if you have set up a parallel
+processing plan (see <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">?future::plan</a></code>).</p>
 <p>The user-facing function takes an argument for the function and the
 ellipses.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
