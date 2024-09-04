@@ -19,7 +19,7 @@
 }
 \value{
 A character value or \code{NA_character_} if the object was created prior
-to \code{rsample} version 0.1.0.
+to rsample version 0.1.0.
 }
 \description{
 This function returns a hash (or NA) for an attribute that is created when
