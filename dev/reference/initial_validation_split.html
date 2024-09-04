@@ -6,22 +6,14 @@ selection the training, validation, and testing set are in order of the full
 data set, with the first observations being put into the training set.
 group_initial_validation_split() creates similar random splits of the data
 based on some grouping variable, so that all data in a "group" are assigned
-to the same partition.
-training(), validation(), and testing() can be used to extract the
-resulting data sets.
-Use validation_set() to create an rset object for use with functions from
-the tune package such as tune::tune_grid().'><meta property="og:description" content='initial_validation_split() creates a random three-way split of the data
+to the same partition.'><meta property="og:description" content='initial_validation_split() creates a random three-way split of the data
 into a training set, a validation set, and a testing set.
 initial_validation_time_split() does the same, but instead of a random
 selection the training, validation, and testing set are in order of the full
 data set, with the first observations being put into the training set.
 group_initial_validation_split() creates similar random splits of the data
 based on some grouping variable, so that all data in a "group" are assigned
-to the same partition.
-training(), validation(), and testing() can be used to extract the
-resulting data sets.
-Use validation_set() to create an rset object for use with functions from
-the tune package such as tune::tune_grid().'><meta property="og:image" content="https://rsample.tidymodels.org/logo.png"><meta name="robots" content="noindex"><script defer data-domain="rsample.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script></head><body>
+to the same partition.'><meta property="og:image" content="https://rsample.tidymodels.org/logo.png"><meta name="robots" content="noindex"><script defer data-domain="rsample.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script></head><body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
 
 
@@ -76,11 +68,7 @@ selection the training, validation, and testing set are in order of the full
 data set, with the first observations being put into the training set.
 <code>group_initial_validation_split()</code> creates similar random splits of the data
 based on some grouping variable, so that all data in a "group" are assigned
-to the same partition.
-<code><a href="initial_split.html">training()</a></code>, <code>validation()</code>, and <code><a href="initial_split.html">testing()</a></code> can be used to extract the
-resulting data sets.
-Use <code><a href="validation_set.html">validation_set()</a></code> to create an <code>rset</code> object for use with functions from
-the tune package such as <code><a href="https://tune.tidymodels.org/reference/tune_grid.html" class="external-link">tune::tune_grid()</a></code>.</p>
+to the same partition.</p>
     </div>
 
     <div class="section level2">
@@ -173,7 +161,11 @@ in each split.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>With a <code>strata</code> argument, the random sampling is conducted
+    <p><code><a href="initial_split.html">training()</a></code>, <code>validation()</code>, and <code><a href="initial_split.html">testing()</a></code> can be used to extract the
+resulting data sets.
+Use <code><a href="validation_set.html">validation_set()</a></code> to create an <code>rset</code> object for use with functions from
+the tune package such as <code><a href="https://tune.tidymodels.org/reference/tune_grid.html" class="external-link">tune::tune_grid()</a></code>.</p>
+<p>With a <code>strata</code> argument, the random sampling is conducted
 <em>within the stratification variable</em>. This can help ensure that the
 resamples have equivalent proportions as the original data set. For
 a categorical variable, sampling is conducted separately within each class.
