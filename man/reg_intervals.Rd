@@ -38,7 +38,7 @@ NULL, 1,001 are used for t-intervals and 2,001 for percentile intervals.}
 \item{keep_reps}{Should the individual parameter estimates for each bootstrap
 sample be retained?}
 
-\item{...}{Options to pass to the model function (such as \code{family} for \code{glm()}).}
+\item{...}{Options to pass to the model function (such as \code{family} for \code{\link[stats:glm]{stats::glm()}}).}
 }
 \value{
 A tibble with columns "term", ".lower", ".estimate", ".upper",

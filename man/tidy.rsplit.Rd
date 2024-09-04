@@ -28,8 +28,8 @@ sample for the same row in the original data.}
 A tibble with columns \code{Row} and \code{Data}. The latter has possible
 values "Analysis" or "Assessment". For \code{rset} inputs, identification
 columns are also returned but their names and values depend on the type of
-resampling. For \code{vfold_cv()}, contains a column "Fold" and, if repeats are
-used, another called "Repeats". \code{bootstraps()} and \code{mc_cv()} use the column
+resampling. For \code{\link[=vfold_cv]{vfold_cv()}}, contains a column "Fold" and, if repeats are
+used, another called "Repeats". \code{\link[=bootstraps]{bootstraps()}} and \code{\link[=mc_cv]{mc_cv()}} use the column
 "Resample".
 }
 \description{

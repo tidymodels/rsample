@@ -11,8 +11,8 @@
 #' @return A tibble with columns `Row` and `Data`. The latter has possible
 #'   values "Analysis" or "Assessment". For `rset` inputs, identification
 #'   columns are also returned but their names and values depend on the type of
-#'   resampling. For `vfold_cv()`, contains a column "Fold" and, if repeats are
-#'   used, another called "Repeats". `bootstraps()` and `mc_cv()` use the column
+#'   resampling. For [vfold_cv()], contains a column "Fold" and, if repeats are
+#'   used, another called "Repeats". [bootstraps()] and [mc_cv()] use the column
 #'   "Resample".
 #' @details Note that for nested resampling, the rows of the inner resample,
 #'  named `inner_Row`, are *relative* row indices and do not correspond to the

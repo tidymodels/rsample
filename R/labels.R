@@ -1,8 +1,7 @@
 #' Find Labels from rset Object
 #'
 #' Produce a vector of resampling labels (e.g. "Fold1") from
-#'  an `rset` object. Currently, `nested_cv()`
-#'  is not supported.
+#' an `rset` object. Currently, [nested_cv()] is not supported.
 #'
 #' @param object An `rset` object
 #' @param make_factor A logical for whether the results should be

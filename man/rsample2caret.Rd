@@ -11,7 +11,7 @@ caret2rsample(ctrl, data = NULL)
 }
 \arguments{
 \item{object}{An \code{rset} object. Currently,
-\code{nested_cv()} is not supported.}
+\code{\link[=nested_cv]{nested_cv()}} is not supported.}
 
 \item{data}{The data that was originally used to produce the
 \code{ctrl} object.}

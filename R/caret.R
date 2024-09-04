@@ -4,7 +4,7 @@
 #'  \pkg{rsample} and \pkg{caret}.
 #'
 #' @param object An `rset` object. Currently,
-#'  `nested_cv()` is not supported.
+#'  [nested_cv()] is not supported.
 #' @return `rsample2caret()` returns a list that mimics the
 #'  `index` and `indexOut` elements of a
 #'  `trainControl` object. `caret2rsample()` returns an
