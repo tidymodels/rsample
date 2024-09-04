@@ -8,6 +8,8 @@
 
 * Removed trailing space in printing of `mc_cv()` objects (@ccani007, #464).
 
+* Improved documentation for `initial_split()` and friends (@laurabrianna, #519).
+
 ## Bug fixes
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
