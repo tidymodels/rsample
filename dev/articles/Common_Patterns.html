@@ -494,16 +494,18 @@ for instance to have each window contain a year of data, you can use
 the start and end of the analysis set “sliding” down your data frame. If
 you’d rather have your analysis set get progressively larger, so that
 you’re predicting new data based upon a growing set of older
-observations, you can use the <code><a href="../reference/rolling_origin.html">rolling_origin()</a></code>
-function:</p>
+observations, you can use the <code><a href="../reference/slide-resampling.html">sliding_window()</a></code> function
+with <code>lookback = -Inf</code>:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/rolling_origin.html">rolling_origin</a></span><span class="op">(</span><span class="va">Chicago</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/slide-resampling.html">sliding_window</a></span><span class="op">(</span><span class="va">Chicago</span>, lookback <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
 <span><span class="co">#&gt;   splits        id       </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [5/1]&gt;</span> Slice0001</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [6/1]&gt;</span> Slice0002</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [1/1]&gt;</span> Slice0001</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [2/1]&gt;</span> Slice0002</span></span></code></pre></div>
+<p>This is commonly referred to as “evaluation on a rolling forecasting
+origin”, or more colloquially, “rolling origin cross-validation”.</p>
 <p>Note that all of these time-based resampling functions are
 deterministic: unlike the rest of the package, running these functions
 repeatedly under different random seeds will always return the same
