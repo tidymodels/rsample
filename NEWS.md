@@ -4,6 +4,8 @@
 
 * Started moving error messages to cli (#499, #502).
 
+* Improved documentation for `initial_split()` and friends (@laurabrianna, #519).
+
 ## Bug fixes
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
