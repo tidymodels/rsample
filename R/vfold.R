@@ -313,7 +313,7 @@ group_vfold_splits <- function(data, group, v = NULL, balance, strata = NULL, po
   if (is.null(v)) {
     v <- max_v
   }
-  check_v(v = v, max_v = max_v, rows = "groups", call = rlang::caller_env())
+  check_v(v = v, max_v = max_v, rows = "groups", prevent_loo = FALSE, call = rlang::caller_env())
 
   indices <- make_groups(data, group, v, balance, strata)
   indices <- lapply(indices, default_complement, n = nrow(data))
