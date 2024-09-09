@@ -124,10 +124,10 @@ vfold_cv <- function(data, v = 10, repeats = 1,
 }
 
 
-vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
+vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1, prevent_loo = TRUE) {
 
   n <- nrow(data)
-  check_v(v, n, call = rlang::caller_env())
+  check_v(v, n, prevent_loo = prevent_loo, call = rlang::caller_env())
 
   if (is.null(strata)) {
     folds <- sample(rep(1:v, length.out = n))
