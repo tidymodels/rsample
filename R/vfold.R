@@ -76,20 +76,17 @@ vfold_cv <- function(data, v = 10, repeats = 1,
   strata_check(strata, data)
   check_repeats(repeats)
 
-  if (isTRUE(v == nrow(data))) {
-    rlang::abort(c(
-      "Leave-one-out cross-validation is not supported by `vfold_cv()`.",
-      x = "You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.",
-      i = "Use `loo_cv()` in this case."
-    ))
-  }
-
   if (repeats == 1) {
     split_objs <- vfold_splits(
       data = data, v = v,
       strata = strata, breaks = breaks, pool = pool
     )
   } else {
+    if (v == nrow(data)) {
+      rlang::abort(
+        glue::glue("Repeated resampling when `v` is {v} would create identical resamples")
+      )
+    }
     for (i in 1:repeats) {
       tmp <- vfold_splits(data = data, v = v, strata = strata, breaks = breaks ,pool = pool)
       tmp$id2 <- tmp$id
@@ -337,13 +334,19 @@ add_vfolds <- function(x, v) {
   x
 }
 
-check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
+check_v <- function(v, max_v, rows = "rows", prevent_loo = TRUE, call = rlang::caller_env()) {
   if (!is.numeric(v) || length(v) != 1 || v < 2) {
     rlang::abort("`v` must be a single positive integer greater than 1", call = call)
   } else if (v > max_v) {
     rlang::abort(
       glue::glue("The number of {rows} is less than `v = {v}`"), call = call
     )
+  } else if (prevent_loo && isTRUE(v == max_v)) {
+    cli_abort(c(
+      "Leave-one-out cross-validation is not supported by this function.",
+      "x" = "You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.",
+      "i" = "Use `loo_cv()` in this case."
+    ), call = call)
   }
 }
 

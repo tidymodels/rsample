@@ -25,9 +25,7 @@
 
 ---
 
-    Leave-one-out cross-validation is not supported by `vfold_cv()`.
-    x You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.
-    i Use `loo_cv()` in this case.
+    Repeated resampling when `v` is 150 would create identical resamples
 
 ---
 
