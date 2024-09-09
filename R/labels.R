@@ -95,7 +95,7 @@ add_resample_id <- function(.data, split, dots = FALSE) {
     cli_abort("{.arg dots} should be a single logical.")
   }
   if (!inherits(.data, "data.frame")) {
-    cli_abort("{.arg .data} should be a {.cls data frame}.")
+    cli_abort("{.arg .data} should be a data frame.")
   }
   if (!inherits(split, "rsplit")) {
     cli_abort("{.arg split} should be a single 'rset' object.")
