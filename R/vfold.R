@@ -12,9 +12,7 @@
 #' @template strata_details
 #' @inheritParams make_strata
 #' @param data A data frame.
-#' @param v The number of partitions of the data set. Should be an integer
-#' smaller than `nrow(data)`. If you want to create a split for a leave-one-out
-#' cross-validation (`v = nrow(data)`), please use [loo_cv()] instead.
+#' @param v The number of partitions of the data set.
 #' @param repeats The number of times to repeat the V-fold partitioning.
 #' @param strata A variable in `data` (single character or name) used to conduct
 #'  stratified sampling. When not `NULL`, each resample is created within the

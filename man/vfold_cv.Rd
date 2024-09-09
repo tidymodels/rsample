@@ -9,9 +9,7 @@ vfold_cv(data, v = 10, repeats = 1, strata = NULL, breaks = 4, pool = 0.1, ...)
 \arguments{
 \item{data}{A data frame.}
 
-\item{v}{The number of partitions of the data set. Should be an integer
-smaller than \code{nrow(data)}. If you want to create a split for a leave-one-out
-cross-validation (\code{v = nrow(data)}), please use \code{\link[=loo_cv]{loo_cv()}} instead.}
+\item{v}{The number of partitions of the data set.}
 
 \item{repeats}{The number of times to repeat the V-fold partitioning.}
 
