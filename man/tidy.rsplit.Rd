@@ -16,7 +16,7 @@
 \method{tidy}{nested_cv}(x, unique_ind = TRUE, ...)
 }
 \arguments{
-\item{x}{A  \code{rset} or  \code{rsplit} object}
+\item{x}{A \code{rset} or \code{rsplit} object}
 
 \item{unique_ind}{Should unique row identifiers be returned? For example,
 if \code{FALSE} then bootstrapping results will include multiple rows in the
@@ -26,14 +26,14 @@ sample for the same row in the original data.}
 }
 \value{
 A tibble with columns \code{Row} and \code{Data}. The latter has possible
-values "Analysis" or "Assessment". For \code{rset} inputs, identification columns
-are also returned but their names and values depend on the type of
-resampling. \code{vfold_cv} contains a column "Fold" and, if repeats are used,
-another called "Repeats". \code{bootstraps} and \code{mc_cv} use the column
+values "Analysis" or "Assessment". For \code{rset} inputs, identification
+columns are also returned but their names and values depend on the type of
+resampling. For \code{\link[=vfold_cv]{vfold_cv()}}, contains a column "Fold" and, if repeats are
+used, another called "Repeats". \code{\link[=bootstraps]{bootstraps()}} and \code{\link[=mc_cv]{mc_cv()}} use the column
 "Resample".
 }
 \description{
-The \code{tidy} function from the \pkg{broom} package can be used on \code{rset} and
+The \code{tidy()} function from the \pkg{broom} package can be used on \code{rset} and
 \code{rsplit} objects to generate tibbles with which rows are in the analysis and
 assessment sets.
 }
