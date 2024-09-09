@@ -121,26 +121,26 @@ initial_validation_split <- function(data,
 
 check_prop_3 <- function(prop, call = rlang::caller_env()) {
   if (!is.numeric(prop)) {
-    rlang::abort("`prop` needs to be numeric.", call = call)
+    cli_abort("{.arg prop} needs to be numeric.", call = call)
   }
   if (any(is.na(prop))) {
-    rlang::abort("`prop` cannot contain `NA`.", call = call)
+    cli_abort("{.arg prop} cannot contain `NA`.", call = call)
   }
   if (any(is.null(prop))) {
-    rlang::abort("`prop` cannot contain `NULL`.", call = call)
+    cli_abort("{.arg prop} cannot contain `NULL`.", call = call)
   }
   if (length(prop) != 2L) {
-    rlang::abort(
-      "`prop` needs to contain the proportions for training and validation.",
+    cli_abort(
+      "{.arg prop} needs to contain the proportions for training and validation.",
       call = call
     )
   }
   if (any(!(prop > 0)) | any(!(prop < 1))) {
-    rlang::abort("Elements of `prop` need to be in (0, 1).", call = call)
+    cli_abort("Elements of {.arg prop} need to be in (0, 1).", call = call)
   }
   if (!(sum(prop) > 0 ) | !(sum(prop) < 1) ) {
-    rlang::abort(
-      "The sum of the proportions in `prop` needs to be in (0, 1).",
+    cli_abort(
+      "The sum of the proportions in {.arg prop} needs to be in (0, 1).",
       call = call
     )
   }
@@ -304,8 +304,8 @@ validation <- function(x, ...) {
 #' @rdname initial_validation_split
 validation.default <- function(x, ...) {
   cls <- class(x)
-  cli::cli_abort(
-    "No method for objects of class{?es}: {cls}"
+  cli_abort(
+    "No method for objects of class{?es}: {.cls {cls}}"
   )
 }
 
@@ -322,18 +322,18 @@ validation.initial_validation_split <- function(x, ...) {
 #' @export
 #' @keywords internal
 analysis.initial_validation_split <- function(x, ...) {
-  rlang::abort(
-    "The initial validation split does not contain an analysis set.",
-    i = "You can access the training data with `training()`."
+  cli_abort(
+    c("The initial validation split does not contain an analysis set.",
+    "i" = "You can access the training data with {.fun training}.")
   )
 }
 
 #' @export
 #' @keywords internal
 assessment.initial_validation_split <- function(x, ...) {
-  rlang::abort(
-    "The initial validation split does not contain an assessment set.",
-    i = "You can access the testing data with `testing()`."
+  cli_abort(
+    c("The initial validation split does not contain an assessment set.",
+    "i" = "You can access the testing data with {.fun testing}.")
   )
 }
 

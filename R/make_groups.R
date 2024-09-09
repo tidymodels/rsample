@@ -296,8 +296,8 @@ check_prop <- function(prop, replace) {
     ((prop <= 1 && replace) || (prop < 1 && !replace))
   acceptable_prop <- acceptable_prop && prop > 0
   if (!acceptable_prop) {
-    rlang::abort(
-      "`prop` must be a number between 0 and 1.",
+    cli_abort(
+      "{.arg prop} must be a number between 0 and 1.",
       call = rlang::caller_env()
     )
   }
@@ -345,13 +345,13 @@ validate_group <- function(group, data, call = rlang::caller_env()) {
   }
 
   if (is.null(group) || !is.character(group) || length(group) != 1) {
-    rlang::abort(
-      "`group` should be a single character value for the column that will be used for splitting.",
+    cli_abort(
+      "{.arg group} should be a single character value for the column that will be used for splitting.",
       call = call
     )
   }
   if (!any(names(data) == group)) {
-    rlang::abort("`group` should be a column in `data`.", call = call)
+    cli_abort("{.arg group} should be a column in {.arg data}.", call = call)
   }
 
   group

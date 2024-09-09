@@ -18,6 +18,8 @@
 
 * `vfold_cv()` and `clustering_cv()` now error on implicit leave-one-out cross-validation (@seb09, #527).
 
+* Error improvements via cli by @PriKalra (#523).
+
 ## Bug fixes
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
