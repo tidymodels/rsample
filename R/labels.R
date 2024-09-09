@@ -98,12 +98,12 @@ add_resample_id <- function(.data, split, dots = FALSE) {
     cli_abort("{.arg .data} should be a data frame.")
   }
   if (!inherits(split, "rsplit")) {
-    cli_abort("{.arg split} should be a single 'rset' object.")
+    cli_abort("{.arg split} should be a single {.cls rset} object.")
   }
   labs <- labels(split)
 
   if (!tibble::is_tibble(labs) && nrow(labs) == 1) {
-    cli_abort("{.arg split} should be a single 'rset' object.")
+    cli_abort("{.arg split} should be a single {.cls rset} object.")
   }
 
   if (dots) {
