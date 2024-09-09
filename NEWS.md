@@ -16,6 +16,8 @@
 
 * Improved documentation and formatting: function names are now more easily identifiable through either `()` at the end or being links to the function documentation (@brshallo , #521).
 
+* `vfold_cv()` and `clustering_cv()` now error on implicit leave-one-out cross-validation (@seb09, #527).
+
 ## Bug fixes
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
