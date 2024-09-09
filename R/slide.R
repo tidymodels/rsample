@@ -216,7 +216,7 @@ sliding_window <- function(data,
   rlang::check_dots_empty()
 
   if (!is.data.frame(data)) {
-    cli_abort("{.arg data} must be a {.cls data frame}.")
+    cli_abort("{.arg data} must be a data frame.")
   }
 
   lookback <- check_lookback(lookback)
@@ -299,7 +299,7 @@ sliding_index <- function(data,
   rlang::check_dots_empty()
 
   if (!is.data.frame(data)) {
-    cli_abort("{.arg data} must be a {.cls data frame}.")
+    cli_abort("{.arg data} must be a data frame.")
   }
 
   step <- check_step(step)
@@ -389,7 +389,7 @@ sliding_period <- function(data,
   rlang::check_dots_empty()
 
   if (!is.data.frame(data)) {
-    cli_abort("{.arg data} must be a {.cls data frame}.")
+    cli_abort("{.arg data} must be a data frame.")
   }
 
   lookback <- check_lookback(lookback)
