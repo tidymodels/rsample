@@ -2,7 +2,7 @@
 
 * The new `inner_split()` function and its methods for various resamples is for usage in tune to create a inner resample of the analysis set to fit the preprocessor and model on one part and the post-processor on the other part (#483, #488, #489).
 
-* Started moving error messages to cli (#499, #502). With contributions from @PriKalra (#526) and @JamesHWade (#518).
+* Started moving error messages to cli (#499, #502). With contributions from @PriKalra (#523, #526, #528) and @JamesHWade (#518).
 
 * Fixed example for `nested_cv()` (@seb09, #520).
 
@@ -17,8 +17,6 @@
 * Improved documentation and formatting: function names are now more easily identifiable through either `()` at the end or being links to the function documentation (@brshallo , #521).
 
 * `vfold_cv()` and `clustering_cv()` now error on implicit leave-one-out cross-validation (@seb09, #527).
-
-* Error improvements via cli by @PriKalra (#523).
 
 ## Bug fixes
 
