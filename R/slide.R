@@ -499,7 +499,7 @@ check_lookback <- function(x) {
 
 check_assess <- function(x, arg) {
   if (vctrs::vec_size(x) != 1L) {
-    cli_abort("{.arg arg} must have size 1.You have provided {.arg {arg}}")
+    cli_abort("{.arg {arg}} must have size 1.")
   }
 
   if (identical(x, Inf)) {
@@ -507,11 +507,11 @@ check_assess <- function(x, arg) {
   }
 
   if (!rlang::is_integerish(x, finite = TRUE)) {
-    cli_abort("{.arg arg} must be an integer of size 1, or `Inf`. You have provided {.arg {arg}}")
+    cli_abort("{.arg {arg}} must be an integer of size 1, or {.code Inf}.")
   }
 
   if (x <= 0L) {
-    cli_abort("{.arg arg} must be positive.")
+    cli_abort("{.arg {arg}} must be positive.")
   }
 
   vctrs::vec_cast(x, integer(), x_arg = arg)
