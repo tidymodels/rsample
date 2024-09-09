@@ -4,6 +4,8 @@
 
 * Started moving error messages to cli (#499, #502).
 
+* Error improvements via cli by @PriKalra (#523).
+
 ## Bug fixes
 
 * `vfold_cv()` now utilizes the `breaks` argument correctly for repeated cross-validation (@ZWael, #471).
