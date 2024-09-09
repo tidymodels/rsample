@@ -8,10 +8,7 @@ test_that("bad args", {
   expect_error(
     new_rset(car_folds$splits, car_folds$splits)
   )
-  expect_error(
-    new_rset(list(1), "x"),
-    "must be an `rsplit` object"
-  )
+  expect_snapshot(error = TRUE, {new_rset(list(1), "x")})
   args <- list(a = 1, b = 2, 3)
   expect_error(
     new_rset(
