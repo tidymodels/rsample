@@ -1,10 +1,9 @@
 #' Find Labels from rset Object
 #'
 #' Produce a vector of resampling labels (e.g. "Fold1") from
-#'  an `rset` object. Currently, `nested_cv`
-#'  is not supported.
+#' an `rset` object. Currently, [nested_cv()] is not supported.
 #'
-#' @param object An `rset` object
+#' @param object An `rset` object.
 #' @param make_factor A logical for whether the results should be
 #'  a character or a factor.
 #' @param ... Not currently used.
@@ -68,7 +67,7 @@ labels.rsplit <- function(object, ...) {
 #' For a data set, `add_resample_id()` will add at least one new column that
 #'  identifies which resample that the data came from. In most cases, a single
 #'  column is added but for some resampling methods, two or more are added.
-#' @param .data A data frame
+#' @param .data A data frame.
 #' @param split A single `rset` object.
 #' @param dots A single logical: should the id columns be prefixed with a "."
 #'  to avoid name conflicts with `.data`?

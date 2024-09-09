@@ -1,8 +1,8 @@
 #' Nested or Double Resampling
 #'
-#' `nested_cv` can be used to take the results of one resampling procedure
+#' `nested_cv()` can be used to take the results of one resampling procedure
 #'   and conduct further resamples within each split. Any type of resampling
-#'   used in `rsample` can be used.
+#'   used in rsample can be used.
 #'
 #' @details
 #' It is a bad idea to use bootstrapping as the outer resampling procedure (see
@@ -80,9 +80,9 @@ nested_cv <- function(data, outside, inside) {
 
   inner_cl <- cl[["inside"]]
   if (!is_call(inner_cl)) {
-    abort(
-      "`inside` should be a expression such as `vfold()` or ",
-      "bootstraps(times = 10)` instead of an existing object.",
+    cli_abort(
+      "{.arg inside} should be a expression such as {.code vfold()} or
+      {.code bootstraps(times = 10)} instead of an existing object."
     )
   }
   inside <- map(outside$splits, inside_resample, cl = inner_cl, env = env)

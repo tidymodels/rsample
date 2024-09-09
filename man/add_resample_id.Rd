@@ -7,7 +7,7 @@
 add_resample_id(.data, split, dots = FALSE)
 }
 \arguments{
-\item{.data}{A data frame}
+\item{.data}{A data frame.}
 
 \item{split}{A single \code{rset} object.}
 
