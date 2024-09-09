@@ -304,7 +304,7 @@ validation <- function(x, ...) {
 validation.default <- function(x, ...) {
   cls <- class(x)
   cli_abort(
-    "No method for objects of class{?es}: {.cls {cls}} "
+    "No method for objects of class{?es}: {.cls {cls}}"
   )
 }
 
