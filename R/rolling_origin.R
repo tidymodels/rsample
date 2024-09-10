@@ -1,9 +1,18 @@
 #' Rolling Origin Forecast Resampling
 #'
+#' @description
+#' `r lifecycle::badge("superseded")`
+#'
 #' This resampling method is useful when the data set has a strong time
 #'  component. The resamples are not random and contain data points that are
 #'  consecutive values. The function assumes that the original data set are
 #'  sorted in time order.
+#' 
+#' This function is superseded by [sliding_window()], [sliding_index()], and 
+#' [sliding_period()] which provide more flexibility and control. Superseded
+#' functions will not go away, but active development will be focused on the new
+#' functions. 
+#' 
 #' @details The main options, `initial` and `assess`, control the number of
 #'  data points from the original data that are in the analysis and assessment
 #'  set, respectively. When `cumulative = TRUE`, the analysis set will grow as
@@ -59,6 +68,13 @@
 #' @export
 rolling_origin <- function(data, initial = 5, assess = 1,
                            cumulative = TRUE, skip = 0, lag = 0, ...) {
+
+  lifecycle::signal_stage(
+    stage = "superseded", 
+    what = "rolling_origin()",
+    with = I("`sliding_window()`, `sliding_index()` and `sliding_period()`")
+  )
+
   check_dots_empty()
 
   n <- nrow(data)

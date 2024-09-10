@@ -49,6 +49,6 @@ Similarly, \code{\link[=group_mc_cv]{group_mc_cv()}} and its derivatives don't a
 only one) assessment set, but rather allow each observation to be in an
 assessment set zero-or-more times. As a result, those functions don't have
 a \code{balance} argument, and under the hood always specify \code{balance = "prop"}
-when they call \code{\link[=make_groups]{make_groups()}}.
+when they call \code{make_groups()}.
 }
 \keyword{internal}

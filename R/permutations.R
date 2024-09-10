@@ -5,12 +5,12 @@
 #'   by permuting/shuffling one or more columns. This results in analysis
 #'   samples where some columns are in their original order and some columns
 #'   are permuted to a random order. Unlike other sampling functions in
-#'   `rsample`, there is no assessment set and calling `assessment()` on a
+#'   rsample, there is no assessment set and calling [assessment()] on a
 #'   permutation split will throw an error.
 #'
 #' @param data A data frame.
 #' @param permute One or more columns to shuffle. This argument supports
-#'   `tidyselect` selectors. Multiple expressions can be combined with `c()`.
+#'   tidyselect selectors. Multiple expressions can be combined with `c()`.
 #'   Variable names can be used as if they were positions in the data frame, so
 #'   expressions like `x:y` can be used to select a range of variables.
 #'   See \code{\link[tidyselect]{language}} for more details.
