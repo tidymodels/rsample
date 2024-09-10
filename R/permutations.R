@@ -53,20 +53,20 @@ permutations <- function(data,
 
   permute <- rlang::enquo(permute)
   if (is.null(permute)) {
-    rlang::abort("You must specify at least one column to permute!")
+    cli_abort("You must specify at least one column to permute.")
   }
   col_id <- tidyselect::eval_select(permute, data)
 
   if (identical(length(col_id), 0L)) {
-    cli_abort("{.strong You must specify at least one column to permute!}")
+    cli_abort("You must specify at least one column to permute.")
   } else if (identical(length(col_id), ncol(data))) {
     cli_abort(c(
-      "!" = "{.emph {.strong You have selected all columns to permute.}}",
-      "x" = "This effectively reorders the rows in the original data without changing the data structure.",
-      "i" = "To achieve meaningful permutation:",
-      "*" = "{.field Select fewer columns} to permute.",
-      ">" = "Ideal: Choose specific columns that are relevant to your analysis."))
-     }
+      "You have selected all columns to permute.",
+      "i" = "This effectively reorders the rows in the original data without 
+      changing the data structure.",
+     ">" = "Please select fewer columns to permute."
+   ))
+  }
 
   split_objs <- perm_splits(data, times)
 

@@ -54,18 +54,12 @@ reg_intervals <-
     } else {
       times <- times[1]
       if (!is.numeric(times)) {
-          cli_abort(c(
-          "x" = "{.arg times} should be a single integer.",
-          "i" = "You provided {.val {times}}."
-        ))
+          cli_abort("{.arg times} should be a single integer.")
       }
     }
 
     if (length(alpha) != 1 || !is.numeric(alpha)) {
-      cli_abort(c(
-        "x" = "{.arg alpha} must be a single numeric value.",
-        "i" = "Please ensure that {.arg alpha} is a numeric value and not a vector or other type."
-      ))
+      cli_abort("{.arg alpha} must be a single numeric value.")
     }
 
     if (model_fn %in% c("survreg", "coxph")) {
