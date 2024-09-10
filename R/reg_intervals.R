@@ -54,12 +54,12 @@ reg_intervals <-
     } else {
       times <- times[1]
       if (!is.numeric(times)) {
-        rlang::abort("'times' should be a single integer.")
+          cli_abort("{.arg times} should be a single integer.")
       }
     }
 
     if (length(alpha) != 1 || !is.numeric(alpha)) {
-      abort("`alpha` must be a single numeric value.")
+      cli_abort("{.arg alpha} must be a single numeric value.")
     }
 
     if (model_fn %in% c("survreg", "coxph")) {
