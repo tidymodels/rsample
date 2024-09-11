@@ -287,7 +287,7 @@ group_vfold_splits <- function(data, group, v = NULL, balance, strata = NULL, po
         )$count
       )
       message <- c(
-        "Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum."
+        "Leaving {.code v = NULL} while using stratification will set {.arg v} to the number of groups present in the least common stratum."
       )
 
       if (max_v < 5) {
