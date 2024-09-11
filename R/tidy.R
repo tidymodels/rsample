@@ -119,7 +119,7 @@ tidy.nested_cv <- function(x, unique_ind = TRUE, ...) {
 
   inner_id <- grep("^id", names(inner_tidy))
   if (length(inner_id) != length(id_cols)) {
-    rlang::abort("Cannot merge tidy data sets")
+    cli_abort("Cannot merge tidy data sets.")
   }
   names(inner_tidy)[inner_id] <- id_cols
   full_join(outer_tidy, inner_tidy, by = id_cols)
