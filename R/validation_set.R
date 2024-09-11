@@ -90,7 +90,7 @@ validation.val_split <- function(x, ...) {
 #' @export
 testing.val_split <- function(x, ...) {
  cli_abort(c(
-  "x" = "{.strong The testing data is not part of the validation set object.}",
-  "i" = "It is part of the result of the initial 3-way split, e.g., with {.code initial_validation_split()}."
+  "The testing data is not part of the validation set object.",
+  "i" = "It is part of the result of the initial 3-way split, e.g., with {.fun initial_validation_split}."
 ))
 }
