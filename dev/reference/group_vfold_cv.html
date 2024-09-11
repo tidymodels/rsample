@@ -222,8 +222,9 @@ identification variable.</p>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">city_strata</span>, by <span class="op">=</span> <span class="st">"city"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">group_vfold_cv</span><span class="op">(</span><span class="va">sacramento_data</span>, <span class="va">city</span>, strata <span class="op">=</span> <span class="va">strata</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Set `v` explicitly to override this warning.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Leaving `v = NULL` while using stratification will set `v` to the number</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> of groups present in the least common stratum.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Set `v` explicitly to override this warning.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # Group 14-fold cross-validation </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    splits            id        </span>
