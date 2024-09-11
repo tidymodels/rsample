@@ -12,7 +12,7 @@
 #' @export
 rsample2caret <- function(object, data = c("analysis", "assessment")) {
   if (!inherits(object, "rset")) {
-    cli_abort("`object` must be an `rset`")
+    cli_abort("{.arg object} must be an {.cls rset}.")
   }
   data <- rlang::arg_match(data)
   in_ind <- purrr::map(object$splits, as.integer, data = "analysis")
@@ -35,16 +35,16 @@ caret2rsample <- function(ctrl, data = NULL) {
     cli_abort("Must supply original data")
   }
   if (!any(names(ctrl) == "index")) {
-    cli_abort("{.arg ctrl} should have an element {.arg index}")
+    cli_abort("{.arg ctrl} should have an element {.val index}")
   }
   if (!any(names(ctrl) == "indexOut")) {
-    cli_abort("{.arg ctrl} should have an element {.arg indexOut}")
+    cli_abort("{.arg ctrl} should have an element {.val indexOut}")
   }
   if (is.null(ctrl$index)) {
-    cli_abort("{.arg ctrl$index} should be populated with integers")
+    cli_abort("{.val ctrl$index} should be populated with integers")
   }
   if (is.null(ctrl$indexOut)) {
-    cli_abort("{.arg ctrl$indexOut} should be populated with integers")
+    cli_abort("{.val ctrl$indexOut} should be populated with integers")
   }
 
   indices <- purrr::map2(ctrl$index, ctrl$indexOut, extract_int)
@@ -113,7 +113,7 @@ map_rsplit_method <- function(method) {
   )
   if (out == "error") {
     cli_abort(
-      "Resampling method {.arg method} cannot be converted into an {.arg rsplit} object"
+      "Resampling method {.arg method} cannot be converted into an {.cls rsplit} object"
     )
   }
   out
@@ -137,7 +137,7 @@ map_rset_method <- function(method) {
     "error"
   )
   if (out == "error") {
-    cli_abort("Resampling method {.arg method} cannot be converted into an {.arg rset} object")
+    cli_abort("Resampling method {.arg method} cannot be converted into an {.cls rset} object")
   }
   out
 }
