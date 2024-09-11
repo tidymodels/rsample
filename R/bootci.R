@@ -6,22 +6,22 @@
 
 check_rset <- function(x, app = TRUE) {
   if (!inherits(x, "bootstraps")) {
-    cli_abort("{.arg .data} should be an `rset` object generated from {.fn bootstraps}")
+    cli_abort("{.arg .data} should be an {.cls rset} object generated from {.fn bootstraps}.")
   }
 
   if (app) {
     if (x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1) {
-      cli_abort("Please set `apparent = TRUE` in {.fn bootstraps} function")
+      cli_abort("Please set {.code apparent = TRUE} in {.fn bootstraps} function.")
     }
   }
   invisible(NULL)
 }
 
 
-stat_fmt_err <- paste("`statistics` should select a list column of tidy results.")
+stat_fmt_err <- "{.arg statistics} should select a list column of tidy results."
 stat_nm_err <- paste(
-  "The tibble in `statistics` should have columns for",
-  "'estimate' and 'term`"
+  "The tibble in {.arg statistics} should have columns for",
+  "'estimate' and 'term'."
 )
 std_exp <- c("std.error", "robust.se")
 
