@@ -85,6 +85,7 @@ test_that("bad args", {
   expect_snapshot_error(vfold_cv(iris, v = 150, repeats = 2))
   expect_snapshot_error(vfold_cv(Orange, repeats = 0))
   expect_snapshot_error(vfold_cv(Orange, repeats = NULL))
+  expect_snapshot(error = TRUE, vfold_cv(mtcars, v = nrow(mtcars)))
 })
 
 test_that("printing", {

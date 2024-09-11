@@ -61,19 +61,20 @@ grouping observations with the same value to either the analysis or
 assessment set within a fold.}
 }
 \value{
-An \code{rsplit} object that can be used with the \code{training} and \code{testing}
+An \code{rsplit} object that can be used with the \code{training()} and \code{testing()}
 functions to extract the data in each split.
 }
 \description{
-\code{initial_split} creates a single binary split of the data into a training
-set and testing set. \code{initial_time_split} does the same, but takes the
+\code{initial_split()} creates a single binary split of the data into a training
+set and testing set. \code{initial_time_split()} does the same, but takes the
 \emph{first} \code{prop} samples for training, instead of a random selection.
-\code{group_initial_split} creates splits of the data based
+\code{group_initial_split()} creates splits of the data based
 on some grouping variable, so that all data in a "group" is assigned to
 the same split.
-\code{training} and \code{testing} are used to extract the resulting data.
 }
 \details{
+\code{training()} and \code{testing()} are used to extract the resulting data.
+
 With a \code{strata} argument, the random sampling is conducted
 \emph{within the stratification variable}. This can help ensure that the
 resamples have equivalent proportions as the original data set. For

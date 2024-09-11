@@ -9,31 +9,41 @@
 
 # bad args
 
-    `v` must be a single positive integer greater than 1
+    `v` must be a single positive integer greater than 1.
 
 ---
 
-    `v` must be a single positive integer greater than 1
+    `v` must be a single positive integer greater than 1.
 
 ---
 
-    `v` must be a single positive integer greater than 1
+    `v` must be a single positive integer greater than 1.
 
 ---
 
-    The number of rows is less than `v = 500`
+    The number of rows is less than `v` = 500.
 
 ---
 
-    Repeated resampling when `v` is 150 would create identical resamples
+    Repeated resampling when `v` is 150 would create identical resamples.
 
 ---
 
-    `repeats` must be a single positive integer
+    `repeats` must be a single positive integer.
 
 ---
 
-    `repeats` must be a single positive integer
+    `repeats` must be a single positive integer.
+
+---
+
+    Code
+      vfold_cv(mtcars, v = nrow(mtcars))
+    Condition
+      Error in `vfold_cv()`:
+      ! Leave-one-out cross-validation is not supported by this function.
+      x You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.
+      i Use `loo_cv()` in this case.
 
 # printing
 
@@ -57,11 +67,11 @@
 
 # grouping -- bad args
 
-    Repeated resampling when `v` is 4 would create identical resamples
+    Repeated resampling when `v` is 4 would create identical resamples.
 
 ---
 
-    Repeated resampling when `v` is `NULL` would create identical resamples
+    Repeated resampling when `v` is "NULL" would create identical resamples.
 
 ---
 
@@ -69,7 +79,7 @@
       group_vfold_cv(Orange, v = 1, group = "Tree")
     Condition
       Error in `group_vfold_cv()`:
-      ! `v` must be a single positive integer greater than 1
+      ! `v` must be a single positive integer greater than 1.
 
 # grouping -- other balance methods
 
