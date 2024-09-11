@@ -45,6 +45,7 @@ test_that("bad args", {
   expect_snapshot(error = TRUE, clustering_cv(Orange, v = 1, vars = "Tree"))
   expect_snapshot_error(clustering_cv(Orange, repeats = 0))
   expect_snapshot_error(clustering_cv(Orange, repeats = NULL))
+  expect_snapshot(error = TRUE, clustering_cv(mtcars, mpg, v = nrow(mtcars)))
 })
 
 test_that("printing", {

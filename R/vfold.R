@@ -122,10 +122,10 @@ vfold_cv <- function(data, v = 10, repeats = 1,
 }
 
 
-vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1) {
+vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1, prevent_loo = TRUE) {
 
   n <- nrow(data)
-  check_v(v, n, call = rlang::caller_env())
+  check_v(v, n, prevent_loo = prevent_loo, call = rlang::caller_env())
 
   if (is.null(strata)) {
     folds <- sample(rep(1:v, length.out = n))
@@ -309,7 +309,7 @@ group_vfold_splits <- function(data, group, v = NULL, balance, strata = NULL, po
   if (is.null(v)) {
     v <- max_v
   }
-  check_v(v = v, max_v = max_v, rows = "groups", call = rlang::caller_env())
+  check_v(v = v, max_v = max_v, rows = "groups", prevent_loo = FALSE, call = rlang::caller_env())
 
   indices <- make_groups(data, group, v, balance, strata)
   indices <- lapply(indices, default_complement, n = nrow(data))
@@ -330,7 +330,7 @@ add_vfolds <- function(x, v) {
   x
 }
 
-check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
+check_v <- function(v, max_v, rows = "rows", prevent_loo = TRUE, call = rlang::caller_env()) {
   if (!is.numeric(v) || length(v) != 1 || v < 2) {
     cli_abort("{.arg v} must be a single positive integer greater than 1.", call = call)
   } else if (v > max_v) {
@@ -338,6 +338,12 @@ check_v <- function(v, max_v, rows = "rows", call = rlang::caller_env()) {
       "The number of {rows} is less than {.arg v} = {.val {v}}.",
       call = call
     )
+  } else if (prevent_loo && isTRUE(v == max_v)) {
+    cli_abort(c(
+      "Leave-one-out cross-validation is not supported by this function.",
+      "x" = "You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.",
+      "i" = "Use `loo_cv()` in this case."
+    ), call = call)
   }
 }
 

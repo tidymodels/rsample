@@ -5,12 +5,12 @@
 #'   by permuting/shuffling one or more columns. This results in analysis
 #'   samples where some columns are in their original order and some columns
 #'   are permuted to a random order. Unlike other sampling functions in
-#'   `rsample`, there is no assessment set and calling `assessment()` on a
+#'   rsample, there is no assessment set and calling [assessment()] on a
 #'   permutation split will throw an error.
 #'
 #' @param data A data frame.
 #' @param permute One or more columns to shuffle. This argument supports
-#'   `tidyselect` selectors. Multiple expressions can be combined with `c()`.
+#'   tidyselect selectors. Multiple expressions can be combined with `c()`.
 #'   Variable names can be used as if they were positions in the data frame, so
 #'   expressions like `x:y` can be used to select a range of variables.
 #'   See \code{\link[tidyselect]{language}} for more details.
@@ -53,14 +53,19 @@ permutations <- function(data,
 
   permute <- rlang::enquo(permute)
   if (is.null(permute)) {
-    rlang::abort("You must specify at least one column to permute!")
+    cli_abort("You must specify at least one column to permute.")
   }
   col_id <- tidyselect::eval_select(permute, data)
 
   if (identical(length(col_id), 0L)) {
-    rlang::abort("You must specify at least one column to permute!")
+    cli_abort("You must specify at least one column to permute.")
   } else if (identical(length(col_id), ncol(data))) {
-    rlang::abort("You have selected all columns to permute. This effectively reorders the rows in the original data without changing the data structure. Please select fewer columns to permute.")
+    cli_abort(c(
+      "You have selected all columns to permute.",
+      "i" = "This effectively reorders the rows in the original data without 
+      changing the data structure.",
+     ">" = "Please select fewer columns to permute."
+   ))
   }
 
   split_objs <- perm_splits(data, times)

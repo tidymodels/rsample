@@ -1,4 +1,4 @@
-## The `pretty` methods below are good for when you need to
+## The `pretty()` methods below are good for when you need to
 ## textually describe the resampling procedure. Note that they
 ## can have more than one element (in the case of nesting)
 

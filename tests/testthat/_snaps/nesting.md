@@ -25,8 +25,8 @@
     Code
       nested_cv(mtcars, outside = vfold_cv(), inside = folds)
     Condition
-      Error in `list2()`:
-      ! Argument 3 can't be empty.
+      Error in `nested_cv()`:
+      ! `inside` should be a expression such as `vfold()` or `bootstraps(times = 10)` instead of an existing object.
 
 # printing
 

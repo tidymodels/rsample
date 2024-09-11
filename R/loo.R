@@ -13,7 +13,7 @@
 #' @export
 loo_cv <- function(data, ...) {
   check_dots_empty()
-  split_objs <- vfold_splits(data = data, v = nrow(data))
+  split_objs <- vfold_splits(data = data, v = nrow(data), prevent_loo = FALSE)
   split_objs <-
     list(
       splits = map(split_objs$splits, change_class),

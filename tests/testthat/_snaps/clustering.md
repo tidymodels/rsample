@@ -30,6 +30,16 @@
 
     `repeats` must be a single positive integer.
 
+---
+
+    Code
+      clustering_cv(mtcars, mpg, v = nrow(mtcars))
+    Condition
+      Error in `clustering_cv()`:
+      ! Leave-one-out cross-validation is not supported by this function.
+      x You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.
+      i Use `loo_cv()` in this case.
+
 # printing
 
     Code

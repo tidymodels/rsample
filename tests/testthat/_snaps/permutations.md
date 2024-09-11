@@ -6,6 +6,16 @@
       Error in `as.data.frame()`:
       ! There is no assessment data set for an `rsplit` object with class <perm_split>.
 
+# bad args
+
+    Code
+      permutations(mtcars, everything())
+    Condition
+      Error in `permutations()`:
+      ! You have selected all columns to permute.
+      i This effectively reorders the rows in the original data without changing the data structure.
+      > Please select fewer columns to permute.
+
 # printing
 
     Code
