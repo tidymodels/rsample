@@ -5,6 +5,7 @@
     Condition
       Error in `analysis()`:
       ! The initial validation split does not contain an analysis set.
+      i You can access the training data with `training()`.
 
 ---
 
@@ -13,6 +14,7 @@
     Condition
       Error in `assessment()`:
       ! The initial validation split does not contain an assessment set.
+      i You can access the testing data with `testing()`.
 
 # basic split stratified
 
@@ -49,6 +51,7 @@
     Condition
       Error in `analysis()`:
       ! The initial validation split does not contain an analysis set.
+      i You can access the training data with `training()`.
 
 ---
 
@@ -57,6 +60,7 @@
     Condition
       Error in `assessment()`:
       ! The initial validation split does not contain an assessment set.
+      i You can access the testing data with `testing()`.
 
 # check_prop_3() works
 

@@ -10,7 +10,7 @@ permutations(data, permute = NULL, times = 25, apparent = FALSE, ...)
 \item{data}{A data frame.}
 
 \item{permute}{One or more columns to shuffle. This argument supports
-\code{tidyselect} selectors. Multiple expressions can be combined with \code{c()}.
+tidyselect selectors. Multiple expressions can be combined with \code{c()}.
 Variable names can be used as if they were positions in the data frame, so
 expressions like \code{x:y} can be used to select a range of variables.
 See \code{\link[tidyselect]{language}} for more details.}
@@ -33,7 +33,7 @@ A permutation sample is the same size as the original data set and is made
 by permuting/shuffling one or more columns. This results in analysis
 samples where some columns are in their original order and some columns
 are permuted to a random order. Unlike other sampling functions in
-\code{rsample}, there is no assessment set and calling \code{assessment()} on a
+rsample, there is no assessment set and calling \code{\link[=assessment]{assessment()}} on a
 permutation split will throw an error.
 }
 \details{

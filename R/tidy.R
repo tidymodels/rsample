@@ -1,19 +1,19 @@
 #' Tidy Resampling Object
 #'
-#' The `tidy` function from the \pkg{broom} package can be used on `rset` and
+#' The `tidy()` function from the \pkg{broom} package can be used on `rset` and
 #'  `rsplit` objects to generate tibbles with which rows are in the analysis and
 #'  assessment sets.
-#' @param x A  `rset` or  `rsplit` object
+#' @param x A `rset` or `rsplit` object
 #' @param unique_ind Should unique row identifiers be returned? For example,
 #'  if `FALSE` then bootstrapping results will include multiple rows in the
 #'  sample for the same row in the original data.
 #' @inheritParams rlang::args_dots_empty
 #' @return A tibble with columns `Row` and `Data`. The latter has possible
-#'  values "Analysis" or "Assessment". For `rset` inputs, identification columns
-#'  are also returned but their names and values depend on the type of
-#'  resampling. `vfold_cv` contains a column "Fold" and, if repeats are used,
-#'  another called "Repeats". `bootstraps` and `mc_cv` use the column
-#'  "Resample".
+#'   values "Analysis" or "Assessment". For `rset` inputs, identification
+#'   columns are also returned but their names and values depend on the type of
+#'   resampling. For [vfold_cv()], contains a column "Fold" and, if repeats are
+#'   used, another called "Repeats". [bootstraps()] and [mc_cv()] use the column
+#'   "Resample".
 #' @details Note that for nested resampling, the rows of the inner resample,
 #'  named `inner_Row`, are *relative* row indices and do not correspond to the
 #'  rows in the original data set.
@@ -119,7 +119,7 @@ tidy.nested_cv <- function(x, unique_ind = TRUE, ...) {
 
   inner_id <- grep("^id", names(inner_tidy))
   if (length(inner_id) != length(id_cols)) {
-    rlang::abort("Cannot merge tidy data sets")
+    cli_abort("Cannot merge tidy data sets.")
   }
   names(inner_tidy)[inner_id] <- id_cols
   full_join(outer_tidy, inner_tidy, by = id_cols)
