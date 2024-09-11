@@ -129,7 +129,7 @@ check_num_resamples <- function(x, B = 1000) {
 
   if (nrow(x) > 0) {
     terms <- x$term
-    cli::cli_warn("Recommend at least {B} non-missing bootstrap resamples for {terms} term{?s}.")
+    cli::cli_warn("Recommend at least {B} non-missing bootstrap resamples for {cli::qty(terms)} term{?s} {.code {terms}}.")
   }
   invisible(NULL)
 }
