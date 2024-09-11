@@ -4,11 +4,11 @@
 
 ---
 
-    `v` must be a single positive integer greater than 1
+    `v` must be a single positive integer greater than 1.
 
 ---
 
-    The number of rows is less than `v = 500`
+    The number of rows is less than `v` = 500.
 
 ---
 
@@ -20,15 +20,15 @@
       clustering_cv(Orange, v = 1, vars = "Tree")
     Condition
       Error in `clustering_cv()`:
-      ! `v` must be a single positive integer greater than 1
+      ! `v` must be a single positive integer greater than 1.
 
 ---
 
-    `repeats` must be a single positive integer
+    `repeats` must be a single positive integer.
 
 ---
 
-    `repeats` must be a single positive integer
+    `repeats` must be a single positive integer.
 
 # printing
 

@@ -9,31 +9,31 @@
 
 # bad args
 
-    `v` must be a single positive integer greater than 1
+    `v` must be a single positive integer greater than 1.
 
 ---
 
-    `v` must be a single positive integer greater than 1
+    `v` must be a single positive integer greater than 1.
 
 ---
 
-    `v` must be a single positive integer greater than 1
+    `v` must be a single positive integer greater than 1.
 
 ---
 
-    The number of rows is less than `v = 500`
+    The number of rows is less than `v` = 500.
 
 ---
 
-    Repeated resampling when `v` is 150 would create identical resamples
+    Repeated resampling when `v` is 150 would create identical resamples.
 
 ---
 
-    `repeats` must be a single positive integer
+    `repeats` must be a single positive integer.
 
 ---
 
-    `repeats` must be a single positive integer
+    `repeats` must be a single positive integer.
 
 # printing
 
@@ -57,11 +57,11 @@
 
 # grouping -- bad args
 
-    Repeated resampling when `v` is 4 would create identical resamples
+    Repeated resampling when `v` is 4 would create identical resamples.
 
 ---
 
-    Repeated resampling when `v` is `NULL` would create identical resamples
+    Repeated resampling when `v` is "NULL" would create identical resamples.
 
 ---
 
@@ -69,7 +69,7 @@
       group_vfold_cv(Orange, v = 1, group = "Tree")
     Condition
       Error in `group_vfold_cv()`:
-      ! `v` must be a single positive integer greater than 1
+      ! `v` must be a single positive integer greater than 1.
 
 # grouping -- other balance methods
 
