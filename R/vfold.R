@@ -298,9 +298,9 @@ group_vfold_splits <- function(data, group, v = NULL, balance, strata = NULL, po
         ), call = rlang::caller_env())
       }
 
-      rlang::warn(c(
+      cli_warn(c(
         message,
-        i = "Set `v` explicitly to override this warning."
+        i = "Set {.arg v} explicitly to override this warning."
       ),
       call = rlang::caller_env())
     }
