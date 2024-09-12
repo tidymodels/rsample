@@ -4,11 +4,11 @@
 
 ---
 
-    `v` must be a single positive integer greater than 1
+    `v` must be a single positive integer greater than 1.
 
 ---
 
-    The number of rows is less than `v = 500`
+    The number of rows is less than `v` = 500.
 
 ---
 
@@ -20,15 +20,25 @@
       clustering_cv(Orange, v = 1, vars = "Tree")
     Condition
       Error in `clustering_cv()`:
-      ! `v` must be a single positive integer greater than 1
+      ! `v` must be a single positive integer greater than 1.
 
 ---
 
-    `repeats` must be a single positive integer
+    `repeats` must be a single positive integer.
 
 ---
 
-    `repeats` must be a single positive integer
+    `repeats` must be a single positive integer.
+
+---
+
+    Code
+      clustering_cv(mtcars, mpg, v = nrow(mtcars))
+    Condition
+      Error in `clustering_cv()`:
+      ! Leave-one-out cross-validation is not supported by this function.
+      x You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.
+      i Use `loo_cv()` in this case.
 
 # printing
 

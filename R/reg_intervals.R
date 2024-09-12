@@ -2,18 +2,18 @@
 #'
 #' @param formula An R model formula with one outcome and at least one predictor.
 #' @param data A data frame.
-#' @param model_fn The model to fit. Allowable values are "lm", "glm",
-#'  "survreg", and "coxph". The latter two require that the `survival` package
+#' @param model_fn The model to fit. Allowable values are `"lm"`, `"glm"`,
+#'  `"survreg"`, and `"coxph"`. The latter two require that the survival package
 #'  be installed.
-#' @param type The type of bootstrap confidence interval. Values of "student-t" and
-#' "percentile" are allowed.
+#' @param type The type of bootstrap confidence interval. Values of `"student-t"` and
+#' `"percentile"` are allowed.
 #' @param times A single integer for the number of bootstrap samples. If left
-#' NULL, 1,001 are used for t-intervals and 2,001 for percentile intervals.
+#' `NULL`, 1,001 are used for t-intervals and 2,001 for percentile intervals.
 #' @param alpha Level of significance.
 #' @param filter A logical expression used to remove rows from the final result, or `NULL` to keep all rows.
 #' @param keep_reps Should the individual parameter estimates for each bootstrap
 #' sample be retained?
-#' @param ... Options to pass to the model function (such as `family` for `glm()`).
+#' @param ... Options to pass to the model function (such as `family` for [stats::glm()]).
 #' @return A tibble with columns "term", ".lower", ".estimate", ".upper",
 #' ".alpha", and ".method". If `keep_reps = TRUE`, an additional list column
 #' called ".replicates" is also returned.
@@ -54,12 +54,12 @@ reg_intervals <-
     } else {
       times <- times[1]
       if (!is.numeric(times)) {
-        rlang::abort("'times' should be a single integer.")
+          cli_abort("{.arg times} should be a single integer.")
       }
     }
 
     if (length(alpha) != 1 || !is.numeric(alpha)) {
-      abort("`alpha` must be a single numeric value.")
+      cli_abort("{.arg alpha} must be a single numeric value.")
     }
 
     if (model_fn %in% c("survreg", "coxph")) {

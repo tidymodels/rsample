@@ -6,7 +6,7 @@
       Warning:
       Recommend at least 1000 non-missing bootstrap resamples for term `mean`.
       Error in `pctl_single()`:
-      ! All statistics have missing values..
+      ! All statistics have missing values.
 
 ---
 

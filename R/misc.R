@@ -126,7 +126,7 @@ split_unnamed <- function(x, f) {
 #' @param x An `rset` or `tune_results` object.
 #' @param ... Not currently used.
 #' @return A character value or `NA_character_` if the object was created prior
-#' to `rsample` version 0.1.0.
+#' to rsample version 0.1.0.
 #' @rdname get_fingerprint
 #' @aliases .get_fingerprint
 #' @examples

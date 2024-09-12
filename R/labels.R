@@ -1,10 +1,9 @@
 #' Find Labels from rset Object
 #'
 #' Produce a vector of resampling labels (e.g. "Fold1") from
-#'  an `rset` object. Currently, `nested_cv`
-#'  is not supported.
+#' an `rset` object. Currently, [nested_cv()] is not supported.
 #'
-#' @param object An `rset` object
+#' @param object An `rset` object.
 #' @param make_factor A logical for whether the results should be
 #'  a character or a factor.
 #' @param ... Not currently used.
@@ -14,7 +13,7 @@
 #' labels(vfold_cv(mtcars))
 labels.rset <- function(object, make_factor = FALSE, ...) {
   if (inherits(object, "nested_cv")) {
-    rlang::abort("`labels` not implemented for nested resampling")
+    cli_abort("{.arg labels} not implemented for nested resampling")
   }
   if (make_factor) {
     as.factor(object$id)
@@ -27,7 +26,7 @@ labels.rset <- function(object, make_factor = FALSE, ...) {
 #' @export
 labels.vfold_cv <- function(object, make_factor = FALSE, ...) {
   if (inherits(object, "nested_cv")) {
-    rlang::abort("`labels` not implemented for nested resampling")
+    cli_abort("{.arg labels} not implemented for nested resampling")
   }
   is_repeated <- attr(object, "repeats") > 1
   if (is_repeated) {
@@ -68,7 +67,7 @@ labels.rsplit <- function(object, ...) {
 #' For a data set, `add_resample_id()` will add at least one new column that
 #'  identifies which resample that the data came from. In most cases, a single
 #'  column is added but for some resampling methods, two or more are added.
-#' @param .data A data frame
+#' @param .data A data frame.
 #' @param split A single `rset` object.
 #' @param dots A single logical: should the id columns be prefixed with a "."
 #'  to avoid name conflicts with `.data`?
@@ -92,18 +91,18 @@ labels.rsplit <- function(object, ...) {
 #' @export
 add_resample_id <- function(.data, split, dots = FALSE) {
   if (!inherits(dots, "logical") || length(dots) > 1) {
-    rlang::abort("`dots` should be a single logical.")
+    cli_abort("{.arg dots} should be a single logical.")
   }
   if (!inherits(.data, "data.frame")) {
-    rlang::abort("`.data` should be a data frame.")
+    cli_abort("{.arg .data} should be a data frame.")
   }
   if (!inherits(split, "rsplit")) {
-    rlang::abort("`split` should be a single 'rset' object.")
+    cli_abort("{.arg split} should be a single {.cls rset} object.")
   }
   labs <- labels(split)
 
   if (!tibble::is_tibble(labs) && nrow(labs) == 1) {
-    rlang::abort("`split` should be a single 'rset' object.")
+    cli_abort("{.arg split} should be a single {.cls rset} object.")
   }
 
   if (dots) {

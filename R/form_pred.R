@@ -1,6 +1,6 @@
 #' Extract Predictor Names from Formula or Terms
 #'
-#' `all.vars` returns all variables used in a formula. This
+#' While [all.vars()] returns all variables used in a formula, this
 #'  function only returns the variables explicitly used on the
 #'  right-hand side (i.e., it will not resolve dots unless the
 #'  object is terms with a data set specified).

@@ -1,4 +1,4 @@
-## The `pretty` methods below are good for when you need to
+## The `pretty()` methods below are good for when you need to
 ## textually describe the resampling procedure. Note that they
 ## can have more than one element (in the case of nesting)
 
@@ -55,10 +55,10 @@ pretty.mc_cv <- function(x, ...) {
     signif(1 - details$prop, 2),
     ") with ",
     details$times,
-    " resamples "
+    " resamples"
   )
   if (has_strata(details)) {
-    res <- paste(res, "using stratification")
+    res <- paste(res, " using stratification")
   }
   res
 }
