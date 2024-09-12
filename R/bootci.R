@@ -445,7 +445,7 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
   stats <- stats %>% dplyr::filter(!orig)
 
   keys <- stats %>% dplyr::distinct(!!!stat_groups_sym)
-  for (i in 1:nrow(keys)) {
+  for (i in seq_len(nrow(keys))) {
     tmp_stats <- dplyr::inner_join(stats, keys[i,], by = stat_groups_chr)
     tmp_loo <- dplyr::inner_join(loo_estimate, keys[i,], by = stat_groups_chr)
 
