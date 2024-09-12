@@ -54,5 +54,7 @@ test_that("cannot create a split from dataframes with different columns", {
 })
 
 test_that("improper argument", {
-  expect_error(make_splits("potato"), "There is no method available to")
+  expect_snapshot(error = TRUE, {
+    make_splits("potato")
+  })
 })
