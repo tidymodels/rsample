@@ -88,9 +88,10 @@ the percentile confidence interval.</p></dd>
 <dd><p>An unquoted column name or <code>dplyr</code> selector that identifies
 a single column in the data set containing the individual bootstrap
 estimates. This must be a list column of tidy tibbles (with columns
-<code>term</code> and <code>estimate</code>). For t-intervals, a
-standard tidy column (usually called <code>std.err</code>) is required.
-See the examples below.</p></dd>
+<code>term</code> and <code>estimate</code>). Optionally, users can include columns whose names
+begin with a period and the intervals will be created for each combination
+of these variables and the <code>term</code> column. For t-intervals, a standard tidy
+column (usually called <code>std.err</code>) is required. See the examples below.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
@@ -142,6 +143,9 @@ doi:10.1017/CBO9780511802843</p>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ------------------------------------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">lm_est</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">split</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span>, data <span class="op">=</span> <span class="fu"><a href="as.data.frame.rsplit.html">analysis</a></span><span class="op">(</span><span class="va">split</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
@@ -179,6 +183,8 @@ doi:10.1017/CBO9780511802843</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> disp        -<span style="color: #BB0000;">0.044</span><span style="color: #BB0000; text-decoration: underline;">6</span>   -<span style="color: #BB0000;">0.030</span><span style="color: #BB0000; text-decoration: underline;">0</span> -<span style="color: #BB0000;">0.017</span><span style="color: #BB0000; text-decoration: underline;">2</span>    0.05 BCa    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> hp          -<span style="color: #BB0000;">0.057</span><span style="color: #BB0000; text-decoration: underline;">6</span>   -<span style="color: #BB0000;">0.026</span><span style="color: #BB0000; text-decoration: underline;">0</span> -<span style="color: #BB0000;">0.008</span><span style="color: #BB0000; text-decoration: underline;">43</span>   0.05 BCa    </span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ------------------------------------------------------------------------------</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># putting results into a tidy format</span></span></span>
 <span class="r-in"><span><span class="va">rank_corr</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">split</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="as.data.frame.rsplit.html">analysis</a></span><span class="op">(</span><span class="va">split</span><span class="op">)</span></span></span>
@@ -199,6 +205,40 @@ doi:10.1017/CBO9780511802843</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   term  .lower .estimate .upper .alpha .method   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> corr   0.737     0.768  0.796   0.05 percentile</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ------------------------------------------------------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># An example of computing the interval for each value of a custom grouping</span></span></span>
+<span class="r-in"><span><span class="co"># factor (type of house in this example)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get regression estimates for each house type</span></span></span>
+<span class="r-in"><span><span class="va">lm_est</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">split</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="as.data.frame.rsplit.html">analysis</a></span><span class="op">(</span><span class="va">split</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span>.by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="co"># Compute regression estimates for each house type</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      betas <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span> <span class="op">~</span> <span class="va">sqft</span>, data <span class="op">=</span> <span class="va">.x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="co"># Convert the column name to begin with a period</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>.type <span class="op">=</span> <span class="va">type</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">.type</span>, <span class="va">betas</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">betas</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">52156</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">house_rs</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="bootstraps.html">bootstraps</a></span><span class="op">(</span><span class="va">Sacramento</span>, <span class="fl">1000</span>, apparent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>results <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">splits</span>, <span class="va">lm_est</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">int_pctl</span><span class="op">(</span><span class="va">house_rs</span>, <span class="va">results</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   term        .type           .lower .estimate   .upper .alpha .method   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> (Intercept) Condo         4.45     4.59      4.72       0.05 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> (Intercept) Multi_Family  4.74     5.25      5.71       0.05 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> (Intercept) Residential   4.93     4.96      4.99       0.05 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> sqft        Condo         0.000<span style="text-decoration: underline;">412</span> 0.000<span style="text-decoration: underline;">520</span>  0.000<span style="text-decoration: underline;">659</span>   0.05 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> sqft        Multi_Family -<span style="color: #BB0000;">0.000</span><span style="color: #BB0000; text-decoration: underline;">197</span> 0.000<span style="text-decoration: underline;">034</span>4 0.000<span style="text-decoration: underline;">277</span>   0.05 percentile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> sqft        Residential   0.000<span style="text-decoration: underline;">211</span> 0.000<span style="text-decoration: underline;">225</span>  0.000<span style="text-decoration: underline;">240</span>   0.05 percentile</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
