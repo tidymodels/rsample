@@ -91,7 +91,7 @@ estimates. This must be a list column of tidy tibbles (with columns
 <code>term</code> and <code>estimate</code>). Optionally, users can include columns whose names
 begin with a period and the intervals will be created for each combination
 of these variables and the <code>term</code> column. For t-intervals, a standard tidy
-column (usually called <code>std.err</code>) is required. See the examples below.</p></dd>
+column (usually called <code>std.error</code>) is required. See the examples below.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
@@ -191,8 +191,8 @@ doi:10.1017/CBO9780511802843</p>
 <span class="r-in"><span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    term <span class="op">=</span> <span class="st">"corr"</span>,</span></span>
 <span class="r-in"><span>    estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">sqft</span>, <span class="va">dat</span><span class="op">$</span><span class="va">price</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="co"># don't know the analytical std.err so no t-intervals</span></span></span>
-<span class="r-in"><span>    std.err <span class="op">=</span> <span class="cn">NA_real_</span></span></span>
+<span class="r-in"><span>    <span class="co"># don't know the analytical std.error so no t-intervals</span></span></span>
+<span class="r-in"><span>    std.error <span class="op">=</span> <span class="cn">NA_real_</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
