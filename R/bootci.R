@@ -180,7 +180,7 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'  `term` and `estimate`). Optionally, users can include columns whose names
 #'  begin with a period and the intervals will be created for each combination
 #'  of these variables and the `term` column. For t-intervals, a standard tidy
-#'  column (usually called `std.err`) is required. See the examples below.
+#'  column (usually called `std.error`) is required. See the examples below.
 #' @param alpha Level of significance.
 #' @param .fn A function to calculate statistic of interest. The
 #'  function should take an `rsplit` as the first argument and the `...` are
@@ -238,8 +238,8 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'   tibble(
 #'     term = "corr",
 #'     estimate = cor(dat$sqft, dat$price, method = "spearman"),
-#'     # don't know the analytical std.err so no t-intervals
-#'     std.err = NA_real_
+#'     # don't know the analytical std.error so no t-intervals
+#'     std.error = NA_real_
 #'   )
 #' }
 #'

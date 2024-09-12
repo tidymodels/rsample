@@ -36,7 +36,7 @@ estimates. This must be a list column of tidy tibbles (with columns
 \code{term} and \code{estimate}). Optionally, users can include columns whose names
 begin with a period and the intervals will be created for each combination
 of these variables and the \code{term} column. For t-intervals, a standard tidy
-column (usually called \code{std.err}) is required. See the examples below.}
+column (usually called \code{std.error}) is required. See the examples below.}
 
 \item{alpha}{Level of significance.}
 
@@ -98,8 +98,8 @@ rank_corr <- function(split) {
   tibble(
     term = "corr",
     estimate = cor(dat$sqft, dat$price, method = "spearman"),
-    # don't know the analytical std.err so no t-intervals
-    std.err = NA_real_
+    # don't know the analytical std.error so no t-intervals
+    std.error = NA_real_
   )
 }
 
