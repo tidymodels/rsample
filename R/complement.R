@@ -66,7 +66,8 @@ get_stored_out_id <- function(x) {
   }
 
   if (all(is.na(out_id))) {
-    rlang::abort("Cannot derive the assessment set for this type of resampling.")
+    x_cls <- class(x)
+    cli_abort("Cannot derive the assessment set for this type of resampling with class{?es}: {.cls {x_cls}}.")
   }
 
   out_id
@@ -85,9 +86,9 @@ complement.apparent_split <- function(x, ...) {
 
 #' @export
 complement.default <- function(x, ...) {
-  cls <- paste0("'", class(x), "'", collapse = ", ")
-  rlang::abort(
-    paste("No `complement()` method for this class(es)", cls)
+  x_cls <- class(x)
+  cli_abort(
+     "No {.fn complement} method for objects of class{?es}: {.cls {x_cls}}"
   )
 }
 

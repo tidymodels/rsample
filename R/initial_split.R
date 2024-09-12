@@ -1,18 +1,20 @@
 #' Simple Training/Test Set Splitting
 #'
-#' `initial_split` creates a single binary split of the data into a training
-#'  set and testing set. `initial_time_split` does the same, but takes the
+#' `initial_split()` creates a single binary split of the data into a training
+#'  set and testing set. `initial_time_split()` does the same, but takes the
 #'  _first_ `prop` samples for training, instead of a random selection.
-#'  `group_initial_split` creates splits of the data based
+#'  `group_initial_split()` creates splits of the data based
 #'  on some grouping variable, so that all data in a "group" is assigned to
-#'  the same split.
-#'  `training` and `testing` are used to extract the resulting data.
+#'  the same split. 
+#' 
+#' @details `training()` and `testing()` are used to extract the resulting data.
+#'
 #' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
 #' @param prop The proportion of data to be retained for modeling/analysis.
 #' @export
-#' @return An `rsplit` object that can be used with the `training` and `testing`
+#' @return An `rsplit` object that can be used with the `training()` and `testing()`
 #'  functions to extract the data in each split.
 #' @examplesIf rlang::is_installed("modeldata")
 #' set.seed(1353)
@@ -73,17 +75,17 @@ initial_split <- function(data, prop = 3 / 4,
 initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   check_dots_empty()
   if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
-    rlang::abort("`prop` must be a number on (0, 1).")
+    cli_abort("{.arg prop} must be a number on (0, 1).")
   }
 
   if (!is.numeric(lag) | !(lag %% 1 == 0)) {
-    rlang::abort("`lag` must be a whole number.")
+    cli_abort("{.arg lag} must be a whole number.")
   }
 
   n_train <- floor(nrow(data) * prop)
 
   if (lag > n_train) {
-    rlang::abort("`lag` must be less than or equal to the number of training observations.")
+    cli_abort("{.arg lag} must be less than or equal to the number of training observations.")
   }
 
   split <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
@@ -176,12 +178,12 @@ group_initial_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, p
   attrib <- .get_split_args(res, allow_strata_false = TRUE)
 
   res <- res$splits[[1]]
-  
+
   attrib$times <- NULL
   for (i in names(attrib)) {
     attr(res, i) <- attrib[[i]]
   }
   class(res) <- c("group_initial_split", "initial_split", class(res))
-  
+
   res
 }

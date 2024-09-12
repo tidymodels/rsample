@@ -3,6 +3,7 @@
 
 ## usethis namespace: start
 #' @importFrom lifecycle deprecated
+#' @importFrom cli cli_abort cli_warn
 ## usethis namespace: end
 NULL
 

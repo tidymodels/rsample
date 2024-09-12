@@ -31,15 +31,15 @@ assessment(x, ...)
 
 \item{optional}{A logical: should the column names of the data be checked for legality?}
 
-\item{data}{Either "analysis" or "assessment" to specify which data are returned.}
+\item{data}{Either \code{"analysis"} or \code{"assessment"} to specify which data are returned.}
 
 \item{...}{Not currently used.}
 }
 \description{
 The analysis or assessment code can be returned as a data
 frame (as dictated by the \code{data} argument) using
-\code{as.data.frame.rsplit}. \code{analysis} and
-\code{assessment} are shortcuts.
+\code{as.data.frame.rsplit()}. \code{analysis()} and
+\code{assessment()} are shortcuts.
 }
 \examples{
 library(dplyr)
