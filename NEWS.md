@@ -2,23 +2,13 @@
 
 * The new `inner_split()` function and its methods for various resamples is for usage in tune to create a inner resample of the analysis set to fit the preprocessor and model on one part and the post-processor on the other part (#483, #488, #489).
 
-* Started moving error messages to cli (#499, #502). With contributions from @PriKalra (#523, #526, #528, #530, #531, #532), @Dpananos (#516, #517, #529), and @JamesHWade (#518).
+* Bootstrap intervals via `int_pctl()`, `int_t()`, and `int_bca()` now allow for more flexible grouping (#465).
 
-* Fixed example for `nested_cv()` (@seb09, #520).
+* Errors and warnings are now styled via cli (#499, #502). Largely done by @PriKalra (#523, #526, #528, #530, #531, #532), @Dpananos (#516, #517, #529), and @JamesHWade (#518) as part of the tidyverse dev day.
 
 * `rolling_origin()` is now superseded by `sliding_window()`, `sliding_index()`, and `sliding_period()` which provide more flexibility and control (@nmercadeb, #524).
 
-* Removed trailing space in printing of `mc_cv()` objects (@ccani007, #464).
-
-* Improved documentation for `initial_split()` and friends (@laurabrianna, #519).
-
-* Formatting improvement: package names are now not in backticks anymore (@agmurray, #525).
-
-* Improved documentation and formatting: function names are now more easily identifiable through either `()` at the end or being links to the function documentation (@brshallo , #521).
-
 * `vfold_cv()` and `clustering_cv()` now error on implicit leave-one-out cross-validation (@seb09, #527).
-
-* Bootstrap intervals via `int_pctl()`, `int_t()`, and `int_bca()` now allow for more flexible grouping (#465).
 
 ## Bug fixes
 
@@ -31,6 +21,18 @@
 * The class of grouped MC splits is now `group_mc_split` instead of `grouped_mc_split`, aligning it with the other grouped splits (#478).
 
 * The `rsplit` objects of an `apparent()` split now have the correct class inheritance structure. The order is now `apparent_split` and then `rsplit` rather than the other way around (#477).
+
+## Documentation improvements
+
+* Improved documentation and formatting: function names are now more easily identifiable through either `()` at the end or being links to the function documentation (@brshallo , #521).
+
+* Fixed example for `nested_cv()` (@seb09, #520).
+
+* Formatting improvement: package names are now not in backticks anymore (@agmurray, #525).
+
+* Improved documentation for `initial_split()` and friends (@laurabrianna, #519).
+
+* Removed trailing space in printing of `mc_cv()` objects (@ccani007, #464).
 
 
 # rsample 1.2.1
