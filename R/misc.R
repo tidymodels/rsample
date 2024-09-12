@@ -24,7 +24,8 @@ make_splits <- function(x, ...) {
 #' data frame of analysis or training data.
 #' @export
 make_splits.default <- function(x, ...) {
-  rlang::abort("There is no method available to make an rsplit from `x`.")
+  cls <- class(x)
+  cli_abort("No method for objects of class{?es}: {cls}")
 }
 
 #' @rdname make_splits
@@ -47,7 +48,7 @@ make_splits.list <- function(x, data, class = NULL, ...) {
 make_splits.data.frame <- function(x, assessment, ...) {
   rlang::check_dots_empty()
   if (nrow(x) == 0) {
-    rlang::abort("The analysis set must contain at least one row.")
+    cli_abort("The analysis set must contain at least one row.")
   }
 
   ind_analysis <- seq_len(nrow(x))
@@ -55,7 +56,7 @@ make_splits.data.frame <- function(x, assessment, ...) {
     ind_assessment <- integer()
   } else {
     if (!identical(colnames(x), colnames(assessment))) {
-      rlang::abort("The analysis and assessment sets must have the same columns.")
+      cli_abort("The analysis and assessment sets must have the same columns.")
     }
     ind_assessment <- nrow(x) + seq_len(nrow(assessment))
   }
@@ -100,13 +101,13 @@ add_class <- function(x, cls) {
 strata_check <- function(strata, data) {
   if (!is.null(strata)) {
     if (!is.character(strata) | length(strata) != 1) {
-      rlang::abort("`strata` should be a single name or character value.")
+      cli_abort("{.arg strata} should be a single name or character value.")
     }
     if (inherits(data[, strata], "Surv")) {
-      rlang::abort("`strata` cannot be a `Surv` object. Use the time or event variable directly.")
+      cli_abort("{.arg strata} cannot be a {.cls Surv} object. Use the time or event variable directly.")
     }
     if (!(strata %in% names(data))) {
-      rlang::abort(strata, " is not in `data`.")
+      cli_abort("{strata} is not in {.arg data}.")
     }
   }
   invisible(NULL)
@@ -148,10 +149,8 @@ split_unnamed <- function(x, f) {
 #' @export
 #' @rdname get_fingerprint
 .get_fingerprint.default <- function(x, ...) {
-  cls <- paste0("'", class(x), "'", collapse = ", ")
-  rlang::abort(
-    paste("No `.get_fingerprint()` method for this class(es)", cls)
-  )
+  cls <- class(x)
+  cli_abort("No method for objects of class{?es}: {cls}")
 }
 
 #' @export
@@ -192,16 +191,16 @@ reverse_splits <- function(x, ...) {
 #' @rdname reverse_splits
 #' @export
 reverse_splits.default <- function(x, ...) {
-  rlang::abort(
-    "`x` must be either an `rsplit` or an `rset` object"
+  cli_abort(
+    "{.arg x} must be either an {.cls rsplit} or an {.cls rset} object."
   )
 }
 
 #' @rdname reverse_splits
 #' @export
 reverse_splits.permutations <- function(x, ...) {
-  rlang::abort(
-    "Permutations cannot have their splits reversed"
+  cli_abort(
+    "Permutations cannot have their splits reversed."
   )
 }
 
@@ -253,18 +252,18 @@ reverse_splits.rset <- function(x, ...) {
 #' @export
 reshuffle_rset <- function(rset) {
   if (!inherits(rset, "rset")) {
-    rlang::abort("`rset` must be an rset object")
+    cli_abort("{.arg rset} must be an {.cls rset} object.")
   }
 
   if (inherits(rset, "manual_rset")) {
-    rlang::abort("`manual_rset` objects cannot be reshuffled")
+    cli_abort("{.arg manual_rset} objects cannot be reshuffled.")
   }
 
   # non-random classes is defined below
   if (any(non_random_classes %in% class(rset))) {
     cls <- class(rset)[[1]]
-    rlang::warn(
-      glue::glue("`reshuffle_rset()` will return an identical rset when called on {cls} objects")
+    cli::cli_warn(
+      "{.fun reshuffle_rset} will return an identical {.cls rset} when called on {.cls {cls}} objects."
     )
     if ("validation_set" %in% class(rset)) {
       return(rset)
@@ -274,10 +273,10 @@ reshuffle_rset <- function(rset) {
   rset_type <- class(rset)[[1]]
   split_arguments <- .get_split_args(rset)
   if (identical(split_arguments$strata, TRUE)) {
-    rlang::abort(
-      "Cannot reshuffle this rset (`attr(rset, 'strata')` is `TRUE`, not a column identifier)",
-      i = "If the original object was created with an older version of rsample, try recreating it with the newest version of the package"
-    )
+    cli_abort(c(
+      "Cannot reshuffle this rset ({.code attr(rset, 'strata')} is {.val TRUE}, not a column identifier)",
+      i = "If the original object was created with an older version of rsample, try recreating it with the newest version of the package."
+    ))
   }
 
   do.call(
@@ -297,8 +296,8 @@ non_random_classes <- c(
 
 #' Get the split arguments from an rset
 #' @param x An `rset` or `initial_split` object.
-#' @param allow_strata_false A logical to specify which value to use if no 
-#' stratification was specified. The default is to use `strata = NULL`, the 
+#' @param allow_strata_false A logical to specify which value to use if no
+#' stratification was specified. The default is to use `strata = NULL`, the
 #' alternative is `strata = FALSE`.
 #' @return A list of arguments used to create the rset.
 #' @keywords internal
@@ -315,7 +314,7 @@ non_random_classes <- c(
   args <- names(formals(function_used_to_create))
   split_args <- all_attributes[args]
   split_args <- split_args[!is.na(names(split_args))]
-  
+
   if (identical(split_args$strata, FALSE) && !allow_strata_false) {
     split_args$strata <- NULL
   }
@@ -361,10 +360,10 @@ get_rsplit.rset <- function(x, index, ...) {
       glue::glue("A value of {index} was provided.")
       )
 
-    rlang::abort(
+    cli_abort(
       c(
-        glue::glue("`index` must be a length-1 integer between 1 and {n_rows}."),
-        x = msg
+        "{.arg index} must be a length-1 integer between 1 and {n_rows}.",
+       "*" = msg
       )
     )
   }
@@ -375,8 +374,6 @@ get_rsplit.rset <- function(x, index, ...) {
 #' @rdname get_rsplit
 #' @export
 get_rsplit.default <- function(x, index, ...) {
-  cls <- paste0("'", class(x), "'", collapse = ", ")
-  rlang::abort(
-    paste("No `get_rsplit()` method for this class(es)", cls)
-  )
+  cls <- class(x)
+  cli_abort("No method for objects of class{?es}: {cls}")
 }
