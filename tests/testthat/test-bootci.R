@@ -285,3 +285,65 @@ test_that("regression intervals", {
     "must be a single numeric value"
   )
 })
+
+test_that("compute intervals with additional grouping terms", {
+  skip_if_not_installed("broom")
+
+  lm_coefs <- function(dat) {
+    mod <- lm(mpg ~ I(1/disp), data = dat)
+    tidy(mod)
+  }
+
+  coef_by_engine_shape <- function(split, ...) {
+    split %>%
+      analysis() %>%
+      dplyr::rename(.vs = vs) %>%
+      tidyr::nest(.by = .vs) %>%
+      dplyr::mutate(coefs = map(data, lm_coefs)) %>%
+      dplyr::select(-data) %>%
+      tidyr::unnest(coefs)
+  }
+
+  set.seed(270)
+  boot_rs <-
+    bootstraps(mtcars, 1000, apparent = TRUE) %>%
+    dplyr::mutate(results = purrr::map(splits, coef_by_engine_shape))
+
+  pctl_res <- int_pctl(boot_rs, results)
+  t_res <- int_t(boot_rs, results)
+  bca_res <- int_bca(boot_rs, results, .fn = coef_by_engine_shape)
+
+  exp_ptype <-
+    tibble::tibble(
+      term = character(0),
+      .vs = numeric(0),
+      .lower = numeric(0),
+      .estimate = numeric(0),
+      .upper = numeric(0),
+      .alpha = numeric(0),
+      .method = character(0)
+    )
+
+  expect_equal(pctl_res[0, ], exp_ptype)
+  expect_equal(t_res[0, ], exp_ptype)
+  expect_equal(bca_res[0, ], exp_ptype)
+  
+  exp_combos <-
+    tibble::tribble(
+      ~term,         ~.vs,
+      "(Intercept)",    0,
+      "(Intercept)",    1,
+      "I(1/disp)",      0,
+      "I(1/disp)",      1
+    )
+
+  group_patterns <- function(x) {
+    dplyr::distinct(x, term, .vs) %>%
+      dplyr::arrange(term, .vs)
+  }
+
+  expect_equal(group_patterns(pctl_res), exp_combos)
+  expect_equal(group_patterns(t_res), exp_combos)
+  expect_equal(group_patterns(bca_res), exp_combos)
+})
+
