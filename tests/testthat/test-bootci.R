@@ -324,6 +324,10 @@ test_that("compute intervals with additional grouping terms", {
       .method = character(0)
     )
 
+  expect_equal(pctl_res[0, ], exp_ptype)
+  expect_equal(t_res[0, ], exp_ptype)
+  expect_equal(bca_res[0, ], exp_ptype)
+  
   exp_combos <-
     tibble::tribble(
       ~term,         ~.vs,
@@ -332,10 +336,6 @@ test_that("compute intervals with additional grouping terms", {
       "I(1/disp)",      0,
       "I(1/disp)",      1
     )
-
-  expect_equal(pctl_res[0, ], exp_ptype)
-  expect_equal(t_res[0, ], exp_ptype)
-  expect_equal(bca_res[0, ], exp_ptype)
 
   group_patterns <- function(x) {
     dplyr::distinct(x, term, .vs) %>%
