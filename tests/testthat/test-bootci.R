@@ -166,10 +166,25 @@ test_that(
 
     expect_snapshot(int_pctl(bt_small, stats))
     expect_snapshot(int_t(bt_small, stats))
-    expect_snapshot(int_bca(bt_small, stats, .fn = get_stats))
   }
 )
 
+test_that(
+  "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
+  {
+    skip("until we don't get a message about loading purrr in the snapshot in R CMD check hard")
+    # unskip this by moving the expectation back into the test_that block above
+    set.seed(456765)
+  bt_small <-
+    bootstraps(dat, times = 10, apparent = TRUE) %>%
+    dplyr::mutate(
+      stats = purrr::map(splits, ~ get_stats(.x)),
+      junk = 1:11
+   )
+
+    expect_snapshot(int_bca(bt_small, stats, .fn = get_stats))
+  }
+)
 
 test_that("bad input", {
   set.seed(456765)
