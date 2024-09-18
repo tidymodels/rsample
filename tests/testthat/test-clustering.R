@@ -38,14 +38,30 @@ test_that("repeated", {
 })
 
 test_that("bad args", {
-  expect_snapshot_error(clustering_cv(dat1))
-  expect_snapshot_error(clustering_cv(iris, Sepal.Length, v = -500))
-  expect_snapshot_error(clustering_cv(iris, Sepal.Length, v = 500))
-  expect_snapshot_error(clustering_cv(iris, Sepal.Length, cluster_function = "not an option"))
-  expect_snapshot(error = TRUE, clustering_cv(Orange, v = 1, vars = "Tree"))
-  expect_snapshot_error(clustering_cv(Orange, repeats = 0))
-  expect_snapshot_error(clustering_cv(Orange, repeats = NULL))
-  expect_snapshot(error = TRUE, clustering_cv(mtcars, mpg, v = nrow(mtcars)))
+  expect_snapshot(error = TRUE, {
+    clustering_cv(dat1)
+  })
+  expect_snapshot(error = TRUE, {
+    clustering_cv(iris, Sepal.Length, v = -500)
+  })
+  expect_snapshot(error = TRUE, {
+    clustering_cv(iris, Sepal.Length, v = 500)
+  })
+  expect_snapshot(error = TRUE, {
+    clustering_cv(iris, Sepal.Length, cluster_function = "not an option")
+  })
+  expect_snapshot(error = TRUE, {
+    clustering_cv(Orange, v = 1, vars = "Tree")
+  })
+  expect_snapshot(error = TRUE, {
+    clustering_cv(Orange, repeats = 0)
+  })
+  expect_snapshot(error = TRUE, {
+    clustering_cv(Orange, repeats = NULL)
+  })
+  expect_snapshot(error = TRUE, {
+    clustering_cv(mtcars, mpg, v = nrow(mtcars))
+  })
 })
 
 test_that("printing", {

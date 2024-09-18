@@ -26,31 +26,59 @@
 
 ---
 
-    `v` must be a single positive integer greater than 1.
+    Code
+      vfold_cv(iris, v = -500)
+    Condition
+      Error in `vfold_cv()`:
+      ! `v` must be a single positive integer greater than 1.
 
 ---
 
-    `v` must be a single positive integer greater than 1.
+    Code
+      vfold_cv(iris, v = 1)
+    Condition
+      Error in `vfold_cv()`:
+      ! `v` must be a single positive integer greater than 1.
 
 ---
 
-    `v` must be a single positive integer greater than 1.
+    Code
+      vfold_cv(iris, v = NULL)
+    Condition
+      Error in `vfold_cv()`:
+      ! `v` must be a single positive integer greater than 1.
 
 ---
 
-    The number of rows is less than `v` = 500.
+    Code
+      vfold_cv(iris, v = 500)
+    Condition
+      Error in `vfold_cv()`:
+      ! The number of rows is less than `v` = 500.
 
 ---
 
-    Repeated resampling when `v` is 150 would create identical resamples.
+    Code
+      vfold_cv(iris, v = 150, repeats = 2)
+    Condition
+      Error in `vfold_cv()`:
+      ! Repeated resampling when `v` is 150 would create identical resamples.
 
 ---
 
-    `repeats` must be a single positive integer.
+    Code
+      vfold_cv(Orange, repeats = 0)
+    Condition
+      Error in `vfold_cv()`:
+      ! `repeats` must be a single positive integer.
 
 ---
 
-    `repeats` must be a single positive integer.
+    Code
+      vfold_cv(Orange, repeats = NULL)
+    Condition
+      Error in `vfold_cv()`:
+      ! `repeats` must be a single positive integer.
 
 ---
 
@@ -126,11 +154,19 @@
 
 ---
 
-    Repeated resampling when `v` is 4 would create identical resamples.
+    Code
+      group_vfold_cv(dat1, c, v = 4, repeats = 4)
+    Condition
+      Error in `group_vfold_cv()`:
+      ! Repeated resampling when `v` is 4 would create identical resamples.
 
 ---
 
-    Repeated resampling when `v` is "NULL" would create identical resamples.
+    Code
+      group_vfold_cv(dat1, c, repeats = 4)
+    Condition
+      Error in `group_vfold_cv()`:
+      ! Repeated resampling when `v` is "NULL" would create identical resamples.
 
 ---
 
