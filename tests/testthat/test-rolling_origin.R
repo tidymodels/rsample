@@ -99,7 +99,9 @@ test_that("lag", {
       (i + attr(rs5, "initial") - attr(rs5, "lag")):(i + attr(rs5, "initial") + attr(rs5, "assess") - 1)
     )
   }
-
+  
+  skip_if_not_installed("modeldata")
+  data("drinks", package = "modeldata", envir = rlang::current_env())
   expect_snapshot(error = TRUE, {
     rolling_origin(drinks, initial = 5, lag = 6)
   })
