@@ -34,10 +34,18 @@ test_that("no assessment set", {
 })
 
 test_that("bad args", {
-  expect_error(permutations(mtcars)) # no columns specified
-  expect_error(permutations(mtcars, foo)) # column doesn't exist
-  expect_error(permutations(mtcars, start_with("z"))) # column doesn't exist
-  expect_snapshot(error = TRUE, {permutations(mtcars, everything())}) # all columns
+  expect_snapshot(error = TRUE, {
+    permutations(mtcars)
+  })
+  expect_snapshot(error = TRUE, {
+    permutations(mtcars, foo)
+  })
+  expect_snapshot(error = TRUE, {
+    permutations(mtcars, start_with("z"))
+  })
+  expect_snapshot(error = TRUE, {
+    permutations(mtcars, everything())
+  })
 })
 
 test_that("printing", {

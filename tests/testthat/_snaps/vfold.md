@@ -9,6 +9,23 @@
 
 # bad args
 
+    Code
+      vfold_cv(iris, strata = iris$Species)
+    Condition
+      Error in `vfold_cv()`:
+      ! Can't select columns that don't exist.
+      x Columns `setosa`, `setosa`, `setosa`, `setosa`, `setosa`, etc. don't exist.
+
+---
+
+    Code
+      vfold_cv(iris, strata = c("Species", "Sepal.Width"))
+    Condition
+      Error in `strata_check()`:
+      ! `strata` should be a single name or character value.
+
+---
+
     `v` must be a single positive integer greater than 1.
 
 ---
@@ -66,6 +83,48 @@
       10 <split [29/3]> Fold10
 
 # grouping -- bad args
+
+    Code
+      group_vfold_cv(warpbreaks, group = warpbreaks$tension)
+    Condition
+      Error in `validate_group()`:
+      ! Can't select columns that don't exist.
+      x Columns `L`, `L`, `L`, `L`, `L`, etc. don't exist.
+
+---
+
+    Code
+      group_vfold_cv(warpbreaks, group = c("tension", "wool"))
+    Condition
+      Error in `group_vfold_cv()`:
+      ! `group` should be a single character value for the column that will be used for splitting.
+
+---
+
+    Code
+      group_vfold_cv(warpbreaks, group = "tensio")
+    Condition
+      Error in `validate_group()`:
+      ! Can't select columns that don't exist.
+      x Column `tensio` doesn't exist.
+
+---
+
+    Code
+      group_vfold_cv(warpbreaks)
+    Condition
+      Error in `group_vfold_cv()`:
+      ! `group` should be a single character value for the column that will be used for splitting.
+
+---
+
+    Code
+      group_vfold_cv(warpbreaks, group = "tension", v = 10)
+    Condition
+      Error in `group_vfold_cv()`:
+      ! The number of groups is less than `v` = 10.
+
+---
 
     Repeated resampling when `v` is 4 would create identical resamples.
 

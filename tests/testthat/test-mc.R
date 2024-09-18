@@ -72,8 +72,12 @@ test_that("strata", {
 
 
 test_that("bad args", {
-  expect_error(mc_cv(warpbreaks, strata = warpbreaks$tension))
-  expect_error(mc_cv(warpbreaks, strata = c("tension", "wool")))
+  expect_snapshot(error = TRUE, {
+    mc_cv(warpbreaks, strata = warpbreaks$tension)
+  })
+  expect_snapshot(error = TRUE, {
+    mc_cv(warpbreaks, strata = c("tension", "wool"))
+  })
 })
 
 
@@ -91,16 +95,25 @@ test_that("rsplit labels", {
 })
 
 test_that("grouping - bad args", {
-  expect_error(group_mc_cv(warpbreaks, group = warpbreaks$tension))
-  expect_error(group_mc_cv(warpbreaks, group = c("tension", "wool")))
-  expect_error(group_mc_cv(warpbreaks, group = "tensio"))
-  expect_error(group_mc_cv(warpbreaks))
-  expect_error(group_mc_cv(warpbreaks, group = "tension", balance = "groups"))
+  expect_snapshot(error = TRUE, {
+    group_mc_cv(warpbreaks, group = warpbreaks$tension)
+  })
+  expect_snapshot(error = TRUE, {
+    group_mc_cv(warpbreaks, group = c("tension", "wool"))
+  })
+  expect_snapshot(error = TRUE, {
+    group_mc_cv(warpbreaks, group = "tensio")
+  })
+  expect_snapshot(error = TRUE, {
+    group_mc_cv(warpbreaks)
+  })
+  expect_snapshot(error = TRUE, {
+    group_mc_cv(warpbreaks, group = "tension", balance = "groups")
+  })
   set.seed(1)
-  expect_snapshot(
-    group_mc_cv(warpbreaks, group = "tension", prop = 0.99),
-    error = TRUE
-  )
+  expect_snapshot(error = TRUE, {
+    group_mc_cv(warpbreaks, group = "tension", prop = 0.99)    
+  })
 })
 
 test_that("grouping - default param", {
