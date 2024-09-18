@@ -1,63 +1,61 @@
 ###################################################################
 ## Test cases for caret -> rsample that mimic `trainControl`
 
-dat <- data.frame(y = 1:15, x = 15:1)
+check_indices <- function(newer, orig) {
+  for (i in seq_along(newer$splits)) {
+    expect_equal(
+      as.integer(newer$splits[[i]]),
+      orig$index[[i]]
+    )
+    expect_equal(
+      as.integer(newer$splits[[i]], "assessment"),
+      orig$indexOut[[i]]
+    )
+  }
+  invisible(NULL)
+}
 
-lgo1 <-
-  structure(
+###################################################################
+
+test_that("basic v-fold", {
+  cv_1 <- structure(
     list(
-      method = "LGOCV",
+      method = "cv",
       index = structure(
         list(
-          Resample1 = c(1L, 4L, 5L, 6L, 7L, 9L, 10L, 14L),
-          Resample2 = c(2L, 4L, 5L, 6L, 9L, 10L, 14L, 15L),
-          Resample3 = c(1L, 2L, 3L, 5L, 6L, 7L, 8L, 9L)
+          Fold1 = c(2L, 3L, 4L, 5L, 6L, 7L, 8L, 10L, 11L, 13L),
+          Fold2 = c(
+            1L, 4L, 6L,
+            8L, 9L, 10L, 11L, 12L, 13L, 14L, 15L
+          ),
+          Fold3 = c(1L, 2L, 3L, 5L, 7L, 9L, 12L, 14L, 15L)
         ),
-        .Names = c("Resample1", "Resample2", "Resample3")
+        .Names = c("Fold1", "Fold2", "Fold3")
       ),
       indexOut = structure(
         list(
-          Resample1 = c(2L, 3L, 8L, 11L, 12L, 13L, 15L),
-          Resample2 = c(1L, 3L, 7L, 8L, 11L, 12L, 13L),
-          Resample3 = c(4L, 10L, 11L, 12L, 13L, 14L, 15L)
+          Resample1 = c(1L, 9L, 12L, 14L, 15L),
+          Resample2 = c(2L, 3L, 5L, 7L),
+          Resample3 = c(4L, 6L, 8L, 10L, 11L, 13L)
         ),
         .Names = c("Resample1", "Resample2", "Resample3")
       ),
       number = 3,
-      p = 0.5
+      repeats = NA
     ),
-    .Names = c("method", "index", "indexOut", "number", "p")
+    .Names = c("method", "index", "indexOut", "number", "repeats")
   )
+  dat <- data.frame(y = 1:15, x = 15:1)
+  vfold_obj_1 <- caret2rsample(cv_1, data = dat)
 
-cv_1 <- structure(
-  list(
-    method = "cv",
-    index = structure(
-      list(
-        Fold1 = c(2L, 3L, 4L, 5L, 6L, 7L, 8L, 10L, 11L, 13L),
-        Fold2 = c(
-          1L, 4L, 6L,
-          8L, 9L, 10L, 11L, 12L, 13L, 14L, 15L
-        ),
-        Fold3 = c(1L, 2L, 3L, 5L, 7L, 9L, 12L, 14L, 15L)
-      ),
-      .Names = c("Fold1", "Fold2", "Fold3")
-    ),
-    indexOut = structure(
-      list(
-        Resample1 = c(1L, 9L, 12L, 14L, 15L),
-        Resample2 = c(2L, 3L, 5L, 7L),
-        Resample3 = c(4L, 6L, 8L, 10L, 11L, 13L)
-      ),
-      .Names = c("Resample1", "Resample2", "Resample3")
-    ),
-    number = 3,
-    repeats = NA
-  ),
-  .Names = c("method", "index", "indexOut", "number", "repeats")
-)
+  check_indices(vfold_obj_1, cv_1)
+  for (i in seq_along(vfold_obj_1$splits)) {
+    expect_equal(vfold_obj_1$id[[i]], names(cv_1$index)[i])
+  }
+})
 
-cv_2 <-
+test_that("repeated v-fold", {
+  cv_2 <-
   structure(
     list(
       method = "repeatedcv",
@@ -94,11 +92,22 @@ cv_2 <-
     ),
     .Names = c("method", "index", "indexOut", "number", "repeats")
   )
+  dat <- data.frame(y = 1:15, x = 15:1)
+  vfold_obj_2 <- caret2rsample(cv_2, data = dat)
 
-cv_3 <- cv_2
-cv_3$method <- "adaptive_cv"
+  check_indices(vfold_obj_2, cv_2)
+  for (i in seq_along(vfold_obj_2$splits)) {
+    expect_equal(
+      paste(vfold_obj_2$id2[[i]], vfold_obj_2$id[[i]],
+        sep = "."
+      ),
+      names(cv_2$index)[i]
+    )
+  }
+})
 
-bt_1 <-
+test_that("basic boot", {
+  bt_1 <-
   structure(
     list(
       method = "boot",
@@ -123,19 +132,162 @@ bt_1 <-
       "index", "indexOut", "number"
     )
   )
-bt_2 <- bt_1
-bt_2$method <- "boot632"
+  dat <- data.frame(y = 1:15, x = 15:1)
+  bt_obj_1 <- caret2rsample(bt_1, data = dat)
 
-bt_3 <- bt_1
-bt_3$method <- "optimism_boot"
+  check_indices(bt_obj_1, bt_1)
+  for (i in seq_along(bt_obj_1$splits)) {
+    expect_equal(bt_obj_1$id[[i]], names(bt_1$index)[i])
+  }
+})
 
-bt_4 <- bt_1
-bt_4$method <- "boot_all"
+test_that("boot 632", {
+  bt_2 <-
+  structure(
+    list(
+      method = "boot",
+      index = structure(
+        list(
+          Resample1 = c(1L, 1L, 4L, 4L, 5L, 7L, 8L, 10L, 11L, 11L, 12L, 13L, 15L, 15L, 15L),
+          Resample2 = c(1L, 2L, 3L, 5L, 5L, 5L, 6L, 7L, 8L, 9L, 9L, 9L, 10L, 10L, 12L)
+        ),
+        .Names = c("Resample1", "Resample2")
+      ),
+      indexOut = structure(
+        list(
+          Resample1 = c(2L, 3L, 6L, 9L, 14L),
+          Resample2 = c(4L, 11L, 13L, 14L, 15L)
+        ),
+        .Names = c("Resample1", "Resample2")
+      ),
+      number = 2
+    ),
+    .Names = c(
+      "method",
+      "index", "indexOut", "number"
+    )
+  )
+  bt_2$method <- "boot632"
+  dat <- data.frame(y = 1:15, x = 15:1)
+  bt_obj_2 <- caret2rsample(bt_2, data = dat)
 
-bt_5 <- bt_1
-bt_5$method <- "adaptive_boot"
+  check_indices(bt_obj_2, bt_2)
+  for (i in seq_along(bt_obj_2$splits)) {
+    expect_equal(bt_obj_2$id[[i]], names(bt_2$index)[i])
+  }
+})
 
-loo_1 <-
+test_that("boot optim", {
+  bt_3 <-
+  structure(
+    list(
+      method = "boot",
+      index = structure(
+        list(
+          Resample1 = c(1L, 1L, 4L, 4L, 5L, 7L, 8L, 10L, 11L, 11L, 12L, 13L, 15L, 15L, 15L),
+          Resample2 = c(1L, 2L, 3L, 5L, 5L, 5L, 6L, 7L, 8L, 9L, 9L, 9L, 10L, 10L, 12L)
+        ),
+        .Names = c("Resample1", "Resample2")
+      ),
+      indexOut = structure(
+        list(
+          Resample1 = c(2L, 3L, 6L, 9L, 14L),
+          Resample2 = c(4L, 11L, 13L, 14L, 15L)
+        ),
+        .Names = c("Resample1", "Resample2")
+      ),
+      number = 2
+    ),
+    .Names = c(
+      "method",
+      "index", "indexOut", "number"
+    )
+  )
+  bt_3$method <- "optimism_boot"
+  dat <- data.frame(y = 1:15, x = 15:1)
+  bt_obj_3 <- caret2rsample(bt_3, data = dat)
+
+  check_indices(bt_obj_3, bt_3)
+  for (i in seq_along(bt_obj_3$splits)) {
+    expect_equal(bt_obj_3$id[[i]], names(bt_3$index)[i])
+  }
+})
+
+test_that("boot all", {
+  bt_4 <-
+  structure(
+    list(
+      method = "boot",
+      index = structure(
+        list(
+          Resample1 = c(1L, 1L, 4L, 4L, 5L, 7L, 8L, 10L, 11L, 11L, 12L, 13L, 15L, 15L, 15L),
+          Resample2 = c(1L, 2L, 3L, 5L, 5L, 5L, 6L, 7L, 8L, 9L, 9L, 9L, 10L, 10L, 12L)
+        ),
+        .Names = c("Resample1", "Resample2")
+      ),
+      indexOut = structure(
+        list(
+          Resample1 = c(2L, 3L, 6L, 9L, 14L),
+          Resample2 = c(4L, 11L, 13L, 14L, 15L)
+        ),
+        .Names = c("Resample1", "Resample2")
+      ),
+      number = 2
+    ),
+    .Names = c(
+      "method",
+      "index", "indexOut", "number"
+    )
+  )
+  bt_4$method <- "boot_all"
+  dat <- data.frame(y = 1:15, x = 15:1)
+  bt_obj_4 <- caret2rsample(bt_4, data = dat)
+
+  check_indices(bt_obj_4, bt_4)
+  for (i in seq_along(bt_obj_4$splits)) {
+    expect_equal(bt_obj_4$id[[i]], names(bt_4$index)[i])
+  }
+})
+
+test_that("adaptive boot", {
+  bt_5 <-
+  structure(
+    list(
+      method = "boot",
+      index = structure(
+        list(
+          Resample1 = c(1L, 1L, 4L, 4L, 5L, 7L, 8L, 10L, 11L, 11L, 12L, 13L, 15L, 15L, 15L),
+          Resample2 = c(1L, 2L, 3L, 5L, 5L, 5L, 6L, 7L, 8L, 9L, 9L, 9L, 10L, 10L, 12L)
+        ),
+        .Names = c("Resample1", "Resample2")
+      ),
+      indexOut = structure(
+        list(
+          Resample1 = c(2L, 3L, 6L, 9L, 14L),
+          Resample2 = c(4L, 11L, 13L, 14L, 15L)
+        ),
+        .Names = c("Resample1", "Resample2")
+      ),
+      number = 2
+    ),
+    .Names = c(
+      "method",
+      "index", "indexOut", "number"
+    )
+  )
+  bt_5$method <- "adaptive_boot"
+  dat <- data.frame(y = 1:15, x = 15:1)
+  bt_obj_5 <- caret2rsample(bt_5, data = dat)
+
+  check_indices(bt_obj_5, bt_5)
+  for (i in seq_along(bt_obj_5$splits)) {
+    expect_equal(bt_obj_5$id[[i]], names(bt_5$index)[i])
+  }
+})
+
+
+test_that("loo", {
+  loo_1 <-
   structure(
     list(
       method = "LOOCV",
@@ -184,8 +336,52 @@ loo_1 <-
     ),
     .Names = c("method", "index", "indexOut")
   )
+  dat <- data.frame(y = 1:15, x = 15:1)
+  loo_obj <- caret2rsample(loo_1, data = dat)
 
-rof_1 <-
+  check_indices(loo_obj, loo_1)
+  for (i in seq_along(loo_obj$splits)) {
+    expect_equal(loo_obj$id[[i]], names(loo_1$index)[i])
+  }
+})
+
+test_that("mcv", {
+  lgo1 <-
+  structure(
+    list(
+      method = "LGOCV",
+      index = structure(
+        list(
+          Resample1 = c(1L, 4L, 5L, 6L, 7L, 9L, 10L, 14L),
+          Resample2 = c(2L, 4L, 5L, 6L, 9L, 10L, 14L, 15L),
+          Resample3 = c(1L, 2L, 3L, 5L, 6L, 7L, 8L, 9L)
+        ),
+        .Names = c("Resample1", "Resample2", "Resample3")
+      ),
+      indexOut = structure(
+        list(
+          Resample1 = c(2L, 3L, 8L, 11L, 12L, 13L, 15L),
+          Resample2 = c(1L, 3L, 7L, 8L, 11L, 12L, 13L),
+          Resample3 = c(4L, 10L, 11L, 12L, 13L, 14L, 15L)
+        ),
+        .Names = c("Resample1", "Resample2", "Resample3")
+      ),
+      number = 3,
+      p = 0.5
+    ),
+    .Names = c("method", "index", "indexOut", "number", "p")
+  )
+  dat <- data.frame(y = 1:15, x = 15:1)
+  mcv_obj <- caret2rsample(lgo1, data = dat)
+
+  check_indices(mcv_obj, lgo1)
+  for (i in seq_along(mcv_obj$splits)) {
+    expect_equal(mcv_obj$id[[i]], names(lgo1$index)[i])
+  }
+})
+
+test_that("rolling origin", {
+  rof_1 <-
   structure(
     list(
       method = "timeSlice",
@@ -218,106 +414,9 @@ rof_1 <-
       "horizon", "fixedWindow", "skip"
     )
   )
-
-###################################################################
-##
-
-check_indices <- function(newer, orig) {
-  for (i in seq_along(newer$splits)) {
-    expect_equal(
-      as.integer(newer$splits[[i]]),
-      orig$index[[i]]
-    )
-    expect_equal(
-      as.integer(newer$splits[[i]], "assessment"),
-      orig$indexOut[[i]]
-    )
-  }
-  invisible(NULL)
-}
-
-###################################################################
-
-test_that("basic v-fold", {
-  vfold_obj_1 <- caret2rsample(cv_1, data = dat)
-  check_indices(vfold_obj_1, cv_1)
-  for (i in seq_along(vfold_obj_1$splits)) {
-    expect_equal(vfold_obj_1$id[[i]], names(cv_1$index)[i])
-  }
-})
-
-test_that("repeated v-fold", {
-  vfold_obj_2 <- caret2rsample(cv_2, data = dat)
-  check_indices(vfold_obj_2, cv_2)
-  for (i in seq_along(vfold_obj_2$splits)) {
-    expect_equal(
-      paste(vfold_obj_2$id2[[i]], vfold_obj_2$id[[i]],
-        sep = "."
-      ),
-      names(cv_2$index)[i]
-    )
-  }
-})
-
-test_that("basic boot", {
-  bt_obj_1 <- caret2rsample(bt_1, data = dat)
-  check_indices(bt_obj_1, bt_1)
-  for (i in seq_along(bt_obj_1$splits)) {
-    expect_equal(bt_obj_1$id[[i]], names(bt_1$index)[i])
-  }
-})
-
-test_that("boot 632", {
-  bt_obj_2 <- caret2rsample(bt_2, data = dat)
-  check_indices(bt_obj_2, bt_2)
-  for (i in seq_along(bt_obj_2$splits)) {
-    expect_equal(bt_obj_2$id[[i]], names(bt_2$index)[i])
-  }
-})
-
-test_that("boot optim", {
-  bt_obj_3 <- caret2rsample(bt_3, data = dat)
-  check_indices(bt_obj_3, bt_3)
-  for (i in seq_along(bt_obj_3$splits)) {
-    expect_equal(bt_obj_3$id[[i]], names(bt_3$index)[i])
-  }
-})
-
-test_that("boot all", {
-  bt_obj_4 <- caret2rsample(bt_4, data = dat)
-  check_indices(bt_obj_4, bt_4)
-  for (i in seq_along(bt_obj_4$splits)) {
-    expect_equal(bt_obj_4$id[[i]], names(bt_4$index)[i])
-  }
-})
-
-test_that("adaptive boot", {
-  bt_obj_5 <- caret2rsample(bt_5, data = dat)
-  check_indices(bt_obj_5, bt_5)
-  for (i in seq_along(bt_obj_5$splits)) {
-    expect_equal(bt_obj_5$id[[i]], names(bt_5$index)[i])
-  }
-})
-
-
-test_that("loo", {
-  loo_obj <- caret2rsample(loo_1, data = dat)
-  check_indices(loo_obj, loo_1)
-  for (i in seq_along(loo_obj$splits)) {
-    expect_equal(loo_obj$id[[i]], names(loo_1$index)[i])
-  }
-})
-
-test_that("mcv", {
-  mcv_obj <- caret2rsample(lgo1, data = dat)
-  check_indices(mcv_obj, lgo1)
-  for (i in seq_along(mcv_obj$splits)) {
-    expect_equal(mcv_obj$id[[i]], names(lgo1$index)[i])
-  }
-})
-
-test_that("rolling origin", {
+  dat <- data.frame(y = 1:15, x = 15:1)
   rof_obj <- caret2rsample(rof_1, data = dat)
+
   check_indices(rof_obj, rof_1)
   for (i in seq_along(rof_obj$splits)) {
     expect_equal(rof_obj$id[[i]], names(rof_1$index)[i])
