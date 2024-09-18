@@ -164,9 +164,9 @@ bt_small <-
 test_that(
   "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
   {
-    expect_warning(int_pctl(bt_small, stats))
-    expect_warning(int_t(bt_small, stats))
-    expect_warning(int_bca(bt_small, stats, .fn = get_stats))
+    expect_snapshot(int_pctl(bt_small, stats))
+    expect_snapshot(int_t(bt_small, stats))
+    expect_snapshot(int_bca(bt_small, stats, .fn = get_stats))
   }
 )
 

@@ -28,6 +28,45 @@
       Error in `bca_calc()`:
       ! All statistics have missing values.
 
+# Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method
+
+    Code
+      int_pctl(bt_small, stats)
+    Condition
+      Warning:
+      Recommend at least 1000 non-missing bootstrap resamples for term `mean`.
+    Output
+      # A tibble: 1 x 6
+        term  .lower .estimate .upper .alpha .method   
+        <chr>  <dbl>     <dbl>  <dbl>  <dbl> <chr>     
+      1 mean    9.97      10.0   10.1   0.05 percentile
+
+---
+
+    Code
+      int_t(bt_small, stats)
+    Condition
+      Warning:
+      Recommend at least 500 non-missing bootstrap resamples for term `mean`.
+    Output
+      # A tibble: 1 x 6
+        term  .lower .estimate .upper .alpha .method  
+        <chr>  <dbl>     <dbl>  <dbl>  <dbl> <chr>    
+      1 mean    9.96      10.0   10.1   0.05 student-t
+
+---
+
+    Code
+      int_bca(bt_small, stats, .fn = get_stats)
+    Condition
+      Warning:
+      Recommend at least 1000 non-missing bootstrap resamples for term `mean`.
+    Output
+      # A tibble: 1 x 6
+        term  .lower .estimate .upper .alpha .method
+        <chr>  <dbl>     <dbl>  <dbl>  <dbl> <chr>  
+      1 mean    9.96      10.0   10.1   0.05 BCa    
+
 # bad input
 
     Code
