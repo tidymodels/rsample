@@ -1,3 +1,27 @@
+# cannot create a split with an empty analysis set
+
+    Code
+      make_splits(indices, df)
+    Condition
+      Error in `rsplit()`:
+      ! At least one row should be selected for the analysis set.
+
+# cannot create a split from empty training dataframe
+
+    Code
+      make_splits(training, testing)
+    Condition
+      Error in `make_splits()`:
+      ! The analysis set must contain at least one row.
+
+# cannot create a split from dataframes with different columns
+
+    Code
+      make_splits(training, testing)
+    Condition
+      Error in `make_splits()`:
+      ! The analysis and assessment sets must have the same columns.
+
 # improper argument
 
     Code

@@ -100,8 +100,12 @@ test_that("lag", {
     )
   }
 
-  expect_error(rolling_origin(drinks, initial = 5, lag = 6)) # lag must be less than training observations
-  expect_error(olling_origin(drinks, lag = 2.1)) # lag must be whole number
+  expect_snapshot(error = TRUE, {
+    rolling_origin(drinks, initial = 5, lag = 6)
+  })
+  expect_snapshot(error = TRUE, {
+    rolling_origin(drinks, lag = 2.1)
+  })
 })
 
 test_that("rsplit labels", {

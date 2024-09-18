@@ -59,5 +59,7 @@ test_that("don't stratify on Surv objects", {
     class = "Surv"
   )
 
-  expect_error(strata_check("surv", df))
+  expect_snapshot(error = TRUE, {
+    strata_check("surv", df)
+  })
 })

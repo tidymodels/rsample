@@ -28,3 +28,11 @@
       The bins specified by `breaks` must be >=2.
       * Resampling will be unstratified.
 
+# don't stratify on Surv objects
+
+    Code
+      strata_check("surv", df)
+    Condition
+      Error in `strata_check()`:
+      ! `strata` cannot be a <Surv> object. Use the time or event variable directly.
+
