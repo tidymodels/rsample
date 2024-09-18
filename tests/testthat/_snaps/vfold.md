@@ -207,8 +207,28 @@
 
 ---
 
-    Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum.
-    i Set `v` explicitly to override this warning.
+    Code
+      group_vfold_cv(sample_data, group, strata = outcome)
+    Condition
+      Warning in `group_vfold_cv()`:
+      Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum.
+      i Set `v` explicitly to override this warning.
+    Output
+      # Group 30-fold cross-validation 
+      # A tibble: 30 x 2
+         splits               id        
+         <list>               <chr>     
+       1 <split [96070/3930]> Resample01
+       2 <split [95898/4102]> Resample02
+       3 <split [96079/3921]> Resample03
+       4 <split [96008/3992]> Resample04
+       5 <split [95982/4018]> Resample05
+       6 <split [95955/4045]> Resample06
+       7 <split [96025/3975]> Resample07
+       8 <split [96053/3947]> Resample08
+       9 <split [96030/3970]> Resample09
+      10 <split [96069/3931]> Resample10
+      # i 20 more rows
 
 ---
 
@@ -226,8 +246,28 @@
 
 ---
 
-    Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum.
-    i Set `v` explicitly to override this warning.
+    Code
+      group_vfold_cv(sample_data, group, strata = outcome)
+    Condition
+      Warning in `group_vfold_cv()`:
+      Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum.
+      i Set `v` explicitly to override this warning.
+    Output
+      # Group 30-fold cross-validation 
+      # A tibble: 30 x 2
+         splits               id        
+         <list>               <chr>     
+       1 <split [95985/4015]> Resample01
+       2 <split [95983/4017]> Resample02
+       3 <split [96052/3948]> Resample03
+       4 <split [95867/4133]> Resample04
+       5 <split [96056/3944]> Resample05
+       6 <split [95956/4044]> Resample06
+       7 <split [95975/4025]> Resample07
+       8 <split [96062/3938]> Resample08
+       9 <split [95932/4068]> Resample09
+      10 <split [96051/3949]> Resample10
+      # i 20 more rows
 
 # grouping -- printing
 

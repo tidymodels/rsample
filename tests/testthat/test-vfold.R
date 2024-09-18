@@ -321,7 +321,7 @@ test_that("grouping -- strata", {
   )
   expect_true(all(good_holdout))
 
-  expect_snapshot_warning(
+  expect_snapshot(
     group_vfold_cv(sample_data, group, strata = outcome)
   )
 
@@ -361,7 +361,7 @@ test_that("grouping -- strata", {
   )
   expect_true(all(good_holdout))
 
-  expect_snapshot_warning(
+  expect_snapshot(
     group_vfold_cv(sample_data, group, strata = outcome)
   )
 
