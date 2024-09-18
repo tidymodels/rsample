@@ -2,13 +2,10 @@ test_that("regression intervals", {
   skip_if_not_installed("broom")
   skip_on_cran()
 
-  expect_error(
-    {
+  expect_no_error({
       set.seed(1)
       int_1 <- reg_intervals(mpg ~ disp + wt, data = mtcars)
-    },
-    regexp = NA
-  )
+    })
 
   expect_equal(
     names(int_1),
