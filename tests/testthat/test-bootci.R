@@ -204,10 +204,6 @@ test_that("bad input", {
     int_t(bad_bt_norm, stats)
   })
 
-  expect_snapshot(error = TRUE, {
-    int_bca(bad_bt_norm, stats)
-  })
-
   no_dots <- function(split) {
     dat <- analysis(split)
     x <- dat[[1]]

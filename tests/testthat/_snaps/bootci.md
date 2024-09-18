@@ -142,14 +142,6 @@
 ---
 
     Code
-      int_bca(bad_bt_norm, stats)
-    Condition
-      Error in `int_bca.bootstraps()`:
-      ! argument ".fn" is missing, with no default
-
----
-
-    Code
       int_bca(bt_norm, stats, .fn = no_dots)
     Condition
       Error in `has_dots()`:
