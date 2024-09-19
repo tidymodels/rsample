@@ -1,21 +1,17 @@
-n <- 1000
-mu <- 10
-sigma <- 1
-
-set.seed(888)
-rand_nums <- rnorm(n, mu, sigma)
-dat <- data.frame(x = rand_nums)
-
-set.seed(456765)
-bt_norm <-
-  bootstraps(dat, times = 1000, apparent = TRUE) %>%
-  dplyr::mutate(
-    stats = purrr::map(splits, ~ get_stats(.x))
-  )
-
 test_that("Bootstrap estimate of mean is close to estimate of mean from normal distribution", {
   skip_if_not_installed("broom")
   skip_on_cran()
+
+  set.seed(888)
+  rand_nums <- rnorm(n = 1000, mean = 10, sd = 1)
+  dat <- data.frame(x = rand_nums)
+
+  set.seed(456765)
+  bt_norm <- bootstraps(dat, times = 1000, apparent = TRUE) %>%
+    dplyr::mutate(
+      stats = purrr::map(splits, ~ get_stats(.x))
+    )
+
   ttest <- broom::tidy(t.test(rand_nums))
   ttest_lower_conf <- broom::tidy(t.test(rand_nums, conf.level = 0.8))
   single_pct_res <- int_pctl(bt_norm, stats)
@@ -156,6 +152,9 @@ test_that("Upper & lower confidence interval does not contain NA", {
 test_that(
   "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
   {
+    set.seed(888)
+    rand_nums <- rnorm(n = 1000, mean = 10, sd = 1)
+    dat <- data.frame(x = rand_nums)
     set.seed(456765)
     bt_small <-
       bootstraps(dat, times = 10, apparent = TRUE) %>%
@@ -172,8 +171,12 @@ test_that(
 test_that(
   "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
   {
-    skip("until we don't get a message about loading purrr in the snapshot in R CMD check hard")
+    skip("#539 message about loading purrr in the snapshot in R CMD check hard")
     # unskip this by moving the expectation back into the test_that block above
+
+    set.seed(888)
+    rand_nums <- rnorm(n = 1000, mean = 10, sd = 1)
+    dat <- data.frame(x = rand_nums)
     set.seed(456765)
     bt_small <-
       bootstraps(dat, times = 10, apparent = TRUE) %>%
@@ -187,6 +190,9 @@ test_that(
 )
 
 test_that("bad input", {
+  set.seed(888)
+  rand_nums <- rnorm(n = 1000, mean = 10, sd = 1)
+  dat <- data.frame(x = rand_nums)
   set.seed(456765)
   bt_small <-
     bootstraps(dat, times = 10, apparent = TRUE) %>%
@@ -219,6 +225,16 @@ test_that("bad input", {
   expect_snapshot(error = TRUE, {
     int_bca(vfold_cv(mtcars))
   })
+
+  set.seed(888)
+  rand_nums <- rnorm(n = 1000, mean = 10, sd = 1)
+  dat <- data.frame(x = rand_nums)
+
+  set.seed(456765)
+  bt_norm <- bootstraps(dat, times = 1000, apparent = TRUE) %>%
+    dplyr::mutate(
+      stats = purrr::map(splits, ~ get_stats(.x))
+    )
 
   bad_bt_norm <-
     bt_norm %>%
