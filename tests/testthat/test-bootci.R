@@ -152,6 +152,25 @@ test_that("Upper & lower confidence interval does not contain NA", {
 test_that(
   "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
   {
+    set.seed(888)
+    rand_nums <- rnorm(n = 1000, mean = 10, sd = 1)
+    dat <- data.frame(x = rand_nums)
+    set.seed(456765)
+    bt_small <-
+      bootstraps(dat, times = 10, apparent = TRUE) %>%
+      dplyr::mutate(
+        stats = purrr::map(splits, ~ get_stats(.x)),
+        junk = 1:11
+     )
+
+     expect_snapshot(int_pctl(bt_small, stats))
+     expect_snapshot(int_t(bt_small, stats))
+  }
+)
+
+test_that(
+  "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
+  {
     skip("until we don't get a message about loading purrr in the snapshot in R CMD check hard")
     # unskip this by moving the expectation back into the test_that block above
 
