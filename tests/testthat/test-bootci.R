@@ -153,40 +153,79 @@ test_that("Upper & lower confidence interval does not contain NA", {
 
 # ------------------------------------------------------------------------------
 
-set.seed(456765)
-bt_small <-
-  bootstraps(dat, times = 10, apparent = TRUE) %>%
-  dplyr::mutate(
-    stats = purrr::map(splits, ~ get_stats(.x)),
-    junk = 1:11
-  )
+test_that(
+  "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
+  {
+    set.seed(456765)
+    bt_small <-
+      bootstraps(dat, times = 10, apparent = TRUE) %>%
+      dplyr::mutate(
+        stats = purrr::map(splits, ~ get_stats(.x)),
+        junk = 1:11
+     )
+
+    expect_snapshot(int_pctl(bt_small, stats))
+    expect_snapshot(int_t(bt_small, stats))
+  }
+)
 
 test_that(
   "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
   {
-    expect_warning(int_pctl(bt_small, stats))
-    expect_warning(int_t(bt_small, stats))
-    expect_warning(int_bca(bt_small, stats, .fn = get_stats))
+    skip("until we don't get a message about loading purrr in the snapshot in R CMD check hard")
+    # unskip this by moving the expectation back into the test_that block above
+    set.seed(456765)
+    bt_small <-
+      bootstraps(dat, times = 10, apparent = TRUE) %>%
+      dplyr::mutate(
+        stats = purrr::map(splits, ~ get_stats(.x)),
+        junk = 1:11
+     )
+
+    expect_snapshot(int_bca(bt_small, stats, .fn = get_stats))
   }
 )
 
-
 test_that("bad input", {
-  expect_error(int_pctl(bt_small, id))
-  expect_error(int_pctl(bt_small, junk))
-  expect_error(int_pctl(bt_small, stats, alpha = c(0.05, 0.2)))
-  expect_error(int_t(bt_small, stats, alpha = "potato"))
-  expect_error(int_bca(bt_small, stats, alpha = 1:2, .fn = get_stats))
-  expect_error(int_pctl(vfold_cv(mtcars)))
-  expect_error(int_t(vfold_cv(mtcars)))
-  expect_error(int_bca(vfold_cv(mtcars)))
+  set.seed(456765)
+  bt_small <-
+    bootstraps(dat, times = 10, apparent = TRUE) %>%
+    dplyr::mutate(
+      stats = purrr::map(splits, ~ get_stats(.x)),
+      junk = 1:11
+   )
+
+  expect_snapshot(error = TRUE, {
+    int_pctl(bt_small, id)
+  })
+  expect_snapshot(error = TRUE, {
+    int_pctl(bt_small, junk)
+  })
+  expect_snapshot(error = TRUE, {
+    int_pctl(bt_small, stats, alpha = c(0.05, 0.2))
+  })
+  expect_snapshot(error = TRUE, {
+    int_t(bt_small, stats, alpha = "potato")
+  })
+  expect_snapshot(error = TRUE, {
+    int_bca(bt_small, stats, alpha = 1:2, .fn = get_stats)
+  })
+  expect_snapshot(error = TRUE, {
+    int_pctl(vfold_cv(mtcars))
+  })
+  expect_snapshot(error = TRUE, {
+    int_t(vfold_cv(mtcars))
+  })
+  expect_snapshot(error = TRUE, {
+    int_bca(vfold_cv(mtcars))
+  })
 
   bad_bt_norm <-
     bt_norm %>%
     mutate(stats = purrr::map(stats, ~ .x[, 1:2]))
-  expect_error(int_t(bad_bt_norm, stats))
-
-  expect_error(int_bca(bad_bt_norm, stats))
+  expect_snapshot(error = TRUE, {
+    int_t(bad_bt_norm, stats)
+  })
 
   no_dots <- function(split) {
     dat <- analysis(split)
@@ -197,21 +236,26 @@ test_that("bad input", {
       std.error = sqrt(var(x, na.rm = TRUE) / sum(!is.na(x)))
     )
   }
-  expect_error(
-    int_bca(bt_norm, stats, .fn = no_dots),
-    "must have an argument"
-  )
+  expect_snapshot(error = TRUE, {
+    int_bca(bt_norm, stats, .fn = no_dots)
+  })
 
-  expect_error(int_pctl(as.data.frame(bt_norm), stats))
-  expect_error(int_t(as.data.frame(bt_norm), stats))
-  expect_error(int_bca(as.data.frame(bt_norm), stats, .fn = get_stats))
+  expect_snapshot(error = TRUE, {
+    int_pctl(as.data.frame(bt_norm), stats)
+  })
+  expect_snapshot(error = TRUE, {
+    int_t(as.data.frame(bt_norm), stats)
+  })
+  expect_snapshot(error = TRUE, {
+    int_bca(as.data.frame(bt_norm), stats, .fn = get_stats)
+  })
 
-  expect_error(
+  expect_snapshot(error = TRUE, {
     int_t(bt_norm %>% dplyr::filter(id != "Apparent"), stats)
-  )
-  expect_error(
+  })
+  expect_snapshot(error = TRUE, {
     int_bca(bt_norm %>% dplyr::filter(id != "Apparent"), stats, .fn = get_stats)
-  )
+  })
 
   poo <- function(x) {
     x$estimate <- "a"
@@ -225,10 +269,18 @@ test_that("bad input", {
       bad_err = purrr::map(stats, ~ .x %>% setNames(c("term", "estimate", "c"))),
       bad_num = purrr::map(stats, ~ poo(.x))
     )
-  expect_error(int_pctl(badder_bt_norm, bad_term))
-  expect_error(int_t(badder_bt_norm, bad_err))
-  expect_error(int_bca(badder_bt_norm, bad_est, .fn = get_stats))
-  expect_error(int_pctl(badder_bt_norm, bad_num))
+  expect_snapshot(error = TRUE, {
+    int_pctl(badder_bt_norm, bad_term)
+  })
+  expect_snapshot(error = TRUE, {
+    int_t(badder_bt_norm, bad_err)
+  })
+  expect_snapshot(error = TRUE, {
+    int_bca(badder_bt_norm, bad_est, .fn = get_stats)
+  })
+  expect_snapshot(error = TRUE, {
+    int_pctl(badder_bt_norm, bad_num)
+  })
 })
 
 

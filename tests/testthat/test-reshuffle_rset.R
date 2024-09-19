@@ -106,10 +106,15 @@ test_that("reshuffle_rset is working", {
   resample <- vfold_cv(mtcars, strata = cyl)
   attr(resample, "strata") <- TRUE
 
-  expect_snapshot_error(reshuffle_rset(resample))
+  expect_snapshot(error = TRUE, {
+    reshuffle_rset(resample)
+  })
 
-  expect_snapshot_error(reshuffle_rset(rset_subclasses[["manual_rset"]]))
+  expect_snapshot(error = TRUE, {
+    reshuffle_rset(rset_subclasses[["manual_rset"]])
+  })
 
-  expect_snapshot_error(reshuffle_rset(rset_subclasses[["manual_rset"]]$splits[[1]]))
-
+  expect_snapshot(error = TRUE, {
+    reshuffle_rset(rset_subclasses[["manual_rset"]]$splits[[1]])
+  })
 })

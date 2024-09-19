@@ -25,11 +25,19 @@ test_that("no dots", {
 })
 
 test_that("dots", {
-  expect_error(form_pred(y ~ .))
-  expect_error(form_pred(terms(y ~ .)))
+  expect_snapshot(error = TRUE, {
+    form_pred(y ~ .)
+  })
+  expect_snapshot(error = TRUE, {
+    form_pred(terms(y ~ .))
+  })
 
-  expect_error(form_pred(y ~ (.)^2))
-  expect_error(form_pred(terms(y ~ (.)^2)))
+  expect_snapshot(error = TRUE, {
+    form_pred(y ~ (.)^2)
+  })
+  expect_snapshot(error = TRUE, {
+    form_pred(terms(y ~ (.)^2))
+  })
 
   expect_equal(
     form_pred(terms(mpg ~ (.)^2, data = mtcars)),

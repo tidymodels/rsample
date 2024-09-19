@@ -12,7 +12,9 @@ test_that("cannot create a split with an empty analysis set", {
   df <- data.frame(x = c(1, 2, 3, 4))
   indices <- list(analysis = integer(), assessment = 1:4)
 
-  expect_error(make_splits(indices, df), "At least one row")
+  expect_snapshot(error = TRUE, {
+    make_splits(indices, df)
+  })
 })
 
 test_that("create a split from training and testing dataframes", {
@@ -37,20 +39,18 @@ test_that("cannot create a split from empty training dataframe", {
   training <- tibble()
   testing <- tibble(x = c(5, 6))
 
-  expect_error(
-    make_splits(training, testing),
-    "The analysis set must contain at least one row."
-  )
+  expect_snapshot(error = TRUE, {
+    make_splits(training, testing)
+  })
 })
 
 test_that("cannot create a split from dataframes with different columns", {
   training <- tibble(x = c(1, 2, 3, 4))
   testing <- tibble(y = c(5, 6))
 
-  expect_error(
-    make_splits(training, testing),
-    "The analysis and assessment sets must have"
-  )
+  expect_snapshot(error = TRUE, {
+    make_splits(training, testing)
+  })
 })
 
 test_that("improper argument", {

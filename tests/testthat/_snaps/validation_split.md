@@ -77,6 +77,23 @@
            <int>      <int> <int> <int> <chr>     
       1    37074      12926 50000     3 validation
 
+# bad args
+
+    Code
+      validation_split(warpbreaks, strata = warpbreaks$tension)
+    Condition
+      Error in `validation_split()`:
+      ! Can't select columns that don't exist.
+      x Columns `L`, `L`, `L`, `L`, `L`, etc. don't exist.
+
+---
+
+    Code
+      validation_split(warpbreaks, strata = c("tension", "wool"))
+    Condition
+      Error in `strata_check()`:
+      ! `strata` should be a single name or character value.
+
 # printing
 
     Code

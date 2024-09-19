@@ -9,6 +9,33 @@
 # bad args
 
     Code
+      permutations(mtcars)
+    Condition
+      Error in `permutations()`:
+      ! You must specify at least one column to permute.
+
+---
+
+    Code
+      permutations(mtcars, foo)
+    Condition
+      Error in `permutations()`:
+      ! Can't select columns that don't exist.
+      x Column `foo` doesn't exist.
+
+---
+
+    Code
+      permutations(mtcars, start_with("z"))
+    Condition
+      Error in `permutations()`:
+      i In argument: `start_with("z")`.
+      Caused by error in `start_with()`:
+      ! could not find function "start_with"
+
+---
+
+    Code
       permutations(mtcars, everything())
     Condition
       Error in `permutations()`:

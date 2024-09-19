@@ -1,3 +1,51 @@
+# bad inputs
+
+    Code
+      rsplit(as.list(dat1), 1:2, 4:5)
+    Condition
+      Error in `rsplit()`:
+      ! `data` must be a data frame.
+
+---
+
+    Code
+      rsplit(dat1, letters[1:2], 4:5)
+    Condition
+      Error in `rsplit()`:
+      ! `in_id` must be a positive integer vector.
+
+---
+
+    Code
+      rsplit(as.list(dat1), 1:2, letters[4:5])
+    Condition
+      Error in `rsplit()`:
+      ! `data` must be a data frame.
+
+---
+
+    Code
+      rsplit(as.list(dat1), -1:2, 4:5)
+    Condition
+      Error in `rsplit()`:
+      ! `data` must be a data frame.
+
+---
+
+    Code
+      rsplit(as.list(dat1), 1:2, -4:5)
+    Condition
+      Error in `rsplit()`:
+      ! `data` must be a data frame.
+
+---
+
+    Code
+      rsplit(as.list(dat1), integer(0), 4:5)
+    Condition
+      Error in `rsplit()`:
+      ! `data` must be a data frame.
+
 # print methods
 
     Code

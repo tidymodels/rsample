@@ -2,13 +2,10 @@ test_that("regression intervals", {
   skip_if_not_installed("broom")
   skip_on_cran()
 
-  expect_error(
-    {
-      set.seed(1)
-      int_1 <- reg_intervals(mpg ~ disp + wt, data = mtcars)
-    },
-    regexp = NA
-  )
+  expect_no_error({
+    set.seed(1)
+    int_1 <- reg_intervals(mpg ~ disp + wt, data = mtcars)
+  })
 
   expect_equal(
     names(int_1),
@@ -36,16 +33,13 @@ test_that("regression intervals", {
   expect_true(all(int_2$term == "wt"))
 
 
-  expect_error(
-    reg_intervals(mpg ~ disp + wt, data = mtcars, model_fn = "potato"),
-    "`model_fn` must be one of"
-  )
-  expect_error(
-    reg_intervals(mpg ~ disp + wt, data = mtcars, type = "random"),
-    "`type` must be one of"
-  )
-  expect_error(
-    reg_intervals(mpg ~ disp + wt, data = mtcars, alpha = "a"),
-    "must be a single numeric value"
-  )
+  expect_snapshot(error = TRUE, {
+    reg_intervals(mpg ~ disp + wt, data = mtcars, model_fn = "potato")
+  })
+  expect_snapshot(error = TRUE, {
+    reg_intervals(mpg ~ disp + wt, data = mtcars, type = "random")
+  })
+  expect_snapshot(error = TRUE, {
+    reg_intervals(mpg ~ disp + wt, data = mtcars, alpha = "a")
+  })
 })

@@ -259,8 +259,12 @@ test_that("strata", {
 test_that("bad args", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
-  expect_error(validation_split(warpbreaks, strata = warpbreaks$tension))
-  expect_error(validation_split(warpbreaks, strata = c("tension", "wool")))
+  expect_snapshot(error = TRUE, {
+    validation_split(warpbreaks, strata = warpbreaks$tension)
+  })
+  expect_snapshot(error = TRUE, {
+    validation_split(warpbreaks, strata = c("tension", "wool"))
+  })
 })
 
 test_that("printing", {
