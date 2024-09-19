@@ -1,18 +1,34 @@
 # bad args
 
-    `vars` is required and must contain at least one variable in `data`.
+    Code
+      clustering_cv(dat1)
+    Condition
+      Error in `clustering_cv()`:
+      ! `vars` is required and must contain at least one variable in `data`.
 
 ---
 
-    `v` must be a single positive integer greater than 1.
+    Code
+      clustering_cv(iris, Sepal.Length, v = -500)
+    Condition
+      Error in `clustering_cv()`:
+      ! `v` must be a single positive integer greater than 1.
 
 ---
 
-    The number of rows is less than `v` = 500.
+    Code
+      clustering_cv(iris, Sepal.Length, v = 500)
+    Condition
+      Error in `clustering_cv()`:
+      ! The number of rows is less than `v` = 500.
 
 ---
 
-    `cluster_function` must be one of "kmeans" or "hclust", not "not an option".
+    Code
+      clustering_cv(iris, Sepal.Length, cluster_function = "not an option")
+    Condition
+      Error in `clustering_cv()`:
+      ! `cluster_function` must be one of "kmeans" or "hclust", not "not an option".
 
 ---
 
@@ -24,11 +40,19 @@
 
 ---
 
-    `repeats` must be a single positive integer.
+    Code
+      clustering_cv(Orange, repeats = 0)
+    Condition
+      Error in `clustering_cv()`:
+      ! `repeats` must be a single positive integer.
 
 ---
 
-    `repeats` must be a single positive integer.
+    Code
+      clustering_cv(Orange, repeats = NULL)
+    Condition
+      Error in `clustering_cv()`:
+      ! `repeats` must be a single positive integer.
 
 ---
 

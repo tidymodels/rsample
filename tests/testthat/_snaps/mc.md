@@ -1,3 +1,20 @@
+# bad args
+
+    Code
+      mc_cv(warpbreaks, strata = warpbreaks$tension)
+    Condition
+      Error in `mc_cv()`:
+      ! Can't select columns that don't exist.
+      x Columns `L`, `L`, `L`, `L`, `L`, etc. don't exist.
+
+---
+
+    Code
+      mc_cv(warpbreaks, strata = c("tension", "wool"))
+    Condition
+      Error in `strata_check()`:
+      ! `strata` should be a single name or character value.
+
 # printing
 
     Code
@@ -20,6 +37,50 @@
       # i 15 more rows
 
 # grouping - bad args
+
+    Code
+      group_mc_cv(warpbreaks, group = warpbreaks$tension)
+    Condition
+      Error in `validate_group()`:
+      ! Can't select columns that don't exist.
+      x Columns `L`, `L`, `L`, `L`, `L`, etc. don't exist.
+
+---
+
+    Code
+      group_mc_cv(warpbreaks, group = c("tension", "wool"))
+    Condition
+      Error in `group_mc_cv()`:
+      ! `group` should be a single character value for the column that will be used for splitting.
+
+---
+
+    Code
+      group_mc_cv(warpbreaks, group = "tensio")
+    Condition
+      Error in `validate_group()`:
+      ! Can't select columns that don't exist.
+      x Column `tensio` doesn't exist.
+
+---
+
+    Code
+      group_mc_cv(warpbreaks)
+    Condition
+      Error in `group_mc_cv()`:
+      ! `group` should be a single character value for the column that will be used for splitting.
+
+---
+
+    Code
+      group_mc_cv(warpbreaks, group = "tension", balance = "groups")
+    Condition
+      Error in `group_mc_cv()`:
+      ! `...` must be empty.
+      x Problematic argument:
+      * balance = "groups"
+
+---
 
     Code
       group_mc_cv(warpbreaks, group = "tension", prop = 0.99)

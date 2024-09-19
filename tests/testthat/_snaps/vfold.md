@@ -9,31 +9,76 @@
 
 # bad args
 
-    `v` must be a single positive integer greater than 1.
+    Code
+      vfold_cv(iris, strata = iris$Species)
+    Condition
+      Error in `vfold_cv()`:
+      ! Can't select columns that don't exist.
+      x Columns `setosa`, `setosa`, `setosa`, `setosa`, `setosa`, etc. don't exist.
 
 ---
 
-    `v` must be a single positive integer greater than 1.
+    Code
+      vfold_cv(iris, strata = c("Species", "Sepal.Width"))
+    Condition
+      Error in `strata_check()`:
+      ! `strata` should be a single name or character value.
 
 ---
 
-    `v` must be a single positive integer greater than 1.
+    Code
+      vfold_cv(iris, v = -500)
+    Condition
+      Error in `vfold_cv()`:
+      ! `v` must be a single positive integer greater than 1.
 
 ---
 
-    The number of rows is less than `v` = 500.
+    Code
+      vfold_cv(iris, v = 1)
+    Condition
+      Error in `vfold_cv()`:
+      ! `v` must be a single positive integer greater than 1.
 
 ---
 
-    Repeated resampling when `v` is 150 would create identical resamples.
+    Code
+      vfold_cv(iris, v = NULL)
+    Condition
+      Error in `vfold_cv()`:
+      ! `v` must be a single positive integer greater than 1.
 
 ---
 
-    `repeats` must be a single positive integer.
+    Code
+      vfold_cv(iris, v = 500)
+    Condition
+      Error in `vfold_cv()`:
+      ! The number of rows is less than `v` = 500.
 
 ---
 
-    `repeats` must be a single positive integer.
+    Code
+      vfold_cv(iris, v = 150, repeats = 2)
+    Condition
+      Error in `vfold_cv()`:
+      ! Repeated resampling when `v` is 150 would create identical resamples.
+
+---
+
+    Code
+      vfold_cv(Orange, repeats = 0)
+    Condition
+      Error in `vfold_cv()`:
+      ! `repeats` must be a single positive integer.
+
+---
+
+    Code
+      vfold_cv(Orange, repeats = NULL)
+    Condition
+      Error in `vfold_cv()`:
+      ! `repeats` must be a single positive integer.
 
 ---
 
@@ -67,11 +112,61 @@
 
 # grouping -- bad args
 
-    Repeated resampling when `v` is 4 would create identical resamples.
+    Code
+      group_vfold_cv(warpbreaks, group = warpbreaks$tension)
+    Condition
+      Error in `validate_group()`:
+      ! Can't select columns that don't exist.
+      x Columns `L`, `L`, `L`, `L`, `L`, etc. don't exist.
 
 ---
 
-    Repeated resampling when `v` is "NULL" would create identical resamples.
+    Code
+      group_vfold_cv(warpbreaks, group = c("tension", "wool"))
+    Condition
+      Error in `group_vfold_cv()`:
+      ! `group` should be a single character value for the column that will be used for splitting.
+
+---
+
+    Code
+      group_vfold_cv(warpbreaks, group = "tensio")
+    Condition
+      Error in `validate_group()`:
+      ! Can't select columns that don't exist.
+      x Column `tensio` doesn't exist.
+
+---
+
+    Code
+      group_vfold_cv(warpbreaks)
+    Condition
+      Error in `group_vfold_cv()`:
+      ! `group` should be a single character value for the column that will be used for splitting.
+
+---
+
+    Code
+      group_vfold_cv(warpbreaks, group = "tension", v = 10)
+    Condition
+      Error in `group_vfold_cv()`:
+      ! The number of groups is less than `v` = 10.
+
+---
+
+    Code
+      group_vfold_cv(dat1, c, v = 4, repeats = 4)
+    Condition
+      Error in `group_vfold_cv()`:
+      ! Repeated resampling when `v` is 4 would create identical resamples.
+
+---
+
+    Code
+      group_vfold_cv(dat1, c, repeats = 4)
+    Condition
+      Error in `group_vfold_cv()`:
+      ! Repeated resampling when `v` is "NULL" would create identical resamples.
 
 ---
 
@@ -112,8 +207,28 @@
 
 ---
 
-    Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum.
-    i Set `v` explicitly to override this warning.
+    Code
+      group_vfold_cv(sample_data, group, strata = outcome)
+    Condition
+      Warning in `group_vfold_cv()`:
+      Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum.
+      i Set `v` explicitly to override this warning.
+    Output
+      # Group 30-fold cross-validation 
+      # A tibble: 30 x 2
+         splits               id        
+         <list>               <chr>     
+       1 <split [96070/3930]> Resample01
+       2 <split [95898/4102]> Resample02
+       3 <split [96079/3921]> Resample03
+       4 <split [96008/3992]> Resample04
+       5 <split [95982/4018]> Resample05
+       6 <split [95955/4045]> Resample06
+       7 <split [96025/3975]> Resample07
+       8 <split [96053/3947]> Resample08
+       9 <split [96030/3970]> Resample09
+      10 <split [96069/3931]> Resample10
+      # i 20 more rows
 
 ---
 
@@ -131,8 +246,28 @@
 
 ---
 
-    Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum.
-    i Set `v` explicitly to override this warning.
+    Code
+      group_vfold_cv(sample_data, group, strata = outcome)
+    Condition
+      Warning in `group_vfold_cv()`:
+      Leaving `v = NULL` while using stratification will set `v` to the number of groups present in the least common stratum.
+      i Set `v` explicitly to override this warning.
+    Output
+      # Group 30-fold cross-validation 
+      # A tibble: 30 x 2
+         splits               id        
+         <list>               <chr>     
+       1 <split [95985/4015]> Resample01
+       2 <split [95983/4017]> Resample02
+       3 <split [96052/3948]> Resample03
+       4 <split [95867/4133]> Resample04
+       5 <split [96056/3944]> Resample05
+       6 <split [95956/4044]> Resample06
+       7 <split [95975/4025]> Resample07
+       8 <split [96062/3938]> Resample08
+       9 <split [95932/4068]> Resample09
+      10 <split [96051/3949]> Resample10
+      # i 20 more rows
 
 # grouping -- printing
 

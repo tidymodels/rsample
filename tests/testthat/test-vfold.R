@@ -76,16 +76,36 @@ test_that("strata", {
 
 
 test_that("bad args", {
-  expect_error(vfold_cv(iris, strata = iris$Species))
-  expect_error(vfold_cv(iris, strata = c("Species", "Sepal.Width")))
-  expect_snapshot_error(vfold_cv(iris, v = -500))
-  expect_snapshot_error(vfold_cv(iris, v = 1))
-  expect_snapshot_error(vfold_cv(iris, v = NULL))
-  expect_snapshot_error(vfold_cv(iris, v = 500))
-  expect_snapshot_error(vfold_cv(iris, v = 150, repeats = 2))
-  expect_snapshot_error(vfold_cv(Orange, repeats = 0))
-  expect_snapshot_error(vfold_cv(Orange, repeats = NULL))
-  expect_snapshot(error = TRUE, vfold_cv(mtcars, v = nrow(mtcars)))
+  expect_snapshot(error = TRUE, {
+    vfold_cv(iris, strata = iris$Species)
+  })
+  expect_snapshot(error = TRUE, {
+    vfold_cv(iris, strata = c("Species", "Sepal.Width"))
+  })
+  expect_snapshot(error = TRUE, {
+    vfold_cv(iris, v = -500)
+  })
+  expect_snapshot(error = TRUE, {
+    vfold_cv(iris, v = 1)
+  })
+  expect_snapshot(error = TRUE, {
+    vfold_cv(iris, v = NULL)
+  })
+  expect_snapshot(error = TRUE, {
+    vfold_cv(iris, v = 500)
+  })
+  expect_snapshot(error = TRUE, {
+    vfold_cv(iris, v = 150, repeats = 2)
+  })
+  expect_snapshot(error = TRUE, {
+    vfold_cv(Orange, repeats = 0)
+  })
+  expect_snapshot(error = TRUE, {
+    vfold_cv(Orange, repeats = NULL)
+  })
+  expect_snapshot(error = TRUE, {
+    vfold_cv(mtcars, v = nrow(mtcars))
+  })
 })
 
 test_that("printing", {
@@ -108,14 +128,30 @@ test_that("rsplit labels", {
 })
 
 test_that("grouping -- bad args", {
-  expect_error(group_vfold_cv(warpbreaks, group = warpbreaks$tension))
-  expect_error(group_vfold_cv(warpbreaks, group = c("tension", "wool")))
-  expect_error(group_vfold_cv(warpbreaks, group = "tensio"))
-  expect_error(group_vfold_cv(warpbreaks))
-  expect_error(group_vfold_cv(warpbreaks, group = "tension", v = 10))
-  expect_snapshot_error(group_vfold_cv(dat1, c, v = 4, repeats = 4))
-  expect_snapshot_error(group_vfold_cv(dat1, c, repeats = 4))
-  expect_snapshot(error = TRUE, group_vfold_cv(Orange, v = 1, group = "Tree"))
+  expect_snapshot(error = TRUE, {
+    group_vfold_cv(warpbreaks, group = warpbreaks$tension)
+  })
+  expect_snapshot(error = TRUE, {
+    group_vfold_cv(warpbreaks, group = c("tension", "wool"))
+  })
+  expect_snapshot(error = TRUE, {
+    group_vfold_cv(warpbreaks, group = "tensio")
+  })
+  expect_snapshot(error = TRUE, {
+    group_vfold_cv(warpbreaks)
+  })
+  expect_snapshot(error = TRUE, {
+    group_vfold_cv(warpbreaks, group = "tension", v = 10)
+  })
+  expect_snapshot(error = TRUE, {
+    group_vfold_cv(dat1, c, v = 4, repeats = 4)
+  })
+  expect_snapshot(error = TRUE, {
+    group_vfold_cv(dat1, c, repeats = 4)
+  })
+  expect_snapshot(error = TRUE, {
+    group_vfold_cv(Orange, v = 1, group = "Tree")
+  })
 })
 
 
@@ -285,7 +321,7 @@ test_that("grouping -- strata", {
   )
   expect_true(all(good_holdout))
 
-  expect_snapshot_warning(
+  expect_snapshot(
     group_vfold_cv(sample_data, group, strata = outcome)
   )
 
@@ -325,7 +361,7 @@ test_that("grouping -- strata", {
   )
   expect_true(all(good_holdout))
 
-  expect_snapshot_warning(
+  expect_snapshot(
     group_vfold_cv(sample_data, group, strata = outcome)
   )
 

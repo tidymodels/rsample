@@ -14,12 +14,24 @@ test_that("simple rsplit with matrices", {
 })
 
 test_that("bad inputs", {
-  expect_error(rsplit(as.list(dat1), 1:2, 4:5))
-  expect_error(rsplit(dat1, letters[1:2], 4:5))
-  expect_error(rsplit(as.list(dat1), 1:2, letters[4:5]))
-  expect_error(rsplit(as.list(dat1), -1:2, 4:5))
-  expect_error(rsplit(as.list(dat1), 1:2, -4:5))
-  expect_error(rsplit(as.list(dat1), integer(0), 4:5))
+  expect_snapshot(error = TRUE, {
+    rsplit(as.list(dat1), 1:2, 4:5)
+  })
+  expect_snapshot(error = TRUE, {
+    rsplit(dat1, letters[1:2], 4:5)
+  })
+  expect_snapshot(error = TRUE, {
+    rsplit(as.list(dat1), 1:2, letters[4:5])
+  })
+  expect_snapshot(error = TRUE, {
+    rsplit(as.list(dat1), -1:2, 4:5)
+  })
+  expect_snapshot(error = TRUE, {
+    rsplit(as.list(dat1), 1:2, -4:5)
+  })
+  expect_snapshot(error = TRUE, {
+    rsplit(as.list(dat1), integer(0), 4:5)
+  })
 })
 
 test_that("as.data.frame", {

@@ -119,14 +119,26 @@
 
 ---
 
-    Cannot reshuffle this rset (`attr(rset, 'strata')` is "TRUE", not a column identifier)
-    i If the original object was created with an older version of rsample, try recreating it with the newest version of the package.
+    Code
+      reshuffle_rset(resample)
+    Condition
+      Error in `reshuffle_rset()`:
+      ! Cannot reshuffle this rset (`attr(rset, 'strata')` is "TRUE", not a column identifier)
+      i If the original object was created with an older version of rsample, try recreating it with the newest version of the package.
 
 ---
 
-    `manual_rset` objects cannot be reshuffled.
+    Code
+      reshuffle_rset(rset_subclasses[["manual_rset"]])
+    Condition
+      Error in `reshuffle_rset()`:
+      ! `manual_rset` objects cannot be reshuffled.
 
 ---
 
-    `rset` must be an <rset> object.
+    Code
+      reshuffle_rset(rset_subclasses[["manual_rset"]]$splits[[1]])
+    Condition
+      Error in `reshuffle_rset()`:
+      ! `rset` must be an <rset> object.
 

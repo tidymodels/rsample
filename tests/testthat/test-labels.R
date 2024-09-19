@@ -48,23 +48,23 @@ test_that("adding labels", {
 
   expect_equal(colnames(res), c(colnames(mtcars), ".id"))
 
-  expect_error(
+  expect_snapshot(error = TRUE, {
     analysis(car_folds$splits[[1]]) %>%
       add_resample_id(car_folds$splits[[1]], 7)
-  )
-  expect_error(
+  })
+  expect_snapshot(error = TRUE, {
     analysis(car_folds$splits[[1]]) %>%
       add_resample_id(car_folds$splits[[1]], c(TRUE, TRUE))
-  )
+  })
 
-  expect_error(
+  expect_snapshot(error = TRUE, {
     analysis(car_folds$splits[[1]]) %>%
       add_resample_id(car_folds$splits)
-  )
+  })
 
-  expect_error(
+  expect_snapshot(error = TRUE, {
     analysis(car_folds$splits[[1]]) %>%
       as.matrix() %>%
       add_resample_id(car_folds$splits[[1]])
-  )
+  })
 })

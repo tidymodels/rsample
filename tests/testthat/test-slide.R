@@ -148,32 +148,60 @@ test_that("can use incomplete windows at the beginning", {
 })
 
 test_that("`data` is validated", {
-  expect_error(sliding_window(1), "`data` must be a data frame")
+  expect_snapshot(error = TRUE, {
+    sliding_window(1)
+  })
 })
 
 test_that("`lookback` is validated", {
-  expect_error(sliding_window(data.frame(), lookback = -1), "`lookback` must be positive, or zero")
-  expect_error(sliding_window(data.frame(), lookback = "a"), "`lookback` must be an integer")
-  expect_error(sliding_window(data.frame(), lookback = c(1, 2)), "`lookback` must have size 1")
-  expect_error(sliding_window(data.frame(), lookback = NA), "`lookback` must be an integer")
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), lookback = -1)
+  })
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), lookback = "a")
+  })
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), lookback = c(1, 2))
+  })
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), lookback = NA)
+  })
 })
 
 test_that("`assess_start` is validated", {
-  expect_error(sliding_window(data.frame(), assess_start = -1), "`assess_start` must be positive")
-  expect_error(sliding_window(data.frame(), assess_start = "a"), "`assess_start` must be an integer")
-  expect_error(sliding_window(data.frame(), assess_start = c(1, 2)), "`assess_start` must have size 1")
-  expect_error(sliding_window(data.frame(), assess_start = NA), "`assess_start` must be an integer")
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), assess_start = -1)
+  })
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), assess_start = "a")
+  })
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), assess_start = c(1, 2))
+  })
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), assess_start = NA)
+  })
 })
 
 test_that("`assess_stop` is validated", {
-  expect_error(sliding_window(data.frame(), assess_stop = -1), "`assess_stop` must be positive")
-  expect_error(sliding_window(data.frame(), assess_stop = "a"), "`assess_stop` must be an integer")
-  expect_error(sliding_window(data.frame(), assess_stop = c(1, 2)), "`assess_stop` must have size 1")
-  expect_error(sliding_window(data.frame(), assess_stop = NA), "`assess_stop` must be an integer")
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), assess_stop = -1)
+  })
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), assess_stop = "a")
+  })
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), assess_stop = c(1, 2))
+  })
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), assess_stop = NA)
+  })
 })
 
 test_that("`assess_start` must be before or equal to `assess_stop`", {
-  expect_error(sliding_window(data.frame(), assess_start = 2, assess_stop = 1), "less than or equal to")
+  expect_snapshot(error = TRUE, {
+    sliding_window(data.frame(), assess_start = 2, assess_stop = 1)
+  })
 })
 
 # ------------------------------------------------------------------------------
@@ -336,12 +364,16 @@ test_that("can use incomplete windows at the beginning", {
 })
 
 test_that("`data` is validated", {
-  expect_error(sliding_index(1), "`data` must be a data frame")
+  expect_snapshot(error = TRUE, {
+    sliding_index(1)
+  })
 })
 
 test_that("`index` is validated", {
   df <- data.frame(x = 1:2)
-  expect_error(sliding_index(df, y))
+  expect_snapshot(error = TRUE, {
+    sliding_index(df, y)
+  })
 })
 
 # ------------------------------------------------------------------------------
@@ -504,10 +536,14 @@ test_that("can use incomplete windows at the beginning", {
 })
 
 test_that("`data` is validated", {
-  expect_error(sliding_period(1), "`data` must be a data frame")
+  expect_snapshot(error = TRUE, {
+    sliding_period(1)
+  })
 })
 
 test_that("`index` is validated", {
   df <- data.frame(x = 1:2)
-  expect_error(sliding_period(df, y))
+  expect_snapshot(error = TRUE, {
+    sliding_period(df, y)
+  })
 })
