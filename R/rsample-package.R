@@ -2,13 +2,9 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @import rlang
 #' @importFrom lifecycle deprecated
 #' @importFrom cli cli_abort cli_warn
-## usethis namespace: end
-NULL
-
-#------------------------------------------------------------------------------#
-
 #' @importFrom utils globalVariables
 #' @importFrom purrr map map2 map_dbl pluck map_lgl list_rbind
 #' @importFrom tibble tibble is_tibble as_tibble obj_sum
@@ -17,12 +13,12 @@ NULL
 #' @importFrom dplyr select %>% bind_cols bind_rows arrange_ arrange full_join
 #' @importFrom dplyr mutate last ungroup group_by inner_join summarize do case_when
 #' @importFrom vctrs vec_unique_count vec_count vec_slice vec_in vec_ptype_abbr
-#' @importFrom rlang !! is_call is_string enquo quos exec is_list abort warn .data %||%
-#' @importFrom rlang check_dots_empty
 #' @importFrom methods formalArgs
 #' @importFrom stats quantile setNames qnorm pnorm dist
 #' @importFrom tidyselect vars_select one_of
 #' @importFrom furrr future_map
+## usethis namespace: end
+NULL
 
 #------------------------------------------------------------------------------#
 
