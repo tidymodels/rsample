@@ -175,12 +175,12 @@ test_that(
     skip("until we don't get a message about loading purrr in the snapshot in R CMD check hard")
     # unskip this by moving the expectation back into the test_that block above
     set.seed(456765)
-  bt_small <-
-    bootstraps(dat, times = 10, apparent = TRUE) %>%
-    dplyr::mutate(
-      stats = purrr::map(splits, ~ get_stats(.x)),
-      junk = 1:11
-   )
+    bt_small <-
+      bootstraps(dat, times = 10, apparent = TRUE) %>%
+      dplyr::mutate(
+        stats = purrr::map(splits, ~ get_stats(.x)),
+        junk = 1:11
+     )
 
     expect_snapshot(int_bca(bt_small, stats, .fn = get_stats))
   }

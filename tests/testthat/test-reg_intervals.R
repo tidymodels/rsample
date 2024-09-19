@@ -3,9 +3,9 @@ test_that("regression intervals", {
   skip_on_cran()
 
   expect_no_error({
-      set.seed(1)
-      int_1 <- reg_intervals(mpg ~ disp + wt, data = mtcars)
-    })
+    set.seed(1)
+    int_1 <- reg_intervals(mpg ~ disp + wt, data = mtcars)
+  })
 
   expect_equal(
     names(int_1),
