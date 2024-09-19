@@ -74,14 +74,35 @@ test_that("strata", {
   )
 })
 
-
-test_that("bad args", {
+test_that("strata arg is checked", {
   expect_snapshot(error = TRUE, {
     vfold_cv(iris, strata = iris$Species)
   })
+
+  # errors from `strata_check()`
   expect_snapshot(error = TRUE, {
     vfold_cv(iris, strata = c("Species", "Sepal.Width"))
   })
+
+  expect_snapshot(error = TRUE, {
+    vfold_cv(iris, strata = NA)
+  })
+  
+  # make Surv object without a dependeny on the survival package
+  surv_obj <- structure(
+    c(306, 455, 1010, 210, 883, 1, 1, 0, 1, 1), 
+    dim = c(5L, 2L), 
+    dimnames = list(NULL, c("time", "status")),
+    type = "right", 
+    class = "Surv"
+  )
+  dat <- data.frame(a = 1:5, b = surv_obj)
+  expect_snapshot(error = TRUE, {
+    vfold_cv(dat, strata = b)
+  })
+})
+
+test_that("bad args", {
   expect_snapshot(error = TRUE, {
     vfold_cv(iris, v = -500)
   })

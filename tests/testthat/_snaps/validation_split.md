@@ -91,8 +91,8 @@
     Code
       validation_split(warpbreaks, strata = c("tension", "wool"))
     Condition
-      Error in `strata_check()`:
-      ! `strata` should be a single name or character value.
+      Error in `validation_split()`:
+      ! `strata` must be a single string or `NULL`, not a character vector.
 
 # printing
 

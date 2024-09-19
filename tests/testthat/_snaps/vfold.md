@@ -7,7 +7,7 @@
       Stratifying groups that make up 1% of the data may be statistically risky.
       * Consider increasing `pool` to at least 0.1
 
-# bad args
+# strata arg is checked
 
     Code
       vfold_cv(iris, strata = iris$Species)
@@ -21,10 +21,27 @@
     Code
       vfold_cv(iris, strata = c("Species", "Sepal.Width"))
     Condition
-      Error in `strata_check()`:
-      ! `strata` should be a single name or character value.
+      Error in `vfold_cv()`:
+      ! `strata` must be a single string or `NULL`, not a character vector.
 
 ---
+
+    Code
+      vfold_cv(iris, strata = NA)
+    Condition
+      Error in `vfold_cv()`:
+      ! Selections can't have missing values.
+
+---
+
+    Code
+      vfold_cv(dat, strata = b)
+    Condition
+      Error in `vfold_cv()`:
+      ! `strata` cannot be a <Surv> object.
+      i Use the time or event variable directly.
+
+# bad args
 
     Code
       vfold_cv(iris, v = -500)
