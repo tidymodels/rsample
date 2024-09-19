@@ -163,8 +163,8 @@ test_that(
         junk = 1:11
      )
 
-     expect_snapshot(int_pctl(bt_small, stats))
-     expect_snapshot(int_t(bt_small, stats))
+    expect_snapshot(int_pctl(bt_small, stats))
+    expect_snapshot(int_t(bt_small, stats))
   }
 )
 
