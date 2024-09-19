@@ -79,7 +79,7 @@ test_that("strata arg is checked", {
     vfold_cv(iris, strata = iris$Species)
   })
 
-  # errors from `strata_check()`
+  # errors from `check_strata()`
   expect_snapshot(error = TRUE, {
     vfold_cv(iris, strata = c("Species", "Sepal.Width"))
   })

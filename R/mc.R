@@ -58,7 +58,7 @@ mc_cv <- function(data, prop = 3 / 4, times = 25,
     if (length(strata) == 0) strata <- NULL
   }
 
-  strata_check(strata, data)
+  check_strata(strata, data)
 
   split_objs <-
     mc_splits(

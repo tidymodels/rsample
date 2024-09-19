@@ -71,7 +71,7 @@ vfold_cv <- function(data, v = 10, repeats = 1,
     if (length(strata) == 0) strata <- NULL
   }
 
-  strata_check(strata, data)
+  check_strata(strata, data)
   check_repeats(repeats)
 
   if (repeats == 1) {

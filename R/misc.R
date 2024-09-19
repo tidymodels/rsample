@@ -98,7 +98,7 @@ add_class <- function(x, cls) {
   x
 }
 
-strata_check <- function(strata, data, call = caller_env()) {
+check_strata <- function(strata, data, call = caller_env()) {
   check_string(strata, allow_null = TRUE, call = call)
 
   if (!is.null(strata)) {

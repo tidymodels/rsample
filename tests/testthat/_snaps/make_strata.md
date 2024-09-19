@@ -67,7 +67,7 @@
 # don't stratify on Surv objects
 
     Code
-      strata_check("surv", df)
+      check_strata("surv", df)
     Condition
       Error:
       ! `strata` cannot be a <Surv> object.
