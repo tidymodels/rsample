@@ -103,9 +103,11 @@ test_that("lag", {
   skip_if_not_installed("modeldata")
   data("drinks", package = "modeldata", envir = rlang::current_env())
   expect_snapshot(error = TRUE, {
+    # lag must be less than the number of training observations
     rolling_origin(drinks, initial = 5, lag = 6)
   })
   expect_snapshot(error = TRUE, {
+    # lag must be a whole number
     rolling_origin(drinks, lag = 2.1)
   })
 })

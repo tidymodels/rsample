@@ -18,7 +18,7 @@ test_that("bad args", {
       car_folds$id,
       attrib = args
     )
-})
+  })
 })
 
 test_that("rset with attributes", {
