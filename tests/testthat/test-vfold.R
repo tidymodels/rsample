@@ -96,7 +96,9 @@ test_that("strata arg is checked", {
     type = "right", 
     class = "Surv"
   )
-  dat <- data.frame(a = 1:5, b = surv_obj)
+  dat <- data.frame(a = 1:5)
+  # add Surv object like this for older R versions (<= 4.2.3)
+  dat$b <- surv_obj
   expect_snapshot(error = TRUE, {
     vfold_cv(dat, strata = b)
   })
