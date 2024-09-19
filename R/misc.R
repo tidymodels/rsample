@@ -98,11 +98,10 @@ add_class <- function(x, cls) {
   x
 }
 
-strata_check <- function(strata, data) {
+strata_check <- function(strata, data, call = caller_env()) {
+  check_string(strata, allow_null = TRUE, call = call)
+
   if (!is.null(strata)) {
-    if (!is.character(strata) | length(strata) != 1) {
-      cli_abort("{.arg strata} should be a single name or character value.")
-    }
     if (inherits(data[, strata], "Surv")) {
       cli_abort("{.arg strata} cannot be a {.cls Surv} object. Use the time or event variable directly.")
     }
