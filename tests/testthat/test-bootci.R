@@ -171,7 +171,7 @@ test_that(
 test_that(
   "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
   {
-    #skip("until we don't get a message about loading purrr in the snapshot in R CMD check hard")
+    skip("#539 message about loading purrr in the snapshot in R CMD check hard")
     # unskip this by moving the expectation back into the test_that block above
 
     set.seed(888)
