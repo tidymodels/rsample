@@ -5,11 +5,6 @@
 #' @import rlang
 #' @importFrom lifecycle deprecated
 #' @importFrom cli cli_abort cli_warn
-## usethis namespace: end
-NULL
-
-#------------------------------------------------------------------------------#
-
 #' @importFrom utils globalVariables
 #' @importFrom purrr map map2 map_dbl pluck map_lgl list_rbind
 #' @importFrom tibble tibble is_tibble as_tibble obj_sum
@@ -22,6 +17,8 @@ NULL
 #' @importFrom stats quantile setNames qnorm pnorm dist
 #' @importFrom tidyselect vars_select one_of
 #' @importFrom furrr future_map
+## usethis namespace: end
+NULL
 
 #------------------------------------------------------------------------------#
 
