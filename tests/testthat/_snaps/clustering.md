@@ -44,7 +44,7 @@
       clustering_cv(Orange, repeats = 0)
     Condition
       Error in `clustering_cv()`:
-      ! `repeats` must be a single positive integer.
+      ! `repeats` must be a whole number larger than or equal to 1, not the number 0.
 
 ---
 
@@ -52,7 +52,7 @@
       clustering_cv(Orange, repeats = NULL)
     Condition
       Error in `clustering_cv()`:
-      ! `repeats` must be a single positive integer.
+      ! `repeats` must be a whole number, not `NULL`.
 
 ---
 

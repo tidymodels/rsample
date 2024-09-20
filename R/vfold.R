@@ -72,7 +72,7 @@ vfold_cv <- function(data, v = 10, repeats = 1,
   }
 
   check_strata(strata, data)
-  check_repeats(repeats)
+  check_number_whole(repeats, min = 1)
 
   if (repeats == 1) {
     split_objs <- vfold_splits(
@@ -213,7 +213,7 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1, pr
 #' @export
 group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = c("groups", "observations"), ..., strata = NULL, pool = 0.1) {
   check_dots_empty()
-  check_repeats(repeats)
+  check_number_whole(repeats, min = 1)
   group <- validate_group({{ group }}, data)
   balance <- rlang::arg_match(balance)
 
@@ -367,10 +367,4 @@ check_grouped_strata <- function(group, strata, pool, data) {
   }
 
   strata
-}
-
-check_repeats <- function(repeats, call = rlang::caller_env()) {
-  if (!is.numeric(repeats) || length(repeats) != 1 || repeats < 1) {
-    cli_abort("{.arg repeats} must be a single positive integer.", call = call)
-  }
 }
