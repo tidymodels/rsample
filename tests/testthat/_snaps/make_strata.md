@@ -70,6 +70,6 @@
       check_strata("surv", df)
     Condition
       Error:
-      ! `strata` cannot be a <Surv> object.
+      ! strata cannot be a <Surv> object.
       i Use the time or event variable directly.
 

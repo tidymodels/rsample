@@ -38,7 +38,7 @@
       vfold_cv(dat, strata = b)
     Condition
       Error in `vfold_cv()`:
-      ! `strata` cannot be a <Surv> object.
+      ! strata cannot be a <Surv> object.
       i Use the time or event variable directly.
 
 # bad args
