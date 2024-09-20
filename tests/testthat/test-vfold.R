@@ -104,7 +104,7 @@ test_that("strata arg is checked", {
   })
 })
 
-test_that("bad args", {
+test_that("v arg is checked", {
   expect_snapshot(error = TRUE, {
     vfold_cv(iris, v = -500)
   })
@@ -118,6 +118,12 @@ test_that("bad args", {
     vfold_cv(iris, v = 500)
   })
   expect_snapshot(error = TRUE, {
+    vfold_cv(mtcars, v = nrow(mtcars))
+  })
+})
+
+test_that("repeats arg is checked", {
+  expect_snapshot(error = TRUE, {
     vfold_cv(iris, v = 150, repeats = 2)
   })
   expect_snapshot(error = TRUE, {
@@ -125,9 +131,6 @@ test_that("bad args", {
   })
   expect_snapshot(error = TRUE, {
     vfold_cv(Orange, repeats = NULL)
-  })
-  expect_snapshot(error = TRUE, {
-    vfold_cv(mtcars, v = nrow(mtcars))
   })
 })
 

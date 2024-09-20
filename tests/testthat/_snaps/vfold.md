@@ -41,7 +41,7 @@
       ! strata cannot be a <Surv> object.
       i Use the time or event variable directly.
 
-# bad args
+# v arg is checked
 
     Code
       vfold_cv(iris, v = -500)
@@ -76,6 +76,16 @@
 ---
 
     Code
+      vfold_cv(mtcars, v = nrow(mtcars))
+    Condition
+      Error in `vfold_cv()`:
+      ! Leave-one-out cross-validation is not supported by this function.
+      x You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.
+      i Use `loo_cv()` in this case.
+
+# repeats arg is checked
+
+    Code
       vfold_cv(iris, v = 150, repeats = 2)
     Condition
       Error in `vfold_cv()`:
@@ -96,16 +106,6 @@
     Condition
       Error in `vfold_cv()`:
       ! `repeats` must be a whole number, not `NULL`.
-
----
-
-    Code
-      vfold_cv(mtcars, v = nrow(mtcars))
-    Condition
-      Error in `vfold_cv()`:
-      ! Leave-one-out cross-validation is not supported by this function.
-      x You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.
-      i Use `loo_cv()` in this case.
 
 # printing
 
