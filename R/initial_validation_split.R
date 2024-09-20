@@ -68,7 +68,7 @@ initial_validation_split <- function(data,
       strata <- NULL
     }
   }
-  strata_check(strata, data)
+  check_strata(strata, data)
 
   split_train <- mc_cv(
       data = data,
@@ -209,7 +209,7 @@ group_initial_validation_split <- function(data,
       strata <- NULL
     }
   }
-  strata_check(strata, data)
+  check_strata(strata, data)
 
   if (missing(strata)) {
     split_train <- group_mc_cv(

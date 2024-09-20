@@ -12,8 +12,8 @@
     Code
       mc_cv(warpbreaks, strata = c("tension", "wool"))
     Condition
-      Error in `strata_check()`:
-      ! `strata` should be a single name or character value.
+      Error in `mc_cv()`:
+      ! `strata` must be a single string or `NULL`, not a character vector.
 
 # printing
 

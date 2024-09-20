@@ -39,7 +39,7 @@ test_that("bad data", {
 
 
 
-# strata_check() ----------------------------------------------------------
+# check_strata() ----------------------------------------------------------
 
 test_that("don't stratify on Surv objects", {
   df <- data.frame(
@@ -58,6 +58,6 @@ test_that("don't stratify on Surv objects", {
   )
 
   expect_snapshot(error = TRUE, {
-    strata_check("surv", df)
+    check_strata("surv", df)
   })
 })

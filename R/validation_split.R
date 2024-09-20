@@ -67,7 +67,7 @@ validation_split <- function(data, prop = 3 / 4,
     }
   }
 
-  strata_check(strata, data)
+  check_strata(strata, data)
 
   split_objs <-
     mc_splits(
