@@ -12,7 +12,7 @@
       clustering_cv(iris, Sepal.Length, v = -500)
     Condition
       Error in `clustering_cv()`:
-      ! `v` must be a single positive integer greater than 1.
+      ! `v` must be a whole number larger than or equal to 2, not the number -500.
 
 ---
 
@@ -36,7 +36,7 @@
       clustering_cv(Orange, v = 1, vars = "Tree")
     Condition
       Error in `clustering_cv()`:
-      ! `v` must be a single positive integer greater than 1.
+      ! `v` must be a whole number larger than or equal to 2, not the number 1.
 
 ---
 

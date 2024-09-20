@@ -331,18 +331,19 @@ add_vfolds <- function(x, v) {
 }
 
 check_v <- function(v, max_v, rows = "rows", prevent_loo = TRUE, call = rlang::caller_env()) {
-  if (!is.numeric(v) || length(v) != 1 || v < 2) {
-    cli_abort("{.arg v} must be a single positive integer greater than 1.", call = call)
-  } else if (v > max_v) {
+  check_number_whole(v, min = 2, call = call)
+
+  if (v > max_v) {
     cli_abort(
       "The number of {rows} is less than {.arg v} = {.val {v}}.",
       call = call
     )
-  } else if (prevent_loo && isTRUE(v == max_v)) {
+  } 
+  if (prevent_loo && isTRUE(v == max_v)) {
     cli_abort(c(
       "Leave-one-out cross-validation is not supported by this function.",
-      "x" = "You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.",
-      "i" = "Use `loo_cv()` in this case."
+      "x" = "You set {.arg v} to {.code nrow(data)}, which would result in a leave-one-out cross-validation.",
+      "i" = "Use {.fn loo_cv} in this case."
     ), call = call)
   }
 }
