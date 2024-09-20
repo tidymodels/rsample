@@ -104,7 +104,7 @@ check_strata <- function(strata, data, call = caller_env()) {
   if (!is.null(strata)) {
     if (inherits(data[, strata], "Surv")) {
       cli_abort(c(
-        "{.arg strata} cannot be a {.cls Surv} object.",
+        "{.field strata} cannot be a {.cls Surv} object.",
         "i" = "Use the time or event variable directly."
         ),
         call = call
