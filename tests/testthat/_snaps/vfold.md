@@ -286,6 +286,14 @@
       10 <split [96051/3949]> Resample10
       # i 20 more rows
 
+# grouping fails for strata not constant across group members
+
+    Code
+      group_vfold_cv(sample_data, group, v = 5, strata = outcome)
+    Condition
+      Error in `group_vfold_cv()`:
+      ! strata must be constant across all members of each group.
+
 # grouping -- printing
 
     Code

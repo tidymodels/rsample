@@ -347,7 +347,7 @@ check_v <- function(v, max_v, rows = "rows", prevent_loo = TRUE, call = rlang::c
   }
 }
 
-check_grouped_strata <- function(group, strata, pool, data) {
+check_grouped_strata <- function(group, strata, pool, data, call = caller_env()) {
 
   strata <- tidyselect::vars_select(names(data), !!enquo(strata))
 
@@ -363,7 +363,10 @@ check_grouped_strata <- function(group, strata, pool, data) {
 
   if (nrow(vctrs::vec_unique(grouped_table)) !=
       nrow(vctrs::vec_unique(grouped_table["group"]))) {
-    cli_abort("{.arg strata} must be constant across all members of each {.arg group}.")
+    cli_abort(
+      "{.field strata} must be constant across all members of each {.field group}.",
+      call = call
+    )
   }
 
   strata

@@ -403,6 +403,35 @@ test_that("grouping -- strata", {
   )
 })
 
+test_that("grouping fails for strata not constant across group members", {
+  set.seed(11)
+
+  n_common_class <- 70
+  n_rare_class <- 30
+
+  group_table <- tibble(
+    group = 1:100,
+    outcome = sample(c(rep(0, n_common_class), rep(1, n_rare_class)))
+  )
+  observation_table <- tibble(
+    group = sample(1:100, 1e5, replace = TRUE),
+    observation = 1:1e5
+  )
+  sample_data <- dplyr::full_join(
+    group_table,
+    observation_table,
+    by = "group",
+    multiple = "all"
+  )
+
+  # violate requirement
+  sample_data$outcome[1] <- ifelse(sample_data$outcome[1], 0, 1)
+
+  expect_snapshot(error = TRUE, {
+    group_vfold_cv(sample_data, group, v = 5, strata = outcome)
+  })
+})
+
 test_that("grouping -- repeated", {
   set.seed(11)
   rs2 <- group_vfold_cv(dat1, c, v = 3, repeats = 4)
