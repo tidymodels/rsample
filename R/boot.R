@@ -151,7 +151,7 @@ boot_splits <-
 
     all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
     if (any(all_assessable == 0)) {
-      rlang::warn(
+      cli_warn(
         "Some assessment sets contained zero rows.",
         call = rlang::caller_env()
       )
