@@ -57,7 +57,7 @@ clustering_cv <- function(data,
                           distance_function = "dist",
                           cluster_function = c("kmeans", "hclust"),
                           ...) {
-  check_repeats(repeats)
+  check_number_whole(repeats, min = 1)
 
   if (!rlang::is_function(cluster_function)) {
     cluster_function <- rlang::arg_match(cluster_function)

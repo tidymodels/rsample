@@ -41,13 +41,13 @@
       ! strata cannot be a <Surv> object.
       i Use the time or event variable directly.
 
-# bad args
+# v arg is checked
 
     Code
       vfold_cv(iris, v = -500)
     Condition
       Error in `vfold_cv()`:
-      ! `v` must be a single positive integer greater than 1.
+      ! `v` must be a whole number larger than or equal to 2, not the number -500.
 
 ---
 
@@ -55,7 +55,7 @@
       vfold_cv(iris, v = 1)
     Condition
       Error in `vfold_cv()`:
-      ! `v` must be a single positive integer greater than 1.
+      ! `v` must be a whole number larger than or equal to 2, not the number 1.
 
 ---
 
@@ -63,7 +63,7 @@
       vfold_cv(iris, v = NULL)
     Condition
       Error in `vfold_cv()`:
-      ! `v` must be a single positive integer greater than 1.
+      ! `v` must be a whole number, not `NULL`.
 
 ---
 
@@ -74,6 +74,16 @@
       ! The number of rows is less than `v` = 500.
 
 ---
+
+    Code
+      vfold_cv(mtcars, v = nrow(mtcars))
+    Condition
+      Error in `vfold_cv()`:
+      ! Leave-one-out cross-validation is not supported by this function.
+      x You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.
+      i Use `loo_cv()` in this case.
+
+# repeats arg is checked
 
     Code
       vfold_cv(iris, v = 150, repeats = 2)
@@ -87,7 +97,7 @@
       vfold_cv(Orange, repeats = 0)
     Condition
       Error in `vfold_cv()`:
-      ! `repeats` must be a single positive integer.
+      ! `repeats` must be a whole number larger than or equal to 1, not the number 0.
 
 ---
 
@@ -95,17 +105,7 @@
       vfold_cv(Orange, repeats = NULL)
     Condition
       Error in `vfold_cv()`:
-      ! `repeats` must be a single positive integer.
-
----
-
-    Code
-      vfold_cv(mtcars, v = nrow(mtcars))
-    Condition
-      Error in `vfold_cv()`:
-      ! Leave-one-out cross-validation is not supported by this function.
-      x You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.
-      i Use `loo_cv()` in this case.
+      ! `repeats` must be a whole number, not `NULL`.
 
 # printing
 
@@ -191,7 +191,7 @@
       group_vfold_cv(Orange, v = 1, group = "Tree")
     Condition
       Error in `group_vfold_cv()`:
-      ! `v` must be a single positive integer greater than 1.
+      ! `v` must be a whole number larger than or equal to 2, not the number 1.
 
 # grouping -- other balance methods
 
@@ -285,6 +285,14 @@
        9 <split [95932/4068]> Resample09
       10 <split [96051/3949]> Resample10
       # i 20 more rows
+
+# grouping fails for strata not constant across group members
+
+    Code
+      group_vfold_cv(sample_data, group, v = 5, strata = outcome)
+    Condition
+      Error in `group_vfold_cv()`:
+      ! strata must be constant across all members of each group.
 
 # grouping -- printing
 

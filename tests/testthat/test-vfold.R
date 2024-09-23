@@ -104,7 +104,7 @@ test_that("strata arg is checked", {
   })
 })
 
-test_that("bad args", {
+test_that("v arg is checked", {
   expect_snapshot(error = TRUE, {
     vfold_cv(iris, v = -500)
   })
@@ -118,6 +118,12 @@ test_that("bad args", {
     vfold_cv(iris, v = 500)
   })
   expect_snapshot(error = TRUE, {
+    vfold_cv(mtcars, v = nrow(mtcars))
+  })
+})
+
+test_that("repeats arg is checked", {
+  expect_snapshot(error = TRUE, {
     vfold_cv(iris, v = 150, repeats = 2)
   })
   expect_snapshot(error = TRUE, {
@@ -125,9 +131,6 @@ test_that("bad args", {
   })
   expect_snapshot(error = TRUE, {
     vfold_cv(Orange, repeats = NULL)
-  })
-  expect_snapshot(error = TRUE, {
-    vfold_cv(mtcars, v = nrow(mtcars))
   })
 })
 
@@ -401,6 +404,35 @@ test_that("grouping -- strata", {
     ),
     n_rare_class
   )
+})
+
+test_that("grouping fails for strata not constant across group members", {
+  set.seed(11)
+
+  n_common_class <- 70
+  n_rare_class <- 30
+
+  group_table <- tibble(
+    group = 1:100,
+    outcome = sample(c(rep(0, n_common_class), rep(1, n_rare_class)))
+  )
+  observation_table <- tibble(
+    group = sample(1:100, 1e5, replace = TRUE),
+    observation = 1:1e5
+  )
+  sample_data <- dplyr::full_join(
+    group_table,
+    observation_table,
+    by = "group",
+    multiple = "all"
+  )
+
+  # violate requirement
+  sample_data$outcome[1] <- ifelse(sample_data$outcome[1], 0, 1)
+
+  expect_snapshot(error = TRUE, {
+    group_vfold_cv(sample_data, group, v = 5, strata = outcome)
+  })
 })
 
 test_that("grouping -- repeated", {

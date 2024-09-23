@@ -72,7 +72,7 @@ vfold_cv <- function(data, v = 10, repeats = 1,
   }
 
   check_strata(strata, data)
-  check_repeats(repeats)
+  check_number_whole(repeats, min = 1)
 
   if (repeats == 1) {
     split_objs <- vfold_splits(
@@ -213,7 +213,7 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1, pr
 #' @export
 group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = c("groups", "observations"), ..., strata = NULL, pool = 0.1) {
   check_dots_empty()
-  check_repeats(repeats)
+  check_number_whole(repeats, min = 1)
   group <- validate_group({{ group }}, data)
   balance <- rlang::arg_match(balance)
 
@@ -331,23 +331,24 @@ add_vfolds <- function(x, v) {
 }
 
 check_v <- function(v, max_v, rows = "rows", prevent_loo = TRUE, call = rlang::caller_env()) {
-  if (!is.numeric(v) || length(v) != 1 || v < 2) {
-    cli_abort("{.arg v} must be a single positive integer greater than 1.", call = call)
-  } else if (v > max_v) {
+  check_number_whole(v, min = 2, call = call)
+
+  if (v > max_v) {
     cli_abort(
       "The number of {rows} is less than {.arg v} = {.val {v}}.",
       call = call
     )
-  } else if (prevent_loo && isTRUE(v == max_v)) {
+  } 
+  if (prevent_loo && isTRUE(v == max_v)) {
     cli_abort(c(
       "Leave-one-out cross-validation is not supported by this function.",
-      "x" = "You set `v` to `nrow(data)`, which would result in a leave-one-out cross-validation.",
-      "i" = "Use `loo_cv()` in this case."
+      "x" = "You set {.arg v} to {.code nrow(data)}, which would result in a leave-one-out cross-validation.",
+      "i" = "Use {.fn loo_cv} in this case."
     ), call = call)
   }
 }
 
-check_grouped_strata <- function(group, strata, pool, data) {
+check_grouped_strata <- function(group, strata, pool, data, call = caller_env()) {
 
   strata <- tidyselect::vars_select(names(data), !!enquo(strata))
 
@@ -363,14 +364,11 @@ check_grouped_strata <- function(group, strata, pool, data) {
 
   if (nrow(vctrs::vec_unique(grouped_table)) !=
       nrow(vctrs::vec_unique(grouped_table["group"]))) {
-    cli_abort("{.arg strata} must be constant across all members of each {.arg group}.")
+    cli_abort(
+      "{.field strata} must be constant across all members of each {.field group}.",
+      call = call
+    )
   }
 
   strata
-}
-
-check_repeats <- function(repeats, call = rlang::caller_env()) {
-  if (!is.numeric(repeats) || length(repeats) != 1 || repeats < 1) {
-    cli_abort("{.arg repeats} must be a single positive integer.", call = call)
-  }
 }
