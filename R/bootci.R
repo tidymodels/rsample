@@ -292,9 +292,7 @@ int_pctl <- function(.data, ...) {
 #' @rdname int_pctl
 int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   check_dots_empty()
-  if (length(alpha) != 1 || !is.numeric(alpha)) {
-    cli_abort("{.arg alpha} must be a single numeric value.")
-  }
+  check_number_decimal(alpha, min = 0, max = 1)
 
   .data <- .data %>% dplyr::filter(id != "Apparent")
 
@@ -377,9 +375,7 @@ int_t <- function(.data, ...) {
 int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   check_dots_empty()
   check_includes_apparent(.data)
-  if (length(alpha) != 1 || !is.numeric(alpha)) {
-    cli_abort("{.arg alpha} must be a single numeric value.")
-  }
+  check_number_decimal(alpha, min = 0, max = 1)
 
   column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
   if (length(column_name) != 1) {
@@ -486,9 +482,7 @@ int_bca <- function(.data, ...) {
 #' @export
 int_bca.bootstraps <- function(.data, statistics, alpha = 0.05, .fn, ...) {
   check_includes_apparent(.data)
-  if (length(alpha) != 1 || !is.numeric(alpha)) {
-    cli_abort("{.arg alpha} must be a single numeric value.")
-  }
+  check_number_decimal(alpha, min = 0, max = 1)
 
   check_has_dots(.fn)
 

@@ -76,7 +76,7 @@
       int_pctl(bt_small, stats, alpha = c(0.05, 0.2))
     Condition
       Error in `int_pctl()`:
-      ! `alpha` must be a single numeric value.
+      ! `alpha` must be a number, not a double vector.
 
 ---
 
@@ -84,7 +84,7 @@
       int_t(bt_small, stats, alpha = "potato")
     Condition
       Error in `int_t()`:
-      ! `alpha` must be a single numeric value.
+      ! `alpha` must be a number, not the string "potato".
 
 ---
 
@@ -92,7 +92,7 @@
       int_bca(bt_small, stats, alpha = 1:2, .fn = get_stats)
     Condition
       Error in `int_bca()`:
-      ! `alpha` must be a single numeric value.
+      ! `alpha` must be a number, not an integer vector.
 
 ---
 
