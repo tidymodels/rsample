@@ -131,7 +131,7 @@
     Code
       int_bca(bt_norm, stats, .fn = no_dots)
     Condition
-      Error in `has_dots()`:
+      Error in `int_bca()`:
       ! `.fn` must have an argument `...`.
 
 ---

@@ -123,10 +123,10 @@ new_stats <- function(x, lo, hi) {
   tibble(.lower = min(res), .estimate = mean(x, na.rm = TRUE), .upper = max(res))
 }
 
-has_dots <- function(x) {
+check_has_dots <- function(x, call = caller_env()) {
   nms <- names(formals(x))
   if (!any(nms == "...")) {
-    cli_abort("{.arg .fn} must have an argument {.arg ...}.")
+    cli_abort("{.arg .fn} must have an argument {.arg ...}.", call = call)
   }
   invisible(NULL)
 }
@@ -487,7 +487,7 @@ int_bca.bootstraps <- function(.data, statistics, alpha = 0.05, .fn, ...) {
     cli_abort("{.arg alpha} must be a single numeric value.")
   }
 
-  has_dots(.fn)
+  check_has_dots(.fn)
 
   column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
   if (length(column_name) != 1) {
