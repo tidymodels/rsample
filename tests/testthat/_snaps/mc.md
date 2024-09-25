@@ -3,8 +3,8 @@
     Code
       mc_cv(mtcars, prop = 1)
     Condition
-      Error in `mc_splits()`:
-      ! `prop` must be a number on (0, 1).
+      Error in `mc_cv()`:
+      ! `prop` must be less than 1.
 
 ---
 
@@ -83,8 +83,8 @@
     Code
       group_mc_cv(mtcars, group = "cyl", prop = 1)
     Condition
-      Error in `balance_prop()`:
-      ! `prop` must be a number between 0 and 1.
+      Error in `group_mc_cv()`:
+      ! `prop` must be less than 1.
 
 ---
 

@@ -82,8 +82,8 @@
     Code
       validation_split(mtcars, prop = 1)
     Condition
-      Error in `mc_splits()`:
-      ! `prop` must be a number on (0, 1).
+      Error in `validation_split()`:
+      ! `prop` must be less than 1.
 
 ---
 
@@ -91,15 +91,15 @@
       validation_time_split(mtcars, prop = 1)
     Condition
       Error in `validation_time_split()`:
-      ! `prop` must be a number on (0, 1).
+      ! `prop` must be less than 1.
 
 ---
 
     Code
       group_validation_split(mtcars, group = "cyl", prop = 1)
     Condition
-      Error in `balance_prop()`:
-      ! `prop` must be a number between 0 and 1.
+      Error in `group_validation_split()`:
+      ! `prop` must be less than 1.
 
 ---
 

@@ -52,6 +52,7 @@
 mc_cv <- function(data, prop = 3 / 4, times = 25,
                   strata = NULL, breaks = 4, pool = 0.1, ...) {
   check_dots_empty()
+  check_prop(prop)
 
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
@@ -103,10 +104,6 @@ mc_complement <- function(ind, n) {
 
 mc_splits <- function(data, prop = 3 / 4, times = 25,
                       strata = NULL, breaks = 4, pool = 0.1) {
-  if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
-    cli_abort("{.arg prop} must be a number on (0, 1).")
-  }
-
   n <- nrow(data)
   if (is.null(strata)) {
     indices <- purrr::map(rep(n, times), sample, size = floor(n * prop))
@@ -170,6 +167,7 @@ group_mc_cv <- function(data, group, prop = 3 / 4, times = 25, ...,
                         strata = NULL, pool = 0.1) {
 
   check_dots_empty()
+  check_prop(prop)
 
   group <- validate_group({{ group }}, data)
 

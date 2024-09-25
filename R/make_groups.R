@@ -231,7 +231,6 @@ balance_observations_helper <- function(data_split, v, target_per_fold) {
 
 balance_prop <- function(prop, data_ind, v, replace = FALSE, strata = NULL, ...) {
   rlang::check_dots_empty()
-  check_prop(prop, replace)
 
   # This is the core difference between stratification and not:
   #
@@ -289,20 +288,6 @@ balance_prop_helper <- function(prop, data_ind, v, replace) {
   ) %>%
     list_rbind()
 }
-
-check_prop <- function(prop, replace) {
-  acceptable_prop <- is.numeric(prop)
-  acceptable_prop <- acceptable_prop &&
-    ((prop <= 1 && replace) || (prop < 1 && !replace))
-  acceptable_prop <- acceptable_prop && prop > 0
-  if (!acceptable_prop) {
-    cli_abort(
-      "{.arg prop} must be a number between 0 and 1.",
-      call = rlang::caller_env()
-    )
-  }
-}
-
 
 collapse_groups <- function(freq_table, data_ind, v) {
   data_ind <- dplyr::left_join(

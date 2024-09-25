@@ -4,7 +4,7 @@
       initial_time_split(drinks, prop = 2)
     Condition
       Error in `initial_time_split()`:
-      ! `prop` must be a number on (0, 1).
+      ! `prop` must be less than 1.
 
 ---
 
@@ -43,8 +43,8 @@
     Code
       initial_split(mtcars, prop = 1)
     Condition
-      Error in `mc_splits()`:
-      ! `prop` must be a number on (0, 1).
+      Error in `initial_split()`:
+      ! `prop` must be less than 1.
 
 ---
 
@@ -52,13 +52,13 @@
       initial_time_split(mtcars, prop = 1)
     Condition
       Error in `initial_time_split()`:
-      ! `prop` must be a number on (0, 1).
+      ! `prop` must be less than 1.
 
 ---
 
     Code
       group_initial_split(mtcars, group = "cyl", prop = 1)
     Condition
-      Error in `balance_prop()`:
-      ! `prop` must be a number between 0 and 1.
+      Error in `group_initial_split()`:
+      ! `prop` must be less than 1.
 
