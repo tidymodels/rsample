@@ -151,7 +151,7 @@ boot_splits <-
 
     all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
     if (any(all_assessable == 0)) {
-      rlang::warn(
+      cli_warn(
         "Some assessment sets contained zero rows.",
         call = rlang::caller_env()
       )
@@ -276,7 +276,7 @@ group_boot_splits <- function(data, group, times = 25, strata = NULL, pool = 0.1
 
   all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
   if (any(all_assessable == 0)) {
-    rlang::warn(
+    cli_warn(
       c(
         "Some assessment sets contained zero rows.",
         i = "Consider using a non-grouped resampling method."
