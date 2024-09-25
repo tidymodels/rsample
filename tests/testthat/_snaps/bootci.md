@@ -224,3 +224,27 @@
       ! The bootstrap resamples must include an apparent sample.
       i Please set `apparent = TRUE` in the `bootstraps()` function.
 
+# checks input for statistics
+
+    Code
+      int_t(rs_boot_missing_term, stats)
+    Condition
+      Error in `check_tidy_names()`:
+      ! The tibble in `statistics` should have columns for 'estimate' and 'term'.
+
+---
+
+    Code
+      int_t(rs_boot_missing_estimate, stats)
+    Condition
+      Error in `check_tidy_names()`:
+      ! The tibble in `statistics` should have columns for 'estimate' and 'term'.
+
+---
+
+    Code
+      int_t(rs_boot_missing_std_err, stats)
+    Condition
+      Error in `check_tidy_names()`:
+      ! `statistics` should select a single column for the standard error.
+
