@@ -154,11 +154,11 @@ check_num_resamples <- function(x, B = 1000, call = caller_env()) {
 
 pctl_single <- function(stats, alpha = 0.05) {
   if (all(is.na(stats))) {
-    cli_abort("All statistics have missing values.")
+    cli_abort("All statistics have missing values.", call = call2("int_pctl"))
   }
 
   if (!is.numeric(stats)) {
-    cli_abort("All statistics must be numeric.")
+    cli_abort("All statistics must be numeric.", call = call2("int_pctl"))
   }
 
   # stats is a numeric vector of values
@@ -298,7 +298,7 @@ int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
 
   column_name <- tidyselect::vars_select(names(.data), !!rlang::enquo(statistics))
   if (length(column_name) != 1) {
-    rlang::abort(statistics_format_error)
+    cli_abort(statistics_format_error)
   }
   stats <- .data[[column_name]]
   stats <- check_statistics(stats, std_col = FALSE)
@@ -325,7 +325,7 @@ t_single <- function(stats, std_err, is_orig, alpha = 0.05) {
   # which_orig is the index of stats and std_err that has the original result
 
   if (all(is.na(stats))) {
-    cli_abort("All statistics have missing values.")
+    cli_abort("All statistics have missing values.", call = call2("int_t"))
   }
 
   if (!is.logical(is_orig) || any(is.na(is_orig))) {

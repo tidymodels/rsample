@@ -5,7 +5,7 @@
     Condition
       Warning in `int_pctl()`:
       Recommend at least 1000 non-missing bootstrap resamples for term `mean`.
-      Error in `pctl_single()`:
+      Error in `int_pctl()`:
       ! All statistics have missing values.
 
 ---
@@ -15,7 +15,7 @@
     Condition
       Warning in `int_t()`:
       Recommend at least 500 non-missing bootstrap resamples for term `mean`.
-      Error in `t_single()`:
+      Error in `int_t()`:
       ! All statistics have missing values.
 
 ---
@@ -203,7 +203,7 @@
     Code
       int_pctl(badder_bt_norm, bad_num)
     Condition
-      Error in `pctl_single()`:
+      Error in `int_pctl()`:
       ! All statistics must be numeric.
 
 # checks for apparent bootstrap
