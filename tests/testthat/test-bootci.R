@@ -299,6 +299,44 @@ test_that("bad input", {
   })
 })
 
+test_that("checks for apparent bootstrap", {
+  rs_boot <- bootstraps(mtcars, times = 10, apparent = FALSE)
+  expect_snapshot(error = TRUE, {
+    int_t(rs_boot)
+  })
+  expect_snapshot(error = TRUE, {
+    int_bca(rs_boot)
+  })
+})
+
+test_that("checks input for statistics", {
+  dat <- data.frame(x = rnorm(n = 1000, mean = 10, sd = 1))
+  rs_boot <- bootstraps(dat, times = 10, apparent = TRUE) 
+  
+  rs_boot_missing_term <- rs_boot %>%
+    dplyr::mutate(
+      stats = purrr::map(1:11, ~ tibble(estimate = 1))
+    )
+  expect_snapshot(error = TRUE, {
+    int_t(rs_boot_missing_term, stats)
+  })
+
+  rs_boot_missing_estimate <- rs_boot %>%
+    dplyr::mutate(
+      stats = purrr::map(1:11, ~ tibble(term = 1))
+    )
+  expect_snapshot(error = TRUE, {
+    int_t(rs_boot_missing_estimate, stats)
+  })
+
+  rs_boot_missing_std_err <- rs_boot %>%
+    dplyr::mutate(
+      stats = purrr::map(1:11, ~ tibble(term = 1, estimate = 2))
+    )
+  expect_snapshot(error = TRUE, {
+    int_t(rs_boot_missing_std_err, stats)
+  })
+})
 
 # ------------------------------------------------------------------------------
 

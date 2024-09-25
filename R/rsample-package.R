@@ -4,7 +4,7 @@
 ## usethis namespace: start
 #' @import rlang
 #' @importFrom lifecycle deprecated
-#' @importFrom cli cli_abort cli_warn
+#' @importFrom cli cli_abort cli_warn cli_text
 #' @importFrom utils globalVariables
 #' @importFrom purrr map map2 map_dbl pluck map_lgl list_rbind
 #' @importFrom tibble tibble is_tibble as_tibble obj_sum
