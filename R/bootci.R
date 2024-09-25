@@ -22,22 +22,27 @@ statistics_format_error <- cli::format_inline(
 )
 std_exp <- c("std.error", "robust.se")
 
-check_statistics_names <- function(x, std_col) {
+check_statistics_names <- function(x, std_col, call = caller_env()) {
   # check for proper columns
   if (sum(colnames(x) == "estimate") != 1) {
     cli_abort(
-      "The tibble in {.arg statistics} must have a column for 'estimate'."
+      "The tibble in {.arg statistics} must have a column for 'estimate'.",
+      call = call
     )
   }
   if (sum(colnames(x) == "term") != 1) {
     cli_abort(
-       "The tibble in {.arg statistics} must have a column for 'term'."
+       "The tibble in {.arg statistics} must have a column for 'term'.",
+       call = call
     )
   }
   if (std_col) {
     std_candidates <- colnames(x) %in% std_exp
     if (sum(std_candidates) != 1) {
-      cli_abort("{.arg statistics} should select a single column for the standard error.")
+      cli_abort(
+        "{.arg statistics} should select a single column for the standard error.",
+        call = call
+      )
     }
   }
   invisible(TRUE)
