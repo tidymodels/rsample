@@ -131,7 +131,7 @@ check_has_dots <- function(x, call = caller_env()) {
   invisible(NULL)
 }
 
-check_num_resamples <- function(x, B = 1000) {
+check_num_resamples <- function(x, B = 1000, call = caller_env()) {
   x <-
     x %>%
     dplyr::group_by(term) %>%
@@ -140,7 +140,10 @@ check_num_resamples <- function(x, B = 1000) {
 
   if (nrow(x) > 0) {
     terms <- x$term
-    cli_warn("Recommend at least {B} non-missing bootstrap resamples for {cli::qty(terms)} term{?s} {.code {terms}}.")
+    cli_warn(
+      "Recommend at least {B} non-missing bootstrap resamples for {cli::qty(terms)} term{?s} {.code {terms}}.",
+       call = call
+    )
   }
   invisible(NULL)
 }
