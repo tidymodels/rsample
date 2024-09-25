@@ -344,12 +344,7 @@ validate_group <- function(group, data, call = rlang::caller_env()) {
     }
   }
 
-  if (is.null(group) || !is.character(group) || length(group) != 1) {
-    cli_abort(
-      "{.arg group} should be a single character value for the column that will be used for splitting.",
-      call = call
-    )
-  }
+  check_string(group, call = call)
 
   group
 }

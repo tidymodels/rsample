@@ -51,7 +51,7 @@
       group_mc_cv(warpbreaks, group = c("tension", "wool"))
     Condition
       Error in `group_mc_cv()`:
-      ! `group` should be a single character value for the column that will be used for splitting.
+      ! `group` must be a single string, not a character vector.
 
 ---
 
@@ -68,7 +68,7 @@
       group_mc_cv(warpbreaks)
     Condition
       Error in `group_mc_cv()`:
-      ! `group` should be a single character value for the column that will be used for splitting.
+      ! `group` must be a single string, not `NULL`.
 
 ---
 
