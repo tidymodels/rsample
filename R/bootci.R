@@ -48,9 +48,9 @@ check_statistics_names <- function(x, std_col, call = caller_env()) {
   invisible(TRUE)
 }
 
-check_statistics <- function(x, std_col = FALSE) {
+check_statistics <- function(x, std_col = FALSE, call = caller_env()) {
   if (!is.list(x)) {
-    rlang::abort(statistics_format_error)
+    cli_abort(statistics_format_error, call = call)
   }
 
   # convert to data frame from list
@@ -63,10 +63,10 @@ check_statistics <- function(x, std_col = FALSE) {
   }
 
   if (inherits(x, "try-error")) {
-    cli_abort(statistics_format_error)
+    cli_abort(statistics_format_error, call = call)
   }
 
-  check_statistics_names(x, std_col)
+  check_statistics_names(x, std_col, call = call)
 
   if (std_col) {
     std_candidates <- colnames(x) %in% std_exp
