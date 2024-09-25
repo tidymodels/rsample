@@ -418,7 +418,7 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ..., call = caller_env
   # To test, we run on the first LOO data set and see if it is a vector or df
   loo_test <- try(rlang::exec(.fn, loo_rs$splits[[1]], ...), silent = TRUE)
   if (inherits(loo_test, "try-error")) {
-    cat("Running `.fn` on the LOO resamples produced an error:\n")
+    cli_text("Running {.fn .fn} on the LOO resamples produced an error:")
     print(loo_test)
     cli_abort("{.arg .fn} failed.", call = call)
   }
