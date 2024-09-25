@@ -25,7 +25,7 @@
     Condition
       Warning in `int_bca()`:
       Recommend at least 1000 non-missing bootstrap resamples for term `mean`.
-      Error in `bca_calc()`:
+      Error in `int_bca()`:
       ! All statistics have missing values.
 
 # Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method

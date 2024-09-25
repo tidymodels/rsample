@@ -398,11 +398,11 @@ int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
 
 # ----------------------------------------------------------------
 
-bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
+bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ..., call = caller_env()) {
 
   # TODO check per term
   if (all(is.na(stats$estimate))) {
-    cli_abort("All statistics have missing values.")
+    cli_abort("All statistics have missing values.", call = call)
   }
 
   stat_groups_chr <- c("term", grep("^\\.", names(stats), value = TRUE))
@@ -420,7 +420,7 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ...) {
   if (inherits(loo_test, "try-error")) {
     cat("Running `.fn` on the LOO resamples produced an error:\n")
     print(loo_test)
-    cli_abort("{.arg .fn} failed.")
+    cli_abort("{.arg .fn} failed.", call = call)
   }
 
   loo_res <- furrr::future_map(loo_rs$splits, .fn, ...) %>% list_rbind()
