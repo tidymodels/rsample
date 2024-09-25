@@ -60,7 +60,7 @@
       int_pctl(bt_small, id)
     Condition
       Error in `check_tidy()`:
-      ! {.arg statistics} should select a list column of tidy results.
+      ! `statistics` should select a list column of tidy results.
 
 ---
 
@@ -68,7 +68,7 @@
       int_pctl(bt_small, junk)
     Condition
       Error in `check_tidy()`:
-      ! {.arg statistics} should select a list column of tidy results.
+      ! `statistics` should select a list column of tidy results.
 
 ---
 

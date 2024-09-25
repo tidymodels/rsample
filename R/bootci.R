@@ -17,7 +17,9 @@ check_includes_apparent <- function(x, call = caller_env()) {
 }
 
 
-stat_fmt_err <- "{.arg statistics} should select a list column of tidy results."
+statistics_format_error <- cli::format_inline(
+  "{.arg statistics} should select a list column of tidy results."
+)
 stat_nm_err <- paste(
   "The tibble in {.arg statistics} should have columns for",
   "'estimate' and 'term'."
@@ -43,7 +45,7 @@ check_tidy_names <- function(x, std_col) {
 
 check_tidy <- function(x, std_col = FALSE) {
   if (!is.list(x)) {
-    rlang::abort(stat_fmt_err)
+    rlang::abort(statistics_format_error)
   }
 
   # convert to data frame from list
@@ -56,7 +58,7 @@ check_tidy <- function(x, std_col = FALSE) {
   }
 
   if (inherits(x, "try-error")) {
-    cli_abort(stat_fmt_err)
+    cli_abort(statistics_format_error)
   }
 
   check_tidy_names(x, std_col)
@@ -290,7 +292,7 @@ int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
 
   column_name <- tidyselect::vars_select(names(.data), !!rlang::enquo(statistics))
   if (length(column_name) != 1) {
-    rlang::abort(stat_fmt_err)
+    rlang::abort(statistics_format_error)
   }
   stats <- .data[[column_name]]
   stats <- check_tidy(stats, std_col = FALSE)
@@ -373,7 +375,7 @@ int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
 
   column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
   if (length(column_name) != 1) {
-    cli_abort(stat_fmt_err)
+    cli_abort(statistics_format_error)
   }
   stats <- .data %>% dplyr::select(!!column_name, id)
   stats <- check_tidy(stats, std_col = TRUE)
@@ -484,7 +486,7 @@ int_bca.bootstraps <- function(.data, statistics, alpha = 0.05, .fn, ...) {
 
   column_name <- tidyselect::vars_select(names(.data), !!enquo(statistics))
   if (length(column_name) != 1) {
-    cli_abort(stat_fmt_err)
+    cli_abort(statistics_format_error)
   }
   stats <- .data %>% dplyr::select(!!column_name, id, dplyr::starts_with("."))
   stats <- check_tidy(stats)
