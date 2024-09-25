@@ -180,7 +180,7 @@
       int_pctl(badder_bt_norm, bad_term)
     Condition
       Error in `check_tidy_names()`:
-      ! The tibble in `statistics` should have columns for 'estimate' and 'term'.
+      ! The tibble in `statistics` must have a column for 'term'.
 
 ---
 
@@ -196,7 +196,7 @@
       int_bca(badder_bt_norm, bad_est, .fn = get_stats)
     Condition
       Error in `check_tidy_names()`:
-      ! The tibble in `statistics` should have columns for 'estimate' and 'term'.
+      ! The tibble in `statistics` must have a column for 'estimate'.
 
 ---
 
@@ -230,7 +230,7 @@
       int_t(rs_boot_missing_term, stats)
     Condition
       Error in `check_tidy_names()`:
-      ! The tibble in `statistics` should have columns for 'estimate' and 'term'.
+      ! The tibble in `statistics` must have a column for 'term'.
 
 ---
 
@@ -238,7 +238,7 @@
       int_t(rs_boot_missing_estimate, stats)
     Condition
       Error in `check_tidy_names()`:
-      ! The tibble in `statistics` should have columns for 'estimate' and 'term'.
+      ! The tibble in `statistics` must have a column for 'estimate'.
 
 ---
 

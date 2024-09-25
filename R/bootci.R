@@ -20,18 +20,19 @@ check_includes_apparent <- function(x, call = caller_env()) {
 statistics_format_error <- cli::format_inline(
   "{.arg statistics} should select a list column of tidy results."
 )
-statistics_name_error <- cli::format_inline(
-  "The tibble in {.arg statistics} should have columns for 'estimate' and 'term'."
-)
 std_exp <- c("std.error", "robust.se")
 
 check_tidy_names <- function(x, std_col) {
   # check for proper columns
   if (sum(colnames(x) == "estimate") != 1) {
-    cli_abort(statistics_name_error)
+    cli_abort(
+      "The tibble in {.arg statistics} must have a column for 'estimate'."
+    )
   }
   if (sum(colnames(x) == "term") != 1) {
-    cli_abort(statistics_name_error)
+    cli_abort(
+       "The tibble in {.arg statistics} must have a column for 'term'."
+    )
   }
   if (std_col) {
     std_candidates <- colnames(x) %in% std_exp
