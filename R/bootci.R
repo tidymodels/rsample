@@ -22,7 +22,7 @@ statistics_format_error <- cli::format_inline(
 )
 std_exp <- c("std.error", "robust.se")
 
-check_tidy_names <- function(x, std_col) {
+check_statistics_names <- function(x, std_col) {
   # check for proper columns
   if (sum(colnames(x) == "estimate") != 1) {
     cli_abort(
@@ -61,7 +61,7 @@ check_tidy <- function(x, std_col = FALSE) {
     cli_abort(statistics_format_error)
   }
 
-  check_tidy_names(x, std_col)
+  check_statistics_names(x, std_col)
 
   if (std_col) {
     std_candidates <- colnames(x) %in% std_exp
