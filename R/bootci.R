@@ -158,7 +158,7 @@ pctl_single <- function(stats, alpha = 0.05) {
   }
 
   if (!is.numeric(stats)) {
-    cli_abort("{.arg stats} must be a numeric vector.")
+    cli_abort("All statistics must be numeric.")
   }
 
   # stats is a numeric vector of values

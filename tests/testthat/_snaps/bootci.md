@@ -204,7 +204,7 @@
       int_pctl(badder_bt_norm, bad_num)
     Condition
       Error in `pctl_single()`:
-      ! `stats` must be a numeric vector.
+      ! All statistics must be numeric.
 
 # checks for apparent bootstrap
 
