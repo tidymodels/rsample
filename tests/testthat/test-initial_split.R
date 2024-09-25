@@ -118,3 +118,9 @@ test_that("printing initial split objects", {
   expect_snapshot(initial_split(mtcars))
   expect_snapshot(initial_time_split(mtcars))
 })
+
+test_that("prop is checked", {
+  expect_snapshot(error = TRUE, {initial_split(mtcars, prop = 1)})
+  expect_snapshot(error = TRUE, {initial_time_split(mtcars, prop = 1)})
+  expect_snapshot(error = TRUE, {group_initial_split(mtcars, group = "cyl", prop = 1)})
+})

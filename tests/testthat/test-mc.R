@@ -73,6 +73,9 @@ test_that("strata", {
 
 test_that("bad args", {
   expect_snapshot(error = TRUE, {
+    mc_cv(mtcars, prop = 1)
+  })
+  expect_snapshot(error = TRUE, {
     mc_cv(warpbreaks, strata = warpbreaks$tension)
   })
   expect_snapshot(error = TRUE, {
@@ -106,6 +109,9 @@ test_that("grouping - bad args", {
   })
   expect_snapshot(error = TRUE, {
     group_mc_cv(warpbreaks)
+  })
+  expect_snapshot(error = TRUE, {
+    group_mc_cv(mtcars, group = "cyl", prop = 1)
   })
   expect_snapshot(error = TRUE, {
     group_mc_cv(warpbreaks, group = "tension", balance = "groups")

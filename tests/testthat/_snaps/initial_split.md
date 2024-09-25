@@ -38,3 +38,27 @@
       <Training/Testing/Total>
       <24/8/32>
 
+# prop is checked
+
+    Code
+      initial_split(mtcars, prop = 1)
+    Condition
+      Error in `mc_splits()`:
+      ! `prop` must be a number on (0, 1).
+
+---
+
+    Code
+      initial_time_split(mtcars, prop = 1)
+    Condition
+      Error in `initial_time_split()`:
+      ! `prop` must be a number on (0, 1).
+
+---
+
+    Code
+      group_initial_split(mtcars, group = "cyl", prop = 1)
+    Condition
+      Error in `balance_prop()`:
+      ! `prop` must be a number between 0 and 1.
+
