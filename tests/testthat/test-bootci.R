@@ -299,6 +299,15 @@ test_that("bad input", {
   })
 })
 
+test_that("checks for apparent bootstrap", {
+  rs_boot <- bootstraps(mtcars, times = 10, apparent = FALSE)
+  expect_snapshot(error = TRUE, {
+    int_t(rs_boot)
+  })
+  expect_snapshot(error = TRUE, {
+    int_bca(rs_boot)
+  })
+})
 
 # ------------------------------------------------------------------------------
 

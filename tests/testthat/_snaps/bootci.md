@@ -54,19 +54,6 @@
         <chr>  <dbl>     <dbl>  <dbl>  <dbl> <chr>    
       1 mean    9.96      10.0   10.1   0.05 student-t
 
----
-
-    Code
-      int_bca(bt_small, stats, .fn = get_stats)
-    Condition
-      Warning:
-      Recommend at least 1000 non-missing bootstrap resamples for term `mean`.
-    Output
-      # A tibble: 1 x 6
-        term  .lower .estimate .upper .alpha .method
-        <chr>  <dbl>     <dbl>  <dbl>  <dbl> <chr>  
-      1 mean    9.96      10.0   10.1   0.05 BCa    
-
 # bad input
 
     Code
@@ -218,4 +205,22 @@
     Condition
       Error in `pctl_single()`:
       ! `stats` must be a numeric vector.
+
+# checks for apparent bootstrap
+
+    Code
+      int_t(rs_boot)
+    Condition
+      Error in `int_t()`:
+      ! The bootstrap resamples must include an apparent sample.
+      i Please set `apparent = TRUE` in the `bootstraps()` function.
+
+---
+
+    Code
+      int_bca(rs_boot)
+    Condition
+      Error in `int_bca()`:
+      ! The bootstrap resamples must include an apparent sample.
+      i Please set `apparent = TRUE` in the `bootstraps()` function.
 

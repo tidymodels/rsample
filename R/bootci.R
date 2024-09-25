@@ -4,15 +4,14 @@
 # helpers
 
 
-check_rset <- function(x, app = TRUE) {
-  if (!inherits(x, "bootstraps")) {
-    cli_abort("{.arg .data} should be an {.cls rset} object generated from {.fn bootstraps}.")
-  }
-
-  if (app) {
-    if (x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1) {
-      cli_abort("Please set {.code apparent = TRUE} in {.fn bootstraps} function.")
-    }
+check_includes_apparent <- function(x, call = caller_env()) {
+  if (x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1) {
+    cli_abort(c(
+      "The bootstrap resamples must include an apparent sample.",
+      i =  "Please set {.code apparent = TRUE} in the {.fn bootstraps} function."
+      ), 
+      call = call
+    )
   }
   invisible(NULL)
 }
@@ -283,7 +282,6 @@ int_pctl <- function(.data, ...) {
 #' @rdname int_pctl
 int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   check_dots_empty()
-  check_rset(.data, app = FALSE)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
     cli_abort("{.arg alpha} must be a single numeric value.")
   }
@@ -368,7 +366,7 @@ int_t <- function(.data, ...) {
 #' @export
 int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   check_dots_empty()
-  check_rset(.data)
+  check_includes_apparent(.data)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
     cli_abort("{.arg alpha} must be a single numeric value.")
   }
@@ -477,7 +475,7 @@ int_bca <- function(.data, ...) {
 #' @rdname int_pctl
 #' @export
 int_bca.bootstraps <- function(.data, statistics, alpha = 0.05, .fn, ...) {
-  check_rset(.data)
+  check_includes_apparent(.data)
   if (length(alpha) != 1 || !is.numeric(alpha)) {
     cli_abort("{.arg alpha} must be a single numeric value.")
   }
