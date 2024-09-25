@@ -59,7 +59,7 @@
     Code
       int_pctl(bt_small, id)
     Condition
-      Error in `check_tidy()`:
+      Error in `check_statistics()`:
       ! `statistics` should select a list column of tidy results.
 
 ---
@@ -67,7 +67,7 @@
     Code
       int_pctl(bt_small, junk)
     Condition
-      Error in `check_tidy()`:
+      Error in `check_statistics()`:
       ! `statistics` should select a list column of tidy results.
 
 ---
@@ -123,7 +123,7 @@
     Code
       int_t(bad_bt_norm, stats)
     Condition
-      Error in `check_tidy()`:
+      Error in `check_statistics()`:
       ! `statistics` should select a single column for the standard error.
 
 ---
@@ -179,7 +179,7 @@
     Code
       int_pctl(badder_bt_norm, bad_term)
     Condition
-      Error in `check_tidy()`:
+      Error in `check_statistics()`:
       ! The tibble in `statistics` must have a column for 'term'.
 
 ---
@@ -187,7 +187,7 @@
     Code
       int_t(badder_bt_norm, bad_err)
     Condition
-      Error in `check_tidy()`:
+      Error in `check_statistics()`:
       ! `statistics` should select a single column for the standard error.
 
 ---
@@ -195,7 +195,7 @@
     Code
       int_bca(badder_bt_norm, bad_est, .fn = get_stats)
     Condition
-      Error in `check_tidy()`:
+      Error in `check_statistics()`:
       ! The tibble in `statistics` must have a column for 'estimate'.
 
 ---
@@ -229,7 +229,7 @@
     Code
       int_t(rs_boot_missing_term, stats)
     Condition
-      Error in `check_tidy()`:
+      Error in `check_statistics()`:
       ! The tibble in `statistics` must have a column for 'term'.
 
 ---
@@ -237,7 +237,7 @@
     Code
       int_t(rs_boot_missing_estimate, stats)
     Condition
-      Error in `check_tidy()`:
+      Error in `check_statistics()`:
       ! The tibble in `statistics` must have a column for 'estimate'.
 
 ---
@@ -245,6 +245,6 @@
     Code
       int_t(rs_boot_missing_std_err, stats)
     Condition
-      Error in `check_tidy()`:
+      Error in `check_statistics()`:
       ! `statistics` should select a single column for the standard error.
 

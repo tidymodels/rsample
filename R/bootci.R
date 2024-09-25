@@ -48,7 +48,7 @@ check_statistics_names <- function(x, std_col, call = caller_env()) {
   invisible(TRUE)
 }
 
-check_tidy <- function(x, std_col = FALSE) {
+check_statistics <- function(x, std_col = FALSE) {
   if (!is.list(x)) {
     rlang::abort(statistics_format_error)
   }
@@ -300,7 +300,7 @@ int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
     rlang::abort(statistics_format_error)
   }
   stats <- .data[[column_name]]
-  stats <- check_tidy(stats, std_col = FALSE)
+  stats <- check_statistics(stats, std_col = FALSE)
 
   check_num_resamples(stats, B = 1000)
 
@@ -383,7 +383,7 @@ int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
     cli_abort(statistics_format_error)
   }
   stats <- .data %>% dplyr::select(!!column_name, id)
-  stats <- check_tidy(stats, std_col = TRUE)
+  stats <- check_statistics(stats, std_col = TRUE)
 
   check_num_resamples(stats, B = 500)
 
@@ -494,7 +494,7 @@ int_bca.bootstraps <- function(.data, statistics, alpha = 0.05, .fn, ...) {
     cli_abort(statistics_format_error)
   }
   stats <- .data %>% dplyr::select(!!column_name, id, dplyr::starts_with("."))
-  stats <- check_tidy(stats)
+  stats <- check_statistics(stats)
 
   check_num_resamples(stats, B = 1000)
 
