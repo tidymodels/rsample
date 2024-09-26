@@ -73,6 +73,9 @@ test_that("strata", {
 
 test_that("bad args", {
   expect_snapshot(error = TRUE, {
+    mc_cv(mtcars, prop = -1)
+  })
+  expect_snapshot(error = TRUE, {
     mc_cv(mtcars, prop = 1)
   })
   expect_snapshot(error = TRUE, {
