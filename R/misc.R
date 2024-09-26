@@ -98,6 +98,17 @@ add_class <- function(x, cls) {
   x
 }
 
+check_prop <- function(prop, call = caller_env()) {
+  check_number_decimal(prop, call = call)
+  if (!(prop > 0)) {
+    cli_abort("{.arg prop} must be greater than 0.", call = call)
+  }
+  if (!(prop < 1)) {
+    cli_abort("{.arg prop} must be less than 1.", call = call)
+  }
+  invisible(NULL)
+}
+
 check_strata <- function(strata, data, call = caller_env()) {
   check_string(strata, allow_null = TRUE, call = call)
 

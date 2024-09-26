@@ -4,7 +4,7 @@
       initial_time_split(drinks, prop = 2)
     Condition
       Error in `initial_time_split()`:
-      ! `prop` must be a number on (0, 1).
+      ! `prop` must be less than 1.
 
 ---
 
@@ -37,4 +37,28 @@
     Output
       <Training/Testing/Total>
       <24/8/32>
+
+# prop is checked
+
+    Code
+      initial_split(mtcars, prop = 1)
+    Condition
+      Error in `initial_split()`:
+      ! `prop` must be less than 1.
+
+---
+
+    Code
+      initial_time_split(mtcars, prop = 1)
+    Condition
+      Error in `initial_time_split()`:
+      ! `prop` must be less than 1.
+
+---
+
+    Code
+      group_initial_split(mtcars, group = "cyl", prop = 1)
+    Condition
+      Error in `group_initial_split()`:
+      ! `prop` must be less than 1.
 

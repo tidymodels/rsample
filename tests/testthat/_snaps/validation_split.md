@@ -80,6 +80,30 @@
 # bad args
 
     Code
+      validation_split(mtcars, prop = 1)
+    Condition
+      Error in `validation_split()`:
+      ! `prop` must be less than 1.
+
+---
+
+    Code
+      validation_time_split(mtcars, prop = 1)
+    Condition
+      Error in `validation_time_split()`:
+      ! `prop` must be less than 1.
+
+---
+
+    Code
+      group_validation_split(mtcars, group = "cyl", prop = 1)
+    Condition
+      Error in `group_validation_split()`:
+      ! `prop` must be less than 1.
+
+---
+
+    Code
       validation_split(warpbreaks, strata = warpbreaks$tension)
     Condition
       Error in `validation_split()`:

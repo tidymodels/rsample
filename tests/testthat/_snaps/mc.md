@@ -1,6 +1,22 @@
 # bad args
 
     Code
+      mc_cv(mtcars, prop = -1)
+    Condition
+      Error in `mc_cv()`:
+      ! `prop` must be greater than 0.
+
+---
+
+    Code
+      mc_cv(mtcars, prop = 1)
+    Condition
+      Error in `mc_cv()`:
+      ! `prop` must be less than 1.
+
+---
+
+    Code
       mc_cv(warpbreaks, strata = warpbreaks$tension)
     Condition
       Error in `mc_cv()`:
@@ -69,6 +85,14 @@
     Condition
       Error in `group_mc_cv()`:
       ! `group` must be a single string, not `NULL`.
+
+---
+
+    Code
+      group_mc_cv(mtcars, group = "cyl", prop = 1)
+    Condition
+      Error in `group_mc_cv()`:
+      ! `prop` must be less than 1.
 
 ---
 

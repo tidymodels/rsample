@@ -44,6 +44,8 @@
 initial_split <- function(data, prop = 3 / 4,
                           strata = NULL, breaks = 4, pool = 0.1, ...) {
   check_dots_empty()
+  check_prop(prop)
+
   res <-
     mc_cv(
       data = data,
@@ -74,9 +76,7 @@ initial_split <- function(data, prop = 3 / 4,
 #' @export
 initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   check_dots_empty()
-  if (!is.numeric(prop) | prop >= 1 | prop <= 0) {
-    cli_abort("{.arg prop} must be a number on (0, 1).")
-  }
+  check_prop(prop)
 
   if (!is.numeric(lag) | !(lag %% 1 == 0)) {
     cli_abort("{.arg lag} must be a whole number.")
@@ -156,6 +156,7 @@ testing.rsplit <- function(x, ...) {
 #' @export
 group_initial_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, pool = 0.1) {
   check_dots_empty()
+  check_prop(prop)
 
   if (missing(strata)) {
     res <- group_mc_cv(
