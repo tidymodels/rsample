@@ -1,6 +1,14 @@
 # bad args
 
     Code
+      mc_cv(mtcars, prop = -1)
+    Condition
+      Error in `mc_cv()`:
+      ! `prop` must be greater than 0.
+
+---
+
+    Code
       mc_cv(mtcars, prop = 1)
     Condition
       Error in `mc_cv()`:
