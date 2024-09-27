@@ -159,8 +159,9 @@ to groups.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  A  B  E  F </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 38 29 12 17 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu">make_strata</span><span class="op">(</span><span class="va">x4</span>, pool <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Stratifying groups that make up 0% of the data may be statistically risky.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Consider increasing `pool` to at least 0.1</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Stratifying groups that make up 0% of the data may be statistically</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> risky.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Consider increasing `pool` to at least 0.1.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  A  B  C  D  E  F  G </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 37 26  3  7 11 10  2 </span>
@@ -168,7 +169,8 @@ to groups.</p>
 <span class="r-in"><span><span class="co"># not enough data to stratify</span></span></span>
 <span class="r-in"><span><span class="va">x5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu">make_strata</span><span class="op">(</span><span class="va">x5</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The number of observations in each quantile is below the recommended threshold of 20.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The number of observations in each quantile is below the recommended</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> threshold of 20.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Stratification will use 1 breaks instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Too little data to stratify.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> Resampling will be unstratified.</span>
