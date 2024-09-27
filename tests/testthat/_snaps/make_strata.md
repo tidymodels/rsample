@@ -14,7 +14,7 @@
     Condition
       Warning:
       Stratifying groups that make up 5% of the data may be statistically risky.
-      * Consider increasing `pool` to at least 0.1
+      i Consider increasing `pool` to at least 0.1.
 
 ---
 
@@ -23,7 +23,7 @@
     Condition
       Warning:
       Stratifying groups that make up 5% of the data may be statistically risky.
-      * Consider increasing `pool` to at least 0.1
+      i Consider increasing `pool` to at least 0.1.
 
 # bad data
 
@@ -41,7 +41,7 @@
     Condition
       Warning:
       Stratifying groups that make up 6% of the data may be statistically risky.
-      * Consider increasing `pool` to at least 0.1
+      i Consider increasing `pool` to at least 0.1.
 
 ---
 

@@ -77,21 +77,18 @@ make_strata <- function(x, breaks = 4, nunique = 5, pool = .1, depth = 20) {
 
     ## This should really be based on some combo of rate and number.
     if (all(pcts < pool)) {
-      rlang::warn(c(
+      cli_warn(c(
         "Too little data to stratify.",
-        "Resampling will be unstratified."
+        "*" = "Resampling will be unstratified."
       ))
       return(factor(rep("strata1", n)))
     }
 
     if (pool < default_pool & any(pcts < default_pool)) {
-      rlang::warn(c(
-        paste0(
-          "Stratifying groups that make up ",
-          round(100 * pool), "% of the data may be ",
-          "statistically risky."
-        ),
-        "Consider increasing `pool` to at least 0.1"
+      cli_warn(c(
+        "Stratifying groups that make up {round(100 * pool)}% of the data may 
+        be statistically risky.",
+        i = "Consider increasing {.arg pool} to at least 0.1."
       ))
     }
 
@@ -104,25 +101,23 @@ make_strata <- function(x, breaks = 4, nunique = 5, pool = .1, depth = 20) {
     out <- factor(as.character(x))
   } else {
     if (breaks < 2) {
-      rlang::warn(c(
-        "The bins specified by `breaks` must be >=2.",
-        "Resampling will be unstratified."
+      cli_warn(c(
+        "The bins specified by {.arg breaks} must be >=2.",
+        "*" = "Resampling will be unstratified."
       ))
       return(factor(rep("strata1", n)))
     } else if (floor(n / breaks) < depth) {
-      rlang::warn(c(
-        paste0(
-          "The number of observations in each quantile is ",
-          "below the recommended threshold of ", depth, "."
-        ),
-        paste0("Stratification will use ", floor(n / depth), " breaks instead.")
+      cli_warn(c(
+        "The number of observations in each quantile is below the recommended 
+        threshold of {depth}.",
+        "*" = "Stratification will use {floor(n / depth)} breaks instead."
       ))
     }
     breaks <- min(breaks, floor(n / depth))
     if (breaks < 2) {
-      rlang::warn(c(
+      cli_warn(c(
         "Too little data to stratify.",
-        "Resampling will be unstratified."
+        "*" = "Resampling will be unstratified."
       ))
       return(factor(rep("strata1", n)))
     }
