@@ -161,22 +161,6 @@
 ---
 
     Code
-      int_t(bt_norm %>% dplyr::filter(id != "Apparent"), stats)
-    Condition
-      Error in `UseMethod()`:
-      ! no applicable method for 'int_t' applied to an object of class "c('tbl_df', 'tbl', 'data.frame')"
-
----
-
-    Code
-      int_bca(bt_norm %>% dplyr::filter(id != "Apparent"), stats, .fn = get_stats)
-    Condition
-      Error in `UseMethod()`:
-      ! no applicable method for 'int_bca' applied to an object of class "c('tbl_df', 'tbl', 'data.frame')"
-
----
-
-    Code
       int_pctl(badder_bt_norm, bad_term)
     Condition
       Error in `int_pctl()`:
