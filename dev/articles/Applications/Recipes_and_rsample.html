@@ -10,8 +10,8 @@
 <link href="../../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
 <link href="../../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="../../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../../deps/headroom-0.11.0/headroom.min.js"></script><script src="../../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../../deps/search-1.0.0/fuse.min.js"></script><script src="../../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../../pkgdown.js"></script><meta property="og:title" content="Recipes with rsample">
 <meta name="robots" content="noindex">
 <script defer data-domain="rsample.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
@@ -84,7 +84,7 @@
 contains a data preprocessor that can be used to avoid the potentially
 expensive formula methods as well as providing a richer set of data
 manipulation tools than base R can provide. This document uses version
-1.1.0 of recipes.</p>
+1.1.1 of recipes.</p>
 <p>In many cases, the preprocessing steps might contain quantities that
 require statistical estimation of parameters, such as</p>
 <ul>
@@ -162,7 +162,7 @@ recipe can be estimated on the analysis component of the resample.</p>
 <code class="sourceCode R"><span><span class="va">rec_training_set</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep</a></span><span class="op">(</span><span class="va">rec</span>, training <span class="op">=</span> <span class="va">ames</span><span class="op">)</span></span>
 <span><span class="va">rec_training_set</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Recipe</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Recipe</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## ── Inputs</span></span></code></pre>
 <pre><code><span><span class="co">## Number of variables by role</span></span></code></pre>
@@ -173,11 +173,11 @@ recipe can be estimated on the analysis component of the resample.</p>
 <pre><code><span><span class="co">## Training data contained 2930 data points and no incomplete rows.</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## ── Operations</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Collapsing factor levels for: <span style="color: #0000BB;">Neighborhood</span> and <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Dummy variables from: <span style="color: #0000BB;">Neighborhood</span> and <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Collapsing factor levels for: <span style="color: #0000BB;">Neighborhood</span> <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Dummy variables from: <span style="color: #0000BB;">Neighborhood</span> <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Box-Cox transformation on: <span style="color: #0000BB;">Lot_Area</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Centering for: <span style="color: #0000BB;">Year_Sold</span> and <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Scaling for: <span style="color: #0000BB;">Year_Sold</span> and <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Centering for: <span style="color: #0000BB;">Year_Sold</span> <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Scaling for: <span style="color: #0000BB;">Year_Sold</span> <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
 <p>To get the values of the data, the <code>bake</code> function can be
 used:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
@@ -281,7 +281,7 @@ easier purrring):</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bt_samples</span><span class="op">$</span><span class="va">recipes</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Recipe</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Recipe</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## ── Inputs</span></span></code></pre>
 <pre><code><span><span class="co">## Number of variables by role</span></span></code></pre>
@@ -292,11 +292,11 @@ easier purrring):</p>
 <pre><code><span><span class="co">## Training data contained 2930 data points and no incomplete rows.</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## ── Operations</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Collapsing factor levels for: <span style="color: #0000BB;">Neighborhood</span> and <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Dummy variables from: <span style="color: #0000BB;">Neighborhood</span> and <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Collapsing factor levels for: <span style="color: #0000BB;">Neighborhood</span> <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Dummy variables from: <span style="color: #0000BB;">Neighborhood</span> <span style="color: #0000BB;">House_Style</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Box-Cox transformation on: <span style="color: #0000BB;">Lot_Area</span> | <span style="font-style: italic;">Trained</span></span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Centering for: <span style="color: #0000BB;">Year_Sold</span> and <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Scaling for: <span style="color: #0000BB;">Year_Sold</span> and <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Centering for: <span style="color: #0000BB;">Year_Sold</span> <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">•</span> Scaling for: <span style="color: #0000BB;">Year_Sold</span> <span style="color: #0000BB;">Lot_Area</span>, ... | <span style="font-style: italic;">Trained</span></span></span></code></pre>
 <p>Now, to fit the model, the fit function only needs the recipe as
 input. This is because the above code implicitly used the
 <code>retain = TRUE</code> option in <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep()</a></code>. Otherwise, the
