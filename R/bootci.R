@@ -290,6 +290,15 @@ int_pctl <- function(.data, ...) {
 
 #' @export
 #' @rdname int_pctl
+int_pctl.default <- function(.data, ...) {
+  cls <- class(.data)
+  cli_abort(
+    "No method for objects of class{?es}: {.cls {cls}}"
+  )
+}
+
+#' @export
+#' @rdname int_pctl
 int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   check_dots_empty()
   check_number_decimal(alpha, min = 0, max = 1)
@@ -368,6 +377,15 @@ t_single <- function(stats, std_err, is_orig, alpha = 0.05) {
 #' @export
 int_t <- function(.data, ...) {
   UseMethod("int_t")
+}
+
+#' @export
+#' @rdname int_pctl
+int_t.default <- function(.data, ...) {
+  cls <- class(.data)
+  cli_abort(
+    "No method for objects of class{?es}: {.cls {cls}}"
+  )
 }
 
 #' @rdname int_pctl
@@ -476,6 +494,15 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ..., call = caller_env
 #' @export
 int_bca <- function(.data, ...) {
   UseMethod("int_bca")
+}
+
+#' @export
+#' @rdname int_pctl
+int_bca.default <- function(.data, ...) {
+  cls <- class(.data)
+  cli_abort(
+    "No method for objects of class{?es}: {.cls {cls}}"
+  )
 }
 
 #' @rdname int_pctl
