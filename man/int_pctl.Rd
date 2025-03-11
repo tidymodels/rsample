@@ -22,8 +22,8 @@ int_bca(.data, ...)
 \method{int_bca}{bootstraps}(.data, statistics, alpha = 0.05, .fn, ...)
 }
 \arguments{
-\item{.data}{A data frame containing the bootstrap resamples created using
-\code{bootstraps()}. For t- and BCa-intervals, the \code{apparent} argument
+\item{.data}{A object containing the bootstrap resamples, created using
+\code{\link[=bootstraps]{bootstraps()}}. For t- and BCa-intervals, the \code{apparent} argument
 should be set to \code{TRUE}. Even if the \code{apparent} argument is set to
 \code{TRUE} for the percentile method, the apparent data is never used in calculating
 the percentile confidence interval.}
