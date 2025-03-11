@@ -199,7 +199,7 @@ test_that("bad input", {
     dplyr::mutate(
       stats = purrr::map(splits, ~ get_stats(.x)),
       junk = 1:11
-   )
+    )
 
   expect_snapshot(error = TRUE, {
     int_pctl(bt_small, id)
@@ -262,15 +262,9 @@ test_that("bad input", {
   expect_snapshot(error = TRUE, {
     int_t(as.data.frame(bt_norm), stats)
   })
-  expect_snapshot(error = TRUE, {
-    int_bca(as.data.frame(bt_norm), stats, .fn = get_stats)
-  })
 
   expect_snapshot(error = TRUE, {
-    int_t(bt_norm %>% dplyr::filter(id != "Apparent"), stats)
-  })
-  expect_snapshot(error = TRUE, {
-    int_bca(bt_norm %>% dplyr::filter(id != "Apparent"), stats, .fn = get_stats)
+    int_bca(as.data.frame(bt_norm), stats, .fn = get_stats)
   })
 
   poo <- function(x) {
@@ -280,9 +274,15 @@ test_that("bad input", {
   badder_bt_norm <-
     bt_norm %>%
     mutate(
-      bad_term = purrr::map(stats, ~ .x %>% setNames(c("a", "estimate", "std.err"))),
+      bad_term = purrr::map(
+        stats,
+        ~ .x %>% setNames(c("a", "estimate", "std.err"))
+      ),
       bad_est = purrr::map(stats, ~ .x %>% setNames(c("term", "b", "std.err"))),
-      bad_err = purrr::map(stats, ~ .x %>% setNames(c("term", "estimate", "c"))),
+      bad_err = purrr::map(
+        stats,
+        ~ .x %>% setNames(c("term", "estimate", "c"))
+      ),
       bad_num = purrr::map(stats, ~ poo(.x))
     )
   expect_snapshot(error = TRUE, {

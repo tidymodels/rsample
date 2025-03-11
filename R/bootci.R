@@ -178,8 +178,8 @@ pctl_single <- function(stats, alpha = 0.05) {
 #' Bootstrap confidence intervals
 #' @description
 #' Calculate bootstrap confidence intervals using various methods.
-#' @param .data A data frame containing the bootstrap resamples created using
-#'  `bootstraps()`. For t- and BCa-intervals, the `apparent` argument
+#' @param .data A object containing the bootstrap resamples, created using
+#'  [bootstraps()]. For t- and BCa-intervals, the `apparent` argument
 #'  should be set to `TRUE`. Even if the `apparent` argument is set to
 #'  `TRUE` for the percentile method, the apparent data is never used in calculating
 #'  the percentile confidence interval.
