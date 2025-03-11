@@ -2,22 +2,31 @@
 % Please edit documentation in R/bootci.R
 \name{int_pctl}
 \alias{int_pctl}
+\alias{int_pctl.default}
 \alias{int_pctl.bootstraps}
 \alias{int_t}
+\alias{int_t.default}
 \alias{int_t.bootstraps}
 \alias{int_bca}
+\alias{int_bca.default}
 \alias{int_bca.bootstraps}
 \title{Bootstrap confidence intervals}
 \usage{
 int_pctl(.data, ...)
 
+\method{int_pctl}{default}(.data, ...)
+
 \method{int_pctl}{bootstraps}(.data, statistics, alpha = 0.05, ...)
 
 int_t(.data, ...)
 
+\method{int_t}{default}(.data, ...)
+
 \method{int_t}{bootstraps}(.data, statistics, alpha = 0.05, ...)
 
 int_bca(.data, ...)
+
+\method{int_bca}{default}(.data, ...)
 
 \method{int_bca}{bootstraps}(.data, statistics, alpha = 0.05, .fn, ...)
 }

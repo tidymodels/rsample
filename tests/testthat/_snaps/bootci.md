@@ -99,24 +99,24 @@
     Code
       int_pctl(vfold_cv(mtcars))
     Condition
-      Error in `UseMethod()`:
-      ! no applicable method for 'int_pctl' applied to an object of class "c('vfold_cv', 'rset', 'tbl_df', 'tbl', 'data.frame')"
+      Error in `int_pctl()`:
+      ! No method for objects of classes: <vfold_cv/rset/tbl_df/tbl/data.frame>
 
 ---
 
     Code
       int_t(vfold_cv(mtcars))
     Condition
-      Error in `UseMethod()`:
-      ! no applicable method for 'int_t' applied to an object of class "c('vfold_cv', 'rset', 'tbl_df', 'tbl', 'data.frame')"
+      Error in `int_t()`:
+      ! No method for objects of classes: <vfold_cv/rset/tbl_df/tbl/data.frame>
 
 ---
 
     Code
       int_bca(vfold_cv(mtcars))
     Condition
-      Error in `UseMethod()`:
-      ! no applicable method for 'int_bca' applied to an object of class "c('vfold_cv', 'rset', 'tbl_df', 'tbl', 'data.frame')"
+      Error in `int_bca()`:
+      ! No method for objects of classes: <vfold_cv/rset/tbl_df/tbl/data.frame>
 
 ---
 
@@ -139,24 +139,24 @@
     Code
       int_pctl(as.data.frame(bt_norm), stats)
     Condition
-      Error in `UseMethod()`:
-      ! no applicable method for 'int_pctl' applied to an object of class "data.frame"
+      Error in `int_pctl()`:
+      ! No method for objects of class: <data.frame>
 
 ---
 
     Code
       int_t(as.data.frame(bt_norm), stats)
     Condition
-      Error in `UseMethod()`:
-      ! no applicable method for 'int_t' applied to an object of class "data.frame"
+      Error in `int_t()`:
+      ! No method for objects of class: <data.frame>
 
 ---
 
     Code
       int_bca(as.data.frame(bt_norm), stats, .fn = get_stats)
     Condition
-      Error in `UseMethod()`:
-      ! no applicable method for 'int_bca' applied to an object of class "data.frame"
+      Error in `int_bca()`:
+      ! No method for objects of class: <data.frame>
 
 ---
 
