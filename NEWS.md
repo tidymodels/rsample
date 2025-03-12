@@ -8,6 +8,8 @@
 
 * `rolling_origin()` is now superseded by `sliding_window()`, `sliding_index()`, and `sliding_period()` which provide more flexibility and control (@nmercadeb, #524).
 
+* The deprecation of `validation_split()`, `validation_time_split()`, and `group_validation_split()` has been moved to the next level so that they now warn.
+
 * `vfold_cv()` and `clustering_cv()` now error on implicit leave-one-out cross-validation (@seb09, #527).
 
 ## Bug fixes
