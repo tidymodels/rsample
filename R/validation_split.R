@@ -52,7 +52,7 @@
 #' validation_set(cars_split_3)
 validation_split <- function(data, prop = 3 / 4,
                              strata = NULL, breaks = 4, pool = 0.1, ...) {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     "1.2.0",
     "validation_split()",
     "initial_validation_split()"
@@ -107,7 +107,7 @@ validation_split <- function(data, prop = 3 / 4,
 #' @inheritParams initial_time_split
 #' @export
 validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     "1.2.0",
     "validation_time_split()",
     "initial_validation_time_split()"
@@ -148,7 +148,7 @@ validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
 #' @inheritParams group_initial_split
 #' @export
 group_validation_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, pool = 0.1) {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     "1.2.0",
     "group_validation_split()",
     "group_initial_validation_split()"
