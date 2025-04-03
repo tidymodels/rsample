@@ -1,171 +1,61 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://rsample.tidymodels.org/404.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/articles/Applications/Intervals.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/articles/Applications/Recipes_and_rsample.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/articles/Common_Patterns.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/articles/Working_with_rsets.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/articles/rsample.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/add_resample_id.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/apparent.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/bootstraps.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/clustering_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/complement.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/form_pred.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/get_fingerprint.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/get_rsplit.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/group_bootstraps.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/group_mc_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/group_vfold_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/initial_split.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/initial_validation_split.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/int_pctl.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/labels.rset.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/labels.rsplit.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/loo_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/make_groups.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/make_splits.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/make_strata.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/manual_rset.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/mc_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/nested_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/new_rset.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/permutations.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/populate.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/reg_intervals.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/reshuffle_rset.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/reverse_splits.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/rolling_origin.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/rsample-dplyr.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/rsample-package.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/rsample2caret.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/rset_reconstruct.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/slide-resampling.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/tidy.rsplit.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/validation_set.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/validation_split.html</loc>
-  </url>
-  <url>
-    <loc>https://rsample.tidymodels.org/reference/vfold_cv.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://rsample.tidymodels.org/404.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/CONTRIBUTING.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/LICENSE-text.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/LICENSE.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/articles/Applications/Intervals.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/articles/Applications/Recipes_and_rsample.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/articles/Common_Patterns.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/articles/Working_with_rsets.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/articles/index.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/articles/rsample.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/authors.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/index.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/news/index.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/add_resample_id.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/apparent.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/as.data.frame.rsplit.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/bootstraps.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/clustering_cv.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/complement.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/dot-get_split_args.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/form_pred.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/get_fingerprint.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/get_rsplit.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/group_bootstraps.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/group_mc_cv.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/group_vfold_cv.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/index.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/initial_split.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/initial_validation_split.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/inner_split.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/int_pctl.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/labels.rset.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/labels.rsplit.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/loo_cv.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/make_groups.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/make_splits.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/make_strata.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/manual_rset.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/mc_cv.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/nested_cv.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/new_rset.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/permutations.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/populate.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/reexports.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/reg_intervals.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/reshuffle_rset.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/reverse_splits.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/rolling_origin.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/rsample-dplyr.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/rsample-package.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/rsample2caret.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/rset_reconstruct.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/slide-resampling.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/tidy.rsplit.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/validation_set.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/validation_split.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/vfold_cv.html</loc></url>
 </urlset>
+
