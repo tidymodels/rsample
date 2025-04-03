@@ -1,6 +1,4 @@
-# rsample (development version)
-
-* The new `inner_split()` function and its methods for various resamples is for usage in tune to create a inner resample of the analysis set to fit the preprocessor and model on one part and the post-processor on the other part (#483, #488, #489).
+# rsample 1.3.0
 
 * Bootstrap intervals via `int_pctl()`, `int_t()`, and `int_bca()` now allow for more flexible grouping (#465).
 
@@ -8,7 +6,7 @@
 
 * `rolling_origin()` is now superseded by `sliding_window()`, `sliding_index()`, and `sliding_period()` which provide more flexibility and control (@nmercadeb, #524).
 
-* `vfold_cv()` and `clustering_cv()` now error on implicit leave-one-out cross-validation (@seb09, #527).
+* The deprecation of `validation_split()`, `validation_time_split()`, and `group_validation_split()` has been moved to the next level so that they now warn.
 
 ## Bug fixes
 
@@ -17,6 +15,8 @@
 * Grouped resampling functions now work with an explicit `strata = NULL` instead of strata being either a name or missing (#485).
 
 ## Breaking changes
+
+* `vfold_cv()` and `clustering_cv()` now error on implicit leave-one-out cross-validation (@seb09, #527).
 
 * The class of grouped MC splits is now `group_mc_split` instead of `grouped_mc_split`, aligning it with the other grouped splits (#478).
 

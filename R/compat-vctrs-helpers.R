@@ -122,26 +122,39 @@ delayedAssign("rset_subclasses", {
     withr::with_seed(
       123,
       list(
-        bootstraps             = bootstraps(test_data()),
-        group_bootstraps       = group_bootstraps(test_data(), y),
-        vfold_cv               = vfold_cv(test_data(), v = 10, repeats = 2),
-        group_vfold_cv         = group_vfold_cv(test_data(), y),
-        loo_cv                 = loo_cv(test_data()),
-        mc_cv                  = mc_cv(test_data()),
-        group_mc_cv            = group_mc_cv(test_data(), y),
-        nested_cv              = nested_cv(test_data(), outside = vfold_cv(v = 3), inside = bootstraps(times = 5)),
-        validation_split       = validation_split(test_data()),
-        validation_time_split  = validation_time_split(test_data()),
-        group_validation_split = group_validation_split(test_data(), y),
-        rolling_origin         = rolling_origin(test_data()),
-        sliding_window         = sliding_window(test_data()),
-        sliding_index          = sliding_index(test_data(), index),
-        sliding_period         = sliding_period(test_data(), index, "week"),
-        manual_rset            = manual_rset(list(initial_time_split(test_data()), initial_time_split(test_data())), c("ID1", "ID2")),
-        apparent               = apparent(test_data()),
-        permutations           = permutations(test_data(), y),
-        clustering_cv          = clustering_cv(test_data(), y, repeats = 2),
-        validation_set         = validation_set(initial_validation_split(test_data()))
+        bootstraps = bootstraps(test_data()),
+        group_bootstraps = group_bootstraps(test_data(), y),
+        vfold_cv = vfold_cv(test_data(), v = 10, repeats = 2),
+        group_vfold_cv = group_vfold_cv(test_data(), y),
+        loo_cv = loo_cv(test_data()),
+        mc_cv = mc_cv(test_data()),
+        group_mc_cv = group_mc_cv(test_data(), y),
+        nested_cv = nested_cv(
+          test_data(),
+          outside = vfold_cv(v = 3),
+          inside = bootstraps(times = 5)
+        ),
+        validation_split = suppressWarnings(validation_split(test_data())),
+        validation_time_split = suppressWarnings(validation_time_split(test_data())),
+        group_validation_split = suppressWarnings(group_validation_split(
+          test_data(),
+          y
+        )),
+        rolling_origin = rolling_origin(test_data()),
+        sliding_window = sliding_window(test_data()),
+        sliding_index = sliding_index(test_data(), index),
+        sliding_period = sliding_period(test_data(), index, "week"),
+        manual_rset = manual_rset(
+          list(
+            initial_time_split(test_data()),
+            initial_time_split(test_data())
+          ),
+          c("ID1", "ID2")
+        ),
+        apparent = apparent(test_data()),
+        permutations = permutations(test_data(), y),
+        clustering_cv = clustering_cv(test_data(), y, repeats = 2),
+        validation_set = validation_set(initial_validation_split(test_data()))
       )
     )
   } else {
