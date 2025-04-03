@@ -1,3 +1,5 @@
+# rsample (development version)
+
 # rsample 1.3.0
 
 * Bootstrap intervals via `int_pctl()`, `int_t()`, and `int_bca()` now allow for more flexible grouping (#465).
