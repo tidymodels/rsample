@@ -21,7 +21,6 @@ test_that("simple character", {
   })
   expect_equal(table(str2a, dnn = ""), table(x2, dnn = ""))
 
-
   x2[5] <- NA
   expect_snapshot({
     str2b <- make_strata(x2, pool = 0.05)
@@ -38,7 +37,6 @@ test_that("bad data", {
 })
 
 
-
 # check_strata() ----------------------------------------------------------
 
 test_that("don't stratify on Surv objects", {
@@ -48,8 +46,26 @@ test_that("don't stratify on Surv objects", {
   )
   df$surv <- structure(
     c(
-      85, 79, 70, 6, 32, 8, 17, 93, 81, 76,
-      0, 0, 1, 0, 0, 0, 1, 1, 1, 1
+      85,
+      79,
+      70,
+      6,
+      32,
+      8,
+      17,
+      93,
+      81,
+      76,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1
     ),
     .Dim = c(10L, 2L),
     .Dimnames = list(NULL, c("time", "status")),

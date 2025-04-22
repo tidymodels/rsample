@@ -114,9 +114,10 @@ check_strata <- function(strata, data, call = caller_env()) {
 
   if (!is.null(strata)) {
     if (inherits(data[, strata], "Surv")) {
-      cli_abort(c(
-        "{.field strata} cannot be a {.cls Surv} object.",
-        "i" = "Use the time or event variable directly."
+      cli_abort(
+        c(
+          "{.field strata} cannot be a {.cls Surv} object.",
+          "i" = "Use the time or event variable directly."
         ),
         call = call
       )
@@ -194,12 +195,12 @@ get_rsplit.rset <- function(x, index, ...) {
       length(index) != 1,
       glue::glue("Index was of length {length(index)}."),
       glue::glue("A value of {index} was provided.")
-      )
+    )
 
     cli_abort(
       c(
         "{.arg index} must be a length-1 integer between 1 and {n_rows}.",
-       "*" = msg
+        "*" = msg
       )
     )
   }

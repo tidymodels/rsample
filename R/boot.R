@@ -61,107 +61,110 @@
 #'   }
 #' )
 #' @export
-bootstraps <-
-  function(data,
-           times = 25,
-           strata = NULL,
-           breaks = 4,
-           pool = 0.1,
-           apparent = FALSE,
-           ...) {
-    check_dots_empty()
+bootstraps <- function(
+  data,
+  times = 25,
+  strata = NULL,
+  breaks = 4,
+  pool = 0.1,
+  apparent = FALSE,
+  ...
+) {
+  check_dots_empty()
 
-    if (!missing(strata)) {
-      strata <- tidyselect::vars_select(names(data), !!enquo(strata))
-      if (length(strata) == 0) strata <- NULL
-    }
+  if (!missing(strata)) {
+    strata <- tidyselect::vars_select(names(data), !!enquo(strata))
+    if (length(strata) == 0) strata <- NULL
+  }
 
-    check_strata(strata, data)
+  check_strata(strata, data)
 
-    split_objs <-
-      boot_splits(
-        data = data,
-        times = times,
-        strata = strata,
-        breaks = breaks,
-        pool = pool
-      )
-
-    if (apparent) {
-      split_objs <- bind_rows(split_objs, apparent(data))
-    }
-
-    if (!is.null(strata)) names(strata) <- NULL
-    boot_att <- list(
+  split_objs <-
+    boot_splits(
+      data = data,
       times = times,
-      apparent = apparent,
       strata = strata,
       breaks = breaks,
       pool = pool
     )
 
-    new_rset(
-      splits = split_objs$splits,
-      ids = split_objs$id,
-      attrib = boot_att,
-      subclass = c("bootstraps", "rset")
-    )
+  if (apparent) {
+    split_objs <- bind_rows(split_objs, apparent(data))
   }
+
+  if (!is.null(strata)) names(strata) <- NULL
+  boot_att <- list(
+    times = times,
+    apparent = apparent,
+    strata = strata,
+    breaks = breaks,
+    pool = pool
+  )
+
+  new_rset(
+    splits = split_objs$splits,
+    ids = split_objs$id,
+    attrib = boot_att,
+    subclass = c("bootstraps", "rset")
+  )
+}
 
 # Get the indices of the analysis set from the analysis set (= bootstrap sample)
 boot_complement <- function(ind, n) {
   list(analysis = ind, assessment = NA)
 }
 
-boot_splits <-
-  function(data,
-           times = 25,
-           strata = NULL,
-           breaks = 4,
-           pool = 0.1) {
-    n <- nrow(data)
+boot_splits <- function(
+  data,
+  times = 25,
+  strata = NULL,
+  breaks = 4,
+  pool = 0.1
+) {
+  n <- nrow(data)
 
-    if (is.null(strata)) {
-      indices <- purrr::map(rep(n, times), sample, replace = TRUE)
-    } else {
-      stratas <- tibble::tibble(
-        idx = 1:n,
-        strata = make_strata(getElement(data, strata),
-          breaks = breaks,
-          pool = pool
-        )
+  if (is.null(strata)) {
+    indices <- purrr::map(rep(n, times), sample, replace = TRUE)
+  } else {
+    stratas <- tibble::tibble(
+      idx = 1:n,
+      strata = make_strata(
+        getElement(data, strata),
+        breaks = breaks,
+        pool = pool
       )
-      stratas <- split_unnamed(stratas, stratas$strata)
-      stratas <-
-        purrr::map(
-          stratas,
-          strat_sample,
-          prop = 1,
-          times = times,
-          replace = TRUE
-        ) %>%
-        list_rbind()
-      indices <- split_unnamed(stratas$idx, stratas$rs_id)
-    }
+    )
+    stratas <- split_unnamed(stratas, stratas$strata)
+    stratas <-
+      purrr::map(
+        stratas,
+        strat_sample,
+        prop = 1,
+        times = times,
+        replace = TRUE
+      ) %>%
+      list_rbind()
+    indices <- split_unnamed(stratas$idx, stratas$rs_id)
+  }
 
-    indices <- lapply(indices, boot_complement, n = n)
+  indices <- lapply(indices, boot_complement, n = n)
 
-    split_objs <-
-      purrr::map(indices, make_splits, data = data, class = "boot_split")
+  split_objs <-
+    purrr::map(indices, make_splits, data = data, class = "boot_split")
 
-    all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
-    if (any(all_assessable == 0)) {
-      cli_warn(
-        "Some assessment sets contained zero rows.",
-        call = rlang::caller_env()
-      )
-    }
-
-    list(
-      splits = split_objs,
-      id = names0(length(split_objs), "Bootstrap")
+  all_assessable <- purrr::map(split_objs, function(x) nrow(assessment(x)))
+  if (any(all_assessable == 0)) {
+    cli_warn(
+      "Some assessment sets contained zero rows.",
+      call = rlang::caller_env()
     )
   }
+
+  list(
+    splits = split_objs,
+    id = names0(length(split_objs), "Bootstrap")
+  )
+}
 
 #' Group Bootstraps
 #'
@@ -195,13 +198,15 @@ boot_splits <-
 #' group_bootstraps(ames, Neighborhood, times = 3, apparent = TRUE)
 #'
 #' @export
-group_bootstraps <- function(data,
-                             group,
-                             times = 25,
-                             apparent = FALSE,
-                             ...,
-                             strata = NULL,
-                             pool = 0.1) {
+group_bootstraps <- function(
+  data,
+  group,
+  times = 25,
+  apparent = FALSE,
+  ...,
+  strata = NULL,
+  pool = 0.1
+) {
   check_dots_empty()
 
   group <- validate_group({{ group }}, data)
@@ -245,8 +250,13 @@ group_bootstraps <- function(data,
   )
 }
 
-group_boot_splits <- function(data, group, times = 25, strata = NULL, pool = 0.1) {
-
+group_boot_splits <- function(
+  data,
+  group,
+  times = 25,
+  strata = NULL,
+  pool = 0.1
+) {
   group <- getElement(data, group)
   if (!is.null(strata)) {
     strata <- getElement(data, strata)

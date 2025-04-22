@@ -37,11 +37,23 @@ test_that("bad inputs", {
 test_that("as.data.frame", {
   rs3 <- rsplit(dat1, 1:2, 4:5)
   expect_equal(as.data.frame(rs3), dat1[1:2, ])
-  expect_equal(as.data.frame(rs3, data = "assessment"), dat1[4:5, ], ignore_attr = "row.names")
+  expect_equal(
+    as.data.frame(rs3, data = "assessment"),
+    dat1[4:5, ],
+    ignore_attr = "row.names"
+  )
 
   rs4 <- rsplit(dat1, rep(1:2, each = 3), rep(4:5, c(2, 1)))
-  expect_equal(as.data.frame(rs4), dat1[c(1, 1, 1, 2, 2, 2), ], ignore_attr = "row.names")
-  expect_equal(as.data.frame(rs4, data = "assessment"), dat1[c(4, 4, 5), ], ignore_attr = "row.names")
+  expect_equal(
+    as.data.frame(rs4),
+    dat1[c(1, 1, 1, 2, 2, 2), ],
+    ignore_attr = "row.names"
+  )
+  expect_equal(
+    as.data.frame(rs4, data = "assessment"),
+    dat1[c(4, 4, 5), ],
+    ignore_attr = "row.names"
+  )
 })
 
 
@@ -85,20 +97,51 @@ test_that("as.data.frame() works for permutations with Surv object without the s
       age = c(74, 68, 56, 57, 60, 74, 76, 77, 39, 75, 66, 58),
       sex = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2),
       surv_obj = structure(
-        c(306, 455, 1010, 210, 883, 1022, 116, 188,  191, 105, 174,  177,
-          1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0),
+        c(
+          306,
+          455,
+          1010,
+          210,
+          883,
+          1022,
+          116,
+          188,
+          191,
+          105,
+          174,
+          177,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ),
         dim = c(12L, 2L),
         dimnames = list(NULL, c("time", "status")),
         type = "right",
-        class = "Surv"))
+        class = "Surv"
+      )
+    )
   surv_df <-
     structure(
       srv,
       row.names = paste(1:12),
-      class = "data.frame")
+      class = "data.frame"
+    )
 
   set.seed(472)
-  surv_permutation_df <- permutations(surv_df, permute = c(age, surv_obj), times = 1) %>%
+  surv_permutation_df <- permutations(
+    surv_df,
+    permute = c(age, surv_obj),
+    times = 1
+  ) %>%
     get_rsplit(1)
 
   expect_s3_class(surv_permutation_df$data$surv_obj, "Surv")

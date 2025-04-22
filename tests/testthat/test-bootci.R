@@ -20,58 +20,51 @@ test_that("Bootstrap estimate of mean is close to estimate of mean from normal d
 
   single_bca_res <- int_bca(bt_norm, stats, .fn = get_stats)
 
-  single_bca_res_lower_conf <- int_bca(bt_norm, stats, .fn = get_stats, alpha = 0.2)
-
-  expect_equal(ttest$conf.low,
-               single_pct_res$.lower,
-               tolerance = 0.001
-  )
-  expect_equal(unname(ttest$estimate),
-               single_pct_res$.estimate,
-               tolerance = 0.001
-  )
-  expect_equal(ttest$conf.high,
-               single_pct_res$.upper,
-               tolerance = 0.001
+  single_bca_res_lower_conf <- int_bca(
+    bt_norm,
+    stats,
+    .fn = get_stats,
+    alpha = 0.2
   )
 
-  expect_equal(ttest$conf.low,
-               single_t_res$.lower,
-               tolerance = 0.001
+  expect_equal(ttest$conf.low, single_pct_res$.lower, tolerance = 0.001)
+  expect_equal(
+    unname(ttest$estimate),
+    single_pct_res$.estimate,
+    tolerance = 0.001
   )
-  expect_equal(unname(ttest$estimate),
-               single_t_res$.estimate,
-               tolerance = 0.001
-  )
-  expect_equal(ttest$conf.high,
-               single_pct_res$.upper,
-               tolerance = 0.001
-  )
+  expect_equal(ttest$conf.high, single_pct_res$.upper, tolerance = 0.001)
 
-  expect_equal(ttest$conf.low,
-               single_bca_res$.lower,
-               tolerance = 0.001
+  expect_equal(ttest$conf.low, single_t_res$.lower, tolerance = 0.001)
+  expect_equal(
+    unname(ttest$estimate),
+    single_t_res$.estimate,
+    tolerance = 0.001
   )
-  expect_equal(unname(ttest$estimate),
-               single_bca_res$.estimate,
-               tolerance = 0.001
-  )
-  expect_equal(ttest$conf.high,
-               single_bca_res$.upper,
-               tolerance = 0.001
-  )
+  expect_equal(ttest$conf.high, single_pct_res$.upper, tolerance = 0.001)
 
-  expect_equal(ttest_lower_conf$conf.low,
-               single_bca_res_lower_conf$.lower,
-               tolerance = 0.001
+  expect_equal(ttest$conf.low, single_bca_res$.lower, tolerance = 0.001)
+  expect_equal(
+    unname(ttest$estimate),
+    single_bca_res$.estimate,
+    tolerance = 0.001
   )
-  expect_equal(unname(ttest_lower_conf$estimate),
-               single_bca_res_lower_conf$.estimate,
-               tolerance = 0.001
+  expect_equal(ttest$conf.high, single_bca_res$.upper, tolerance = 0.001)
+
+  expect_equal(
+    ttest_lower_conf$conf.low,
+    single_bca_res_lower_conf$.lower,
+    tolerance = 0.001
   )
-  expect_equal(ttest_lower_conf$conf.high,
-               single_bca_res_lower_conf$.upper,
-               tolerance = 0.001
+  expect_equal(
+    unname(ttest_lower_conf$estimate),
+    single_bca_res_lower_conf$.estimate,
+    tolerance = 0.001
+  )
+  expect_equal(
+    ttest_lower_conf$conf.high,
+    single_bca_res_lower_conf$.upper,
+    tolerance = 0.001
   )
 })
 
@@ -101,13 +94,11 @@ test_that("Wrappers -- selection of multiple variables works", {
   expect_equal(pct_res$conf.low, pct_res$.lower, tolerance = .01)
   expect_equal(pct_res$conf.high, pct_res$.upper, tolerance = .01)
 
-
   t_res <-
     int_t(bt_resamples, res) %>%
     inner_join(attrit_tidy, by = "term")
   expect_equal(t_res$conf.low, t_res$.lower, tolerance = .01)
   expect_equal(t_res$conf.high, t_res$.upper, tolerance = .01)
-
 
   bca_res <-
     int_bca(bt_resamples, res, .fn = func) %>%
@@ -128,7 +119,11 @@ test_that("Upper & lower confidence interval does not contain NA", {
   }
 
   set.seed(888)
-  bt_resamples <- bootstraps(data.frame(x = 1:100), times = 1000, apparent = TRUE) %>%
+  bt_resamples <- bootstraps(
+    data.frame(x = 1:100),
+    times = 1000,
+    apparent = TRUE
+  ) %>%
     mutate(res = purrr::map(splits, bad_stats))
 
   expect_snapshot(
@@ -149,45 +144,39 @@ test_that("Upper & lower confidence interval does not contain NA", {
 
 # ------------------------------------------------------------------------------
 
-test_that(
-  "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
-  {
-    set.seed(888)
-    rand_nums <- rnorm(n = 1000, mean = 10, sd = 1)
-    dat <- data.frame(x = rand_nums)
-    set.seed(456765)
-    bt_small <-
-      bootstraps(dat, times = 10, apparent = TRUE) %>%
-      dplyr::mutate(
-        stats = purrr::map(splits, ~ get_stats(.x)),
-        junk = 1:11
-     )
+test_that("Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method", {
+  set.seed(888)
+  rand_nums <- rnorm(n = 1000, mean = 10, sd = 1)
+  dat <- data.frame(x = rand_nums)
+  set.seed(456765)
+  bt_small <-
+    bootstraps(dat, times = 10, apparent = TRUE) %>%
+    dplyr::mutate(
+      stats = purrr::map(splits, ~ get_stats(.x)),
+      junk = 1:11
+    )
 
-    expect_snapshot(int_pctl(bt_small, stats))
-    expect_snapshot(int_t(bt_small, stats))
-  }
-)
+  expect_snapshot(int_pctl(bt_small, stats))
+  expect_snapshot(int_t(bt_small, stats))
+})
 
-test_that(
-  "Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method",
-  {
-    skip("#539 message about loading purrr in the snapshot in R CMD check hard")
-    # unskip this by moving the expectation back into the test_that block above
+test_that("Sufficient replications needed to sufficiently reduce Monte Carlo sampling Error for BCa method", {
+  skip("#539 message about loading purrr in the snapshot in R CMD check hard")
+  # unskip this by moving the expectation back into the test_that block above
 
-    set.seed(888)
-    rand_nums <- rnorm(n = 1000, mean = 10, sd = 1)
-    dat <- data.frame(x = rand_nums)
-    set.seed(456765)
-    bt_small <-
-      bootstraps(dat, times = 10, apparent = TRUE) %>%
-      dplyr::mutate(
-        stats = purrr::map(splits, ~ get_stats(.x)),
-        junk = 1:11
-     )
+  set.seed(888)
+  rand_nums <- rnorm(n = 1000, mean = 10, sd = 1)
+  dat <- data.frame(x = rand_nums)
+  set.seed(456765)
+  bt_small <-
+    bootstraps(dat, times = 10, apparent = TRUE) %>%
+    dplyr::mutate(
+      stats = purrr::map(splits, ~ get_stats(.x)),
+      junk = 1:11
+    )
 
-    expect_snapshot(int_bca(bt_small, stats, .fn = get_stats))
-  }
-)
+  expect_snapshot(int_bca(bt_small, stats, .fn = get_stats))
+})
 
 test_that("bad input", {
   set.seed(888)
@@ -311,8 +300,8 @@ test_that("checks for apparent bootstrap", {
 
 test_that("checks input for statistics", {
   dat <- data.frame(x = rnorm(n = 1000, mean = 10, sd = 1))
-  rs_boot <- bootstraps(dat, times = 10, apparent = TRUE) 
-  
+  rs_boot <- bootstraps(dat, times = 10, apparent = TRUE)
+
   rs_boot_missing_term <- rs_boot %>%
     dplyr::mutate(
       stats = purrr::map(1:11, ~ tibble(estimate = 1))
@@ -344,7 +333,7 @@ test_that("compute intervals with additional grouping terms", {
   skip_if_not_installed("broom")
 
   lm_coefs <- function(dat) {
-    mod <- lm(mpg ~ I(1/disp), data = dat)
+    mod <- lm(mpg ~ I(1 / disp), data = dat)
     tidy(mod)
   }
 
@@ -381,7 +370,7 @@ test_that("compute intervals with additional grouping terms", {
   expect_equal(pctl_res[0, ], exp_ptype)
   expect_equal(t_res[0, ], exp_ptype)
   expect_equal(bca_res[0, ], exp_ptype)
-  
+
   exp_combos <-
     tibble::tribble(
       ~term,         ~.vs,
@@ -400,4 +389,3 @@ test_that("compute intervals with additional grouping terms", {
   expect_equal(group_patterns(t_res), exp_combos)
   expect_equal(group_patterns(bca_res), exp_combos)
 })
-

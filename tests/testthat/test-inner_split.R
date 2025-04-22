@@ -1,4 +1,3 @@
-
 # mc ---------------------------------------------------------------------
 
 test_that("mc_split", {
@@ -171,10 +170,10 @@ test_that("group_boot_split", {
 
 # validation set ---------------------------------------------------------
 
- test_that("initial_validation_split", {
+test_that("initial_validation_split", {
   set.seed(11)
   initial_vsplit <- initial_validation_split(
-    warpbreaks, 
+    warpbreaks,
     prop = c(0.6, 0.2)
   )
   r_set <- validation_set(initial_vsplit)
@@ -237,7 +236,7 @@ test_that("group_initial_validation_split", {
 test_that("initial_validation_time_split", {
   set.seed(11)
   initial_vsplit <- initial_validation_time_split(
-    warpbreaks, 
+    warpbreaks,
     prop = c(0.6, 0.2)
   )
   r_set <- validation_set(initial_vsplit)

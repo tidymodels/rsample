@@ -28,12 +28,14 @@
 #'  when they call `make_groups()`.
 #'
 #' @keywords internal
-make_groups <- function(data,
-                        group,
-                        v,
-                        balance = c("groups", "observations", "prop"),
-                        strata = NULL,
-                        ...) {
+make_groups <- function(
+  data,
+  group,
+  v,
+  balance = c("groups", "observations", "prop"),
+  strata = NULL,
+  ...
+) {
   rlang::check_dots_used(call = rlang::caller_env())
   balance <- rlang::arg_match(balance, error_call = rlang::caller_env())
 
@@ -75,7 +77,6 @@ make_groups <- function(data,
     full_join(keys, by = "..group") %>%
     arrange(..index)
   split_unnamed(data_ind$..index, data_ind$..folds)
-
 }
 
 balance_groups <- function(data_ind, v, strata = NULL, ...) {
@@ -181,7 +182,6 @@ balance_observations <- function(data_ind, v, strata = NULL, ...) {
 }
 
 balance_observations_helper <- function(data_split, v, target_per_fold) {
-
   n_obs <- nrow(data_split)
   # Create a frequency table counting how many of each group are in the data:
   freq_table <- vec_count(data_split$..group, sort = "location")
@@ -229,7 +229,14 @@ balance_observations_helper <- function(data_split, v, target_per_fold) {
   freq_table
 }
 
-balance_prop <- function(prop, data_ind, v, replace = FALSE, strata = NULL, ...) {
+balance_prop <- function(
+  prop,
+  data_ind,
+  v,
+  replace = FALSE,
+  strata = NULL,
+  ...
+) {
   rlang::check_dots_empty()
 
   # This is the core difference between stratification and not:
@@ -259,7 +266,6 @@ balance_prop <- function(prop, data_ind, v, replace = FALSE, strata = NULL, ...)
 }
 
 balance_prop_helper <- function(prop, data_ind, v, replace) {
-
   freq_table <- vec_count(data_ind$..group, sort = "location")
 
   # Calculate how many groups to sample each iteration

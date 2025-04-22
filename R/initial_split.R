@@ -5,8 +5,8 @@
 #'  _first_ `prop` samples for training, instead of a random selection.
 #'  `group_initial_split()` creates splits of the data based
 #'  on some grouping variable, so that all data in a "group" is assigned to
-#'  the same split. 
-#' 
+#'  the same split.
+#'
 #' @details `training()` and `testing()` are used to extract the resulting data.
 #'
 #' @template strata_details
@@ -41,8 +41,14 @@
 #'
 #' @export
 #'
-initial_split <- function(data, prop = 3 / 4,
-                          strata = NULL, breaks = 4, pool = 0.1, ...) {
+initial_split <- function(
+  data,
+  prop = 3 / 4,
+  strata = NULL,
+  breaks = 4,
+  pool = 0.1,
+  ...
+) {
   check_dots_empty()
   check_prop(prop)
 
@@ -85,7 +91,9 @@ initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   n_train <- floor(nrow(data) * prop)
 
   if (lag > n_train) {
-    cli_abort("{.arg lag} must be less than or equal to the number of training observations.")
+    cli_abort(
+      "{.arg lag} must be less than or equal to the number of training observations."
+    )
   }
 
   split <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
@@ -154,26 +162,33 @@ testing.rsplit <- function(x, ...) {
 #' @inheritParams make_groups
 #' @rdname initial_split
 #' @export
-group_initial_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, pool = 0.1) {
+group_initial_split <- function(
+  data,
+  group,
+  prop = 3 / 4,
+  ...,
+  strata = NULL,
+  pool = 0.1
+) {
   check_dots_empty()
   check_prop(prop)
 
   if (missing(strata)) {
     res <- group_mc_cv(
-        data = data,
-        group = {{ group }},
-        prop = prop,
-        times = 1
-      )
+      data = data,
+      group = {{ group }},
+      prop = prop,
+      times = 1
+    )
   } else {
     res <- group_mc_cv(
-        data = data,
-        group = {{ group }},
-        prop = prop,
-        times = 1,
-        strata = {{ strata }},
-        pool = pool
-      )
+      data = data,
+      group = {{ group }},
+      prop = prop,
+      times = 1,
+      strata = {{ strata }},
+      pool = pool
+    )
   }
 
   attrib <- .get_split_args(res, allow_strata_false = TRUE)

@@ -205,14 +205,16 @@ NULL
 
 #' @export
 #' @rdname slide-resampling
-sliding_window <- function(data,
-                           ...,
-                           lookback = 0L,
-                           assess_start = 1L,
-                           assess_stop = 1L,
-                           complete = TRUE,
-                           step = 1L,
-                           skip = 0L) {
+sliding_window <- function(
+  data,
+  ...,
+  lookback = 0L,
+  assess_start = 1L,
+  assess_stop = 1L,
+  complete = TRUE,
+  step = 1L,
+  skip = 0L
+) {
   rlang::check_dots_empty()
 
   if (!is.data.frame(data)) {
@@ -226,7 +228,9 @@ sliding_window <- function(data,
   skip <- check_skip(skip)
 
   if (assess_start > assess_stop) {
-    cli_abort("{.arg assess_start} must be less than or equal to {.arg assess_stop}.")
+    cli_abort(
+      "{.arg assess_start} must be less than or equal to {.arg assess_stop}."
+    )
   }
 
   seq <- vctrs::vec_seq_along(data)
@@ -287,15 +291,17 @@ sliding_window <- function(data,
 
 #' @export
 #' @rdname slide-resampling
-sliding_index <- function(data,
-                          index,
-                          ...,
-                          lookback = 0L,
-                          assess_start = 1L,
-                          assess_stop = 1L,
-                          complete = TRUE,
-                          step = 1L,
-                          skip = 0L) {
+sliding_index <- function(
+  data,
+  index,
+  ...,
+  lookback = 0L,
+  assess_start = 1L,
+  assess_stop = 1L,
+  complete = TRUE,
+  step = 1L,
+  skip = 0L
+) {
   rlang::check_dots_empty()
 
   if (!is.data.frame(data)) {
@@ -374,18 +380,20 @@ sliding_index <- function(data,
 
 #' @export
 #' @rdname slide-resampling
-sliding_period <- function(data,
-                           index,
-                           period,
-                           ...,
-                           lookback = 0L,
-                           assess_start = 1L,
-                           assess_stop = 1L,
-                           complete = TRUE,
-                           step = 1L,
-                           skip = 0L,
-                           every = 1L,
-                           origin = NULL) {
+sliding_period <- function(
+  data,
+  index,
+  period,
+  ...,
+  lookback = 0L,
+  assess_start = 1L,
+  assess_stop = 1L,
+  complete = TRUE,
+  step = 1L,
+  skip = 0L,
+  every = 1L,
+  origin = NULL
+) {
   rlang::check_dots_empty()
 
   if (!is.data.frame(data)) {
@@ -398,7 +406,9 @@ sliding_period <- function(data,
   step <- check_step(step)
 
   if (assess_start > assess_stop) {
-    cli_abort("{.arg assess_start} must be less than or equal to {.arg assess_stop}.")
+    cli_abort(
+      "{.arg assess_start} must be less than or equal to {.arg assess_stop}."
+    )
   }
 
   index <- rlang::enexpr(index)

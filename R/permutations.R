@@ -44,11 +44,13 @@
 #'   t.test(hp ~ vs, data = analysis(x))$statistic
 #' })
 #' @export
-permutations <- function(data,
-                         permute = NULL,
-                         times = 25,
-                         apparent = FALSE,
-                         ...) {
+permutations <- function(
+  data,
+  permute = NULL,
+  times = 25,
+  apparent = FALSE,
+  ...
+) {
   check_dots_empty()
 
   permute <- rlang::enquo(permute)
@@ -64,8 +66,8 @@ permutations <- function(data,
       "You have selected all columns to permute.",
       "i" = "This effectively reorders the rows in the original data without 
       changing the data structure.",
-     ">" = "Please select fewer columns to permute."
-   ))
+      ">" = "Please select fewer columns to permute."
+    ))
   }
 
   split_objs <- perm_splits(data, times)

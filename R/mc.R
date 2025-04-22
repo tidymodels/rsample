@@ -49,8 +49,15 @@
 #'   }
 #' )
 #' @export
-mc_cv <- function(data, prop = 3 / 4, times = 25,
-                  strata = NULL, breaks = 4, pool = 0.1, ...) {
+mc_cv <- function(
+  data,
+  prop = 3 / 4,
+  times = 25,
+  strata = NULL,
+  breaks = 4,
+  pool = 0.1,
+  ...
+) {
   check_dots_empty()
   check_prop(prop)
 
@@ -102,15 +109,22 @@ mc_complement <- function(ind, n) {
 }
 
 
-mc_splits <- function(data, prop = 3 / 4, times = 25,
-                      strata = NULL, breaks = 4, pool = 0.1) {
+mc_splits <- function(
+  data,
+  prop = 3 / 4,
+  times = 25,
+  strata = NULL,
+  breaks = 4,
+  pool = 0.1
+) {
   n <- nrow(data)
   if (is.null(strata)) {
     indices <- purrr::map(rep(n, times), sample, size = floor(n * prop))
   } else {
     stratas <- tibble::tibble(
       idx = 1:n,
-      strata = make_strata(getElement(data, strata),
+      strata = make_strata(
+        getElement(data, strata),
         breaks = breaks,
         pool = pool
       )
@@ -163,9 +177,15 @@ strat_sample <- function(x, prop, times, ...) {
 #' group_mc_cv(ames, group = Neighborhood, times = 5)
 #'
 #' @export
-group_mc_cv <- function(data, group, prop = 3 / 4, times = 25, ...,
-                        strata = NULL, pool = 0.1) {
-
+group_mc_cv <- function(
+  data,
+  group,
+  prop = 3 / 4,
+  times = 25,
+  ...,
+  strata = NULL,
+  pool = 0.1
+) {
   check_dots_empty()
   check_prop(prop)
 
@@ -209,8 +229,14 @@ group_mc_cv <- function(data, group, prop = 3 / 4, times = 25, ...,
   )
 }
 
-group_mc_splits <- function(data, group, prop = 3 / 4, times = 25, strata = NULL, pool = 0.1) {
-
+group_mc_splits <- function(
+  data,
+  group,
+  prop = 3 / 4,
+  times = 25,
+  strata = NULL,
+  pool = 0.1
+) {
   group <- getElement(data, group)
   if (!is.null(strata)) {
     strata <- getElement(data, strata)

@@ -67,7 +67,9 @@ get_stored_out_id <- function(x) {
 
   if (all(is.na(out_id))) {
     x_cls <- class(x)
-    cli_abort("Cannot derive the assessment set for this type of resampling with class{?es}: {.cls {x_cls}}.")
+    cli_abort(
+      "Cannot derive the assessment set for this type of resampling with class{?es}: {.cls {x_cls}}."
+    )
   }
 
   out_id
@@ -88,7 +90,7 @@ complement.apparent_split <- function(x, ...) {
 complement.default <- function(x, ...) {
   x_cls <- class(x)
   cli_abort(
-     "No {.fn complement} method for objects of class{?es}: {.cls {x_cls}}"
+    "No {.fn complement} method for objects of class{?es}: {.cls {x_cls}}"
   )
 }
 

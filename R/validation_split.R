@@ -50,8 +50,14 @@
 #' # Alternative
 #' cars_split_3 <- initial_validation_split(mtcars)
 #' validation_set(cars_split_3)
-validation_split <- function(data, prop = 3 / 4,
-                             strata = NULL, breaks = 4, pool = 0.1, ...) {
+validation_split <- function(
+  data,
+  prop = 3 / 4,
+  strata = NULL,
+  breaks = 4,
+  pool = 0.1,
+  ...
+) {
   lifecycle::deprecate_warn(
     "1.2.0",
     "validation_split()",
@@ -127,7 +133,9 @@ validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   n_train <- floor(nrow(data) * prop)
 
   if (lag > n_train) {
-    rlang::abort("`lag` must be less than or equal to the number of training observations.")
+    rlang::abort(
+      "`lag` must be less than or equal to the number of training observations."
+    )
   }
 
   split <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
@@ -147,7 +155,14 @@ validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
 #' @rdname validation_split
 #' @inheritParams group_initial_split
 #' @export
-group_validation_split <- function(data, group, prop = 3 / 4, ..., strata = NULL, pool = 0.1) {
+group_validation_split <- function(
+  data,
+  group,
+  prop = 3 / 4,
+  ...,
+  strata = NULL,
+  pool = 0.1
+) {
   lifecycle::deprecate_warn(
     "1.2.0",
     "group_validation_split()",
@@ -192,6 +207,11 @@ group_validation_split <- function(data, group, prop = 3 / 4, ..., strata = NULL
     splits = split_objs$splits,
     ids = "validation",
     attrib = val_att,
-    subclass = c("group_validation_split", "validation_split", "group_rset", "rset")
+    subclass = c(
+      "group_validation_split",
+      "validation_split",
+      "group_rset",
+      "rset"
+    )
   )
 }

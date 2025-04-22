@@ -1,7 +1,11 @@
 # nocov start
 
 .onLoad <- function(libname, pkgname) {
-  vctrs::s3_register("dplyr::dplyr_reconstruct", "rset", method = dplyr_reconstruct_rset)
+  vctrs::s3_register(
+    "dplyr::dplyr_reconstruct",
+    "rset",
+    method = dplyr_reconstruct_rset
+  )
 }
 
 release_questions <- function() {

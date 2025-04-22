@@ -42,7 +42,11 @@ validation_set <- function(split, ...) {
   if (is.null(split_type)) {
     class(val_split) <- c("val_split", "rsplit")
   } else {
-    class(val_split) <- c(paste0(split_type, "_val_split"), "val_split", "rsplit")
+    class(val_split) <- c(
+      paste0(split_type, "_val_split"),
+      "val_split",
+      "rsplit"
+    )
   }
 
   val_att <- attr(split, "val_att")
@@ -51,7 +55,11 @@ validation_set <- function(split, ...) {
   if (is.null(split_type)) {
     rset_classes <- c("validation_set", "rset")
   } else {
-    rset_classes <- c(paste0(split_type, "_validation_set"), "validation_set", "rset")
+    rset_classes <- c(
+      paste0(split_type, "_validation_set"),
+      "validation_set",
+      "rset"
+    )
   }
 
   new_rset(
@@ -91,8 +99,8 @@ validation.val_split <- function(x, ...) {
 #' @rdname validation_set
 #' @export
 testing.val_split <- function(x, ...) {
- cli_abort(c(
-  "The testing data is not part of the validation set object.",
-  "i" = "It is part of the result of the initial 3-way split, e.g., with {.fun initial_validation_split}."
-))
+  cli_abort(c(
+    "The testing data is not part of the validation set object.",
+    "i" = "It is part of the result of the initial 3-way split, e.g., with {.fun initial_validation_split}."
+  ))
 }

@@ -50,7 +50,7 @@ test_that("basic split stratified", {
   val_split <- initial_validation_split(dat, strata = f)
 
   # distribution of strata should be similar in all 3 data sets
-  expected <- c(50, 25, 25)/100
+  expected <- c(50, 25, 25) / 100
   actual_train <- dat[val_split$train_id, "f"] %>% table() %>% prop.table()
   expect_equal(as.vector(actual_train), expected)
 
@@ -82,14 +82,21 @@ test_that("time split", {
 
   expect_s3_class(
     rs1,
-    c("initial_validation_time_split", "initial_validation_split", "three_way_split")
+    c(
+      "initial_validation_time_split",
+      "initial_validation_split",
+      "three_way_split"
+    )
   )
 
   exp_size_train <- floor(nrow(dat1) * 0.6)
   exp_size_val <- floor((nrow(dat1) - exp_size_train) * 0.2 / (1 - 0.6))
 
   expect_equal(rs1$train_id, seq(1, exp_size_train))
-  expect_equal(rs1$val_id, seq(exp_size_train + 1, exp_size_train + exp_size_val))
+  expect_equal(
+    rs1$val_id,
+    seq(exp_size_train + 1, exp_size_train + exp_size_val)
+  )
   expect_equal(rs1$test_id, NA)
 
   expect_equal(rs1$data, dat1)
@@ -110,11 +117,15 @@ test_that("grouped split", {
     g = rep(1:5, each = 20)
   )
 
-  val_split <- group_initial_validation_split(dat, group = g, prop = c(0.6, 0.2))
+  val_split <- group_initial_validation_split(
+    dat,
+    group = g,
+    prop = c(0.6, 0.2)
+  )
 
   dat_train <- dat[val_split$train_id, ]
   dat_val <- dat[val_split$val_id, ]
-  dat_test <- dat[-c(val_split$train_id,val_split$val_id), ]
+  dat_test <- dat[-c(val_split$train_id, val_split$val_id), ]
 
   expect_equal(nrow(dat_train), 60)
   expect_equal(nrow(dat_val), 20)
@@ -136,7 +147,6 @@ test_that("grouped split", {
   expect_equal(length(intersect_train_val), 0)
   expect_equal(length(intersect_train_test), 0)
   expect_equal(length(intersect_val_test), 0)
-
 })
 
 test_that("grouped split stratified", {
@@ -169,7 +179,7 @@ test_that("grouped split stratified", {
 
   dat_train <- sample_data[val_split$train_id, ]
   dat_val <- sample_data[val_split$val_id, ]
-  dat_test <- sample_data[-c(val_split$train_id,val_split$val_id), ]
+  dat_test <- sample_data[-c(val_split$train_id, val_split$val_id), ]
 
   expect_equal(mean(dat_train$outcome == 1), 0.3, tolerance = 1e-2)
   expect_equal(mean(dat_val$outcome == 1), 0.3, tolerance = 1e-2)
@@ -186,14 +196,18 @@ test_that("grouped split - accessor functions", {
   )
 
   set.seed(1)
-  val_split <- group_initial_validation_split(dat, group = g, prop = c(0.6, 0.2))
+  val_split <- group_initial_validation_split(
+    dat,
+    group = g,
+    prop = c(0.6, 0.2)
+  )
 
   dat_train <- training(val_split)
   dat_val <- validation(val_split)
   dat_test <- testing(val_split)
 
   expect_equal(nrow(dat_train), 60)
-  expect_equal(nrow(dat_val),20)
+  expect_equal(nrow(dat_val), 20)
   expect_equal(nrow(dat_test), 20)
 
   expect_snapshot(error = TRUE, {

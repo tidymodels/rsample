@@ -37,12 +37,7 @@ print.rsplit <- function(x, ...) {
     }
 
   cat("<Analysis/Assess/Total>\n")
-  cat("<",
-    length(x$in_id), "/",
-    out_char, "/",
-    nrow(x$data), ">\n",
-    sep = ""
-  )
+  cat("<", length(x$in_id), "/", out_char, "/", nrow(x$data), ">\n", sep = "")
 }
 
 #' @export
@@ -82,11 +77,7 @@ as.integer.rsplit <-
 #' holdout_data_1 <- folds$splits[[1]] %>% assessment()
 #' @export
 as.data.frame.rsplit <-
-  function(x,
-           row.names = NULL,
-           optional = FALSE,
-           data = "analysis",
-           ...) {
+  function(x, row.names = NULL, optional = FALSE, data = "analysis", ...) {
     if (!is.null(row.names)) {
       cli::cli_warn(
         "{.arg row.names} is kept for consistency with the underlying class but 
@@ -98,7 +89,6 @@ as.data.frame.rsplit <-
         "{.arg optional} is kept for consistency with the underlying class but
         TRUE values will be ignored."
       )
-
     }
     if (!is.null(x$col_id)) {
       if (identical(data, "assessment")) {
@@ -181,8 +171,10 @@ obj_sum.rsplit <- function(x, ...) {
 
   paste0(
     "split [",
-    length(x$in_id), "/",
-    out_char, "]"
+    length(x$in_id),
+    "/",
+    out_char,
+    "]"
   )
 }
 
@@ -199,8 +191,10 @@ type_sum.rsplit <- function(x, ...) {
 
   paste0(
     "split [",
-    format_n(length(x$in_id)), "/",
-    out_char, "]"
+    format_n(length(x$in_id)),
+    "/",
+    out_char,
+    "]"
   )
 }
 
@@ -208,7 +202,8 @@ type_sum.rsplit <- function(x, ...) {
 format_n <- function(x, digits = 1) {
   case_when(
     log10(x) < 3 ~ paste(x),
-    log10(x) >= 3 & log10(x) < 6 ~ paste0(round(x / 1000, digits = digits), "K"),
+    log10(x) >= 3 & log10(x) < 6 ~
+      paste0(round(x / 1000, digits = digits), "K"),
     TRUE ~ paste0(round(x / 1000000, digits = digits), "M"),
   )
 }

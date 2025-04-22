@@ -1,4 +1,3 @@
-
 #' Extending rsample with new rset subclasses
 #'
 #' `rset_reconstruct()` encapsulates the logic for allowing new rset
@@ -62,12 +61,14 @@ rset_reconstructable <- function(x, to) {
   to_names <- names(to)
 
   x_rset_indicator <- col_equals_splits(x_names) | col_starts_with_id(x_names)
-  to_rset_indicator <- col_equals_splits(to_names) | col_starts_with_id(to_names)
+  to_rset_indicator <- col_equals_splits(to_names) |
+    col_starts_with_id(to_names)
 
   # Special casing of `nested_cv` to also look for `inner_resamples`
   if (inherits(to, "nested_cv")) {
     x_rset_indicator <- x_rset_indicator | col_equals_inner_resamples(x_names)
-    to_rset_indicator <- to_rset_indicator | col_equals_inner_resamples(to_names)
+    to_rset_indicator <- to_rset_indicator |
+      col_equals_inner_resamples(to_names)
   }
 
   x_rset_names <- x_names[x_rset_indicator]

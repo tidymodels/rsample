@@ -18,7 +18,8 @@ test_that("repeated cv", {
 test_that("nested cv", {
   expect_snapshot(
     labels(
-      nested_cv(mtcars,
+      nested_cv(
+        mtcars,
         outside = vfold_cv(v = 3),
         inside = bootstraps(times = 5)
       )

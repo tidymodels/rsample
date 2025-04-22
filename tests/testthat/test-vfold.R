@@ -87,13 +87,13 @@ test_that("strata arg is checked", {
   expect_snapshot(error = TRUE, {
     vfold_cv(iris, strata = NA)
   })
-  
+
   # make Surv object without a dependeny on the survival package
   surv_obj <- structure(
-    c(306, 455, 1010, 210, 883, 1, 1, 0, 1, 1), 
-    dim = c(5L, 2L), 
+    c(306, 455, 1010, 210, 883, 1, 1, 0, 1, 1),
+    dim = c(5L, 2L),
     dimnames = list(NULL, c("time", "status")),
-    type = "right", 
+    type = "right",
     class = "Surv"
   )
   dat <- data.frame(a = 1:5)
@@ -214,9 +214,8 @@ test_that("grouping works with non-missing strata = NULL", {
     set.seed(11)
     rset_strata_null <- group_vfold_cv(warpbreaks, "tension", strata = NULL)
   })
-  
-  expect_identical(rset_strata_null, rset_strata_missing)
 
+  expect_identical(rset_strata_null, rset_strata_missing)
 })
 
 test_that("grouping -- v < max v", {
@@ -303,7 +302,6 @@ test_that("grouping -- other balance methods", {
         unique(as.character(analysis(rs1$splits[[1]])$Neighborhood))
     )
   )
-
 })
 
 test_that("grouping -- strata", {
@@ -453,7 +451,6 @@ test_that("grouping -- repeated", {
     }
   )
   expect_true(all(good_holdout))
-
 })
 
 test_that("grouping -- printing", {

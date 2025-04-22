@@ -49,18 +49,19 @@
 #' train_data <- training(ames_split)
 #' validation_data <- validation(ames_split)
 #' test_data <- testing(ames_split)
-initial_validation_split <- function(data,
-                                     prop = c(0.6, 0.2),
-                                     strata = NULL,
-                                     breaks = 4,
-                                     pool = 0.1,
-                                     ...) {
+initial_validation_split <- function(
+  data,
+  prop = c(0.6, 0.2),
+  strata = NULL,
+  breaks = 4,
+  pool = 0.1,
+  ...
+) {
   rlang::check_dots_empty()
 
   check_prop_3(prop)
   prop_train <- prop[1]
   prop_val <- prop[2] / (1 - prop_train)
-
 
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
@@ -71,14 +72,14 @@ initial_validation_split <- function(data,
   check_strata(strata, data)
 
   split_train <- mc_cv(
-      data = data,
-      prop = prop_train,
-      strata = {{ strata }},
-      breaks = breaks,
-      pool = pool,
-      times = 1,
-      ...
-    )
+    data = data,
+    prop = prop_train,
+    strata = {{ strata }},
+    breaks = breaks,
+    pool = pool,
+    times = 1,
+    ...
+  )
   split_train <- split_train$splits[[1]]
   train_id <- split_train$in_id
 
@@ -138,7 +139,7 @@ check_prop_3 <- function(prop, call = rlang::caller_env()) {
   if (any(!(prop > 0)) | any(!(prop < 1))) {
     cli_abort("Elements of {.arg prop} need to be in (0, 1).", call = call)
   }
-  if (!(sum(prop) > 0 ) | !(sum(prop) < 1) ) {
+  if (!(sum(prop) > 0) | !(sum(prop) < 1)) {
     cli_abort(
       "The sum of the proportions in {.arg prop} needs to be in (0, 1).",
       call = call
@@ -149,9 +150,7 @@ check_prop_3 <- function(prop, call = rlang::caller_env()) {
 
 #' @rdname initial_validation_split
 #' @export
-initial_validation_time_split <- function(data,
-                                          prop = c(0.6, 0.2),
-                                          ...) {
+initial_validation_time_split <- function(data, prop = c(0.6, 0.2), ...) {
   rlang::check_dots_empty()
 
   check_prop_3(prop)
@@ -189,12 +188,14 @@ initial_validation_time_split <- function(data,
 #' @inheritParams make_groups
 #' @rdname initial_validation_split
 #' @export
-group_initial_validation_split <- function(data,
-                                           group,
-                                           prop = c(0.6, 0.2),
-                                           ...,
-                                           strata = NULL,
-                                           pool = 0.1) {
+group_initial_validation_split <- function(
+  data,
+  group,
+  prop = c(0.6, 0.2),
+  ...,
+  strata = NULL,
+  pool = 0.1
+) {
   rlang::check_dots_empty()
 
   group <- validate_group({{ group }}, data)
@@ -272,9 +273,11 @@ group_initial_validation_split <- function(data,
   )
   attr(res, "val_att") <- val_att
 
-  class(res) <- c("group_initial_validation_split",
-                  "initial_validation_split",
-                  "three_way_split")
+  class(res) <- c(
+    "group_initial_validation_split",
+    "initial_validation_split",
+    "three_way_split"
+  )
   res
 }
 
@@ -323,8 +326,10 @@ validation.initial_validation_split <- function(x, ...) {
 #' @keywords internal
 analysis.initial_validation_split <- function(x, ...) {
   cli_abort(
-    c("The initial validation split does not contain an analysis set.",
-    "i" = "You can access the training data with {.fun training}.")
+    c(
+      "The initial validation split does not contain an analysis set.",
+      "i" = "You can access the training data with {.fun training}."
+    )
   )
 }
 
@@ -332,24 +337,30 @@ analysis.initial_validation_split <- function(x, ...) {
 #' @keywords internal
 assessment.initial_validation_split <- function(x, ...) {
   cli_abort(
-    c("The initial validation split does not contain an assessment set.",
-    "i" = "You can access the testing data with {.fun testing}.")
+    c(
+      "The initial validation split does not contain an assessment set.",
+      "i" = "You can access the testing data with {.fun testing}."
+    )
   )
 }
 
 #' @export
 print.initial_validation_split <- function(x, ...) {
-
   n_test <- nrow(x$data) - length(x$train_id) - length(x$val_id)
   n_test_char <- paste(n_test)
 
   cat("<Training/Validation/Testing/Total>\n")
-  cat("<",
-      length(x$train_id), "/",
-      length(x$val_id), "/",
-      n_test_char, "/",
-      nrow(x$data), ">\n",
-      sep = ""
+  cat(
+    "<",
+    length(x$train_id),
+    "/",
+    length(x$val_id),
+    "/",
+    n_test_char,
+    "/",
+    nrow(x$data),
+    ">\n",
+    sep = ""
   )
 }
 

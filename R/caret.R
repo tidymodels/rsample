@@ -57,12 +57,20 @@ caret2rsample <- function(ctrl, data = NULL) {
   if (ctrl$method %in% c("repeatedcv", "adaptive_cv")) {
     id_data <- strsplit(id_data, split = ".", fixed = TRUE)
     id_data <- tibble::tibble(
-      id = vapply(id_data, function(x) {
-        x[2]
-      }, character(1)),
-      id2 = vapply(id_data, function(x) {
-        x[1]
-      }, character(1))
+      id = vapply(
+        id_data,
+        function(x) {
+          x[2]
+        },
+        character(1)
+      ),
+      id2 = vapply(
+        id_data,
+        function(x) {
+          x[1]
+        },
+        character(1)
+      )
     )
   } else {
     id_data <- tibble::tibble(id = id_data)
@@ -137,7 +145,9 @@ map_rset_method <- function(method) {
     "error"
   )
   if (out == "error") {
-    cli_abort("Resampling method {.arg method} cannot be converted into an {.cls rset} object")
+    cli_abort(
+      "Resampling method {.arg method} cannot be converted into an {.cls rset} object"
+    )
   }
   out
 }
@@ -147,9 +157,7 @@ map_attr <- function(object) {
   if (grepl("cv$", object$method)) {
     out <- list(
       v = object$number,
-      repeats = ifelse(!is.na(object$repeats),
-                       object$repeats, 1
-      ),
+      repeats = ifelse(!is.na(object$repeats), object$repeats, 1),
       strata = TRUE
     )
   } else if (grepl("boot", object$method)) {

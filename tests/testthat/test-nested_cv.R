@@ -1,6 +1,7 @@
 test_that("default param", {
   set.seed(11)
-  rs1 <- nested_cv(mtcars[1:30, ],
+  rs1 <- nested_cv(
+    mtcars[1:30, ],
     outside = vfold_cv(v = 10),
     inside = vfold_cv(v = 3)
   )
@@ -13,7 +14,8 @@ test_that("default param", {
   expect_true(all(subsizes1$assessment == 9))
 
   set.seed(11)
-  rs2 <- nested_cv(mtcars[1:30, ],
+  rs2 <- nested_cv(
+    mtcars[1:30, ],
     outside = vfold_cv(v = 10),
     inside = bootstraps(times = 3)
   )
@@ -25,7 +27,8 @@ test_that("default param", {
   expect_true(all(subsizes2$analysis == 27))
 
   set.seed(11)
-  rs3 <- nested_cv(mtcars[1:30, ],
+  rs3 <- nested_cv(
+    mtcars[1:30, ],
     outside = vfold_cv(v = 10),
     inside = mc_cv(prop = 2 / 3, times = 3)
   )
@@ -42,17 +45,11 @@ test_that("bad args", {
   expect_snapshot({
     skip_if(new_rng_snapshots)
     set.seed(123)
-    nested_cv(mtcars,
-      outside = bootstraps(times = 5),
-      inside = vfold_cv(v = 3)
-    )
+    nested_cv(mtcars, outside = bootstraps(times = 5), inside = vfold_cv(v = 3))
   })
   folds <- vfold_cv(mtcars)
   expect_snapshot(
-    nested_cv(mtcars,
-      outside = vfold_cv(),
-      inside = folds
-    ),
+    nested_cv(mtcars, outside = vfold_cv(), inside = folds),
     error = TRUE
   )
 })
@@ -61,7 +58,8 @@ test_that("can pass in variables", {
   make_folds <- function(df) {
     outer_cv <- 5
     inner_cv <- 4
-    nested_cv(df,
+    nested_cv(
+      df,
       outside = vfold_cv(v = outer_cv),
       inside = vfold_cv(v = inner_cv)
     )
@@ -74,7 +72,8 @@ test_that("can pass in variables", {
 })
 
 test_that("printing", {
-  rs1 <- nested_cv(mtcars[1:30, ],
+  rs1 <- nested_cv(
+    mtcars[1:30, ],
     outside = vfold_cv(v = 10),
     inside = vfold_cv(v = 3)
   )
@@ -82,7 +81,8 @@ test_that("printing", {
 })
 
 test_that("rsplit labels", {
-  rs <- nested_cv(mtcars[1:30, ],
+  rs <- nested_cv(
+    mtcars[1:30, ],
     outside = vfold_cv(v = 10),
     inside = vfold_cv(v = 3)
   )
