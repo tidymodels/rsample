@@ -43,7 +43,6 @@ reverse_splits.perm_split <- reverse_splits.permutations
 #' @rdname reverse_splits
 #' @export
 reverse_splits.rsplit <- function(x, ...) {
-
   rlang::check_dots_empty()
 
   out_splits <- list(
@@ -53,13 +52,11 @@ reverse_splits.rsplit <- function(x, ...) {
   out_splits <- make_splits(out_splits, x$data)
   class(out_splits) <- class(x)
   out_splits
-
 }
 
 #' @rdname reverse_splits
 #' @export
 reverse_splits.rset <- function(x, ...) {
-
   rlang::check_dots_empty()
 
   x$splits <- purrr::map(x$splits, reverse_splits)

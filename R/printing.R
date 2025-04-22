@@ -226,20 +226,18 @@ print.bootstraps <- function(x, ...) {
 #' @export
 print.group_bootstraps <- function(x, ...) {
   cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("group_bootstraps",
-                                         "bootstraps",
-                                         "group_rset",
-                                         "rset"))]
+  class(x) <- class(x)[
+    !(class(x) %in% c("group_bootstraps", "bootstraps", "group_rset", "rset"))
+  ]
   print(x, ...)
 }
 
 #' @export
 print.group_vfold_cv <- function(x, ...) {
   cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("group_vfold_cv",
-                                         "vfold_cv",
-                                         "group_rset",
-                                         "rset"))]
+  class(x) <- class(x)[
+    !(class(x) %in% c("group_vfold_cv", "vfold_cv", "group_rset", "rset"))
+  ]
   print(x, ...)
 }
 
@@ -253,12 +251,7 @@ print.initial_split <- function(x, ...) {
     }
 
   cat("<Training/Testing/Total>\n")
-  cat("<",
-      length(x$in_id), "/",
-      out_char, "/",
-      nrow(x$data), ">\n",
-      sep = ""
-  )
+  cat("<", length(x$in_id), "/", out_char, "/", nrow(x$data), ">\n", sep = "")
 }
 
 #' @export
@@ -338,10 +331,10 @@ print.validation_split <- function(x, ...) {
 #' @export
 print.group_validation_split <- function(x, ...) {
   cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("group_validation_split",
-                                         "validation_split",
-                                         "group_rset",
-                                         "rset"))]
+  class(x) <- class(x)[
+    !(class(x) %in%
+      c("group_validation_split", "validation_split", "group_rset", "rset"))
+  ]
   print(x, ...)
 }
 
@@ -355,21 +348,15 @@ print.val_split <- function(x, ...) {
   }
 
   cat("<Training/Validation/Total>\n")
-  cat("<",
-      length(x$in_id), "/",
-      out_char, "/",
-      nrow(x$data), ">\n",
-      sep = ""
-  )
+  cat("<", length(x$in_id), "/", out_char, "/", nrow(x$data), ">\n", sep = "")
 }
 
 #' @export
 print.group_mc_cv <- function(x, ...) {
   cat("#", pretty(x), "\n")
-  class(x) <- class(x)[!(class(x) %in% c("group_mc_cv",
-                                         "group_rset",
-                                         "mc_cv",
-                                         "rset"))]
+  class(x) <- class(x)[
+    !(class(x) %in% c("group_mc_cv", "group_rset", "mc_cv", "rset"))
+  ]
   print(x, ...)
 }
 

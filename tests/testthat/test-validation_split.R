@@ -8,7 +8,7 @@ test_that("`validation_split()` is deprecated", {
 
     expect_true(all(sizes1$analysis == 15))
     expect_true(all(sizes1$assessment == 5))
-    })
+  })
 })
 
 test_that("default param", {
@@ -180,7 +180,6 @@ test_that("grouping -- strata", {
     }
   )
   expect_true(all(good_holdout))
-
 })
 
 test_that("different percent", {
@@ -225,7 +224,6 @@ test_that("different percent", {
     }
   )
   expect_true(all(good_holdout))
-
 })
 
 test_that("strata", {

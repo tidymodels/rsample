@@ -19,7 +19,11 @@
 apparent <- function(data, ...) {
   check_dots_empty()
 
-  splits <- rsplit(data, in_id = seq_len(nrow(data)), out_id = seq_len(nrow(data)))
+  splits <- rsplit(
+    data,
+    in_id = seq_len(nrow(data)),
+    out_id = seq_len(nrow(data))
+  )
 
   class(splits) <- c("apparent_split", "rsplit")
   split_objs <- tibble::tibble(splits = list(splits), id = "Apparent")

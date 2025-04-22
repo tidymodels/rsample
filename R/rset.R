@@ -11,8 +11,7 @@
 #' make sure other objects have the exact same resamples.
 #' @keywords internal
 #' @export
-new_rset <- function(splits, ids, attrib = NULL,
-                     subclass = character()) {
+new_rset <- function(splits, ids, attrib = NULL, subclass = character()) {
   stopifnot(is.list(splits))
   if (!is_tibble(ids)) {
     ids <- tibble(id = ids)

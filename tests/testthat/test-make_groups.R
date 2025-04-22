@@ -6,7 +6,6 @@ test_that("grouped variants have the same classes as nongrouped outputs", {
   grouped_variants <- grep("^group_", names(rset_subclasses), value = TRUE)
 
   for (x in grouped_variants) {
-
     grouped_variant <- do.call(x, list(data = test_data(), group = "y"))
 
     ungrouped_variant <- gsub("^group_", "", x)
@@ -17,9 +16,11 @@ test_that("grouped variants have the same classes as nongrouped outputs", {
     )
 
     expect_true(
-      all(class(ungrouped_variant$splits[[1]]) %in% class(grouped_variant$splits[[1]]))
+      all(
+        class(ungrouped_variant$splits[[1]]) %in%
+          class(grouped_variant$splits[[1]])
+      )
     )
-
   }
 
   # Test initial_split() and initial_validation_split() separately,

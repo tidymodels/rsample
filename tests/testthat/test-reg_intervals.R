@@ -27,11 +27,18 @@ test_that("regression intervals", {
 
   expect_equal(
     names(int_2),
-    c("term", ".lower", ".estimate", ".upper", ".alpha", ".method", ".replicates")
+    c(
+      "term",
+      ".lower",
+      ".estimate",
+      ".upper",
+      ".alpha",
+      ".method",
+      ".replicates"
+    )
   )
   expect_true(nrow(int_2) == 1)
   expect_true(all(int_2$term == "wt"))
-
 
   expect_snapshot(error = TRUE, {
     reg_intervals(mpg ~ disp + wt, data = mtcars, model_fn = "potato")

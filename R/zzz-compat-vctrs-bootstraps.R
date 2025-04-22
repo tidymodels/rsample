@@ -58,7 +58,13 @@ vec_restore.bootstraps <- function(x, to, ...) {
 # bootstraps object.
 
 #' @export
-vec_ptype2.bootstraps.bootstraps <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.bootstraps.bootstraps <- function(
+  x,
+  y,
+  ...,
+  x_arg = "",
+  y_arg = ""
+) {
   stop_never_called("vec_ptype2.bootstraps.bootstraps")
 }
 #' @export
@@ -70,11 +76,23 @@ vec_ptype2.tbl_df.bootstraps <- function(x, y, ..., x_arg = "", y_arg = "") {
   stop_never_called("vec_ptype2.tbl_df.bootstraps")
 }
 #' @export
-vec_ptype2.bootstraps.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.bootstraps.data.frame <- function(
+  x,
+  y,
+  ...,
+  x_arg = "",
+  y_arg = ""
+) {
   stop_never_called("vec_ptype2.bootstraps.data.frame")
 }
 #' @export
-vec_ptype2.data.frame.bootstraps <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.data.frame.bootstraps <- function(
+  x,
+  y,
+  ...,
+  x_arg = "",
+  y_arg = ""
+) {
   stop_never_called("vec_ptype2.data.frame.bootstraps")
 }
 
@@ -90,7 +108,13 @@ vec_ptype2.data.frame.bootstraps <- function(x, y, ..., x_arg = "", y_arg = "") 
 # with all of the data in `x` cast to the type of `to`.
 
 #' @export
-vec_cast.bootstraps.bootstraps <- function(x, to, ..., x_arg = "", to_arg = "") {
+vec_cast.bootstraps.bootstraps <- function(
+  x,
+  to,
+  ...,
+  x_arg = "",
+  to_arg = ""
+) {
   stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
 }
 #' @export
@@ -102,10 +126,22 @@ vec_cast.tbl_df.bootstraps <- function(x, to, ..., x_arg = "", to_arg = "") {
   tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
 }
 #' @export
-vec_cast.bootstraps.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
+vec_cast.bootstraps.data.frame <- function(
+  x,
+  to,
+  ...,
+  x_arg = "",
+  to_arg = ""
+) {
   stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
 }
 #' @export
-vec_cast.data.frame.bootstraps <- function(x, to, ..., x_arg = "", to_arg = "") {
+vec_cast.data.frame.bootstraps <- function(
+  x,
+  to,
+  ...,
+  x_arg = "",
+  to_arg = ""
+) {
   df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
 }

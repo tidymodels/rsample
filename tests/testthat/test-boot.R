@@ -141,7 +141,6 @@ test_that("grouping -- strata", {
     }
   )
   expect_true(all(good_holdout))
-
 })
 
 

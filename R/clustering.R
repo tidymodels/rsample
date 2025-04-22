@@ -50,13 +50,15 @@
 #'
 #' @rdname clustering_cv
 #' @export
-clustering_cv <- function(data,
-                          vars,
-                          v = 10,
-                          repeats = 1,
-                          distance_function = "dist",
-                          cluster_function = c("kmeans", "hclust"),
-                          ...) {
+clustering_cv <- function(
+  data,
+  vars,
+  v = 10,
+  repeats = 1,
+  distance_function = "dist",
+  cluster_function = c("kmeans", "hclust"),
+  ...
+) {
   check_number_whole(repeats, min = 1)
 
   if (!rlang::is_function(cluster_function)) {
@@ -65,7 +67,9 @@ clustering_cv <- function(data,
 
   vars <- tidyselect::eval_select(rlang::enquo(vars), data = data)
   if (rlang::is_empty(vars)) {
-    cli_abort("{.arg vars} is required and must contain at least one variable in {.arg data}.")
+    cli_abort(
+      "{.arg vars} is required and must contain at least one variable in {.arg data}."
+    )
   }
   vars <- data[vars]
 
@@ -118,11 +122,13 @@ clustering_cv <- function(data,
   )
 }
 
-clustering_splits <- function(data,
-                              dists,
-                              v = 10,
-                              cluster_function = c("kmeans", "hclust"),
-                              ...) {
+clustering_splits <- function(
+  data,
+  dists,
+  v = 10,
+  cluster_function = c("kmeans", "hclust"),
+  ...
+) {
   if (!rlang::is_function(cluster_function)) {
     cluster_function <- rlang::arg_match(cluster_function)
   }

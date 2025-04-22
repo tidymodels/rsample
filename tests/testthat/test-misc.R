@@ -80,20 +80,19 @@ test_that("get_rsplit()", {
 
   expect_identical(val$splits[[1]], get_rsplit(val, 1))
 
-  expect_snapshot(error = TRUE,{
+  expect_snapshot(error = TRUE, {
     get_rsplit(val, 3)
   })
 
-  expect_snapshot(error = TRUE,{
+  expect_snapshot(error = TRUE, {
     get_rsplit(val, c(1, 2))
   })
 
-  expect_snapshot(error = TRUE,{
+  expect_snapshot(error = TRUE, {
     get_rsplit(val, 1.5)
   })
 
-  expect_snapshot(error = TRUE,{
+  expect_snapshot(error = TRUE, {
     get_rsplit(warpbreaks, 1)
   })
-
 })

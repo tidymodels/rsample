@@ -3,13 +3,13 @@
 # ------------------------------------------------------------------------------
 # helpers
 
-
 check_includes_apparent <- function(x, call = caller_env()) {
   if (x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1) {
-    cli_abort(c(
-      "The bootstrap resamples must include an apparent sample.",
-      i =  "Please set {.code apparent = TRUE} in the {.fn bootstraps} function."
-      ), 
+    cli_abort(
+      c(
+        "The bootstrap resamples must include an apparent sample.",
+        i = "Please set {.code apparent = TRUE} in the {.fn bootstraps} function."
+      ),
       call = call
     )
   }
@@ -32,8 +32,8 @@ check_statistics_names <- function(x, std_col, call = caller_env()) {
   }
   if (sum(colnames(x) == "term") != 1) {
     cli_abort(
-       "The tibble in {.arg statistics} must have a column for 'term'.",
-       call = call
+      "The tibble in {.arg statistics} must have a column for 'term'.",
+      call = call
     )
   }
   if (std_col) {
@@ -74,14 +74,25 @@ check_statistics <- function(x, std_col = FALSE, call = caller_env()) {
     re_name <- list(std_err = std_candidates)
     if (has_id) {
       x <-
-        dplyr::select(x, term, estimate, id, tidyselect::one_of(std_candidates),
-                      dplyr::starts_with(".")) %>%
-        mutate(orig = (id == "Apparent"))  %>%
+        dplyr::select(
+          x,
+          term,
+          estimate,
+          id,
+          tidyselect::one_of(std_candidates),
+          dplyr::starts_with(".")
+        ) %>%
+        mutate(orig = (id == "Apparent")) %>%
         dplyr::rename(!!!re_name)
     } else {
       x <-
-        dplyr::select(x, term, estimate, tidyselect::one_of(std_candidates),
-                      dplyr::starts_with(".")) %>%
+        dplyr::select(
+          x,
+          term,
+          estimate,
+          tidyselect::one_of(std_candidates),
+          dplyr::starts_with(".")
+        ) %>%
         dplyr::rename(!!!re_name)
     }
   } else {
@@ -120,7 +131,11 @@ get_p0 <- function(x, alpha = 0.05, groups) {
 
 new_stats <- function(x, lo, hi) {
   res <- as.numeric(quantile(x, probs = c(lo, hi), na.rm = TRUE))
-  tibble(.lower = min(res), .estimate = mean(x, na.rm = TRUE), .upper = max(res))
+  tibble(
+    .lower = min(res),
+    .estimate = mean(x, na.rm = TRUE),
+    .upper = max(res)
+  )
 }
 
 check_has_dots <- function(x, call = caller_env()) {
@@ -142,7 +157,7 @@ check_num_resamples <- function(x, B = 1000, call = caller_env()) {
     terms <- x$term
     cli_warn(
       "Recommend at least {B} non-missing bootstrap resamples for {cli::qty(terms)} term{?s} {.code {terms}}.",
-       call = call
+      call = call
     )
   }
   invisible(NULL)
@@ -150,7 +165,6 @@ check_num_resamples <- function(x, B = 1000, call = caller_env()) {
 
 # ------------------------------------------------------------------------------
 # percentile code
-
 
 pctl_single <- function(stats, alpha = 0.05) {
   if (all(is.na(stats))) {
@@ -305,7 +319,10 @@ int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
 
   .data <- .data %>% dplyr::filter(id != "Apparent")
 
-  column_name <- tidyselect::vars_select(names(.data), !!rlang::enquo(statistics))
+  column_name <- tidyselect::vars_select(
+    names(.data),
+    !!rlang::enquo(statistics)
+  )
   if (length(column_name) != 1) {
     cli_abort(statistics_format_error)
   }
@@ -416,8 +433,14 @@ int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
 
 # ----------------------------------------------------------------
 
-bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ..., call = caller_env()) {
-
+bca_calc <- function(
+  stats,
+  orig_data,
+  alpha = 0.05,
+  .fn,
+  ...,
+  call = caller_env()
+) {
   # TODO check per term
   if (all(is.na(stats$estimate))) {
     cli_abort("All statistics have missing values.", call = call)
@@ -468,13 +491,11 @@ bca_calc <- function(stats, orig_data, alpha = 0.05, .fn, ..., call = caller_env
 
   keys <- stats %>% dplyr::distinct(!!!stat_groups_sym)
   for (i in seq_len(nrow(keys))) {
-    tmp_stats <- dplyr::inner_join(stats, keys[i,], by = stat_groups_chr)
-    tmp_loo <- dplyr::inner_join(loo_estimate, keys[i,], by = stat_groups_chr)
+    tmp_stats <- dplyr::inner_join(stats, keys[i, ], by = stat_groups_chr)
+    tmp_loo <- dplyr::inner_join(loo_estimate, keys[i, ], by = stat_groups_chr)
 
-    tmp <- new_stats(tmp_stats$estimate,
-                     lo = tmp_loo$lo,
-                     hi = tmp_loo$hi)
-    tmp <- dplyr::bind_cols(tmp, keys[i,])
+    tmp <- new_stats(tmp_stats$estimate, lo = tmp_loo$lo, hi = tmp_loo$hi)
+    tmp <- dplyr::bind_cols(tmp, keys[i, ])
     if (i == 1) {
       ci_bca <- tmp
     } else {

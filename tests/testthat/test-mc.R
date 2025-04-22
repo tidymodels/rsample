@@ -121,7 +121,7 @@ test_that("grouping - bad args", {
   })
   set.seed(1)
   expect_snapshot(error = TRUE, {
-    group_mc_cv(warpbreaks, group = "tension", prop = 0.99)    
+    group_mc_cv(warpbreaks, group = "tension", prop = 0.99)
   })
 })
 
@@ -145,7 +145,6 @@ test_that("grouping - default param", {
     }
   )
   expect_true(all(good_holdout))
-
 })
 
 test_that("grouping -- strata", {
@@ -188,7 +187,6 @@ test_that("grouping -- strata", {
     }
   )
   expect_true(all(good_holdout))
-
 })
 
 test_that("grouping - tibble input", {
@@ -212,7 +210,6 @@ test_that("grouping - tibble input", {
     }
   )
   expect_true(all(good_holdout))
-
 })
 
 test_that("grouping with times = 1 works", {
@@ -235,7 +232,6 @@ test_that("grouping with times = 1 works", {
     }
   )
   expect_true(all(good_holdout))
-
 })
 
 test_that("grouping - printing", {

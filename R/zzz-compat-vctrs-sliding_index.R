@@ -58,7 +58,13 @@ vec_restore.sliding_index <- function(x, to, ...) {
 # bootstraps object.
 
 #' @export
-vec_ptype2.sliding_index.sliding_index <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.sliding_index.sliding_index <- function(
+  x,
+  y,
+  ...,
+  x_arg = "",
+  y_arg = ""
+) {
   stop_never_called("vec_ptype2.sliding_index.sliding_index")
 }
 #' @export
@@ -70,11 +76,23 @@ vec_ptype2.tbl_df.sliding_index <- function(x, y, ..., x_arg = "", y_arg = "") {
   stop_never_called("vec_ptype2.tbl_df.sliding_index")
 }
 #' @export
-vec_ptype2.sliding_index.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.sliding_index.data.frame <- function(
+  x,
+  y,
+  ...,
+  x_arg = "",
+  y_arg = ""
+) {
   stop_never_called("vec_ptype2.sliding_index.data.frame")
 }
 #' @export
-vec_ptype2.data.frame.sliding_index <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.data.frame.sliding_index <- function(
+  x,
+  y,
+  ...,
+  x_arg = "",
+  y_arg = ""
+) {
   stop_never_called("vec_ptype2.data.frame.sliding_index")
 }
 
@@ -90,7 +108,13 @@ vec_ptype2.data.frame.sliding_index <- function(x, y, ..., x_arg = "", y_arg = "
 # with all of the data in `x` cast to the type of `to`.
 
 #' @export
-vec_cast.sliding_index.sliding_index <- function(x, to, ..., x_arg = "", to_arg = "") {
+vec_cast.sliding_index.sliding_index <- function(
+  x,
+  to,
+  ...,
+  x_arg = "",
+  to_arg = ""
+) {
   stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
 }
 #' @export
@@ -102,10 +126,22 @@ vec_cast.tbl_df.sliding_index <- function(x, to, ..., x_arg = "", to_arg = "") {
   tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
 }
 #' @export
-vec_cast.sliding_index.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
+vec_cast.sliding_index.data.frame <- function(
+  x,
+  to,
+  ...,
+  x_arg = "",
+  to_arg = ""
+) {
   stop_incompatible_cast_rset(x, to, x_arg = x_arg, to_arg = to_arg)
 }
 #' @export
-vec_cast.data.frame.sliding_index <- function(x, to, ..., x_arg = "", to_arg = "") {
+vec_cast.data.frame.sliding_index <- function(
+  x,
+  to,
+  ...,
+  x_arg = "",
+  to_arg = ""
+) {
   df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
 }

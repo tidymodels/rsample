@@ -1,7 +1,11 @@
 dat1 <- data.frame(a = 1:20, b = letters[1:20], c = rep(1:4, 5))
 car_folds <- vfold_cv(mtcars)
 
-new_rng_snapshots <- utils::compareVersion("3.6.0", as.character(getRversion())) > 0
+new_rng_snapshots <- utils::compareVersion(
+  "3.6.0",
+  as.character(getRversion())
+) >
+  0
 
 expect_s3_class_rset <- function(x) {
   expect_s3_class(x, "rset")

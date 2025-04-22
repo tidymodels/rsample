@@ -63,8 +63,15 @@
 #'   }
 #' )
 #' @export
-vfold_cv <- function(data, v = 10, repeats = 1,
-                     strata = NULL, breaks = 4, pool = 0.1, ...) {
+vfold_cv <- function(
+  data,
+  v = 10,
+  repeats = 1,
+  strata = NULL,
+  breaks = 4,
+  pool = 0.1,
+  ...
+) {
   check_dots_empty()
   if (!missing(strata)) {
     strata <- tidyselect::vars_select(names(data), !!enquo(strata))
@@ -76,8 +83,11 @@ vfold_cv <- function(data, v = 10, repeats = 1,
 
   if (repeats == 1) {
     split_objs <- vfold_splits(
-      data = data, v = v,
-      strata = strata, breaks = breaks, pool = pool
+      data = data,
+      v = v,
+      strata = strata,
+      breaks = breaks,
+      pool = pool
     )
   } else {
     if (v == nrow(data)) {
@@ -86,7 +96,13 @@ vfold_cv <- function(data, v = 10, repeats = 1,
       )
     }
     for (i in 1:repeats) {
-      tmp <- vfold_splits(data = data, v = v, strata = strata, breaks = breaks ,pool = pool)
+      tmp <- vfold_splits(
+        data = data,
+        v = v,
+        strata = strata,
+        breaks = breaks,
+        pool = pool
+      )
       tmp$id2 <- tmp$id
       tmp$id <- names0(repeats, "Repeat")[i]
       split_objs <- if (i == 1) {
@@ -122,8 +138,14 @@ vfold_cv <- function(data, v = 10, repeats = 1,
 }
 
 
-vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1, prevent_loo = TRUE) {
-
+vfold_splits <- function(
+  data,
+  v = 10,
+  strata = NULL,
+  breaks = 4,
+  pool = 0.1,
+  prevent_loo = TRUE
+) {
   n <- nrow(data)
   check_v(v, n, prevent_loo = prevent_loo, call = rlang::caller_env())
 
@@ -134,7 +156,8 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1, pr
   } else {
     stratas <- tibble::tibble(
       idx = 1:n,
-      strata = make_strata(getElement(data, strata),
+      strata = make_strata(
+        getElement(data, strata),
         breaks = breaks,
         pool = pool
       )
@@ -147,7 +170,12 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1, pr
 
   indices <- lapply(indices, default_complement, n = n)
 
-  split_objs <- purrr::map(indices, make_splits, data = data, class = "vfold_split")
+  split_objs <- purrr::map(
+    indices,
+    make_splits,
+    data = data,
+    class = "vfold_split"
+  )
   tibble::tibble(
     splits = split_objs,
     id = names0(length(split_objs), "Fold")
@@ -211,7 +239,16 @@ vfold_splits <- function(data, v = 10, strata = NULL, breaks = 4, pool = 0.1, pr
 #' group_vfold_cv(sacramento_data, city, strata = strata)
 #'
 #' @export
-group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = c("groups", "observations"), ..., strata = NULL, pool = 0.1) {
+group_vfold_cv <- function(
+  data,
+  group = NULL,
+  v = NULL,
+  repeats = 1,
+  balance = c("groups", "observations"),
+  ...,
+  strata = NULL,
+  pool = 0.1
+) {
   check_dots_empty()
   check_number_whole(repeats, min = 1)
   group <- validate_group({{ group }}, data)
@@ -222,19 +259,34 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = 
   }
 
   if (repeats == 1) {
-    split_objs <- group_vfold_splits(data = data, group = group, v = v, balance = balance, strata = strata, pool = pool)
+    split_objs <- group_vfold_splits(
+      data = data,
+      group = group,
+      v = v,
+      balance = balance,
+      strata = strata,
+      pool = pool
+    )
   } else {
     if (is.null(v)) {
-     cli_abort(
+      cli_abort(
         "Repeated resampling when {.arg v} is {.val NULL} would create identical resamples."
       )
     }
     if (v == length(unique(getElement(data, group)))) {
-      cli_abort("Repeated resampling when {.arg v} is {.val {v}} would create identical resamples.")
-
+      cli_abort(
+        "Repeated resampling when {.arg v} is {.val {v}} would create identical resamples."
+      )
     }
     for (i in 1:repeats) {
-      tmp <- group_vfold_splits(data = data, group = group, v = v, balance = balance, strata = strata, pool = pool)
+      tmp <- group_vfold_splits(
+        data = data,
+        group = group,
+        v = v,
+        balance = balance,
+        strata = strata,
+        pool = pool
+      )
       tmp$id2 <- tmp$id
       tmp$id <- names0(repeats, "Repeat")[i]
       split_objs <- if (i == 1) {
@@ -257,7 +309,14 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = 
 
   ## Save some overall information
 
-  cv_att <- list(v = v, group = group, balance = balance, repeats = 1, strata = strata, pool = pool)
+  cv_att <- list(
+    v = v,
+    group = group,
+    balance = balance,
+    repeats = 1,
+    strata = strata,
+    pool = pool
+  )
 
   new_rset(
     splits = split_objs$splits,
@@ -267,8 +326,14 @@ group_vfold_cv <- function(data, group = NULL, v = NULL, repeats = 1, balance = 
   )
 }
 
-group_vfold_splits <- function(data, group, v = NULL, balance, strata = NULL, pool = 0.1) {
-
+group_vfold_splits <- function(
+  data,
+  group,
+  v = NULL,
+  balance,
+  strata = NULL,
+  pool = 0.1
+) {
   group <- getElement(data, group)
   max_v <- length(unique(group))
   if (!is.null(strata)) {
@@ -291,33 +356,45 @@ group_vfold_splits <- function(data, group, v = NULL, balance, strata = NULL, po
       )
 
       if (max_v < 5) {
-        cli_abort(c(
-          message,
-          "*" = "The least common stratum only had {.val {max_v}} groups, which may not be enough for cross-validation.",
-          "i" = "Set {.arg v} explicitly to override this error."
-        ), call = rlang::caller_env())
+        cli_abort(
+          c(
+            message,
+            "*" = "The least common stratum only had {.val {max_v}} groups, which may not be enough for cross-validation.",
+            "i" = "Set {.arg v} explicitly to override this error."
+          ),
+          call = rlang::caller_env()
+        )
       }
 
-      cli_warn(c(
-        message,
-        i = "Set {.arg v} explicitly to override this warning."
-      ),
-      call = rlang::caller_env())
+      cli_warn(
+        c(
+          message,
+          i = "Set {.arg v} explicitly to override this warning."
+        ),
+        call = rlang::caller_env()
+      )
     }
   }
 
   if (is.null(v)) {
     v <- max_v
   }
-  check_v(v = v, max_v = max_v, rows = "groups", prevent_loo = FALSE, call = rlang::caller_env())
+  check_v(
+    v = v,
+    max_v = max_v,
+    rows = "groups",
+    prevent_loo = FALSE,
+    call = rlang::caller_env()
+  )
 
   indices <- make_groups(data, group, v, balance, strata)
   indices <- lapply(indices, default_complement, n = nrow(data))
   split_objs <-
-    purrr::map(indices,
-               make_splits,
-               data = data,
-               class = c("group_vfold_split", "vfold_split")
+    purrr::map(
+      indices,
+      make_splits,
+      data = data,
+      class = c("group_vfold_split", "vfold_split")
     )
   tibble::tibble(
     splits = split_objs,
@@ -330,7 +407,13 @@ add_vfolds <- function(x, v) {
   x
 }
 
-check_v <- function(v, max_v, rows = "rows", prevent_loo = TRUE, call = rlang::caller_env()) {
+check_v <- function(
+  v,
+  max_v,
+  rows = "rows",
+  prevent_loo = TRUE,
+  call = rlang::caller_env()
+) {
   check_number_whole(v, min = 2, call = call)
 
   if (v > max_v) {
@@ -338,18 +421,26 @@ check_v <- function(v, max_v, rows = "rows", prevent_loo = TRUE, call = rlang::c
       "The number of {rows} is less than {.arg v} = {.val {v}}.",
       call = call
     )
-  } 
+  }
   if (prevent_loo && isTRUE(v == max_v)) {
-    cli_abort(c(
-      "Leave-one-out cross-validation is not supported by this function.",
-      "x" = "You set {.arg v} to {.code nrow(data)}, which would result in a leave-one-out cross-validation.",
-      "i" = "Use {.fn loo_cv} in this case."
-    ), call = call)
+    cli_abort(
+      c(
+        "Leave-one-out cross-validation is not supported by this function.",
+        "x" = "You set {.arg v} to {.code nrow(data)}, which would result in a leave-one-out cross-validation.",
+        "i" = "Use {.fn loo_cv} in this case."
+      ),
+      call = call
+    )
   }
 }
 
-check_grouped_strata <- function(group, strata, pool, data, call = caller_env()) {
-
+check_grouped_strata <- function(
+  group,
+  strata,
+  pool,
+  data,
+  call = caller_env()
+) {
   strata <- tidyselect::vars_select(names(data), !!enquo(strata))
 
   # if strata was NULL this is empty, thus return NULL
@@ -362,8 +453,10 @@ check_grouped_strata <- function(group, strata, pool, data, call = caller_env())
     strata = getElement(data, strata)
   )
 
-  if (nrow(vctrs::vec_unique(grouped_table)) !=
-      nrow(vctrs::vec_unique(grouped_table["group"]))) {
+  if (
+    nrow(vctrs::vec_unique(grouped_table)) !=
+      nrow(vctrs::vec_unique(grouped_table["group"]))
+  ) {
     cli_abort(
       "{.field strata} must be constant across all members of each {.field group}.",
       call = call

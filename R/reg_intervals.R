@@ -35,9 +35,17 @@
 #' reg_intervals(mpg ~ I(1 / sqrt(disp)), data = mtcars, keep_reps = TRUE)
 #' }
 reg_intervals <-
-  function(formula, data, model_fn = "lm", type = "student-t", times = NULL,
-           alpha = 0.05, filter = term != "(Intercept)", keep_reps = FALSE, ...) {
-
+  function(
+    formula,
+    data,
+    model_fn = "lm",
+    type = "student-t",
+    times = NULL,
+    alpha = 0.05,
+    filter = term != "(Intercept)",
+    keep_reps = FALSE,
+    ...
+  ) {
     rlang::check_installed("broom")
 
     model_fn <- rlang::arg_match(model_fn, c("lm", "glm", "survreg", "coxph"))
@@ -54,7 +62,7 @@ reg_intervals <-
     } else {
       times <- times[1]
       if (!is.numeric(times)) {
-          cli_abort("{.arg times} should be a single integer.")
+        cli_abort("{.arg times} should be a single integer.")
       }
     }
 
@@ -68,19 +76,26 @@ reg_intervals <-
     } else {
       pkg <- NULL
     }
-    fn_call <- rlang::call2(model_fn,
+    fn_call <- rlang::call2(
+      model_fn,
       formula = formula,
-      data = rlang::expr(data), .ns = pkg, ...
+      data = rlang::expr(data),
+      .ns = pkg,
+      ...
     )
 
-    bt <- rsample::bootstraps(data, times = times, apparent = type %in% c("student-t"))
+    bt <- rsample::bootstraps(
+      data,
+      times = times,
+      apparent = type %in% c("student-t")
+    )
     bt <-
-      dplyr::mutate(bt,
-        models =
-          purrr::map(
-            splits,
-            ~ model_results(rsample::analysis(.x), fn_call, filter)
-          )
+      dplyr::mutate(
+        bt,
+        models = purrr::map(
+          splits,
+          ~ model_results(rsample::analysis(.x), fn_call, filter)
+        )
       )
     if (type == "student-t") {
       res <- int_t(bt, models, alpha = alpha)

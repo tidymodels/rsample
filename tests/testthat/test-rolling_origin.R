@@ -36,8 +36,8 @@ test_that("larger holdout", {
     )
     expect_equal(
       rs2$splits[[i]]$out_id,
-      (i + attr(rs2, "initial")):
-      (i + attr(rs2, "initial") + attr(rs2, "assess") - 1)
+      (i + attr(rs2, "initial")): # fmt: skip
+      (i + attr(rs2, "initial") + attr(rs2, "assess") - 1) # fmt: skip
     )
   }
 })
@@ -72,8 +72,8 @@ test_that("skipping", {
   for (i in 1:nrow(rs4)) {
     expect_equal(
       rs4$splits[[i]]$in_id,
-      (i + attr(rs4, "skip") * (i - 1)):
-      (i + attr(rs4, "skip") * (i - 1) + attr(rs4, "initial") - 1)
+      (i + attr(rs4, "skip") * (i - 1)): # fmt: skip
+      (i + attr(rs4, "skip") * (i - 1) + attr(rs4, "initial") - 1) # fmt: skip
     )
     expect_equal(
       rs4$splits[[i]]$out_id,
@@ -83,7 +83,14 @@ test_that("skipping", {
 })
 
 test_that("lag", {
-  rs5 <- rolling_origin(dat1, initial = 5, assess = 1, cumulative = FALSE, skip = 0, lag = 3)
+  rs5 <- rolling_origin(
+    dat1,
+    initial = 5,
+    assess = 1,
+    cumulative = FALSE,
+    skip = 0,
+    lag = 3
+  )
   sizes5 <- dim_rset(rs5)
 
   expect_true(all(sizes5$assessment == attr(rs5, "assess") + attr(rs5, "lag")))
@@ -96,10 +103,11 @@ test_that("lag", {
     )
     expect_equal(
       rs5$splits[[i]]$out_id,
-      (i + attr(rs5, "initial") - attr(rs5, "lag")):(i + attr(rs5, "initial") + attr(rs5, "assess") - 1)
+      (i + attr(rs5, "initial") - attr(rs5, "lag")): # fmt: skip
+      (i + attr(rs5, "initial") + attr(rs5, "assess") - 1) # fmt: skip
     )
   }
-  
+
   skip_if_not_installed("modeldata")
   data("drinks", package = "modeldata", envir = rlang::current_env())
   expect_snapshot(error = TRUE, {
