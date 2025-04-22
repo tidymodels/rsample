@@ -21,3 +21,5 @@ rsample_hex_thumb.png
 ^LICENSE\.md$
 ^man-roxygen$
 ^CRAN-SUBMISSION$
+^[\.]?air\.toml$
+^\.vscode$
