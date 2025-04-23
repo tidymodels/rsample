@@ -90,13 +90,10 @@ Engineering and Selection</a>.</p>
 <p>Let’s go ahead and load rsample now:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org">rsample</a></span><span class="op">)</span></span></code></pre></div>
-<p>As well as dplyr, for the pipe operator <code>%&gt;%</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
 <p>We’ll also load in a few data sets from the modeldata package. First,
 the Ames housing data, containing the sale prices of homes in Ames,
 Iowa:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ames</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ames</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 74</span></span></span>
@@ -112,7 +109,7 @@ Iowa:</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   Exterior_1st &lt;fct&gt;, Exterior_2nd &lt;fct&gt;, Mas_Vnr_Type &lt;fct&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   Mas_Vnr_Area &lt;dbl&gt;, Exter_Cond &lt;fct&gt;, Foundation &lt;fct&gt;, …</span></span></span></code></pre></div>
 <p>Secondly, data on Chicago transit ridership numbers:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Chicago</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">Chicago</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 50</span></span></span>
@@ -130,14 +127,14 @@ Iowa:</p>
 <p>In addition to these data sets from the modeldata package, we’ll also
 make use of the Orange data set in base R, containing repeated
 measurements of 5 orange trees over time:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">Orange</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   Tree age circumference</span></span>
 <span><span class="co">#&gt; 1    1 118            30</span></span>
 <span><span class="co">#&gt; 2    1 484            58</span></span></code></pre></div>
 <p>And last but not least, we’ll set a seed so our results are
 reproducible:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="random-resampling">Random Resampling<a class="anchor" aria-label="anchor" href="#random-resampling"></a>
@@ -151,7 +148,7 @@ number of functions specifically for this purpose.</p>
 <p>To split your data into two sets – often referred to as the
 “training” and “testing” sets – rsample provides the
 <code><a href="../reference/initial_split.html">initial_split()</a></code> function:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/initial_split.html">initial_split</a></span><span class="op">(</span><span class="va">ames</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;Training/Testing/Total&gt;</span></span>
 <span><span class="co">#&gt; &lt;2197/733/2930&gt;</span></span></code></pre></div>
@@ -159,13 +156,13 @@ number of functions specifically for this purpose.</p>
 with each observation assigned to one of the two sets. You can control
 the proportion of data assigned to the “training” set through the
 <code>prop</code> argument:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/initial_split.html">initial_split</a></span><span class="op">(</span><span class="va">ames</span>, prop <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;Training/Testing/Total&gt;</span></span>
 <span><span class="co">#&gt; &lt;2344/586/2930&gt;</span></span></code></pre></div>
 <p>To get the actual data assigned to either set, use the
 <code><a href="../reference/initial_split.html">training()</a></code> and <code><a href="../reference/initial_split.html">testing()</a></code> functions:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">resample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initial_split.html">initial_split</a></span><span class="op">(</span><span class="va">ames</span>, prop <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/initial_split.html">training</a></span><span class="op">(</span><span class="va">resample</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
@@ -215,7 +212,7 @@ the assessment set. This way, each observation in your data is used in
 exactly one assessment set.</p>
 <p>To use V-fold cross-validation in rsample, use the
 <code><a href="../reference/vfold_cv.html">vfold_cv()</a></code> function:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/vfold_cv.html">vfold_cv</a></span><span class="op">(</span><span class="va">ames</span>, v <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; #  2-fold cross-validation </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
@@ -231,7 +228,7 @@ cross-validation</a>, effectively running the V-fold resampling
 procedure multiple times for your data. To perform repeated V-fold
 cross-validation in rsample, you can use the repeats argument inside of
 <code><a href="../reference/vfold_cv.html">vfold_cv()</a></code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/vfold_cv.html">vfold_cv</a></span><span class="op">(</span><span class="va">ames</span>, v <span class="op">=</span> <span class="fl">2</span>, repeats <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; #  2-fold cross-validation repeated 2 times </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
@@ -255,7 +252,7 @@ Because each assessment set is sampled independently, you can repeat
 this as many times as you want.</p>
 <p>To use Monte-Carlo cross-validation in rsample, use the
 <code><a href="../reference/mc_cv.html">mc_cv()</a></code> function:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mc_cv.html">mc_cv</a></span><span class="op">(</span><span class="va">ames</span>, prop <span class="op">=</span> <span class="fl">0.8</span>, times <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Monte Carlo cross-validation (0.8/0.2) with 2 resamples </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
@@ -287,7 +284,7 @@ pessimistic estimates of model accuracy.</p>
 proportion of data in each set – the assessment set of a bootstrap
 resample is always the same size as the training data – the function
 otherwise works exactly like <code><a href="../reference/mc_cv.html">mc_cv()</a></code>:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/bootstraps.html">bootstraps</a></span><span class="op">(</span><span class="va">ames</span>, times <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Bootstrap sampling </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
@@ -306,7 +303,7 @@ set has the role of the single assessment set.) Instead of using
 <code><a href="../reference/initial_split.html">initial_split()</a></code> to create a binary split, you can use
 <code><a href="../reference/initial_validation_split.html">initial_validation_split()</a></code> to create that three-way
 split:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">three_way_split</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initial_validation_split.html">initial_validation_split</a></span><span class="op">(</span><span class="va">ames</span>, prop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.6</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">three_way_split</span></span>
 <span><span class="co">#&gt; &lt;Training/Validation/Testing/Total&gt;</span></span>
@@ -317,7 +314,7 @@ set.</p>
 <p>To create an <code>rset</code> object for tuning,
 <code><a href="../reference/validation_set.html">validation_set()</a></code> bundles together the training and
 validation set, read for use with the <a href="https://tune.tidymodels.org/" class="external-link">tune</a>) package.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/validation_set.html">validation_set</a></span><span class="op">(</span><span class="va">three_way_split</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
 <span><span class="co">#&gt;   splits             id        </span></span>
@@ -339,7 +336,7 @@ similar distribution as your overall data.</p>
 <p>All of the functions discussed so far support stratified resampling
 through their <code>strata</code> argument. This argument takes a single
 column identifier and uses it to stratify the resampling procedure:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/vfold_cv.html">vfold_cv</a></span><span class="op">(</span><span class="va">ames</span>, v <span class="op">=</span> <span class="fl">2</span>, strata <span class="op">=</span> <span class="va">Sale_Price</span><span class="op">)</span></span>
 <span><span class="co">#&gt; #  2-fold cross-validation using stratification </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
@@ -351,7 +348,7 @@ column identifier and uses it to stratify the resampling procedure:</p>
 ensure that each bin is proportionally represented in each set. If
 desired, this behavior can be changed using the <code>breaks</code>
 argument:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/vfold_cv.html">vfold_cv</a></span><span class="op">(</span><span class="va">ames</span>, v <span class="op">=</span> <span class="fl">2</span>, strata <span class="op">=</span> <span class="va">Sale_Price</span>, breaks <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="co">#&gt; #  2-fold cross-validation using stratification </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
@@ -376,7 +373,7 @@ variation to handle these situations. These functions all start with the
 specify which column should be used to group observations. Other than
 respecting these groups, these functions all work like their ungrouped
 variants:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">resample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/initial_split.html">group_initial_split</a></span><span class="op">(</span><span class="va">Orange</span>, group <span class="op">=</span> <span class="va">Tree</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="../reference/initial_split.html">training</a></span><span class="op">(</span><span class="va">resample</span><span class="op">)</span><span class="op">$</span><span class="va">Tree</span><span class="op">)</span></span>
@@ -399,7 +396,7 @@ safely use repeated cross-validation just as you would with ungrouped
 resampling, but also means you can wind up with very differently sized
 analysis and assessment sets than anticipated if your groups are
 unbalanced:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/group_bootstraps.html">group_bootstraps</a></span><span class="op">(</span><span class="va">ames</span>, <span class="va">Neighborhood</span>, times <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Group bootstrap sampling </span></span>
@@ -416,7 +413,7 @@ number of observations in each fold (meaning your assessment sets will
 be of similar sizes, but smaller groups will be more likely to be
 assigned to the same folds than would happen under random chance), you
 can use the argument <code>balance = "observations"</code>:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/group_vfold_cv.html">group_vfold_cv</a></span><span class="op">(</span><span class="va">ames</span>, <span class="va">Neighborhood</span>, balance <span class="op">=</span> <span class="st">"observations"</span>, v <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Group 2-fold cross-validation </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
@@ -448,7 +445,7 @@ all data in your assessment sets are after that in the analysis set.</p>
 <code><a href="../reference/initial_validation_split.html">initial_validation_time_split()</a></code>, will assign the
 <em>first</em> rows of your data to the training set (with the number of
 rows assigned determined by <code>prop</code>):</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/initial_split.html">initial_time_split</a></span><span class="op">(</span><span class="va">Chicago</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;Training/Testing/Total&gt;</span></span>
 <span><span class="co">#&gt; &lt;4273/1425/5698&gt;</span></span>
@@ -460,8 +457,8 @@ rows assigned determined by <code>prop</code>):</p>
 multiple analysis and assessment sets from time-based data. For
 instance, the <code><a href="../reference/slide-resampling.html">sliding_window()</a></code> will create “windows” of
 your data, moving down through the rows of the data frame:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/slide-resampling.html">sliding_window</a></span><span class="op">(</span><span class="va">Chicago</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/slide-resampling.html">sliding_window</a></span><span class="op">(</span><span class="va">Chicago</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
 <span><span class="co">#&gt;   splits        id       </span></span>
@@ -471,8 +468,8 @@ your data, moving down through the rows of the data frame:</p>
 <p>If you want to create sliding windows of your data based on a
 specific variable, you can use the <code><a href="../reference/slide-resampling.html">sliding_index()</a></code>
 function:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/slide-resampling.html">sliding_index</a></span><span class="op">(</span><span class="va">Chicago</span>, <span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/slide-resampling.html">sliding_index</a></span><span class="op">(</span><span class="va">Chicago</span>, <span class="va">date</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
 <span><span class="co">#&gt;   splits        id       </span></span>
@@ -482,8 +479,8 @@ function:</p>
 <p>And if you want to set the size of windows based on units of time,
 for instance to have each window contain a year of data, you can use
 <code><a href="../reference/slide-resampling.html">sliding_period()</a></code>:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/slide-resampling.html">sliding_period</a></span><span class="op">(</span><span class="va">Chicago</span>, <span class="va">date</span>, <span class="st">"year"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/slide-resampling.html">sliding_period</a></span><span class="op">(</span><span class="va">Chicago</span>, <span class="va">date</span>, <span class="st">"year"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
 <span><span class="co">#&gt;   splits            id     </span></span>
@@ -496,8 +493,8 @@ you’d rather have your analysis set get progressively larger, so that
 you’re predicting new data based upon a growing set of older
 observations, you can use the <code><a href="../reference/slide-resampling.html">sliding_window()</a></code> function
 with <code>lookback = -Inf</code>:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/slide-resampling.html">sliding_window</a></span><span class="op">(</span><span class="va">Chicago</span>, lookback <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/slide-resampling.html">sliding_window</a></span><span class="op">(</span><span class="va">Chicago</span>, lookback <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
 <span><span class="co">#&gt;   splits        id       </span></span>
