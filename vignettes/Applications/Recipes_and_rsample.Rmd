@@ -73,20 +73,20 @@ library(recipes)
 # Apply log10 transformation outside the recipe
 # https://www.tmwr.org/recipes.html#skip-equals-true
 ames <-
-  ames %>%
+  ames |>
   mutate(Sale_Price = log10(Sale_Price))
 
 rec <- 
   recipe(Sale_Price ~ Neighborhood + House_Style + Year_Sold + Lot_Area, 
-         data = ames) %>%
+         data = ames) |>
   # Collapse rarely occurring jobs into "other"
-  step_other(Neighborhood, House_Style, threshold = 0.05) %>%
+  step_other(Neighborhood, House_Style, threshold = 0.05) |>
   # Dummy variables on the qualitative predictors
-  step_dummy(all_nominal()) %>%
+  step_dummy(all_nominal()) |>
   # Unskew a predictor
-  step_BoxCox(Lot_Area) %>%
+  step_BoxCox(Lot_Area) |>
   # Normalize
-  step_center(all_predictors()) %>%
+  step_center(all_predictors()) |>
   step_scale(all_predictors()) 
 rec
 ```
@@ -112,7 +112,7 @@ Note that there are fewer dummy variables for `Neighborhood` and `House_Style` t
 Also, the above code using `prep()` benefits from the default argument of `retain = TRUE`, which keeps the processed version of the data set so that we don't have to reapply the steps to extract the processed values. For the data used to train the recipe, we would have used:
 
 ```{r juiced}
-bake(rec_training_set, new_data = NULL) %>% head
+bake(rec_training_set, new_data = NULL) |> head
 ```
 
 The next section will explore recipes and bootstrap resampling for modeling:
@@ -163,8 +163,8 @@ pred_lm <- function(split_obj, rec_obj, model_obj, ...) {
     all_outcomes()
   ) 
   
-  out <- mod_data %>% select(Sale_Price)
-  out$predicted <- predict(model_obj, newdata = mod_data %>% select(-Sale_Price))
+  out <- mod_data |> select(Sale_Price)
+  out$predicted <- predict(model_obj, newdata = mod_data |> select(-Sale_Price))
   out
 }
 
@@ -184,7 +184,7 @@ Calculating the RMSE:
 
 ```{r cols-rmse}
 library(yardstick)
-results <- map(bt_samples$pred, rmse, Sale_Price, predicted) %>% list_rbind()
+results <- map(bt_samples$pred, rmse, Sale_Price, predicted) |> list_rbind()
 results
 mean(results$.estimate)
 ```

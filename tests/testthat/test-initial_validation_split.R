@@ -51,14 +51,14 @@ test_that("basic split stratified", {
 
   # distribution of strata should be similar in all 3 data sets
   expected <- c(50, 25, 25) / 100
-  actual_train <- dat[val_split$train_id, "f"] %>% table() %>% prop.table()
+  actual_train <- dat[val_split$train_id, "f"] |> table() |> prop.table()
   expect_equal(as.vector(actual_train), expected)
 
-  actual_val <- dat[val_split$val_id, "f"] %>% table() %>% prop.table()
+  actual_val <- dat[val_split$val_id, "f"] |> table() |> prop.table()
   expect_equal(as.vector(actual_val), expected)
 
-  actual_test <- dat[-c(val_split$train_id, val_split$val_id), "f"] %>%
-    table() %>%
+  actual_test <- dat[-c(val_split$train_id, val_split$val_id), "f"] |>
+    table() |>
     prop.table()
   expect_equal(as.vector(actual_test), expected)
 
@@ -131,9 +131,9 @@ test_that("grouped split", {
   expect_equal(nrow(dat_val), 20)
   expect_equal(nrow(dat_test), 20)
 
-  g_train <- dat_train %>% dplyr::count(g)
-  g_val <- dat_val %>% dplyr::count(g)
-  g_test <- dat_test %>% dplyr::count(g)
+  g_train <- dat_train |> dplyr::count(g)
+  g_val <- dat_val |> dplyr::count(g)
+  g_test <- dat_test |> dplyr::count(g)
 
   # all obs of the chosen groups are here
   # which also means there are none elsewhere

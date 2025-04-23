@@ -69,7 +69,7 @@ To run our model over different bootstraps, we'll write a function that uses the
 # Will be used to fit the models to different bootstrap data sets:
 fit_fun <- function(split, ...) {
   # We could check for convergence, make new parameters, etc.
-  nls(nonlin_form, data = analysis(split), ...) %>%
+  nls(nonlin_form, data = analysis(split), ...) |>
     tidy()
 }
 ```
@@ -79,7 +79,7 @@ First, let's create a set of resamples and fit separate models to each. The opti
 ```{r resample}
 set.seed(462)
 nlin_bt <-
-  bootstraps(O2K, times = 2000, apparent = TRUE) %>%
+  bootstraps(O2K, times = 2000, apparent = TRUE) |>
   mutate(models = map(splits, ~ fit_fun(.x, start = start_vals)))
 nlin_bt
 
@@ -91,10 +91,10 @@ Let's look at the data and see if there any outliers or aberrant results:
 ```{r extract}
 library(tidyr)
 nls_coef <- 
-  nlin_bt %>%
-  dplyr::select(-splits) %>%
+  nlin_bt |>
+  dplyr::select(-splits) |>
   # Turn it into a tibble by stacking the `models` col
-  unnest(cols = models) %>%
+  unnest(cols = models) |>
   # Get rid of unneeded columns
   dplyr::select(id, term, estimate) 
 
@@ -103,11 +103,11 @@ head(nls_coef)
 Now let's create a scatterplot matrix:
 
 ```{r splom, fig.alt = "The 3x3 scatter plot matrix for the variables VO2rest, VO2peak, and mu. We can see one value for VO2peak that is larger than the rest."} 
-nls_coef %>%
+nls_coef |>
   # Put different parameters in columns
-  tidyr::pivot_wider(names_from = term, values_from = estimate) %>% 
+  tidyr::pivot_wider(names_from = term, values_from = estimate) |> 
   # Keep only numeric columns
-  dplyr::select(-id) %>% 
+  dplyr::select(-id) |> 
   ggscatmat(alpha = .25)
 ```
 
@@ -116,7 +116,7 @@ One potential outlier on the right for `VO2peak` but we'll leave it in.
 The univariate distributions are:
 
 ```{r hists, fig.alt = "Three histograms for mu, VO2peak, and VO2rest: all distributions are unimodal and symmetric."}
-nls_coef %>% 
+nls_coef |> 
   ggplot(aes(x = estimate)) + 
   geom_histogram(bins = 20, col = "white") + 
   facet_wrap(~ term, scales = "free_x")
@@ -134,7 +134,7 @@ p_ints
 When overlaid with the univariate distributions: 
 
 ```{r pctl-plot, fig.alt = "The three histograms for mu, VO2peak, and VO2rest with added vertical lines for the estimated lower and upper bounds of the percentile intervals."}
-nls_coef %>% 
+nls_coef |> 
   ggplot(aes(x = estimate)) + 
   geom_histogram(bins = 20, col = "white") + 
   facet_wrap(~ term, scales = "free_x") + 
@@ -146,28 +146,28 @@ How do these intervals compare to the parametric asymptotic values?
 
 ```{r int-compare}
 parametric <- 
-  tidy(res, conf.int = TRUE) %>% 
+  tidy(res, conf.int = TRUE) |> 
   dplyr::select(
     term,
     .lower = conf.low,
     .estimate = estimate,
     .upper = conf.high
-  ) %>% 
+  ) |> 
   mutate(
     .alpha = 0.05,
     .method = "parametric"
   )
 
 intervals <- 
-  bind_rows(parametric, p_ints) %>% 
+  bind_rows(parametric, p_ints) |> 
   arrange(term, .method)
-intervals %>% split(intervals$term)
+intervals |> split(intervals$term)
 ```
 
 The percentile intervals are wider than the parametric intervals (which assume asymptotic normality). Do the estimates appear to be normally distributed? We can look at quantile-quantile plots:  
 
 ```{r qqplot, fig.alt = "Three QQ plots for mu, VO2peak, and VO2rest which show that the empirical distributions deviate from a normal distribution in the tails."}
-nls_coef %>% 
+nls_coef |> 
   ggplot(aes(sample = estimate)) + 
   stat_qq() +
   stat_qq_line(alpha = .25) + 
@@ -183,9 +183,9 @@ The arguments for these intervals are the same:
 ```{r t-ints}
 t_stats <- int_t(nlin_bt, models)
 intervals <- 
-  bind_rows(intervals, t_stats) %>% 
+  bind_rows(intervals, t_stats) |> 
   arrange(term, .method)
-intervals %>% split(intervals$term)
+intervals |> split(intervals$term)
 ```
 
 
@@ -200,9 +200,9 @@ The user-facing function takes an argument for the function and the ellipses.
 ```{r bca-comp}
 bias_corr <- int_bca(nlin_bt, models, .fn = fit_fun, start = start_vals)
 intervals <- 
-  bind_rows(intervals, bias_corr) %>% 
+  bind_rows(intervals, bias_corr) |> 
   arrange(term, .method)
-intervals %>% split(intervals$term)
+intervals |> split(intervals$term)
 ```
 
 
@@ -235,7 +235,7 @@ Everything else works the same as before:
 
 ```{r fold-ci}
 nlin_bt <-
-  nlin_bt %>%
+  nlin_bt |>
   mutate(folds = map(splits, fold_incr))
 
 int_pctl(nlin_bt, folds)
@@ -289,9 +289,9 @@ lr_int
 Now we can unnest the data to use in a ggplot: 
 
 ```{r ad-plot, fig.alt = "Four histograms for the distribution of the regression model coefficients, with vertical lines indicating the estimated lower and upper interval bounds, as well as vertical lines for a coefficient value of 0. For age, the interval encloses 0, for the other variables it does not."}
-lr_int %>% 
-  select(term, .replicates) %>% 
-  unnest(cols = .replicates) %>% 
+lr_int |> 
+  select(term, .replicates) |> 
+  unnest(cols = .replicates) |> 
   ggplot(aes(x = estimate)) + 
   geom_histogram(bins = 30) + 
   facet_wrap(~ term, scales = "free_x") + 

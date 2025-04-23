@@ -10,7 +10,7 @@
 #' @importFrom tibble tibble is_tibble as_tibble obj_sum
 #' @importFrom pillar type_sum
 #' @importFrom tidyr unnest
-#' @importFrom dplyr select %>% bind_cols bind_rows arrange_ arrange full_join
+#' @importFrom dplyr select bind_cols bind_rows arrange_ arrange full_join
 #' @importFrom dplyr mutate last ungroup group_by inner_join summarize do case_when
 #' @importFrom vctrs vec_unique_count vec_count vec_slice vec_in vec_ptype_abbr
 #' @importFrom methods formalArgs

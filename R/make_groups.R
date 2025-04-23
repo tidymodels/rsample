@@ -73,8 +73,8 @@ make_groups <- function(
   data_ind$..group <- as.character(data_ind$..group)
   keys$..group <- as.character(keys$..group)
 
-  data_ind <- data_ind %>%
-    full_join(keys, by = "..group") %>%
+  data_ind <- data_ind |>
+    full_join(keys, by = "..group") |>
     arrange(..index)
   split_unnamed(data_ind$..index, data_ind$..folds)
 }
@@ -175,7 +175,7 @@ balance_observations <- function(data_ind, v, strata = NULL, ...) {
     balance_observations_helper,
     v = v,
     target_per_fold = target_per_fold
-  ) %>%
+  ) |>
     list_rbind()
 
   collapse_groups(freq_table, data_ind, v)
@@ -200,13 +200,13 @@ balance_observations_helper <- function(data_split, v, target_per_fold) {
     next_size <- freq_table[next_row, ]$count
 
     # Calculate which fold to assign this new row into:
-    group_breakdown <- freq_table %>%
+    group_breakdown <- freq_table |>
       # The only NA column in freq_table should be assignment
       # So this should only drop un-assigned groups:
-      stats::na.omit() %>%
+      stats::na.omit() |>
       # Group by fold assignments and count data in each fold:
-      dplyr::group_by(.data$assignment) %>%
-      dplyr::summarise(count = sum(.data$count), .groups = "drop") %>%
+      dplyr::group_by(.data$assignment) |>
+      dplyr::summarise(count = sum(.data$count), .groups = "drop") |>
       # Calculate...:
       dplyr::mutate(
         # The proportion of data in each fold so far,
@@ -259,7 +259,7 @@ balance_prop <- function(
     prop = prop,
     v = v,
     replace = replace
-  ) %>%
+  ) |>
     list_rbind()
 
   collapse_groups(freq_table, data_ind, v)
@@ -291,7 +291,7 @@ balance_prop_helper <- function(prop, data_ind, v, replace) {
       out$assignment <- x
       out
     }
-  ) %>%
+  ) |>
     list_rbind()
 }
 

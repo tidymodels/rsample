@@ -4,7 +4,7 @@
 # helpers
 
 check_includes_apparent <- function(x, call = caller_env()) {
-  if (x %>% dplyr::filter(id == "Apparent") %>% nrow() != 1) {
+  if (x |> dplyr::filter(id == "Apparent") |> nrow() != 1) {
     cli_abort(
       c(
         "The bootstrap resamples must include an apparent sample.",
@@ -59,7 +59,7 @@ check_statistics <- function(x, std_col = FALSE, call = caller_env()) {
     list_cols <- names(x)[map_lgl(x, is_list)]
     x <- try(tidyr::unnest(x, cols = all_of(list_cols)), silent = TRUE)
   } else {
-    x <- try(map(x, ~.x) %>% list_rbind(), silent = TRUE)
+    x <- try(map(x, ~.x) |> list_rbind(), silent = TRUE)
   }
 
   if (inherits(x, "try-error")) {
@@ -81,8 +81,8 @@ check_statistics <- function(x, std_col = FALSE, call = caller_env()) {
           id,
           tidyselect::one_of(std_candidates),
           dplyr::starts_with(".")
-        ) %>%
-        mutate(orig = (id == "Apparent")) %>%
+        ) |>
+        mutate(orig = (id == "Apparent")) |>
         dplyr::rename(!!!re_name)
     } else {
       x <-
@@ -92,14 +92,14 @@ check_statistics <- function(x, std_col = FALSE, call = caller_env()) {
           estimate,
           tidyselect::one_of(std_candidates),
           dplyr::starts_with(".")
-        ) %>%
+        ) |>
         dplyr::rename(!!!re_name)
     }
   } else {
     if (has_id) {
       x <-
-        dplyr::select(x, term, estimate, id, dplyr::starts_with(".")) %>%
-        mutate(orig = (id == "Apparent")) %>%
+        dplyr::select(x, term, estimate, id, dplyr::starts_with(".")) |>
+        mutate(orig = (id == "Apparent")) |>
         dplyr::select(-id)
     } else {
       x <- dplyr::select(x, term, estimate, dplyr::starts_with("."))
@@ -113,16 +113,16 @@ check_statistics <- function(x, std_col = FALSE, call = caller_env()) {
 get_p0 <- function(x, alpha = 0.05, groups) {
   group_sym <- rlang::syms(groups)
 
-  orig <- x %>%
-    group_by(!!!group_sym) %>%
-    dplyr::filter(orig) %>%
-    dplyr::select(!!!group_sym, theta_0 = estimate) %>%
+  orig <- x |>
+    group_by(!!!group_sym) |>
+    dplyr::filter(orig) |>
+    dplyr::select(!!!group_sym, theta_0 = estimate) |>
     ungroup()
-  x %>%
-    dplyr::filter(!orig) %>%
-    inner_join(orig, by = groups) %>%
-    group_by(!!!group_sym) %>%
-    summarize(p0 = mean(estimate <= theta_0, na.rm = TRUE)) %>%
+  x |>
+    dplyr::filter(!orig) |>
+    inner_join(orig, by = groups) |>
+    group_by(!!!group_sym) |>
+    summarize(p0 = mean(estimate <= theta_0, na.rm = TRUE)) |>
     mutate(
       Z0 = stats::qnorm(p0),
       Za = stats::qnorm(1 - alpha / 2)
@@ -148,9 +148,9 @@ check_has_dots <- function(x, call = caller_env()) {
 
 check_num_resamples <- function(x, B = 1000, call = caller_env()) {
   x <-
-    x %>%
-    dplyr::group_by(term) %>%
-    dplyr::summarize(n = sum(!is.na(estimate))) %>%
+    x |>
+    dplyr::group_by(term) |>
+    dplyr::summarize(n = sum(!is.na(estimate))) |>
     dplyr::filter(n < B)
 
   if (nrow(x) > 0) {
@@ -176,7 +176,7 @@ pctl_single <- function(stats, alpha = 0.05) {
   }
 
   # stats is a numeric vector of values
-  ci <- stats %>% quantile(probs = c(alpha / 2, 1 - alpha / 2), na.rm = TRUE)
+  ci <- stats |> quantile(probs = c(alpha / 2, 1 - alpha / 2), na.rm = TRUE)
 
   # return a tibble with .lower, .estimate, .upper
   res <- tibble(
@@ -240,13 +240,13 @@ pctl_single <- function(stats, alpha = 0.05) {
 #' # ------------------------------------------------------------------------------
 #'
 #' lm_est <- function(split, ...) {
-#'   lm(mpg ~ disp + hp, data = analysis(split)) %>%
+#'   lm(mpg ~ disp + hp, data = analysis(split)) |>
 #'     tidy()
 #' }
 #'
 #' set.seed(52156)
 #' car_rs <-
-#'   bootstraps(mtcars, 500, apparent = TRUE) %>%
+#'   bootstraps(mtcars, 500, apparent = TRUE) |>
 #'   mutate(results = map(splits, lm_est))
 #'
 #' int_pctl(car_rs, results)
@@ -268,8 +268,8 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'
 #' set.seed(69325)
 #' data(Sacramento, package = "modeldata")
-#' bootstraps(Sacramento, 1000, apparent = TRUE) %>%
-#'   mutate(correlations = map(splits, rank_corr)) %>%
+#' bootstraps(Sacramento, 1000, apparent = TRUE) |>
+#'   mutate(correlations = map(splits, rank_corr)) |>
 #'   int_pctl(correlations)
 #'
 #' # ------------------------------------------------------------------------------
@@ -278,21 +278,21 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'
 #' # Get regression estimates for each house type
 #' lm_est <- function(split, ...) {
-#'   analysis(split) %>%
-#'     tidyr::nest(.by = c(type)) %>%
+#'   analysis(split) |>
+#'     tidyr::nest(.by = c(type)) |>
 #'     # Compute regression estimates for each house type
 #'     mutate(
-#'       betas = purrr::map(data, ~ lm(log10(price) ~ sqft, data = .x) %>% tidy())
-#'     ) %>%
+#'       betas = purrr::map(data, ~ lm(log10(price) ~ sqft, data = .x) |> tidy())
+#'     ) |>
 #'     # Convert the column name to begin with a period
-#'     rename(.type = type) %>%
-#'     select(.type, betas) %>%
+#'     rename(.type = type) |>
+#'     select(.type, betas) |>
 #'     unnest(cols = betas)
 #' }
 #'
 #' set.seed(52156)
 #' house_rs <-
-#'   bootstraps(Sacramento, 1000, apparent = TRUE) %>%
+#'   bootstraps(Sacramento, 1000, apparent = TRUE) |>
 #'   mutate(results = map(splits, lm_est))
 #'
 #' int_pctl(house_rs, results)
@@ -317,7 +317,7 @@ int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   check_dots_empty()
   check_number_decimal(alpha, min = 0, max = 1)
 
-  .data <- .data %>% dplyr::filter(id != "Apparent")
+  .data <- .data |> dplyr::filter(id != "Apparent")
 
   column_name <- tidyselect::vars_select(
     names(.data),
@@ -334,9 +334,9 @@ int_pctl.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   stat_groups <- c("term", grep("^\\.", names(stats), value = TRUE))
   stat_groups <- rlang::syms(stat_groups)
 
-  vals <- stats %>%
-    dplyr::group_by(!!!stat_groups) %>%
-    dplyr::do(pctl_single(.$estimate, alpha = alpha)) %>%
+  vals <- stats |>
+    dplyr::group_by(!!!stat_groups) |>
+    dplyr::do(pctl_single(.$estimate, alpha = alpha)) |>
     dplyr::ungroup()
   vals
 }
@@ -416,16 +416,16 @@ int_t.bootstraps <- function(.data, statistics, alpha = 0.05, ...) {
   if (length(column_name) != 1) {
     cli_abort(statistics_format_error)
   }
-  stats <- .data %>% dplyr::select(!!column_name, id)
+  stats <- .data |> dplyr::select(!!column_name, id)
   stats <- check_statistics(stats, std_col = TRUE)
 
   check_num_resamples(stats, B = 500)
 
   stat_groups <- c("term", grep("^\\.", names(stats), value = TRUE))
   stat_groups <- rlang::syms(stat_groups)
-  vals <- stats %>%
-    dplyr::group_by(!!!stat_groups) %>%
-    dplyr::do(t_single(.$estimate, .$std_err, .$orig, alpha = alpha)) %>%
+  vals <- stats |>
+    dplyr::group_by(!!!stat_groups) |>
+    dplyr::do(t_single(.$estimate, .$std_err, .$orig, alpha = alpha)) |>
     dplyr::ungroup()
   vals
 }
@@ -464,20 +464,20 @@ bca_calc <- function(
     cli_abort("{.arg .fn} failed.", call = call)
   }
 
-  loo_res <- furrr::future_map(loo_rs$splits, .fn, ...) %>% list_rbind()
+  loo_res <- furrr::future_map(loo_rs$splits, .fn, ...) |> list_rbind()
 
   loo_estimate <-
-    loo_res %>%
-    dplyr::group_by(!!!stat_groups_sym) %>%
-    dplyr::summarize(loo = mean(estimate, na.rm = TRUE)) %>%
-    dplyr::inner_join(loo_res, by = stat_groups_chr, multiple = "all") %>%
-    dplyr::group_by(!!!stat_groups_sym) %>%
+    loo_res |>
+    dplyr::group_by(!!!stat_groups_sym) |>
+    dplyr::summarize(loo = mean(estimate, na.rm = TRUE)) |>
+    dplyr::inner_join(loo_res, by = stat_groups_chr, multiple = "all") |>
+    dplyr::group_by(!!!stat_groups_sym) |>
     dplyr::summarize(
       cubed = sum((loo - estimate)^3),
       squared = sum((loo - estimate)^2)
-    ) %>%
-    dplyr::ungroup() %>%
-    dplyr::inner_join(bias_corr_stats, by = stat_groups_chr) %>%
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::inner_join(bias_corr_stats, by = stat_groups_chr) |>
     dplyr::mutate(
       a = cubed / (6 * (squared^(3 / 2))),
       Zu = (Z0 + Za) / (1 - a * (Z0 + Za)) + Z0,
@@ -487,9 +487,9 @@ bca_calc <- function(
     )
 
   terms <- loo_estimate$term
-  stats <- stats %>% dplyr::filter(!orig)
+  stats <- stats |> dplyr::filter(!orig)
 
-  keys <- stats %>% dplyr::distinct(!!!stat_groups_sym)
+  keys <- stats |> dplyr::distinct(!!!stat_groups_sym)
   for (i in seq_len(nrow(keys))) {
     tmp_stats <- dplyr::inner_join(stats, keys[i, ], by = stat_groups_chr)
     tmp_loo <- dplyr::inner_join(loo_estimate, keys[i, ], by = stat_groups_chr)
@@ -503,8 +503,8 @@ bca_calc <- function(
     }
   }
   ci_bca <-
-    ci_bca %>%
-    dplyr::select(!!!stat_groups_sym, .lower, .estimate, .upper) %>%
+    ci_bca |>
+    dplyr::select(!!!stat_groups_sym, .lower, .estimate, .upper) |>
     dplyr::mutate(
       .alpha = alpha,
       .method = "BCa"
@@ -538,7 +538,7 @@ int_bca.bootstraps <- function(.data, statistics, alpha = 0.05, .fn, ...) {
   if (length(column_name) != 1) {
     cli_abort(statistics_format_error)
   }
-  stats <- .data %>% dplyr::select(!!column_name, id, dplyr::starts_with("."))
+  stats <- .data |> dplyr::select(!!column_name, id, dplyr::starts_with("."))
   stats <- check_statistics(stats)
 
   check_num_resamples(stats, B = 1000)

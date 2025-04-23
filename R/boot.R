@@ -142,7 +142,7 @@ boot_splits <- function(
         prop = 1,
         times = times,
         replace = TRUE
-      ) %>%
+      ) |>
       list_rbind()
     indices <- split_unnamed(stratas$idx, stratas$rs_id)
   }

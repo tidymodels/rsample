@@ -57,8 +57,8 @@
 #' library(tidyr)
 #' data(drinks, package = "modeldata")
 #'
-#' drinks_annual <- drinks %>%
-#'   mutate(year = as.POSIXlt(date)$year + 1900) %>%
+#' drinks_annual <- drinks |>
+#'   mutate(year = as.POSIXlt(date)$year + 1900) |>
 #'   nest(data = c(-year))
 #'
 #' multi_year_roll <- rolling_origin(drinks_annual, cumulative = FALSE)

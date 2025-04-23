@@ -123,7 +123,7 @@ test_that("boot_split", {
 
   expect_lte(
     nrow(isplit$data),
-    analysis(r_split) %>% nrow()
+    analysis(r_split) |> nrow()
   )
 
   expect_identical(
@@ -152,7 +152,7 @@ test_that("group_boot_split", {
 
   expect_lte(
     nrow(isplit$data),
-    analysis(r_split) %>% nrow()
+    analysis(r_split) |> nrow()
   )
 
   expect_identical(

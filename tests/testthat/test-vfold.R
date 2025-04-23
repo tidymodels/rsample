@@ -141,13 +141,13 @@ test_that("printing", {
 
 test_that("rsplit labels", {
   rs <- vfold_cv(mtcars)
-  all_labs <- purrr::map(rs$splits, labels) %>%
+  all_labs <- purrr::map(rs$splits, labels) |>
     list_rbind()
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
 
   rs2 <- vfold_cv(mtcars, repeats = 4)
-  all_labs2 <- purrr::map(rs2$splits, labels) %>%
+  all_labs2 <- purrr::map(rs2$splits, labels) |>
     list_rbind()
   original_id2 <- rs2[, grepl("^id", names(rs2))]
   expect_equal(all_labs2, original_id2)
@@ -465,7 +465,7 @@ test_that("grouping -- printing with ...", {
 
 test_that("grouping -- rsplit labels", {
   rs <- group_vfold_cv(warpbreaks, "tension")
-  all_labs <- purrr::map(rs$splits, labels) %>%
+  all_labs <- purrr::map(rs$splits, labels) |>
     list_rbind()
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)

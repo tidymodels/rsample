@@ -227,13 +227,13 @@ vfold_splits <- function(
 #' library(dplyr)
 #' data(Sacramento, package = "modeldata")
 #'
-#' city_strata <- Sacramento %>%
-#'   group_by(city) %>%
-#'   summarize(strata = mean(price)) %>%
+#' city_strata <- Sacramento |>
+#'   group_by(city) |>
+#'   summarize(strata = mean(price)) |>
 #'   summarize(city = city,
 #'             strata = cut(strata, quantile(strata), include.lowest = TRUE))
 #'
-#' sacramento_data <- Sacramento %>%
+#' sacramento_data <- Sacramento |>
 #'   full_join(city_strata, by = "city")
 #'
 #' group_vfold_cv(sacramento_data, city, strata = strata)

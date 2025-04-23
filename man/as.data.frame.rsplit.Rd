@@ -46,6 +46,6 @@ library(dplyr)
 set.seed(104)
 folds <- vfold_cv(mtcars)
 
-model_data_1 <- folds$splits[[1]] \%>\% analysis()
-holdout_data_1 <- folds$splits[[1]] \%>\% assessment()
+model_data_1 <- folds$splits[[1]] |> analysis()
+holdout_data_1 <- folds$splits[[1]] |> assessment()
 }
