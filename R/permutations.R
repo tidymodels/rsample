@@ -37,7 +37,7 @@
 #'
 #' library(purrr)
 #' resample1 <- permutations(mtcars, starts_with("c"), times = 1)
-#' resample1$splits[[1]] %>% analysis()
+#' resample1$splits[[1]] |> analysis()
 #'
 #' resample2 <- permutations(mtcars, hp, times = 10, apparent = TRUE)
 #' map_dbl(resample2$splits, function(x) {

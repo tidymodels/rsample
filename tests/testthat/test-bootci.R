@@ -7,9 +7,9 @@ test_that("Bootstrap estimate of mean is close to estimate of mean from normal d
   dat <- data.frame(x = rand_nums)
 
   set.seed(456765)
-  bt_norm <- bootstraps(dat, times = 1000, apparent = TRUE) %>%
+  bt_norm <- bootstraps(dat, times = 1000, apparent = TRUE) |>
     dplyr::mutate(
-      stats = purrr::map(splits, ~ get_stats(.x))
+      stats = purrr::map(splits, \(.x) get_stats(.x))
     )
 
   ttest <- broom::tidy(t.test(rand_nums))
@@ -75,33 +75,33 @@ test_that("Wrappers -- selection of multiple variables works", {
   skip_if_not_installed("modeldata")
   data("attrition", package = "modeldata")
   func <- function(split, ...) {
-    lm(Age ~ HourlyRate + DistanceFromHome, data = analysis(split)) %>% tidy()
+    lm(Age ~ HourlyRate + DistanceFromHome, data = analysis(split)) |> tidy()
   }
 
   # generate boostrap resamples
   set.seed(888)
-  bt_resamples <- bootstraps(attrition, times = 1000, apparent = TRUE) %>%
+  bt_resamples <- bootstraps(attrition, times = 1000, apparent = TRUE) |>
     mutate(res = purrr::map(splits, func))
 
   attrit_tidy <-
-    lm(Age ~ HourlyRate + DistanceFromHome, data = attrition) %>%
-    tidy(conf.int = TRUE) %>%
+    lm(Age ~ HourlyRate + DistanceFromHome, data = attrition) |>
+    tidy(conf.int = TRUE) |>
     dplyr::arrange(term)
 
   pct_res <-
-    int_pctl(bt_resamples, res) %>%
+    int_pctl(bt_resamples, res) |>
     inner_join(attrit_tidy, by = "term")
   expect_equal(pct_res$conf.low, pct_res$.lower, tolerance = .01)
   expect_equal(pct_res$conf.high, pct_res$.upper, tolerance = .01)
 
   t_res <-
-    int_t(bt_resamples, res) %>%
+    int_t(bt_resamples, res) |>
     inner_join(attrit_tidy, by = "term")
   expect_equal(t_res$conf.low, t_res$.lower, tolerance = .01)
   expect_equal(t_res$conf.high, t_res$.upper, tolerance = .01)
 
   bca_res <-
-    int_bca(bt_resamples, res, .fn = func) %>%
+    int_bca(bt_resamples, res, .fn = func) |>
     inner_join(attrit_tidy, by = "term")
   expect_equal(bca_res$conf.low, bca_res$.lower, tolerance = .01)
   expect_equal(bca_res$conf.high, bca_res$.upper, tolerance = .01)
@@ -123,7 +123,7 @@ test_that("Upper & lower confidence interval does not contain NA", {
     data.frame(x = 1:100),
     times = 1000,
     apparent = TRUE
-  ) %>%
+  ) |>
     mutate(res = purrr::map(splits, bad_stats))
 
   expect_snapshot(
@@ -150,9 +150,9 @@ test_that("Sufficient replications needed to sufficiently reduce Monte Carlo sam
   dat <- data.frame(x = rand_nums)
   set.seed(456765)
   bt_small <-
-    bootstraps(dat, times = 10, apparent = TRUE) %>%
+    bootstraps(dat, times = 10, apparent = TRUE) |>
     dplyr::mutate(
-      stats = purrr::map(splits, ~ get_stats(.x)),
+      stats = purrr::map(splits, \(.x) get_stats(.x)),
       junk = 1:11
     )
 
@@ -169,9 +169,9 @@ test_that("Sufficient replications needed to sufficiently reduce Monte Carlo sam
   dat <- data.frame(x = rand_nums)
   set.seed(456765)
   bt_small <-
-    bootstraps(dat, times = 10, apparent = TRUE) %>%
+    bootstraps(dat, times = 10, apparent = TRUE) |>
     dplyr::mutate(
-      stats = purrr::map(splits, ~ get_stats(.x)),
+      stats = purrr::map(splits, \(.x) get_stats(.x)),
       junk = 1:11
     )
 
@@ -184,9 +184,9 @@ test_that("bad input", {
   dat <- data.frame(x = rand_nums)
   set.seed(456765)
   bt_small <-
-    bootstraps(dat, times = 10, apparent = TRUE) %>%
+    bootstraps(dat, times = 10, apparent = TRUE) |>
     dplyr::mutate(
-      stats = purrr::map(splits, ~ get_stats(.x)),
+      stats = purrr::map(splits, \(.x) get_stats(.x)),
       junk = 1:11
     )
 
@@ -220,14 +220,14 @@ test_that("bad input", {
   dat <- data.frame(x = rand_nums)
 
   set.seed(456765)
-  bt_norm <- bootstraps(dat, times = 1000, apparent = TRUE) %>%
+  bt_norm <- bootstraps(dat, times = 1000, apparent = TRUE) |>
     dplyr::mutate(
-      stats = purrr::map(splits, ~ get_stats(.x))
+      stats = purrr::map(splits, \(.x) get_stats(.x))
     )
 
   bad_bt_norm <-
-    bt_norm %>%
-    mutate(stats = purrr::map(stats, ~ .x[, 1:2]))
+    bt_norm |>
+    mutate(stats = purrr::map(stats, \(.x) .x[, 1:2]))
   expect_snapshot(error = TRUE, {
     int_t(bad_bt_norm, stats)
   })
@@ -261,18 +261,21 @@ test_that("bad input", {
     x
   }
   badder_bt_norm <-
-    bt_norm %>%
+    bt_norm |>
     mutate(
       bad_term = purrr::map(
         stats,
-        ~ .x %>% setNames(c("a", "estimate", "std.err"))
+        \(.x) .x |> setNames(c("a", "estimate", "std.err"))
       ),
-      bad_est = purrr::map(stats, ~ .x %>% setNames(c("term", "b", "std.err"))),
+      bad_est = purrr::map(
+        stats,
+        \(.x) .x |> setNames(c("term", "b", "std.err"))
+      ),
       bad_err = purrr::map(
         stats,
-        ~ .x %>% setNames(c("term", "estimate", "c"))
+        \(.x) .x |> setNames(c("term", "estimate", "c"))
       ),
-      bad_num = purrr::map(stats, ~ poo(.x))
+      bad_num = purrr::map(stats, \(.x) poo(.x))
     )
   expect_snapshot(error = TRUE, {
     int_pctl(badder_bt_norm, bad_term)
@@ -302,25 +305,25 @@ test_that("checks input for statistics", {
   dat <- data.frame(x = rnorm(n = 1000, mean = 10, sd = 1))
   rs_boot <- bootstraps(dat, times = 10, apparent = TRUE)
 
-  rs_boot_missing_term <- rs_boot %>%
+  rs_boot_missing_term <- rs_boot |>
     dplyr::mutate(
-      stats = purrr::map(1:11, ~ tibble(estimate = 1))
+      stats = purrr::map(1:11, \(.x) tibble(estimate = 1))
     )
   expect_snapshot(error = TRUE, {
     int_t(rs_boot_missing_term, stats)
   })
 
-  rs_boot_missing_estimate <- rs_boot %>%
+  rs_boot_missing_estimate <- rs_boot |>
     dplyr::mutate(
-      stats = purrr::map(1:11, ~ tibble(term = 1))
+      stats = purrr::map(1:11, \(.x) tibble(term = 1))
     )
   expect_snapshot(error = TRUE, {
     int_t(rs_boot_missing_estimate, stats)
   })
 
-  rs_boot_missing_std_err <- rs_boot %>%
+  rs_boot_missing_std_err <- rs_boot |>
     dplyr::mutate(
-      stats = purrr::map(1:11, ~ tibble(term = 1, estimate = 2))
+      stats = purrr::map(1:11, \(.x) tibble(term = 1, estimate = 2))
     )
   expect_snapshot(error = TRUE, {
     int_t(rs_boot_missing_std_err, stats)
@@ -338,18 +341,18 @@ test_that("compute intervals with additional grouping terms", {
   }
 
   coef_by_engine_shape <- function(split, ...) {
-    split %>%
-      analysis() %>%
-      dplyr::rename(.vs = vs) %>%
-      tidyr::nest(.by = .vs) %>%
-      dplyr::mutate(coefs = map(data, lm_coefs)) %>%
-      dplyr::select(-data) %>%
+    split |>
+      analysis() |>
+      dplyr::rename(.vs = vs) |>
+      tidyr::nest(.by = .vs) |>
+      dplyr::mutate(coefs = map(data, lm_coefs)) |>
+      dplyr::select(-data) |>
       tidyr::unnest(coefs)
   }
 
   set.seed(270)
   boot_rs <-
-    bootstraps(mtcars, 1000, apparent = TRUE) %>%
+    bootstraps(mtcars, 1000, apparent = TRUE) |>
     dplyr::mutate(results = purrr::map(splits, coef_by_engine_shape))
 
   pctl_res <- int_pctl(boot_rs, results)
@@ -381,7 +384,7 @@ test_that("compute intervals with additional grouping terms", {
     )
 
   group_patterns <- function(x) {
-    dplyr::distinct(x, term, .vs) %>%
+    dplyr::distinct(x, term, .vs) |>
       dplyr::arrange(term, .vs)
   }
 

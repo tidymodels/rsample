@@ -27,7 +27,7 @@ test_that("printing", {
 
 test_that("rsplit labels", {
   rs <- loo_cv(mtcars)
-  all_labs <- purrr::map(rs$splits, labels) %>%
+  all_labs <- purrr::map(rs$splits, labels) |>
     list_rbind()
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)

@@ -7,7 +7,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -19,16 +20,10 @@ The rsample package provides a number of resampling methods which are broadly ap
 
 Let's go ahead and load rsample now:
 
-```{r setup}
+```{r}
+#| label: setup
 library(rsample)
 ```
-
-As well as dplyr, for the pipe operator `%>%`:
-
-```{r message=FALSE}
-library(dplyr)
-```
-
 
 We'll also load in a few data sets from the modeldata package. First, the Ames housing data, containing the sale prices of homes in Ames, Iowa:
 
@@ -205,28 +200,28 @@ initial_validation_time_split(Chicago)
 There are also several functions in rsample to help you construct multiple analysis and assessment sets from time-based data. For instance, the `sliding_window()` will create "windows" of your data, moving down through the rows of the data frame:
 
 ```{r}
-sliding_window(Chicago) %>%
+sliding_window(Chicago) |>
   head(2)
 ```
 
 If you want to create sliding windows of your data based on a specific variable, you can use the `sliding_index()` function:
 
 ```{r}
-sliding_index(Chicago, date) %>%
+sliding_index(Chicago, date) |>
   head(2)
 ```
 
 And if you want to set the size of windows based on units of time, for instance to have each window contain a year of data, you can use `sliding_period()`:
 
 ```{r}
-sliding_period(Chicago, date, "year") %>%
+sliding_period(Chicago, date, "year") |>
   head(2)
 ```
 
 All of these functions produce analysis sets of the same size, with the start and end of the analysis set "sliding" down your data frame. If you'd rather have your analysis set get progressively larger, so that you're predicting new data based upon a growing set of older observations, you can use the `sliding_window()` function with `lookback = -Inf`:
 
 ```{r}
-sliding_window(Chicago, lookback = Inf) %>%
+sliding_window(Chicago, lookback = Inf) |>
   head(2)
 ```
 

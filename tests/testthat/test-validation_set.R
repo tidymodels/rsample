@@ -29,7 +29,7 @@ test_that("accessor functions for `val_split`", {
 
   set.seed(11)
   initial_val_split <- initial_validation_split(dat1, prop = c(0.6, 0.2))
-  val_split <- validation_set(initial_val_split) %>% get_rsplit(1)
+  val_split <- validation_set(initial_val_split) |> get_rsplit(1)
 
   expect_equal(analysis(val_split), training(initial_val_split))
   expect_equal(training(val_split), training(initial_val_split))

@@ -86,13 +86,13 @@ library(tidyr)
 # ------------------------------------------------------------------------------
 
 lm_est <- function(split, ...) {
-  lm(mpg ~ disp + hp, data = analysis(split)) \%>\%
+  lm(mpg ~ disp + hp, data = analysis(split)) |>
     tidy()
 }
 
 set.seed(52156)
 car_rs <-
-  bootstraps(mtcars, 500, apparent = TRUE) \%>\%
+  bootstraps(mtcars, 500, apparent = TRUE) |>
   mutate(results = map(splits, lm_est))
 
 int_pctl(car_rs, results)
@@ -114,8 +114,8 @@ rank_corr <- function(split) {
 
 set.seed(69325)
 data(Sacramento, package = "modeldata")
-bootstraps(Sacramento, 1000, apparent = TRUE) \%>\%
-  mutate(correlations = map(splits, rank_corr)) \%>\%
+bootstraps(Sacramento, 1000, apparent = TRUE) |>
+  mutate(correlations = map(splits, rank_corr)) |>
   int_pctl(correlations)
 
 # ------------------------------------------------------------------------------
@@ -124,21 +124,21 @@ bootstraps(Sacramento, 1000, apparent = TRUE) \%>\%
 
 # Get regression estimates for each house type
 lm_est <- function(split, ...) {
-  analysis(split) \%>\%
-    tidyr::nest(.by = c(type)) \%>\%
+  analysis(split) |>
+    tidyr::nest(.by = c(type)) |>
     # Compute regression estimates for each house type
     mutate(
-      betas = purrr::map(data, ~ lm(log10(price) ~ sqft, data = .x) \%>\% tidy())
-    ) \%>\%
+      betas = purrr::map(data, \(.x) lm(log10(price) ~ sqft, data = .x) |> tidy())
+    ) |>
     # Convert the column name to begin with a period
-    rename(.type = type) \%>\%
-    select(.type, betas) \%>\%
+    rename(.type = type) |>
+    select(.type, betas) |>
     unnest(cols = betas)
 }
 
 set.seed(52156)
 house_rs <-
-  bootstraps(Sacramento, 1000, apparent = TRUE) \%>\%
+  bootstraps(Sacramento, 1000, apparent = TRUE) |>
   mutate(results = map(splits, lm_est))
 
 int_pctl(house_rs, results)

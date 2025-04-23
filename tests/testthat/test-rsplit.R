@@ -141,7 +141,7 @@ test_that("as.data.frame() works for permutations with Surv object without the s
     surv_df,
     permute = c(age, surv_obj),
     times = 1
-  ) %>%
+  ) |>
     get_rsplit(1)
 
   expect_s3_class(surv_permutation_df$data$surv_obj, "Surv")

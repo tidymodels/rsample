@@ -94,7 +94,7 @@ test_that("printing", {
 
 test_that("rsplit labels", {
   rs <- mc_cv(mtcars)
-  all_labs <- purrr::map(rs$splits, labels) %>%
+  all_labs <- purrr::map(rs$splits, labels) |>
     list_rbind()
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)
@@ -246,7 +246,7 @@ test_that("grouping - printing with ...", {
 
 test_that("grouping - rsplit labels", {
   rs <- group_mc_cv(warpbreaks, "tension")
-  all_labs <- purrr::map(rs$splits, labels) %>%
+  all_labs <- purrr::map(rs$splits, labels) |>
     list_rbind()
   original_id <- rs[, grepl("^id", names(rs))]
   expect_equal(all_labs, original_id)

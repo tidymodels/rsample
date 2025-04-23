@@ -31,7 +31,8 @@ test_that("reshuffle_rset is working", {
   # Select any non-grouped function in rset_subclasses with a strata argument:
   supports_strata <- purrr::map_lgl(
     names(supported_subclasses),
-    ~ any(names(formals(.x)) == "strata") && !any(names(formals(.x)) == "group")
+    \(.x)
+      any(names(formals(.x)) == "strata") && !any(names(formals(.x)) == "group")
   )
   supports_strata <- names(supported_subclasses)[supports_strata]
 
@@ -56,7 +57,8 @@ test_that("reshuffle_rset is working", {
   # Select any grouped function in rset_subclasses with a strata argument:
   grouped_strata <- purrr::map_lgl(
     names(supported_subclasses),
-    ~ any(names(formals(.x)) == "strata") && any(names(formals(.x)) == "group")
+    \(.x)
+      any(names(formals(.x)) == "strata") && any(names(formals(.x)) == "group")
   )
   grouped_strata <- names(supported_subclasses)[grouped_strata]
 
