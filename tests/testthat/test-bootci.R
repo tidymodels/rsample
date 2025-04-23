@@ -9,7 +9,7 @@ test_that("Bootstrap estimate of mean is close to estimate of mean from normal d
   set.seed(456765)
   bt_norm <- bootstraps(dat, times = 1000, apparent = TRUE) |>
     dplyr::mutate(
-      stats = purrr::map(splits, ~ get_stats(.x))
+      stats = purrr::map(splits, \(.x) get_stats(.x))
     )
 
   ttest <- broom::tidy(t.test(rand_nums))
@@ -152,7 +152,7 @@ test_that("Sufficient replications needed to sufficiently reduce Monte Carlo sam
   bt_small <-
     bootstraps(dat, times = 10, apparent = TRUE) |>
     dplyr::mutate(
-      stats = purrr::map(splits, ~ get_stats(.x)),
+      stats = purrr::map(splits, \(.x) get_stats(.x)),
       junk = 1:11
     )
 
@@ -171,7 +171,7 @@ test_that("Sufficient replications needed to sufficiently reduce Monte Carlo sam
   bt_small <-
     bootstraps(dat, times = 10, apparent = TRUE) |>
     dplyr::mutate(
-      stats = purrr::map(splits, ~ get_stats(.x)),
+      stats = purrr::map(splits, \(.x) get_stats(.x)),
       junk = 1:11
     )
 
@@ -186,7 +186,7 @@ test_that("bad input", {
   bt_small <-
     bootstraps(dat, times = 10, apparent = TRUE) |>
     dplyr::mutate(
-      stats = purrr::map(splits, ~ get_stats(.x)),
+      stats = purrr::map(splits, \(.x) get_stats(.x)),
       junk = 1:11
     )
 
@@ -222,12 +222,12 @@ test_that("bad input", {
   set.seed(456765)
   bt_norm <- bootstraps(dat, times = 1000, apparent = TRUE) |>
     dplyr::mutate(
-      stats = purrr::map(splits, ~ get_stats(.x))
+      stats = purrr::map(splits, \(.x) get_stats(.x))
     )
 
   bad_bt_norm <-
     bt_norm |>
-    mutate(stats = purrr::map(stats, ~ .x[, 1:2]))
+    mutate(stats = purrr::map(stats, \(.x) .x[, 1:2]))
   expect_snapshot(error = TRUE, {
     int_t(bad_bt_norm, stats)
   })
@@ -265,14 +265,17 @@ test_that("bad input", {
     mutate(
       bad_term = purrr::map(
         stats,
-        ~ .x |> setNames(c("a", "estimate", "std.err"))
+        \(.x) .x |> setNames(c("a", "estimate", "std.err"))
       ),
-      bad_est = purrr::map(stats, ~ .x |> setNames(c("term", "b", "std.err"))),
+      bad_est = purrr::map(
+        stats,
+        \(.x) .x |> setNames(c("term", "b", "std.err"))
+      ),
       bad_err = purrr::map(
         stats,
-        ~ .x |> setNames(c("term", "estimate", "c"))
+        \(.x) .x |> setNames(c("term", "estimate", "c"))
       ),
-      bad_num = purrr::map(stats, ~ poo(.x))
+      bad_num = purrr::map(stats, \(.x) poo(.x))
     )
   expect_snapshot(error = TRUE, {
     int_pctl(badder_bt_norm, bad_term)
@@ -304,7 +307,7 @@ test_that("checks input for statistics", {
 
   rs_boot_missing_term <- rs_boot |>
     dplyr::mutate(
-      stats = purrr::map(1:11, ~ tibble(estimate = 1))
+      stats = purrr::map(1:11, \(.x) tibble(estimate = 1))
     )
   expect_snapshot(error = TRUE, {
     int_t(rs_boot_missing_term, stats)
@@ -312,7 +315,7 @@ test_that("checks input for statistics", {
 
   rs_boot_missing_estimate <- rs_boot |>
     dplyr::mutate(
-      stats = purrr::map(1:11, ~ tibble(term = 1))
+      stats = purrr::map(1:11, \(.x) tibble(term = 1))
     )
   expect_snapshot(error = TRUE, {
     int_t(rs_boot_missing_estimate, stats)
@@ -320,7 +323,7 @@ test_that("checks input for statistics", {
 
   rs_boot_missing_std_err <- rs_boot |>
     dplyr::mutate(
-      stats = purrr::map(1:11, ~ tibble(term = 1, estimate = 2))
+      stats = purrr::map(1:11, \(.x) tibble(term = 1, estimate = 2))
     )
   expect_snapshot(error = TRUE, {
     int_t(rs_boot_missing_std_err, stats)

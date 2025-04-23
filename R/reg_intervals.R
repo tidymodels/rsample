@@ -94,7 +94,7 @@ reg_intervals <-
         bt,
         models = purrr::map(
           splits,
-          ~ model_results(rsample::analysis(.x), fn_call, filter)
+          \(.x) model_results(rsample::analysis(.x), fn_call, filter)
         )
       )
     if (type == "student-t") {

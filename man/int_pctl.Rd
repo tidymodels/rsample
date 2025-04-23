@@ -128,7 +128,7 @@ lm_est <- function(split, ...) {
     tidyr::nest(.by = c(type)) |>
     # Compute regression estimates for each house type
     mutate(
-      betas = purrr::map(data, ~ lm(log10(price) ~ sqft, data = .x) |> tidy())
+      betas = purrr::map(data, \(.x) lm(log10(price) ~ sqft, data = .x) |> tidy())
     ) |>
     # Convert the column name to begin with a period
     rename(.type = type) |>

@@ -80,7 +80,7 @@ First, let's create a set of resamples and fit separate models to each. The opti
 set.seed(462)
 nlin_bt <-
   bootstraps(O2K, times = 2000, apparent = TRUE) |>
-  mutate(models = map(splits, ~ fit_fun(.x, start = start_vals)))
+  mutate(models = map(splits, \(.x) fit_fun(.x, start = start_vals)))
 nlin_bt
 
 nlin_bt$models[[1]]

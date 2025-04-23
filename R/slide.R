@@ -265,7 +265,7 @@ sliding_window <- function(
 
   splits <- purrr::map(
     indices,
-    ~ make_splits(.x, data = data, class = "sliding_window_split")
+    \(.x) make_splits(.x, data = data, class = "sliding_window_split")
   )
 
   ids <- names0(length(indices), prefix = "Slice")
@@ -353,7 +353,7 @@ sliding_index <- function(
 
   splits <- purrr::map(
     indices,
-    ~ make_splits(.x, data = data, class = "sliding_index_split")
+    \(.x) make_splits(.x, data = data, class = "sliding_index_split")
   )
 
   ids <- names0(length(indices), prefix = "Slice")
@@ -459,7 +459,7 @@ sliding_period <- function(
 
   splits <- purrr::map(
     indices,
-    ~ make_splits(.x, data = data, class = "sliding_period_split")
+    \(.x) make_splits(.x, data = data, class = "sliding_period_split")
   )
 
   ids <- names0(length(indices), prefix = "Slice")

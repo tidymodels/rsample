@@ -59,7 +59,7 @@ check_statistics <- function(x, std_col = FALSE, call = caller_env()) {
     list_cols <- names(x)[map_lgl(x, is_list)]
     x <- try(tidyr::unnest(x, cols = all_of(list_cols)), silent = TRUE)
   } else {
-    x <- try(map(x, ~.x) |> list_rbind(), silent = TRUE)
+    x <- try(map(x, \(.x) .x) |> list_rbind(), silent = TRUE)
   }
 
   if (inherits(x, "try-error")) {
@@ -282,7 +282,7 @@ pctl_single <- function(stats, alpha = 0.05) {
 #'     tidyr::nest(.by = c(type)) |>
 #'     # Compute regression estimates for each house type
 #'     mutate(
-#'       betas = purrr::map(data, ~ lm(log10(price) ~ sqft, data = .x) |> tidy())
+#'       betas = purrr::map(data, \(.x) lm(log10(price) ~ sqft, data = .x) |> tidy())
 #'     ) |>
 #'     # Convert the column name to begin with a period
 #'     rename(.type = type) |>
