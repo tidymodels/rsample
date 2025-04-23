@@ -112,7 +112,7 @@ Note that there are fewer dummy variables for `Neighborhood` and `House_Style` t
 Also, the above code using `prep()` benefits from the default argument of `retain = TRUE`, which keeps the processed version of the data set so that we don't have to reapply the steps to extract the processed values. For the data used to train the recipe, we would have used:
 
 ```{r juiced}
-bake(rec_training_set, new_data = NULL) |> head
+bake(rec_training_set, new_data = NULL) |> head()
 ```
 
 The next section will explore recipes and bootstrap resampling for modeling:
