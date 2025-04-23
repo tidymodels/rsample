@@ -8,7 +8,9 @@ output:
     toc: yes
 ---
 
-```{r ex_setup, include=FALSE}
+```{r}
+#| label: ex_setup
+#| include: false
 knitr::opts_chunk$set(
   message = FALSE,
   digits = 3,
@@ -19,7 +21,9 @@ knitr::opts_chunk$set(
 options(digits = 3, width = 90)
 ```
 
-```{r ggplot2_setup, include = FALSE}
+```{r}
+#| label: ggplot2_setup
+#| include: false
 library(ggplot2)
 theme_set(theme_bw())
 ```
@@ -35,7 +39,9 @@ Let's use the `attrition` data set. From its documentation:
 
 The data can be accessed using 
 
-```{r attrition, message=FALSE}
+```{r}
+#| label: attrition
+#| message: false
 library(rsample)
 data("attrition", package = "modeldata")
 names(attrition)
@@ -55,14 +61,18 @@ glm(Attrition ~ JobSatisfaction + Gender + MonthlyIncome,
 
 For convenience, we'll create a formula object that will be used later:
 
-```{r form, message=FALSE}
+```{r}
+#| label: form
+#| message: false
 mod_form <- as.formula(Attrition ~ JobSatisfaction + Gender + MonthlyIncome)
 ```
 
 To evaluate this model, we will use 10 repeats of 10-fold cross-validation and use the 100 holdout samples to evaluate the overall accuracy of the model. 
 
 First, let's make the splits of the data:
-```{r model_vfold, message=FALSE}
+```{r}
+#| label: model_vfold
+#| message: false
 library(rsample)
 set.seed(4622)
 rs_obj <- vfold_cv(attrition, v = 10, repeats = 10)
@@ -77,7 +87,8 @@ Now let's write a function that will, for each resample:
 
 Here is our function:
 
-```{r lm_func}
+```{r}
+#| label: lm_func
 ## splits will be the `rsplit` object with the 90/10 partition
 holdout_results <- function(splits, ...) {
   # Fit the model to the 90%
@@ -99,7 +110,9 @@ holdout_results <- function(splits, ...) {
 
 For example: 
 
-```{r onefold, warning = FALSE}
+```{r}
+#| label: onefold
+#| warning: false
 example <- holdout_results(rs_obj$splits[[1]],  mod_form)
 dim(example)
 dim(assessment(rs_obj$splits[[1]]))
@@ -111,7 +124,9 @@ For this model, the `.fitted` value is the linear predictor in log-odds units.
 
 To compute this data set for each of the 100 resamples, we'll use the `map()` function from the purrr package:
 
-```{r model_purrr, warning=FALSE}
+```{r}
+#| label: model_purrr
+#| warning: false
 library(purrr)
 rs_obj$results <- map(rs_obj$splits,
                       holdout_results,
@@ -121,7 +136,8 @@ rs_obj
 
 Now we can compute the accuracy values for all of the assessment data sets: 
 
-```{r model_acc}
+```{r}
+#| label: model_acc
 rs_obj$accuracy <- map_dbl(rs_obj$results, function(x) mean(x$correct))
 summary(rs_obj$accuracy)
 ```
@@ -134,7 +150,11 @@ Traditionally, the bootstrap has been primarily used to empirically determine th
 
 For example, are there differences in the median monthly income between genders? 
 
-```{r type_plot, fig.alt = "Two boxplots of monthly income separated by gender, showing a slight difference in median but largely overlapping boxes."}
+```{r}
+#| label: type_plot
+#| fig.alt: > 
+#|   Two boxplots of monthly income separated by gender, showing a slight
+#|   difference in median but largely overlapping boxes.
 ggplot(attrition, aes(x = Gender, y = MonthlyIncome)) + 
   geom_boxplot() + 
   scale_y_log10()
@@ -142,7 +162,8 @@ ggplot(attrition, aes(x = Gender, y = MonthlyIncome)) +
 
 If we wanted to compare the genders, we could conduct a _t_-test or rank-based test. Instead, let's use the bootstrap to see if there is a difference in the median incomes for the two groups. We need a simple function to compute this statistic on the resample:
 
-```{r mean_diff}
+```{r}
+#| label: mean_diff
 median_diff <- function(splits) {
   x <- analysis(splits)
   median(x$MonthlyIncome[x$Gender == "Female"]) - 
@@ -152,20 +173,26 @@ median_diff <- function(splits) {
 
 Now we would create a large number of bootstrap samples (say 2000+). For illustration, we'll only do 500 in this document. 
 
-```{r boot_mean_diff}
+```{r}
+#| label: boot_mean_diff
 set.seed(353)
 bt_resamples <- bootstraps(attrition, times = 500)
 ```
 
 This function is then computed across each resample:
 
-```{r stats}
+```{r}
+#| label: stats
 bt_resamples$wage_diff <- map_dbl(bt_resamples$splits, median_diff)
 ```
 
 The bootstrap distribution of this statistic has a slightly bimodal and skewed distribution:  
 
-```{r stats_plot, fig.alt = "The bootstrap distribution of the differences in median monthly income: it is slightly bimodal and left-skewed."}
+```{r}
+#| label: stats_plot
+#| fig.alt: > 
+#|   The bootstrap distribution of the differences in median monthly income:
+#|   it is slightly bimodal and left-skewed.
 ggplot(bt_resamples, aes(x = wage_diff)) + 
   geom_line(stat = "density", adjust = 1.25) + 
   xlab("Difference in Median Monthly Income (Female - Male)")
@@ -173,7 +200,8 @@ ggplot(bt_resamples, aes(x = wage_diff)) +
 
 The variation is considerable in this statistic. One method of computing a confidence interval is to take the percentiles of the bootstrap distribution. A 95% confidence interval for the difference in the means would be:
 
-```{r ci}
+```{r}
+#| label: ci
 quantile(bt_resamples$wage_diff, 
          probs = c(0.025, 0.975))
 ```
@@ -184,7 +212,8 @@ The calculated 95% confidence interval contains zero, so we don't have evidence 
 
 Unless there is already a column in the resample object that contains the fitted model, a function can be used to fit the model and save all of the model coefficients. The [broom package](https://cran.r-project.org/package=broom) package has a `tidy()` function that will save the coefficients in a data frame. Instead of returning a data frame with a row for each model term, we will save a data frame with a single row and columns for each model term. As before, `purrr::map()` can be used to estimate and save these values for each split.
 
-```{r coefs}
+```{r}
+#| label: coefs
 glm_coefs <- function(splits, ...) {
   ## use `analysis` or `as.data.frame` to get the analysis data
   mod <- glm(..., data = analysis(splits), family = binomial)
@@ -201,7 +230,8 @@ bt_resamples$betas[[1]]
 
 As previously mentioned, the [broom package](https://cran.r-project.org/package=broom) contains a class called `tidy` that created representations of objects that can be easily used for analysis, plotting, etc. rsample contains `tidy` methods for `rset` and `rsplit` objects. For example: 
 
-```{r tidy_rsplit}
+```{r}
+#| label: tidy_rsplit
 first_resample <- bt_resamples$splits[[1]]
 class(first_resample)
 tidy(first_resample)
@@ -209,7 +239,8 @@ tidy(first_resample)
 
 and
 
-```{r tidy_rset}
+```{r}
+#| label: tidy_rset
 class(bt_resamples)
 tidy(bt_resamples)
 ```

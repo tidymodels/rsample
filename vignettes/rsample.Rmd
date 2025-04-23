@@ -8,7 +8,9 @@ output:
     toc: yes
 ---
 
-```{r ex_setup, include=FALSE}
+```{r}
+#| label: ex_setup
+#| include: false
 knitr::opts_chunk$set(
   message = FALSE,
   digits = 3,
@@ -28,7 +30,9 @@ The main class in the package (`rset`) is for a _set_ or _collection_ of resampl
 
 Like [modelr](https://cran.r-project.org/package=modelr), the resamples are stored in data-frame-like `tibble` object. As a simple example, here is a small set of bootstraps of the `mtcars` data:
 
-```{r mtcars_bt, message=FALSE}
+```{r}
+#| label: mtcars_bt
+#| message: false
 library(rsample)
 set.seed(8584)
 bt_resamples <- bootstraps(mtcars, times = 3)
@@ -48,14 +52,16 @@ In this package we use the following terminology for the two partitions that com
 (Aside: While some might use the term "training" and "testing" for these data sets, we avoid them since those labels often conflict with the data that result from an initial partition of the data that is typically done _before_ resampling. The training/test split can be conducted using the `initial_split()` function in this package.)
 
 Let's look at one of the `rsplit` objects
-```{r rsplit}
+```{r}
+#| label: rsplit
 first_resample <- bt_resamples$splits[[1]]
 first_resample
 ```
 This indicates that there were `r dim(bt_resamples$splits[[1]])["analysis"]` data points in the analysis set, `r dim(bt_resamples$splits[[1]])["assessment"]` instances were in the assessment set, and that the original data contained `r dim(bt_resamples$splits[[1]])["n"]` data points. These results can also be determined using the `dim` function on an `rsplit` object. 
 
 To obtain either of these data sets from an `rsplit`, the `as.data.frame()` function can be used. By default, the analysis set is returned but the `data` option can be used to return the assessment data: 
-```{r rsplit_df}
+```{r}
+#| label: rsplit_df
 head(as.data.frame(first_resample))
 as.data.frame(first_resample, data = "assessment")
 ```
