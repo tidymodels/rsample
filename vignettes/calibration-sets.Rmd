@@ -25,7 +25,7 @@ We are adding post-processing to tidymodels. One possible post-processing operat
 
 Calibration is a transformation of the predictions from our primary model, based on a separate calibration model. That calibration model is used to model the relationship between the predictions based on the primary prediction model and the true outcomes.
 
-Crucial: To avoid overfitting, we cannot use the same data to fit our calibration model as we use to assess the combination of prediction and calibration model. Using the same data to fit the prediction model and the calibration model also risks overfitting the calibration model.
+Crucial: To avoid overfitting, we cannot use the same data to fit our calibration model as we use to assess the combination of prediction and calibration model. Using the same data to fit the prediction model and the calibration model means the predictions used to fit the calibration model are re-predictions of the same observations used to fit the prediction model. Hence they are closer to the true values than predictions on new data would be and the calibration model doesn't have accurate information to estimate the right trends (so that they then can be removed).
 
 rsample provides a collection of functions to make resamples for empirical validation of prediction models. So far, the assumption was that the prediction model is the only model that needs fitting, i.e., a resample consists of an analysis set and an assessment set.
 
@@ -39,7 +39,9 @@ If you compare a model with calibration to one without, and you use the same res
 
 "Taking data from the analysis set" means splitting up the analysis set to end up with ... an analysis set and a calibration set. Now we have two sets call analysis set, that's confusing. If we need to distinguish them, we'll refer to them as "outer" and "inner" analysis set for "before" and "after" the split for a calibration set.
 
-It is important to note that including calibration requires more data than fitting a workflow without calibration. For small datasets, you might run into situations where fitting either model (prediction model or calibration model) is not particularly stable - or you might not even be able to construct a calibration set properly. 
+![](images/analysis-calibration-assessment.jpg)
+
+It is important to note that including calibration requires more data than fitting a workflow without calibration. For small datasets, you might run into situations where fitting either model (prediction model or calibration model) is not particularly stable - or you might not even be able to construct a calibration set properly. In this case, our policy is to avoid erroring. We would treat this situation as if no calibration model was used.
 
 But how is the (outer) analysis set split if we need a calibration set?
 
@@ -67,10 +69,12 @@ set.seed(11)
 r_set <- vfold_cv(warpbreaks, v = 5)
 r_split <- get_rsplit(r_set, 1)
 r_split
+# proportion of observations allocated for fitting the model in the outer split
 nrow(analysis(r_split)) / nrow(warpbreaks)
 
 i_split <- inner_split(r_split, .get_split_args(r_set))
 i_split
+# similar proportion of observations allocated for fitting the model in the inner split
 nrow(analysis(i_split)) / nrow(analysis(r_split))
 ```
 
@@ -116,13 +120,16 @@ lookback <- 4
 assess_start <- 3
 assess_stop <- 5
 
+# absolute sizes in the  outer split
 length_window <- lookback + 1 + assess_stop
 length_analysis_outer <- lookback + 1
 length_assess <- assess_stop - assess_start + 1
 
+# relative sizes
 prop_analysis <- length_analysis_outer / length_window
 prop_assess <- length_assess / length_window
 
+# absolute sizes in the inner split
 length_analysis_inner <- ceiling(prop_analysis * length_analysis_outer)
 length_calibration <- ceiling(prop_assess * length_analysis_outer)
 
@@ -168,7 +175,9 @@ This is the basic principle.
 
 Apart from the arguments to define the look forwards and backwards, `sliding_window()`has a few more options: `step`, `skip`, `complete`. `step` and `skip` apply on the level of resamples, so we are not applying them to the (inner) split.  With `complete = FALSE`, `sliding_window()` allows you to create incomplete analysis sets (but not assessment sets).
 
-TODO add diagram?
+![](images/incomplete-window.jpg)
+
+Or, in code:
 
 ```{r}
 #| label: sliding_window_incomplete
