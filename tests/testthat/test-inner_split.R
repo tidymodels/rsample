@@ -313,3 +313,290 @@ test_that("apparent_split", {
     analysis(r_split)
   )
 })
+
+
+# slide ------------------------------------------------------------------
+
+test_that("sliding_window_split", {
+  df <- data.frame(x = 1:10)
+  r_set <- sliding_window(df, lookback = 4, assess_start = 3, assess_stop = 5)
+
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  isplit <- inner_split(r_split, split_args)
+
+  expect_identical(
+    isplit$in_id,
+    1:3
+  )
+  expect_identical(
+    isplit$out_id,
+    4:5
+  )
+
+  expect_identical(
+    isplit$data,
+    analysis(r_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, , drop = FALSE],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, , drop = FALSE],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("sliding_window_split needs at least 2 observations", {
+  df <- data.frame(x = 1:10)
+  r_set <- sliding_window(df, lookback = 0)
+
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot(error = TRUE, {
+    inner_split(r_split, split_args)
+  })
+})
+
+test_that("sliding_window_split with incomplete sets", {
+  df <- data.frame(x = 1:10)
+  r_set <- sliding_window(
+    df,
+    lookback = 4,
+    assess_start = 3,
+    assess_stop = 5,
+    complete = FALSE
+  )
+
+  split_args <- .get_split_args(r_set)
+
+  # not enough observations for a full calibration set and (inner) analysis set
+  r_split <- get_rsplit(r_set, 2)
+  expect_snapshot(error = TRUE, {
+    inner_split(r_split, split_args)
+  })
+
+  r_split <- get_rsplit(r_set, 3)
+  isplit <- inner_split(r_split, split_args)
+
+  expect_identical(
+    isplit$in_id,
+    1L
+  )
+  expect_identical(
+    isplit$out_id,
+    2:3
+  )
+
+  expect_identical(
+    isplit$data,
+    analysis(r_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, , drop = FALSE],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, , drop = FALSE],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("sliding_index_split", {
+  df <- data.frame(x = 1:10)
+  r_set <- sliding_index(df, x, lookback = 4, assess_start = 3, assess_stop = 5)
+
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  isplit <- inner_split(r_split, split_args)
+
+  expect_identical(
+    isplit$in_id,
+    1:3
+  )
+  expect_identical(
+    isplit$out_id,
+    4:5
+  )
+
+  expect_identical(
+    isplit$data,
+    analysis(r_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, , drop = FALSE],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, , drop = FALSE],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("sliding_index_split can lookback over irregular index", {
+  df <- data.frame(x = c(1, 3, 4, 5, 6:10))
+  r_set <- sliding_index(df, x, lookback = 4, assess_start = 3, assess_stop = 5)
+
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  isplit <- inner_split(r_split, split_args)
+
+  expect_identical(
+    isplit$in_id,
+    1:2
+  )
+  expect_identical(
+    isplit$out_id,
+    3:4
+  )
+})
+
+test_that("sliding_index_split can make calibration set relative to irregular index", {
+  df <- data.frame(x = c(1:7, 9:20))
+  r_set <- sliding_index(
+    df,
+    x,
+    lookback = 9,
+    assess_start = 3,
+    assess_stop = 10
+  )
+
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  isplit <- inner_split(r_split, split_args)
+
+  expect_identical(
+    isplit$in_id,
+    1:5
+  )
+  expect_identical(
+    isplit$out_id,
+    7:9
+  )
+})
+
+test_that("sliding_index_split needs at least 2 observations", {
+  df <- data.frame(x = 1:10)
+  r_set <- sliding_index(df, x, lookback = 0)
+
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot(error = TRUE, {
+    inner_split(r_split, split_args)
+  })
+})
+
+test_that("sliding_index_split with incomplete sets", {
+  df <- data.frame(x = 1:10)
+  r_set <- sliding_index(
+    df,
+    x,
+    lookback = 4,
+    assess_start = 3,
+    assess_stop = 5,
+    complete = FALSE
+  )
+
+  split_args <- .get_split_args(r_set)
+
+  # not enough observations for a full calibration set and (inner) analysis set
+  r_split <- get_rsplit(r_set, 2)
+  expect_snapshot(error = TRUE, {
+    inner_split(r_split, split_args)
+  })
+
+  r_split <- get_rsplit(r_set, 3)
+  isplit <- inner_split(r_split, split_args)
+
+  expect_identical(
+    isplit$in_id,
+    1L
+  )
+  expect_identical(
+    isplit$out_id,
+    2:3
+  )
+
+  expect_identical(
+    isplit$data,
+    analysis(r_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, , drop = FALSE],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, , drop = FALSE],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("sliding_period_split", {
+  index <- vctrs::new_date(c(-18, -14, -2, 0, 1, 3:10, 31))
+  df <- data.frame(index = index)
+
+  r_set <- sliding_period(df, index, period = "month", lookback = 1)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  i_split <- inner_split(r_split, split_args)
+
+  expect_identical(
+    i_split$in_id,
+    1:3
+  )
+  expect_identical(
+    i_split$out_id,
+    4:13
+  )
+
+  expect_identical(
+    i_split$data,
+    analysis(r_split)
+  )
+
+  expect_identical(
+    analysis(i_split),
+    i_split$data[i_split$in_id, , drop = FALSE],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(i_split),
+    i_split$data[i_split$out_id, , drop = FALSE],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("sliding_period_split when looking back over multiple periods, only complete ones are used", {
+  index <- vctrs::new_date(c(-32, -1, 0, 1, 31))
+  df <- data.frame(index = index)
+
+  r_set <- sliding_period(df, index, period = "month", lookback = 1)
+
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  i_split <- inner_split(r_split, split_args)
+
+  expect_identical(i_split$in_id, 1L)
+  expect_identical(i_split$out_id, 2L)
+})

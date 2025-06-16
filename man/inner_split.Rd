@@ -13,6 +13,9 @@
 \alias{inner_split.time_val_split}
 \alias{inner_split.clustering_split}
 \alias{inner_split.apparent_split}
+\alias{inner_split.sliding_window_split}
+\alias{inner_split.sliding_index_split}
+\alias{inner_split.sliding_period_split}
 \title{Inner split of the analysis set for fitting a post-processor}
 \usage{
 inner_split(x, ...)
@@ -38,6 +41,12 @@ inner_split(x, ...)
 \method{inner_split}{clustering_split}(x, split_args, ...)
 
 \method{inner_split}{apparent_split}(x, ...)
+
+\method{inner_split}{sliding_window_split}(x, split_args, ...)
+
+\method{inner_split}{sliding_index_split}(x, split_args, ...)
+
+\method{inner_split}{sliding_period_split}(x, split_args, ...)
 }
 \arguments{
 \item{x}{An \code{rsplit} object.}

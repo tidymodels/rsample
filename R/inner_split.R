@@ -287,3 +287,281 @@ inner_split.apparent_split <- function(x, ...) {
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
+
+
+# slide ------------------------------------------------------------------
+
+#' @rdname inner_split
+#' @export
+inner_split.sliding_window_split <- function(x, split_args, ...) {
+  check_dots_empty()
+
+  analysis_set <- analysis(x)
+
+  if (nrow(analysis_set) < 2) {
+    # TODO this should return an empty split with a warning
+    cli::cli_abort(
+      "This set cannot be split into an analysis and a calibration set as there 
+      is only one row."
+    )
+  }
+
+  split_args_inner <- translate_window_definition(
+    split_args$lookback,
+    split_args$assess_start,
+    split_args$assess_stop
+  )
+
+  lookback <- split_args_inner$lookback
+  assess_start <- split_args_inner$assess_start
+  assess_stop <- split_args_inner$assess_stop
+
+  lookback <- check_lookback(lookback)
+  assess_start <- check_assess(assess_start, "assess_start")
+  assess_stop <- check_assess(assess_stop, "assess_stop")
+  if (assess_start > assess_stop) {
+    cli_abort(
+      "{.arg assess_start} must be less than or equal to {.arg assess_stop}."
+    )
+  }
+
+  seq <- vctrs::vec_seq_along(analysis_set)
+
+  id_in <- slider::slide(
+    .x = seq,
+    .f = identity,
+    .before = lookback,
+    .after = 0L,
+    .step = 1L,
+    .complete = split_args$complete
+  )
+
+  id_out <- slider::slide(
+    .x = seq,
+    .f = identity,
+    .before = -assess_start,
+    .after = assess_stop,
+    .step = 1L,
+    .complete = TRUE
+  )
+
+  indices <- compute_complete_indices(id_in, id_out)
+
+  if (length(indices) < 1) {
+    # TODO should return an empty split with a warning
+    cli::cli_abort("No calibration split possible.")
+  }
+
+  # no need to use skip and step args since they don't apply to _within_ an rsplit
+
+  splits <- purrr::map(
+    indices,
+    ~ make_splits(.x, data = analysis_set, class = "sliding_window_split")
+  )
+  split_inner <- splits[[length(splits)]]
+
+  class_inner <- "sliding_window_split_inner"
+  split_inner <- add_class(split_inner, class_inner)
+  split_inner
+}
+
+#' @rdname inner_split
+#' @export
+inner_split.sliding_index_split <- function(x, split_args, ...) {
+  check_dots_empty()
+
+  analysis_set <- analysis(x)
+
+  if (nrow(analysis_set) < 2) {
+    # TODO this should return an empty split with a warning
+    cli::cli_abort(
+      "This set cannot be split into an analysis and a calibration set as there
+      is only one row."
+    )
+  }
+
+  split_args_inner <- translate_window_definition(
+    split_args$lookback,
+    split_args$assess_start,
+    split_args$assess_stop
+  )
+
+  lookback <- split_args_inner$lookback
+  assess_start <- split_args_inner$assess_start
+  assess_stop <- split_args_inner$assess_stop
+
+  lookback <- check_lookback(lookback)
+  assess_start <- check_assess(assess_start, "assess_start")
+  assess_stop <- check_assess(assess_stop, "assess_stop")
+  if (assess_start > assess_stop) {
+    cli_abort(
+      "{.arg assess_start} must be less than or equal to {.arg assess_stop}."
+    )
+  }
+
+  loc <- tidyselect::eval_select(split_args$index, analysis_set)
+
+  ## covered by eval_select()
+  # if (length(loc) < 1L) {
+  #   cli_abort("The analysis set is missing the {.arg index} column.")
+  # }
+
+  index <- analysis_set[[loc]]
+
+  seq <- vctrs::vec_seq_along(analysis_set)
+
+  id_in <- slider::slide_index(
+    .x = seq,
+    .i = index,
+    .f = identity,
+    .before = lookback,
+    .after = 0L,
+    .complete = split_args$complete
+  )
+
+  id_out <- slider::slide_index(
+    .x = seq,
+    .i = index,
+    .f = identity,
+    .before = -assess_start,
+    .after = assess_stop,
+    .complete = TRUE
+  )
+
+  indices <- compute_complete_indices(id_in, id_out)
+
+  if (length(indices) < 1) {
+    # TODO this should return an empty split with a warning
+    cli::cli_abort("No calibration split possible.")
+  }
+
+  # no need to use skip and step args since they don't apply to _within_ an rsplit
+
+  splits <- purrr::map(
+    indices,
+    ~ make_splits(.x, data = analysis_set, class = "sliding_index_split")
+  )
+  split_inner <- splits[[length(splits)]]
+
+  class_inner <- "sliding_index_split_inner"
+  split_inner <- add_class(split_inner, class_inner)
+  split_inner
+}
+
+#' @rdname inner_split
+#' @export
+inner_split.sliding_period_split <- function(x, split_args, ...) {
+  check_dots_empty()
+
+  analysis_set <- analysis(x)
+
+  if (nrow(analysis_set) < 2) {
+    # TODO this should return an empty split with a warning
+    cli::cli_abort(
+      "This set cannot be split into an analysis and a calibration set as there
+      is only one row."
+    )
+  }
+
+  split_args_inner <- translate_window_definition(
+    split_args$lookback,
+    split_args$assess_start,
+    split_args$assess_stop
+  )
+
+  lookback <- split_args_inner$lookback
+  assess_start <- split_args_inner$assess_start
+  assess_stop <- split_args_inner$assess_stop
+
+  lookback <- check_lookback(lookback)
+  assess_start <- check_assess(assess_start, "assess_start")
+  assess_stop <- check_assess(assess_stop, "assess_stop")
+  if (assess_start > assess_stop) {
+    cli_abort(
+      "{.arg assess_start} must be less than or equal to {.arg assess_stop}."
+    )
+  }
+
+  loc <- tidyselect::eval_select(split_args$index, analysis_set)
+
+  # now handled by tidyselect::eval_select()
+  # if (length(loc) < 1L) {
+  #   cli_abort("The analysis set is missing the {.arg index} column.")
+  # }
+
+  index <- analysis_set[[loc]]
+
+  seq <- vctrs::vec_seq_along(analysis_set)
+
+  id_in <- slider::slide_period(
+    .x = seq,
+    .i = index,
+    .period = split_args$period,
+    .f = identity,
+    .every = split_args$every,
+    .origin = split_args$origin,
+    .before = lookback,
+    .after = 0L,
+    .complete = split_args$complete
+  )
+
+  id_out <- slider::slide_period(
+    .x = seq,
+    .i = index,
+    .period = split_args$period,
+    .f = identity,
+    .every = split_args$every,
+    .origin = split_args$origin,
+    .before = -assess_start,
+    .after = assess_stop,
+    .complete = TRUE
+  )
+
+  indices <- compute_complete_indices(id_in, id_out)
+
+  if (length(indices) < 1) {
+    # TODO this should return an empty split with a warning
+    cli::cli_abort("No calibration split possible.")
+  }
+
+  # no need to use skip and step args since they don't apply to _within_ an rsplit
+
+  splits <- purrr::map(
+    indices,
+    ~ make_splits(.x, data = analysis_set, class = "sliding_period_split")
+  )
+  split_inner <- splits[[length(splits)]]
+
+  class_inner <- "sliding_period_split_inner"
+  split_inner <- add_class(split_inner, class_inner)
+  split_inner
+}
+
+translate_window_definition <- function(lookback, assess_start, assess_stop) {
+  length_window <- lookback + 1 + assess_stop
+  length_analysis <- lookback + 1
+
+  prop_analysis <- length_analysis / length_window
+  prop_assess <- (assess_stop - assess_start + 1) /
+    length_window
+
+  length_inner_analysis <- ceiling(prop_analysis * length_analysis)
+  length_calibration <- ceiling(prop_assess * length_analysis)
+  if (length_inner_analysis + length_calibration > length_analysis) {
+    if (length_calibration > 1) {
+      length_calibration <- length_calibration - 1
+    } else {
+      length_inner_analysis <- length_inner_analysis - 1
+    }
+  }
+
+  lookback <- length_inner_analysis - 1
+  assess_stop <- length_analysis - length_inner_analysis
+  assess_start <- assess_stop - length_calibration + 1
+
+  list(
+    lookback = lookback,
+    assess_start = assess_start,
+    assess_stop = assess_stop
+  )
+}
