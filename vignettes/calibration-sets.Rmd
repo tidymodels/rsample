@@ -329,3 +329,41 @@ The principle of how to contruct a calibration split on the (outer) analysis set
 
 For `lookback = 0`, we remain unable to make a calibration split. However, it is possible to choose a smaller period when defining the resamples, e.g., using weeks instead of months when aggregating daily data. In that case, the calibration split is also defined in terms of weeks, rather than failing to split a single month on the scale of months.
 
+Now that we've looked at the principles at play here on very small datasets, let's look at a dataset with a sufficient amount of observations to consider using calibration. The `Chicago` dataset has daily ridership numbers for over 15 years. Here we are constructing resamples which use 2 weeks worth of data for the assessment set, and roughly 15 years (52*15 weeks) for the analysis set. That's enough to use some of those observations for a calibration set!
+
+```{r}
+#| label: chicago
+
+data(Chicago, package = "modeldata")
+
+chicago_split <- initial_time_split(Chicago, prop = 1 - (14/nrow(Chicago)))
+chicago_train <- training(chicago_split)
+
+chicago_r_set <- sliding_period(
+  chicago_train,
+  index = "date",  
+  period = "week",
+  lookback = 52 * 15,
+  assess_stop = 2,
+  step = 2
+)
+chicago_r_set
+```
+
+Taking the first resample, we can see the two weeks for the assessment set.
+```{r}
+#| label: chicago_rsplit
+
+chicago_r_split <- get_rsplit(chicago_r_set, 1)
+chicago_assess <- assessment(chicago_r_split)
+range(chicago_assess$date)
+```
+
+The calibration set consists of one week from the (outer) analysis set. 
+```{r}
+#| label: chicago_isplit
+
+i_split <- inner_split(chicago_r_split, .get_split_args(chicago_r_set))
+chicago_cal <- assessment(i_split)
+range(chicago_cal$date)
+```
