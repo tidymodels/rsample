@@ -39,7 +39,14 @@ If you compare a model with calibration to one without, and you use the same res
 
 "Taking data from the analysis set" means splitting up the analysis set to end up with ... an analysis set and a calibration set. Now we have two sets call analysis set, that's confusing. If we need to distinguish them, we'll refer to them as "outer" and "inner" analysis set for "before" and "after" the split for a calibration set.
 
-![](images/analysis-calibration-assessment.jpg)
+
+```{r}
+#| label: calibration
+#| echo: false
+#| out.height: 350
+#| fig.align: "center"
+knitr::include_graphics("images/analysis-calibration-assessment.jpg")
+```
 
 It is important to note that including calibration requires more data than fitting a workflow without calibration. For small datasets, you might run into situations where fitting either model (prediction model or calibration model) is not particularly stable - or you might not even be able to construct a calibration set properly. In this case, our policy is to avoid erroring. We would treat this situation as if no calibration model was used.
 
