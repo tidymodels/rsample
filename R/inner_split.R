@@ -299,7 +299,6 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
 
   if (nrow(analysis_set) < 2) {
-    # TODO this should return an empty split with a warning
     cli::cli_abort(
       "This set cannot be split into an analysis and a calibration set as there 
       is only one row."
@@ -348,7 +347,6 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
   indices <- compute_complete_indices(id_in, id_out)
 
   if (length(indices) < 1) {
-    # TODO should return an empty split with a warning
     cli::cli_abort("No calibration split possible.")
   }
 
@@ -373,7 +371,6 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
 
   if (nrow(analysis_set) < 2) {
-    # TODO this should return an empty split with a warning
     cli::cli_abort(
       "This set cannot be split into an analysis and a calibration set as there
       is only one row."
@@ -425,7 +422,6 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
   indices <- compute_complete_indices(id_in, id_out)
 
   if (length(indices) < 1) {
-    # TODO this should return an empty split with a warning
     cli::cli_abort("No calibration split possible.")
   }
 
@@ -508,7 +504,6 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
   indices <- compute_complete_indices(id_in, id_out)
 
   if (length(indices) < 1) {
-    # TODO this should return an empty split with a warning
     cli::cli_abort("No calibration split possible.")
   }
 
