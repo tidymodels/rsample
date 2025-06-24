@@ -400,12 +400,6 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
   }
 
   loc <- tidyselect::eval_select(split_args$index, analysis_set)
-
-  ## covered by eval_select()
-  # if (length(loc) < 1L) {
-  #   cli_abort("The analysis set is missing the {.arg index} column.")
-  # }
-
   index <- analysis_set[[loc]]
 
   seq <- vctrs::vec_seq_along(analysis_set)
@@ -483,12 +477,6 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
   }
 
   loc <- tidyselect::eval_select(split_args$index, analysis_set)
-
-  # now handled by tidyselect::eval_select()
-  # if (length(loc) < 1L) {
-  #   cli_abort("The analysis set is missing the {.arg index} column.")
-  # }
-
   index <- analysis_set[[loc]]
 
   seq <- vctrs::vec_seq_along(analysis_set)
