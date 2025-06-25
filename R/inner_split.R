@@ -315,15 +315,6 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
   assess_start <- split_args_inner$assess_start
   assess_stop <- split_args_inner$assess_stop
 
-  lookback <- check_lookback(lookback)
-  assess_start <- check_assess(assess_start, "assess_start")
-  assess_stop <- check_assess(assess_stop, "assess_stop")
-  if (assess_start > assess_stop) {
-    cli_abort(
-      "{.arg assess_start} must be less than or equal to {.arg assess_stop}."
-    )
-  }
-
   seq <- vctrs::vec_seq_along(analysis_set)
 
   id_in <- slider::slide(
@@ -352,11 +343,12 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
 
   # no need to use skip and step args since they don't apply to _within_ an rsplit
 
-  splits <- purrr::map(
+  indices <- indices[[length(indices)]]
+  split_inner <- make_splits(
     indices,
-    ~ make_splits(.x, data = analysis_set, class = "sliding_window_split")
+    data = analysis_set,
+    class = "sliding_window_split"
   )
-  split_inner <- splits[[length(splits)]]
 
   class_inner <- "sliding_window_split_inner"
   split_inner <- add_class(split_inner, class_inner)
@@ -386,15 +378,6 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
   lookback <- split_args_inner$lookback
   assess_start <- split_args_inner$assess_start
   assess_stop <- split_args_inner$assess_stop
-
-  lookback <- check_lookback(lookback)
-  assess_start <- check_assess(assess_start, "assess_start")
-  assess_stop <- check_assess(assess_stop, "assess_stop")
-  if (assess_start > assess_stop) {
-    cli_abort(
-      "{.arg assess_start} must be less than or equal to {.arg assess_stop}."
-    )
-  }
 
   loc <- tidyselect::eval_select(split_args$index, analysis_set)
   index <- analysis_set[[loc]]
@@ -426,12 +409,12 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
   }
 
   # no need to use skip and step args since they don't apply to _within_ an rsplit
-
-  splits <- purrr::map(
+  indices <- indices[[length(indices)]]
+  split_inner <- make_splits(
     indices,
-    ~ make_splits(.x, data = analysis_set, class = "sliding_index_split")
+    data = analysis_set,
+    class = "sliding_index_split"
   )
-  split_inner <- splits[[length(splits)]]
 
   class_inner <- "sliding_index_split_inner"
   split_inner <- add_class(split_inner, class_inner)
@@ -462,15 +445,6 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
   lookback <- split_args_inner$lookback
   assess_start <- split_args_inner$assess_start
   assess_stop <- split_args_inner$assess_stop
-
-  lookback <- check_lookback(lookback)
-  assess_start <- check_assess(assess_start, "assess_start")
-  assess_stop <- check_assess(assess_stop, "assess_stop")
-  if (assess_start > assess_stop) {
-    cli_abort(
-      "{.arg assess_start} must be less than or equal to {.arg assess_stop}."
-    )
-  }
 
   loc <- tidyselect::eval_select(split_args$index, analysis_set)
   index <- analysis_set[[loc]]
@@ -509,11 +483,12 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
 
   # no need to use skip and step args since they don't apply to _within_ an rsplit
 
-  splits <- purrr::map(
+  indices <- indices[[length(indices)]]
+  split_inner <- make_splits(
     indices,
-    ~ make_splits(.x, data = analysis_set, class = "sliding_period_split")
+    data = analysis_set,
+    class = "sliding_period_split"
   )
-  split_inner <- splits[[length(splits)]]
 
   class_inner <- "sliding_period_split_inner"
   split_inner <- add_class(split_inner, class_inner)
@@ -541,6 +516,15 @@ translate_window_definition <- function(lookback, assess_start, assess_stop) {
   lookback <- length_inner_analysis - 1
   assess_stop <- length_analysis - length_inner_analysis
   assess_start <- assess_stop - length_calibration + 1
+
+  lookback <- check_lookback(lookback)
+  assess_start <- check_assess(assess_start, "assess_start")
+  assess_stop <- check_assess(assess_stop, "assess_stop")
+  if (assess_start > assess_stop) {
+    cli_abort(
+      "{.arg assess_start} must be less than or equal to {.arg assess_stop}."
+    )
+  }
 
   list(
     lookback = lookback,
