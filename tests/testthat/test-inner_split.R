@@ -600,3 +600,71 @@ test_that("sliding_period_split when looking back over multiple periods, only co
   expect_identical(i_split$in_id, 1L)
   expect_identical(i_split$out_id, 2L)
 })
+
+# initial split ----------------------------------------------------------
+
+test_that("initial_split", {
+  set.seed(11)
+  car_split <- initial_split(mtcars)
+  isplit <- inner_split(car_split, .get_split_args(car_split))
+
+  expect_identical(
+    isplit$data,
+    training(car_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, ],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, ],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("group_initial_split", {
+  set.seed(11)
+  car_split <- group_initial_split(mtcars, cyl)
+  isplit <- inner_split(car_split, .get_split_args(car_split))
+
+  expect_identical(
+    isplit$data,
+    training(car_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, ],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, ],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("initial_time_split", {
+  set.seed(11)
+  car_split <- initial_time_split(mtcars)
+  isplit <- inner_split(car_split, .get_split_args(car_split))
+
+  expect_identical(
+    isplit$data,
+    training(car_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, ],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, ],
+    ignore_attr = "row.names"
+  )
+})
