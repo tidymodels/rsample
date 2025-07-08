@@ -532,3 +532,22 @@ translate_window_definition <- function(lookback, assess_start, assess_stop) {
     assess_stop = assess_stop
   )
 }
+
+
+# initial split ----------------------------------------------------------
+
+#' @rdname inner_split
+#' @export
+inner_split.initial_time_split <- function(x, split_args, ...) {
+  check_dots_empty()
+
+  analysis_set <- analysis(x)
+
+  split_inner <- rlang::inject(
+    initial_time_split(analysis_set, !!!split_args)
+  )
+
+  class_inner <- "initial_time_split_inner"
+  class(split_inner) <- c(class_inner, class(x))
+  split_inner
+}
