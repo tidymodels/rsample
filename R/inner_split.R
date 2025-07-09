@@ -551,3 +551,67 @@ inner_split.initial_time_split <- function(x, split_args, ...) {
   class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
+
+
+# initial validation split -----------------------------------------------
+
+#' @rdname inner_split
+#' @export
+inner_split.initial_validation_split <- function(x, split_args, ...) {
+  check_dots_empty()
+
+  training_set <- training(x)
+
+  split_args$prop <- split_args$prop[1] / sum(split_args$prop)
+  split_args$times <- 1
+  split_inner <- rlang::inject(
+    mc_splits(training_set, !!!split_args)
+  )
+  split_inner <- split_inner$splits[[1]]
+
+  class_inner <- "initial_validation_split_inner"
+  class(split_inner) <- c(class_inner, class(split_inner))
+  split_inner
+}
+
+#' @rdname inner_split
+#' @export
+inner_split.group_initial_validation_split <- function(x, split_args, ...) {
+  check_dots_empty()
+
+  training_set <- training(x)
+
+  split_args$prop <- split_args$prop[1] / sum(split_args$prop)
+  split_args$times <- 1
+  split_inner <- rlang::inject(
+    group_mc_splits(training_set, !!!split_args)
+  )
+  split_inner <- split_inner$splits[[1]]
+
+  class_inner <- "group_initial_validation_split_inner"
+  class(split_inner) <- c(class_inner, class(split_inner))
+  split_inner
+}
+
+#' @rdname inner_split
+#' @export
+inner_split.initial_validation_time_split <- function(x, split_args, ...) {
+  check_dots_empty()
+
+  training_set <- training(x)
+
+  prop_analysis <- split_args$prop[1] / sum(split_args$prop)
+  n_analysis <- floor(nrow(training_set) * prop_analysis)
+
+  analysis_id <- seq.int(1, n_analysis, by = 1)
+  cal_id <- seq.int(n_analysis + 1, nrow(training_set), by = 1)
+
+  split_inner <- make_splits(
+    list(analysis = analysis_id, assessment = cal_id),
+    data = training_set
+  )
+
+  class_inner <- "initial_validation_time_split_inner"
+  class(split_inner) <- c(class_inner, class(split_inner))
+  split_inner
+}

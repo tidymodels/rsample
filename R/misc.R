@@ -149,7 +149,12 @@ split_unnamed <- function(x, f) {
     all_attributes$class[[1]]
   )
   args <- names(formals(function_used_to_create))
-  split_args <- all_attributes[args]
+
+  if ("initial_validation_split" %in% all_attributes$class) {
+    split_args <- all_attributes$val_att
+  } else {
+    split_args <- all_attributes[args]
+  }
   split_args <- split_args[!is.na(names(split_args))]
 
   if (identical(split_args$strata, FALSE) && !allow_strata_false) {
