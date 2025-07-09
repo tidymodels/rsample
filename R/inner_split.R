@@ -603,11 +603,11 @@ inner_split.initial_validation_time_split <- function(x, split_args, ...) {
   prop_analysis <- split_args$prop[1] / sum(split_args$prop)
   n_analysis <- floor(nrow(training_set) * prop_analysis)
 
-  analysis_id <- seq.int(1, n_analysis, by = 1)
-  cal_id <- seq.int(n_analysis + 1, nrow(training_set), by = 1)
+  analysis_id <- seq(1, n_analysis, by = 1)
+  cal_id <- seq(n_analysis + 1, nrow(training_set), by = 1)
 
   split_inner <- make_splits(
-    list(analysis = analysis_id, assessment = cal_id),
+    list(analysis = as.integer(analysis_id), assessment = as.integer(cal_id)),
     data = training_set
   )
 
