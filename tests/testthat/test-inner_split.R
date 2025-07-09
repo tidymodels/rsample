@@ -668,3 +668,78 @@ test_that("initial_time_split", {
     ignore_attr = "row.names"
   )
 })
+
+
+# initial validation split -----------------------------------------------
+
+test_that("initial_validation_split", {
+  set.seed(11)
+  car_split <- initial_validation_split(mtcars)
+  isplit <- inner_split(car_split, .get_split_args(car_split))
+
+  expect_identical(
+    isplit$data,
+    training(car_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, ],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, ],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("group_initial_validation_split", {
+  skip_if_not_installed("modeldata")
+  data(ames, package = "modeldata", envir = rlang::current_env())
+
+  set.seed(12)
+  ames_split <- group_initial_validation_split(ames, group = Neighborhood)
+  isplit <- inner_split(ames_split, .get_split_args(ames_split))
+
+  expect_identical(
+    isplit$data,
+    training(ames_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, ],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, ],
+    ignore_attr = "row.names"
+  )
+})
+
+test_that("initial_validation_time_split", {
+  skip_if_not_installed("modeldata")
+  data(drinks, package = "modeldata", envir = rlang::current_env())
+
+  set.seed(12)
+  drinks_split <- initial_validation_time_split(drinks)
+  isplit <- inner_split(drinks_split, .get_split_args(drinks_split))
+
+  expect_identical(
+    isplit$data,
+    training(drinks_split)
+  )
+
+  expect_identical(
+    analysis(isplit),
+    isplit$data[isplit$in_id, ],
+    ignore_attr = "row.names"
+  )
+  expect_identical(
+    assessment(isplit),
+    isplit$data[isplit$out_id, ],
+    ignore_attr = "row.names"
+  )
+})

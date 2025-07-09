@@ -17,6 +17,9 @@
 \alias{inner_split.sliding_index_split}
 \alias{inner_split.sliding_period_split}
 \alias{inner_split.initial_time_split}
+\alias{inner_split.initial_validation_split}
+\alias{inner_split.group_initial_validation_split}
+\alias{inner_split.initial_validation_time_split}
 \title{Inner split of the analysis set for fitting a post-processor}
 \usage{
 inner_split(x, ...)
@@ -50,6 +53,12 @@ inner_split(x, ...)
 \method{inner_split}{sliding_period_split}(x, split_args, ...)
 
 \method{inner_split}{initial_time_split}(x, split_args, ...)
+
+\method{inner_split}{initial_validation_split}(x, split_args, ...)
+
+\method{inner_split}{group_initial_validation_split}(x, split_args, ...)
+
+\method{inner_split}{initial_validation_time_split}(x, split_args, ...)
 }
 \arguments{
 \item{x}{An \code{rsplit} object.}
