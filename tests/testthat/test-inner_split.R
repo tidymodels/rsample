@@ -743,3 +743,16 @@ test_that("initial_validation_time_split", {
     ignore_attr = "row.names"
   )
 })
+
+# mock split -------------------------------------------------------------
+
+test_that("can create a mock split", {
+  mock_split <- mock_internal_calibration_split(mtcars)
+  mock_analysis <- analysis(mock_split)
+  mock_calibration <- assessment(mock_split)
+
+  expect_identical(mock_analysis, mtcars)
+  expect_identical(nrow(mock_calibration), 0L)
+
+  expect_s3_class(mock_split, "rsplit")
+})

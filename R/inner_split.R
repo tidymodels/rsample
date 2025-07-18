@@ -615,3 +615,9 @@ inner_split.initial_validation_time_split <- function(x, split_args, ...) {
   class(split_inner) <- c(class_inner, class(split_inner))
   split_inner
 }
+
+mock_internal_calibration_split <- function(analysis_set) {
+  calibration_set <- analysis_set[0, , drop = FALSE]
+  mock_split <- make_splits(analysis_set, calibration_set)
+  mock_split
+}
