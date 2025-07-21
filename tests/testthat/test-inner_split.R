@@ -78,6 +78,29 @@ test_that("group_mc_split", {
   )
 })
 
+test_that("group_mc_split can create mock split", {
+  dat <- data.frame(x = 1:2, y = 1:2, group = c("A", "B"))
+
+  set.seed(11)
+  r_set <- group_mc_cv(dat, group = "group", prop = 1 / 2, times = 1)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot({
+    isplit <- inner_split(r_split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
+  )
+})
+
 
 # vfold ------------------------------------------------------------------
 
