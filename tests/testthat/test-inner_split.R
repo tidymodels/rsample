@@ -25,6 +25,30 @@ test_that("mc_split", {
   )
 })
 
+test_that("mc_split can create mock split", {
+  dat <- data.frame(x = 1:2, y = 1:2)
+
+  set.seed(11)
+  r_set <- mc_cv(dat, prop = 1 / 2, times = 1)
+  split_args <- .get_split_args(r_set)
+  # analysis set only contains 1 row, thus can't split further
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot({
+    isplit <- inner_split(r_split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
+  )
+})
+
 test_that("group_mc_split", {
   skip_if_not_installed("modeldata")
 

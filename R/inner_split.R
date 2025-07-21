@@ -41,10 +41,22 @@ inner_split.mc_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
 
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    mc_splits(analysis_set, !!!split_args)
+  split_inner <- try(
+    {
+      split_inner <- rlang::inject(
+        mc_splits(analysis_set, !!!split_args)
+      )
+      split_inner <- split_inner$splits[[1]]
+    },
+    silent = TRUE
   )
-  split_inner <- split_inner$splits[[1]]
+
+  if (inherits(split_inner, "try-error")) {
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- mock_internal_calibration_split(analysis_set)
+  }
 
   class_inner <- "mc_split_inner"
   split_inner <- add_class(split_inner, class_inner)
