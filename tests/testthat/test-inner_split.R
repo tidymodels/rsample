@@ -129,6 +129,29 @@ test_that("vfold_split", {
   )
 })
 
+test_that("vfold_split can create mock split", {
+  dat <- data.frame(x = 1:3, y = 1:3)
+
+  set.seed(11)
+  r_set <- vfold_cv(dat, v = 2)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot({
+    isplit <- inner_split(r_split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
+  )
+})
+
 test_that("group_vfold_split", {
   skip_if_not_installed("modeldata")
 
@@ -155,6 +178,29 @@ test_that("group_vfold_split", {
     assessment(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
+  )
+})
+
+test_that("group_vfold_split can create mock split", {
+  dat <- data.frame(x = 1:3, y = 1:3, group = c("A", "B", "B"))
+
+  set.seed(11)
+  r_set <- group_vfold_cv(dat, group = "group", v = 2)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot({
+    isplit <- inner_split(r_split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
   )
 })
 
