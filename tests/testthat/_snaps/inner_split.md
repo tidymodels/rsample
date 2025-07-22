@@ -30,6 +30,22 @@
       Warning:
       Cannot create calibration split; creating an empty calibration set.
 
+# boot_split can create mock split
+
+    Code
+      isplit <- inner_split(r_split, split_args)
+    Condition
+      Warning:
+      Cannot create calibration split; creating an empty calibration set.
+
+# group_boot_split can create mock split
+
+    Code
+      isplit <- inner_split(r_split, split_args)
+    Condition
+      Warning:
+      Cannot create calibration split; creating an empty calibration set.
+
 # sliding_window_split needs at least 2 observations
 
     Code

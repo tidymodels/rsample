@@ -188,10 +188,35 @@ inner_split.boot_split <- function(x, split_args, ...) {
   analysis_set <- x$data[id_outer_analysis, , drop = FALSE]
 
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    bootstraps(analysis_set, !!!split_args)
+  split_inner <- rlang::try_fetch(
+    {
+      split_inner <- rlang::inject(
+        bootstraps(analysis_set, !!!split_args)
+      )
+      split_inner <- split_inner$splits[[1]]
+    },
+    warning = function(cnd) {
+      if (grepl("assessment sets contained zero rows", conditionMessage(cnd))) {
+        return("mock_needed")
+      } else {
+        rlang::zap()
+      }
+    },
+    error = function(cnd) {
+      return("mock_needed")
+    }
   )
-  split_inner <- split_inner$splits[[1]]
+
+  if (identical(split_inner, "mock_needed")) {
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    # with a 0-row calibration set, we can't end up with rows in both
+    # calibration and analysis, thus use the full analysis set with duplicate
+    # rows here
+    analysis_set <- analysis(x)
+    split_inner <- mock_internal_calibration_split(analysis_set)
+  }
 
   class_inner <- "boot_split_inner"
   class(split_inner) <- c(class_inner, class(x))
@@ -209,10 +234,35 @@ inner_split.group_boot_split <- function(x, split_args, ...) {
   analysis_set <- x$data[id_outer_analysis, , drop = FALSE]
 
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    group_bootstraps(analysis_set, !!!split_args)
+  split_inner <- rlang::try_fetch(
+    {
+      split_inner <- rlang::inject(
+        group_bootstraps(analysis_set, !!!split_args)
+      )
+      split_inner <- split_inner$splits[[1]]
+    },
+    warning = function(cnd) {
+      if (grepl("assessment sets contained zero rows", conditionMessage(cnd))) {
+        return("mock_needed")
+      } else {
+        rlang::zap()
+      }
+    },
+    error = function(cnd) {
+      return("mock_needed")
+    }
   )
-  split_inner <- split_inner$splits[[1]]
+
+  if (identical(split_inner, "mock_needed")) {
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    # with a 0-row calibration set, we can't end up with rows in both
+    # calibration and analysis, thus use the full analysis set with duplicate
+    # rows here
+    analysis_set <- analysis(x)
+    split_inner <- mock_internal_calibration_split(analysis_set)
+  }
 
   class_inner <- "group_boot_split_inner"
   class(split_inner) <- c(class_inner, class(x))

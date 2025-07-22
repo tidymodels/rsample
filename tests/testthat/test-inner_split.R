@@ -231,6 +231,29 @@ test_that("boot_split", {
   )
 })
 
+test_that("boot_split can create mock split", {
+  dat <- data.frame(x = 1, y = 1)
+
+  set.seed(11)
+  r_set <- bootstraps(dat, times = 1) |> suppressWarnings()
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot({
+    isplit <- inner_split(r_split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
+  )
+})
+
 test_that("group_boot_split", {
   skip_if_not_installed("modeldata")
 
@@ -257,6 +280,29 @@ test_that("group_boot_split", {
     assessment(isplit),
     isplit$data[complement(isplit), ],
     ignore_attr = "row.names"
+  )
+})
+
+test_that("group_boot_split can create mock split", {
+  dat <- data.frame(x = 1:2, y = 1:2, group = c("A", "B"))
+
+  set.seed(11)
+  r_set <- group_bootstraps(dat, group = "group", times = 1)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot({
+    isplit <- inner_split(r_split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
   )
 })
 
