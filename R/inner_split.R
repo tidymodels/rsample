@@ -445,10 +445,14 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
 
   if (nrow(analysis_set) < 2) {
-    cli::cli_abort(
+    cli::cli_warn(
       "This set cannot be split into an analysis and a calibration set as there 
-      is only one row."
+      is only one row; creating an empty calibration set."
     )
+    split_inner <- mock_internal_calibration_split(analysis_set)
+    class_inner <- "sliding_window_split_inner"
+    split_inner <- add_class(split_inner, class_inner)
+    return(split_inner)
   }
 
   split_args_inner <- translate_window_definition(
@@ -484,17 +488,20 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
   indices <- compute_complete_indices(id_in, id_out)
 
   if (length(indices) < 1) {
-    cli::cli_abort("No calibration split possible.")
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- mock_internal_calibration_split(analysis_set)
+  } else {
+    indices <- indices[[length(indices)]]
+    split_inner <- make_splits(
+      indices,
+      data = analysis_set,
+      class = "sliding_window_split"
+    )
   }
 
   # no need to use skip and step args since they don't apply to _within_ an rsplit
-
-  indices <- indices[[length(indices)]]
-  split_inner <- make_splits(
-    indices,
-    data = analysis_set,
-    class = "sliding_window_split"
-  )
 
   class_inner <- "sliding_window_split_inner"
   split_inner <- add_class(split_inner, class_inner)
@@ -509,10 +516,14 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
 
   if (nrow(analysis_set) < 2) {
-    cli::cli_abort(
-      "This set cannot be split into an analysis and a calibration set as there
-      is only one row."
+    cli::cli_warn(
+      "This set cannot be split into an analysis and a calibration set as there 
+      is only one row; creating an empty calibration set."
     )
+    split_inner <- mock_internal_calibration_split(analysis_set)
+    class_inner <- "sliding_index_split_inner"
+    split_inner <- add_class(split_inner, class_inner)
+    return(split_inner)
   }
 
   split_args_inner <- translate_window_definition(
@@ -551,16 +562,20 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
   indices <- compute_complete_indices(id_in, id_out)
 
   if (length(indices) < 1) {
-    cli::cli_abort("No calibration split possible.")
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- mock_internal_calibration_split(analysis_set)
+  } else {
+    indices <- indices[[length(indices)]]
+    split_inner <- make_splits(
+      indices,
+      data = analysis_set,
+      class = "sliding_index_split"
+    )
   }
 
   # no need to use skip and step args since they don't apply to _within_ an rsplit
-  indices <- indices[[length(indices)]]
-  split_inner <- make_splits(
-    indices,
-    data = analysis_set,
-    class = "sliding_index_split"
-  )
 
   class_inner <- "sliding_index_split_inner"
   split_inner <- add_class(split_inner, class_inner)
@@ -575,11 +590,14 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
 
   if (nrow(analysis_set) < 2) {
-    # TODO this should return an empty split with a warning
-    cli::cli_abort(
-      "This set cannot be split into an analysis and a calibration set as there
-      is only one row."
+    cli::cli_warn(
+      "This set cannot be split into an analysis and a calibration set as there 
+      is only one row; creating an empty calibration set."
     )
+    split_inner <- mock_internal_calibration_split(analysis_set)
+    class_inner <- "sliding_period_split_inner"
+    split_inner <- add_class(split_inner, class_inner)
+    return(split_inner)
   }
 
   split_args_inner <- translate_window_definition(
@@ -624,17 +642,20 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
   indices <- compute_complete_indices(id_in, id_out)
 
   if (length(indices) < 1) {
-    cli::cli_abort("No calibration split possible.")
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- mock_internal_calibration_split(analysis_set)
+  } else {
+    indices <- indices[[length(indices)]]
+    split_inner <- make_splits(
+      indices,
+      data = analysis_set,
+      class = "sliding_period_split"
+    )
   }
 
   # no need to use skip and step args since they don't apply to _within_ an rsplit
-
-  indices <- indices[[length(indices)]]
-  split_inner <- make_splits(
-    indices,
-    data = analysis_set,
-    class = "sliding_period_split"
-  )
 
   class_inner <- "sliding_period_split_inner"
   split_inner <- add_class(split_inner, class_inner)
