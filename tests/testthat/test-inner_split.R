@@ -338,6 +338,30 @@ test_that("initial_validation_split", {
   )
 })
 
+test_that("val_split can create mock split", {
+  dat <- data.frame(x = 1:3, y = 1:3)
+
+  set.seed(11)
+  initial_vsplit <- initial_validation_split(dat, prop = c(0.4, 0.33))
+  r_set <- validation_set(initial_vsplit)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot({
+    isplit <- inner_split(r_split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
+  )
+})
+
 test_that("group_initial_validation_split", {
   skip_if_not_installed("modeldata")
 
@@ -372,6 +396,34 @@ test_that("group_initial_validation_split", {
   )
 })
 
+test_that("group_val_split can create mock split", {
+  dat <- data.frame(x = 1:3, y = 1:3, group = c("A", "B", "C"))
+
+  set.seed(11)
+  initial_vsplit <- group_initial_validation_split(
+    dat,
+    group = "group",
+    prop = c(0.4, 0.33)
+  )
+  r_set <- validation_set(initial_vsplit)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot({
+    isplit <- inner_split(r_split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
+  )
+})
+
 test_that("initial_validation_time_split", {
   set.seed(11)
   initial_vsplit <- initial_validation_time_split(
@@ -398,6 +450,30 @@ test_that("initial_validation_time_split", {
     assessment(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
+  )
+})
+
+test_that("time_val_split can create mock split", {
+  dat <- data.frame(x = 1:3, y = 1:3)
+
+  set.seed(11)
+  initial_vsplit <- initial_validation_time_split(dat, prop = c(0.4, 0.33))
+  r_set <- validation_set(initial_vsplit)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot({
+    isplit <- inner_split(r_split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
   )
 })
 

@@ -287,10 +287,22 @@ inner_split.val_split <- function(x, split_args, ...) {
     split_args$prop <- split_args$prop[[1]]
   }
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    mc_splits(analysis_set, !!!split_args)
+  split_inner <- try(
+    {
+      split_inner <- rlang::inject(
+        mc_splits(analysis_set, !!!split_args)
+      )
+      split_inner <- split_inner$splits[[1]]
+    },
+    silent = TRUE
   )
-  split_inner <- split_inner$splits[[1]]
+
+  if (inherits(split_inner, "try-error")) {
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- mock_internal_calibration_split(analysis_set)
+  }
 
   class_inner <- "val_split_inner"
   class(split_inner) <- c(class_inner, class(x))
@@ -312,10 +324,22 @@ inner_split.group_val_split <- function(x, split_args, ...) {
     split_args$prop <- split_args$prop[[1]]
   }
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    group_mc_splits(analysis_set, !!!split_args)
+  split_inner <- try(
+    {
+      split_inner <- rlang::inject(
+        group_mc_splits(analysis_set, !!!split_args)
+      )
+      split_inner <- split_inner$splits[[1]]
+    },
+    silent = TRUE
   )
-  split_inner <- split_inner$splits[[1]]
+
+  if (inherits(split_inner, "try-error")) {
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- mock_internal_calibration_split(analysis_set)
+  }
 
   class_inner <- "group_val_split_inner"
   class(split_inner) <- c(class_inner, class(x))
@@ -336,10 +360,22 @@ inner_split.time_val_split <- function(x, split_args, ...) {
   } else {
     split_args$prop <- split_args$prop[[1]]
   }
-  split_inner <- rlang::inject(
-    initial_time_split(analysis_set, !!!split_args)
+  split_inner <- try(
+    {
+      split_inner <- rlang::inject(
+        initial_time_split(analysis_set, !!!split_args)
+      )
+      # no need to pick the first split, as `initial_time_split()` only returns one
+    },
+    silent = TRUE
   )
-  # no need to pick the first split, as `initial_time_split()` only returns one
+
+  if (inherits(split_inner, "try-error")) {
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- mock_internal_calibration_split(analysis_set)
+  }
 
   class_inner <- "time_val_split_inner"
   class(split_inner) <- c(class_inner, class(x))
