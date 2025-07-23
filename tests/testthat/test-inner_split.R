@@ -505,6 +505,29 @@ test_that("clustering_split", {
   )
 })
 
+test_that("clustering_split can create mock split", {
+  dat <- data.frame(x = 1:3, y = 1:3)
+
+  set.seed(11)
+  r_set <- clustering_cv(dat, vars = x, v = 2)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot({
+    isplit <- inner_split(r_split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
+  )
+})
+
 # apparent ---------------------------------------------------------------
 
 test_that("apparent_split", {
