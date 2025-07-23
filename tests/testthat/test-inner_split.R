@@ -993,6 +993,27 @@ test_that("initial_time_split", {
   )
 })
 
+test_that("initial_time_split can create mock split", {
+  dat <- data.frame(x = 1:2, y = 1:2)
+
+  split <- initial_time_split(dat, prop = 0.5)
+  split_args <- .get_split_args(split)
+
+  expect_snapshot({
+    isplit <- inner_split(split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    training(split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
+  )
+})
+
 
 # initial validation split -----------------------------------------------
 
@@ -1015,6 +1036,28 @@ test_that("initial_validation_split", {
     assessment(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
+  )
+})
+
+test_that("initial_validation_split can create mock split", {
+  dat <- data.frame(x = 1:3, y = 1:3)
+
+  set.seed(11)
+  initial_vsplit <- initial_validation_split(dat, prop = c(0.4, 0.33))
+  split_args <- .get_split_args(initial_vsplit)
+
+  expect_snapshot({
+    isplit <- inner_split(initial_vsplit, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    training(initial_vsplit)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
   )
 })
 
@@ -1043,6 +1086,32 @@ test_that("group_initial_validation_split", {
   )
 })
 
+test_that("group_initial_validation_split can create mock split", {
+  dat <- data.frame(x = 1:3, y = 1:3, group = c("A", "B", "C"))
+
+  set.seed(11)
+  initial_vsplit <- group_initial_validation_split(
+    dat,
+    group = "group",
+    prop = c(0.4, 0.33)
+  )
+  split_args <- .get_split_args(initial_vsplit)
+
+  expect_snapshot({
+    isplit <- inner_split(initial_vsplit, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    training(initial_vsplit)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
+  )
+})
+
 test_that("initial_validation_time_split", {
   skip_if_not_installed("modeldata")
   data(drinks, package = "modeldata", envir = rlang::current_env())
@@ -1065,6 +1134,28 @@ test_that("initial_validation_time_split", {
     assessment(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
+  )
+})
+
+test_that("initial_validation_time_split can create mock split", {
+  dat <- data.frame(x = 1:3, y = 1:3)
+
+  set.seed(11)
+  initial_vsplit <- initial_validation_time_split(dat, prop = c(0.4, 0.33))
+  split_args <- .get_split_args(initial_vsplit)
+
+  expect_snapshot({
+    isplit <- inner_split(initial_vsplit, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    training(initial_vsplit)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
   )
 })
 

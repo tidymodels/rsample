@@ -126,3 +126,35 @@
       Warning:
       Cannot create calibration split; creating an empty calibration set.
 
+# initial_time_split can create mock split
+
+    Code
+      isplit <- inner_split(split, split_args)
+    Condition
+      Warning:
+      Cannot create calibration split; creating an empty calibration set.
+
+# initial_validation_split can create mock split
+
+    Code
+      isplit <- inner_split(initial_vsplit, split_args)
+    Condition
+      Warning:
+      Cannot create calibration split; creating an empty calibration set.
+
+# group_initial_validation_split can create mock split
+
+    Code
+      isplit <- inner_split(initial_vsplit, split_args)
+    Condition
+      Warning:
+      Cannot create calibration split; creating an empty calibration set.
+
+# initial_validation_time_split can create mock split
+
+    Code
+      isplit <- inner_split(initial_vsplit, split_args)
+    Condition
+      Warning:
+      This set cannot be split into a training and a calibration set as there is only one row; creating an empty calibration set.
+
