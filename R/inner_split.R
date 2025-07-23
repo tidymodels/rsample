@@ -31,6 +31,15 @@ inner_split <- function(x, ...) {
   UseMethod("inner_split")
 }
 
+#' @rdname inner_split
+#' @export
+inner_split.default <- function(x, ...) {
+  cls <- class(x)
+  cli::cli_abort(
+    "No method for objects of class{?es}: {cls}."
+  )
+}
+
 # mc ---------------------------------------------------------------------
 
 #' @rdname inner_split
