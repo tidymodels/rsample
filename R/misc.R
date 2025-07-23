@@ -45,7 +45,7 @@ make_splits.list <- function(x, data, class = NULL, ...) {
 #' @rdname make_splits
 #' @param assessment A data frame of assessment or testing data, which can be empty.
 #' @export
-make_splits.data.frame <- function(x, assessment, ...) {
+make_splits.data.frame <- function(x, assessment, class = NULL, ...) {
   rlang::check_dots_empty()
   if (nrow(x) == 0) {
     cli_abort("The analysis set must contain at least one row.")
@@ -67,7 +67,7 @@ make_splits.data.frame <- function(x, assessment, ...) {
     assessment = ind_assessment
   )
 
-  make_splits(ind, data)
+  make_splits(ind, data, class = class)
 }
 
 merge_lists <- function(a, b) list(analysis = a, assessment = b)

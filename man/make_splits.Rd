@@ -13,7 +13,7 @@ make_splits(x, ...)
 
 \method{make_splits}{list}(x, data, class = NULL, ...)
 
-\method{make_splits}{data.frame}(x, assessment, ...)
+\method{make_splits}{data.frame}(x, assessment, class = NULL, ...)
 }
 \arguments{
 \item{x}{A list of integers with names "analysis" and "assessment", or a

@@ -1191,4 +1191,7 @@ test_that("can create a mock split", {
   expect_identical(nrow(mock_calibration), 0L)
 
   expect_s3_class(mock_split, "rsplit")
+
+  mock_split <- mock_internal_calibration_split(mtcars, class = "mock_class")
+  expect_s3_class(mock_split, "mock_class")
 })

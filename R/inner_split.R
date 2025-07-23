@@ -449,9 +449,10 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
       "This set cannot be split into an analysis and a calibration set as there 
       is only one row; creating an empty calibration set."
     )
-    split_inner <- mock_internal_calibration_split(analysis_set)
-    class_inner <- "sliding_window_split_inner"
-    split_inner <- add_class(split_inner, class_inner)
+    split_inner <- mock_internal_calibration_split(
+      analysis_set,
+      class = "sliding_window_split_inner"
+    )
     return(split_inner)
   }
 
@@ -520,9 +521,10 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
       "This set cannot be split into an analysis and a calibration set as there 
       is only one row; creating an empty calibration set."
     )
-    split_inner <- mock_internal_calibration_split(analysis_set)
-    class_inner <- "sliding_index_split_inner"
-    split_inner <- add_class(split_inner, class_inner)
+    split_inner <- mock_internal_calibration_split(
+      analysis_set,
+      class = "sliding_index_split_inner"
+    )
     return(split_inner)
   }
 
@@ -594,18 +596,20 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
       "This set cannot be split into an analysis and a calibration set as there 
       is only one row; creating an empty calibration set."
     )
-    split_inner <- mock_internal_calibration_split(analysis_set)
-    class_inner <- "sliding_period_split_inner"
-    split_inner <- add_class(split_inner, class_inner)
+    split_inner <- mock_internal_calibration_split(
+      analysis_set,
+      class = "sliding_period_split_inner"
+    )
     return(split_inner)
   }
   if (split_args$lookback < 1) {
     cli::cli_warn(
       "Cannot create calibration split; creating an empty calibration set."
     )
-    split_inner <- mock_internal_calibration_split(analysis_set)
-    class_inner <- "sliding_window_split_inner"
-    split_inner <- add_class(split_inner, class_inner)
+    split_inner <- mock_internal_calibration_split(
+      analysis_set,
+      class = "sliding_period_split_inner"
+    )
     return(split_inner)
   }
 
@@ -838,8 +842,8 @@ inner_split.initial_validation_time_split <- function(x, split_args, ...) {
 
 # mock split -------------------------------------------------------------
 
-mock_internal_calibration_split <- function(analysis_set) {
+mock_internal_calibration_split <- function(analysis_set, class = NULL) {
   calibration_set <- analysis_set[0, , drop = FALSE]
-  mock_split <- make_splits(analysis_set, calibration_set)
+  mock_split <- make_splits(analysis_set, calibration_set, class = class)
   mock_split
 }
