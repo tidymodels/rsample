@@ -23,13 +23,13 @@ library(rsample)
 
 We are adding post-processing to tidymodels. One possible post-processing operation is calibration. 
 
-Calibration is a transformation of the predictions from our primary model, based on a separate calibration model. That calibration model is used to model the relationship between the predictions based on the primary prediction model and the true outcomes.
+Calibration is a transformation of the predictions from our primary model, based on a separate calibration model. That calibration model is used to model the relationship between the predictions based on the primary model and the true outcomes.
 
-Crucial: To avoid overfitting, we cannot use the same data to fit our calibration model as we use to assess the combination of prediction and calibration model. Using the same data to fit the prediction model and the calibration model means the predictions used to fit the calibration model are re-predictions of the same observations used to fit the prediction model. Hence they are closer to the true values than predictions on new data would be and the calibration model doesn't have accurate information to estimate the right trends (so that they then can be removed).
+Crucial: To avoid overfitting, we cannot use the same data to fit our calibration model as we use to assess the combination of primary and calibration model. Using the same data to fit the primary model and the calibration model means the predictions used to fit the calibration model are re-predictions of the same observations used to fit the primary model. Hence they are closer to the true values than predictions on new data would be and the calibration model doesn't have accurate information to estimate the right trends (so that they then can be removed).
 
 rsample provides a collection of functions to make resamples for empirical validation of prediction models. So far, the assumption was that the prediction model is the only model that needs fitting, i.e., a resample consists of an analysis set and an assessment set.
 
-If we include calibration into our workflow (bundeling preprocessing, (prediction) model, and post-processing), we want an analysis set, a calibration set, and an assessment set.
+If we include calibration into our workflow (bundeling preprocessing, (primary) model, and post-processing), we want an analysis set, a calibration set, and an assessment set.
 
 ## General principles
 
@@ -37,7 +37,7 @@ First principle: we leave the assessment set purely for performance assessment a
 
 If you compare a model with calibration to one without, and you use the same resamples, you are also using the same assessment sets.
 
-"Taking data from the analysis set" means splitting up the analysis set to end up with ... an analysis set and a calibration set. Now we have two sets call analysis set, that's confusing. If we need to distinguish them, we'll refer to them as "outer" and "inner" analysis set for "before" and "after" the split for a calibration set.
+"Taking data from the analysis set" means splitting up the analysis set to end up with ... an analysis set and a calibration set. Now we have two sets called analysis set, that's confusing. If we need to distinguish them, we'll refer to them as "outer" and "inner" analysis set for "before" and "after" the split for a calibration set.
 
 
 ```{r}
@@ -48,13 +48,7 @@ If you compare a model with calibration to one without, and you use the same res
 knitr::include_graphics("images/analysis-calibration-assessment.jpg")
 ```
 
-It is important to note that including calibration requires more data than fitting a workflow without calibration. For small datasets, you might run into situations where fitting either model (prediction model or calibration model) is not particularly stable - or you might not even be able to construct a calibration set properly. In this case, our policy is to avoid erroring. We would treat this situation as if no calibration model was used.
-
-But how is the (outer) analysis set split if we need a calibration set?
-
-If you want control over how exactly your calibration set is constructed, specify it in your tailor (or the calibration adjustment?). Here, we are going to lay out what happens as the default.
-
-<!-- TODO: talk about how we have `inner_split()` methods that are being used by tune? --- Probably not here. -->
+It is important to note that including calibration requires more data than fitting a workflow without calibration. For small datasets, you might run into situations where fitting either model (primary model or calibration model) is not particularly stable - or you might not even be able to construct a calibration set properly. In this case, our policy is to avoid erroring. We treat this situation as if no calibration model was used.
 
 Second principle: we try to mimick the data splitting process used to create the (outer) analysis set and the assessment set.
 
@@ -118,7 +112,7 @@ r_split <- get_rsplit(r_set, 1)
 analysis(r_split)
 ```
 
-To mimick the split into (outer) analysis and assessment set, we'll calculate the proportion of the analysis set and apply it the observations available for fitting both the main prediction model and the calibration model, creating our (inner) analysis set. Since the remaining observations could be for the calibration model or a gap, we also calculate the proportion of the assessment set and use it to construct the calibration set. 
+To mimick the split into (outer) analysis and assessment set, we'll calculate the proportion of the analysis set and apply it the observations available for fitting both the primary model and the calibration model, creating our (inner) analysis set. Since the remaining observations could be for the calibration model or a gap, we also calculate the proportion of the assessment set and use it to construct the calibration set. 
 
 ```{r}
 #| label: sliding_window_props
@@ -194,17 +188,18 @@ r_set <- sliding_window(df, lookback = 4, assess_start = 3, assess_stop = 5, com
 r_set
 ```
 
-When creating the calibration split, we apply the `complete` option to the (now inner) analysis set and ensure that the calibration set is complete. In this example, it means that we can't do a calibration split until we have at least 4 rows, i.e., a calibration split on the second resample fails.
+When creating the calibration split, we apply the `complete` option to the (now inner) analysis set and ensure that the calibration set is complete. In this example, it means that, until we have at least three rows (two for the complete calibration set, and at least one for the analysis set), we can't do a calibration split according to the rules laid out above. This is the case for the second resample, where we only have two rows to work with in the outer analysis set. Instead of erroring here, we fall back to not using calibration at all and return the (outer) analysis set as the (inner) analsysis set, along with an empty calibration set.
 
 ```{r}
 #| label: sliding_window_split_incomplete_2
-#| error: true
 
 r_split <- get_rsplit(r_set, 2) 
 i_split <- inner_split(r_split, .get_split_args(r_set))
+
+i_split
 ```
 
-A calibration split on the third resample, which contains four rows, succeeds with the required three rows in the calibration set and the remaining one in the incomplete analysis set.
+A calibration split on the third resample, which contains three rows, succeeds with the required two rows in the calibration set and the remaining one in the incomplete analysis set.
 
 ```{r}
 #| label: sliding_window_split_incomplete_3
@@ -302,11 +297,10 @@ This principle of sliding across _observations_ makes it impossible to construct
 
 ![](images/calibration-split-index-3.jpg)
 
-This is the index value relative to which we can define an inner analysis set of 3 and a calibration set of 2. Thus we cannot actually make that split.
+This is the index value relative to which we can define an inner analysis set of 3 and a calibration set of 2. Thus we cannot actually make that split and fall back on an empty calibration set.
 
 ```{r}
 #| label: sliding_index_split_anchor
-#| error: true
 
 # missing 3 is the anchor for the inner split of the first resample
 df <- data.frame(x = c(1:2, 4:11))
