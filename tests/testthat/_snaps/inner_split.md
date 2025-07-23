@@ -126,6 +126,14 @@
       Warning:
       Cannot create calibration split; creating an empty calibration set.
 
+---
+
+    Code
+      isplit <- inner_split(r_split, split_args)
+    Condition
+      Warning:
+      Cannot create calibration split; creating an empty calibration set.
+
 # initial_time_split can create mock split
 
     Code

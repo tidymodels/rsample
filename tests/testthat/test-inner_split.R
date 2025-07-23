@@ -923,6 +923,27 @@ test_that("sliding_period_split needs observations in at least 2 periods", {
     nrow(assessment(isplit)),
     0L
   )
+
+  index <- vctrs::new_date(c(0, 1, 2, 32))
+  df <- data.frame(index = index)
+
+  r_set <- sliding_period(df, index, period = "month", lookback = 0)
+  split_args <- .get_split_args(r_set)
+  r_split <- get_rsplit(r_set, 1)
+
+  expect_snapshot({
+    isplit <- inner_split(r_split, split_args)
+  })
+
+  expect_identical(
+    analysis(isplit),
+    analysis(r_split)
+  )
+
+  expect_identical(
+    nrow(assessment(isplit)),
+    0L
+  )
 })
 
 # initial split ----------------------------------------------------------

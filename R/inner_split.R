@@ -599,6 +599,15 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
     split_inner <- add_class(split_inner, class_inner)
     return(split_inner)
   }
+  if (split_args$lookback < 1) {
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- mock_internal_calibration_split(analysis_set)
+    class_inner <- "sliding_window_split_inner"
+    split_inner <- add_class(split_inner, class_inner)
+    return(split_inner)
+  }
 
   split_args_inner <- translate_window_definition(
     split_args$lookback,
