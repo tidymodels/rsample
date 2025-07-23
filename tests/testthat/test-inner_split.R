@@ -1,3 +1,23 @@
+test_that("informative error messages", {
+  expect_snapshot(error = TRUE, {
+    inner_split(NULL)
+  })
+
+  # we don't know how manual rsets are constructed,
+  # thus we can't provide an inner_split method
+  df <- data.frame(x = c(1, 2, 3, 4, 5, 6))
+  indices <- list(
+    list(analysis = c(1L, 2L), assessment = 3L),
+    list(analysis = c(4L, 5L), assessment = 6L)
+  )
+  splits <- lapply(indices, make_splits, data = df)
+  m_rset <- manual_rset(splits, c("Split 1", "Split 2"))
+
+  expect_snapshot(error = TRUE, {
+    inner_split(m_rset)
+  })
+})
+
 # mc ---------------------------------------------------------------------
 
 test_that("mc_split", {

@@ -2,6 +2,7 @@
 % Please edit documentation in R/inner_split.R
 \name{inner_split}
 \alias{inner_split}
+\alias{inner_split.default}
 \alias{inner_split.mc_split}
 \alias{inner_split.group_mc_split}
 \alias{inner_split.vfold_split}
@@ -23,6 +24,8 @@
 \title{Inner split of the analysis set for fitting a post-processor}
 \usage{
 inner_split(x, ...)
+
+\method{inner_split}{default}(x, ...)
 
 \method{inner_split}{mc_split}(x, split_args, ...)
 
