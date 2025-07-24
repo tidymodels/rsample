@@ -92,7 +92,9 @@ bootstraps <- function(
     split_objs <- bind_rows(split_objs, apparent(data))
   }
 
-  if (!is.null(strata)) names(strata) <- NULL
+  if (!is.null(strata)) {
+    names(strata) <- NULL
+  }
   boot_att <- list(
     times = times,
     apparent = apparent,
@@ -156,6 +158,7 @@ boot_splits <- function(
   if (any(all_assessable == 0)) {
     cli_warn(
       "Some assessment sets contained zero rows.",
+      class = "rsample_bootstrap_empty_assessment",
       call = rlang::caller_env()
     )
   }
@@ -233,7 +236,9 @@ group_bootstraps <- function(
   }
 
   # This is needed for printing checks; strata can't be missing
-  if (is.null(strata)) strata <- FALSE
+  if (is.null(strata)) {
+    strata <- FALSE
+  }
   boot_att <- list(
     times = times,
     apparent = apparent,

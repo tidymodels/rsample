@@ -204,12 +204,8 @@ inner_split.boot_split <- function(x, split_args, ...) {
       )
       split_inner <- split_inner$splits[[1]]
     },
-    warning = function(cnd) {
-      if (grepl("assessment sets contained zero rows", conditionMessage(cnd))) {
-        return("mock_needed")
-      } else {
-        rlang::zap()
-      }
+    rsample_bootstrap_empty_assessment = function(cnd) {
+      return("mock_needed")
     },
     error = function(cnd) {
       return("mock_needed")
@@ -250,12 +246,8 @@ inner_split.group_boot_split <- function(x, split_args, ...) {
       )
       split_inner <- split_inner$splits[[1]]
     },
-    warning = function(cnd) {
-      if (grepl("assessment sets contained zero rows", conditionMessage(cnd))) {
-        return("mock_needed")
-      } else {
-        rlang::zap()
-      }
+    rsample_bootstrap_empty_assessment = function(cnd) {
+      return("mock_needed")
     },
     error = function(cnd) {
       return("mock_needed")
