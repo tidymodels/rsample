@@ -1,3 +1,19 @@
+# informative error messages
+
+    Code
+      inner_split(NULL)
+    Condition
+      Error in `inner_split()`:
+      ! No method for objects of class: NULL.
+
+---
+
+    Code
+      inner_split(m_rset)
+    Condition
+      Error in `inner_split()`:
+      ! No method for objects of classes: manual_rset, rset, tbl_df, tbl, and data.frame.
+
 # mc_split can create mock split
 
     Code
