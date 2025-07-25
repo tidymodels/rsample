@@ -364,7 +364,7 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
     )
     split_inner <- internal_calibration_split_mock(
       analysis_set,
-      class = "sliding_window_split_inner"
+      class = c("sliding_window_split_inner", "sliding_window_split")
     )
     return(split_inner)
   }
@@ -436,7 +436,7 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
     )
     split_inner <- internal_calibration_split_mock(
       analysis_set,
-      class = "sliding_index_split_inner"
+      class = c("sliding_index_split_inner", "sliding_index_split")
     )
     return(split_inner)
   }
@@ -511,7 +511,7 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
     )
     split_inner <- internal_calibration_split_mock(
       analysis_set,
-      class = "sliding_period_split_inner"
+      class = c("sliding_period_split_inner", "sliding_period_split")
     )
     return(split_inner)
   }
@@ -521,7 +521,7 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
     )
     split_inner <- internal_calibration_split_mock(
       analysis_set,
-      class = "sliding_period_split_inner"
+      class = c("sliding_period_split_inner", "sliding_period_split")
     )
     return(split_inner)
   }
@@ -663,7 +663,7 @@ inner_split.initial_validation_split <- function(x, split_args, ...) {
     training_set,
     split_function = mc_splits,
     split_args = split_args,
-    classes = c("initial_validation_split_inner", "mcsplit", "rsplit")
+    classes = c("initial_validation_split_inner", "mc_split", "rsplit")
   )
 
   split_inner

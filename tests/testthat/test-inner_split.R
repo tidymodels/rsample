@@ -43,6 +43,12 @@ test_that("mc_split", {
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("mc_split_inner", "mc_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("mc_split can create mock split", {
@@ -66,6 +72,12 @@ test_that("mc_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("mc_split_inner", "mc_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -96,6 +108,12 @@ test_that("group_mc_split", {
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("group_mc_split_inner", "group_mc_split", "mc_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("group_mc_split can create mock split", {
@@ -118,6 +136,12 @@ test_that("group_mc_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("group_mc_split_inner", "group_mc_split", "mc_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -147,6 +171,12 @@ test_that("vfold_split", {
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("vfold_split_inner", "vfold_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("vfold_split can create mock split", {
@@ -169,6 +199,12 @@ test_that("vfold_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("vfold_split_inner", "vfold_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -199,6 +235,12 @@ test_that("group_vfold_split", {
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("group_vfold_split_inner", "group_vfold_split", "vfold_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("group_vfold_split can create mock split", {
@@ -221,6 +263,12 @@ test_that("group_vfold_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("group_vfold_split_inner", "group_vfold_split", "vfold_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -249,6 +297,11 @@ test_that("boot_split", {
     isplit$data[complement(isplit), ],
     ignore_attr = "row.names"
   )
+  expect_s3_class(
+    isplit,
+    c("boot_split_inner", "boot_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("boot_split can create mock split", {
@@ -271,6 +324,12 @@ test_that("boot_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("boot_split_inner", "boot_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -301,6 +360,12 @@ test_that("group_boot_split", {
     isplit$data[complement(isplit), ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("group_boot_split_inner", "group_boot_split", "boot_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("group_boot_split can create mock split", {
@@ -323,6 +388,12 @@ test_that("group_boot_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("group_boot_split_inner", "group_boot_split", "boot_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -356,6 +427,12 @@ test_that("initial_validation_split", {
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("val_split_inner", "val_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("val_split can create mock split", {
@@ -379,6 +456,12 @@ test_that("val_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("val_split_inner", "val_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -414,6 +497,12 @@ test_that("group_initial_validation_split", {
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("group_val_split_inner", "group_val_split", "val_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("group_val_split can create mock split", {
@@ -441,6 +530,12 @@ test_that("group_val_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("group_val_split_inner", "group_val_split", "val_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -471,6 +566,12 @@ test_that("initial_validation_time_split", {
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("time_val_split_inner", "time_val_split", "val_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("time_val_split can create mock split", {
@@ -494,6 +595,12 @@ test_that("time_val_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("time_val_split_inner", "time_val_split", "val_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -523,6 +630,12 @@ test_that("clustering_split", {
     isplit$data[-isplit$in_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("clustering_split_inner", "clustering_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("clustering_split can create mock split", {
@@ -545,6 +658,12 @@ test_that("clustering_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("clustering_split_inner", "clustering_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -569,6 +688,12 @@ test_that("apparent_split", {
   expect_identical(
     assessment(isplit),
     analysis(r_split)
+  )
+
+  expect_s3_class(
+    isplit,
+    c("apparent_split_inner", "apparent_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -635,6 +760,12 @@ test_that("sliding_window_split needs at least 2 observations", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("sliding_window_split_inner", "sliding_window_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -800,6 +931,12 @@ test_that("sliding_index_split needs at least 2 observations", {
     nrow(assessment(isplit)),
     0L
   )
+
+  expect_s3_class(
+    isplit,
+    c("sliding_index_split_inner", "sliding_index_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("sliding_index_split with incomplete sets", {
@@ -938,6 +1075,12 @@ test_that("sliding_period_split needs at least 2 observations", {
     nrow(assessment(isplit)),
     0L
   )
+
+  expect_s3_class(
+    isplit,
+    c("sliding_period_split_inner", "sliding_period_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("sliding_period_split needs observations in at least 2 periods", {
@@ -962,6 +1105,12 @@ test_that("sliding_period_split needs observations in at least 2 periods", {
     0L
   )
 
+  expect_s3_class(
+    isplit,
+    c("sliding_period_split_inner", "sliding_period_split", "rsplit"),
+    exact = TRUE
+  )
+
   index <- vctrs::new_date(c(0, 1, 2, 32))
   df <- data.frame(index = index)
 
@@ -981,6 +1130,12 @@ test_that("sliding_period_split needs observations in at least 2 periods", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("sliding_period_split_inner", "sliding_period_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -1006,6 +1161,12 @@ test_that("initial_split", {
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("mc_split_inner", "initial_split", "mc_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("group_initial_split", {
@@ -1027,6 +1188,19 @@ test_that("group_initial_split", {
     assessment(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
+  )
+
+  expect_s3_class(
+    isplit,
+    c(
+      "group_mc_split_inner",
+      "group_initial_split",
+      "initial_split",
+      "group_mc_split",
+      "mc_split",
+      "rsplit"
+    ),
+    exact = TRUE
   )
 })
 
@@ -1050,6 +1224,17 @@ test_that("initial_time_split", {
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c(
+      "initial_time_split_inner",
+      "initial_time_split",
+      "initial_split",
+      "rsplit"
+    ),
+    exact = TRUE
+  )
 })
 
 test_that("initial_time_split can create mock split", {
@@ -1070,6 +1255,17 @@ test_that("initial_time_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c(
+      "initial_time_split_inner",
+      "initial_time_split",
+      "initial_split",
+      "rsplit"
+    ),
+    exact = TRUE
   )
 })
 
@@ -1096,6 +1292,12 @@ test_that("initial_validation_split", {
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("initial_validation_split_inner", "mc_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("initial_validation_split can create mock split", {
@@ -1117,6 +1319,12 @@ test_that("initial_validation_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("initial_validation_split_inner", "mc_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -1142,6 +1350,17 @@ test_that("group_initial_validation_split", {
     assessment(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
+  )
+
+  expect_s3_class(
+    isplit,
+    c(
+      "group_initial_validation_split_inner",
+      "group_mc_split",
+      "mc_split",
+      "rsplit"
+    ),
+    exact = TRUE
   )
 })
 
@@ -1169,6 +1388,17 @@ test_that("group_initial_validation_split can create mock split", {
     nrow(assessment(isplit)),
     0L
   )
+
+  expect_s3_class(
+    isplit,
+    c(
+      "group_initial_validation_split_inner",
+      "group_mc_split",
+      "mc_split",
+      "rsplit"
+    ),
+    exact = TRUE
+  )
 })
 
 test_that("initial_validation_time_split", {
@@ -1194,6 +1424,12 @@ test_that("initial_validation_time_split", {
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("initial_validation_time_split_inner", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("initial_validation_time_split can create mock split", {
@@ -1215,6 +1451,12 @@ test_that("initial_validation_time_split can create mock split", {
   expect_identical(
     nrow(assessment(isplit)),
     0L
+  )
+
+  expect_s3_class(
+    isplit,
+    c("initial_validation_time_split_inner", "rsplit"),
+    exact = TRUE
   )
 })
 
