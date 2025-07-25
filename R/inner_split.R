@@ -50,13 +50,14 @@ inner_split.mc_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
 
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    mc_splits(analysis_set, !!!split_args)
-  )
-  split_inner <- split_inner$splits[[1]]
 
-  class_inner <- "mc_split_inner"
-  split_inner <- add_class(split_inner, class_inner)
+  split_inner <- internal_calibration_split_core(
+    analysis_set,
+    split_function = mc_splits,
+    split_args = split_args,
+    classes = c("mc_split_inner", class(x))
+  )
+
   split_inner
 }
 
@@ -68,13 +69,14 @@ inner_split.group_mc_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
 
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    group_mc_splits(analysis_set, !!!split_args)
-  )
-  split_inner <- split_inner$splits[[1]]
 
-  class_inner <- "group_mc_split_inner"
-  split_inner <- add_class(split_inner, class_inner)
+  split_inner <- internal_calibration_split_core(
+    analysis_set,
+    split_function = group_mc_splits,
+    split_args = split_args,
+    classes = c("group_mc_split_inner", class(x))
+  )
+
   split_inner
 }
 
@@ -97,13 +99,14 @@ inner_split.vfold_split <- function(x, split_args, ...) {
   split_args$times <- 1
   split_args$v <- NULL
   split_args$repeats <- NULL
-  split_inner <- rlang::inject(
-    mc_splits(analysis_set, !!!split_args)
-  )
-  split_inner <- split_inner$splits[[1]]
 
-  class_inner <- "vfold_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  split_inner <- internal_calibration_split_core(
+    analysis_set,
+    split_function = mc_splits,
+    split_args = split_args,
+    classes = c("vfold_split_inner", class(x))
+  )
+
   split_inner
 }
 
@@ -125,13 +128,14 @@ inner_split.group_vfold_split <- function(x, split_args, ...) {
   split_args$v <- NULL
   split_args$repeats <- NULL
   split_args$balance <- NULL
-  split_inner <- rlang::inject(
-    group_mc_splits(analysis_set, !!!split_args)
-  )
-  split_inner <- split_inner$splits[[1]]
 
-  class_inner <- "group_vfold_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  split_inner <- internal_calibration_split_core(
+    analysis_set,
+    split_function = group_mc_splits,
+    split_args = split_args,
+    classes = c("group_vfold_split_inner", class(x))
+  )
+
   split_inner
 }
 
@@ -149,10 +153,31 @@ inner_split.boot_split <- function(x, split_args, ...) {
   analysis_set <- x$data[id_outer_analysis, , drop = FALSE]
 
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    bootstraps(analysis_set, !!!split_args)
+  split_inner <- rlang::try_fetch(
+    {
+      split_inner <- rlang::inject(
+        bootstraps(analysis_set, !!!split_args)
+      )
+      split_inner <- split_inner$splits[[1]]
+    },
+    rsample_bootstrap_empty_assessment = function(cnd) {
+      return("mock_needed")
+    },
+    error = function(cnd) {
+      return("mock_needed")
+    }
   )
-  split_inner <- split_inner$splits[[1]]
+
+  if (identical(split_inner, "mock_needed")) {
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    # with a 0-row calibration set, we can't end up with rows in both
+    # calibration and analysis, thus use the full analysis set with duplicate
+    # rows here
+    analysis_set <- analysis(x)
+    split_inner <- internal_calibration_split_mock(analysis_set)
+  }
 
   class_inner <- "boot_split_inner"
   class(split_inner) <- c(class_inner, class(x))
@@ -170,10 +195,31 @@ inner_split.group_boot_split <- function(x, split_args, ...) {
   analysis_set <- x$data[id_outer_analysis, , drop = FALSE]
 
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    group_bootstraps(analysis_set, !!!split_args)
+  split_inner <- rlang::try_fetch(
+    {
+      split_inner <- rlang::inject(
+        group_bootstraps(analysis_set, !!!split_args)
+      )
+      split_inner <- split_inner$splits[[1]]
+    },
+    rsample_bootstrap_empty_assessment = function(cnd) {
+      return("mock_needed")
+    },
+    error = function(cnd) {
+      return("mock_needed")
+    }
   )
-  split_inner <- split_inner$splits[[1]]
+
+  if (identical(split_inner, "mock_needed")) {
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    # with a 0-row calibration set, we can't end up with rows in both
+    # calibration and analysis, thus use the full analysis set with duplicate
+    # rows here
+    analysis_set <- analysis(x)
+    split_inner <- internal_calibration_split_mock(analysis_set)
+  }
 
   class_inner <- "group_boot_split_inner"
   class(split_inner) <- c(class_inner, class(x))
@@ -198,13 +244,14 @@ inner_split.val_split <- function(x, split_args, ...) {
     split_args$prop <- split_args$prop[[1]]
   }
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    mc_splits(analysis_set, !!!split_args)
-  )
-  split_inner <- split_inner$splits[[1]]
 
-  class_inner <- "val_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  split_inner <- internal_calibration_split_core(
+    analysis_set,
+    split_function = mc_splits,
+    split_args = split_args,
+    classes = c("val_split_inner", class(x))
+  )
+
   split_inner
 }
 
@@ -223,13 +270,14 @@ inner_split.group_val_split <- function(x, split_args, ...) {
     split_args$prop <- split_args$prop[[1]]
   }
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    group_mc_splits(analysis_set, !!!split_args)
-  )
-  split_inner <- split_inner$splits[[1]]
 
-  class_inner <- "group_val_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  split_inner <- internal_calibration_split_core(
+    analysis_set,
+    split_function = group_mc_splits,
+    split_args = split_args,
+    classes = c("group_val_split_inner", class(x))
+  )
+
   split_inner
 }
 
@@ -247,13 +295,14 @@ inner_split.time_val_split <- function(x, split_args, ...) {
   } else {
     split_args$prop <- split_args$prop[[1]]
   }
-  split_inner <- rlang::inject(
-    initial_time_split(analysis_set, !!!split_args)
-  )
-  # no need to pick the first split, as `initial_time_split()` only returns one
 
-  class_inner <- "time_val_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  split_inner <- internal_calibration_split_core(
+    analysis_set,
+    split_function = initial_time_split,
+    split_args = split_args,
+    classes = c("time_val_split_inner", class(x))
+  )
+
   split_inner
 }
 
@@ -269,13 +318,14 @@ inner_split.clustering_split <- function(x, split_args, ...) {
 
   # TODO: reduce the number of clusters by 1 in tune?
   split_args$repeats <- 1
-  split_inner <- rlang::inject(
-    clustering_cv(analysis_set, !!!split_args)
-  )
-  split_inner <- split_inner$splits[[1]]
 
-  class_inner <- "clustering_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  split_inner <- internal_calibration_split_core(
+    analysis_set,
+    split_function = clustering_cv,
+    split_args = split_args,
+    classes = c("clustering_split_inner", class(x))
+  )
+
   split_inner
 }
 
@@ -308,10 +358,15 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
 
   if (nrow(analysis_set) < 2) {
-    cli::cli_abort(
+    cli::cli_warn(
       "This set cannot be split into an analysis and a calibration set as there 
-      is only one row."
+      is only one row; creating an empty calibration set."
     )
+    split_inner <- internal_calibration_split_mock(
+      analysis_set,
+      class = "sliding_window_split_inner"
+    )
+    return(split_inner)
   }
 
   split_args_inner <- translate_window_definition(
@@ -347,17 +402,20 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
   indices <- compute_complete_indices(id_in, id_out)
 
   if (length(indices) < 1) {
-    cli::cli_abort("No calibration split possible.")
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- internal_calibration_split_mock(analysis_set)
+  } else {
+    indices <- indices[[length(indices)]]
+    split_inner <- make_splits(
+      indices,
+      data = analysis_set,
+      class = "sliding_window_split"
+    )
   }
 
   # no need to use skip and step args since they don't apply to _within_ an rsplit
-
-  indices <- indices[[length(indices)]]
-  split_inner <- make_splits(
-    indices,
-    data = analysis_set,
-    class = "sliding_window_split"
-  )
 
   class_inner <- "sliding_window_split_inner"
   split_inner <- add_class(split_inner, class_inner)
@@ -372,10 +430,15 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
 
   if (nrow(analysis_set) < 2) {
-    cli::cli_abort(
-      "This set cannot be split into an analysis and a calibration set as there
-      is only one row."
+    cli::cli_warn(
+      "This set cannot be split into an analysis and a calibration set as there 
+      is only one row; creating an empty calibration set."
     )
+    split_inner <- internal_calibration_split_mock(
+      analysis_set,
+      class = "sliding_index_split_inner"
+    )
+    return(split_inner)
   }
 
   split_args_inner <- translate_window_definition(
@@ -414,16 +477,20 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
   indices <- compute_complete_indices(id_in, id_out)
 
   if (length(indices) < 1) {
-    cli::cli_abort("No calibration split possible.")
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- internal_calibration_split_mock(analysis_set)
+  } else {
+    indices <- indices[[length(indices)]]
+    split_inner <- make_splits(
+      indices,
+      data = analysis_set,
+      class = "sliding_index_split"
+    )
   }
 
   # no need to use skip and step args since they don't apply to _within_ an rsplit
-  indices <- indices[[length(indices)]]
-  split_inner <- make_splits(
-    indices,
-    data = analysis_set,
-    class = "sliding_index_split"
-  )
 
   class_inner <- "sliding_index_split_inner"
   split_inner <- add_class(split_inner, class_inner)
@@ -438,11 +505,25 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
   analysis_set <- analysis(x)
 
   if (nrow(analysis_set) < 2) {
-    # TODO this should return an empty split with a warning
-    cli::cli_abort(
-      "This set cannot be split into an analysis and a calibration set as there
-      is only one row."
+    cli::cli_warn(
+      "This set cannot be split into an analysis and a calibration set as there 
+      is only one row; creating an empty calibration set."
     )
+    split_inner <- internal_calibration_split_mock(
+      analysis_set,
+      class = "sliding_period_split_inner"
+    )
+    return(split_inner)
+  }
+  if (split_args$lookback < 1) {
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- internal_calibration_split_mock(
+      analysis_set,
+      class = "sliding_period_split_inner"
+    )
+    return(split_inner)
   }
 
   split_args_inner <- translate_window_definition(
@@ -487,17 +568,20 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
   indices <- compute_complete_indices(id_in, id_out)
 
   if (length(indices) < 1) {
-    cli::cli_abort("No calibration split possible.")
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- internal_calibration_split_mock(analysis_set)
+  } else {
+    indices <- indices[[length(indices)]]
+    split_inner <- make_splits(
+      indices,
+      data = analysis_set,
+      class = "sliding_period_split"
+    )
   }
 
   # no need to use skip and step args since they don't apply to _within_ an rsplit
-
-  indices <- indices[[length(indices)]]
-  split_inner <- make_splits(
-    indices,
-    data = analysis_set,
-    class = "sliding_period_split"
-  )
 
   class_inner <- "sliding_period_split_inner"
   split_inner <- add_class(split_inner, class_inner)
@@ -552,12 +636,13 @@ inner_split.initial_time_split <- function(x, split_args, ...) {
 
   training_set <- training(x)
 
-  split_inner <- rlang::inject(
-    initial_time_split(training_set, !!!split_args)
+  split_inner <- internal_calibration_split_core(
+    training_set,
+    split_function = initial_time_split,
+    split_args = split_args,
+    classes = c("initial_time_split_inner", class(x))
   )
 
-  class_inner <- "initial_time_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
 
@@ -573,13 +658,14 @@ inner_split.initial_validation_split <- function(x, split_args, ...) {
 
   split_args$prop <- split_args$prop[1] / sum(split_args$prop)
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    mc_splits(training_set, !!!split_args)
-  )
-  split_inner <- split_inner$splits[[1]]
 
-  class_inner <- "initial_validation_split_inner"
-  class(split_inner) <- c(class_inner, class(split_inner))
+  split_inner <- internal_calibration_split_core(
+    training_set,
+    split_function = mc_splits,
+    split_args = split_args,
+    classes = c("initial_validation_split_inner", "mcsplit", "rsplit")
+  )
+
   split_inner
 }
 
@@ -592,13 +678,19 @@ inner_split.group_initial_validation_split <- function(x, split_args, ...) {
 
   split_args$prop <- split_args$prop[1] / sum(split_args$prop)
   split_args$times <- 1
-  split_inner <- rlang::inject(
-    group_mc_splits(training_set, !!!split_args)
-  )
-  split_inner <- split_inner$splits[[1]]
 
-  class_inner <- "group_initial_validation_split_inner"
-  class(split_inner) <- c(class_inner, class(split_inner))
+  split_inner <- internal_calibration_split_core(
+    training_set,
+    split_function = group_mc_splits,
+    split_args = split_args,
+    classes = c(
+      "group_initial_validation_split_inner",
+      "group_mc_split",
+      "mc_split",
+      "rsplit"
+    )
+  )
+
   split_inner
 }
 
@@ -608,6 +700,17 @@ inner_split.initial_validation_time_split <- function(x, split_args, ...) {
   check_dots_empty()
 
   training_set <- training(x)
+
+  if (nrow(training_set) < 2) {
+    cli::cli_warn(
+      "This set cannot be split into a training and a calibration set as there 
+      is only one row; creating an empty calibration set."
+    )
+    split_inner <- internal_calibration_split_mock(training_set)
+    class_inner <- "initial_validation_time_split_inner"
+    class(split_inner) <- c(class_inner, class(split_inner))
+    return(split_inner)
+  }
 
   prop_analysis <- split_args$prop[1] / sum(split_args$prop)
   n_analysis <- floor(nrow(training_set) * prop_analysis)
@@ -623,4 +726,44 @@ inner_split.initial_validation_time_split <- function(x, split_args, ...) {
   class_inner <- "initial_validation_time_split_inner"
   class(split_inner) <- c(class_inner, class(split_inner))
   split_inner
+}
+
+
+# helpers ----------------------------------------------------------------
+
+internal_calibration_split_core <- function(
+  analysis_set,
+  split_function,
+  split_args,
+  classes
+) {
+  split_inner <- try(
+    {
+      split_inner <- rlang::inject(
+        split_function(analysis_set, !!!split_args)
+      )
+      if (!inherits(split_inner, "rsplit")) {
+        split_inner <- split_inner$splits[[1]]
+      }
+      split_inner
+    },
+    silent = TRUE
+  )
+
+  if (inherits(split_inner, "try-error")) {
+    cli::cli_warn(
+      "Cannot create calibration split; creating an empty calibration set."
+    )
+    split_inner <- internal_calibration_split_mock(analysis_set)
+  }
+
+  class(split_inner) <- classes
+
+  split_inner
+}
+
+internal_calibration_split_mock <- function(analysis_set, class = NULL) {
+  calibration_set <- analysis_set[0, , drop = FALSE]
+  mock_split <- make_splits(analysis_set, calibration_set, class = class)
+  mock_split
 }
