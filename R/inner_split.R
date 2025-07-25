@@ -55,7 +55,7 @@ inner_split.mc_split <- function(x, split_args, ...) {
     analysis_set,
     split_function = mc_splits,
     split_args = split_args,
-    classes = c("mc_split_inner", class(x))
+    classes = c("mc_split_inner", "inner_split", class(x))
   )
 
   split_inner
@@ -74,7 +74,7 @@ inner_split.group_mc_split <- function(x, split_args, ...) {
     analysis_set,
     split_function = group_mc_splits,
     split_args = split_args,
-    classes = c("group_mc_split_inner", class(x))
+    classes = c("group_mc_split_inner", "inner_split", class(x))
   )
 
   split_inner
@@ -104,7 +104,7 @@ inner_split.vfold_split <- function(x, split_args, ...) {
     analysis_set,
     split_function = mc_splits,
     split_args = split_args,
-    classes = c("vfold_split_inner", class(x))
+    classes = c("vfold_split_inner", "inner_split", class(x))
   )
 
   split_inner
@@ -133,7 +133,7 @@ inner_split.group_vfold_split <- function(x, split_args, ...) {
     analysis_set,
     split_function = group_mc_splits,
     split_args = split_args,
-    classes = c("group_vfold_split_inner", class(x))
+    classes = c("group_vfold_split_inner", "inner_split", class(x))
   )
 
   split_inner
@@ -180,7 +180,7 @@ inner_split.boot_split <- function(x, split_args, ...) {
   }
 
   class_inner <- "boot_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  class(split_inner) <- c(class_inner, "inner_split", class(x))
   split_inner
 }
 
@@ -222,7 +222,7 @@ inner_split.group_boot_split <- function(x, split_args, ...) {
   }
 
   class_inner <- "group_boot_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  class(split_inner) <- c(class_inner, "inner_split", class(x))
   split_inner
 }
 
@@ -249,7 +249,7 @@ inner_split.val_split <- function(x, split_args, ...) {
     analysis_set,
     split_function = mc_splits,
     split_args = split_args,
-    classes = c("val_split_inner", class(x))
+    classes = c("val_split_inner", "inner_split", class(x))
   )
 
   split_inner
@@ -275,7 +275,7 @@ inner_split.group_val_split <- function(x, split_args, ...) {
     analysis_set,
     split_function = group_mc_splits,
     split_args = split_args,
-    classes = c("group_val_split_inner", class(x))
+    classes = c("group_val_split_inner", "inner_split", class(x))
   )
 
   split_inner
@@ -300,7 +300,7 @@ inner_split.time_val_split <- function(x, split_args, ...) {
     analysis_set,
     split_function = initial_time_split,
     split_args = split_args,
-    classes = c("time_val_split_inner", class(x))
+    classes = c("time_val_split_inner", "inner_split", class(x))
   )
 
   split_inner
@@ -323,7 +323,7 @@ inner_split.clustering_split <- function(x, split_args, ...) {
     analysis_set,
     split_function = clustering_cv,
     split_args = split_args,
-    classes = c("clustering_split_inner", class(x))
+    classes = c("clustering_split_inner", "inner_split", class(x))
   )
 
   split_inner
@@ -343,7 +343,7 @@ inner_split.apparent_split <- function(x, ...) {
   split_inner <- split_inner$splits[[1]]
 
   class_inner <- "apparent_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  class(split_inner) <- c(class_inner, "inner_split", class(x))
   split_inner
 }
 
@@ -364,7 +364,11 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
     )
     split_inner <- internal_calibration_split_mock(
       analysis_set,
-      class = c("sliding_window_split_inner", "sliding_window_split")
+      class = c(
+        "sliding_window_split_inner",
+        "inner_split",
+        "sliding_window_split"
+      )
     )
     return(split_inner)
   }
@@ -418,7 +422,7 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
   # no need to use skip and step args since they don't apply to _within_ an rsplit
 
   class_inner <- "sliding_window_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  class(split_inner) <- c(class_inner, "inner_split", class(x))
   split_inner
 }
 
@@ -436,7 +440,11 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
     )
     split_inner <- internal_calibration_split_mock(
       analysis_set,
-      class = c("sliding_index_split_inner", "sliding_index_split")
+      class = c(
+        "sliding_index_split_inner",
+        "inner_split",
+        "sliding_index_split"
+      )
     )
     return(split_inner)
   }
@@ -493,7 +501,7 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
   # no need to use skip and step args since they don't apply to _within_ an rsplit
 
   class_inner <- "sliding_index_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  class(split_inner) <- c(class_inner, "inner_split", class(x))
   split_inner
 }
 
@@ -511,7 +519,11 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
     )
     split_inner <- internal_calibration_split_mock(
       analysis_set,
-      class = c("sliding_period_split_inner", "sliding_period_split")
+      class = c(
+        "sliding_period_split_inner",
+        "inner_split",
+        "sliding_period_split"
+      )
     )
     return(split_inner)
   }
@@ -521,7 +533,11 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
     )
     split_inner <- internal_calibration_split_mock(
       analysis_set,
-      class = c("sliding_period_split_inner", "sliding_period_split")
+      class = c(
+        "sliding_period_split_inner",
+        "inner_split",
+        "sliding_period_split"
+      )
     )
     return(split_inner)
   }
@@ -584,7 +600,7 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
   # no need to use skip and step args since they don't apply to _within_ an rsplit
 
   class_inner <- "sliding_period_split_inner"
-  class(split_inner) <- c(class_inner, class(x))
+  class(split_inner) <- c(class_inner, "inner_split", class(x))
   split_inner
 }
 
@@ -640,7 +656,7 @@ inner_split.initial_time_split <- function(x, split_args, ...) {
     training_set,
     split_function = initial_time_split,
     split_args = split_args,
-    classes = c("initial_time_split_inner", class(x))
+    classes = c("initial_time_split_inner", "inner_split", class(x))
   )
 
   split_inner
@@ -663,7 +679,12 @@ inner_split.initial_validation_split <- function(x, split_args, ...) {
     training_set,
     split_function = mc_splits,
     split_args = split_args,
-    classes = c("initial_validation_split_inner", "mc_split", "rsplit")
+    classes = c(
+      "initial_validation_split_inner",
+      "inner_split",
+      "mc_split",
+      "rsplit"
+    )
   )
 
   split_inner
@@ -685,6 +706,7 @@ inner_split.group_initial_validation_split <- function(x, split_args, ...) {
     split_args = split_args,
     classes = c(
       "group_initial_validation_split_inner",
+      "inner_split",
       "group_mc_split",
       "mc_split",
       "rsplit"
@@ -708,7 +730,7 @@ inner_split.initial_validation_time_split <- function(x, split_args, ...) {
     )
     split_inner <- internal_calibration_split_mock(training_set)
     class_inner <- "initial_validation_time_split_inner"
-    class(split_inner) <- c(class_inner, class(split_inner))
+    class(split_inner) <- c(class_inner, "inner_split", class(split_inner))
     return(split_inner)
   }
 
@@ -724,7 +746,7 @@ inner_split.initial_validation_time_split <- function(x, split_args, ...) {
   )
 
   class_inner <- "initial_validation_time_split_inner"
-  class(split_inner) <- c(class_inner, class(split_inner))
+  class(split_inner) <- c(class_inner, "inner_split", class(split_inner))
   split_inner
 }
 
