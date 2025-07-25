@@ -608,6 +608,12 @@ test_that("sliding_window_split", {
     isplit$data[isplit$out_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
+
+  expect_s3_class(
+    isplit,
+    c("sliding_window_split_inner", "sliding_window_split", "rsplit"),
+    exact = TRUE
+  )
 })
 
 test_that("sliding_window_split needs at least 2 observations", {
@@ -721,6 +727,12 @@ test_that("sliding_index_split", {
     assessment(isplit),
     isplit$data[isplit$out_id, , drop = FALSE],
     ignore_attr = "row.names"
+  )
+
+  expect_s3_class(
+    isplit,
+    c("sliding_index_split_inner", "sliding_index_split", "rsplit"),
+    exact = TRUE
   )
 })
 
@@ -881,6 +893,12 @@ test_that("sliding_period_split", {
     assessment(i_split),
     i_split$data[i_split$out_id, , drop = FALSE],
     ignore_attr = "row.names"
+  )
+
+  expect_s3_class(
+    i_split,
+    c("sliding_period_split_inner", "sliding_period_split", "rsplit"),
+    exact = TRUE
   )
 })
 

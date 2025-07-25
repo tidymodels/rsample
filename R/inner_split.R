@@ -418,7 +418,7 @@ inner_split.sliding_window_split <- function(x, split_args, ...) {
   # no need to use skip and step args since they don't apply to _within_ an rsplit
 
   class_inner <- "sliding_window_split_inner"
-  split_inner <- add_class(split_inner, class_inner)
+  class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
 
@@ -493,7 +493,7 @@ inner_split.sliding_index_split <- function(x, split_args, ...) {
   # no need to use skip and step args since they don't apply to _within_ an rsplit
 
   class_inner <- "sliding_index_split_inner"
-  split_inner <- add_class(split_inner, class_inner)
+  class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
 
@@ -584,7 +584,7 @@ inner_split.sliding_period_split <- function(x, split_args, ...) {
   # no need to use skip and step args since they don't apply to _within_ an rsplit
 
   class_inner <- "sliding_period_split_inner"
-  split_inner <- add_class(split_inner, class_inner)
+  class(split_inner) <- c(class_inner, class(x))
   split_inner
 }
 
