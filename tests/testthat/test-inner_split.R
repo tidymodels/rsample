@@ -1203,7 +1203,7 @@ test_that("initial_validation_time_split can create mock split", {
 # mock split -------------------------------------------------------------
 
 test_that("can create a mock split", {
-  mock_split <- mock_internal_calibration_split(mtcars)
+  mock_split <- internal_calibration_split_mock(mtcars)
   mock_analysis <- analysis(mock_split)
   mock_calibration <- assessment(mock_split)
 
@@ -1212,6 +1212,6 @@ test_that("can create a mock split", {
 
   expect_s3_class(mock_split, "rsplit")
 
-  mock_split <- mock_internal_calibration_split(mtcars, class = "mock_class")
+  mock_split <- internal_calibration_split_mock(mtcars, class = "mock_class")
   expect_s3_class(mock_split, "mock_class")
 })
