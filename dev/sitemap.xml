@@ -28,8 +28,8 @@
 <url><loc>https://rsample.tidymodels.org/dev/reference/index.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/dev/reference/initial_split.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/dev/reference/initial_validation_split.html</loc></url>
-<url><loc>https://rsample.tidymodels.org/dev/reference/inner_split.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/dev/reference/int_pctl.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/dev/reference/internal_calibration_split.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/dev/reference/labels.rset.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/dev/reference/labels.rsplit.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/dev/reference/loo_cv.html</loc></url>
