@@ -816,7 +816,7 @@ calibration.inner_split <- function(x, ...) {
 #' @rdname inner_split
 #' @export
 assessment.inner_split <- function(x, ...) {
-  cli_abort("Inner splits do not contain an assessment set.")
+  cli_abort("Inner splits are designed to only return analysis and calibration sets.")
 }
 
 #' @rdname inner_split
