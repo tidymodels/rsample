@@ -188,7 +188,7 @@
       assessment(inner_split)
     Condition
       Error in `assessment()`:
-      ! Inner splits do not contain an assessment set.
+      ! Inner splits are designed to only return analysis and calibration sets.
 
 # print()
 
