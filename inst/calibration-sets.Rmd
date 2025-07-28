@@ -61,7 +61,7 @@ For v-fold cross-validation, we split the data into `v` folds and create `v` res
 
 Since we want to have a calibration split similar in spirit, we are splitting the (outer) analysis set into (inner) analysis set and calibration set with the same proportion of observations going into the analysis set: 1 - 1/v.
 
-Note: the `inner_split()` methods are exported to be used by tune but not intended to be user-facing. 
+Note: the `internal_calibration_split()` methods are exported to be used by tune but not intended to be user-facing. 
 
 ```{r}
 #| label: vfold
@@ -73,10 +73,10 @@ r_split
 # proportion of observations allocated for fitting the model in the outer split
 nrow(analysis(r_split)) / nrow(warpbreaks)
 
-i_split <- inner_split(r_split, .get_split_args(r_set))
-i_split
+split_cal <- internal_calibration_split(r_split, .get_split_args(r_set))
+split_cal
 # similar proportion of observations allocated for fitting the model in the inner split
-nrow(analysis(i_split)) / nrow(analysis(r_split))
+nrow(analysis(split_cal)) / nrow(analysis(r_split))
 ```
 
 
@@ -162,12 +162,12 @@ From the `length_*`s, we can calculate the new `lookback`, `assess_start`, and `
 ![](images/calibration-split-window-inner.jpg)
 
 ```{r}
-#| label: sliding_window_inner_split
+#| label: sliding_window_internal_calibration_split
 
-i_split <- inner_split(r_split, .get_split_args(r_set))
-i_split
-analysis(i_split)
-calibration(i_split)
+split_cal <- internal_calibration_split(r_split, .get_split_args(r_set))
+split_cal
+analysis(split_cal)
+calibration(split_cal)
 ```
 
 This is the basic principle. 
@@ -192,9 +192,9 @@ When creating the calibration split, we apply the `complete` option to the (now 
 #| label: sliding_window_split_incomplete_2
 
 r_split <- get_rsplit(r_set, 2) 
-i_split <- inner_split(r_split, .get_split_args(r_set))
+split_cal <- internal_calibration_split(r_split, .get_split_args(r_set))
 
-i_split
+split_cal
 ```
 
 A calibration split on the third resample, which contains three rows, succeeds with the required two rows in the calibration set and the remaining one in the incomplete analysis set.
@@ -203,8 +203,8 @@ A calibration split on the third resample, which contains three rows, succeeds w
 #| label: sliding_window_split_incomplete_3
 
 r_split <- get_rsplit(r_set, 3) 
-i_split <- inner_split(r_split, .get_split_args(r_set))
-i_split
+split_cal <- internal_calibration_split(r_split, .get_split_args(r_set))
+split_cal
 ```
 
 If we can fit a complete (inner) analysis set in the available rows, we do so, even if incomplete sets are allowed.
@@ -213,8 +213,8 @@ If we can fit a complete (inner) analysis set in the available rows, we do so, e
 #| label: sliding_window_split_incomplete_5
 
 r_split <- get_rsplit(r_set, 5)
-i_split <- inner_split(r_split, .get_split_args(r_set))
-i_split
+split_cal <- internal_calibration_split(r_split, .get_split_args(r_set))
+split_cal
 ```
 
 
@@ -242,10 +242,10 @@ For the first resample, this is all well. We just skip over the missing row, bot
 r_split <- get_rsplit(r_set, 1)
 analysis(r_split)
 
-i_split <- inner_split(r_split, .get_split_args(r_set))
-i_split
-analysis(i_split)
-calibration(i_split)
+split_cal <- internal_calibration_split(r_split, .get_split_args(r_set))
+split_cal
+analysis(split_cal)
+calibration(split_cal)
 ```
 
 #### When we can't split
@@ -305,7 +305,7 @@ df <- data.frame(x = c(1:2, 4:11))
 r_set <- sliding_index(df, index = x, lookback = 4, assess_start = 3, assess_stop = 5)
 r_split <- get_rsplit(r_set, 1)
 
-inner_split(r_split, .get_split_args(r_set))
+internal_calibration_split(r_split, .get_split_args(r_set))
 ```
 
 We expect this to not be relevant in practice too often, as chances of this happening are lower with more observations and we assume you are only attempting calibration with sufficiently large datasets.
@@ -355,7 +355,7 @@ The calibration set consists of one week from the (outer) analysis set.
 ```{r}
 #| label: chicago_isplit
 
-i_split <- inner_split(chicago_r_split, .get_split_args(chicago_r_set))
-chicago_cal <- calibration(i_split)
+split_cal <- internal_calibration_split(chicago_r_split, .get_split_args(chicago_r_set))
+chicago_cal <- calibration(split_cal)
 range(chicago_cal$date)
 ```

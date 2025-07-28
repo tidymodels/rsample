@@ -1,10 +1,10 @@
 test_that("informative error messages", {
   expect_snapshot(error = TRUE, {
-    inner_split(NULL)
+    internal_calibration_split(NULL)
   })
 
   # we don't know how manual rsets are constructed,
-  # thus we can't provide an inner_split method
+  # thus we can't provide an internal_calibration_split method
   df <- data.frame(x = c(1, 2, 3, 4, 5, 6))
   indices <- list(
     list(analysis = c(1L, 2L), assessment = 3L),
@@ -14,7 +14,7 @@ test_that("informative error messages", {
   m_rset <- manual_rset(splits, c("Split 1", "Split 2"))
 
   expect_snapshot(error = TRUE, {
-    inner_split(m_rset)
+    internal_calibration_split(m_rset)
   })
 })
 
@@ -26,27 +26,27 @@ test_that("mc_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
-    c("mc_split_inner", "inner_split", "mc_split", "rsplit"),
+    split_cal,
+    c("mc_split_cal", "internal_calibration_split", "mc_split", "rsplit"),
     exact = TRUE
   )
 })
@@ -61,22 +61,22 @@ test_that("mc_split can create mock split", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
-    c("mc_split_inner", "inner_split", "mc_split", "rsplit"),
+    split_cal,
+    c("mc_split_cal", "internal_calibration_split", "mc_split", "rsplit"),
     exact = TRUE
   )
 })
@@ -91,29 +91,29 @@ test_that("group_mc_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "group_mc_split_inner",
-      "inner_split",
+      "group_mc_split_cal",
+      "internal_calibration_split",
       "group_mc_split",
       "mc_split",
       "rsplit"
@@ -131,24 +131,24 @@ test_that("group_mc_split can create mock split", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "group_mc_split_inner",
-      "inner_split",
+      "group_mc_split_cal",
+      "internal_calibration_split",
       "group_mc_split",
       "mc_split",
       "rsplit"
@@ -166,27 +166,32 @@ test_that("vfold_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
-    c("vfold_split_inner", "inner_split", "vfold_split", "rsplit"),
+    split_cal,
+    c(
+      "vfold_split_cal",
+      "internal_calibration_split",
+      "vfold_split",
+      "rsplit"
+    ),
     exact = TRUE
   )
 })
@@ -200,22 +205,27 @@ test_that("vfold_split can create mock split", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
-    c("vfold_split_inner", "inner_split", "vfold_split", "rsplit"),
+    split_cal,
+    c(
+      "vfold_split_cal",
+      "internal_calibration_split",
+      "vfold_split",
+      "rsplit"
+    ),
     exact = TRUE
   )
 })
@@ -230,29 +240,29 @@ test_that("group_vfold_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "group_vfold_split_inner",
-      "inner_split",
+      "group_vfold_split_cal",
+      "internal_calibration_split",
       "group_vfold_split",
       "vfold_split",
       "rsplit"
@@ -270,24 +280,24 @@ test_that("group_vfold_split can create mock split", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "group_vfold_split_inner",
-      "inner_split",
+      "group_vfold_split_cal",
+      "internal_calibration_split",
       "group_vfold_split",
       "vfold_split",
       "rsplit"
@@ -304,26 +314,26 @@ test_that("boot_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_lte(
-    nrow(isplit$data),
+    nrow(split_cal$data),
     analysis(r_split) |> nrow()
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[complement(isplit), ],
+    calibration(split_cal),
+    split_cal$data[complement(split_cal), ],
     ignore_attr = "row.names"
   )
   expect_s3_class(
-    isplit,
-    c("boot_split_inner", "inner_split", "boot_split", "rsplit"),
+    split_cal,
+    c("boot_split_cal", "internal_calibration_split", "boot_split", "rsplit"),
     exact = TRUE
   )
 })
@@ -337,22 +347,22 @@ test_that("boot_split can create mock split", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
-    c("boot_split_inner", "inner_split", "boot_split", "rsplit"),
+    split_cal,
+    c("boot_split_cal", "internal_calibration_split", "boot_split", "rsplit"),
     exact = TRUE
   )
 })
@@ -367,29 +377,29 @@ test_that("group_boot_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_lte(
-    nrow(isplit$data),
+    nrow(split_cal$data),
     analysis(r_split) |> nrow()
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[complement(isplit), ],
+    calibration(split_cal),
+    split_cal$data[complement(split_cal), ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "group_boot_split_inner",
-      "inner_split",
+      "group_boot_split_cal",
+      "internal_calibration_split",
       "group_boot_split",
       "boot_split",
       "rsplit"
@@ -407,24 +417,24 @@ test_that("group_boot_split can create mock split", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "group_boot_split_inner",
-      "inner_split",
+      "group_boot_split_cal",
+      "internal_calibration_split",
       "group_boot_split",
       "boot_split",
       "rsplit"
@@ -446,27 +456,27 @@ test_that("initial_validation_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
-    c("val_split_inner", "inner_split", "val_split", "rsplit"),
+    split_cal,
+    c("val_split_cal", "internal_calibration_split", "val_split", "rsplit"),
     exact = TRUE
   )
 })
@@ -481,22 +491,22 @@ test_that("val_split can create mock split", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
-    c("val_split_inner", "inner_split", "val_split", "rsplit"),
+    split_cal,
+    c("val_split_cal", "internal_calibration_split", "val_split", "rsplit"),
     exact = TRUE
   )
 })
@@ -516,29 +526,29 @@ test_that("group_initial_validation_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "group_val_split_inner",
-      "inner_split",
+      "group_val_split_cal",
+      "internal_calibration_split",
       "group_val_split",
       "val_split",
       "rsplit"
@@ -561,24 +571,24 @@ test_that("group_val_split can create mock split", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "group_val_split_inner",
-      "inner_split",
+      "group_val_split_cal",
+      "internal_calibration_split",
       "group_val_split",
       "val_split",
       "rsplit"
@@ -597,29 +607,29 @@ test_that("initial_validation_time_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "time_val_split_inner",
-      "inner_split",
+      "time_val_split_cal",
+      "internal_calibration_split",
       "time_val_split",
       "val_split",
       "rsplit"
@@ -638,24 +648,24 @@ test_that("time_val_split can create mock split", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "time_val_split_inner",
-      "inner_split",
+      "time_val_split_cal",
+      "internal_calibration_split",
       "time_val_split",
       "val_split",
       "rsplit"
@@ -673,27 +683,32 @@ test_that("clustering_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[-isplit$in_id, ],
+    calibration(split_cal),
+    split_cal$data[-split_cal$in_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
-    c("clustering_split_inner", "inner_split", "clustering_split", "rsplit"),
+    split_cal,
+    c(
+      "clustering_split_cal",
+      "internal_calibration_split",
+      "clustering_split",
+      "rsplit"
+    ),
     exact = TRUE
   )
 })
@@ -707,22 +722,27 @@ test_that("clustering_split can create mock split", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
-    c("clustering_split_inner", "inner_split", "clustering_split", "rsplit"),
+    split_cal,
+    c(
+      "clustering_split_cal",
+      "internal_calibration_split",
+      "clustering_split",
+      "rsplit"
+    ),
     exact = TRUE
   )
 })
@@ -734,25 +754,30 @@ test_that("apparent_split", {
   r_set <- apparent(warpbreaks)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split)
+  split_cal <- internal_calibration_split(r_split)
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
   expect_identical(
-    calibration(isplit),
+    calibration(split_cal),
     analysis(r_split)
   )
 
   expect_s3_class(
-    isplit,
-    c("apparent_split_inner", "inner_split", "apparent_split", "rsplit"),
+    split_cal,
+    c(
+      "apparent_split_cal",
+      "internal_calibration_split",
+      "apparent_split",
+      "rsplit"
+    ),
     exact = TRUE
   )
 })
@@ -767,38 +792,38 @@ test_that("sliding_window_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$in_id,
+    split_cal$in_id,
     1:3
   )
   expect_identical(
-    isplit$out_id,
+    split_cal$out_id,
     4:5
   )
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, , drop = FALSE],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, , drop = FALSE],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "sliding_window_split_inner",
-      "inner_split",
+      "sliding_window_split_cal",
+      "internal_calibration_split",
       "sliding_window_split",
       "rsplit"
     ),
@@ -814,24 +839,24 @@ test_that("sliding_window_split needs at least 2 observations", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "sliding_window_split_inner",
-      "inner_split",
+      "sliding_window_split_cal",
+      "internal_calibration_split",
       "sliding_window_split",
       "rsplit"
     ),
@@ -854,44 +879,44 @@ test_that("sliding_window_split with incomplete sets", {
   # not enough observations for a full calibration set and (inner) analysis set
   r_split <- get_rsplit(r_set, 2)
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   r_split <- get_rsplit(r_set, 3)
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$in_id,
+    split_cal$in_id,
     1L
   )
   expect_identical(
-    isplit$out_id,
+    split_cal$out_id,
     2:3
   )
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, , drop = FALSE],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, , drop = FALSE],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
 })
@@ -903,38 +928,38 @@ test_that("sliding_index_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$in_id,
+    split_cal$in_id,
     1:3
   )
   expect_identical(
-    isplit$out_id,
+    split_cal$out_id,
     4:5
   )
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, , drop = FALSE],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, , drop = FALSE],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "sliding_index_split_inner",
-      "inner_split",
+      "sliding_index_split_cal",
+      "internal_calibration_split",
       "sliding_index_split",
       "rsplit"
     ),
@@ -949,14 +974,14 @@ test_that("sliding_index_split can lookback over irregular index", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$in_id,
+    split_cal$in_id,
     1:2
   )
   expect_identical(
-    isplit$out_id,
+    split_cal$out_id,
     3:4
   )
 })
@@ -974,14 +999,14 @@ test_that("sliding_index_split can make calibration set relative to irregular in
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$in_id,
+    split_cal$in_id,
     1:5
   )
   expect_identical(
-    isplit$out_id,
+    split_cal$out_id,
     7:9
   )
 })
@@ -994,24 +1019,24 @@ test_that("sliding_index_split needs at least 2 observations", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "sliding_index_split_inner",
-      "inner_split",
+      "sliding_index_split_cal",
+      "internal_calibration_split",
       "sliding_index_split",
       "rsplit"
     ),
@@ -1035,44 +1060,44 @@ test_that("sliding_index_split with incomplete sets", {
   # not enough observations for a full calibration set and (inner) analysis set
   r_split <- get_rsplit(r_set, 2)
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   r_split <- get_rsplit(r_set, 3)
-  isplit <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    isplit$in_id,
+    split_cal$in_id,
     1L
   )
   expect_identical(
-    isplit$out_id,
+    split_cal$out_id,
     2:3
   )
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, , drop = FALSE],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, , drop = FALSE],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
 })
@@ -1085,38 +1110,38 @@ test_that("sliding_period_split", {
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  i_split <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
   expect_identical(
-    i_split$in_id,
+    split_cal$in_id,
     1:3
   )
   expect_identical(
-    i_split$out_id,
+    split_cal$out_id,
     4:13
   )
 
   expect_identical(
-    i_split$data,
+    split_cal$data,
     analysis(r_split)
   )
 
   expect_identical(
-    analysis(i_split),
-    i_split$data[i_split$in_id, , drop = FALSE],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(i_split),
-    i_split$data[i_split$out_id, , drop = FALSE],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    i_split,
+    split_cal,
     c(
-      "sliding_period_split_inner",
-      "inner_split",
+      "sliding_period_split_cal",
+      "internal_calibration_split",
       "sliding_period_split",
       "rsplit"
     ),
@@ -1133,10 +1158,10 @@ test_that("sliding_period_split when looking back over multiple periods, only co
   split_args <- .get_split_args(r_set)
   r_split <- get_rsplit(r_set, 1)
 
-  i_split <- inner_split(r_split, split_args)
+  split_cal <- internal_calibration_split(r_split, split_args)
 
-  expect_identical(i_split$in_id, 1L)
-  expect_identical(i_split$out_id, 2L)
+  expect_identical(split_cal$in_id, 1L)
+  expect_identical(split_cal$out_id, 2L)
 })
 
 test_that("sliding_period_split needs at least 2 observations", {
@@ -1148,24 +1173,24 @@ test_that("sliding_period_split needs at least 2 observations", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "sliding_period_split_inner",
-      "inner_split",
+      "sliding_period_split_cal",
+      "internal_calibration_split",
       "sliding_period_split",
       "rsplit"
     ),
@@ -1182,24 +1207,24 @@ test_that("sliding_period_split needs observations in at least 2 periods", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "sliding_period_split_inner",
-      "inner_split",
+      "sliding_period_split_cal",
+      "internal_calibration_split",
       "sliding_period_split",
       "rsplit"
     ),
@@ -1214,24 +1239,24 @@ test_that("sliding_period_split needs observations in at least 2 periods", {
   r_split <- get_rsplit(r_set, 1)
 
   expect_snapshot({
-    isplit <- inner_split(r_split, split_args)
+    split_cal <- internal_calibration_split(r_split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     analysis(r_split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "sliding_period_split_inner",
-      "inner_split",
+      "sliding_period_split_cal",
+      "internal_calibration_split",
       "sliding_period_split",
       "rsplit"
     ),
@@ -1244,27 +1269,33 @@ test_that("sliding_period_split needs observations in at least 2 periods", {
 test_that("initial_split", {
   set.seed(11)
   car_split <- initial_split(mtcars)
-  isplit <- inner_split(car_split, .get_split_args(car_split))
+  split_cal <- internal_calibration_split(car_split, .get_split_args(car_split))
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     training(car_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
-    c("mc_split_inner", "inner_split", "initial_split", "mc_split", "rsplit"),
+    split_cal,
+    c(
+      "mc_split_cal",
+      "internal_calibration_split",
+      "initial_split",
+      "mc_split",
+      "rsplit"
+    ),
     exact = TRUE
   )
 })
@@ -1272,29 +1303,29 @@ test_that("initial_split", {
 test_that("group_initial_split", {
   set.seed(11)
   car_split <- group_initial_split(mtcars, cyl)
-  isplit <- inner_split(car_split, .get_split_args(car_split))
+  split_cal <- internal_calibration_split(car_split, .get_split_args(car_split))
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     training(car_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "group_mc_split_inner",
-      "inner_split",
+      "group_mc_split_cal",
+      "internal_calibration_split",
       "group_initial_split",
       "initial_split",
       "group_mc_split",
@@ -1308,29 +1339,29 @@ test_that("group_initial_split", {
 test_that("initial_time_split", {
   set.seed(11)
   car_split <- initial_time_split(mtcars)
-  isplit <- inner_split(car_split, .get_split_args(car_split))
+  split_cal <- internal_calibration_split(car_split, .get_split_args(car_split))
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     training(car_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "initial_time_split_inner",
-      "inner_split",
+      "initial_time_split_cal",
+      "internal_calibration_split",
       "initial_time_split",
       "initial_split",
       "rsplit"
@@ -1346,24 +1377,24 @@ test_that("initial_time_split can create mock split", {
   split_args <- .get_split_args(split)
 
   expect_snapshot({
-    isplit <- inner_split(split, split_args)
+    split_cal <- internal_calibration_split(split, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     training(split)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "initial_time_split_inner",
-      "inner_split",
+      "initial_time_split_cal",
+      "internal_calibration_split",
       "initial_time_split",
       "initial_split",
       "rsplit"
@@ -1378,27 +1409,32 @@ test_that("initial_time_split can create mock split", {
 test_that("initial_validation_split", {
   set.seed(11)
   car_split <- initial_validation_split(mtcars)
-  isplit <- inner_split(car_split, .get_split_args(car_split))
+  split_cal <- internal_calibration_split(car_split, .get_split_args(car_split))
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     training(car_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
-    c("initial_validation_split_inner", "inner_split", "mc_split", "rsplit"),
+    split_cal,
+    c(
+      "initial_validation_split_cal",
+      "internal_calibration_split",
+      "mc_split",
+      "rsplit"
+    ),
     exact = TRUE
   )
 })
@@ -1411,22 +1447,27 @@ test_that("initial_validation_split can create mock split", {
   split_args <- .get_split_args(initial_vsplit)
 
   expect_snapshot({
-    isplit <- inner_split(initial_vsplit, split_args)
+    split_cal <- internal_calibration_split(initial_vsplit, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     training(initial_vsplit)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
-    c("initial_validation_split_inner", "inner_split", "mc_split", "rsplit"),
+    split_cal,
+    c(
+      "initial_validation_split_cal",
+      "internal_calibration_split",
+      "mc_split",
+      "rsplit"
+    ),
     exact = TRUE
   )
 })
@@ -1437,29 +1478,32 @@ test_that("group_initial_validation_split", {
 
   set.seed(12)
   ames_split <- group_initial_validation_split(ames, group = Neighborhood)
-  isplit <- inner_split(ames_split, .get_split_args(ames_split))
+  split_cal <- internal_calibration_split(
+    ames_split,
+    .get_split_args(ames_split)
+  )
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     training(ames_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "group_initial_validation_split_inner",
-      "inner_split",
+      "group_initial_validation_split_cal",
+      "internal_calibration_split",
       "group_mc_split",
       "mc_split",
       "rsplit"
@@ -1480,24 +1524,24 @@ test_that("group_initial_validation_split can create mock split", {
   split_args <- .get_split_args(initial_vsplit)
 
   expect_snapshot({
-    isplit <- inner_split(initial_vsplit, split_args)
+    split_cal <- internal_calibration_split(initial_vsplit, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     training(initial_vsplit)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
+    split_cal,
     c(
-      "group_initial_validation_split_inner",
-      "inner_split",
+      "group_initial_validation_split_cal",
+      "internal_calibration_split",
       "group_mc_split",
       "mc_split",
       "rsplit"
@@ -1512,27 +1556,34 @@ test_that("initial_validation_time_split", {
 
   set.seed(12)
   drinks_split <- initial_validation_time_split(drinks)
-  isplit <- inner_split(drinks_split, .get_split_args(drinks_split))
+  split_cal <- internal_calibration_split(
+    drinks_split,
+    .get_split_args(drinks_split)
+  )
 
   expect_identical(
-    isplit$data,
+    split_cal$data,
     training(drinks_split)
   )
 
   expect_identical(
-    analysis(isplit),
-    isplit$data[isplit$in_id, ],
+    analysis(split_cal),
+    split_cal$data[split_cal$in_id, ],
     ignore_attr = "row.names"
   )
   expect_identical(
-    calibration(isplit),
-    isplit$data[isplit$out_id, ],
+    calibration(split_cal),
+    split_cal$data[split_cal$out_id, ],
     ignore_attr = "row.names"
   )
 
   expect_s3_class(
-    isplit,
-    c("initial_validation_time_split_inner", "inner_split", "rsplit"),
+    split_cal,
+    c(
+      "initial_validation_time_split_cal",
+      "internal_calibration_split",
+      "rsplit"
+    ),
     exact = TRUE
   )
 })
@@ -1545,22 +1596,26 @@ test_that("initial_validation_time_split can create mock split", {
   split_args <- .get_split_args(initial_vsplit)
 
   expect_snapshot({
-    isplit <- inner_split(initial_vsplit, split_args)
+    split_cal <- internal_calibration_split(initial_vsplit, split_args)
   })
 
   expect_identical(
-    analysis(isplit),
+    analysis(split_cal),
     training(initial_vsplit)
   )
 
   expect_identical(
-    nrow(calibration(isplit)),
+    nrow(calibration(split_cal)),
     0L
   )
 
   expect_s3_class(
-    isplit,
-    c("initial_validation_time_split_inner", "inner_split", "rsplit"),
+    split_cal,
+    c(
+      "initial_validation_time_split_cal",
+      "internal_calibration_split",
+      "rsplit"
+    ),
     exact = TRUE
   )
 })
@@ -1568,7 +1623,10 @@ test_that("initial_validation_time_split can create mock split", {
 # mock split -------------------------------------------------------------
 
 test_that("can create a mock split", {
-  mock_split <- internal_calibration_split_mock(mtcars, class = "inner_split")
+  mock_split <- internal_calibration_split_mock(
+    mtcars,
+    class = "internal_calibration_split"
+  )
   mock_analysis <- analysis(mock_split)
   mock_calibration <- calibration(mock_split)
 
@@ -1584,17 +1642,23 @@ test_that("can create a mock split", {
 #   ----------------------------------------------------------------------
 
 test_that("assessment() fails", {
-  inner_split <- internal_calibration_split_mock(mtcars, class = "inner_split")
+  internal_calibration_split <- internal_calibration_split_mock(
+    mtcars,
+    class = "internal_calibration_split"
+  )
 
   expect_snapshot(error = TRUE, {
-    assessment(inner_split)
+    assessment(internal_calibration_split)
   })
 })
 
 test_that("print()", {
-  inner_split <- internal_calibration_split_mock(mtcars, class = "inner_split")
+  internal_calibration_split <- internal_calibration_split_mock(
+    mtcars,
+    class = "internal_calibration_split"
+  )
 
   expect_snapshot(
-    print(inner_split)
+    print(internal_calibration_split)
   )
 })
