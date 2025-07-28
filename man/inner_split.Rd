@@ -25,6 +25,7 @@
 \alias{calibration.default}
 \alias{calibration.inner_split}
 \alias{assessment.inner_split}
+\alias{print.inner_split}
 \title{Inner split of the analysis set for fitting a post-processor}
 \usage{
 inner_split(x, ...)
@@ -74,6 +75,8 @@ calibration(x, ...)
 \method{calibration}{inner_split}(x, ...)
 
 \method{assessment}{inner_split}(x, ...)
+
+\method{print}{inner_split}(x, ...)
 }
 \arguments{
 \item{x}{An \code{rsplit} object.}

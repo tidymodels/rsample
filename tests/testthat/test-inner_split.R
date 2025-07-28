@@ -1590,3 +1590,11 @@ test_that("assessment() fails", {
     assessment(inner_split)
   })
 })
+
+test_that("print()", {
+  inner_split <- internal_calibration_split_mock(mtcars, class = "inner_split")
+
+  expect_snapshot(
+    print(inner_split)
+  )
+})

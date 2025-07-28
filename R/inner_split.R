@@ -818,3 +818,17 @@ calibration.inner_split <- function(x, ...) {
 assessment.inner_split <- function(x, ...) {
   cli_abort("Inner splits do not contain an assessment set.")
 }
+
+#' @rdname inner_split
+#' @export
+print.inner_split <- function(x, ...) {
+  out_char <-
+    if (is_missing_out_id(x)) {
+      paste(length(complement(x)))
+    } else {
+      paste(length(x$out_id))
+    }
+
+  cat("<Analysis/Calibration/Total>\n")
+  cat("<", length(x$in_id), "/", out_char, "/", nrow(x$data), ">\n", sep = "")
+}

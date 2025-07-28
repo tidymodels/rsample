@@ -190,3 +190,11 @@
       Error in `assessment()`:
       ! Inner splits do not contain an assessment set.
 
+# print()
+
+    Code
+      print(inner_split)
+    Output
+      <Analysis/Calibration/Total>
+      <32/0/32>
+
