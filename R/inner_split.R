@@ -789,3 +789,32 @@ internal_calibration_split_mock <- function(analysis_set, class = NULL) {
   mock_split <- make_splits(analysis_set, calibration_set, class = class)
   mock_split
 }
+
+#   ----------------------------------------------------------------------
+
+#' @rdname inner_split
+#' @export
+calibration <- function(x, ...) {
+  UseMethod("calibration")
+}
+
+#' @rdname inner_split
+#' @export
+calibration.default <- function(x, ...) {
+  cls <- class(x)
+  cli::cli_abort(
+    "No method for objects of class{?es}: {cls}"
+  )
+}
+
+#' @rdname inner_split
+#' @export
+calibration.inner_split <- function(x, ...) {
+  as.data.frame(x, data = "assessment", ...)
+}
+
+#' @rdname inner_split
+#' @export
+assessment.inner_split <- function(x, ...) {
+  cli_abort("Inner splits do not contain an assessment set.")
+}

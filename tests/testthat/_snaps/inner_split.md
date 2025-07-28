@@ -182,3 +182,11 @@
       Warning:
       This set cannot be split into a training and a calibration set as there is only one row; creating an empty calibration set.
 
+# assessment() fails
+
+    Code
+      assessment(inner_split)
+    Condition
+      Error in `assessment()`:
+      ! Inner splits do not contain an assessment set.
+
