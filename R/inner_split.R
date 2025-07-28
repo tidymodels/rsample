@@ -789,3 +789,48 @@ internal_calibration_split_mock <- function(analysis_set, class = NULL) {
   mock_split <- make_splits(analysis_set, calibration_set, class = class)
   mock_split
 }
+
+#   ----------------------------------------------------------------------
+
+#' @rdname inner_split
+#' @export
+calibration <- function(x, ...) {
+  UseMethod("calibration")
+}
+
+#' @rdname inner_split
+#' @export
+calibration.default <- function(x, ...) {
+  cls <- class(x)
+  cli::cli_abort(
+    "No method for objects of class{?es}: {cls}"
+  )
+}
+
+#' @rdname inner_split
+#' @export
+calibration.inner_split <- function(x, ...) {
+  as.data.frame(x, data = "assessment", ...)
+}
+
+#' @rdname inner_split
+#' @export
+assessment.inner_split <- function(x, ...) {
+  cli_abort(
+    "Inner splits are designed to only return analysis and calibration sets."
+  )
+}
+
+#' @rdname inner_split
+#' @export
+print.inner_split <- function(x, ...) {
+  out_char <-
+    if (is_missing_out_id(x)) {
+      paste(length(complement(x)))
+    } else {
+      paste(length(x$out_id))
+    }
+
+  cat("<Analysis/Calibration/Total>\n")
+  cat("<", length(x$in_id), "/", out_char, "/", nrow(x$data), ">\n", sep = "")
+}

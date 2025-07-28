@@ -161,15 +161,13 @@ From the `length_*`s, we can calculate the new `lookback`, `assess_start`, and `
 
 ![](images/calibration-split-window-inner.jpg)
 
-Side note: we'll introduce a `calibration()` accessor function for clarity. Here, we are using the existing `assessment()` acessor function but the data set returned by `assessment()` is the calibration set.
-
 ```{r}
 #| label: sliding_window_inner_split
 
 i_split <- inner_split(r_split, .get_split_args(r_set))
 i_split
 analysis(i_split)
-assessment(i_split)
+calibration(i_split)
 ```
 
 This is the basic principle. 
@@ -247,7 +245,7 @@ analysis(r_split)
 i_split <- inner_split(r_split, .get_split_args(r_set))
 i_split
 analysis(i_split)
-assessment(i_split)
+calibration(i_split)
 ```
 
 #### When we can't split
@@ -358,6 +356,6 @@ The calibration set consists of one week from the (outer) analysis set.
 #| label: chicago_isplit
 
 i_split <- inner_split(chicago_r_split, .get_split_args(chicago_r_set))
-chicago_cal <- assessment(i_split)
+chicago_cal <- calibration(i_split)
 range(chicago_cal$date)
 ```

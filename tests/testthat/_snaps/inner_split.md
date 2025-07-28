@@ -182,3 +182,19 @@
       Warning:
       This set cannot be split into a training and a calibration set as there is only one row; creating an empty calibration set.
 
+# assessment() fails
+
+    Code
+      assessment(inner_split)
+    Condition
+      Error in `assessment()`:
+      ! Inner splits are designed to only return analysis and calibration sets.
+
+# print()
+
+    Code
+      print(inner_split)
+    Output
+      <Analysis/Calibration/Total>
+      <32/0/32>
+

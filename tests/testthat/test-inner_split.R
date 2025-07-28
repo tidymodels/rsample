@@ -39,7 +39,7 @@ test_that("mc_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -70,7 +70,7 @@ test_that("mc_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -104,7 +104,7 @@ test_that("group_mc_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -140,7 +140,7 @@ test_that("group_mc_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -179,7 +179,7 @@ test_that("vfold_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -209,7 +209,7 @@ test_that("vfold_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -243,7 +243,7 @@ test_that("group_vfold_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -279,7 +279,7 @@ test_that("group_vfold_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -317,7 +317,7 @@ test_that("boot_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[complement(isplit), ],
     ignore_attr = "row.names"
   )
@@ -346,7 +346,7 @@ test_that("boot_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -380,7 +380,7 @@ test_that("group_boot_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[complement(isplit), ],
     ignore_attr = "row.names"
   )
@@ -416,7 +416,7 @@ test_that("group_boot_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -459,7 +459,7 @@ test_that("initial_validation_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -490,7 +490,7 @@ test_that("val_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -529,7 +529,7 @@ test_that("group_initial_validation_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -570,7 +570,7 @@ test_that("group_val_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -610,7 +610,7 @@ test_that("initial_validation_time_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -647,7 +647,7 @@ test_that("time_val_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -686,7 +686,7 @@ test_that("clustering_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[-isplit$in_id, ],
     ignore_attr = "row.names"
   )
@@ -716,7 +716,7 @@ test_that("clustering_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -746,7 +746,7 @@ test_that("apparent_split", {
     analysis(r_split)
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     analysis(r_split)
   )
 
@@ -789,7 +789,7 @@ test_that("sliding_window_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
@@ -823,7 +823,7 @@ test_that("sliding_window_split needs at least 2 observations", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -863,7 +863,7 @@ test_that("sliding_window_split with incomplete sets", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -890,7 +890,7 @@ test_that("sliding_window_split with incomplete sets", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
@@ -925,7 +925,7 @@ test_that("sliding_index_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
@@ -1003,7 +1003,7 @@ test_that("sliding_index_split needs at least 2 observations", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -1044,7 +1044,7 @@ test_that("sliding_index_split with incomplete sets", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -1071,7 +1071,7 @@ test_that("sliding_index_split with incomplete sets", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
@@ -1107,7 +1107,7 @@ test_that("sliding_period_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(i_split),
+    calibration(i_split),
     i_split$data[i_split$out_id, , drop = FALSE],
     ignore_attr = "row.names"
   )
@@ -1157,7 +1157,7 @@ test_that("sliding_period_split needs at least 2 observations", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -1191,7 +1191,7 @@ test_that("sliding_period_split needs observations in at least 2 periods", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -1223,7 +1223,7 @@ test_that("sliding_period_split needs observations in at least 2 periods", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -1257,7 +1257,7 @@ test_that("initial_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -1285,7 +1285,7 @@ test_that("group_initial_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -1321,7 +1321,7 @@ test_that("initial_time_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -1355,7 +1355,7 @@ test_that("initial_time_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -1391,7 +1391,7 @@ test_that("initial_validation_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -1420,7 +1420,7 @@ test_that("initial_validation_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -1450,7 +1450,7 @@ test_that("group_initial_validation_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -1489,7 +1489,7 @@ test_that("group_initial_validation_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -1525,7 +1525,7 @@ test_that("initial_validation_time_split", {
     ignore_attr = "row.names"
   )
   expect_identical(
-    assessment(isplit),
+    calibration(isplit),
     isplit$data[isplit$out_id, ],
     ignore_attr = "row.names"
   )
@@ -1554,7 +1554,7 @@ test_that("initial_validation_time_split can create mock split", {
   )
 
   expect_identical(
-    nrow(assessment(isplit)),
+    nrow(calibration(isplit)),
     0L
   )
 
@@ -1568,9 +1568,9 @@ test_that("initial_validation_time_split can create mock split", {
 # mock split -------------------------------------------------------------
 
 test_that("can create a mock split", {
-  mock_split <- internal_calibration_split_mock(mtcars)
+  mock_split <- internal_calibration_split_mock(mtcars, class = "inner_split")
   mock_analysis <- analysis(mock_split)
-  mock_calibration <- assessment(mock_split)
+  mock_calibration <- calibration(mock_split)
 
   expect_identical(mock_analysis, mtcars)
   expect_identical(nrow(mock_calibration), 0L)
@@ -1579,4 +1579,22 @@ test_that("can create a mock split", {
 
   mock_split <- internal_calibration_split_mock(mtcars, class = "mock_class")
   expect_s3_class(mock_split, "mock_class")
+})
+
+#   ----------------------------------------------------------------------
+
+test_that("assessment() fails", {
+  inner_split <- internal_calibration_split_mock(mtcars, class = "inner_split")
+
+  expect_snapshot(error = TRUE, {
+    assessment(inner_split)
+  })
+})
+
+test_that("print()", {
+  inner_split <- internal_calibration_split_mock(mtcars, class = "inner_split")
+
+  expect_snapshot(
+    print(inner_split)
+  )
 })

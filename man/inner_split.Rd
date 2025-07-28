@@ -21,6 +21,11 @@
 \alias{inner_split.initial_validation_split}
 \alias{inner_split.group_initial_validation_split}
 \alias{inner_split.initial_validation_time_split}
+\alias{calibration}
+\alias{calibration.default}
+\alias{calibration.inner_split}
+\alias{assessment.inner_split}
+\alias{print.inner_split}
 \title{Inner split of the analysis set for fitting a post-processor}
 \usage{
 inner_split(x, ...)
@@ -62,6 +67,16 @@ inner_split(x, ...)
 \method{inner_split}{group_initial_validation_split}(x, split_args, ...)
 
 \method{inner_split}{initial_validation_time_split}(x, split_args, ...)
+
+calibration(x, ...)
+
+\method{calibration}{default}(x, ...)
+
+\method{calibration}{inner_split}(x, ...)
+
+\method{assessment}{inner_split}(x, ...)
+
+\method{print}{inner_split}(x, ...)
 }
 \arguments{
 \item{x}{An \code{rsplit} object.}

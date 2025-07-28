@@ -2,6 +2,9 @@
 
 * The new `inner_split()` function and its methods for various resamples is for usage in tune to create a inner resample of the analysis set to fit the preprocessor and model on one part and the post-processor on the other part (#483, #488, #489, #569, #575,  #577, #582).
 
+* New accessor function `calibration()` for the calibration set of an inner split (#581).
+
+
 # rsample 1.3.0
 
 * Bootstrap intervals via `int_pctl()`, `int_t()`, and `int_bca()` now allow for more flexible grouping (#465).
