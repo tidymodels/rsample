@@ -359,3 +359,26 @@ split_cal <- internal_calibration_split(chicago_r_split, .get_split_args(chicago
 chicago_cal <- calibration(split_cal)
 range(chicago_cal$date)
 ```
+
+## Splits for bootstrap samples
+
+For bootstrap samples, our goal of avoiding overfitting means we need to refine our approach to making calibration splits a little further. 
+
+If our (outer) analysis set is a bootstrap sample of the training data, it likely contains several replications of an observation. 
+
+![](images/bootstrap-resample.jpg)
+
+We don't want those to be split up into the inner analysis and the calibration set. Simply creating another bootstrap resample from the (outer) analysis set makes it likely for this to happen. In the example illustration below, the third row (`2-1`) of the (outer) analysis set is sampled twice into the (inner) analysis set. The fourth (`2-2`) and fifth (`2-3`) row are not sampled and thus are put into the calibration set. However, all those rows are actually the same row, hence we have the same row in both the (inner) analysis set and the calibration set.
+
+![](images/bootstrap-regular.jpg)
+
+To avoid this, we could do a grouped resampling with the row ID as the group. Then all replications of a row would end up in the same set, either (inner) analysis or calibration. However, this would mean that rows in the calibration set are potentially not unique, unlike the typical bootstrap OOB sample.
+
+![](images/bootstrap-grouped.jpg)
+
+To prevent both these potential issues, we create the calibration split by sampling the (inner) analysis set, with replacement, from the pool of unique rows in the (outer) analysis set. 
+
+![](images/bootstrap-modified.jpg)
+
+
+
