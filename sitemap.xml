@@ -29,8 +29,8 @@
 <url><loc>https://rsample.tidymodels.org/reference/index.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/reference/initial_split.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/reference/initial_validation_split.html</loc></url>
-<url><loc>https://rsample.tidymodels.org/reference/inner_split.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/reference/int_pctl.html</loc></url>
+<url><loc>https://rsample.tidymodels.org/reference/internal_calibration_split.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/reference/labels.rset.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/reference/labels.rsplit.html</loc></url>
 <url><loc>https://rsample.tidymodels.org/reference/loo_cv.html</loc></url>
