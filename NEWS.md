@@ -1,5 +1,7 @@
 # rsample (development version)
 
+* The lag argument for initial_time_split() has been deprecated (#447). Supporting lags required overlapping rows between training and testing, which introduced data leakage (as discussed in #168). Users should instead pre-compute lagged variables before splitting, so that the test set remains strictly out-of-sample.
+
 # rsample 1.3.1
 
 * The new `internal_calibration_split()` function and its methods for various resamples is for usage in tune to create a internal split of the analysis set to fit the preprocessor and model on one part and the post-processor on the other part (#483, #488, #489, #569, #575,  #577, #582).

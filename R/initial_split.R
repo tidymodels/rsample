@@ -26,13 +26,7 @@
 #' drinks_split <- initial_time_split(drinks)
 #' train_data <- training(drinks_split)
 #' test_data <- testing(drinks_split)
-#' c(max(train_data$date), min(test_data$date)) # no lag
-#'
-#' # With 12 period lag
-#' drinks_lag_split <- initial_time_split(drinks, lag = 12)
-#' train_data <- training(drinks_lag_split)
-#' test_data <- testing(drinks_lag_split)
-#' c(max(train_data$date), min(test_data$date)) # 12 period lag
+#' c(max(train_data$date), min(test_data$date))
 #'
 #' set.seed(1353)
 #' car_split <- group_initial_split(mtcars, cyl)
@@ -76,27 +70,22 @@ initial_split <- function(
 }
 
 #' @rdname initial_split
-#' @param lag A value to include a lag between the assessment
-#'  and analysis set. This is useful if lagged predictors will be used
-#'  during training and testing.
+#' @param lag has been deprecated.
 #' @export
-initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
+initial_time_split <- function(data, prop = 3 / 4, lag = lifecycle::deprecated(), ...) {
   check_dots_empty()
   check_prop(prop)
 
-  if (!is.numeric(lag) | !(lag %% 1 == 0)) {
-    cli_abort("{.arg lag} must be a whole number.")
+  if (lifecycle::is_present(lag)) {
+    lifecycle::deprecate_stop(
+      when = "1.4.0",
+      what = "initial_time_split(lag)"
+    )
   }
 
   n_train <- floor(nrow(data) * prop)
 
-  if (lag > n_train) {
-    cli_abort(
-      "{.arg lag} must be less than or equal to the number of training observations."
-    )
-  }
-
-  split <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
+  split <- rsplit(data, 1:n_train, (n_train + 1):nrow(data))
   splits <- list(split)
   ids <- "Resample1"
   rset <- new_rset(splits, ids)
@@ -104,8 +93,7 @@ initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   res <- rset$splits[[1]]
 
   attrib <- list(
-    prop = prop,
-    lag = lag
+    prop = prop
   )
   for (i in names(attrib)) {
     attr(res, i) <- attrib[[i]]
