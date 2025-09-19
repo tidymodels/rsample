@@ -72,7 +72,12 @@ initial_split <- function(
 #' @rdname initial_split
 #' @param lag has been deprecated.
 #' @export
-initial_time_split <- function(data, prop = 3 / 4, lag = lifecycle::deprecated(), ...) {
+initial_time_split <- function(
+  data,
+  prop = 3 / 4,
+  lag = lifecycle::deprecated(),
+  ...
+) {
   check_dots_empty()
   check_prop(prop)
 
