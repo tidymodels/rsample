@@ -49,7 +49,7 @@ called ".replicates" is also returned.
 A convenience function for confidence intervals with linear-ish parametric models
 }
 \examples{
-\dontshow{if (rlang::is_installed("broom")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed("broom")) withAutoprint(\{ # examplesIf}
 \donttest{
 set.seed(1)
 reg_intervals(mpg ~ I(1 / sqrt(disp)), data = mtcars)

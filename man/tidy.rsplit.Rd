@@ -43,7 +43,7 @@ named \code{inner_Row}, are \emph{relative} row indices and do not correspond to
 rows in the original data set.
 }
 \examples{
-\dontshow{if (rlang::is_installed("ggplot2")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed("ggplot2")) withAutoprint(\{ # examplesIf}
 library(ggplot2)
 theme_set(theme_bw())
 
