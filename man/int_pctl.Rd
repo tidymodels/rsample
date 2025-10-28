@@ -75,7 +75,7 @@ that was used to create the statistics of interest and are
 computationally taxing.
 }
 \examples{
-\dontshow{if (rlang::is_installed("broom") & rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed("broom") & rlang::is_installed("modeldata")) withAutoprint(\{ # examplesIf}
 \donttest{
 library(broom)
 library(dplyr)

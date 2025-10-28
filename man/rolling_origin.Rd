@@ -67,7 +67,7 @@ will make the analysis data set to operate on \emph{weeks} instead of days. The
 assessment set size is not affected by this option.
 }
 \examples{
-\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed("modeldata")) withAutoprint(\{ # examplesIf}
 set.seed(1131)
 ex_data <- data.frame(row = 1:20, some_var = rnorm(20))
 dim(rolling_origin(ex_data))

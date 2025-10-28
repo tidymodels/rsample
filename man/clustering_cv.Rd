@@ -71,7 +71,7 @@ The function should return a vector of cluster assignments of length
 row of the data frame.
 }
 \examples{
-\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed("modeldata")) withAutoprint(\{ # examplesIf}
 data(ames, package = "modeldata")
 clustering_cv(ames, vars = c(Sale_Price, First_Flr_SF, Second_Flr_SF), v = 2)
 \dontshow{\}) # examplesIf}

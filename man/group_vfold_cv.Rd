@@ -61,7 +61,7 @@ out at a time. A common use of this kind of resampling is when you have
 repeated measures of the same subject.
 }
 \examples{
-\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed("modeldata")) withAutoprint(\{ # examplesIf}
 data(ames, package = "modeldata")
 
 set.seed(123)
