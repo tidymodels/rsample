@@ -9,6 +9,9 @@
 #'
 #' @details `training()` and `testing()` are used to extract the resulting data.
 #'
+#' To avoid data leakage when using lagged variables, lag the predictors before
+#' the initial split.
+#'
 #' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
@@ -70,7 +73,8 @@ initial_split <- function(
 }
 
 #' @rdname initial_split
-#' @param lag has been deprecated.
+#' @param lag `r lifecycle::badge("deprecated")` This is deprecated, please lag
+#' your predictors prior to splitting the dataset.
 #' @export
 initial_time_split <- function(
   data,

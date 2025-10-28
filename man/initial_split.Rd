@@ -14,7 +14,7 @@
 \usage{
 initial_split(data, prop = 3/4, strata = NULL, breaks = 4, pool = 0.1, ...)
 
-initial_time_split(data, prop = 3/4, lag = 0, ...)
+initial_time_split(data, prop = 3/4, lag = lifecycle::deprecated(), ...)
 
 training(x, ...)
 
@@ -49,9 +49,8 @@ of stratifying groups that are too small.}
 
 \item{...}{These dots are for future extensions and must be empty.}
 
-\item{lag}{A value to include a lag between the assessment
-and analysis set. This is useful if lagged predictors will be used
-during training and testing.}
+\item{lag}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} This is deprecated, please lag
+your predictors prior to splitting the dataset.}
 
 \item{x}{An \code{rsplit} object produced by \code{initial_split()} or
 \code{initial_time_split()}.}
@@ -75,6 +74,9 @@ the same split.
 \details{
 \code{training()} and \code{testing()} are used to extract the resulting data.
 
+To avoid data leakage when using lagged variables, lag the predictors before
+the initial split.
+
 With a \code{strata} argument, the random sampling is conducted
 \emph{within the stratification variable}. This can help ensure that the
 resamples have equivalent proportions as the original data set. For
@@ -94,13 +96,7 @@ data(drinks, package = "modeldata")
 drinks_split <- initial_time_split(drinks)
 train_data <- training(drinks_split)
 test_data <- testing(drinks_split)
-c(max(train_data$date), min(test_data$date)) # no lag
-
-# With 12 period lag
-drinks_lag_split <- initial_time_split(drinks, lag = 12)
-train_data <- training(drinks_lag_split)
-test_data <- testing(drinks_lag_split)
-c(max(train_data$date), min(test_data$date)) # 12 period lag
+c(max(train_data$date), min(test_data$date))
 
 set.seed(1353)
 car_split <- group_initial_split(mtcars, cyl)
