@@ -18,7 +18,15 @@ test_that("default time param", {
   expect_equal(tr1, dplyr::slice(dat1, 1:floor(nrow(dat1) * 3 / 4)))
 })
 
+test_that("`lag` arg to `initial_time_split()` is deprecated", {
+  expect_snapshot({
+    initial_time_split(mtcars, lag = 2)
+  })
+})
+
 test_that("default time param with lag", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   rs1 <- initial_time_split(dat1, lag = 5)
   expect_equal(class(rs1), c("initial_time_split", "initial_split", "rsplit"))
   tr1 <- training(rs1)
@@ -40,6 +48,8 @@ test_that("`initial_time_split()` error messages", {
   expect_snapshot(error = TRUE, {
     initial_time_split(drinks, prop = 2)
   })
+
+  withr::local_options(lifecycle_verbosity = "quiet")
 
   expect_snapshot(error = TRUE, {
     initial_time_split(drinks, lag = 12.5)
