@@ -82,15 +82,28 @@ initial_time_split <- function(
   check_prop(prop)
 
   if (lifecycle::is_present(lag)) {
-    lifecycle::deprecate_stop(
-      when = "1.4.0",
-      what = "initial_time_split(lag)"
+    lifecycle::deprecate_soft(
+      when = "1.3.1.9000",
+      what = "initial_time_split(lag)",
+      details = "Please lag your predictors prior to splitting the dataset."
     )
+  } else {
+    lag <- 0
+  }
+
+  if (!is.numeric(lag) | !(lag %% 1 == 0)) {
+    cli_abort("{.arg lag} must be a whole number.")
   }
 
   n_train <- floor(nrow(data) * prop)
 
-  split <- rsplit(data, 1:n_train, (n_train + 1):nrow(data))
+  if (lag > n_train) {
+    cli_abort(
+      "{.arg lag} must be less than or equal to the number of training observations."
+    )
+  }
+
+  split <- rsplit(data, 1:n_train, (n_train + 1 - lag):nrow(data))
   splits <- list(split)
   ids <- "Resample1"
   rset <- new_rset(splits, ids)
@@ -98,7 +111,8 @@ initial_time_split <- function(
   res <- rset$splits[[1]]
 
   attrib <- list(
-    prop = prop
+    prop = prop,
+    lag = lag
   )
   for (i in names(attrib)) {
     attr(res, i) <- attrib[[i]]
