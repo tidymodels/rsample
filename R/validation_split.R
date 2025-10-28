@@ -92,7 +92,9 @@ validation_split <- function(
   split_objs$splits <- map(split_objs$splits, rm_out)
   class(split_objs$splits[[1]]) <- c("val_split", "rsplit")
 
-  if (!is.null(strata)) names(strata) <- NULL
+  if (!is.null(strata)) {
+    names(strata) <- NULL
+  }
   val_att <- list(
     prop = prop,
     strata = strata,
@@ -111,6 +113,9 @@ validation_split <- function(
 #' @rdname validation_split
 #' @inheritParams vfold_cv
 #' @inheritParams initial_time_split
+#' @param lag A value to include a lag between the assessment and analysis set.
+#' This is useful if lagged predictors will be used during training and
+#' testing.
 #' @export
 validation_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
   lifecycle::deprecate_warn(
@@ -195,7 +200,9 @@ group_validation_split <- function(
   class(split_objs$splits[[1]]) <- c("group_val_split", "val_split", "rsplit")
 
   # This is needed for printing -- strata cannot be missing
-  if (is.null(strata)) strata <- FALSE
+  if (is.null(strata)) {
+    strata <- FALSE
+  }
   val_att <- list(
     prop = prop,
     group = group,
