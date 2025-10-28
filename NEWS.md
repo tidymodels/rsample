@@ -1,6 +1,6 @@
 # rsample (development version)
 
-* The lag argument for initial_time_split() has been deprecated (#447). Supporting lags required overlapping rows between training and testing, which introduced data leakage (as discussed in #168). Users should instead pre-compute lagged variables before splitting, so that the test set remains strictly out-of-sample.
+* The lag argument for `initial_time_split()` has been soft deprecated (@bjornkallerud, #592).
 
 # rsample 1.3.1
 
