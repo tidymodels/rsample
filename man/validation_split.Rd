@@ -31,9 +31,9 @@ of stratifying groups that are too small.}
 
 \item{...}{These dots are for future extensions and must be empty.}
 
-\item{lag}{A value to include a lag between the assessment
-and analysis set. This is useful if lagged predictors will be used
-during training and testing.}
+\item{lag}{A value to include a lag between the assessment and analysis set.
+This is useful if lagged predictors will be used during training and
+testing.}
 
 \item{group}{A variable in \code{data} (single character or name) used for
 grouping observations with the same value to either the analysis or

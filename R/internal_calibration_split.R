@@ -669,6 +669,11 @@ internal_calibration_split.initial_time_split <- function(x, split_args, ...) {
 
   training_set <- training(x)
 
+  # to avoid deprecation warning if lag is just the default of 0
+  if (-1 < split_args$lag && split_args$lag < 1) {
+    split_args$lag <- NULL
+  }
+
   split_cal <- internal_calibration_split_core(
     training_set,
     split_function = initial_time_split,

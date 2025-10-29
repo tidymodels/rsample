@@ -1,3 +1,15 @@
+# `lag` arg to `initial_time_split()` is deprecated
+
+    Code
+      initial_time_split(mtcars, lag = 2)
+    Condition
+      Warning:
+      The `lag` argument of `initial_time_split()` is deprecated as of rsample 1.3.1.9000.
+      i Please lag your predictors prior to splitting the dataset.
+    Output
+      <Training/Testing/Total>
+      <24/10/32>
+
 # `initial_time_split()` error messages
 
     Code

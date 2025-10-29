@@ -9,6 +9,9 @@
 #'
 #' @details `training()` and `testing()` are used to extract the resulting data.
 #'
+#' To avoid data leakage when using lagged variables, lag the predictors before
+#' the initial split.
+#'
 #' @template strata_details
 #' @inheritParams vfold_cv
 #' @inheritParams make_strata
@@ -26,13 +29,7 @@
 #' drinks_split <- initial_time_split(drinks)
 #' train_data <- training(drinks_split)
 #' test_data <- testing(drinks_split)
-#' c(max(train_data$date), min(test_data$date)) # no lag
-#'
-#' # With 12 period lag
-#' drinks_lag_split <- initial_time_split(drinks, lag = 12)
-#' train_data <- training(drinks_lag_split)
-#' test_data <- testing(drinks_lag_split)
-#' c(max(train_data$date), min(test_data$date)) # 12 period lag
+#' c(max(train_data$date), min(test_data$date))
 #'
 #' set.seed(1353)
 #' car_split <- group_initial_split(mtcars, cyl)
@@ -76,13 +73,27 @@ initial_split <- function(
 }
 
 #' @rdname initial_split
-#' @param lag A value to include a lag between the assessment
-#'  and analysis set. This is useful if lagged predictors will be used
-#'  during training and testing.
+#' @param lag `r lifecycle::badge("deprecated")` This is deprecated, please lag
+#' your predictors prior to splitting the dataset.
 #' @export
-initial_time_split <- function(data, prop = 3 / 4, lag = 0, ...) {
+initial_time_split <- function(
+  data,
+  prop = 3 / 4,
+  lag = lifecycle::deprecated(),
+  ...
+) {
   check_dots_empty()
   check_prop(prop)
+
+  if (lifecycle::is_present(lag)) {
+    lifecycle::deprecate_soft(
+      when = "1.3.1.9000",
+      what = "initial_time_split(lag)",
+      details = "Please lag your predictors prior to splitting the dataset."
+    )
+  } else {
+    lag <- 0
+  }
 
   if (!is.numeric(lag) | !(lag %% 1 == 0)) {
     cli_abort("{.arg lag} must be a whole number.")
