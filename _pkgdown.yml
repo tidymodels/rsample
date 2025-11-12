@@ -2,7 +2,7 @@ url: https://rsample.tidymodels.org
 
 navbar:
   components:
-    home: ~
+    home:
     tutorials:
       text: Learn more
       menu:
@@ -22,6 +22,7 @@ template:
 
   includes:
     in_header: |
+      <script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-hide-below="1200" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script>
       <script defer data-domain="rsample.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 
 
@@ -33,46 +34,46 @@ figures:
   fig.height: 5.75
 
 reference:
-  - title: Resampling methods
-    contents:
-      - initial_split
-      - initial_validation_split
-      - validation_set
-      - bootstraps
-      - group_bootstraps
-      - vfold_cv
-      - group_vfold_cv
-      - mc_cv
-      - group_mc_cv
-      - clustering_cv
-      - nested_cv
-      - loo_cv
-      - rolling_origin
-      - sliding_window
-      - apparent
-      - permutations
-      - manual_rset
-  - title: Analysis
-    contents:
-      - int_pctl
-      - reg_intervals
-  - title: Utilities
-    contents:
-      - .get_fingerprint
-      - as.data.frame.rsplit
-      - add_resample_id
-      - complement
-      - form_pred
-      - get_rsplit
-      - starts_with("labels")
-      - make_splits
-      - make_strata
-      - populate
-      - reshuffle_rset
-      - reverse_splits
-      - rsample2caret
-      - rset_reconstruct
-      - starts_with("tidy")
-  - title: Compatibility
-    contents:
-      - rsample-dplyr
+- title: Resampling methods
+  contents:
+  - initial_split
+  - initial_validation_split
+  - validation_set
+  - bootstraps
+  - group_bootstraps
+  - vfold_cv
+  - group_vfold_cv
+  - mc_cv
+  - group_mc_cv
+  - clustering_cv
+  - nested_cv
+  - loo_cv
+  - rolling_origin
+  - sliding_window
+  - apparent
+  - permutations
+  - manual_rset
+- title: Analysis
+  contents:
+  - int_pctl
+  - reg_intervals
+- title: Utilities
+  contents:
+  - .get_fingerprint
+  - as.data.frame.rsplit
+  - add_resample_id
+  - complement
+  - form_pred
+  - get_rsplit
+  - starts_with("labels")
+  - make_splits
+  - make_strata
+  - populate
+  - reshuffle_rset
+  - reverse_splits
+  - rsample2caret
+  - rset_reconstruct
+  - starts_with("tidy")
+- title: Compatibility
+  contents:
+  - rsample-dplyr
