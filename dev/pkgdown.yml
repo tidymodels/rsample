@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   Common_Patterns: Common_Patterns.html
@@ -7,7 +7,7 @@ articles:
   Applications/Recipes_and_rsample: Applications/Recipes_and_rsample.html
   rsample: rsample.html
   Working_with_rsets: Working_with_rsets.html
-last_built: 2025-10-29T11:03Z
+last_built: 2025-11-14T09:32Z
 urls:
   reference: https://rsample.tidymodels.org/reference
   article: https://rsample.tidymodels.org/articles
