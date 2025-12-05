@@ -147,14 +147,8 @@ data(Sacramento, package = "modeldata")
 city_strata <- Sacramento |>
   group_by(city) |>
   summarize(strata = mean(price)) |>
-  summarize(city = city,
-            strata = cut(strata, quantile(strata), include.lowest = TRUE))
-#> Warning: Returning more (or less) than 1 row per `summarise()` group was
-#> deprecated in dplyr 1.1.0.
-#> ℹ Please use `reframe()` instead.
-#> ℹ When switching from `summarise()` to `reframe()`, remember that
-#>   `reframe()` always returns an ungrouped data frame and adjust
-#>   accordingly.
+  reframe(city = city,
+          strata = cut(strata, quantile(strata), include.lowest = TRUE))
 
 sacramento_data <- Sacramento |>
   full_join(city_strata, by = "city")

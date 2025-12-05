@@ -8,6 +8,11 @@
   ([@bjornkallerud](https://github.com/bjornkallerud),
   [\#592](https://github.com/tidymodels/rsample/issues/592)).
 
+- The example for
+  [`group_vfold_cv()`](https://rsample.tidymodels.org/dev/reference/group_vfold_cv.md)
+  has been updated to use current dplyr functions
+  ([\#597](https://github.com/tidymodels/rsample/issues/597)).
+
 ## rsample 1.3.1
 
 CRAN release: 2025-07-29
