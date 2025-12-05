@@ -2,6 +2,9 @@
 
 * The lag argument for `initial_time_split()` has been soft deprecated (@bjornkallerud, #592).
 
+* The example for `group_vfold_cv()` has been updated to use current dplyr functions (#597).
+
+
 # rsample 1.3.1
 
 * The new `internal_calibration_split()` function and its methods for various resamples is for usage in tune to create a internal split of the analysis set to fit the preprocessor and model on one part and the post-processor on the other part (#483, #488, #489, #569, #575,  #577, #582).

@@ -120,7 +120,9 @@ vfold_cv <- function(
 
   ## Save some overall information
 
-  if (!is.null(strata)) names(strata) <- NULL
+  if (!is.null(strata)) {
+    names(strata) <- NULL
+  }
   cv_att <- list(
     v = v,
     repeats = repeats,
@@ -230,8 +232,8 @@ vfold_splits <- function(
 #' city_strata <- Sacramento |>
 #'   group_by(city) |>
 #'   summarize(strata = mean(price)) |>
-#'   summarize(city = city,
-#'             strata = cut(strata, quantile(strata), include.lowest = TRUE))
+#'   reframe(city = city,
+#'           strata = cut(strata, quantile(strata), include.lowest = TRUE))
 #'
 #' sacramento_data <- Sacramento |>
 #'   full_join(city_strata, by = "city")
