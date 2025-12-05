@@ -83,8 +83,8 @@ data(Sacramento, package = "modeldata")
 city_strata <- Sacramento |>
   group_by(city) |>
   summarize(strata = mean(price)) |>
-  summarize(city = city,
-            strata = cut(strata, quantile(strata), include.lowest = TRUE))
+  reframe(city = city,
+          strata = cut(strata, quantile(strata), include.lowest = TRUE))
 
 sacramento_data <- Sacramento |>
   full_join(city_strata, by = "city")
