@@ -141,12 +141,15 @@ split_unnamed <- function(x, f) {
 #' @export
 .get_split_args <- function(x, allow_strata_false = FALSE) {
   all_attributes <- attributes(x)
-  function_used_to_create <- switch(
+  function_name_used_to_create <- switch(
     all_attributes$class[[1]],
     "validation_set" = "initial_validation_split",
     "group_validation_set" = "group_initial_validation_split",
     "time_validation_set" = "initial_validation_time_split",
     all_attributes$class[[1]]
+  )
+  function_used_to_create <- .find_resampling_function(
+    function_name_used_to_create
   )
   args <- names(formals(function_used_to_create))
 
@@ -161,6 +164,30 @@ split_unnamed <- function(x, f) {
     split_args$strata <- NULL
   }
   split_args
+}
+
+.find_resampling_function <- function(fn_name, ..., call = caller_env()) {
+  rlang::check_dots_empty()
+
+  # looks in rsample, the global environment, and search path
+  fn <- tryCatch(
+    get(fn_name, mode = "function"),
+    error = function(e) NULL
+  )
+  if (!is.null(fn)) {
+    return(fn)
+  }
+
+  # looks in spatialsample, even when it's not attached/in the search path
+  fn <- tryCatch(
+    getExportedValue("spatialsample", fn_name),
+    error = function(e) NULL
+  )
+  if (!is.null(fn)) {
+    return(fn)
+  }
+
+  cli_abort("Could not find function {.fn {fn_name}}.", call = call)
 }
 
 #' Retrieve individual rsplits objects from an rset
