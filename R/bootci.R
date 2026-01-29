@@ -154,7 +154,7 @@ check_num_resamples <- function(x, B = 1000, call = caller_env()) {
     dplyr::filter(n < B)
 
   if (nrow(x) > 0) {
-    terms <- x$term
+    terms <- as.character(x$term)
     cli_warn(
       "Recommend at least {B} non-missing bootstrap resamples for {cli::qty(terms)} term{?s} {.code {terms}}.",
       call = call
