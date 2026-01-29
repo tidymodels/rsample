@@ -7,7 +7,7 @@ articles:
   Applications/Recipes_and_rsample: Applications/Recipes_and_rsample.html
   rsample: rsample.html
   Working_with_rsets: Working_with_rsets.html
-last_built: 2025-12-05T14:38Z
+last_built: 2026-01-29T14:35Z
 urls:
   reference: https://rsample.tidymodels.org/reference
   article: https://rsample.tidymodels.org/articles

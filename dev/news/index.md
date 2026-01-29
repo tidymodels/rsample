@@ -2,6 +2,11 @@
 
 ## rsample (development version)
 
+- [`.get_split_args()`](https://rsample.tidymodels.org/dev/reference/dot-get_split_args.md)
+  now works with rset objects created by functions from spatialsample
+  without requiring the package to be attached
+  ([\#599](https://github.com/tidymodels/rsample/issues/599)).
+
 - The lag argument for
   [`initial_time_split()`](https://rsample.tidymodels.org/dev/reference/initial_split.md)
   has been soft deprecated
