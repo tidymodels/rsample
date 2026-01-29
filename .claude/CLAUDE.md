@@ -1,3 +1,9 @@
+# rsample - Resampling in tidymodels
+
+## Overview
+
+rsample is a core package in the tidymodels framework, providing functionality for resampling datasets primarily for model validation and evaluation. It implements various data splitting strategies and maintains consistent data structures.
+
 ## R package development
 
 ### Key commands
