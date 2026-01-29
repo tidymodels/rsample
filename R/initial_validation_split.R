@@ -107,7 +107,9 @@ initial_validation_split <- function(
   )
 
   # include those so that they can be attached to the `rset` later in `validation_set()`
-  if (!is.null(strata)) names(strata) <- NULL
+  if (!is.null(strata)) {
+    names(strata) <- NULL
+  }
   val_att <- list(
     prop = prop,
     strata = strata,
@@ -264,7 +266,9 @@ group_initial_validation_split <- function(
   )
 
   # include those so that they can be attached to the `rset` later in `validation_set()`
-  if (!is.null(strata)) names(strata) <- NULL
+  if (!is.null(strata)) {
+    names(strata) <- NULL
+  }
   val_att <- list(
     group = group,
     prop = prop,

@@ -83,7 +83,9 @@ mc_cv <- function(
 
   split_objs$splits <- map(split_objs$splits, rm_out)
 
-  if (!is.null(strata)) names(strata) <- NULL
+  if (!is.null(strata)) {
+    names(strata) <- NULL
+  }
   mc_att <- list(
     prop = prop,
     times = times,
@@ -206,7 +208,9 @@ group_mc_cv <- function(
     )
 
   # This is needed for printing checks; strata can't be missing for mc_cv
-  if (is.null(strata)) strata <- FALSE
+  if (is.null(strata)) {
+    strata <- FALSE
+  }
 
   ## We remove the holdout indices since it will save space and we can
   ## derive them later when they are needed.
