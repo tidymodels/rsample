@@ -59,7 +59,9 @@
 #' @export
 tidy.rsplit <- function(x, unique_ind = TRUE, ...) {
   check_dots_empty()
-  if (unique_ind) x$in_id <- unique(x$in_id)
+  if (unique_ind) {
+    x$in_id <- unique(x$in_id)
+  }
   out <- tibble(
     Row = c(x$in_id, complement(x)),
     Data = rep(

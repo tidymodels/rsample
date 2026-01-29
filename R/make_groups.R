@@ -274,7 +274,9 @@ balance_prop_helper <- function(prop, data_ind, v, replace) {
   # if we somehow got the smallest group every time.
   # If sampling without replacement, just reshuffle all the groups.
   n <- nrow(freq_table)
-  if (replace) n <- n * prop * sum(freq_table$count) / min(freq_table$count)
+  if (replace) {
+    n <- n * prop * sum(freq_table$count) / min(freq_table$count)
+  }
   n <- ceiling(n)
 
   purrr::map(

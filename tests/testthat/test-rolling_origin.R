@@ -36,8 +36,10 @@ test_that("larger holdout", {
     )
     expect_equal(
       rs2$splits[[i]]$out_id,
-      (i + attr(rs2, "initial")): # fmt: skip
-      (i + attr(rs2, "initial") + attr(rs2, "assess") - 1) # fmt: skip
+      # fmt: skip
+      (i + attr(rs2, "initial")):
+      (i + attr(rs2, "initial") + attr(rs2, "assess") - 1)
+      # fmt: skip
     )
   }
 })
@@ -72,8 +74,10 @@ test_that("skipping", {
   for (i in 1:nrow(rs4)) {
     expect_equal(
       rs4$splits[[i]]$in_id,
-      (i + attr(rs4, "skip") * (i - 1)): # fmt: skip
-      (i + attr(rs4, "skip") * (i - 1) + attr(rs4, "initial") - 1) # fmt: skip
+      # fmt: skip
+      (i + attr(rs4, "skip") * (i - 1)):
+      (i + attr(rs4, "skip") * (i - 1) + attr(rs4, "initial") - 1)
+      # fmt: skip
     )
     expect_equal(
       rs4$splits[[i]]$out_id,
@@ -103,8 +107,10 @@ test_that("lag", {
     )
     expect_equal(
       rs5$splits[[i]]$out_id,
-      (i + attr(rs5, "initial") - attr(rs5, "lag")): # fmt: skip
-      (i + attr(rs5, "initial") + attr(rs5, "assess") - 1) # fmt: skip
+      # fmt: skip
+      (i + attr(rs5, "initial") - attr(rs5, "lag")):
+      (i + attr(rs5, "initial") + attr(rs5, "assess") - 1)
+      # fmt: skip
     )
   }
 
