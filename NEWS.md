@@ -1,8 +1,8 @@
-# rsample (development version)
+# rsample 1.3.2
 
 * `.get_split_args()` now works with rset objects created by functions from spatialsample without requiring the package to be attached (#599).
 
-* The lag argument for `initial_time_split()` has been soft deprecated (@bjornkallerud, #592).
+* The `lag` argument for `initial_time_split()` has been soft deprecated (@bjornkallerud, #592).
 
 * The example for `group_vfold_cv()` has been updated to use current dplyr functions (#597).
 
