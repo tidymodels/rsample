@@ -26,13 +26,13 @@ Source:
 [`DESCRIPTION`](https://github.com/tidymodels/rsample/blob/main/DESCRIPTION)
 
 Frick H, Chow F, Kuhn M, Mahoney M, Silge J, Wickham H (2026). *rsample:
-General Resampling Infrastructure*. R package version 1.3.1.9001,
+General Resampling Infrastructure*. R package version 1.3.2.9000,
 <https://rsample.tidymodels.org>.
 
     @Manual{,
       title = {rsample: General Resampling Infrastructure},
       author = {Hannah Frick and Fanny Chow and Max Kuhn and Michael Mahoney and Julia Silge and Hadley Wickham},
       year = {2026},
-      note = {R package version 1.3.1.9001},
+      note = {R package version 1.3.2.9000},
       url = {https://rsample.tidymodels.org},
     }
