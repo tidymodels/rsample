@@ -1,3 +1,5 @@
+# rsample (development version)
+
 # rsample 1.3.2
 
 * `.get_split_args()` now works with rset objects created by functions from spatialsample without requiring the package to be attached (#599).
