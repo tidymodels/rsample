@@ -11,7 +11,7 @@ associated with it). The function can create as many splits as
 there are unique values of the grouping variable or it can
 create a smaller set of splits where more than one group is left
 out at a time. A common use of this kind of resampling is when you have
-repeated measures of the same subject."><meta property="og:image" content="https://rsample.tidymodels.org/logo.png"><script defer data-domain="rsample.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script></head><body>
+repeated measures of the same subject."><meta property="og:image" content="https://rsample.tidymodels.org/logo.png"><script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-hide-below="1200" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><script defer data-domain="rsample.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script></head><body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
 
 
@@ -19,7 +19,7 @@ repeated measures of the same subject."><meta property="og:image" content="https
 
     <a class="navbar-brand me-2" href="../index.html">rsample</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -209,14 +209,8 @@ identification variable.</p>
 <span class="r-in"><span><span class="va">city_strata</span> <span class="op">&lt;-</span> <span class="va">Sacramento</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">city</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>strata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>city <span class="op">=</span> <span class="va">city</span>,</span></span>
-<span class="r-in"><span>            strata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">strata</span>, <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">strata</span><span class="op">)</span>, include.lowest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Returning more (or less) than 1 row per `summarise()` group was</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> deprecated in dplyr 1.1.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `reframe()` instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> When switching from `summarise()` to `reframe()`, remember that</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   `reframe()` always returns an ungrouped data frame and adjust</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   accordingly.</span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reframe.html" class="external-link">reframe</a></span><span class="op">(</span>city <span class="op">=</span> <span class="va">city</span>,</span></span>
+<span class="r-in"><span>          strata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">strata</span>, <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">strata</span><span class="op">)</span>, include.lowest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">sacramento_data</span> <span class="op">&lt;-</span> <span class="va">Sacramento</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">city_strata</span>, by <span class="op">=</span> <span class="st">"city"</span><span class="op">)</span></span></span>
@@ -256,7 +250,7 @@ identification variable.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer></body></html>
