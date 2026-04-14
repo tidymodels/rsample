@@ -94,15 +94,15 @@ bootstraps(mtcars, times = 2)
 #> # A tibble: 2 × 2
 #>   splits          id        
 #>   <list>          <chr>     
-#> 1 <split [32/11]> Bootstrap1
-#> 2 <split [32/14]> Bootstrap2
+#> 1 <split [32/10]> Bootstrap1
+#> 2 <split [32/15]> Bootstrap2
 bootstraps(mtcars, times = 2, apparent = TRUE)
 #> # Bootstrap sampling with apparent sample 
 #> # A tibble: 3 × 2
 #>   splits          id        
 #>   <list>          <chr>     
-#> 1 <split [32/12]> Bootstrap1
-#> 2 <split [32/14]> Bootstrap2
+#> 1 <split [32/11]> Bootstrap1
+#> 2 <split [32/13]> Bootstrap2
 #> 3 <split [32/32]> Apparent  
 
 library(purrr)

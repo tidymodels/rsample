@@ -99,6 +99,6 @@ clustering_cv(ames, vars = c(Sale_Price, First_Flr_SF, Second_Flr_SF), v = 2)
 #> # A tibble: 2 × 2
 #>   splits             id   
 #>   <list>             <chr>
-#> 1 <split [2489/441]> Fold1
-#> 2 <split [441/2489]> Fold2
+#> 1 <split [441/2489]> Fold1
+#> 2 <split [2489/441]> Fold2
 ```

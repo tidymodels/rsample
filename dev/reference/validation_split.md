@@ -126,7 +126,7 @@ group_validation_split(cars_not_testing, cyl)
 #> # A tibble: 1 × 2
 #>   splits         id        
 #>   <list>         <chr>     
-#> 1 <split [19/5]> validation
+#> 1 <split [15/9]> validation
 
 data(drinks, package = "modeldata")
 validation_time_split(drinks[1:200,])

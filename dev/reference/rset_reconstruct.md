@@ -57,15 +57,15 @@ rset_reconstruct(x, to)
 #> # A tibble: 25 × 3
 #>    splits          id          foo  
 #>    <list>          <chr>       <chr>
-#>  1 <split [32/13]> Bootstrap01 bar  
-#>  2 <split [32/8]>  Bootstrap02 bar  
+#>  1 <split [32/12]> Bootstrap01 bar  
+#>  2 <split [32/9]>  Bootstrap02 bar  
 #>  3 <split [32/13]> Bootstrap03 bar  
 #>  4 <split [32/12]> Bootstrap04 bar  
 #>  5 <split [32/12]> Bootstrap05 bar  
-#>  6 <split [32/14]> Bootstrap06 bar  
+#>  6 <split [32/13]> Bootstrap06 bar  
 #>  7 <split [32/11]> Bootstrap07 bar  
 #>  8 <split [32/12]> Bootstrap08 bar  
-#>  9 <split [32/15]> Bootstrap09 bar  
+#>  9 <split [32/14]> Bootstrap09 bar  
 #> 10 <split [32/12]> Bootstrap10 bar  
 #> # ℹ 15 more rows
 
@@ -78,15 +78,15 @@ rset_reconstruct(x, to)
 #> # A tibble: 24 × 3
 #>    splits          id          foo  
 #>    <list>          <chr>       <chr>
-#>  1 <split [32/8]>  Bootstrap02 bar  
+#>  1 <split [32/9]>  Bootstrap02 bar  
 #>  2 <split [32/13]> Bootstrap03 bar  
 #>  3 <split [32/12]> Bootstrap04 bar  
 #>  4 <split [32/12]> Bootstrap05 bar  
-#>  5 <split [32/14]> Bootstrap06 bar  
+#>  5 <split [32/13]> Bootstrap06 bar  
 #>  6 <split [32/11]> Bootstrap07 bar  
 #>  7 <split [32/12]> Bootstrap08 bar  
-#>  8 <split [32/15]> Bootstrap09 bar  
+#>  8 <split [32/14]> Bootstrap09 bar  
 #>  9 <split [32/12]> Bootstrap10 bar  
-#> 10 <split [32/11]> Bootstrap11 bar  
+#> 10 <split [32/10]> Bootstrap11 bar  
 #> # ℹ 14 more rows
 ```

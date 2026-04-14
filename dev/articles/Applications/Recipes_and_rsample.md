@@ -3,7 +3,7 @@
 The [recipes](https://recipes.tidymodels.org/) package contains a data
 preprocessor that can be used to avoid the potentially expensive formula
 methods as well as providing a richer set of data manipulation tools
-than base R can provide. This document uses version 1.3.1 of recipes.
+than base R can provide. This document uses version 1.3.2 of recipes.
 
 In many cases, the preprocessing steps might contain quantities that
 require statistical estimation of parameters, such as
