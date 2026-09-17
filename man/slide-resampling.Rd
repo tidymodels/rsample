@@ -144,6 +144,10 @@ as \code{NULL} is the epoch time of \verb{1970-01-01 00:00:00},
 This is generally used to define the anchor time to count from,
 which is relevant when the \code{every} value is \verb{> 1}.}
 }
+\value{
+An \code{rset} object with a \code{splits} column of \code{rsplit} objects and,
+depending on the function, an \code{id} column for the resample identifier.
+}
 \description{
 These resampling functions are focused on various forms of \emph{time series}
 resampling.
