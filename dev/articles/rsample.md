@@ -19,6 +19,7 @@ are stored in data-frame-like `tibble` object. As a simple example, here
 is a small set of bootstraps of the `mtcars` data:
 
 ``` r
+
 library(rsample)
 set.seed(8584)
 bt_resamples <- bootstraps(mtcars, times = 3)
@@ -60,6 +61,7 @@ function in this package.)
 Let’s look at one of the `rsplit` objects
 
 ``` r
+
 first_resample <- bt_resamples$splits[[1]]
 first_resample
 #> <Analysis/Assess/Total>
@@ -77,6 +79,7 @@ can be used. By default, the analysis set is returned but the `data`
 option can be used to return the assessment data:
 
 ``` r
+
 head(as.data.frame(first_resample))
 #>                     mpg cyl  disp  hp drat   wt qsec vs am gear carb
 #> Fiat 128...1       32.4   4  78.7  66 4.08 2.20 19.5  1  1    4    1

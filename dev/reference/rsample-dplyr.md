@@ -57,10 +57,10 @@ object is a `tibble`.
 The resulting object is an `rset` if the required `splits` and `id`
 columns remain unaltered. Otherwise the resulting object is a `tibble`.
 
-|                |                            |                                                |
-|----------------|----------------------------|------------------------------------------------|
-| operation      | required columns unaltered | required columns removed, renamed, or modified |
-| `rset[,ind]`   | `rset`                     | `tibble`                                       |
-| `select(rset)` | `rset`                     | `tibble`                                       |
-| `rename(rset)` | `rset`                     | `tibble`                                       |
-| `mutate(rset)` | `rset`                     | `tibble`                                       |
+|  |  |  |
+|----|----|----|
+| operation | required columns unaltered | required columns removed, renamed, or modified |
+| `rset[,ind]` | `rset` | `tibble` |
+| `select(rset)` | `rset` | `tibble` |
+| `rename(rset)` | `rset` | `tibble` |
+| `mutate(rset)` | `rset` | `tibble` |

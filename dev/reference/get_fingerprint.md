@@ -36,17 +36,17 @@ rsample version 0.1.0.
 ``` r
 set.seed(1)
 .get_fingerprint(vfold_cv(mtcars))
-#> [1] "10edc17b4467d256910fb9dc53c3599a"
+#> [1] "130189fbc45e7e0b8ce35136b6391bce"
 
 set.seed(1)
 .get_fingerprint(vfold_cv(mtcars))
-#> [1] "10edc17b4467d256910fb9dc53c3599a"
+#> [1] "130189fbc45e7e0b8ce35136b6391bce"
 
 set.seed(2)
 .get_fingerprint(vfold_cv(mtcars))
-#> [1] "9070fd5cd338c4757f525de2e2a7beaa"
+#> [1] "173365d0b9fab05cf3511c42f06a9f46"
 
 set.seed(1)
 .get_fingerprint(vfold_cv(mtcars, repeats = 2))
-#> [1] "e2457324f2637e7f0f593755d1592d03"
+#> [1] "93e490b1ec691db12fdcaf481ee463ab"
 ```

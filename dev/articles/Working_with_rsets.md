@@ -18,6 +18,7 @@ Let’s use the `attrition` data set. From its documentation:
 The data can be accessed using
 
 ``` r
+
 library(rsample)
 data("attrition", package = "modeldata")
 names(attrition)
@@ -47,6 +48,7 @@ If we were fitting the model to the entire data set, we might model
 attrition using
 
 ``` r
+
 glm(Attrition ~ JobSatisfaction + Gender + MonthlyIncome, 
     data = attrition, family = binomial)
 ```
@@ -54,6 +56,7 @@ glm(Attrition ~ JobSatisfaction + Gender + MonthlyIncome,
 For convenience, we’ll create a formula object that will be used later:
 
 ``` r
+
 mod_form <- as.formula(Attrition ~ JobSatisfaction + Gender + MonthlyIncome)
 ```
 
@@ -64,6 +67,7 @@ accuracy of the model.
 First, let’s make the splits of the data:
 
 ``` r
+
 library(rsample)
 set.seed(4622)
 rs_obj <- vfold_cv(attrition, v = 10, repeats = 10)
@@ -96,6 +100,7 @@ Now let’s write a function that will, for each resample:
 Here is our function:
 
 ``` r
+
 ## splits will be the `rsplit` object with the 90/10 partition
 holdout_results <- function(splits, ...) {
   # Fit the model to the 90%
@@ -118,6 +123,7 @@ holdout_results <- function(splits, ...) {
 For example:
 
 ``` r
+
 example <- holdout_results(rs_obj$splits[[1]],  mod_form)
 dim(example)
 #> [1] 147  34
@@ -148,6 +154,7 @@ To compute this data set for each of the 100 resamples, we’ll use the
 the purrr package:
 
 ``` r
+
 library(purrr)
 rs_obj$results <- map(rs_obj$splits,
                       holdout_results,
@@ -174,6 +181,7 @@ Now we can compute the accuracy values for all of the assessment data
 sets:
 
 ``` r
+
 rs_obj$accuracy <- map_dbl(rs_obj$results, function(x) mean(x$correct))
 summary(rs_obj$accuracy)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -195,6 +203,7 @@ For example, are there differences in the median monthly income between
 genders?
 
 ``` r
+
 ggplot(attrition, aes(x = Gender, y = MonthlyIncome)) + 
   geom_boxplot() + 
   scale_y_log10()
@@ -210,6 +219,7 @@ difference in the median incomes for the two groups. We need a simple
 function to compute this statistic on the resample:
 
 ``` r
+
 median_diff <- function(splits) {
   x <- analysis(splits)
   median(x$MonthlyIncome[x$Gender == "Female"]) - 
@@ -221,6 +231,7 @@ Now we would create a large number of bootstrap samples (say 2000+). For
 illustration, we’ll only do 500 in this document.
 
 ``` r
+
 set.seed(353)
 bt_resamples <- bootstraps(attrition, times = 500)
 ```
@@ -228,6 +239,7 @@ bt_resamples <- bootstraps(attrition, times = 500)
 This function is then computed across each resample:
 
 ``` r
+
 bt_resamples$wage_diff <- map_dbl(bt_resamples$splits, median_diff)
 ```
 
@@ -235,6 +247,7 @@ The bootstrap distribution of this statistic has a slightly bimodal and
 skewed distribution:
 
 ``` r
+
 ggplot(bt_resamples, aes(x = wage_diff)) + 
   geom_line(stat = "density", adjust = 1.25) + 
   xlab("Difference in Median Monthly Income (Female - Male)")
@@ -250,6 +263,7 @@ distribution. A 95% confidence interval for the difference in the means
 would be:
 
 ``` r
+
 quantile(bt_resamples$wage_diff, 
          probs = c(0.025, 0.975))
 #>  2.5% 97.5% 
@@ -274,6 +288,7 @@ single row and columns for each model term. As before,
 used to estimate and save these values for each split.
 
 ``` r
+
 glm_coefs <- function(splits, ...) {
   ## use `analysis` or `as.data.frame` to get the analysis data
   mod <- glm(..., data = analysis(splits), family = binomial)
@@ -314,6 +329,7 @@ used for analysis, plotting, etc. rsample contains `tidy` methods for
 `rset` and `rsplit` objects. For example:
 
 ``` r
+
 first_resample <- bt_resamples$splits[[1]]
 class(first_resample)
 #> [1] "boot_split" "rsplit"
@@ -337,6 +353,7 @@ tidy(first_resample)
 and
 
 ``` r
+
 class(bt_resamples)
 #> [1] "bootstraps" "rset"       "tbl_df"     "tbl"        "data.frame"
 tidy(bt_resamples)

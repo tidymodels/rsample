@@ -25,6 +25,7 @@ For example, creating 50 bootstraps of a data set does not create an
 object that is 50-fold larger in memory:
 
 ``` r
+
 library(rsample)
 library(mlbench)
 
@@ -56,12 +57,14 @@ the original data set.
 To install it, use:
 
 ``` r
+
 install.packages("rsample")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("rsample")
 ```

@@ -17,6 +17,7 @@ data that monitored oxygen uptake in a patient with rest and exercise
 phases (in the data frame `O2K`).
 
 ``` r
+
 library(tidymodels)
 library(nlstools)
 library(GGally)
@@ -36,6 +37,7 @@ The authors fit a segmented regression model where the transition point
 was known (this is the time when exercise commenced). Their model was:
 
 ``` r
+
 nonlin_form <-  
   as.formula(
     VO2 ~ (t <= 5.883) * VO2rest + 
@@ -74,6 +76,7 @@ To run our model over different bootstraps, we’ll write a function that
 uses the `split` object as input and produces a tidy data frame:
 
 ``` r
+
 # Will be used to fit the models to different bootstrap data sets:
 fit_fun <- function(split, ...) {
   # We could check for convergence, make new parameters, etc.
@@ -88,6 +91,7 @@ that is a copy of the original (unsampled) data set. This is required
 for some of the interval methods.
 
 ``` r
+
 set.seed(462)
 nlin_bt <-
   bootstraps(O2K, times = 2000, apparent = TRUE) |>
@@ -112,6 +116,7 @@ nlin_bt
     ## # ℹ 1,991 more rows
 
 ``` r
+
 nlin_bt$models[[1]]
 ```
 
@@ -126,6 +131,7 @@ Let’s look at the data and see if there any outliers or aberrant
 results:
 
 ``` r
+
 library(tidyr)
 nls_coef <- 
   nlin_bt |>
@@ -151,6 +157,7 @@ head(nls_coef)
 Now let’s create a scatterplot matrix:
 
 ``` r
+
 nls_coef |>
   # Put different parameters in columns
   tidyr::pivot_wider(names_from = term, values_from = estimate) |> 
@@ -168,6 +175,7 @@ One potential outlier on the right for `VO2peak` but we’ll leave it in.
 The univariate distributions are:
 
 ``` r
+
 nls_coef |> 
   ggplot(aes(x = estimate)) + 
   geom_histogram(bins = 20, col = "white") + 
@@ -185,6 +193,7 @@ passed as the first argument and the second argument is the list column
 of tidy results:
 
 ``` r
+
 p_ints <- int_pctl(nlin_bt, models)
 p_ints
 ```
@@ -199,6 +208,7 @@ p_ints
 When overlaid with the univariate distributions:
 
 ``` r
+
 nls_coef |> 
   ggplot(aes(x = estimate)) + 
   geom_histogram(bins = 20, col = "white") + 
@@ -214,6 +224,7 @@ intervals.](Intervals_files/figure-html/pctl-plot-1.png)
 How do these intervals compare to the parametric asymptotic values?
 
 ``` r
+
 parametric <- 
   tidy(res, conf.int = TRUE) |> 
   dplyr::select(
@@ -259,6 +270,7 @@ assume asymptotic normality). Do the estimates appear to be normally
 distributed? We can look at quantile-quantile plots:
 
 ``` r
+
 nls_coef |> 
   ggplot(aes(sample = estimate)) + 
   stat_qq() +
@@ -283,6 +295,7 @@ provide this in a column named `std.error`.
 The arguments for these intervals are the same:
 
 ``` r
+
 t_stats <- int_t(nlin_bt, models)
 intervals <- 
   bind_rows(intervals, t_stats) |> 
@@ -333,6 +346,7 @@ The user-facing function takes an argument for the function and the
 ellipses.
 
 ``` r
+
 bias_corr <- int_bca(nlin_bt, models, .fn = fit_fun, start = start_vals)
 intervals <- 
   bind_rows(intervals, bias_corr) |> 
@@ -383,6 +397,7 @@ between the 90th and 10th percentiles over the course of the experiment.
 Our function might look like:
 
 ``` r
+
 fold_incr <- function(split, ...) {
   dat <- analysis(split)
   quants <- quantile(dat$VO2, probs = c(.1, .9))
@@ -398,6 +413,7 @@ fold_incr <- function(split, ...) {
 Everything else works the same as before:
 
 ``` r
+
 nlin_bt <-
   nlin_bt |>
   mutate(folds = map(splits, fold_incr))
@@ -411,6 +427,7 @@ int_pctl(nlin_bt, folds)
     ## 1 fold increase   4.42      4.76   5.05   0.05 percentile
 
 ``` r
+
 int_bca(nlin_bt, folds, .fn = fold_incr)
 ```
 
@@ -435,12 +452,14 @@ A simple example is a logistic regression using the dementia data from
 the `modeldata` package:
 
 ``` r
+
 data(ad_data, package = "modeldata")
 ```
 
 Let’s fit a model with a few predictors:
 
 ``` r
+
 lr_mod <- glm(Class ~ male + age + Ab_42 + tau, data = ad_data,
               family = binomial)
 glance(lr_mod)
@@ -452,6 +471,7 @@ glance(lr_mod)
     ## 1          391.     332  -140.  289.  308.     279.         328   333
 
 ``` r
+
 tidy(lr_mod)
 ```
 
@@ -467,6 +487,7 @@ tidy(lr_mod)
 Let’s use this model with student-t intervals:
 
 ``` r
+
 set.seed(29832)
 lr_int <- 
   reg_intervals(Class ~ male + age + Ab_42 + tau, 
@@ -487,6 +508,7 @@ lr_int
 We can also save the resamples for plotting:
 
 ``` r
+
 set.seed(29832)
 lr_int <- 
   reg_intervals(Class ~ male + age + Ab_42 + tau, 
@@ -508,6 +530,7 @@ lr_int
 Now we can unnest the data to use in a ggplot:
 
 ``` r
+
 lr_int |> 
   select(term, .replicates) |> 
   unnest(cols = .replicates) |> 

@@ -11,6 +11,7 @@ Engineering and Selection](http://www.feat.engineering/resampling.md).
 Let’s go ahead and load rsample now:
 
 ``` r
+
 library(rsample)
 ```
 
@@ -19,6 +20,7 @@ the Ames housing data, containing the sale prices of homes in Ames,
 Iowa:
 
 ``` r
+
 data(ames, package = "modeldata")
 head(ames, 2)
 #> # A tibble: 2 × 74
@@ -38,6 +40,7 @@ head(ames, 2)
 Secondly, data on Chicago transit ridership numbers:
 
 ``` r
+
 data(Chicago, package = "modeldata")
 head(Chicago, 2)
 #> # A tibble: 2 × 50
@@ -59,6 +62,7 @@ make use of the Orange data set in base R, containing repeated
 measurements of 5 orange trees over time:
 
 ``` r
+
 head(Orange, 2)
 #>   Tree age circumference
 #> 1    1 118            30
@@ -69,6 +73,7 @@ And last but not least, we’ll set a seed so our results are
 reproducible:
 
 ``` r
+
 set.seed(123)
 ```
 
@@ -86,6 +91,7 @@ and “testing” sets – rsample provides the
 function:
 
 ``` r
+
 initial_split(ames)
 #> <Training/Testing/Total>
 #> <2197/733/2930>
@@ -98,6 +104,7 @@ proportion of data assigned to the “training” set through the `prop`
 argument:
 
 ``` r
+
 initial_split(ames, prop = 0.8)
 #> <Training/Testing/Total>
 #> <2344/586/2930>
@@ -110,6 +117,7 @@ and
 functions:
 
 ``` r
+
 resample <- initial_split(ames, prop = 0.6)
 
 head(training(resample), 2)
@@ -164,6 +172,7 @@ To use V-fold cross-validation in rsample, use the
 function:
 
 ``` r
+
 vfold_cv(ames, v = 2)
 #> #  2-fold cross-validation 
 #> # A tibble: 2 × 2
@@ -185,6 +194,7 @@ can use the repeats argument inside of
 [`vfold_cv()`](https://rsample.tidymodels.org/dev/reference/vfold_cv.md):
 
 ``` r
+
 vfold_cv(ames, v = 2, repeats = 2)
 #> #  2-fold cross-validation repeated 2 times 
 #> # A tibble: 4 × 3
@@ -212,6 +222,7 @@ To use Monte-Carlo cross-validation in rsample, use the
 function:
 
 ``` r
+
 mc_cv(ames, prop = 0.8, times = 2)
 #> # Monte Carlo cross-validation (0.8/0.2) with 2 resamples 
 #> # A tibble: 2 × 2
@@ -251,6 +262,7 @@ the training data – the function otherwise works exactly like
 [`mc_cv()`](https://rsample.tidymodels.org/dev/reference/mc_cv.md):
 
 ``` r
+
 bootstraps(ames, times = 2)
 #> # Bootstrap sampling 
 #> # A tibble: 2 × 2
@@ -272,6 +284,7 @@ to create a binary split, you can use
 to create that three-way split:
 
 ``` r
+
 three_way_split <- initial_validation_split(ames, prop = c(0.6, 0.2))
 three_way_split
 #> <Training/Validation/Testing/Total>
@@ -287,6 +300,7 @@ bundles together the training and validation set, read for use with the
 [tune](https://tune.tidymodels.org/)) package.
 
 ``` r
+
 validation_set(three_way_split)
 #> # A tibble: 1 × 2
 #>   splits             id        
@@ -312,6 +326,7 @@ through their `strata` argument. This argument takes a single column
 identifier and uses it to stratify the resampling procedure:
 
 ``` r
+
 vfold_cv(ames, v = 2, strata = Sale_Price)
 #> #  2-fold cross-validation using stratification 
 #> # A tibble: 2 × 2
@@ -326,6 +341,7 @@ ensure that each bin is proportionally represented in each set. If
 desired, this behavior can be changed using the `breaks` argument:
 
 ``` r
+
 vfold_cv(ames, v = 2, strata = Sale_Price, breaks = 100)
 #> #  2-fold cross-validation using stratification 
 #> # A tibble: 2 × 2
@@ -352,6 +368,7 @@ should be used to group observations. Other than respecting these
 groups, these functions all work like their ungrouped variants:
 
 ``` r
+
 resample <- group_initial_split(Orange, group = Tree)
 
 unique(training(resample)$Tree)
@@ -381,6 +398,7 @@ differently sized analysis and assessment sets than anticipated if your
 groups are unbalanced:
 
 ``` r
+
 set.seed(1)
 group_bootstraps(ames, Neighborhood, times = 2)
 #> # Group bootstrap sampling 
@@ -402,6 +420,7 @@ happen under random chance), you can use the argument
 `balance = "observations"`:
 
 ``` r
+
 group_vfold_cv(ames, Neighborhood, balance = "observations", v = 2)
 #> # Group 2-fold cross-validation 
 #> # A tibble: 2 × 2
@@ -443,6 +462,7 @@ will assign the *first* rows of your data to the training set (with the
 number of rows assigned determined by `prop`):
 
 ``` r
+
 initial_time_split(Chicago)
 #> <Training/Testing/Total>
 #> <4273/1425/5698>
@@ -460,6 +480,7 @@ will create “windows” of your data, moving down through the rows of the
 data frame:
 
 ``` r
+
 sliding_window(Chicago) |>
   head(2)
 #> # A tibble: 2 × 2
@@ -475,6 +496,7 @@ variable, you can use the
 function:
 
 ``` r
+
 sliding_index(Chicago, date) |>
   head(2)
 #> # A tibble: 2 × 2
@@ -489,6 +511,7 @@ instance to have each window contain a year of data, you can use
 [`sliding_period()`](https://rsample.tidymodels.org/dev/reference/slide-resampling.md):
 
 ``` r
+
 sliding_period(Chicago, date, "year") |>
   head(2)
 #> # A tibble: 2 × 2
@@ -507,6 +530,7 @@ observations, you can use the
 function with `lookback = -Inf`:
 
 ``` r
+
 sliding_window(Chicago, lookback = Inf) |>
   head(2)
 #> # A tibble: 2 × 2

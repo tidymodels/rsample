@@ -3,7 +3,7 @@
 The [recipes](https://recipes.tidymodels.org/) package contains a data
 preprocessor that can be used to avoid the potentially expensive formula
 methods as well as providing a richer set of data manipulation tools
-than base R can provide. This document uses version 1.3.2 of recipes.
+than base R can provide. This document uses version 1.4.0 of recipes.
 
 In many cases, the preprocessing steps might contain quantities that
 require statistical estimation of parameters, such as
@@ -27,6 +27,7 @@ For illustration, the Ames housing data will be used. There are sale
 prices of homes along with various other descriptors for the property:
 
 ``` r
+
 data(ames, package = "modeldata")
 ```
 
@@ -34,12 +35,14 @@ Suppose that we will again fit a simple regression model with the
 formula:
 
 ``` r
+
 log10(Sale_Price) ~ Neighborhood + House_Style + Year_Sold + Lot_Area
 ```
 
 The distribution of the lot size is right-skewed:
 
 ``` r
+
 library(ggplot2)
 theme_set(theme_bw())
 ggplot(ames, aes(x = Lot_Area)) + 
@@ -56,6 +59,7 @@ using the Box-Cox procedure.
 Also, note that the frequencies of the neighborhoods can vary:
 
 ``` r
+
 ggplot(ames, aes(x = Neighborhood)) + geom_bar() + coord_flip() + xlab("")
 ```
 
@@ -72,6 +76,7 @@ to collapse rarely occurring values into “other” categories.
 To define the design matrix, an initial recipe is created:
 
 ``` r
+
 library(recipes)
 
 # Apply log10 transformation outside the recipe
@@ -106,6 +111,7 @@ can be estimated on the analysis component of the resample.
 If we execute the recipe on the entire data set:
 
 ``` r
+
 rec_training_set <- prep(rec, training = ames)
 rec_training_set
 ```
@@ -146,6 +152,7 @@ rec_training_set
 To get the values of the data, the `bake` function can be used:
 
 ``` r
+
 # By default, the selector `everything()` is used to 
 # return all the variables. Other selectors can be used too. 
 bake(rec_training_set, new_data = head(ames))
@@ -178,6 +185,7 @@ extract the processed values. For the data used to train the recipe, we
 would have used:
 
 ``` r
+
 bake(rec_training_set, new_data = NULL) |> head()
 ```
 
@@ -201,6 +209,7 @@ The next section will explore recipes and bootstrap resampling for
 modeling:
 
 ``` r
+
 library(rsample)
 set.seed(7712)
 bt_samples <- bootstraps(ames)
@@ -224,6 +233,7 @@ bt_samples
     ## # ℹ 15 more rows
 
 ``` r
+
 bt_samples$splits[[1]]
 ```
 
@@ -240,6 +250,7 @@ that can be used to call
 the split object as the first argument (for easier purrring):
 
 ``` r
+
 library(purrr)
 
 bt_samples$recipes <- map(bt_samples$splits, prepper, recipe = rec)
@@ -263,6 +274,7 @@ bt_samples
     ## # ℹ 15 more rows
 
 ``` r
+
 bt_samples$recipes[[1]]
 ```
 
@@ -308,6 +320,7 @@ Otherwise, the split objects would also be needed to
 recipe (as it will in the prediction function below).
 
 ``` r
+
 fit_lm <- function(rec_obj, ...) 
   lm(..., data = bake(rec_obj, new_data = NULL, everything()))
 
@@ -343,6 +356,7 @@ To iterate over these, the function
 used:
 
 ``` r
+
 pred_lm <- function(split_obj, rec_obj, model_obj, ...) {
   mod_data <- bake(
     rec_obj, 
@@ -387,6 +401,7 @@ bt_samples
 Calculating the RMSE:
 
 ``` r
+
 library(yardstick)
 results <- map(bt_samples$pred, rmse, Sale_Price, predicted) |> list_rbind()
 results
@@ -408,6 +423,7 @@ results
     ## # ℹ 15 more rows
 
 ``` r
+
 mean(results$.estimate)
 ```
 
