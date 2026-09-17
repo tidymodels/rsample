@@ -86,19 +86,17 @@ rolling_origin <- function(
   n <- nrow(data)
 
   if (n < initial + assess) {
-    rlang::abort(
-      "There should be at least ",
-      initial + assess,
-      " rows in `data`."
+    cli::cli_abort(
+      "There should be at least {initial + assess} rows in `data`"
     )
   }
 
   if (!is.numeric(lag) | !(lag %% 1 == 0)) {
-    rlang::abort("`lag` must be a whole number.")
+    cli::cli_abort("`lag` must be a whole number.")
   }
 
   if (lag > initial) {
-    rlang::abort(
+    cli::cli_abort(
       "`lag` must be less than or equal to the number of training observations."
     )
   }
