@@ -291,6 +291,26 @@ test_that("bad input", {
   })
 })
 
+test_that("t_single() errors when stats, std_err, and is_orig lengths mismatch", {
+  stats <- rnorm(10)
+  std_err <- rep(1, 10)
+  is_orig <- c(TRUE, rep(FALSE, 9))
+
+  expect_no_error(rsample:::t_single(stats, std_err, is_orig))
+
+  expect_snapshot(error = TRUE, {
+    rsample:::t_single(stats, std_err[-1], is_orig)
+  })
+
+  expect_snapshot(error = TRUE, {
+    rsample:::t_single(stats, std_err, is_orig[-1])
+  })
+
+  expect_snapshot(error = TRUE, {
+    rsample:::t_single(stats, std_err[-1], is_orig[-1])
+  })
+})
+
 test_that("checks for apparent bootstrap", {
   rs_boot <- bootstraps(mtcars, times = 10, apparent = FALSE)
   expect_snapshot(error = TRUE, {

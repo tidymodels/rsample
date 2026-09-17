@@ -190,6 +190,30 @@
       Error in `int_pctl()`:
       ! All statistics must be numeric.
 
+# t_single() errors when stats, std_err, and is_orig lengths mismatch
+
+    Code
+      rsample:::t_single(stats, std_err[-1], is_orig)
+    Condition
+      Error in `rsample:::t_single()`:
+      ! `stats`, `std_err`, and `is_orig` should have the same length.
+
+---
+
+    Code
+      rsample:::t_single(stats, std_err, is_orig[-1])
+    Condition
+      Error in `rsample:::t_single()`:
+      ! `stats`, `std_err`, and `is_orig` should have the same length.
+
+---
+
+    Code
+      rsample:::t_single(stats, std_err[-1], is_orig[-1])
+    Condition
+      Error in `rsample:::t_single()`:
+      ! `stats`, `std_err`, and `is_orig` should have the same length.
+
 # checks for apparent bootstrap
 
     Code

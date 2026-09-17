@@ -359,7 +359,7 @@ t_single <- function(stats, std_err, is_orig, alpha = 0.05) {
       "{.arg is_orig} should be a logical column the same length as {.arg stats} with no missing values."
     )
   }
-  if (length(stats) != length(std_err) && length(stats) != length(is_orig)) {
+  if (length(stats) != length(std_err) || length(stats) != length(is_orig)) {
     function_args <- c('stats', 'std_err', 'is_orig')
     cli_abort("{.arg {function_args}} should have the same length.")
   }
