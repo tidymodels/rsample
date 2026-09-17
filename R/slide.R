@@ -201,6 +201,8 @@
 #'   skip = 4,
 #'   step = 2
 #' )
+#' @return An `rset` object with a `splits` column of `rsplit` objects and,
+#' depending on the function, an `id` column for the resample identifier.
 NULL
 
 #' @export
