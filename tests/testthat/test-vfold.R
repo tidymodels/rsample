@@ -453,6 +453,13 @@ test_that("grouping -- repeated", {
   expect_true(all(good_holdout))
 })
 
+test_that("grouping -- repeats attribute", {
+  set.seed(11)
+  rs <- group_vfold_cv(dat1, c, v = 3, repeats = 4)
+  expect_identical(attr(rs, "repeats"), 4)
+  expect_identical(attr(group_vfold_cv(dat1, c, v = 3), "repeats"), 1)
+})
+
 test_that("grouping -- printing", {
   expect_snapshot(group_vfold_cv(warpbreaks, "tension"))
 })

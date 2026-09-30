@@ -1,5 +1,8 @@
 # rsample (development version)
 
+* `group_vfold_cv()` now records the supplied `repeats` in the `repeats` attribute of the result instead of always `1` (#607).
+
+
 # rsample 1.3.2
 
 * `.get_split_args()` now works with rset objects created by functions from spatialsample without requiring the package to be attached (#599).
