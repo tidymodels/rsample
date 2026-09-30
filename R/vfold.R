@@ -315,7 +315,7 @@ group_vfold_cv <- function(
     v = v,
     group = group,
     balance = balance,
-    repeats = 1,
+    repeats = repeats,
     strata = strata,
     pool = pool
   )
